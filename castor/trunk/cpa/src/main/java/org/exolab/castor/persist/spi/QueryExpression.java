@@ -124,13 +124,6 @@ public interface QueryExpression {
     void setDistinct(boolean distinct);
 
     /**
-     * Add a table to the from clause.
-     *
-     * @param tableName The name of the table to add to the select clause
-     */
-    void addTable(String tableName);
-
-    /**
      * Add a table with an alias to the from clause.
      *
      * @param tableName The name of the table to add to the select clause
@@ -198,65 +191,6 @@ public interface QueryExpression {
     void addOffsetClause(String offsetClause) throws SyntaxNotSupportedException;  
 
     /**
-     * Add an inner join.
-     *
-     * @param leftTable The table name on the left side
-     * @param leftColumn The column name on the left side
-     * @param rightTable The table name on the right side
-     * @param rightColumn The column name on the right side
-     */
-    void addInnerJoin(String leftTable, String leftColumn, String rightTable, String rightColumn);
-
-    /**
-     * Add an inner join with an aliases for the tables.
-     *
-     * @param leftTable The table name on the left side.
-     * @param leftColumn The column name on the left side.
-     * @param leftTableAlias The alias name to use for the table on the left side.
-     * @param rightTable The table name on the right side.
-     * @param rightColumn The column name on the right side.
-     * @param rightTableAlias The alias name to use for the table on the right side.
-     */
-    void addInnerJoin(String leftTable, String leftColumn, String leftTableAlias,
-            String rightTable, String rightColumn, String rightTableAlias);
-
-    /**
-     * Add an outer join. May use an inner join if outer
-     * joins are not supported.
-     *
-     * @param leftTable The table name on the left side
-     * @param leftColumn The column name on the left side
-     * @param rightTable The table name on the right side
-     * @param rightColumn The column name on the right side
-     */
-    void addOuterJoin(String leftTable, String leftColumn,
-            String rightTable, String rightColumn);
-
-    /**
-     * Add an outer join. May use an inner join if outer
-     * joins are not supported.
-     *
-     * @param leftTable The table name on the left side
-     * @param leftColumn The column name on the left side
-     * @param rightTable The table name on the right side
-     * @param rightColumn The column name on the right side
-     * @param rightTableAlias The alias name to use for the table on the right side
-     */
-    void addOuterJoin(String leftTable, String leftColumn,
-            String rightTable, String rightColumn, String rightTableAlias);
-
-    /**
-     * Add an inner join.
-     *
-     * @param leftTable The table name on the left side
-     * @param leftColumn The column names on the left side
-     * @param rightTable The table name on the right side
-     * @param rightColumn The column names on the right side
-     */
-    void addInnerJoin(String leftTable, String[] leftColumn,
-            String rightTable, String[] rightColumn);
-
-    /**
      * Add an inner join with an aliases for the tables.
      *
      * @param leftTable The table name on the left side
@@ -269,9 +203,16 @@ public interface QueryExpression {
     void addInnerJoin(String leftTable, String[] leftColumn, String leftTableAlias,
             String rightTable, String[] rightColumn, String rightTableAlias);
 
-    void addOuterJoin(String leftTable, String[] leftColumn,
-            String rightTable, String[] rightColumn);
-
+    /**
+     * Add an outer join. May use an inner join if outer
+     * joins are not supported.
+     *
+     * @param leftTable The table name on the left side
+     * @param leftColumn The column name on the left side
+     * @param rightTable The table name on the right side
+     * @param rightColumn The column name on the right side
+     * @param rightTableAlias The alias name to use for the table on the right side
+     */
     void addOuterJoin(String leftTable, String[] leftColumn,
             String rightTable, String[] rightColumn, String rightTableAlias);
 

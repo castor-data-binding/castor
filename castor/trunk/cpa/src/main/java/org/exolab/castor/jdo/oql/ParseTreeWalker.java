@@ -995,14 +995,15 @@ public class ParseTreeWalker {
             selectPart = _parseTree.getChild(0);
         }
 
-        _queryExpr.addTable(new ClassDescriptorJDONature(_clsDesc).getTableName());
+        String table = new ClassDescriptorJDONature(_clsDesc).getTableName();
+        _queryExpr.addTable(table, table);
 
         // add table names and joins for all base classes
         ClassDescriptor oldDesc = _clsDesc;
         ClassDescriptor tempDesc = _clsDesc.getExtends();
         while (tempDesc != null) {
             String tableName = new ClassDescriptorJDONature(tempDesc).getTableName();
-            _queryExpr.addTable(tableName);
+            _queryExpr.addTable(tableName, tableName);
             
             FieldDescriptor leftField = oldDesc.getIdentity();
             FieldDescriptor rightField = tempDesc.getIdentity();
@@ -1010,8 +1011,10 @@ public class ParseTreeWalker {
             _queryExpr.addInnerJoin(
                     new ClassDescriptorJDONature(oldDesc).getTableName(), 
                     new FieldDescriptorJDONature(leftField).getSQLName(),
+                    new ClassDescriptorJDONature(oldDesc).getTableName(), 
                     new ClassDescriptorJDONature(tempDesc).getTableName(), 
-                    new FieldDescriptorJDONature(rightField).getSQLName());
+                    new FieldDescriptorJDONature(rightField).getSQLName(),
+                    new ClassDescriptorJDONature(tempDesc).getTableName());
 
             oldDesc = tempDesc;
             tempDesc = tempDesc.getExtends();

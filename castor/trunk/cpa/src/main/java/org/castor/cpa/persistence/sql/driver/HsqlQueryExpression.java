@@ -63,19 +63,6 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
     }
 
     public String getStatement(final boolean lock) {
-        return getStandardStatement(lock, false).toString();
-    }
-    
-    /**
-     * Helper method. Can be used in two cases:
-     * 1) for JDBC drivers which support "{oj ...OUTER JOIN ...}" notation (in accordance with
-     * JDBC specification);
-     * 2) for the databases which support "... OUTER JOIN ..." notation (in accordance with
-     * SQL-92 standard); .
-     * @param lock whether to lock selected tables
-     * @param oj true in the first case above, false in the second case.
-     **/
-    protected StringBuffer getStandardStatement(final boolean lock, final boolean oj) {
         StringBuffer sql = new StringBuffer();
         sql.append(JDBCSyntax.SELECT);
 
@@ -116,9 +103,6 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
                 first = false;
             } else {
                 sql.append(JDBCSyntax.TABLE_SEPARATOR);
-            }
-            if (oj) {
-                sql.append("{oj ");
             }
             sql.append(_factory.quoteName(join._leftTable));
             sql.append(JDBCSyntax.LEFT_JOIN);
@@ -172,9 +156,6 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
                 }
                 tables.remove(join2._rightTable);
             }
-            if (oj) {
-                sql.append("}");
-            }
             done.addElement(join._leftTable);
         }
         Enumeration<String> enumeration = tables.keys();
@@ -223,7 +204,7 @@ public final class HsqlQueryExpression extends JDBCQueryExpression {
         }
 
         // There is no standard way to lock selected tables.
-        return sql;
+        return sql.toString();
     }
 
     /** 

@@ -73,8 +73,6 @@ public final class SQLStatementLoad {
     
     private String _statementLock;
 
-    private QueryExpression _queryExpression;
-
     public SQLStatementLoad(final SQLEngine engine, final PersistenceFactory factory)
     throws MappingException {
         _engine = engine;
@@ -106,7 +104,9 @@ public final class SQLStatementLoad {
                 String[] baseDescIdNames = SQLHelper.getIdentitySQLNames(baseDesc);
                 expr.addInnerJoin(
                         new ClassDescriptorJDONature(curDesc).getTableName(), curDescIdNames,
-                        new ClassDescriptorJDONature(baseDesc).getTableName(), baseDescIdNames);
+                        new ClassDescriptorJDONature(curDesc).getTableName(), 
+                        new ClassDescriptorJDONature(baseDesc).getTableName(), baseDescIdNames,
+                        new ClassDescriptorJDONature(baseDesc).getTableName());
                 joinTables.add(new ClassDescriptorJDONature(baseDesc).getTableName());
                 curDesc = baseDesc;
             }
@@ -170,7 +170,8 @@ public final class SQLStatementLoad {
                         alias = alias.replace('.', '_') + "_f" + i;
                         expr.addOuterJoin(_mapTo, leftCol, field.getTableName(), rightCol, alias);
                     } else {
-                        expr.addOuterJoin(_mapTo, leftCol, field.getTableName(), rightCol);
+                        expr.addOuterJoin(_mapTo, leftCol,
+                        		field.getTableName(), rightCol, field.getTableName());
                         joinTables.add(field.getTableName());
                     }
                 }
@@ -204,7 +205,8 @@ public final class SQLStatementLoad {
                             _engine.getDescriptor());
                     String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(classDescriptor);
                     expr.addOuterJoin(_mapTo, engDescIdNames, 
-                            clsDescNature.getTableName(), clsDescIdNames);
+                            clsDescNature.getTableName(), clsDescIdNames,
+                            clsDescNature.getTableName());
 
                     Persistence persistenceEngine;
                     try {
@@ -234,13 +236,12 @@ public final class SQLStatementLoad {
                         }
                         
                         if (hasFieldToAdd) {
-                            expr.addTable(clsDescNature.getTableName());
+                            expr.addTable(clsDescNature.getTableName(),
+                            		clsDescNature.getTableName());
                         }
                     }
                 }
             }
-            
-            QueryExpression find = (QueryExpression) expr.clone();
             
             // get id columns' names
             for (int i = 0; i < ids.length; i++) {
@@ -250,20 +251,9 @@ public final class SQLStatementLoad {
             _statementNoLock = expr.getStatement(false);
             _statementLock = expr.getStatement(true);
 
-            // add table information if the class in question does not have any non-identity 
-            // fields
-            if (fields.length == 0) {
-                for (int i = 0; i < ids.length; i++) {
-                    find.addColumn(_mapTo, ids[i].getName());
-                }
-            }
-
-            _queryExpression = find;
-
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.loading", _type, _statementNoLock));
                 LOG.trace(Messages.format("jdo.loading.with.lock", _type, _statementLock));
-                LOG.trace(Messages.format("jdo.finding", _type, _queryExpression));
             }
         } catch (QueryException ex) {
             LOG.warn("Problem building SQL", ex);
@@ -271,14 +261,6 @@ public final class SQLStatementLoad {
         }
     }
     
-    public String getLoadStatement() {
-        return _statementNoLock;
-    }
-
-    public QueryExpression getQueryExpression() {
-        return (QueryExpression) _queryExpression.clone();
-    }
-
     public void executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity entity,
                                    final AccessMode accessMode)
