@@ -16,6 +16,21 @@
 
     <section title="Castor News">
 
+        <news id="72">
+            <title>Castor Maven plugin 2.0 released</title>
+            <author>Werner Guttmann</author>
+            <date>Nov 16 2009</date>
+            <time>23:21:23</time>
+            <summary>
+                <p>I am very pleased to announce the immediate availability of
+                the Castor Maven plugin, version 2.0.</p>
+                
+                <ul>
+                  <li><a href="http://mojo.codehaus.org/castor-maven-plugin/">Documentation</a></li>
+                  <li><a href="http://jira.codehaus.org/browse/MCASTOR">Issues</a></li>
+                </ul>
+            </summary>
+        </news>
         <news id="71">
             <title>(Re)Added a Wiki page for the Castor project</title>
             <author>Werner Guttmann</author>
