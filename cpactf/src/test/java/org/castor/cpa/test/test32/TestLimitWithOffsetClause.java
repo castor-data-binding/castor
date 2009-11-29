@@ -48,7 +48,8 @@ public final class TestLimitWithOffsetClause extends CPATestCase {
         return (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
