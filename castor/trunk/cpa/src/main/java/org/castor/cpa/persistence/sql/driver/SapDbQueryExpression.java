@@ -165,12 +165,45 @@ public final class SapDbQueryExpression extends JDBCQueryExpression {
         if (_order != null) {
             sql.append(JDBCSyntax.ORDER_BY).append(_order);
         }
+        
+        if (_limit != null) {
+            if (_distinct) {
+                sql.insert(0, "SELECT * FROM (");
+                sql.append(")");
+            }
+            
+            sql.append(JDBCSyntax.LIMIT);
+
+            if (_offset != null) {
+                sql.append(_offset).append(", ");
+            }
+
+            sql.append(_limit);
+        }
 
         // Use WITH LOCK to lock selected tables.
         if (lock) {
             sql.append(" WITH LOCK");
         }
         return sql.toString();
+    }
+    
+    /**
+     * Indicates that SapDB supports an OQL LIMIT clause.
+     * 
+     * @return true to indicate that SapDB supports an OQL LIMIT clause.
+     */
+    public boolean isLimitClauseSupported() {
+        return true;
+    }
+
+    /**
+     * Indicates that SapDB supports an OQL OFFSET clause for versions >= 7.6.0.
+     * 
+     * @return true to indicate that SapDB supports an OQL OFFSET clause.
+     */
+    public boolean isOffsetClauseSupported() {
+        return true;
     }
 }
 
