@@ -44,7 +44,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
           <plugin>
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>castor-maven-plugin</artifactId>
-             <version>2.0-SNAPSHOT</version>
              <configuration>
                 <schema>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.xsd</schema>
                 <properties>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.builder.properties</properties>
@@ -58,15 +57,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                    </goals>
                 </execution>
              </executions>
-             <!-- 
-             <dependencies>
-               <dependency>
-                  <groupId>org.codehaus.castor</groupId>
-                  <artifactId>castor-codegen</artifactId>
-                  <version>1.3rc1</version>
-               </dependency>
-             </dependencies>
-              -->
           </plugin>
        </plugins>
     </build>
