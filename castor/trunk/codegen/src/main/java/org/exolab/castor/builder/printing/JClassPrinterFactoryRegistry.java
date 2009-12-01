@@ -102,8 +102,8 @@ public class JClassPrinterFactoryRegistry {
             throw new IllegalArgumentException(msg);
         }
         
-        if (_log.isInfoEnabled()) {
-            _log.info("Returning JClassPrinterFactory with name " + name);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Returning JClassPrinterFactory with name " + name);
         }
         return (JClassPrinterFactory) factory;
     }
