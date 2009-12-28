@@ -25,6 +25,9 @@ import java.sql.SQLException;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
+import org.castor.cpa.persistence.sql.query.condition.Condition;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
@@ -128,17 +131,20 @@ public final class SQLStatementUpdate {
             if (_fields[i].isStore()) {
                 SQLColumnInfo[] columns = _fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    _update.addAssignment(columns[j].getName(),
-                            SET_PARAM_NAMESPACE + columns[j].getName());
+                    _update.addAssignment(new Column(columns[j].getName()),
+                            new Parameter(SET_PARAM_NAMESPACE + columns[j].getName()));
                     ++count;
                 }
             }
         }        
         
-        // add conditions for identities
+        // build condition for identities
+        Condition condition = new AndCondition();
         for (int i = 0; i < _ids.length; i++) {
-            _update.addCondition(_ids[i].getName());
-        } 
+            String name = _ids[i].getName();
+            condition.and(new Column(name).equal(new Parameter(name)));
+        }
+        _update.setCondition(condition);
         
         _hasFieldsToPersist = (count > 0);
         
@@ -171,7 +177,8 @@ public final class SQLStatementUpdate {
             
             synchronized (this) {
                 // remember a copy of original conditions of update statement
-                AndCondition copy = new AndCondition(_update.getCondition());
+                Condition copy = new AndCondition();
+                copy.and(_update.getCondition());
 
                 try {
                     // append conditions for fields other than identities
@@ -224,6 +231,8 @@ public final class SQLStatementUpdate {
      */
     private void appendOldEntityCondition(final ProposedEntity oldentity) 
     throws PersistenceException {
+        Condition condition = _update.getCondition();
+        
         if (oldentity.getFields() != null) {
             for (int i = 0; i < _fields.length; ++i) {
                 if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
@@ -232,7 +241,8 @@ public final class SQLStatementUpdate {
                     if (value == null) { 
                         // append 'is NULL' in case the value is null    
                         for (int j = 0; j < columns.length; j++) {
-                           _update.addNullCondition(columns[j].getName());
+                            String name = columns[j].getName();
+                            condition.and(new Column(name).isNull());
                         }
                     } else if (value instanceof Identity) {
                         // raise exception if identity size doesn't match column length
@@ -244,21 +254,25 @@ public final class SQLStatementUpdate {
                         // traverse through all the columns of the identity and append it to SQL
                         // dependent on weather the value of that column is null or not
                         for (int j = 0; j < columns.length; j++) {
+                            String name = columns[j].getName();
                             if (identity.get(j) == null) {
-                                _update.addNullCondition(columns[j].getName());
+                                condition.and(new Column(name).isNull());
                             } else {
-                                _update.addCondition(columns[j].getName());
+                                condition.and(new Column(name).equal(new Parameter(name)));
                             }
                         }
                     } else {
                         // append condition with parameter for all normal fields
                         for (int j = 0; j < columns.length; j++) {
-                           _update.addCondition(columns[j].getName());
+                            String name = columns[j].getName();
+                            condition.and(new Column(name).equal(new Parameter(name)));
                         }
                     }
                 }
             }
         }
+        
+        _update.setCondition(condition);
     }
     
     /**

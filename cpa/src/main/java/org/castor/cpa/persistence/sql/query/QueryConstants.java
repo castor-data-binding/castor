@@ -44,7 +44,7 @@ public final class QueryConstants {
     public static final String INTO = "INTO";
     
     /** '*' for select query. */
-    public static final String STAR = "*";
+    public static final char STAR = '*';
     
     /** 'SET' keyword of a SQL update query. */
     public static final String SET = "SET";   

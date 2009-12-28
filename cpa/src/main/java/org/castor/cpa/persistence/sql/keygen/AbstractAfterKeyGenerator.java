@@ -46,6 +46,9 @@ import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.NextVal;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.mapping.ClassDescriptor;
 
 /**
@@ -135,14 +138,15 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    insert.addInsert(columns[j].getName());
+                    String name = columns[j].getName();
+                    insert.addAssignment(new Column(name), new Parameter(name));
                 }
             }
         }    
 
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         if (_seqName != null && !_triggerPresent) {
-            insert.addInsert(ids[0].getName(), _seqName);
+            insert.addAssignment(new Column(ids[0].getName()), new NextVal(_seqName));
         }
         insert.toString(_ctx);
 

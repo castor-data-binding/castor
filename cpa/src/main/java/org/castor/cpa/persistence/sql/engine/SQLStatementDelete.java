@@ -26,6 +26,10 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.condition.AndCondition;
+import org.castor.cpa.persistence.sql.query.condition.Condition;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
@@ -89,15 +93,17 @@ public final class SQLStatementDelete {
      *
      * @param mapTo Table name retrieved from Class Descriptor trough JDO Nature.
      */
-    private void buildStatement(final String mapTo) { 
-        // build delete class hierarchy that represents SQL query
-        Delete delete = new Delete (mapTo);
+    private void buildStatement(final String mapTo) {
+        // build condition for delete statement
+        Condition condition = new AndCondition();
         for (int i = 0; i < _ids.length; i++) {
-            delete.addCondition(_ids[i].getName());
+            String name = _ids[i].getName();
+            condition.and(new Column(name).equal(new Parameter(name)));
         }
         
-        // construct SQL query string by walking through delete class hierarchy and
-        // generate map of parameter names to indices for binding of parameters.
+        // build delete class hierarchy that represents SQL query
+        Delete delete = new Delete (mapTo);
+        delete.setCondition(condition);
         delete.toString(_ctx);  
         
         if (LOG.isTraceEnabled()) {

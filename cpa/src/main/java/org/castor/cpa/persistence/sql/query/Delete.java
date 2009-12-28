@@ -15,13 +15,12 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
-import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
-import org.castor.cpa.persistence.sql.query.expression.Column;
-import org.castor.cpa.persistence.sql.query.expression.Parameter;
 
 /**
- * Class to generate SQL delete query statements. 
+ * Class to generate SQL delete query statements.
+ * <br/>
+ * Note: Be aware that the SQL statement will be invalid for empty compound conditions. 
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -34,7 +33,7 @@ public final class Delete extends QueryObject {
     private final Qualifier _qualifier;
     
     /** Condition that specifies which records to delete. */
-    private AndCondition _condition;    
+    private Condition _condition;    
     
     //-----------------------------------------------------------------------------------    
 
@@ -47,29 +46,24 @@ public final class Delete extends QueryObject {
         _qualifier = new Table(name);
     }
   
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * Appends given condition to be anded with all others to specify the record to delete.
-     * 
-     * @param condition Condition to be anded with all others to specify the record to delete.
-     */
-    public void addCondition(final Condition condition) {
-        if (_condition == null) {
-            _condition = new AndCondition();
-        } 
-        _condition.and(condition);        
-    }
+    //-----------------------------------------------------------------------------------
     
     /**
-     * Appends a condition of the form 'name=?' to be anded with all others to specify
-     * the record to delete. The name given will be used as column name and to bind a
-     * value to the parameter.
+     * Get condition that specifies which records to delete.
      * 
-     * @param name Name of the column and the parameter of the condition.
+     * @return Condition that specifies which records to delete.
      */
-    public void addCondition(final String name) {
-        addCondition(new Column(name).equal(new Parameter(name)));
+    public Condition getCondition() {
+        return _condition;
+    }
+
+    /**
+     * Set condition that specifies which records to delete.
+     * 
+     * @param condition Condition that specifies which records to delete.
+     */
+    public void setCondition(final Condition condition) {
+        _condition = condition;
     }
     
     //-----------------------------------------------------------------------------------    

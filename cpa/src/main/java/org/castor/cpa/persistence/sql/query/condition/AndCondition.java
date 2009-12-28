@@ -63,6 +63,20 @@ public final class AndCondition extends CompoundCondition {
     //-----------------------------------------------------------------------------------    
 
     @Override
+    protected void append(final Condition condition) {
+        if (condition instanceof AndCondition) {
+            AndCondition and = (AndCondition) condition;
+            for (Iterator<Condition> iter = and.iterator(); iter.hasNext(); ) {
+                super.append(iter.next());
+            }
+        } else {
+            super.append(condition);
+        }
+    }
+    
+    //-----------------------------------------------------------------------------------    
+
+    @Override
     public Condition and(final Condition condition) {
         append(condition);
         return this;
@@ -97,5 +111,6 @@ public final class AndCondition extends CompoundCondition {
             }
         }
     }
+    
     //-----------------------------------------------------------------------------------    
 }

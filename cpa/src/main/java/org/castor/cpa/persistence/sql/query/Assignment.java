@@ -15,6 +15,7 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
+import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -28,7 +29,7 @@ public final class Assignment extends QueryObject {
     //-----------------------------------------------------------------------------------
 
     /** Left operand of the assignment. */
-    private final Expression _left;
+    private final Column _left;
     
     /** Right operand of the assignment. */
     private final Expression _right;
@@ -41,7 +42,7 @@ public final class Assignment extends QueryObject {
      * @param left Left operand of the assignment.
      * @param right Right operand of the assignment. 
      */
-    public Assignment(final Expression left, final Expression right) {
+    public Assignment(final Column left, final Expression right) {
         if ((left == null) || (right == null)) {
             throw new NullPointerException();
         }
@@ -57,7 +58,7 @@ public final class Assignment extends QueryObject {
      * 
      * @return Left operand of the assignment.
      */
-    public Expression leftExpression() {
+    public Column leftExpression() {
         return _left;
     }
 

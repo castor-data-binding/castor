@@ -15,17 +15,18 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.castor.cpa.persistence.sql.query.condition.AndCondition;
+import java.util.List;
+
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
-import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
  * Class to generate SQL select query statements. 
+ * <br/>
+ * Note: Be aware that the SQL statement will be invalid for empty compound conditions. 
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -37,23 +38,31 @@ public final class Select extends QueryObject {
     /** Qualifier of the table to select records of. */
     private final Qualifier _qualifier;
     
-    /** Array of Column objects that represents the fields to be fetched using select statement. */
-    private final List<Expression> _select;  
+    /** List of expressions to be returned by select statement. */
+    private final List<Expression> _select = new ArrayList<Expression>();  
     
     /** Condition that specifies which records to select. */
-    private AndCondition _condition;    
+    private Condition _condition;    
     
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Construct a SQL select statement that selects records of the table 
-     * provided.
+     * Construct a SQL select statement that selects records of the table provided.
      *  
-     * @param name Name of the table in select statement. 
+     * @param name Name of the table to select records of. 
      */
     public Select(final String name) {        
-        _qualifier = new Table(name);
-        _select = new ArrayList<Expression>();
+        this(new Table(name));
+    }    
+    
+    /**
+     * Construct a SQL select statement that selects records of the table provided.
+     *  
+     * @param qualifier Qualifier to select records of. 
+     */
+    public Select(final Qualifier qualifier) {        
+        if (qualifier == null) { throw new NullPointerException(); }
+        _qualifier = qualifier;
     }    
     
     //-----------------------------------------------------------------------------------    
@@ -67,80 +76,23 @@ public final class Select extends QueryObject {
         _select.add(name);        
     }
 
-    /**
-     * Appends a field representing a column to be fetched from the table. 
-     * 
-     * @param name Name of the column to be fetched.
-     */
-    public void addSelect(final String name) {
-        addSelect(new Column(name));
-    }
-    
-    /**
-     * Appends a field representing a column to be fetched from the table. 
-     * 
-     * @param qualifier Qualifier to be appended.
-     * @param name Name of the column to be fetched.
-     */
-    public void addSelect(final String qualifier, final String name) {
-        addSelect(new Column(new Table(qualifier), name));
-    }
-    
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Appends given condition to be anded with all others to specify the record to select.
+     * Get condition that specifies which records to select.
      * 
-     * @param condition Condition to be anded with all others to specify the record to select.
+     * @return Condition that specifies which records to select.
      */
-    public void addCondition(final Condition condition) {
-        if (_condition == null) {
-            _condition = new AndCondition();
-        } 
-        _condition.and(condition);        
-    }
-
-    /**
-     * Appends a condition of the form 'name=?' to be anded with all others to specify
-     * the record to select. The name given will be used as column name and to bind a
-     * value to the parameter.
-     * 
-     * @param name Name of the column and parameter of the condition.
-     */
-    public void addCondition(final String name) {
-        addCondition(new Column(name).equal(new Parameter(name)));
-    }
-    
-    /**
-     * Appends a condition of the form 'name=?' to be anded with all others to specify
-     * the record to select. The qualifier will be appended before the actual column name.
-     * The name given will be used as column name and to bind a
-     * value to the parameter.
-     * 
-     * @param qualifier Qualifier to be appended.
-     * @param name Name of the column and parameter of the condition.
-     */
-    public void addCondition(final String qualifier, final String name) {
-        addCondition(new Column(new Table(qualifier), name).equal(new Parameter(name)));
-    }
-
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * Returns the condition object.
-     * 
-     * @return the condition
-     */
-    public AndCondition getCondition() {
+    public Condition getCondition() {
         return _condition;
     }
-    
+
     /**
-     * Assigns the provided condition object to the class attribute.
+     * Set condition that specifies which records to select.
      * 
-     * @param condition the condition to set
+     * @param condition Condition that specifies which records to select.
      */
-    public void setCondition(final AndCondition condition) {
+    public void setCondition(final Condition condition) {
         _condition = condition;
     }
     
@@ -151,7 +103,9 @@ public final class Select extends QueryObject {
         ctx.append(QueryConstants.SELECT);
         ctx.append(QueryConstants.SPACE);
         
-        if (!_select.isEmpty()) {
+        if (_select.isEmpty()) {
+            ctx.append(QueryConstants.STAR);
+        } else {
             for (Iterator<Expression> iter = _select.iterator(); iter.hasNext(); ) {
                 iter.next().toString(ctx);
                 if (iter.hasNext()) {
@@ -159,13 +113,12 @@ public final class Select extends QueryObject {
                     ctx.append(QueryConstants.SPACE);
                 }
             }
-        } else {
-            ctx.append(QueryConstants.STAR);
         }
         
         ctx.append(QueryConstants.SPACE);
         ctx.append(QueryConstants.FROM);
         ctx.append(QueryConstants.SPACE);
+
         _qualifier.toString(ctx);
         
         if (_condition != null) {
