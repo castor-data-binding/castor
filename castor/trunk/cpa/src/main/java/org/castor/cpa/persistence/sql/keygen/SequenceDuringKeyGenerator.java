@@ -35,6 +35,9 @@ import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.NextVal;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.persist.spi.Identity;
@@ -141,15 +144,16 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    insert.addInsert(columns[j].getName());
-                   
+                    String name = columns[j].getName();
+                    insert.addAssignment(new Column(name), new Parameter(name));
                 }
             }
         }
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
 
         if (!_triggerPresent) {
-            insert.addInsert(ids[0].getName(), getSeqName(_mapTo, ids[0].getName()));
+            insert.addAssignment(new Column(ids[0].getName()),
+                    new NextVal(getSeqName(_mapTo, ids[0].getName())));
         }
         
         insert.toString(_ctx);  

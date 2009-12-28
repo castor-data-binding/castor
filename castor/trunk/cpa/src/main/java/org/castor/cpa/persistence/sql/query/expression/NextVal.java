@@ -24,7 +24,7 @@ import org.castor.cpa.persistence.sql.query.QueryContext;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class NextVal extends Function {
+public final class NextVal extends Function {
     //-----------------------------------------------------------------------------------    
 
     /** Name of the sequence to get next value of. */
@@ -38,6 +38,7 @@ public class NextVal extends Function {
      * @param seqName Name of the sequence.
      */
     public NextVal(final String seqName) {
+        if (seqName == null) { throw new NullPointerException(); }
         _seqName = seqName;
     }
     

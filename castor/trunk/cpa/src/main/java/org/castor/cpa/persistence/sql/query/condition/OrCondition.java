@@ -63,6 +63,20 @@ public final class OrCondition extends CompoundCondition {
     //-----------------------------------------------------------------------------------    
 
     @Override
+    protected void append(final Condition condition) {
+        if (condition instanceof OrCondition) {
+            OrCondition or = (OrCondition) condition;
+            for (Iterator<Condition> iter = or.iterator(); iter.hasNext(); ) {
+                super.append(iter.next());
+            }
+        } else {
+            super.append(condition);
+        }
+    }
+    
+    //-----------------------------------------------------------------------------------    
+
+    @Override
     public Condition or(final Condition condition) {
         append(condition);
         return this;
@@ -70,9 +84,9 @@ public final class OrCondition extends CompoundCondition {
 
     @Override
     public Condition not() {
-        Condition condition = new OrCondition();
+        Condition condition = new AndCondition();
         for (Iterator<Condition> iter = iterator(); iter.hasNext(); ) {
-            condition.or(iter.next().not());
+            condition.and(iter.next().not());
         }
         return condition;
     }

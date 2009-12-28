@@ -27,6 +27,10 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Select;
+import org.castor.cpa.persistence.sql.query.Table;
+import org.castor.cpa.persistence.sql.query.condition.AndCondition;
+import org.castor.cpa.persistence.sql.query.condition.Condition;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
@@ -80,20 +84,23 @@ public final class SQLStatementInsertCheck {
      * 
      * @param mapTo Table name from which records need to be fetched.
      */
-    private void buildStatement(final String mapTo) {  
-        // initialize Select.
-        Select select = new Select(mapTo);
-         
-        // Adding fields to be fetched.
-        select.addSelect(mapTo, _ids[0].getName());
-         
-        // Adding conditions to the select statement
+    private void buildStatement(final String mapTo) {
+        // table to be checked
+        Table table = new Table(mapTo);
+        
+        // define conditions for select statement
+        Condition condition = new AndCondition();
         for (int i = 0; i < _ids.length; i++) {             
-            select.addCondition(mapTo, _ids[i].getName());
+            condition.and(table.column(_ids[i].getName()).equal(new Parameter(_ids[i].getName())));
         }
+
+        // initialize select statement returning only first identity column 
+        Select select = new Select(table);
+        select.addSelect(table.column(_ids[0].getName()));
+        select.setCondition(condition);
          
         // construct SQL query string by walking through select class hierarchy and
-        // generate map of parameter names to indices for binding of parameters.      
+        // generate map of parameter names to indices for binding of parameters.     
         select.toString(_ctx);
     }
     

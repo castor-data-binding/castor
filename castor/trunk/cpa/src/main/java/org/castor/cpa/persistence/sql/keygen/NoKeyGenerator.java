@@ -26,6 +26,8 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -113,7 +115,8 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
         
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();        
         for (int i = 0; i < ids.length; i++) {
-            insert.addInsert(ids[i].getName());
+            String name = ids[i].getName();
+            insert.addAssignment(new Column(name), new Parameter(name));
         }
         
         SQLFieldInfo[] fields = _engine.getInfo();
@@ -121,7 +124,8 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    insert.addInsert(columns[j].getName());          
+                    String name = columns[j].getName();          
+                    insert.addAssignment(new Column(name), new Parameter(name));
                 }
             }
         }        

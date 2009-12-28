@@ -68,7 +68,7 @@ public abstract class CompoundCondition extends Condition {
      * 
      * @param condition Condition to be appended to this list of conditions.
      */
-    protected final void append(final Condition condition) {
+    protected void append(final Condition condition) {
         if (condition == null) { throw new NullPointerException(); }
         _conditions.add(condition);
     }

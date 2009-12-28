@@ -19,13 +19,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
-import org.castor.cpa.persistence.sql.query.expression.Parameter;
+import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
  * Class to generate SQL update query statements. 
+ * <br/>
+ * Note: Be aware that the SQL statement will be invalid without any assignment
+ * of for empty compound conditions. 
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -37,11 +39,11 @@ public final class Update extends QueryObject {
     /** Qualifier of the table to update records of. */
     private final Qualifier _qualifier;
     
-    /** Array of Assignment objects to hold the set clause assignments. */
-    private List<Assignment> _assignment;  
+    /** List of Assignment objects to hold the set clause assignments. */
+    private final List<Assignment> _assignment = new ArrayList<Assignment>();
     
     /** Condition that specifies which records to update. */
-    private AndCondition _condition;    
+    private Condition _condition;    
     
     //-----------------------------------------------------------------------------------    
 
@@ -64,75 +66,36 @@ public final class Update extends QueryObject {
      *        be appended to SET clause of sql statement.
      */
     public void addAssignment(final Assignment assignment) {
-        if (_assignment == null) {
-            _assignment = new ArrayList<Assignment>();
-        } 
         _assignment.add(assignment);        
     }
 
     /**
-     * Appends an assignment of the form 'name=?' to set the record to update. The parameter
-     * name given will be used as a name to bind a value to the column.
+     * Appends an assignment of the given value to the given column.
      * 
-     * @param name Name of the column of the assignment.
-     * @param param Name of the parameter that will be bound to the column in the assignment.
+     * @param column Column to assign the value to.
+     * @param value Expression to be assigned to the column.
      */
-    public void addAssignment(final String name, final String param) {
-        addAssignment(new Assignment(new Column(name), new Parameter(param)));
-    }
-    
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * Appends given condition to be anded with all others to specify the record to update.
-     * 
-     * @param condition Condition to be anded with all others to specify the record to update.
-     */
-    public void addCondition(final Condition condition) {
-        if (_condition == null) {
-            _condition = new AndCondition();
-        } 
-        _condition.and(condition);        
-    }
-
-    /**
-     * Appends a condition of the form 'name=?' to be anded with all others to specify
-     * the record to update. The name given will be used as column name and to bind a
-     * value to the parameter.
-     * 
-     * @param name Name of the column and parameter of the condition.
-     */
-    public void addCondition(final String name) {
-        addCondition(new Column(name).equal(new Parameter(name)));
-    }
-    
-    /**
-     * Appends a condition of the form 'name IS NULL' to be anded with all others to specify
-     * the record to update. The name given will be used as column name.
-     * 
-     * @param name Name of the column which is compared with NULL.
-     */
-    public void addNullCondition(final String name) {
-        addCondition(new Column(name).isNull());
+    public void addAssignment(final Column column, final Expression value) {
+        addAssignment(new Assignment(column, value));
     }
 
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Returns the condition object.
+     * Get condition that specifies which records to update.
      * 
-     * @return the condition
+     * @return Condition that specifies which records to update.
      */
-    public AndCondition getCondition() {
+    public Condition getCondition() {
         return _condition;
     }
-    
+
     /**
-     * Assigns the provided condition object to the class attribute.
+     * Set condition that specifies which records to update.
      * 
-     * @param condition the condition to set
+     * @param condition Condition that specifies which records to update.
      */
-    public void setCondition(final AndCondition condition) {
+    public void setCondition(final Condition condition) {
         _condition = condition;
     }
     
@@ -145,17 +108,15 @@ public final class Update extends QueryObject {
         
         _qualifier.toString(ctx);
         
-        if (_assignment != null) {
-            ctx.append(QueryConstants.SPACE);
-            ctx.append(QueryConstants.SET);
-            ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.SET);
+        ctx.append(QueryConstants.SPACE);
 
-            for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-                iter.next().toString(ctx);
-                if (iter.hasNext()) {
-                    ctx.append(QueryConstants.SEPERATOR);
-                    ctx.append(QueryConstants.SPACE);
-                }
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            iter.next().toString(ctx);
+            if (iter.hasNext()) {
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
         }
         

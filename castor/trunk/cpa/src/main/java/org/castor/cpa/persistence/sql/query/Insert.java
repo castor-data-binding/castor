@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.castor.cpa.persistence.sql.query.expression.Column;
-import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
-import org.castor.cpa.persistence.sql.query.expression.NextVal;
 
 /**
- * Class to generate SQL Insert query statements. 
+ * Class to generate SQL Insert query statements.
+ * <br/>
+ * Note: Be aware that the SQL statement will be invalid without any assignment.
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -36,11 +36,8 @@ public final class Insert extends QueryObject {
     /** Qualifier of the table to update records of. */
     private final Qualifier _qualifier;
     
-    /** Array of Column fields whose values needs to be inserted. */
-    private List<Expression> _fields; 
-    
-    /** Parameter values needs to be inserted. */
-    private List<Expression> _values;
+    /** List of Assignment objects to hold the set clause assignments. */
+    private final List<Assignment> _assignment = new ArrayList<Assignment>();  
     
     //-----------------------------------------------------------------------------------    
 
@@ -56,38 +53,25 @@ public final class Insert extends QueryObject {
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Appends the provided field to the list of fields. 
+     * Appends given assignment to the list of Assignment objects.
      * 
-     * @param name Column object representing a column to be inserted.
-     * @param value Parameter value to be inserted.
+     * @param assignment Assignment object added to the list of assignments that will
+     *        be appended to SET clause of sql statement.
      */
-    public void addInsert(final Column name, final Expression value) {
-        if (_fields == null) { _fields = new ArrayList<Expression>(); }         
-        if (_values == null) { _values = new ArrayList<Expression>(); } 
-        
-        _fields.add(name);
-        _values.add(value);
+    public void addAssignment(final Assignment assignment) {
+        _assignment.add(assignment);        
     }
 
     /**
-     * Appends a field representing a column to be inserted into the table. 
+     * Appends an assignment of the given value to the given column.
      * 
-     * @param name Name of the column to be inserted.
+     * @param column Column to assign the value to.
+     * @param value Expression to be assigned to the column.
      */
-    public void addInsert(final String name) {
-        addInsert(new Column(name), new Parameter(name));
+    public void addAssignment(final Column column, final Expression value) {
+        addAssignment(new Assignment(column, value));
     }
-    
-    /**
-     * Appends a field representing a column to be inserted into the table. 
-     * 
-     * @param name Name of the column to be inserted.
-     * @param seqName Name of the sequence.
-     */
-    public void addInsert(final String name, final String seqName) {
-        addInsert(new Column(name), new NextVal(seqName));
-    }
-    
+
     //-----------------------------------------------------------------------------------    
     
     @Override
@@ -99,36 +83,34 @@ public final class Insert extends QueryObject {
         
         _qualifier.toString(ctx);
         
-        if (_fields != null) {
-            ctx.append(QueryConstants.LPAREN);
-            
-            for (Iterator<Expression> iter = _fields.iterator(); iter.hasNext(); ) {
-                iter.next().toString(ctx);
-                if (iter.hasNext()) {
-                    ctx.append(QueryConstants.SEPERATOR);
-                    ctx.append(QueryConstants.SPACE);
-                }
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.LPAREN);
+        
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            iter.next().leftExpression().toString(ctx);
+            if (iter.hasNext()) {
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
-
-            ctx.append(QueryConstants.RPAREN); 
         }
+
+        ctx.append(QueryConstants.RPAREN); 
         
         ctx.append(QueryConstants.SPACE);
         ctx.append(QueryConstants.VALUES);
-        
-        if (_values != null) {
-            ctx.append(QueryConstants.LPAREN);   
 
-            for (Iterator<Expression> iter = _values.iterator(); iter.hasNext(); ) {
-                iter.next().toString(ctx);
-                if (iter.hasNext()) {
-                    ctx.append(QueryConstants.SEPERATOR);
-                    ctx.append(QueryConstants.SPACE);
-                }
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.LPAREN);   
+
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            iter.next().rightExpression().toString(ctx);
+            if (iter.hasNext()) {
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
-
-            ctx.append(QueryConstants.RPAREN);
         }
+
+        ctx.append(QueryConstants.RPAREN);
     }
     
     //-----------------------------------------------------------------------------------
