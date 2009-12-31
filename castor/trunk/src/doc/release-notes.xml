@@ -91,6 +91,26 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
 </class>]]></code-panel>
             </summary>
             <bugs>
+                <bug id="2861" tool="jira">
+                    <description>
+                        Reference set to null during long transaction.
+                    </description>
+                    <contributor>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20091231</date>
+                </bug>
                 <bug id="2784" tool="jira">
                     <description>
                         Create junit tests for SQL class hierarchy.
@@ -109,7 +129,7 @@ org.castor.cpa.persistence.sql.connection.proxies=false</code-panel>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
-                    <date>20090903</date>
+                    <date>20091228</date>
                 </bug>
                 <bug id="2856" tool="jira">
                     <description>
