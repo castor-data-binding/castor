@@ -537,7 +537,11 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 throw new PersistenceException(Messages.format(
                         "persist.lockConflict", molder.getName(), identity));
             }
-
+            
+            proposedObject.setProposedEntityClass(objectInTx.getClass());
+            proposedObject.setActualEntityClass(objectInTx.getClass());
+            proposedObject.setEntity(objectInTx);
+            
             return objectInTx;
         }
 
@@ -1257,7 +1261,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             engine.delete(this, oid);
         }
     }
-
+    
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#commit()
