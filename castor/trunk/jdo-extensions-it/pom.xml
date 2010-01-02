@@ -16,18 +16,6 @@
    <url>http://castor.org</url>
    <description>Integration tests for the JDO extensions of the XML code generator.</description>
    <build>
-      <resources>
-			<!--  instructs Maven to copy .castor.cdr files -->
-         <resource>
-            <directory>${basedir}/target/generated-sources/castor</directory>
-            <includes>
-               <include>**/*.cdr</include>
-            </includes>
-         </resource>
-         <resource>
-            <directory>src/test/resources</directory>
-         </resource>
-      </resources>
       <plugins>
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
@@ -43,26 +31,6 @@
                   <goals>
                      <goal>generate</goal>
                   </goals>
-               </execution>
-            </executions>
-         </plugin>
-			<!--  redundant, once new castor-maven-plugin has been deployed -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>1.1</version>
-            <executions>
-               <execution>
-                  <id>add-source</id>
-                  <phase>generate-sources</phase>
-                  <goals>
-                     <goal>add-source</goal>
-                  </goals>
-                  <configuration>
-                     <sources>
-                        <source>${basedir}/target/generated-sources/castor</source>
-                     </sources>
-                  </configuration>
                </execution>
             </executions>
          </plugin>

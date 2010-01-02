@@ -46,17 +46,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
     </scm>
 
     <build>
-       <resources>
-          <resource>
-             <directory>target/generated-sources/castor</directory>
-             <includes>
-                <include>**/*.cdr</include>
-             </includes>
-          </resource>
-          <resource>
-             <directory>src/main/resources</directory>
-          </resource>
-       </resources>
        <plugins>
           <plugin>
              <groupId>org.codehaus.mojo</groupId>
