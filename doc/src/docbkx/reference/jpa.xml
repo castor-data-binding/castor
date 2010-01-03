@@ -12,7 +12,7 @@
             eventually fully support the JPA specification and become a 
             first class JPA provider that can e.g. be easily integrated
             with Spring ORM. Whilst full compliance is still work 
-            in progress, there is several small areas where sufficient 
+            in progress, there are several small areas where sufficient 
             progress has been made, and where partial support 
             will be made available to the user community.
         </para>
