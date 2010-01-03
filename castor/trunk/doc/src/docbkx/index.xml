@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
   <bookinfo>
-    <title>Castor 1.3 - Reference documentation</title>
+    <title>Castor 1.3.1 - Reference documentation</title>
 
-    <releaseinfo>1.3</releaseinfo>
+    <releaseinfo>1.3.1</releaseinfo>
 
 <!-- 
     <authorgroup>
