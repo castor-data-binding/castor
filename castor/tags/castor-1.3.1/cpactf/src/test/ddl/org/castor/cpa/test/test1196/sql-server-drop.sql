@@ -1,0 +1,20 @@
+ALTER TABLE test1196_car DROP CONSTRAINT test1196_driver_fk
+GO
+ALTER TABLE test1196_driver DROP CONSTRAINT test1196_car_fk
+GO
+DROP TABLE test1196_computer
+GO
+DROP TABLE test1196_orderitem
+GO
+DROP TABLE test1196_state
+GO
+DROP TABLE test1196_product
+GO
+DROP TABLE test1196_country
+GO
+DROP TABLE test1196_order
+GO
+DROP TABLE test1196_car
+GO
+DROP TABLE test1196_driver
+GO

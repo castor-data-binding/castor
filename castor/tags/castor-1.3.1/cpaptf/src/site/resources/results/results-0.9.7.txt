@@ -1,0 +1,279 @@
+0.9.7
+=====
+
+TestCreate (5000)
+
+Created 3 state objects in 47ms.
+Created 14 department objects in 156ms.
+Created 5 reason objects in 47ms.
+Created 8 supplier objects in 63ms.
+Created 166 type objects in 328ms.
+Created 983 equipment objects in 1782ms.
+Created 5000 service objects in 13843ms.
+
+
+TestLoadBiNto1 (5000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              32       187    16.235     1.156         0
+ReadWriteCached             15        94     4.375     1.000         0
+ReadWriteOidEmpty           31        32    18.078     1.062         0
+ReadWriteOidCached           0        47     5.953       984         0
+ReadOnlyEmpty               16        94    12.765         0         0
+ReadOnlyCached              16       234     2.141         0         0
+ReadOnlyOidEmpty            15        31    11.047         0         0
+ReadOnlyOidCached            0        47       594         0         0
+ReadOnlyOidOnly              0        47       156         0         0
+
+
+TestLoadUniNto1 (5000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16        93     5.594     1.016         0
+ReadWriteCached              0        94     4.343     1.000         0
+ReadWriteOidEmpty           16        31    11.625     1.000         0
+ReadWriteOidCached           0        31     4.359       954         0
+ReadOnlyEmpty               15        94     3.484        16         0
+ReadOnlyCached               0        78     2.359         0         0
+ReadOnlyOidEmpty            16        31     7.172         0         0
+ReadOnlyOidCached           16        47       500         0         0
+ReadOnlyOidOnly              0        47       156         0         0
+
+
+TestLoadBi1toN (5000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              15         0    13.000     1.094         0
+ReadWriteCached              0        15     2.172     1.344         0
+ReadWriteOidEmpty           16        15    13.063     1.094         0
+ReadWriteOidCached          15         0     2.203     1.000         0
+ReadOnlyEmpty               16         0    10.844         0         0
+ReadOnlyCached               0         0       407         0         0
+ReadOnlyOidEmpty            15         0    10.813         0         0
+ReadOnlyOidCached            0        15       235         0         0
+ReadOnlyOidOnly             15        16         0         0         0
+
+
+TestLoadLazy1toN (5000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16         0    13.031     1.062         0
+ReadWriteCached             16        16     2.250     1.000         0
+ReadWriteOidEmpty           15        16    12.984     1.047         0
+ReadWriteOidCached           0        16     2.015       985         0
+ReadOnlyEmpty               15        16    12.875     1.016         0
+ReadOnlyCached               0        16     2.469     1.031         0
+ReadOnlyOidEmpty             0        15    12.657     1.031         0
+ReadOnlyOidCached           16         0     2.390       969         0
+ReadOnlyOidOnly             16         0         0         0         0
+
+
+TestLoadUni1toN (5000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              15         0    14.860     1.046         0
+ReadWriteCached              0        16    14.344       984         0
+ReadWriteOidEmpty            0        15    15.235     1.015         0
+ReadWriteOidCached           0         0     7.828     1.000         0
+ReadOnlyEmpty               16         0    12.609         0         0
+ReadOnlyCached              16         0    12.406         0         0
+ReadOnlyOidEmpty            16        15    10.922         0         0
+ReadOnlyOidCached           16         0     4.422         0         0
+ReadOnlyOidOnly             15         0         0         0         0
+
+
+TestRemove (5000)
+
+Removed 5000 service objects in 7297ms.
+Removed 983 equipment objects in 844ms.
+Removed 166 type objects in 140ms.
+Removed 8 supplier objects in 31ms.
+Removed 5 reason objects in 47ms.
+Removed 14 department objects in 47ms.
+Removed 3 state objects in 47ms.
+
+
+
+TestCreate (10000)
+
+Created 7 state objects in 63ms.
+Created 29 department objects in 234ms.
+Created 11 reason objects in 63ms.
+Created 17 supplier objects in 93ms.
+Created 333 type objects in 532ms.
+Created 1967 equipment objects in 3906ms.
+Created 10000 service objects in 49969ms.
+
+
+TestLoadBiNto1 (10000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty             156       187    43.078     5.235         0
+ReadWriteCached             15       172    15.032     4.281         0
+ReadWriteOidEmpty           31        63    58.781     4.734         0
+ReadWriteOidCached           0        78    30.500     4.282         0
+ReadOnlyEmpty               15       156    33.235        15         0
+ReadOnlyCached               0       172     4.391        16         0
+ReadOnlyOidEmpty            15        78    29.532         0         0
+ReadOnlyOidCached           15        78       953         0         0
+ReadOnlyOidOnly             16       156       313         0         0
+
+
+TestLoadUniNto1 (10000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              15       172    16.500     4.578         0
+ReadWriteCached              0       188    12.875     4.344         0
+ReadWriteOidEmpty           15        78    33.766     4.438         0
+ReadWriteOidCached          15        78    19.672     4.156         0
+ReadOnlyEmpty               16       172     7.641         0         0
+ReadOnlyCached              15       172     4.531         0         0
+ReadOnlyOidEmpty             0        78    16.219         0         0
+ReadOnlyOidCached           15        63       734         0         0
+ReadOnlyOidOnly             16        62       313         0         0
+
+
+TestLoadBi1toN (10000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16        15    37.422     4.844         0
+ReadWriteCached              0         0    10.438     4.187         0
+ReadWriteOidEmpty           16        16    37.656     4.844         0
+ReadWriteOidCached           0        15    10.266     4.234         0
+ReadOnlyEmpty               16         0    28.547         0         0
+ReadOnlyCached               0        15       813         0         0
+ReadOnlyOidEmpty            16        15    28.485         0         0
+ReadOnlyOidCached           15         0       594         0         0
+ReadOnlyOidOnly              0         0         0         0         0
+
+
+TestLoadLazy1toN (10000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty               0        16    36.797     4.656         0
+ReadWriteCached              0        16    10.250     4.781         0
+ReadWriteOidEmpty           15         0    35.782     4.406         0
+ReadWriteOidCached           0         0    13.641     5.046         0
+ReadOnlyEmpty               32         0    36.406     4.453         0
+ReadOnlyCached              16        15    13.922     4.922         0
+ReadOnlyOidEmpty            16        15    35.657     4.359         0
+ReadOnlyOidCached            0        15    19.094     8.328         0
+ReadOnlyOidOnly             16         0         0         0         0
+
+
+TestLoadUni1toN (10000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty               0        16    51.266     4.312         0
+ReadWriteCached              0        16    50.218     4.172         0
+ReadWriteOidEmpty           16        16    45.062     4.609         0
+ReadWriteOidCached          16         0    32.266     4.047         0
+ReadOnlyEmpty               31         0    42.890         0         0
+ReadOnlyCached               0        16    42.359         0         0
+ReadOnlyOidEmpty            16        16    28.265         0         0
+ReadOnlyOidCached            0        16    14.562         0         0
+ReadOnlyOidOnly              0        16         0         0         0
+
+
+TestRemove (10000)
+
+Removed 10000 service objects in 21984ms.
+Removed 1967 equipment objects in 1906ms.
+Removed 333 type objects in 266ms.
+Removed 17 supplier objects in 62ms.
+Removed 11 reason objects in 47ms.
+Removed 29 department objects in 47ms.
+Removed 7 state objects in 47ms.
+
+
+
+TestCreate (20000)
+
+Created 14 state objects in 172ms.
+Created 58 department objects in 172ms.
+Created 22 reason objects in 78ms.
+Created 34 supplier objects in 110ms.
+Created 666 type objects in 1281ms.
+Created 3934 equipment objects in 9094ms.
+Created 20000 service objects in 170859ms.
+
+
+TestLoadBiNto1 (20000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16       375   127.312    20.516         0
+ReadWriteCached             16       375    59.359    24.547         0
+ReadWriteOidEmpty           31       141   192.468    19.125         0
+ReadWriteOidCached          16       141   124.718    18.141         0
+ReadOnlyEmpty               31       344    90.125         0         0
+ReadOnlyCached               0       344     8.469        15         0
+ReadOnlyOidEmpty            31       125    83.563         0         0
+ReadOnlyOidCached           16       140     1.969         0         0
+ReadOnlyOidOnly              0       140       594         0         0
+
+
+TestLoadUniNto1 (20000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16       359    47.359    18.375         0
+ReadWriteCached             16       344    40.718    16.813         0
+ReadWriteOidEmpty           16       156    99.687    17.547         0
+ReadWriteOidCached           0       140    76.516    16.109         0
+ReadOnlyEmpty               16       344    13.844         0         0
+ReadOnlyCached              15       344     8.859        16         0
+ReadOnlyOidEmpty            16       125    28.656         0         0
+ReadOnlyOidCached           15       125     1.407         0         0
+ReadOnlyOidOnly              0       156       578         0         0
+
+
+TestLoadBi1toN (20000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              15        16   116.547    18.922         0
+ReadWriteCached             15         0    43.422    18.094         0
+ReadWriteOidEmpty           31        16   114.547    18.734         0
+ReadWriteOidCached          16         0    42.734    18.234         0
+ReadOnlyEmpty               32        15    83.125         0         0
+ReadOnlyCached               0        16     1.203         0         0
+ReadOnlyOidEmpty            16        15    82.875        16         0
+ReadOnlyOidCached            0        16     1.203         0         0
+ReadOnlyOidOnly             15         0         0         0         0
+
+
+TestLoadLazy1toN (20000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              16        16   115.906    18.531         0
+ReadWriteCached              0        16    71.703    36.844         0
+ReadWriteOidEmpty           16        15   113.813    18.297         0
+ReadWriteOidCached           0         0    58.328    29.937         0
+ReadOnlyEmpty               32         0   113.265    18.485         0
+ReadOnlyCached               0        15    51.922    25.110         0
+ReadOnlyOidEmpty            31         0   113.078    18.281         0
+ReadOnlyOidCached           16        15    45.016    20.797         0
+ReadOnlyOidOnly             16         0         0         0         0
+
+
+TestLoadUni1toN (20000)
+
+                         begin    result   iterate    commit     close
+ReadWriteEmpty              31        15   188.297    17.688         0
+ReadWriteCached              0         0   186.890    17.063         0
+ReadWriteOidEmpty           31        16   144.062    17.641         0
+ReadWriteOidCached           0        16   138.000    20.687         0
+ReadOnlyEmpty               31         0   156.219         0         0
+ReadOnlyCached               0        16   155.078         0         0
+ReadOnlyOidEmpty            31         0    80.500         0         0
+ReadOnlyOidCached           16         0    54.781         0         0
+ReadOnlyOidOnly             16         0         0         0         0
+
+
+TestRemove (20000)
+
+Removed 20000 service objects in 233453ms.
+Removed 3934 equipment objects in 5235ms.
+Removed 666 type objects in 437ms.
+Removed 34 supplier objects in 47ms.
+Removed 22 reason objects in 47ms.
+Removed 58 department objects in 62ms.
+Removed 14 state objects in 31ms.

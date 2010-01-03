@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS test2763_book;
+DROP TABLE IF EXISTS test2763_employee;

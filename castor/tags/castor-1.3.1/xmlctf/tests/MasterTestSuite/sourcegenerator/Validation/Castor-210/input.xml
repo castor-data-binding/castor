@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document-Package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:noNamespaceSchemaLocation="C:\Project\CP3\src\schema\packages\cp3.document.xsd"
+                  Version="1.0">
+  <Document-Definition>
+    <Document-Name>Test Business Card</Document-Name>
+    <Document-Id>{0DE32760-8A8A-4B81-BFB3-64DBAE57D3E8}</Document-Id>
+    <Finished-Item-Defintion>
+      <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+      <Finished-Item-Width>90.0</Finished-Item-Width>
+      <Finished-Item-Height>50.0</Finished-Item-Height>
+      <Finished-Item-Gutter>0.0</Finished-Item-Gutter>
+      <Finished-Item-Bleed>0.0</Finished-Item-Bleed>
+    </Finished-Item-Defintion>
+    <Pages>
+      <Page Id="{A8B31B20-DA05-4A13-B4F3-82A84057FA6F}">
+        <Text-Elements>
+
+          <!-- Left Aligned Text -->
+
+          <Text-Element Id="{695D3C25-78F4-44C5-B64C-5285BC4D0579}">
+            <Shell>false</Shell>
+            <Align>left</Align>
+            <Text-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>2.0</X-Position>
+              <Y-Position>45.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>false</Grow-Width>
+              <Shrink-Width>false</Shrink-Width>
+              <Grow-Height>false</Grow-Height>
+              <Shrink-Height>false</Shrink-Height>
+            </Text-Position>
+            <Sub-Elements>
+              <Sub-Element Id="{03A5CFD1-1172-4972-A399-D769A3E38827}">
+                <Font-Definition>
+                  <Unit-Of-Measure>points</Unit-Of-Measure>
+                  <Font-Face>Helvetica</Font-Face>
+                  <Font-Size>8.0</Font-Size>
+                  <Character-Spacing>0.0</Character-Spacing>
+                  <Leading>0.0</Leading>
+                  <Word-Spacing>0.0</Word-Spacing>
+                  <Text-Rise>0.0</Text-Rise>
+                  <Horizontal-Scaling>0.0</Horizontal-Scaling>
+                </Font-Definition>
+                <Color-Space>
+                  <Color-Type>cmyk</Color-Type>
+                  <Color-C>0</Color-C>
+                  <Color-M>0</Color-M>
+                  <Color-Y>0</Color-Y>
+                  <Color-K>100</Color-K>
+                </Color-Space>
+                <Is-Variable>true</Is-Variable>
+                <Data>Left Variable Data (Employee.Complete Name) - diff</Data>
+                <Variable-Data>
+                  <Class-Id>{B2E02FD8-7701-488F-AE08-12CCB65A2DB8}</Class-Id>
+                  <Attribute-Id>Full Name</Attribute-Id>
+                  <Class-Display-Name>Employee</Class-Display-Name>
+                  <Attribute-Display-Name>Complete Name</Attribute-Display-Name>
+                  <Required>true</Required>
+                  <Editable>true</Editable>
+                  <Display-List>false</Display-List>
+                  <Display-Text>true</Display-Text>
+                  <Display-Strings/>
+                </Variable-Data>
+              </Sub-Element>
+            </Sub-Elements>
+          </Text-Element>
+
+          <!-- Center Aligned Text -->
+
+          <Text-Element Id="{3AA0FB34-5405-4B15-9DD5-6A33FB9BA2E1}">
+            <Shell>false</Shell>
+            <Align>center</Align>
+            <Text-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>45.0</X-Position>
+              <Y-Position>40.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>false</Grow-Width>
+              <Shrink-Width>false</Shrink-Width>
+              <Grow-Height>false</Grow-Height>
+              <Shrink-Height>false</Shrink-Height>
+            </Text-Position>
+            <Sub-Elements>
+              <Sub-Element Id="{B2EC2D26-8F66-45AC-B9DF-C21D2FFCC165}">
+                <Font-Definition>
+                  <Unit-Of-Measure>points</Unit-Of-Measure>
+                  <Font-Face>Helvetica</Font-Face>
+                  <Font-Size>8.0</Font-Size>
+                  <Character-Spacing>0.0</Character-Spacing>
+                  <Leading>0.0</Leading>
+                  <Word-Spacing>0.0</Word-Spacing>
+                  <Text-Rise>0.0</Text-Rise>
+                  <Horizontal-Scaling>0.0</Horizontal-Scaling>
+                </Font-Definition>
+                <Color-Space>
+                  <Color-Type>cmyk</Color-Type>
+                  <Color-C>0</Color-C>
+                  <Color-M>0</Color-M>
+                  <Color-Y>0</Color-Y>
+                  <Color-K>100</Color-K>
+                </Color-Space>
+                <Is-Variable>false</Is-Variable>
+                <Data>Center Static Text</Data>
+                <Variable-Data>
+                  <Class-Id/>
+                  <Attribute-Id/>
+                  <Class-Display-Name/>
+                  <Attribute-Display-Name/>
+                  <Required>false</Required>
+                  <Editable>false</Editable>
+                  <Display-List>false</Display-List>
+                  <Display-Text>false</Display-Text>
+                  <Display-Strings/>
+                </Variable-Data>
+              </Sub-Element>
+            </Sub-Elements>
+          </Text-Element>
+
+          <!-- Right Align -->
+
+          <Text-Element Id="{D40EA836-45F4-4B1C-B34F-522D87AC289E}">
+            <Shell>false</Shell>
+            <Align>right</Align>
+            <Text-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>85.0</X-Position>
+              <Y-Position>35.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>false</Grow-Width>
+              <Shrink-Width>false</Shrink-Width>
+              <Grow-Height>false</Grow-Height>
+              <Shrink-Height>false</Shrink-Height>
+            </Text-Position>
+            <Sub-Elements>
+              <Sub-Element Id="{043C4B58-8AD8-4B22-A5E7-675E20B0B05E}">
+                <Font-Definition>
+                  <Unit-Of-Measure>points</Unit-Of-Measure>
+                  <Font-Face>Helvetica</Font-Face>
+                  <Font-Size>8.0</Font-Size>
+                  <Character-Spacing>0.0</Character-Spacing>
+                  <Leading>0.0</Leading>
+                  <Word-Spacing>0.0</Word-Spacing>
+                  <Text-Rise>0.0</Text-Rise>
+                  <Horizontal-Scaling>0.0</Horizontal-Scaling>
+                </Font-Definition>
+                <Color-Space>
+                  <Color-Type>cmyk</Color-Type>
+                  <Color-C>0</Color-C>
+                  <Color-M>0</Color-M>
+                  <Color-Y>0</Color-Y>
+                  <Color-K>100</Color-K>
+                </Color-Space>
+                <Is-Variable>false</Is-Variable>
+                <Data>Right Static Text</Data>
+                <Variable-Data>
+                  <Class-Id/>
+                  <Attribute-Id/>
+                  <Class-Display-Name/>
+                  <Attribute-Display-Name/>
+                  <Required>false</Required>
+                  <Editable>false</Editable>
+                  <Display-List>false</Display-List>
+                  <Display-Text>false</Display-Text>
+                  <Display-Strings/>
+                </Variable-Data>
+              </Sub-Element>
+            </Sub-Elements>
+          </Text-Element>
+        </Text-Elements>
+
+        <!-- Paragraph Element -->
+
+        <Paragraph-Text-Elements>
+          <Paragraph-Text-Element Id="{CF17CE20-96A4-469B-B2C3-3D8AC47BD4D1}">
+            <Shell>false</Shell>
+            <Align>left</Align>
+            <Vertical-Position>bottom</Vertical-Position>
+            <Text-Align>left</Text-Align>
+            <Text-Vertical-Position>bottom</Text-Vertical-Position>
+            <Paragraph-Text-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>0.0</X-Position>
+              <Y-Position>0.0</Y-Position>
+              <Width>30.0</Width>
+              <Height>20.0</Height>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>false</Grow-Width>
+              <Shrink-Width>false</Shrink-Width>
+              <Grow-Height>false</Grow-Height>
+              <Shrink-Height>false</Shrink-Height>
+            </Paragraph-Text-Position>
+            <Sub-Elements>
+              <Sub-Element Id="{C980F42D-884B-4827-B4F4-2086BE7043F8}">
+                <Font-Definition>
+                  <Unit-Of-Measure>points</Unit-Of-Measure>
+                  <Font-Face>Helvetica</Font-Face>
+                  <Font-Size>8.0</Font-Size>
+                  <Character-Spacing>0.0</Character-Spacing>
+                  <Leading>8.0</Leading>
+                  <Word-Spacing>1.0</Word-Spacing>
+                  <Text-Rise>0.0</Text-Rise>
+                  <Horizontal-Scaling>0.0</Horizontal-Scaling>
+                </Font-Definition>
+                <Color-Space>
+                  <Color-Type>cmyk</Color-Type>
+                  <Color-C>0</Color-C>
+                  <Color-M>0</Color-M>
+                  <Color-Y>0</Color-Y>
+                  <Color-K>100</Color-K>
+                </Color-Space>
+                <Is-Variable>false</Is-Variable>
+                <Data>Static Paragraph text split into two</Data>
+                <Variable-Data>
+                  <Class-Id/>
+                  <Attribute-Id/>
+                  <Class-Display-Name/>
+                  <Attribute-Display-Name/>
+                  <Required>false</Required>
+                  <Editable>false</Editable>
+                  <Display-List>false</Display-List>
+                  <Display-Text>false</Display-Text>
+                  <Display-Strings/>
+                </Variable-Data>
+              </Sub-Element>
+              <Sub-Element Id="{CEF21B53-365E-4E5E-95EC-77C8008B57E3}">
+                <Font-Definition>
+                  <Unit-Of-Measure>points</Unit-Of-Measure>
+                  <Font-Face>Helvetica</Font-Face>
+                  <Font-Size>8.0</Font-Size>
+                  <Character-Spacing>0.0</Character-Spacing>
+                  <Leading>8.0</Leading>
+                  <Word-Spacing>1.0</Word-Spacing>
+                  <Text-Rise>0.0</Text-Rise>
+                  <Horizontal-Scaling>0.0</Horizontal-Scaling>
+                </Font-Definition>
+                <Color-Space>
+                  <Color-Type>cmyk</Color-Type>
+                  <Color-C>100</Color-C>
+                  <Color-M>100</Color-M>
+                  <Color-Y>0</Color-Y>
+                  <Color-K>0</Color-K>
+                </Color-Space>
+                <Is-Variable>false</Is-Variable>
+                <Data>sub elements</Data>
+                <Variable-Data>
+                  <Class-Id/>
+                  <Attribute-Id/>
+                  <Class-Display-Name/>
+                  <Attribute-Display-Name/>
+                  <Required>false</Required>
+                  <Editable>false</Editable>
+                  <Display-List>false</Display-List>
+                  <Display-Text>false</Display-Text>
+                  <Display-Strings/>
+                </Variable-Data>
+              </Sub-Element>
+            </Sub-Elements>
+          </Paragraph-Text-Element>
+        </Paragraph-Text-Elements>
+
+        <Tiff-Elements>
+          <Tiff-Element Id="{id}">
+            <Shell>false</Shell>
+            <Align>center</Align>
+            <Vertical-Position>bottom</Vertical-Position>
+            <Tiff-Position>
+              <Position-Type>absolute</Position-Type>
+              <Corner-Stone>cornerstone</Corner-Stone>
+              <Shift-X-Plane>true</Shift-X-Plane>
+              <Shift-Y-Plane>true</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>3.0</X-Position>
+              <Y-Position>63.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>true</Grow-Width>
+              <Shrink-Width>true</Shrink-Width>
+              <Grow-Height>true</Grow-Height>
+              <Shrink-Height>true</Shrink-Height>
+            </Tiff-Position>
+            <Is-Variable>false</Is-Variable>
+            <Data>data</Data>
+            <Variable-Data>
+              <Class-Id>id</Class-Id>
+              <Attribute-Id>id</Attribute-Id>
+              <Class-Display-Name>class</Class-Display-Name>
+              <Attribute-Display-Name>display</Attribute-Display-Name>
+              <Required>false</Required>
+              <Editable>false</Editable>
+              <Display-List>false</Display-List>
+              <Display-Text>true</Display-Text>
+              <Display-Strings>this is a string</Display-Strings>
+            </Variable-Data>
+          </Tiff-Element>
+          <Tiff-Element Id="{247A97B2-EA19-45DA-A918-2B2BAD7F0600}">
+            <Shell>false</Shell>
+            <Align>center</Align>
+            <Vertical-Position>bottom</Vertical-Position>
+            <Tiff-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>40.0</X-Position>
+              <Y-Position>2.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Grow-Width>false</Grow-Width>
+              <Shrink-Width>false</Shrink-Width>
+              <Grow-Height>false</Grow-Height>
+              <Shrink-Height>false</Shrink-Height>
+            </Tiff-Position>
+            <Is-Variable>false</Is-Variable>
+            <Data>filename=C:\project\CP3\src\schema\sampledoc\candor.tif;resolution=600;</Data>
+            <Variable-Data>
+              <Class-Id/>
+              <Attribute-Id/>
+              <Class-Display-Name/>
+              <Attribute-Display-Name/>
+              <Required>false</Required>
+              <Editable>false</Editable>
+              <Display-List>false</Display-List>
+              <Display-Text>false</Display-Text>
+              <Display-Strings/>
+            </Variable-Data>
+          </Tiff-Element>
+        </Tiff-Elements>
+
+        <PDF-Elements/>
+
+        <Line-Elements>
+          <Line-Element Id="{36FB11F7-4577-48C5-94EB-C4A335006229}">
+            <Shell>false</Shell>
+            <Line-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>15.0</X-Position>
+              <Y-Position>15.0</Y-Position>
+              <X1-Position>25.0</X1-Position>
+              <Y1-Position>25.0</Y1-Position>
+              <Z-Order>0.0</Z-Order>
+            </Line-Position>
+            <Border>
+              <Line-Weight>
+                <Unit-Of-Measure>points</Unit-Of-Measure>
+                <Weight>1.0</Weight>
+              </Line-Weight>
+              <Color-Space>
+                <Color-Type>cmyk</Color-Type>
+                <Color-C>0</Color-C>
+                <Color-M>100</Color-M>
+                <Color-Y>100</Color-Y>
+                <Color-K>0</Color-K>
+              </Color-Space>
+            </Border>
+          </Line-Element>
+        </Line-Elements>
+
+        <Rectangle-Elements>
+          <Rectangle-Element Id="{4278B53C-51AC-4E7B-A492-1EC6468BD994}">
+            <Shell>false</Shell>
+            <Align>left</Align>
+            <Vertical-Position>bottom</Vertical-Position>
+            <Stroke>true</Stroke>
+            <Fill>true</Fill>
+            <Rectangle-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>30.0</X-Position>
+              <Y-Position>20.0</Y-Position>
+              <Width>10.0</Width>
+              <Height>10.0</Height>
+              <Z-Order>0.0</Z-Order>
+            </Rectangle-Position>
+            <Border>
+              <Line-Weight>
+                <Unit-Of-Measure>points</Unit-Of-Measure>
+                <Weight>2.0</Weight>
+              </Line-Weight>
+              <Color-Space>
+                <Color-Type>cmyk</Color-Type>
+                <Color-C>100</Color-C>
+                <Color-M>0</Color-M>
+                <Color-Y>0</Color-Y>
+                <Color-K>0</Color-K>
+              </Color-Space>
+            </Border>
+            <Fill-Color>
+              <Color-Space>
+                <Color-Type>cmyk</Color-Type>
+                <Color-C>0</Color-C>
+                <Color-M>0</Color-M>
+                <Color-Y>100</Color-Y>
+                <Color-K>0</Color-K>
+              </Color-Space>
+            </Fill-Color>
+          </Rectangle-Element>
+        </Rectangle-Elements>
+
+        <Circle-Elements>
+          <Circle-Element Id="{D5B7A182-9D50-4316-A555-2D9ABBCAB423}">
+            <Shell>false</Shell>
+            <Stroke>true</Stroke>
+            <Fill>true</Fill>
+            <Circle-Position>
+              <Position-Type>absolute</Position-Type>
+              <Shift-X-Plane>false</Shift-X-Plane>
+              <Shift-Y-Plane>false</Shift-Y-Plane>
+              <Unit-Of-Measure>millimeters</Unit-Of-Measure>
+              <X-Position>10.0</X-Position>
+              <Y-Position>20.0</Y-Position>
+              <Z-Order>0.0</Z-Order>
+              <Radius>5.0</Radius>
+            </Circle-Position>
+            <Border>
+              <Line-Weight>
+                <Unit-Of-Measure>points</Unit-Of-Measure>
+                <Weight>2.0</Weight>
+              </Line-Weight>
+              <Color-Space>
+                <Color-Type>cmyk</Color-Type>
+                <Color-C>0</Color-C>
+                <Color-M>0</Color-M>
+                <Color-Y>0</Color-Y>
+                <Color-K>100</Color-K>
+              </Color-Space>
+            </Border>
+            <Fill-Color>
+              <Color-Space>
+                <Color-Type>cmyk</Color-Type>
+                <Color-C>100</Color-C>
+                <Color-M>100</Color-M>
+                <Color-Y>0</Color-Y>
+                <Color-K>0</Color-K>
+              </Color-Space>
+            </Fill-Color>
+          </Circle-Element>
+        </Circle-Elements>
+
+        <Path-Elements/>
+
+      </Page>
+    </Pages>
+  </Document-Definition>
+</Document-Package>

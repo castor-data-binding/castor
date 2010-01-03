@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/tutorial/how-to-create-a-custom-cache.xml">
+  <properties>
+    <title>How to use Jakarta's DBCP for connection pooling</title>
+    <abstract>
+       General information about using Jakarta's DBCP for connection pooling
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use Jakarta's DBCP for connection pooling</title>
+    <header>
+    </header>
+    <section title="Introduction">
+        
+        <p>This HOW-TO provide users with instructions on hot to configure
+           Castor JDO so that Apache Jakarta's DBCP package is used as a 
+           connection pool.</p>
+        
+    </section>
+    
+    <section title="Intended audience">
+        
+       <p>Anyone who wants to use DBCP as connection pool mechanism with
+          Castor JDO.</p>
+    
+    </section>
+    
+    <section title="Steps">
+        
+       <p>Below are defined the steps to configure Castor JDO to use DBCP's
+          <tt>BasicDataSource</tt> for connection pooling.</p>
+
+        <section title="Configuration">
+
+            <p>To use a DBCP <tt>BasicDataSource</tt> with Castor JDO, please 
+               provide the following <tt>&lt;data-source&gt;</tt> entry in the 
+               jdo-conf.xml file.</p>
+
+            <code-panel><![CDATA[
+  <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+    <param name="driver-class-name" value="com.mysql.jdbc.Driver" />
+    <param name="username" value="test" />
+    <param name="password" value="test" />
+    <param name="url" value="jdbc:mysql://localhost/test" />
+    <param name="min-active" value="10" />
+    <param name="max-active" value="40" />
+  </data-source>]]>
+            </code-panel>
+            
+            <p>Above example makes use of the <i>mySQL</i> JDBC driver to
+               establish a connection pool to a <i>mySQL</i> instance
+               named 'test' running on the same machine as Castor itself. 
+               The pool initially holds 10 connections, but is configured
+               to allow a maximum of 40 active connections at the same 
+               time.</p>
+
+        </section>
+
+     </section>
+
+     <section title="References">
+        <ul>
+            <li><a href="jdo-pooling.html">Other pooling examples</a></li>
+        </ul>
+     </section>
+    
+   </body>
+</document>

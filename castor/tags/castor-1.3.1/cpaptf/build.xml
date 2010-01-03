@@ -1,0 +1,75 @@
+<project name="Castor CPA - PTF" default="compile.cpaptf" basedir=".">
+
+    <!-- $Id: build.xml 0000 2007-01-19 21:12:08Z ekuns $ -->
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-cpaptf"/>
+    <property name="gen.src"              value="${build}/generated-sources"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
+        <pathelement location="${basedir}/../cpa/build/classes"/>
+        <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../lib/jta1.0.1.jar"/>
+        <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        <pathelement location="${basedir}/../lib/tests/tyrex-1.0.jar"/>
+        <pathelement location="${basedir}/../lib/tests/mockejb.jar"/>
+    </path>
+
+    <target name="prepare.cpaptf" unless="prepare.cpaptf.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.cpaptf.executed" value="true"/>
+    </target>
+
+    <target name="clean.cpaptf" description="Removes CPA PTF build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.cpaptf" depends="prepare.cpaptf" description="Compile CPA PTF">
+    	<!--
+        <javac srcdir="${main.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+                <filter token="VERSION" value="${version}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+        -->
+        <copy todir="${build}" file="src/test/resources/log4j.xml"/>
+        <javac srcdir="${test.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${test.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+                <filter token="VERSION" value="${version}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.cpaptf" depends="compile.cpaptf" description="Build CPA PTF JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+    </target>
+
+</project>

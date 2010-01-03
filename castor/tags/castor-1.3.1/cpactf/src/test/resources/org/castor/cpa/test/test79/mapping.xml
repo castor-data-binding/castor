@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+    
+      <class name="org.castor.cpa.test.test79.AutostoreMain" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main" xml="entity1" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedOne" type="org.castor.cpa.test.test79.AutostoreAssociated1">
+            <sql name="assoc1_id" />
+        </field>
+      </class>
+    
+      <class name="org.castor.cpa.test.test79.AutostoreAssociated1" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc1" xml="entity2" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+      </class>
+
+      <class name="org.castor.cpa.test.test79.AutostoreMainMany" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedMany" collection="arraylist" type="org.castor.cpa.test.test79.AutostoreAssociatedMany">
+            <sql many-key="main_id" />
+        </field>
+      </class>
+    
+      <class name="org.castor.cpa.test.test79.AutostoreAssociatedMany" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+          <sql name="name" type="char" />
+        </field>
+        <field name="main" type="org.castor.cpa.test.test79.AutostoreMainMany">
+            <sql name="main_id" />
+        </field>
+      </class>
+    
+</mapping>

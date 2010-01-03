@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.castor.org/tests/AnyAttribute/" >
+           
+   <xsd:attributeGroup name="commonAttributes" >
+       <xsd:annotation>
+	      <xsd:documentation>
+	         Some docs 
+	       </xsd:documentation>
+	    </xsd:annotation>
+        <xsd:attribute name="id" type="xsd:ID" />
+        <xsd:attribute name="href" type="xsd:anyURI" />
+        <xsd:anyAttribute namespace="##other" processContents="lax" />
+  </xsd:attributeGroup>
+  
+</xsd:schema>

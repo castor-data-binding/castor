@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo xmlns="">
+    <abc>
+       <value>My Value 1</value>
+    </abc>
+    <bar>
+       <value>My Value 2</value>
+    </bar>
+</foo>

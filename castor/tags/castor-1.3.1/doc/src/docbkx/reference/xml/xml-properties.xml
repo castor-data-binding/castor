@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+	<title>XML configuration file</title>
+	<section>
+		<title>News</title>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Added a section on how to access the properties as
+					defined in the Castor properties file from within
+					code.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<emphasis role="bold">Release 1.2.1:</emphasis>
+					: Added new
+					<classname>
+						org.exolab.castor.xml.lenient.integer.validation
+					</classname>
+					property to allow configuration of leniency for
+					validation for Java properties generated from
+					<classname>&lt;xs:integer&gt;</classname>
+					types during code generation.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<emphasis role="bold">Release 1.2:</emphasis>
+					: Access to the
+					<classname>org.exolab.castor.util.LocalConfiguration</classname>
+					class has been removed completely. To access the
+					properties as used by Castor from code, please refer
+					to the below section.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<emphasis role="bold">Release 1.1.3:</emphasis>
+					Added special processing of proxied classes. The
+					property org.exolab.castor.xml.proxyInterfaces
+					allows you to specify a list of interfaces that such
+					proxied objects implement. If your object implements
+					one of these interfaces Castor will not use the
+					class itself but its superclass at introspection or
+					to find class mappings and ClassDescriptors.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<emphasis role="bold">Release 0.9.7:</emphasis>
+					Added new org.exolab.castor.persist.useProxies
+					property to allow configuration of JDBC proxy
+					classes. If enabled, JDBC proxy classes will be used
+					to wrap
+					<classname>java.sql.Connection</classname>
+					and
+					<classname>java.sql.PreparedStatement</classname>
+					instances, to allow for more detailed and complete
+					JDBC statements to be output during logging. When
+					turned off, no logging statements will be generated
+					at all.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>Introduction</title>
+
+		<para>
+			Castor uses a configuration file for environmental
+			properties that are shared across all the Castor sub
+			systems. The configuration file is specified as a Java
+			properties file with the name <filename>castor.properties</filename>.
+		</para>
+
+		<para>
+			By definition, a default configuration file is included with the
+            Castor XML JAR. Custom properties can be supplied using one of the
+            following methods. Please note that the custom properties specified
+            will <emphasis role="bold">override</emphasis> the default 
+            configuration. 
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Place a file named <filename>castor.properties</filename>
+                    anywhere on the classpath of your application.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Place a file named <filename>castor.properties</filename>
+                    in the working directory of your application.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Use the system property 
+                    <literal>org.castor.user.properties.location</literal> to
+                    specify the location of your custom properties.
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            Please note that Castor XML - upon startup - will try the methods
+            given above in exactly the sequence as stated above; if it managed
+            to find a custom property file using any of the given methods,
+            it will cancel its search.
+        </para> 
+
+		<para>
+			When running the provided examples, Castor will use the
+			configuration file located in the examples directory which
+			specifies additional debugging information as well as pretty
+			printing of all produced XML documents.
+		</para>
+
+		<para>
+			The following properties are currently supported in the
+			configuration file:
+		</para>
+
+		<table frame="all">
+		    <tgroup cols="5">
+			<thead>
+				<row>
+					<entry>Name</entry>
+					<entry>Description</entry>
+					<entry>Values</entry>
+					<entry>Default</entry>
+					<entry>Since</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>
+						org.exolab.castor.xml.introspector.primitive.nodetype
+					</entry>
+					<entry>
+						Property specifying the type of XML node to use
+						for primitive values, either
+						<classname>element</classname>
+						or
+						<classname>attribute</classname>
+					</entry>
+					<entry>
+						<classname>element</classname>
+						or
+						<classname>attribute</classname>
+					</entry>
+					<entry>
+						<classname>attribute</classname>
+					</entry>
+					<entry>-</entry>
+				</row>
+                <row>
+                    <entry>org.exolab.castor.parser</entry>
+                    <entry>
+                        Property specifying the class name of the SAX
+                        XML parser to use.
+                    </entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.parser.validation</entry>
+                    <entry>
+                        Specifies whether to perform XML document
+                        validation by default.
+                    </entry>
+                    <entry>
+                        <classname>true</classname>
+                        and
+                        <classname>false</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.parser.namespaces</entry>
+                    <entry>
+                        Specifies whether to support XML namespaces by
+                        default.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        and
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.xml.nspackages</entry>
+                    <entry>
+                        Specifies a list of XML namespace to Java
+                        package mappings.
+                    </entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.xml.naming</entry>
+                    <entry>
+                        Property specifying the 'type' of the XML naming
+                        conventions to use. Values of this property must
+                        be either
+                        <classname>mixed</classname>
+                        ,
+                        <classname>lower</classname>
+                        , or the name of a class which extends
+                        <classname>org.exolab.castor.xml.XMLNaming</classname>
+                        .
+                    </entry>
+                    <entry>
+                        <classname>mixed</classname>
+                        ,
+                        <classname>lower</classname>
+                        , or the name of a class which extends
+                        <classname>org.exolab.castor.xml.XMLNaming</classname>
+                    </entry>
+                    <entry>
+                        <classname>lower</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.castor.xml.java.naming</entry>
+                    <entry>
+                        Property specifying the 'type' of the Java
+                        naming conventions to use. Values of this
+                        property must be either
+                        <classname>null</classname>
+                        or the name of a class which extends
+                        <classname>link org.castor.xml.JavaNaming</classname>.
+                    </entry>
+                    <entry>
+                        <para>
+                           <classname>null</classname>
+                           or the name of a class which extends
+                           <classname>link org.castor.xml.JavaNaming</classname>.
+                        </para>
+                    </entry>
+                    <entry>
+                        <classname>null</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.marshalling.validation
+                    </entry>
+                    <entry>
+                        Specifies whether to use validation during
+                        marshalling.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>true</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.indent</entry>
+                    <entry>
+                        Specifies whether XML documents (as generated at
+                        marshalling) should use indentation or not.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.sax.features</entry>
+                    <entry>
+                        Specifies additional features for the XML
+                        parser.
+                    </entry>
+                    <entry>
+                        A comma separated list of SAX (parser) features
+                        (that might or might not be supported by the
+                        specified SAX parser).
+                    </entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.sax.features-to-disable
+                    </entry>
+                    <entry>
+                        Specifies features to be disbaled on the
+                        underlying SAX parser.
+                    </entry>
+                    <entry>
+                        A comma separated list of SAX (parser) features
+                        to be disabled.
+                    </entry>
+                    <entry>-</entry>
+                    <entry>
+                        <para><emphasis role="bold">1.0.4</emphasis></para>
+                    </entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.regexp</entry>
+                    <entry>
+                        Specifies the regular expression validator to
+                        use.
+                    </entry>
+                    <entry>
+                        A class that implements
+                        <classname>org.exolab.castor.xml.validators.RegExpValidator</classname>
+                        .
+                    </entry>
+                    <entry>-</entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.xml.strictelements</entry>
+                    <entry>
+                        Specifies whether to apply strictness to
+                        elements when unmarshalling. When enabled, the
+                        existence of elements in the XML document, which
+                        cannot be mapped to a class, causes a {@link
+                        SAXException} to be thrown. If set to false,
+                        these 'unknown' elements are ignored.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>true</classname>
+                    </entry>
+                    <entry>-</entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.xml.loadPackageMappings
+                    </entry>
+                    <entry>
+                        Specifies whether the ClassDescriptorResolver
+                        should (automatically) search for and consult
+                        with package mapping files (
+                        <classname>.castor.xml</classname>
+                        ) to retrieve class descriptor information
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.0.2</emphasis>
+                    </entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.xml.serializer.factory
+                    </entry>
+                    <entry>
+                        Specifying what XML serializers factory to use.
+                    </entry>
+                    <entry>A class name</entry>
+                    <entry>
+                        org.exolab.castor.xml.XercesXMLSerializerFactory
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.0</emphasis>
+                    </entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.xml.lenient.sequence.order
+                    </entry>
+                    <entry>
+                        Specifies whether sequence order validation
+                        should be lenient.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.1</emphasis>
+                    </entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.xml.lenient.id.validation
+                    </entry>
+                    <entry>
+                        Specifies whether id/href validation should be
+                        lenient.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.1</emphasis>
+                    </entry>
+                </row>
+                <row>
+                    <entry>org.exolab.castor.xml.proxyInterfaces</entry>
+                    <entry>
+                        Specifies whether or not to search for an proxy
+                        interface at marshalling. If property is not
+                        empty the objects to be marshalled will be
+                        searched if they implement one of the given
+                        interface names. If the interface is
+                        implemented, the superclass will be marshalled
+                        instead of the class itself.
+                    </entry>
+                    <entry>A list of proxy interfaces</entry>
+                    <entry>-</entry>
+                    <entry>
+                        <emphasis role="bold">1.1.3</emphasis>
+                    </entry>
+                </row>
+                <row>
+                    <entry>
+                        org.exolab.castor.xml.lenient.integer.validation
+                    </entry>
+                    <entry>
+                        Specifies whether validation for Java properties
+                        generated from &lt;xs:integer&gt; should be
+                        lenient, i.e. allow for
+                        <classname>int</classname>
+                        s as well.
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                        or
+                        <classname>true</classname>
+                    </entry>
+                    <entry>
+                        <classname>false</classname>
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.2.1</emphasis>
+                    </entry>
+                </row>
+
+			</tbody>
+            </tgroup>
+		</table>
+
+	</section>
+
+	<section>
+		<title>Accessing the properties from within code</title>
+
+		<para>
+			As of Castor 1.1, it is possible to read and set the value
+			of properties programmatically using the
+			<classname>getProperty(String)</classname>
+			and
+			<classname>setProperty(String,String)</classname>
+			on the following classes:
+		</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					<classname>org.exolab.castor.xml.Unmarshaller</classname>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<classname>org.exolab.castor.xml.Marshaller</classname>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<classname>org.exolab.castor.xml.XMLContext</classname>
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>
+			Whilst using the setter methods on the first two classes
+			will change the settings of the respective instances only,
+			using the
+			<classname>setProperty()</classname>
+			method on the
+			<classname>org.exolab.castor.xml.XMLContext</classname>
+			class will change the configuration globally, and affect all
+			<classname>org.exolab.castor.xml.Unmarshaller</classname>
+			and
+			<classname>org.exolab.castor.xml.Marshaller</classname>
+			instances created thereafter using the
+			<methodname>org.exolab.castor.xml.XMLContext.createUnmarshaller()</methodname>
+			and
+			<methodname>org.exolab.castor.xml.XMLContext.createMarshaller()</methodname>
+			methods.
+		</para>
+
+	</section>
+
+</section>

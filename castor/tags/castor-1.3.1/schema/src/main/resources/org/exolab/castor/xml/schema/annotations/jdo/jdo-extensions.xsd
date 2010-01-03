@@ -1,0 +1,199 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jdo="http://www.castor.org/binding/persistence"
+   targetNamespace="http://www.castor.org/binding/persistence" elementFormDefault="qualified"
+   attributeFormDefault="unqualified">
+   <xs:element name="table">
+      <xs:annotation>
+         <xs:documentation>
+				Element 'table' is used to specify the table where the
+				Object will be saved.
+			</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="primaryKey" type="jdo:pkType"></xs:element>
+         </xs:sequence>
+         <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+               <xs:documentation>
+						Attribute 'name' is used to specify the name of
+						the table.
+					</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="accessMode" use="optional" default="shared">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:enumeration value="read-only"></xs:enumeration>
+                  <xs:enumeration value="shared"></xs:enumeration>
+                  <xs:enumeration value="exclusive"></xs:enumeration>
+                  <xs:enumeration value="db-locked"></xs:enumeration>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:attribute>
+         <xs:attribute name="detachable" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute 'detachable' is used to indicate that the 
+                    domain entity generated will support Castor JDO
+                    long transactions out of the box. 
+                </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="column">
+      <xs:annotation>
+         <xs:documentation>
+				Element 'column' is used to specify the column where the
+				property of an object will be saved.
+			</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="jdo:readonlyDirtyType">
+               <xs:attribute name="name" type="xs:string" use="required">
+                  <xs:annotation>
+                     <xs:documentation>
+								Attribute 'name' is used to specify the
+								name of the column.
+							</xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+               <xs:attribute name="type" type="xs:string" use="required">
+                  <xs:annotation>
+                     <xs:documentation>
+								Attribute 'type' is used to specify the
+								JDO-type of the column.
+							</xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+               <xs:attribute name="acceptNull" type="xs:boolean" use="optional"
+                  default="true">
+                  <xs:annotation>
+                     <xs:documentation>
+								Specifies if this field accepts NULL
+								values or not.
+							</xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="one-to-one">
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="jdo:readonlyDirtyType">
+               <xs:annotation>
+                  <xs:documentation>
+							This tag defines a one-to-one relationship.
+							Note that the opposite table of this
+							relation is obtained from the Schema element
+							whose AppInfo element defines this relation.
+							This relation is assigned to/realized in the
+							table that "encapsulates" this relation, not
+							in the opposite table.
+						</xs:documentation>
+               </xs:annotation>
+               <xs:attribute name="name" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+								The name attribute specifies the name of
+								the column that represents this
+								relation.
+							</xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="one-to-many">
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="jdo:readonlyDirtyType">
+               <xs:annotation>
+                  <xs:documentation>
+							This tag defines a one-to-many relationship.
+							Note that the opposite table of this
+							relation (the "one" table) is obtained from
+							the Schema element whose AppInfo element
+							defines this relation. This relation is
+							meant to be assigned to/realized in the
+							table that "encapsulates" this relation
+							(that means in the "many" table), not in the
+							opposite table (that is: the "one" table).
+						</xs:documentation>
+               </xs:annotation>
+               <xs:attribute name="name" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+								The name attribute specifies the name of
+								the column that represents this
+								relation.
+							</xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="many-to-many">
+      <xs:complexType>
+         <xs:annotation>
+            <xs:documentation>
+					This tag defines a many-to-many relationship. Note
+					that the opposite table of this relation (the other
+					"many" table) is obtained from the Schema element
+					whose AppInfo element defines this relation.
+					Further, note that this relation needs to be defined
+					in both tables, and hence in both schema elements,
+					that participate in the many-to-many relation. The
+					additional table created to realize this
+					many-to-many relationship will be named implicitly:
+					The names of the participating tables will be
+					ordered alphabetically and seperated by a '_' as in
+					"tableA_tableB".
+				</xs:documentation>
+         </xs:annotation>
+         <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+               <xs:documentation>
+						The name attribute specifies the name of the
+						column that represents this relation. Note that
+						you do not need to specify the name for the
+						additional table created to realize the many to
+						many relation (this is done implicitly).
+					</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <xs:complexType name="pkType">
+      <xs:sequence>
+         <xs:element name="key" type="xs:string" maxOccurs="unbounded" />
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="readonlyDirtyType">
+      <xs:attribute name="read-only" type="xs:boolean" use="optional" default="false">
+         <xs:annotation>
+            <xs:documentation>
+					Attribute 'read-only' is used to set off changing
+					the column. If true, no update can be performed.
+				</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dirty" type="xs:boolean" use="optional" default="false">
+         <xs:annotation>
+            <xs:documentation>
+					If the value is 'true', the field will not be
+					checked against the database for modification.
+				</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+   </xs:complexType>
+   <!--
+      The JDO data types are modelled after the short names found at http://castor.org/types.html
+   -->
+</xs:schema>

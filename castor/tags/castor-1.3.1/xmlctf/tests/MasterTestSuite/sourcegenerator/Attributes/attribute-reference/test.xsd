@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:tsd="http://namespaces.softwareag.com/tamino/TaminoSchemaDefinition" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="xjc" jaxb:version="1.0">
+	<xs:include schemaLocation="common.xsd"/>
+	<xs:element name="Convoyeur">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PublicationID" type="xs:string"/>
+			</xs:sequence>
+			<xs:attribute ref="xmlDBId"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

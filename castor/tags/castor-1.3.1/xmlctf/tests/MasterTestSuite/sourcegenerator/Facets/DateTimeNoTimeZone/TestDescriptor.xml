@@ -1,0 +1,148 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test xsd:dateTime schema facets</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>CASTOR-1227</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">DateTimeTests</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test (Un)Marshaling</Name>
+            <Input>input.xml</Input>
+            <GoldFile/> <!-- Temporarily suppress XML comparison -->
+            <Comment>
+                Until time zone handling is fixed, XML comparison is suppressed
+                for this test.
+            </Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Date handling</Name>
+            <CustomTest>
+                <TestClass>TestClassDate</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodDates"/>
+                    <Call-method name="testUnmarshalGoodDates"/>
+                    <Call-method name="testAddBadDates"/>
+                    <Call-method name="testUnmarshalBadDates"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.Date</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test DateTime handling</Name>
+            <CustomTest>
+                <TestClass>TestClassDateTime</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodDateTimes"/>
+                    <Call-method name="testUnmarshalGoodDateTimes"/>
+                    <Call-method name="testAddBadDateTimes"/>
+                    <Call-method name="testUnmarshalBadDateTimes"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.DateTime</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Time handling</Name>
+            <CustomTest>
+                <TestClass>TestClassTime</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodTimes"/>
+                    <Call-method name="testUnmarshalGoodTimes"/>
+                    <Call-method name="testAddBadTimes"/>
+                    <Call-method name="testUnmarshalBadTimes"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.Time</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test GDay handling</Name>
+            <CustomTest>
+                <TestClass>TestClassGDay</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodGDays"/>
+                    <Call-method name="testUnmarshalGoodGDays"/>
+                    <Call-method name="testAddBadGDays"/>
+                    <Call-method name="testUnmarshalBadGDays"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.GDay</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test GMonth handling</Name>
+            <CustomTest>
+                <TestClass>TestClassGMonth</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodGMonths"/>
+                    <Call-method name="testUnmarshalGoodGMonths"/>
+                    <Call-method name="testAddBadGMonths"/>
+                    <Call-method name="testUnmarshalBadGMonths"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.GMonth</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test GMonthDay handling</Name>
+            <CustomTest>
+                <TestClass>TestClassGMonthDay</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodGMonthDays"/>
+                    <Call-method name="testUnmarshalGoodGMonthDays"/>
+                    <Call-method name="testAddBadGMonthDays"/>
+                    <Call-method name="testUnmarshalBadGMonthDays"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.GMonthDay</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test GYear handling</Name>
+            <CustomTest>
+                <TestClass>TestClassGYear</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodGYears"/>
+                    <Call-method name="testUnmarshalGoodGYears"/>
+                    <Call-method name="testAddBadGYears"/>
+                    <Call-method name="testUnmarshalBadGYears"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.GYear</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test GYearMonth handling</Name>
+            <CustomTest>
+                <TestClass>TestClassGYearMonth</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodGYearMonths"/>
+                    <Call-method name="testUnmarshalGoodGYearMonths"/>
+                    <Call-method name="testAddBadGYearMonths"/>
+                    <Call-method name="testUnmarshalBadGYearMonths"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.GYearMonth</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Duration handling</Name>
+            <CustomTest>
+                <TestClass>TestClassDuration</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodDurations"/>
+                    <Call-method name="testUnmarshalGoodDurations"/>
+                    <Call-method name="testAddBadDurations"/>
+                    <Call-method name="testUnmarshalBadDurations"/>
+                </Methods>
+            </CustomTest>
+            <Comment>Test org.exolab.castor.types.Duration</Comment>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

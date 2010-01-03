@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/marketplace.xml">
+  <properties>
+    <title>Integrating Castor with other (open source) projects</title>
+    <abstract>
+       Useful information about the level of integration between Castor and
+	   other (open source) frameworks.</abstract>
+    <status>In work</status>
+  </properties>
+  <body>
+    <title>Integrating Castor with other (open source) projects</title>
+    <header>
+    </header>
+
+	<section title="Apache Cocoon">
+			
+		<p><a href="http://cocoon.apache.org">Project home</a></p>
+			
+		<p>Apache Cocoon is a web publishing framework built around the 
+		   concepts of separation of concerns and component-based web 
+		   development.</p>
+
+		<p>As part of this framework, Cocoon provides a component, the 
+		   <b>CastorTransformer</b>, that marshalls an object hierarchy (for 
+		   which a mapping file or a class descriptor hierarchy exists) to 
+		   XML and inserts it as a stream of SAX events into a Cocoon 
+		   pipeline.</p>
+
+		<p>Further information on the integration of Apche Cocoon and
+		   Castor can be found <a href="projects.xml">here</a>.</p>
+
+		<section title="A scenario">
+
+			<p>Let's imagine the listed derivative department of an investment bank 
+			   wants to display details of a derivative holding to the client. With 
+			   the use of some 'magic', the information required to render this 
+			   information is already stored in the (Http)Request object, where 
+			   it is bound to an attribute with the name 'position'.</p>
+
+			<p>The following code fragment (stored in a separate XML file 
+			   named position.xml)</p>
+
+<code-panel>
+  &lt;root xmlns:castor="http://apache.org/cocoon/castor/1.0"&gt;
+    &lt;castor:marshall name="position" scope="request" /&gt;
+  &lt;/root&gt;
+</code-panel>
+
+			<p>will instruct the CastorTransformer to look for an object 
+			   (hierarchy) bound to a (Http)Request attribute with the name 
+			   'position', and marshall its current state to XML.</p>
+			
+		</section>
+
+		<section title="Sitemap configuration">
+
+			<section title="Component definition">
+
+				<p>As with all components in Cocoon, before the CastorTransformer 
+				   can be used, it needs to be defined, i.e. its existence needs to 
+				   be communicated to Cocoon. This is generally achieved by adding 
+				   the relevant entries to the &lt;component&gt; section of the 
+				   sitemap.</p>
+
+				<p>As with all transformers, the CastorTransformer definition 
+				   needs to go into the <transformers/> section as follows:</p>
+
+<code-panel>
+  &lt;map:transformers&gt;
+    &lt;map:transformer name="castor"                                       
+                     src="org.apache.cocoon.transformation.CastorTransformer"&gt;
+      &lt;mapping&gt;castor/mapping.xml&lt;/mapping&gt;
+    &lt;/map:transformer&gt;
+  &lt;/map:transformers&gt;
+</code-panel>
+
+				<p>This definition registers the CastorTransformer with Cocoon under 
+				   the logical name 'castor', which will be used in pipeline 
+				   declarations to specify that this very transformer shall be 
+				   used.</p>
+				
+			</section>
+
+			<section title="Usage within a pipeline">
+
+				<p>To use the CastorTransformer within a pipeline to insert the XML 
+				   representation of an arbitrary object hierarchy into the 
+				   pipeline, please specify a pipeline entry similar to the 
+				   following pipeline definition:</p>
+
+<code-panel>
+  &lt;map:pipeline&gt;
+    &lt;map:match pattern="castor/show/position"&gt;
+      &lt;map:generate type="file" src="docs/position.xml" /&gt;
+      &lt;map:transform type="castor" /&gt;
+      &lt;map:serialize type="xml" /&gt;
+    &lt;/map:match&gt;
+  &lt;/map:pipeline&gt;
+</code-panel>
+
+				<p>This instructs Cocoon to</p>
+
+				<p><ol>
+					<li>read the content of the file 'docs/position.xml'</li>
+					<li>use the CastorTransformer to replace these instructions with 
+						the XML-ized state of the object found</li>
+					<li>send the result back to the client as a stream with content-type text/xml</li>
+				</ol></p>
+
+			</section>
+
+			<section title="Gotchas">
+
+				<ul>
+					<li>With Cocoon being at release 2.1.5 at the moment of this 
+						writing, the CastorTransformer is still part of the 
+						scratchpad block. In order to be able to use the samples 
+						provided as part of this page, please make sure that you do 
+						not exclude the scratchpad block when building Cocoon. 
+						Please consult with the manuals for instructions about 
+						the Cocoon build process in general and blocks in 
+						particular.</li>
+					<li>At the time of this writing, the CastorTransformer internally 
+						seems to be relying on the use of SAX 1 API. This had the not 
+						well documented side-effect that the following property 
+						needs to be specified at the JVM level when trying to use the 
+						CastorTransformer:<br/>
+						TBD<br/>
+						When deploying Cocoon onto e.g. Tomcat 4.1.x, this is best 
+						done through the use of the JAVA_OPTS environment variable, which is 
+						used by Catalina to configure its hosting JVM.</li>
+				</ul>				
+			</section>
+
+		</section>
+		
+		<section title="References">
+			
+			<ul>
+				<li><a href="http://cocoon.apache.org">Project home</a></li>
+				<li><a href="http://cocoon.apache.org/2.1/apidocs/org/apache/cocoon/transformation/CastorTransformer.html">Javadocs (CastorTransformer)</a></li>
+			</ul>
+		</section>
+
+	</section>
+
+  </body>
+</document>

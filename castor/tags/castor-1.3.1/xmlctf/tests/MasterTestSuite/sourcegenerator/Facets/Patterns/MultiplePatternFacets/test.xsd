@@ -1,0 +1,22 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:simpleType name="OnePattern">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]*-[a-z]*" />
+      <xsd:pattern value="###" />
+      <xsd:pattern value=";;;" />
+      <xsd:pattern value="```" />
+      <xsd:pattern value="======" />
+      <xsd:pattern value="\d{3}(\.\d{1,4}){0,1}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PatternListType">
+    <xsd:sequence>
+      <xsd:element name="item" type="OnePattern" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="PatternedItems" type="PatternListType" />
+
+</xsd:schema>

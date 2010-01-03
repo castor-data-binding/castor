@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SequenceOfChoice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\model-schema.xsd">
+    <ChoiceOne>One</ChoiceOne>
+    <ChoiceTwo>Two</ChoiceTwo>
+    <ChoiceOne>One</ChoiceOne>
+</SequenceOfChoice>

@@ -1,0 +1,112 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ns1="http://www.fpml.org/2004/FpML-4-1"
+	xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+	xmlns="http://www.fpml.org/2003/FpML-4-0"
+	targetNamespace="http://www.fpml.org/2003/FpML-4-0"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="eventEffectiveDate" type="xsd:date" />
+	<xsd:complexType name="CBMTransactionEvent">
+		<xsd:sequence>
+			<xsd:element ref="eventEffectiveDate" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PartyId">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+	<xsd:element name="partyId">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="PartyId">
+					<xsd:attribute name="partyIdScheme"
+						type="xsd:normalizedString" />
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="partyName" type="xsd:string" />
+	<xsd:complexType name="PartyType">
+		<xsd:sequence>
+			<xsd:element ref="partyId" />
+			<xsd:element ref="partyName" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required" />
+	</xsd:complexType>
+	<xsd:element name="partyReference">
+		<xsd:complexType>
+			<xsd:attribute name="href" type="xsd:IDREF" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="AssignmentRole">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Transferee" />
+			<xsd:enumeration value="Transferor" />
+			<xsd:enumeration value="RemainingParty" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AssignmentNotification">
+		<xsd:sequence>
+			<xsd:element name="unwindCashflow" minOccurs="0">
+				<xsd:complexType>
+					<xsd:attribute name="href" type="xsd:IDREF"
+						use="required" />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element ref="partyReference" />
+			<xsd:element name="assignmentRole" type="AssignmentRole" />
+			<xsd:element name="priorNotification" type="xsd:boolean" />
+			<xsd:element name="contactName" type="xsd:string"
+				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="partialTermination">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="partyOne" type="PartyType" />
+				<xsd:element name="partyTwo" type="PartyType" />
+				<xsd:element name="partyThreeHref" minOccurs="0">
+					<xsd:complexType>
+						<xsd:attribute name="href" type="xsd:IDREF"
+							use="required" />
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="partialAmount" type="xsd:decimal" />
+				<xsd:element name="assignmentNotification"
+					type="AssignmentNotification" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:choice>
+					<xsd:element name="underlyerAdjustment">
+						<xsd:complexType>
+
+							<xsd:complexContent>
+
+								<xsd:extension
+									base="CBMTransactionEvent">
+
+									<xsd:sequence>
+
+										<xsd:element name="partyThree"
+											type="PartyType" minOccurs="0" />
+
+										<xsd:element
+											name="unwindCashflow" minOccurs="0" maxOccurs="unbounded">
+
+											<xsd:complexType>
+
+												<xsd:attribute
+													name="href" type="xsd:IDREF" use="required" />
+
+											</xsd:complexType>
+
+										</xsd:element>
+
+									</xsd:sequence>
+
+								</xsd:extension>
+
+							</xsd:complexContent>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for attribute references -->
+
+   <!-- used for attribute reference test(s) -->
+   <xsd:attribute name="attr1" type="xsd:string"/>
+
+
+   <!-- complexType containing attribute reference -->
+   <xsd:complexType name="complexType1">
+      <xsd:sequence>
+         <xsd:element name="elem1" type="xsd:string"/>
+      </xsd:sequence>
+      <!-- attribute reference -->
+      <xsd:attribute ref="attr1"/>
+   </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                          "http://castor.org/mapping.dtd">
+<mapping>
+  <!--  Mapping for ProductGroup  -->
+  <class name="org.castor.cpa.test.test972.ProductGroup" identity="id" access="db-locked">
+    <description>Product group</description>
+    <map-to table="test972_prod_group" xml="group" />
+    <field name="id" type="integer" >
+      <sql name="id" type="integer"/>
+      <bind-xml node="attribute"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" dirty="check" />
+      <bind-xml node="text" />
+    </field>
+  </class>
+
+  <!--  Mapping for Product  -->
+  <class name="org.castor.cpa.test.test972.Product" identity="id" access="db-locked">
+    <description>Product definition</description>
+    <map-to table="test972_prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+      <bind-xml name="id" node="attribute"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+      <bind-xml name="name" node="element" />
+    </field>
+    <field name="price" type="float">
+      <sql name="price" type="numeric" />
+      <bind-xml name="price" node="element" />
+    </field>
+    <!--  Product has reference to ProductGroup, many products may reference same group  -->
+    <field name="group" type="org.castor.cpa.test.test972.ProductGroup">
+      <sql name="group_id" />
+      <bind-xml name="group" node="element" />
+    </field>
+  </class>
+
+  <!--  Mapping for NewProduct  -->
+  <class name="org.castor.cpa.test.test972.NewProduct" identity="id" access="db-locked">
+    <description>Product definition</description>
+    <map-to table="test972_newprod" xml="newproduct" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+      <bind-xml name="id" node="attribute"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+      <bind-xml name="name" node="element" />
+    </field>
+    <field name="price" type="float">
+      <sql name="price" type="numeric" />
+      <bind-xml name="price" node="element" />
+    </field>
+    <!--  NewProduct has reference to ProductGroup, many products may reference same group  -->
+    <field name="group" type="org.castor.cpa.test.test972.ProductGroup">
+      <sql name="group_id" />
+      <bind-xml name="group" node="element" />
+    </field>
+  </class>
+</mapping>
+
