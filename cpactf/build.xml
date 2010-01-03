@@ -7,8 +7,8 @@
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
     <property name="main.generated"       value="${basedir}/target/generated-sources/castor"/>
-    <property name="test.java"            value="${source}/old/java"/>
-    <property name="test.resources"       value="${source}/old/resources"/>
+    <property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-cpactf"/>
