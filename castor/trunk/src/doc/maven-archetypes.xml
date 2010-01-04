@@ -60,7 +60,7 @@
 			<code-panel><![CDATA[
 > mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
                        -DarchetypeArtifactId=codegen-testcase \
-                       -DarchetypeVersion=1.2.1  \
+                       -DarchetypeVersion=1.3.1  \
                        -DgroupId=<your.group.id> \
                        -DartifactId=<your.artitact.id> \
                        -DpackageName=    
@@ -87,7 +87,7 @@
             <code-panel><![CDATA[
 > mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
                        -DarchetypeArtifactId=cpa-testcase \
-                       -DarchetypeVersion=1.2.1  \
+                       -DarchetypeVersion=1.3.1  \
                        -DgroupId=<your.group.id> \
                        -DartifactId=<your.artitact.id> \
                        -DpackageName=    
