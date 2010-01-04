@@ -32,6 +32,16 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            </summary>
+            <bugs>
+            </bugs>
+        </release>
+        
+        <release version="1.3.1">
+            <description>Maintenance release</description>
+            <date>January 3, 2010</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
                 <h2>Changes</h2>
                 
                 <h3>Moved connection proxies into new org.castor.cpa.persistence.sql.connection package</h3>
