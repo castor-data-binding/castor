@@ -25,7 +25,7 @@
         <section title="Castor">
         
             <p>
-                <b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
+                <b>Latest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
                 <b>Release date: $STABLE_RELEASE_DATE$</b><br/>
                 <a href="release-notes.xml">Release notes</a> - What changed ? 
             </p>
@@ -193,7 +193,7 @@
       <section title="Latest Milestone Release">
 
           <ul>
-            <b>Lastest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
+            <b>Latest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
             <b>Release date: $RELEASE_DATE$</b>
 
             <li><a href="release-notes.xml">What changed?</a></li>
