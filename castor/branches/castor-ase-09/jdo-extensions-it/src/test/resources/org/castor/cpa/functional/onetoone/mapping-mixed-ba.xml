@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="org.castor.cpa.functional.onetoone.Employee" identity="id">
+		<description>Employee</description>
+		<map-to table="employee" />
+		<field name="id" type="long">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="address" type="org.castor.cpa.functional.onetoone.Address">
+			<sql name="address_id" />
+		</field>
+	</class>
+</mapping>

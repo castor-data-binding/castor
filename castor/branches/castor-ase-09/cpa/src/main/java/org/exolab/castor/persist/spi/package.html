@@ -1,0 +1,28 @@
+<html>
+  <body>
+    <p>Defines the interfaces for persistence engine service providers.</p>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:arkin@exoffice.com">Assaf Arkin</a></dd>
+    </dl>
+
+    <p>A persistence service provider implements the {@link org.exolab.castor.persist.spi.Persistence}
+       interface, allowing the cache engine to load, store, create and remove objects
+       to the underlying storage mechanism.</p>
+
+    <p>A query expression is constructed using {@link org.exolab.castor.persist.spi.QueryExpression},
+       which accepts query parameters and constructs the proper query statement.
+       The query expression is fed to a {@link org.exolab.castor.persist.spi.PersistenceQuery}
+       object that is used to perform the actual query and retrieve the query results.</p>
+
+    <p>Both implementations are obtained from a {@link org.exolab.castor.persist.spi.PersistenceFactory},
+       which is set once for each type of database and is configured using Bean-like
+       accessor methods. Each persistent storage mechanism will require one factory
+       implementation. The factories are specified in the Castor properties file.</p>
+
+    <p>Castor supports many schemes for key generation through a simple
+       {@link org.exolab.castor.persist.spi.KeyGenerator} interface.</p>
+
+  </body>
+</html>

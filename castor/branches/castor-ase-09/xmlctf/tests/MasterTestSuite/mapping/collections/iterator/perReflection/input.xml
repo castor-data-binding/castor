@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-class>
+    <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="java:java.lang.String">
+        blah1
+    </items>
+</domain-class>

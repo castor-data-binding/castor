@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Get/Set/Create Regression Testing</Name>
+    <Author>Gregory Block</Author>
+    <Comment>
+        Test each of the possible mapping values for using getters, setters, and creators;
+        Objects will throw exceptions if an improper method is selected by Castor,
+        and additional 'gotcha' methods exist to test when a 'standard' name was used
+        instead of the correct override, to ensure proper behaviour.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+
+        <Root_Object>Root</Root_Object>
+
+        <UnitTestCase>
+            <Name>GSC Regression Test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile/> <!-- Temporarily suppress XML comparison -->
+        </UnitTestCase>
+
+    </MarshallingTest>
+</TestDescriptor>

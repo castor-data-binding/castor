@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test1217.Person">
+        <description>Person</description>
+        <cache-type type="count-limited" capacity="1000"/>
+        <map-to table="test1217_person"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test1217.BasePart">
+        <description>BasePart</description>
+        <cache-type type="count-limited" capacity="1000"/>
+        <map-to table="test1217_base"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test1217.ExtendedPart"
+           extends="org.castor.cpa.test.test1217.BasePart">
+        <description>ExtendedPart</description>
+        <cache-type type="count-limited" capacity="1000"/>
+        <map-to table="test1217_extended"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="number" type="string">
+            <sql name="exnum" type="char"/>
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test1217.Product">
+        <description>Product</description>
+        <cache-type type="count-limited" capacity="1000"/>
+        <map-to table="test1217_product"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="code" type="string">
+            <sql name="code" type="char"/>
+        </field>
+        <field name="value" type="double">
+            <sql name="price" type="double"/>
+        </field>
+        <field name="company" type="org.castor.cpa.test.test1217.Person">
+            <sql name="company"/>
+        </field>
+        <field name="part" type="org.castor.cpa.test.test1217.BasePart">
+            <sql name="part"/>
+        </field>
+    </class>
+</mapping>

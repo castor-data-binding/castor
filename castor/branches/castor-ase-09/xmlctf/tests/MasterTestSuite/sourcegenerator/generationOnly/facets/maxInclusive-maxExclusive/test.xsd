@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<!--
+4.3.8.4 Constraints on maxExclusive Schema Components
+  Schema Component Constraint: maxInclusive and maxExclusive
+    It is an error for both maxInclusive and maxExclusive
+    to be specified in the same derivation step of a datatype definition.
+
+http://www.w3.org/TR/xmlschema-2/#maxInclusive-maxExclusive
+-->
+
+	<xsd:simpleType name="st1">
+		<xsd:restriction base="xsd:long">
+			<xsd:maxExclusive value="1"/>
+			<xsd:maxInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ct1">
+		<xsd:attribute name="a1" type="st1" use="optional"/>
+	</xsd:complexType>
+
+</xsd:schema>

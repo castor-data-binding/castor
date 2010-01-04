@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+ <class name="org.castor.cpa.test.test25.Master" access="shared" identity="id">
+    <description>Test master table</description>
+    <map-to table="test25_master" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="group" type="org.castor.cpa.test.test25.Group" required="false">
+      <sql name="group_id"/>
+    </field>
+    <field name="details" type="org.castor.cpa.test.test25.Detail" collection="arraylist" required="false">
+      <sql many-key="master_id"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test25.Detail" depends="org.castor.cpa.test.test25.Master" access="shared" identity="id">
+    <description>Test detail table</description>
+    <map-to table="test25_detail" />
+    <field name="id" type="integer">
+      <sql name="detail_id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="master" type="org.castor.cpa.test.test25.Master" required="true">
+      <sql name="master_id" />
+    </field>
+    <field name="details2" type="org.castor.cpa.test.test25.Detail2" collection="arraylist" required="false">
+      <sql many-key="detail_id"/>
+    </field>
+    <field name="detail3" type="org.castor.cpa.test.test25.Detail3" required="false">
+      <sql many-key="detail_id"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test25.Detail2" depends="org.castor.cpa.test.test25.Detail" access="shared" identity="id" key-generator="MAX">
+    <description>Test detail2 table</description>
+    <map-to table="test25_detail2" />
+    <field name="id" type="integer">
+      <sql name="detail2_id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="detail" type="org.castor.cpa.test.test25.Detail" required="true">
+      <sql name="detail_id" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test25.Detail3" depends="org.castor.cpa.test.test25.Detail" access="shared" identity="id" >
+    <description>Test detail3 table</description>
+    <map-to table="test25_detail3" />
+    <field name="id" type="integer">
+      <sql name="detail3_id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="detail" type="org.castor.cpa.test.test25.Detail" required="true">
+      <sql name="detail_id" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test25.Group" access="shared" identity="id">
+    <description>Test groups table</description>
+    <map-to table="test25_group" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+  </class>
+</mapping>

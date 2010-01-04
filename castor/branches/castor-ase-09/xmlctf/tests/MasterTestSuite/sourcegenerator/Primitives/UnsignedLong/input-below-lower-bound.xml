@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rootObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="test.xsd">
+    <firstInteger>-1</firstInteger>
+    <firstString>firstString</firstString>
+</rootObject>

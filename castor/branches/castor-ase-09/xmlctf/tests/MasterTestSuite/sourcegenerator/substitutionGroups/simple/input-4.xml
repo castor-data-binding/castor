@@ -1,0 +1,13 @@
+<singleUnderlyer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test.xsd">
+	<future id="ID000002">
+		<description>String</description>
+		<instrumentId instrumentIdScheme="http://www.altova.com">
+			normalizedString
+		</instrumentId>
+		<multiplier>-0</multiplier>
+		<futureContractReference>String</futureContractReference>
+		<maturity>1967-08-13</maturity>
+	</future>
+	<openUnits>3.1415926535897932384626433832795</openUnits>
+</singleUnderlyer>

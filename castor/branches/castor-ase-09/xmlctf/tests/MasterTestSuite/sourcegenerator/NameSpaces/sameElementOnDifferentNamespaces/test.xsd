@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:main="http://castor.org/main"
+    xmlns="http://castor.org/main"
+    xmlns:external="http://castor.org/external" 
+    targetNamespace="http://castor.org/main"
+    elementFormDefault="qualified">
+
+    <xs:import namespace="http://castor.org/external"
+      schemaLocation="external.xsd" />
+
+    <xs:element name="test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="main:ContactInformation" minOccurs="0" />
+                <xs:element ref="external:ContactInformation" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="testDescription">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ContactDescription" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ContactInformation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ContactDescription">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

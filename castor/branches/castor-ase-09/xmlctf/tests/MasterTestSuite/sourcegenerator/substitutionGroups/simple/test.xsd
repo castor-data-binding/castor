@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- 
+== Copyright (c) 2002-2006. All rights reserved. 
+== Financial Products Markup Language is subject to the FpML public license. 
+== A copy of this license is available at http://www.fpml.org/documents/license
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:complexType name="Bond">
+		<xsd:complexContent>
+			<xsd:extension base="UnderlyingAsset">
+				<xsd:sequence>
+					<xsd:element name="issuerName" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the issuer name of a fixed income security or convertible bond.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="couponRate" type="xsd:decimal" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the coupon rate (expressed in percentage) of a fixed income security or convertible bond.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="maturity" type="xsd:date" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">The date when the principal amount of a security becomes due and payable.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="parValue" type="xsd:decimal" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the nominal amount of a fixed income security or convertible bond.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="faceAmount" type="xsd:decimal" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the total amount of the issue. Corresponds to the par value multiplied by the number of issued security.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Future">
+		<xsd:complexContent>
+			<xsd:extension base="UnderlyingAsset">
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="multiplier" type="xsd:integer" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the contract multiplier that can be associated with the number of units.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="futureContractReference" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">Specifies the future contract that can be referenced, besides the equity or index reference defined as part of the UnderlyerAsset type.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="maturity" type="xsd:date" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">The date when the future contract expires.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FutureId">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining a short form unique identifier for a future contract.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="futureIdScheme" type="xsd:anyURI"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="InstrumentId">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A short form unique identifier for a security.</xsd:documentation>
+			<xsd:documentation xml:lang="de">Eindeutiges WertpapierkÃ¼rzel.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="instrumentIdScheme" type="xsd:anyURI" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="SingleUnderlyer">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the single underlyer of a swap.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="underlyingAsset"/>
+			<xsd:element name="openUnits" type="xsd:decimal" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The number of units (index or securities) that constitute the underlyer of the swap. In the case of a basket swap, this element is used to reference both the number of basket units, and the number of each asset components of the basket when these are expressed in absolute terms.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UnderlyingAsset">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type describing the basic components of a security of index underlyer.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="instrumentId" type="InstrumentId" maxOccurs="unbounded"/>
+			<xsd:element name="description" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The long name of a security.</xsd:documentation>
+					<xsd:documentation xml:lang="de">Vollständige Wertpapierbezeichnung.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:element name="bond" type="Bond" substitutionGroup="underlyingAsset">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Defines the underlying asset when it is a bond.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="future" type="Future" substitutionGroup="underlyingAsset">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Defines the underlying asset when it is a listed future contract.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="singleUnderlyer" type="SingleUnderlyer">
+		<xsd:annotation>
+			<xsd:documentation>Comment describing your root element</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="underlyingAsset" type="UnderlyingAsset" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Define the underlying asset when it is a listed security.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

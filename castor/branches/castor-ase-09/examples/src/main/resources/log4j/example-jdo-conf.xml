@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                          "http://castor.codehaus.org/jdo-conf.dtd">
+
+<jdo-conf>
+   <database name="LOGGING" engine="derby" >
+        <driver url="jdbc:derby:test;create=true;retrieveMessagesFromServerOnGetMessage=true" class-name="org.apache.derby.jdbc.EmbeddedDriver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="example-mapping.xml" />
+    </database>
+    <!-- 
+    <database name="LOGGING" engine="mysql">
+        <driver url="jdbc:mysql://localhost:3306/test" class-name="com.mysql.jdbc.Driver">
+            <param name="user" value="test"/>
+            <param name="password" value="test"/>
+        </driver>
+        <mapping href="example-mapping.xml"/>        
+    </database>
+    -->
+<!--
+	<database name="LOGGING" engine="oracle" >
+        <data-source class-name="oracle.jdbc.pool.OracleConnectionCacheImpl">
+            <param name="URL" value="jdbc:oracle:thin:@192.168.1.201:1521:db" />
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+            <param name="min-limit" value="5" />
+            <param name="max-limit" value="10" />
+        </data-source>
+        <mapping href="example-mapping.xml" />        
+    </database>
+-->
+    <transaction-demarcation mode="local"/>
+</jdo-conf>

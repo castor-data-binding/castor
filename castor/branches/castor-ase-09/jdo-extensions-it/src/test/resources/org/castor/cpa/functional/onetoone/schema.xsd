@@ -1,0 +1,59 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://castor.org/test/onetoone"
+    xmlns:jdo="http://www.castor.org/binding/persistence"
+    xmlns="http://castor.org/test/onetoone">
+
+    <xs:element name="employee" type="employee" />
+
+    <!-- Description of the employeeType -->
+    <xs:complexType name="employee">
+        <xs:annotation>
+            <xs:appinfo>
+                <jdo:table name="employee">
+                    <jdo:primaryKey>
+                        <jdo:key>id</jdo:key>
+                    </jdo:primaryKey>
+                </jdo:table>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="id" type="integer" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="address" type="address">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:one-to-one name="address_id" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Description of the addressType -->
+    <xs:complexType name="address">
+        <xs:annotation>
+            <xs:appinfo>
+                <jdo:table name="address">
+                    <jdo:primaryKey>
+                        <jdo:key>id</jdo:key>
+                    </jdo:primaryKey>
+                </jdo:table>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:integer">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="id" type="integer" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

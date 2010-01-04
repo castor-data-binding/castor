@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test202.ForeignKeyFirstEntity1" identity="id">
+		<map-to table="test202_fkf_entity_1"/>
+		<field name="entities" type="org.castor.cpa.test.test202.ForeignKeyFirstEntityN" collection="collection">
+			<sql many-key="entity"/>
+		</field>
+		<field name="number" type="java.lang.Integer">
+			<sql name="numb" type="integer"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+    
+	<class name="org.castor.cpa.test.test202.ForeignKeyFirstEntityN" identity="id">
+		<map-to table="test202_fkf_entity_n"/>
+		<field name="entity" type="org.castor.cpa.test.test202.ForeignKeyFirstEntity1">
+			<sql name="entity"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+</mapping>

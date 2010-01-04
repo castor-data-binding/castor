@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<mapping>
+  <class name="Foo">
+     <field name="content" type="string">
+        <bind-xml name="content" location="bar/abc"/>
+     </field>
+     <field name="type" type="string">
+        <bind-xml name="type" node="attribute" location="bar/abc"/>
+     </field>
+  </class>
+</mapping>
