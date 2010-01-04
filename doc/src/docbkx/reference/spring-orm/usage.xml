@@ -4,8 +4,7 @@
 <section>
    <title>Usage</title>
    
-   <section>
-   	<title>Getting started using Maven 2</title>
+   <section name="Getting started using Maven 2">
 
       <para>
          In order to start using the Spring ORM module for Castor JDO, you will 
@@ -26,8 +25,7 @@
            
    </section>
    
-   <section>
-   	<title>Project dependencies</title>
+   <section name="Project dependencies">
     
       <para>
          Please add the following Maven dependency to your POM to include the 
