@@ -1,4 +1,5 @@
-<project name="Castor CPA - PTF" default="compile.examples" basedir=".">
+<project name="Castor CPA - PTF" default="compile.examples" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <!-- $Id: build.xml 0000 2007-01-19 21:12:08Z ekuns $ -->
 
@@ -15,16 +16,30 @@
 
 	<property name="exampleexcludes"      value="codegen/*,**/dax/**"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+	
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../core/build/classes"/>
         <pathelement location="${basedir}/../cpa/build/classes"/>
+    	<!--
         <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
         <pathelement location="${basedir}/../lib/ldapjdk_4.1.jar"/>
         <pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
         <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        -->
     </path>
+
+	<target name="derive.examples.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
 
     <target name="prepare.examples" unless="prepare.examples.executed">
         <mkdir dir="${build}"/>
@@ -36,11 +51,14 @@
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.examples" depends="prepare.examples" description="Compile example code">
+    <target name="compile.examples" depends="prepare.examples, derive.examples.libs" description="Compile example code">
         <javac srcdir="${main.java}" destdir="${classes}"
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   excludes="${exampleexcludes}">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib" />
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">

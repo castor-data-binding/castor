@@ -1,4 +1,5 @@
-<project name="Castor XML schema" default="compile.schema" basedir=".">
+<project name="Castor XML schema" default="compile.schema" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
@@ -13,13 +14,20 @@
     <property name="archive"              value="${project}-${version}${release}-xml-schema"/>
     <property name="gen.src"              value="${basedir}/target/generated-sources/castor"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+	
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../xml/build/classes"/>
         <pathelement location="${basedir}/../core/build/classes"/>
+    	
+<!--    
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+-->    	
     </path>
 
     <path id="test.classpath">
@@ -27,7 +35,15 @@
         <pathelement location="${basedir}/build/test"/>
     </path>
 
-    <target name="prepare.schema" unless="prepare.executed">
+	<target name="derive.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
+
+    <target name="prepare.schema" depends="derive.libs" unless="prepare.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <property name="prepare.executed" value="true"/>
@@ -46,6 +62,9 @@
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.5" target="1.5">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <javac srcdir="${main.generated}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"

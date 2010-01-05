@@ -1,4 +1,5 @@
-<project name="Castor DDL generator" default="compile.ddlgen" basedir=".">
+<project name="Castor DDL generator" default="compile.ddlgen" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
     
     <property environment="env"/>
     <property name="source"               value="${basedir}/src"/>
@@ -10,12 +11,27 @@
     <property name="javadoc"              value="${doc}/javadoc"/>
     <property name="archive"              value="${project}-${version}${release}-ddlgen"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
+    	
+<!--    	
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar" />
+-->    	
     </path>
 
-    <target name="prepare.ddlgen" unless="prepare.ddlgen.executed">
+	<target name="derive.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
+
+    <target name="prepare.ddlgen" depends="derive.libs" unless="prepare.ddlgen.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <mkdir dir="${doc}"/>
@@ -31,6 +47,9 @@
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">

@@ -1,4 +1,5 @@
-<project name="Castor JDO - persistence framework" default="compile.cpa" basedir=".">
+<project name="Castor JDO - persistence framework" default="compile.cpa" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
@@ -10,6 +11,10 @@
     <property name="archive"              value="${project}-${version}${release}-jdo"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+
     <path id="build.classpath">
     	<!-- inter-module dependencies -->
         <pathelement location="${basedir}/build/classes"/>
@@ -20,12 +25,22 @@
         <pathelement location="${basedir}/../codegen/build/classes"/>
     	
     	<!-- third-party libs -->
+<!--    	
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     	<pathelement location="${basedir}/../lib/jta1.0.1.jar"/>
     	<pathelement location="${basedir}/../lib/cglib-full-2.0.2.jar"/>
     	<pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
+-->    	
     </path>
+
+	<target name="derive.cpa.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
 
     <target name="prepare.cpa" unless="prepare.cpa.executed">
         <mkdir dir="${build}"/>
@@ -37,14 +52,20 @@
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.cpa" depends="prepare.cpa" description="Compile Castor JDO">
+    <target name="compile.cpa" depends="prepare.cpa, derive.cpa.libs" description="Compile Castor JDO">
         <javac srcdir="${target}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">

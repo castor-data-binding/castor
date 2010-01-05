@@ -1,4 +1,5 @@
-<project name="Castor core" default="compile.core" basedir=".">
+<project name="Castor core" default="compile.core" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
@@ -11,17 +12,31 @@
     <property name="test.classes"         value="${build}/test"/>
     <property name="archive"              value="${project}-${version}${release}-core"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
+    	<!--
         <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
         <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+        -->
     </path>
 
     <path id="test.classpath">
         <path refid="build.classpath" />
         <pathelement location="${basedir}/build/test"/>
     </path>
+
+	<target name="derive.core.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
 
     <target name="prepare.core" unless="prepare.executed">
         <mkdir dir="${build}"/>
@@ -37,11 +52,14 @@
         <delete dir="${test.classes}"/>
     </target>
 
-    <target name="compile.core" depends="prepare.core" description="Compile sources">
+    <target name="compile.core" depends="prepare.core, derive.core.libs" description="Compile sources">
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
                source="1.5" target="1.5">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">
