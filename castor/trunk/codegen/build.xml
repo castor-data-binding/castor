@@ -1,4 +1,5 @@
-<project name="Castor XML - code generator" default="compile.codegen" basedir=".">
+<project name="Castor XML - code generator" default="compile.codegen" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
@@ -13,6 +14,10 @@
     <property name="archive"              value="${project}-${version}${release}-codegen"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
 
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+
     <path id="build.compile.classpath">
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
@@ -21,9 +26,11 @@
         <pathelement location="${basedir}/../core/build/classes"/>
     	
     	<!-- JARs -->
+    	<!--
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     	<pathelement location="${basedir}/../lib/velocity-1.5.jar"/>
+    	-->
     </path>
 
     <path id="build.test-compile.classpath">
@@ -46,6 +53,14 @@
     	<pathelement location="${basedir}/../bin/lib/ant-junit-1.6.jar"/>
     </path>
 
+	<target name="derive.codegen.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
+
     <target name="prepare.codegen" unless="prepare.codegen.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
@@ -60,16 +75,22 @@
         <delete dir="${test.classes}"/>
     </target>
 
-    <target name="compile.codegen" depends="prepare.codegen" description="Compile CodeGen">
+    <target name="compile.codegen" depends="prepare.codegen, derive.codegen.libs" description="Compile CodeGen">
         <javac srcdir="${main.generated}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
                source="1.5" target="1.5">
             <classpath refid="build.compile.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <javac srcdir="${main.java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
         	   source="1.5" target="1.5">
             <classpath refid="build.compile.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.generated}">
