@@ -64,7 +64,7 @@ public final class TestQueryContext extends TestCase {
         ctx.addParameter("third");
         assertEquals(3, ctx.parameterSize());
         
-        PreparedStatementMock stmt = new PreparedStatementMock();
+        PreparedStatementMock stmt = PreparedStatementProxy.createPreparedStatementProxy();
         try {
             ctx.bindParameter(stmt, "unknown", null, 0);
             assertEquals(0, stmt.getLastParameterIndex());

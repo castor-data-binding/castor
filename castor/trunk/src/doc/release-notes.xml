@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2863" tool="jira">
+                    <description>
+                        Wrap PreparedStatementMock with a dynamic proxy to be able to compile
+                        with Java 5 and 6.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20100106</date>
+                </bug>
             </bugs>
         </release>
         
