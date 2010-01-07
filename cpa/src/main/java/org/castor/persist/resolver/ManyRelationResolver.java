@@ -19,19 +19,20 @@ package org.castor.persist.resolver;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
 import org.castor.persist.proxy.CollectionProxy;
-import org.castor.persist.proxy.RelationCollection;
+import org.castor.persist.proxy.LazyHashSet;
+import org.castor.persist.proxy.LazyCollection;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
-import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -74,15 +75,12 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
      *      java.lang.Object)
      */
     public final Object create(final TransactionContext tx, final Object object) {
-        Object field = null;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
-            ArrayList fids = 
-                ClassMolderHelper.extractIdentityList(tx, fieldClassMolder, o);
-            field = fids;
+            return ClassMolderHelper.getIdsList(tx, fieldClassMolder, o);
         }
-        return field;
+        return null;
     }
 
     /**
@@ -130,21 +128,18 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
      */
     public final Object updateCache(final TransactionContext tx, final OID oid,
             final Object object) {
-        Object field = null;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         if (value != null) {
-            ArrayList fids;
-            if (!(value instanceof Lazy)) {
-                fids = ClassMolderHelper.extractIdentityList(tx,
+            if (!(value instanceof LazyCollection)) {
+            	return ClassMolderHelper.getIdsList(tx,
                         fieldClassMolder, value);
             } else {
-                RelationCollection lazy = (RelationCollection) value;
-                fids = (ArrayList) lazy.getIdentitiesList().clone();
+            	LazyCollection lazy = (LazyCollection) value;
+                return lazy.getIdsList();
             }
-            field = fids;
         }
-        return field;
+        return null;
     }
 
     /**
@@ -201,11 +196,11 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 _fieldMolder.setValue(object, null, tx.getClassLoader());
             }
         } else {
-            ArrayList list = (ArrayList) field;
+            List<Identity> list = (List<Identity>) field;
             ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
 
-            RelationCollection relcol = new RelationCollection(tx, oid,
-                    fieldClassMolder, null, list);
+            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
+                    fieldClassMolder, list);
             _fieldMolder.setValue(object, relcol, tx.getClassLoader());
         }
     }
@@ -278,9 +273,9 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
             // lazy loading is specified. Related object will not be loaded.
             // A lazy collection with all the identity of the related object
             // will constructed and set as the data object's field.
-            ArrayList list = (ArrayList) proposedObject.getField(_fieldIndex);
-            RelationCollection relcol = new RelationCollection(tx, oid,
-                    fieldClassMolder, suggestedAccessMode, list);
+            List<Identity> list = (List<Identity>) proposedObject.getField(_fieldIndex);
+            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
+                    fieldClassMolder, list);
             _fieldMolder.setValue(proposedObject.getEntity(), relcol, tx
                     .getClassLoader());
         }
@@ -316,8 +311,8 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
             boolean changed = false;
             Object related = _fieldMolder.getValue(object, tx.getClassLoader());
 
-            if (related instanceof RelationCollection) {
-                RelationCollection lazy = (RelationCollection) related;
+            if (related instanceof LazyCollection) {
+            	LazyCollection lazy = (LazyCollection) related;
                 changed = lazy.remove(relatedObject);
             } else {
                 Iterator itor = ClassMolderHelper.getIterator(related);

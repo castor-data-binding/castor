@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2862" tool="jira">
+                    <description>
+                        Refactor handling of lazy collections.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100107</date>
+                </bug>
                 <bug id="2865" tool="jira">
                     <description>
                         Improve solution to prevent reference set to null during long transaction.

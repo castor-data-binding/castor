@@ -29,6 +29,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TransactionAbortedException;
+import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -613,7 +614,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof org.exolab.castor.persist.Lazy);
+                loadPerson.getProjects() instanceof Lazy);
 
         // OK, the collection of projects is there, let's test a rollback for
         // bug #1046
@@ -624,7 +625,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof org.exolab.castor.persist.Lazy);
+                loadPerson.getProjects() instanceof Lazy);
     }
 
     public void testMasterUpdate() throws PersistenceException {

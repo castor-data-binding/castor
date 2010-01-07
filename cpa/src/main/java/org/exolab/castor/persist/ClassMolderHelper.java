@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -104,62 +105,49 @@ public final class ClassMolderHelper {
      * @param col a Collection or Vector containing
      * @return an <tt>ArrayList</tt>s which contains list of object identity
      */
-    public static ArrayList extractIdentityList(final TransactionContext tx,
+    public static List<Identity> getIdsList(final TransactionContext tx,
             final ClassMolder molder, final Object col) {
-        if (col == null) {
-            return new ArrayList();
-        } else if (col instanceof Collection) {
-            ArrayList<Object> idList = new ArrayList<Object>();
-            Iterator itor = ((Collection) col).iterator();
-            while (itor.hasNext()) {
-                Object id = molder.getIdentity(tx, itor.next());
+        List<Identity> idList = new ArrayList<Identity>();
+        
+        if (col.getClass().isArray()) {
+            Object[] colArr = (Object[]) col;
+            for (int i = 0; i < colArr.length; i++) {
+            	Identity id = molder.getIdentity(tx, colArr[i]);
                 if (id != null) {
                     idList.add(id);
                 }
             }
-            return idList;
-        } else if (col instanceof Iterator) {
-            ArrayList<Object> idList = new ArrayList<Object>();
-            Iterator itor = (Iterator) col;
-            while (itor.hasNext()) {
-                Object id = molder.getIdentity(tx, itor.next());
-                if (id != null) {
-                    idList.add(id);
-                }
-            }
-            return idList;
         } else if (col instanceof Enumeration) {
-            ArrayList<Object> idList = new ArrayList<Object>();
-            Enumeration enumeration = (Enumeration) col;
+            Enumeration<Object> enumeration = (Enumeration<Object>) col;
             while (enumeration.hasMoreElements()) {
-                Object id = molder.getIdentity(tx, enumeration.nextElement());
+            	Identity id = molder.getIdentity(tx, enumeration.nextElement());
                 if (id != null) {
                     idList.add(id);
                 }
             }
-            return idList;
-       } else if (col instanceof Map) {
-            ArrayList<Object> idList = new ArrayList<Object>();
-            Iterator itor = ((Map) col).values().iterator();
-            while (itor.hasNext()) {
-                Object id = molder.getIdentity(tx, itor.next());
-                if (id != null) { idList.add(id); }
-            }
-            return idList;
-        } else if (col.getClass().isArray()) {
-            ArrayList<Object> idList = new ArrayList<Object>();
-            Object[] arrayCol = (Object[]) col;
-            for (int i = 0; i < arrayCol.length; i++) {
-                Object id = molder.getIdentity(tx, arrayCol[i]);
-                if (id != null) {
-                    idList.add(id);
-                }
-            }
-            return idList;
         } else {
-            throw new IllegalArgumentException(
-                    "A Collection or Map is expected!");
+        	Iterator<Object> iter;
+        	
+        	if (col instanceof Iterator) {
+                iter = (Iterator<Object>) col;
+            } else if (col instanceof Collection) {
+                iter = ((Collection<Object>) col).iterator();
+            } else if (col instanceof Map) {
+                iter = ((Map<Object, Object>) col).values().iterator();
+            } else {
+                throw new IllegalArgumentException(
+                        "A Collection or Map is expected!");
+            }
+ 
+        	while (iter.hasNext()) {
+            	Identity id = molder.getIdentity(tx, iter.next());
+                if (id != null) {
+                    idList.add(id);
+                }
+            }
         }
+
+        return idList;
     }
 
     /**
@@ -360,291 +348,164 @@ public final class ClassMolderHelper {
      * It is assumed the returned collection will not be modified. Any modification
      * to the returned collection may or may not affect the original collection or map.
      */
-    public static Collection getAddedValuesList(final TransactionContext tx,
-            final ArrayList orgIds, final Object collection, final ClassMolder ch) {
+    public static Collection<Object> getAddedEntitiesList(final TransactionContext tx,
+            final List<Identity> orgIds, final Object collection, final ClassMolder molder) {
 
         if (collection == null) {
-            return new ArrayList(0);
+            return new ArrayList<Object>(0);
         }
 
-        if (collection instanceof Map) {
-            if (orgIds == null || orgIds.size() == 0) {
-                if (collection == null) {
-                    return new ArrayList(0);
-                }
-                return ((Map) collection).values();
-            }
-
-            ArrayList<Object> added = new ArrayList<Object>(((Map) collection).size());
-            Iterator newItor = ((Map) collection).values().iterator();
-            while (newItor.hasNext()) {
-                Object newValue = newItor.next();
-                Identity newId = ch.getIdentity(tx, newValue);
-                if (!orgIds.contains(newId)) { added.add(newValue); }
-            }
-            return added;
-        }
-
-        if (collection instanceof Collection) {
-            if (orgIds == null || orgIds.size() == 0) {
-                if (collection == null) {
-                    return new ArrayList(0);
-                }
-                return (Collection) collection;
-                
-            }
-
-            if (collection == null) {
-                return new ArrayList(0);
-            }
-
-            Collection newValues = (Collection) collection;
-            ArrayList<Object> added = new ArrayList<Object>(newValues.size());
-            Iterator newItor = newValues.iterator();
-            while (newItor.hasNext()) {
-                Object newValue = newItor.next();
-                Object newId = ch.getIdentity(tx, newValue);
-                if (newId == null || !orgIds.contains(newId)) {
+        if ((orgIds == null) || (orgIds.size() == 0)) {
+        	if (collection.getClass().isArray()) {
+                List<Object> added = new ArrayList<Object>();
+                Object[] newArr = (Object[]) collection;
+                for (int i = 0; i < newArr.length; i++) {
+                    Object newValue = newArr[i];
                     added.add(newValue);
                 }
-            }
-            return added;
-        }
-
-        if (collection instanceof Iterator) {
-            if (orgIds == null || orgIds.size() == 0) {
-                if (collection == null) {
-                    return new ArrayList(0);
-                }
-                
-                Iterator iterator = (Iterator) collection;
-                Collection returnCollection = new ArrayList();
-                while (iterator.hasNext()) {
-                    returnCollection.add(iterator.next());
-                }
-                return returnCollection;
-                
-            }
-
-            if (collection == null) {
-                return new ArrayList(0);
-            }
-
-            Iterator newValuesIterator = (Iterator) collection;
-            ArrayList<Object> added = new ArrayList<Object>();
-            while (newValuesIterator.hasNext()) {
-                Object newValue = newValuesIterator.next();
-                Object newId = ch.getIdentity(tx, newValue);
-                if (newId == null || !orgIds.contains(newId)) {
+                return added;
+            } else if (collection instanceof Enumeration) {
+                List<Object> added = new ArrayList<Object>();
+                Enumeration<Object> newEnum = (Enumeration<Object>) collection;
+                while (newEnum.hasMoreElements()) {
+                    Object newValue = newEnum.nextElement();
                     added.add(newValue);
                 }
-            }
-            return added;
-        }
-
-        if (collection instanceof Enumeration) {
-            if (collection == null) { return new ArrayList(0); }
-
-            Enumeration newValues = (Enumeration) collection;
-            ArrayList<Object> added = new ArrayList<Object>();
-            if (orgIds == null || orgIds.size() == 0) {
-                while (newValues.hasMoreElements()) {
-                    Object newValue = newValues.nextElement();
+                return added;
+            } else if (collection instanceof Iterator) {
+                List<Object> added = new ArrayList<Object>();
+        		Iterator<Object> newIter = (Iterator<Object>) collection;
+                while (newIter.hasNext()) {
+                    Object newValue = newIter.next();
                     added.add(newValue);
                 }
+                return added;
+            } else if (collection instanceof Collection) {
+                return (Collection<Object>) collection;
+        	} else if (collection instanceof Map) {
+                return ((Map<Object, Object>) collection).values();
             } else {
-                while (newValues.hasMoreElements()) {
-                    Object newValue = newValues.nextElement();
-                    Object newId = ch.getIdentity(tx, newValue);
-                    if (newId == null || !orgIds.contains(newId)) {
-                        added.add(newValue);
-                    }
-                }
+                throw new IllegalArgumentException("Collection type "
+                        + collection.getClass().getName() + " is not supported!");
             }
-            return added;
         }
+        
+        
+        List<Object> added = new ArrayList<Object>();
 
-        if (collection.getClass().isArray()) {
-            if (orgIds == null || orgIds.size() == 0) {
-                if (collection == null) {
-                    return new ArrayList(0);
-                } 
-                Object[] newValues = (Object[]) collection;
-                ArrayList<Object> result = new ArrayList<Object>(newValues.length);
-                for (int i = 0; i < newValues.length; i++) {
-                    result.add(newValues[i]);
-                }
-                return result;
-                
-            }
-
-            if (collection == null) {
-                return new ArrayList(0);
-            }
-
-            Object[] newValues = (Object[]) collection;
-            ArrayList<Object> added = new ArrayList<Object>(newValues.length);
-            for (int i = 0; i < newValues.length; i++) {
-                Object newValue = newValues[i];
-                Object newId = ch.getIdentity(tx, newValue);
-                if (newId == null || !orgIds.contains(newId)) {
+        Set<Identity> orgSet = new HashSet<Identity>(orgIds);
+    	if (collection.getClass().isArray()) {
+            Object[] newArr = (Object[]) collection;
+            for (int i = 0; i < newArr.length; i++) {
+                Object newValue = newArr[i];
+                Identity newId = molder.getIdentity(tx, newValue);
+                if ((newId == null) || !orgSet.contains(newId)) {
                     added.add(newValue);
                 }
             }
-            return added;
+        } else if (collection instanceof Enumeration) {
+            Enumeration<Object> newEnum = (Enumeration<Object>) collection;
+            while (newEnum.hasMoreElements()) {
+                Object newValue = newEnum.nextElement();
+                Identity newId = molder.getIdentity(tx, newValue);
+                if ((newId == null) || !orgSet.contains(newId)) {
+                    added.add(newValue);
+                }
+            }
+        } else {
+        	Iterator<Object> newIter;
+        	if (collection instanceof Iterator) {
+                newIter = (Iterator<Object>) collection;
+            } else if (collection instanceof Collection) {
+                newIter = ((Collection<Object>) collection).iterator();
+        	} else if (collection instanceof Map) {
+                newIter = ((Map<Object, Object>) collection).values().iterator();
+            } else {
+                throw new IllegalArgumentException("Collection type "
+                        + collection.getClass().getName() + " is not supported!");
+            }
+
+            while (newIter.hasNext()) {
+                Object newValue = newIter.next();
+                Identity newId = molder.getIdentity(tx, newValue);
+                if ((newId == null) || !orgSet.contains(newId)) {
+                	added.add(newValue);
+                }
+            }
         }
 
-        throw new IllegalArgumentException("Collection type "
-                + collection.getClass().getName() + " is not supported!");
+        return added;
      }
 
     /**
      * It is assumed the returned collection will not be modified. Any modification
      * to the returned collection may or may not affect the original collection or map.
      */
-    public static Collection getRemovedIdsList(final TransactionContext tx,
-            final ArrayList orgIds, final Object collection,
-            final ClassMolder ch) {
+    public static List<Identity> getRemovedIdsList(final TransactionContext tx,
+            final List<Identity> orgIds, final Object collection, final ClassMolder molder) {
+
+        if ((orgIds == null) || (orgIds.size() == 0)) {
+            return new ArrayList<Identity>(0);
+        }
 
         if (collection == null) {
-            if (orgIds == null) {
-                return new ArrayList(0);
-            }
-            
             return orgIds;
         }
 
-        if (collection instanceof Map) {
-            if (orgIds == null || orgIds.size() == 0) {
-                return new ArrayList(0);
-            }
-
-            HashSet<Identity> newIds = new HashSet<Identity>(((Map) collection).size());
-            Iterator newItor = ((Map) collection).values().iterator();
-            while (newItor.hasNext()) {
-                newIds.add(ch.getIdentity(tx, newItor.next()));
-            }
-            
-            ArrayList<Object> removed = new ArrayList<Object>(orgIds.size());
-            Iterator orgItor = orgIds.iterator();
-            while (orgItor.hasNext()) {
-                Object id = orgItor.next();
-                if (!newIds.contains(id)) { removed.add(id); }
-            }
-            return removed;
-        }
-
-        if (collection instanceof Enumeration) {
-            if (orgIds == null || orgIds.size() == 0) {
-                return new ArrayList(0);
-            }
-
-            Enumeration newCol = (Enumeration) collection;
-           Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
-
-            // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
-            while (newCol.hasMoreElements()) {
-                Object newObject = newCol.nextElement();
-                Object newId = ch.getIdentity(tx, newObject);
-                if (newId != null) {
-                    newMap.put(newId, newObject);
-                }
-            }
-            while (orgItor.hasNext()) {
-                Object id = orgItor.next();
-                if (!newMap.containsKey(id)) {
-                    removed.add(id);
-                }
-            }
-            return removed;
-        }
-
-        if (collection instanceof Collection) {
-            if (orgIds == null || orgIds.size() == 0) {
-                return new ArrayList(0);
-            }
-
-            Collection newCol = (Collection) collection;
-            Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
-
-            // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
-            Iterator newColItor = newCol.iterator();
-            while (newColItor.hasNext()) {
-                Object newObject = newColItor.next();
-                Object newId = ch.getIdentity(tx, newObject);
-                if (newId != null) {
-                    newMap.put(newId, newObject);
-                }
-            }
-            while (orgItor.hasNext()) {
-                Object id = orgItor.next();
-                if (!newMap.containsKey(id)) {
-                    removed.add(id);
-                }
-            }
-            return removed;
-        }
-
-        if (collection instanceof Iterator) {
-            if (orgIds == null || orgIds.size() == 0) {
-                return new ArrayList(0);
-            }
-
-            Iterator collectionIterator = (Iterator) collection;
-            Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
-
-            // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
-            while (collectionIterator.hasNext()) {
-                Object newObject = collectionIterator.next();
-                Object newId = ch.getIdentity(tx, newObject);
-                if (newId != null) {
-                    newMap.put(newId, newObject);
-                }
-            }
-            while (orgItor.hasNext()) {
-                Object id = orgItor.next();
-                if (!newMap.containsKey(id)) {
-                    removed.add(id);
-                }
-            }
-            return removed;
-        }
+        Set<Identity> newSet = new HashSet<Identity>();
 
         if (collection.getClass().isArray()) {
-            if (orgIds == null || orgIds.size() == 0) {
-                return new ArrayList(0);
-            }
-
-            Object[] newCol = (Object[]) collection;
-            Iterator orgItor = orgIds.iterator();
-            ArrayList<Object> removed = new ArrayList<Object>(0);
-
-            // make a new map of key and value of the new collection
-            HashMap<Object, Object> newMap = new HashMap<Object, Object>();
-            for (int i = 0; i < newCol.length; i++) {
-                Object newObject = newCol[i];
-                Object newId = ch.getIdentity(tx, newObject);
+            Object[] newArr = (Object[]) collection;
+            for (int i = 0; i < newArr.length; i++) {
+                Object newObject = newArr[i];
+                Identity newId = molder.getIdentity(tx, newObject);
                 if (newId != null) {
-                    newMap.put(newId, newObject);
+                    newSet.add(newId);
                 }
             }
-            while (orgItor.hasNext()) {
-                Object id = orgItor.next();
-                if (!newMap.containsKey(id)) {
-                    removed.add(id);
+        } else if (collection instanceof Enumeration) {
+            Enumeration<Object> newEnum = (Enumeration<Object>) collection;
+            while (newEnum.hasMoreElements()) {
+                Object newObject = newEnum.nextElement();
+                Identity newId = molder.getIdentity(tx, newObject);
+                if (newId != null) {
+                    newSet.add(newId);
                 }
             }
-            return removed;
+        } else {
+            Iterator<Object> newIter;
+            if (collection instanceof Iterator) {
+                newIter = (Iterator<Object>) collection;
+            } else if (collection instanceof Collection) {
+                Collection<Object> newCol = (Collection<Object>) collection;
+                newIter = newCol.iterator();
+            } else if (collection instanceof Map) {
+                Collection<Object> newCol = ((Map<Object, Object>) collection).values();
+                newIter = newCol.iterator();
+            } else {
+                throw new IllegalArgumentException("Collection type "
+                        + collection.getClass().getName() + " is not supported!");
+            }
+
+            while (newIter.hasNext()) {
+                Object newObject = newIter.next();
+                Identity newId = molder.getIdentity(tx, newObject);
+                if (newId != null) {
+                    newSet.add(newId);
+                }
+            }
         }
 
-        throw new IllegalArgumentException("Collection type "
-                + collection.getClass().getName() + " is not supported!");
-    }
+        List<Identity> removedIds = new ArrayList<Identity>();
 
+        Iterator<Identity> orgIter = orgIds.iterator();
+        while (orgIter.hasNext()) {
+        	Identity id = orgIter.next();
+            if (!newSet.contains(id)) {
+                removedIds.add(id);
+            }
+        }
+
+        return removedIds;
+    }
 }
