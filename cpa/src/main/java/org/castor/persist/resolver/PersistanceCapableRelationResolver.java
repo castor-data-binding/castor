@@ -265,8 +265,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     Identity fieldValue = fieldClassMolder.getActualIdentity(tx, value);
                     if (fieldValue != null) {
                         ProposedEntity temp = new ProposedEntity(fieldClassMolder);
-                        tx.load(fieldValue, temp, null);
-                        _fieldMolder.setValue(object, temp.getEntity(), tx.getClassLoader());
+                        Object tempValue = tx.load(fieldValue, temp, null);
+                        _fieldMolder.setValue(object, tempValue, tx.getClassLoader());
                     } else {
                         throw new PersistenceException(
                             "Object, " + object + ", links to another object, " + value
