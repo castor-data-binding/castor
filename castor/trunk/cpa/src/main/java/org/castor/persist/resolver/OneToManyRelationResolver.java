@@ -20,17 +20,17 @@ package org.castor.persist.resolver;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateFlags;
-import org.castor.persist.proxy.RelationCollection;
+import org.castor.persist.proxy.LazyCollection;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
-import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -174,130 +174,83 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
     public UpdateFlags preStore(final TransactionContext tx, final OID oid,
             final Object object, final int timeout, final Object field)
     throws PersistenceException {
-        UpdateFlags flags = new UpdateFlags();
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
-        ArrayList orgFields = (ArrayList) field;
-        if (!(value instanceof Lazy)) {
-            Collection removed = ClassMolderHelper.getRemovedIdsList(tx,
-                    orgFields, value, fieldClassMolder);
-            Iterator removedItor = removed.iterator();
-            if (removedItor.hasNext()) {
-                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-            }
-            while (removedItor.hasNext()) {
-                Identity removedId = (Identity) removedItor.next();
-                Object reldel = tx.fetch(fieldClassMolder, removedId, null);
-                if (reldel != null) {
-                    if (_fieldMolder.isDependent()) {
-                        tx.delete(reldel);
-                    } else {
-                        fieldClassMolder.removeRelation(tx, reldel,
-                                this._classMolder, object);
-                    }
-//                } else {
-//                    // should i notify user that the object does not exist?
-//                    // user can't delete dependent object himself. So, must
-//                    // error.
-                }
-            }
+        
+        Iterator<Identity> removedItor;
+        Iterator<Object> addedItor;        
+        if (!(value instanceof LazyCollection)) {
+            List<Identity> orgFields = (List<Identity>) field;
 
-            Collection added = ClassMolderHelper.getAddedValuesList(tx,
+            Collection<Identity> removed = ClassMolderHelper.getRemovedIdsList(tx,
                     orgFields, value, fieldClassMolder);
-            Iterator addedItor = added.iterator();
-            if (addedItor.hasNext()) {
-                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-            }
-            while (addedItor.hasNext()) {
-                Object addedValue = addedItor.next();
-                if (_fieldMolder.isDependent()) {
-                    if (!tx.isRecorded(addedValue)) {
-                        tx.markCreate(fieldClassMolder, addedValue, oid);
-//                    } else {
-//                        // should i notify user that the object does not exist?
-//                        // user can't create dependent object himself. So, must
-//                        // be
-//                        // an error.
-                    }
-                } else if (tx.isAutoStore()) {
-                    if (!tx.isRecorded(addedValue)) {
-                        tx.markCreate(fieldClassMolder, addedValue, null);
-                    }
-                }
-            }
+            removedItor = removed.iterator();
 
-            // it would be good if we also compare the new field element with
-            // the element in the transaction, when debug is set true
+            Collection<Object> added = ClassMolderHelper.getAddedEntitiesList(tx,
+                    orgFields, value, fieldClassMolder);
+            addedItor = added.iterator();
         } else {
-            RelationCollection lazy = (RelationCollection) value;
+        	LazyCollection lazy = (LazyCollection) value;
 
-            // this RelationCollection has to clean up its state at the end of
-            // the
-            // transaction
+            // RelationCollection has to clean up its state at the end of the transaction
             tx.addTxSynchronizable(lazy);
 
-            ArrayList deleted = lazy.getDeleted();
-            if (!deleted.isEmpty()) {
-                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-
-                // if ( fieldMolder.isDependent() ) {
-                Iterator itor = deleted.iterator();
-                while (itor.hasNext()) {
-                    flags.setUpdateCache(true);
-                    Object toBeDeleted = lazy.find(itor.next());
-                    if (toBeDeleted != null && tx.isPersistent(toBeDeleted)) {
-                        if (_fieldMolder.isDependent()) {
-                            tx.delete(toBeDeleted);
-                        } else {
-                            fieldClassMolder.removeRelation(tx, toBeDeleted,
-                                    this._classMolder, object);
-                        }
-//                    } else {
-//                        // what to do if it happens?
-                    }
-                }
-            }
-
-            ArrayList added = lazy.getAdded();
-            if (!added.isEmpty()) {
-                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-
-                if (_fieldMolder.isDependent()) {
-                    Iterator itor = added.iterator();
-                    while (itor.hasNext()) {
-                        Object toBeAdded = lazy.find(itor.next());
-                        if (toBeAdded != null) {
-                            tx.markCreate(fieldClassMolder, toBeAdded, oid);
-//                        } else {
-//                            // what to do if it happens?
-                        }
-                    }
-                } else if (tx.isAutoStore()) {
-                    Iterator itor = added.iterator();
-                    while (itor.hasNext()) {
-                        Object toBeAdded = lazy.find(itor.next());
-                        if (toBeAdded != null) {
-                            if (!tx.isRecorded(toBeAdded)) {
-                                tx.markCreate(fieldClassMolder, toBeAdded, null);
-                            }
-                        }
-                    }
-                }
-            }
-
+            removedItor = lazy.getRemovedIdsList().iterator();
+            addedItor = lazy.getAddedEntitiesList().iterator();
         }
+
+        UpdateFlags flags = new UpdateFlags();
+
+        if (removedItor.hasNext()) {
+            if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
+                flags.setUpdatePersist(true);
+            }
+            flags.setUpdateCache(true);
+
+            if (_fieldMolder.isDependent()) {
+                while (removedItor.hasNext()) {
+                    Identity removedId = (Identity) removedItor.next();
+                    Object removedEntity = tx.fetch(fieldClassMolder, removedId, null);
+                    if (removedEntity != null) {
+                        tx.delete(removedEntity);
+                    }
+                }
+            } else {
+                while (removedItor.hasNext()) {
+                    Identity removedId = (Identity) removedItor.next();
+                    Object removedEntity = tx.fetch(fieldClassMolder, removedId, null);
+                    if (removedEntity != null) {
+                        fieldClassMolder.removeRelation(tx, removedEntity, _classMolder, object);
+                    }
+                }
+            }
+        }
+
+        if (addedItor.hasNext()) {
+            if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
+                flags.setUpdatePersist(true);
+            }
+            flags.setUpdateCache(true);
+
+            if (_fieldMolder.isDependent()) {
+                while (addedItor.hasNext()) {
+                    Object addedEntity = addedItor.next();
+                    if (addedEntity != null) {
+                        tx.markCreate(fieldClassMolder, addedEntity, oid);
+                    }
+                }
+            } else if (tx.isAutoStore()) {
+                while (addedItor.hasNext()) {
+                    Object addedEntity = addedItor.next();
+                    if (addedEntity != null) {
+                        if (!tx.isRecorded(addedEntity)) {
+                            tx.markCreate(fieldClassMolder, addedEntity, null);
+                        }
+                    }
+                }
+            }
+        }
+
         return flags;
     }
     

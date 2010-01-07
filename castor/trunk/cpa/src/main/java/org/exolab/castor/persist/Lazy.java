@@ -54,7 +54,7 @@ package org.exolab.castor.persist;
  * of a transaction context.
  * <p>
  * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
- *
+ * @deprecated Use org.castor.persist.proxy.LazyCollection instead
  */
 public interface Lazy {
 }
