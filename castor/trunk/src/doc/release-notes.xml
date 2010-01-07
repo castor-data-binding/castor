@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2866" tool="jira">
+                    <description>
+                        Update ant from 1.6 to 1.7.1.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20100107</date>
+                </bug>
                 <bug id="2862" tool="jira">
                     <description>
                         Refactor handling of lazy collections.

@@ -22,10 +22,10 @@ BUILD_D=$CASTOR_HOME/build
 SRC_D=$CASTOR_HOME/src
 
 # Ant infrastructure
-CLASSPATH=$BIN_LIB_D/ant-1.6.jar
-CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-1.6-launcher.jar
-CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-1.6-trax.jar
-CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-junit-1.6.jar
+CLASSPATH=$BIN_LIB_D/ant-1.7.1.jar
+CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-launcher-1.7.1.jar
+CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-trax-1.7.1.jar
+CLASSPATH=$CLASSPATH:$BIN_LIB_D/ant-junit-1.7.1.jar
 CLASSPATH=$CLASSPATH:$BIN_LIB_D/maven-ant-tasks-2.1.0.jar
 # JUnit
 CLASSPATH=$CLASSPATH:$LIB_D/junit-4.5.jar
