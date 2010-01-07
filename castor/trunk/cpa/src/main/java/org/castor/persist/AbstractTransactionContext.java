@@ -538,10 +538,6 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                         "persist.lockConflict", molder.getName(), identity));
             }
             
-            proposedObject.setProposedEntityClass(objectInTx.getClass());
-            proposedObject.setActualEntityClass(objectInTx.getClass());
-            proposedObject.setEntity(objectInTx);
-            
             return objectInTx;
         }
 
