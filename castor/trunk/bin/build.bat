@@ -7,6 +7,7 @@ set CP="%ANT_LIB_DIR%\ant-1.7.1.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-launcher-1.7.1.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-trax-1.7.1.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\ant-junit-1.7.1.jar"
+set CP=%CP%;"%ANT_LIB_DIR%\ant-nodeps-1.7.1.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\maven-ant-tasks-2.1.0.jar"
 REM Include JUnit JAR
 set CP=%CP%;"%LIB_DIR%\junit-4.5.jar"
