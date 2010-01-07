@@ -3,10 +3,10 @@ REM $Id$
 set LIB_DIR=..\lib
 set ANT_LIB_DIR=lib
 REM Include Ant infrastructure on CLASSPATH
-set CP="%ANT_LIB_DIR%\ant-1.6.jar"
-set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-launcher.jar"
-set CP=%CP%;"%ANT_LIB_DIR%\ant-1.6-trax.jar"
-set CP=%CP%;"%ANT_LIB_DIR%\ant-junit-1.6.jar"
+set CP="%ANT_LIB_DIR%\ant-1.7.1.jar"
+set CP=%CP%;"%ANT_LIB_DIR%\ant-launcher-1.7.1.jar"
+set CP=%CP%;"%ANT_LIB_DIR%\ant-trax-1.7.1.jar"
+set CP=%CP%;"%ANT_LIB_DIR%\ant-junit-1.7.1.jar"
 set CP=%CP%;"%ANT_LIB_DIR%\maven-ant-tasks-2.1.0.jar"
 REM Include JUnit JAR
 set CP=%CP%;"%LIB_DIR%\junit-4.5.jar"
