@@ -1,3 +1,18 @@
+/*
+ * Copyright 2010 Ralf Joachim, Clovis Wichoski
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.castor.cpa.test.framework;
 
 import java.sql.Connection;
@@ -12,9 +27,17 @@ import org.castor.jdo.engine.DatabaseRegistry;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.mapping.MappingException;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
+/**
+ * Abstract base class for all CPA test cases.
+ * 
+ * @author <a href="mailto:clovis AT supridatta DOT com DOT br">Clovis Wichoski</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
 public abstract class CPATestCase extends TestCase {
     //--------------------------------------------------------------------------
 
@@ -43,6 +66,11 @@ public abstract class CPATestCase extends TestCase {
     private static Connection _connection;
     
     private static Set<String> _tests;
+    
+    //--------------------------------------------------------------------------
+    
+    /** The tests TestResult. */
+    private TestResult _result = null;
     
     //--------------------------------------------------------------------------
     
@@ -155,13 +183,40 @@ public abstract class CPATestCase extends TestCase {
     
     public boolean exclude(final DatabaseEngineType engine) { return false; }
     
+    private boolean canRun() {
+        return (include(_engine) && !exclude(_engine)) || _force;
+    }
+
     /**
+     * Override run so we can check if test case has to be executed for the database engine
+     * under test and remember test result to be able to add results ourself during execution
+     * of threaded tests.
+     * <br/>
      * {@inheritDoc}
      */
     public final void run(final TestResult result) {
-        if ((include(_engine) && !exclude(_engine)) || _force) {
-            super.run(result);
+        if (canRun()) {
+           _result = result;
+           super.run(result);
+           _result = null;
         }
+    }
+    
+    /**
+     * Handle an exception. Since multiple threads won't have their exceptions caught by the
+     * test case they must be handled manually. To do so exceptions in threads have to be
+     * catched and passed to this method.
+     * 
+     * @param t Exception to handle.
+     */
+    protected final  void handleException(final Throwable t) {
+       synchronized (_result) {
+          if (t instanceof AssertionFailedError) {
+             _result.addFailure(this, (AssertionFailedError) t);
+          } else {
+             _result.addError(this, t);
+          }
+       }
     }
 
     //--------------------------------------------------------------------------
