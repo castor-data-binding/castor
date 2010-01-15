@@ -5,13 +5,14 @@ import java.util.Vector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.CPAThreadedTestCase;
+import org.castor.cpa.test.framework.CPAThreadedTestRunnable;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
-public final class TestReferenceChange extends CPATestCase {
+public final class TestReferenceChange extends CPAThreadedTestCase {
     private static final String DBNAME = "test2861";
     private static final String MAPPING = "/org/castor/cpa/test/test2861/mapping.xml";
 
@@ -20,6 +21,8 @@ public final class TestReferenceChange extends CPATestCase {
 
         suite.addTest(new TestReferenceChange("createObjects"));
         suite.addTest(new TestReferenceChange("testCreateInvoice"));
+        suite.addTest(new TestReferenceChange("testQuerySameInvoiceSubsequent"));
+        suite.addTest(new TestReferenceChange("testQuerySameInvoiceMT"));
         
         return suite;
     }
@@ -138,5 +141,46 @@ public final class TestReferenceChange extends CPATestCase {
         assertEquals(motorcycle.getHolder().getName(), acme.getName());
         
         db.close();
+    }
+    
+    public void testQuerySameInvoiceSubsequent() throws Exception {
+        // first try
+        executeQuery();
+        
+        // second try
+        executeQuery();
+        
+        // third try
+        executeQuery();
+    }
+    
+    public void testQuerySameInvoiceMT() throws Exception {
+        CPAThreadedTestRunnable[] tcr = new CPAThreadedTestRunnable[10];
+        for (int i = 0; i < tcr.length; i++) {
+            tcr[i] = new TestReferenceRunnable(this);
+        }
+        runTestRunnables(tcr);
+    }
+    
+    protected void executeQuery() throws Exception {
+        Invoice invoice = null;
+
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+        db.begin();
+        
+        String oql = "SELECT obj FROM " + Invoice.class.getName() + " obj WHERE oid = $1 ";
+        OQLQuery query = db.getOQLQuery(oql);
+        query.bind("AAAINV01");
+        QueryResults results = query.execute();
+        if (results.hasMore()) {
+            invoice = (Invoice) results.nextElement();
+        }
+        results.close();
+        query.close();
+        
+        db.commit();
+        db.close();
+
+        assertTrue(invoice != null);
     }
 }

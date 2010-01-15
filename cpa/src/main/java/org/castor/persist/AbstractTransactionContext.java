@@ -229,6 +229,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     public final void setInstanceFactory(final InstanceFactory factory) {
         _instanceFactory = factory;
     }
+    
+    public final InstanceFactory getInstanceFactory() {
+        return _instanceFactory;
+    }
 
     /**
      * {@inheritDoc}
@@ -546,25 +550,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // failure (object no longer exists), hold until a suitable lock is granted
         // (or fail to grant), or report error with the persistence engine.
         try {
-            // Check whether an instance was given to the load method.
-            if (proposedObject.getEntity() != null) {
-                objectInTx = proposedObject.getEntity();
-            } else if (_instanceFactory != null) {
-                objectInTx = _instanceFactory.newInstance(molder.getName(), _db.getClassLoader());
-            } else {
-                objectInTx = molder.newInstance(_db.getClassLoader());
-            }
-            
-            molder.setIdentity(this, objectInTx, identity);
-            
-            proposedObject.setProposedEntityClass(objectInTx.getClass());
-            proposedObject.setActualEntityClass(objectInTx.getClass());
-            proposedObject.setEntity(objectInTx);
-
-            trackObject(molder, oid, proposedObject.getEntity());
-            
             engine.load(this, oid, proposedObject, suggestedAccessMode,
-                    _lockTimeout, results, molder);
+                    _lockTimeout, results, molder, identity);
         } catch (ClassCastException except) {
             _tracker.untrackObject(proposedObject.getEntity());
             throw except;
