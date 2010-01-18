@@ -25,6 +25,12 @@
             <Input>input2.xml</Input>
             <GoldFile>output2.xml</GoldFile>
         </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test03</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input3.xml</Input>
+            <GoldFile>output3.xml</GoldFile>
+        </UnitTestCase>
 
     </MarshallingTest>
 
