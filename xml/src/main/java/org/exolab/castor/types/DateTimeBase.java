@@ -1199,10 +1199,18 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint + str + "\nThe Hour must be 2 digits long", idx);
         }
 
-        short value1;
+        short hour;
 
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setHour(value1);
+        hour = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        
+        boolean isHourOfValue24 = false;
+        if (hour == 24) {
+        	result.setHour((short) 0);
+        	result.setDay((short) (result.getDay() + 1));
+        	isHourOfValue24 = true;
+        } else {
+        	result.setHour(hour);
+        }
 
         idx += 2;
 
@@ -1217,8 +1225,12 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint+str+"\nThe Minute must be 2 digits long", idx);
         }
 
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setMinute(value1);
+        short minutes = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        
+        if (isHourOfValue24 && minutes != 0) {
+            throw new ParseException(complaint + str + "\nWhen an hour of 24 is used, minutes must be strictly of value 00.", idx);
+        }
+        result.setMinute(minutes);
 
         idx += 2;
 
@@ -1233,8 +1245,11 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint + str + "\nThe Second must be 2 digits long", idx);
         }
 
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setSecond(value1);
+        short seconds = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        if (isHourOfValue24 && seconds != 0) {
+            throw new ParseException(complaint + str + "\nWhen an hour of 24 is used, seconds must be strictly of value 00.", idx);
+        }
+        result.setSecond(seconds);
 
         idx += 2;
 
