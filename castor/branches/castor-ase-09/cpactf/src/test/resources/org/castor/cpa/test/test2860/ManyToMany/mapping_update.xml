@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="org.castor.cpa.test.test2860.ManyToMany.Author" identity="id">
+		<cache-type type="none" />
+		<map-to table="test2860_mtm_author" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="books" type="org.castor.cpa.test.test2860.ManyToMany.Book" collection="vector">
+			<sql name="book_id" many-table="test2860_book_author" many-key="author_id"/>
+		</field>
+	</class>
+	<class name="org.castor.cpa.test.test2860.ManyToMany.Book" identity="id">
+		<cache-type type="none" />
+		<map-to table="test2860_mtm_book" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="authors" type="org.castor.cpa.test.test2860.ManyToMany.Author" collection="vector">
+			<sql name="author_id" many-table="test2860_book_author" many-key="book_id"/>
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+	</class>
+</mapping>

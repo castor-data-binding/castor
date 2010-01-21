@@ -1,0 +1,2 @@
+DROP TABLE test2860_mto_null_book;
+DROP TABLE test2860_mto_null_author;
