@@ -86,7 +86,8 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         throw new PersistenceException(
                                 "Dependent object may not change its master");
                     }
-                } else if (tx.isAutoStore()) {
+                    
+                } else if (isCascadingCreate(tx)) {
                     if (!tx.isRecorded(oo)) {
                         tx.markCreate(fieldClassMolder, oo, null);
                         if (fieldClassMolder.isKeyGenUsed()) {
@@ -225,7 +226,8 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
 //                        // be
 //                        // an error.
                     }
-                } else if (tx.isAutoStore()) {
+                    
+                } else if (isCascadingCreate(tx)) {
                     if (!tx.isRecorded(addedValue)) {
                         tx.markCreate(fieldClassMolder, addedValue, null);
                     }
@@ -284,7 +286,8 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
 //                            // what to do if it happens?
                         }
                     }
-                } else if (tx.isAutoStore()) {
+                    
+                } else if (isCascadingCreate(tx)) {
                     Iterator itor = added.iterator();
                     while (itor.hasNext()) {
                         Object toBeAdded = lazy.find(itor.next());
@@ -328,7 +331,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     if (v != null && v.contains(actualIdentity)) {
                         tx.markUpdate(fieldClassMolder, element, oid);
                     }
-                } else if (tx.isAutoStore()) {
+                } else if (isCascadingUpdate(tx)) {
                     tx.markUpdate(fieldClassMolder, element, null);
                 }
             }
@@ -393,7 +396,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         throw new PersistenceException(
                                 "Dependent object may not change its master");
                     }
-                } else if (tx.isAutoStore()) {
+                } else if (isCascadingUpdate(tx)) {
                     if (!tx.isRecorded(oo)) {
                         boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
                         if (creating && fieldClassMolder._isKeyGenUsed) {
