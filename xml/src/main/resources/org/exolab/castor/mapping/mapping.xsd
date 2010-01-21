@@ -291,6 +291,9 @@
               </xsd:documentation>
           </xsd:annotation>
       </xsd:attribute>
+      <xsd:attribute name="cascading" type="xsd:string" use="optional">
+            	
+      </xsd:attribute>
       <xsd:attribute name="read-only"  type="xsd:boolean"    use="optional" default="false"/>
 
       <!-- signals that this field is transient for database mapping (ie should be ignored) -->

@@ -42,12 +42,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public abstract class ManyRelationResolver implements ResolverStrategy {
-    /** Associated {@link ClassMolder}. */
-    protected ClassMolder _classMolder;
-    
-    /** Associated {@link FieldMolder}. */
-    protected FieldMolder _fieldMolder;
+public abstract class ManyRelationResolver extends BaseRelationResolver {
     
     private int _fieldIndex;
     
@@ -63,8 +58,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
             final FieldMolder fieldMolder, 
             final int fieldIndex,
             final boolean debug) {
-        _classMolder = classMolder;
-        _fieldMolder = fieldMolder;
+	super(classMolder, fieldMolder);
         _fieldIndex = fieldIndex;
     }
     

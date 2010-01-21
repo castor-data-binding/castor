@@ -41,17 +41,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public final class PersistanceCapableRelationResolver implements ResolverStrategy {
-
-    /**
-     * Class molder of the enclosing class.
-     */
-    private ClassMolder _classMolder;
-
-    /**
-     * Field molder for the field to be resolved.
-     */
-    private FieldMolder _fieldMolder;
+public final class PersistanceCapableRelationResolver extends BaseRelationResolver {
     
     private int _fieldIndex;
    
@@ -72,8 +62,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             final FieldMolder fieldMolder, 
             final int fieldIndex,
             final boolean debug) {
-        _classMolder = classMolder;
-        _fieldMolder = fieldMolder;
+	super (classMolder, fieldMolder);
         _fieldIndex = fieldIndex;
         _debug = debug;
     }
@@ -128,7 +117,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                                 + " new master: " + oid);
                     }
                 }
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingCreate(tx)) {
                 if (!tx.isRecorded(o)) {
                     tx.markCreate(fieldClassMolder, o, null);
                     if (!_fieldMolder.isStored() && fieldClassMolder.isKeyGenUsed()) {
@@ -239,7 +228,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     tx.markCreate(fieldClassMolder, value, oid);
                 }
 
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingCreate(tx)) {
                 if (curIdentity != null) {
                     Object deref = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (deref != null) {
@@ -320,7 +309,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                 tx.load(nfield, proposedValue, suggestedAccessMode);
             }
-        } else if (tx.isAutoStore()) {
+        } else if (isCascadingUpdate(tx)) {
             if ((o != null) && !tx.isRecorded(o)) {
                 tx.markUpdate(fieldClassMolder, o, null);
             }
@@ -527,7 +516,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 //    throw new PersistenceException(
                 //            "Dependent object may not change its master. Object: " + o
                 //            + " new master: " + oid);
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingUpdate(tx)) {
                 if (!tx.isRecorded(o)) {
                     // related object should be created right the way, if autoStore
                     // is enabled, to obtain a database lock on the row. If both side
