@@ -1206,8 +1206,10 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
         boolean isHourOfValue24 = false;
         if (hour == 24) {
         	result.setHour((short) 0);
-        	result.setDay((short) (result.getDay() + 1));
-        	isHourOfValue24 = true;
+        	Duration oneDay = new Duration();
+            oneDay.setDay((short) 1);
+            result.addDuration(oneDay);
+            isHourOfValue24 = true;
         } else {
         	result.setHour(hour);
         }

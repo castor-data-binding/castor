@@ -31,7 +31,12 @@
             <Input>input3.xml</Input>
             <GoldFile>output3.xml</GoldFile>
         </UnitTestCase>
-
+        <UnitTestCase>
+            <Name>Test04</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input4.xml</Input>
+            <GoldFile>output4.xml</GoldFile>
+        </UnitTestCase>
     </MarshallingTest>
 
 </TestDescriptor>
