@@ -285,11 +285,11 @@ public class Converter {
 	 * @param writer
 	 *            writer to the output Schema document.
 	 * @param targetNameSpaceMap
-	 * 
+	 *            (Optional) XML target name space for the XML schema. 
 	 * @param nameSpaceMap
-	 * 
+	 *            (Optional) XML name space declarations for the XML schema. 
 	 * @throws DTDException
-	 *             if the DTD document is syntactically or semanticly not
+	 *             if the DTD document is syntactically or semantically not
 	 *             correct.
 	 * @throws SchemaException
 	 *             if Schema object can not be created.
@@ -314,6 +314,34 @@ public class Converter {
 		marshalSchema(schema, writer);
 
 	} // -- convertDTDtoSchema
+
+	/**
+	 * Convert DTD document to corresponding XML Schema document.
+	 * 
+	 * @param reader
+	 *            reader of the input DTD document.
+	 * @param writer
+	 *            writer to the output Schema document.
+	 *
+	 * @throws DTDException
+	 *             if the DTD document is syntactically or semanticly not
+	 *             correct.
+	 * @throws SchemaException
+	 *             if Schema object can not be created.
+	 * @throws IOException
+	 *             if there is an I/O problem with the <tt>reader</tt> or
+	 *             <tt>writer</tt>.
+	 * @throws SAXException
+	 *             if an error occured during schema object marshalling.
+	 */
+	public void convertDTDtoSchema(Reader reader, Writer writer)
+			throws DTDException, SchemaException, IOException, SAXException {
+
+		String targetNameSpace = DEFAULT_NAME_SPACE;
+		Map<String, String> nameSpaceMap = new HashMap<String, String>();
+		
+		convertDTDtoSchema(reader, writer, targetNameSpace, nameSpaceMap);
+	}
 
 	/**
 	 * Parses text of a DTD document and returns corresponding DTD document
