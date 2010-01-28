@@ -58,6 +58,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.dtd.parser.DTDInitialParser;
 import org.exolab.castor.xml.dtd.parser.DTDParser;
 import org.exolab.castor.xml.dtd.parser.InputCharStream;
@@ -93,6 +102,8 @@ import org.xml.sax.SAXException;
  *          2006) $
  */
 public class Converter {
+	
+	private static final Log log = LogFactory.getLog(Converter.class);
 
 	public static final String NAME_SPACE_PREFIX_KEY = "nameSpacePrefixKey";
 
@@ -130,63 +141,92 @@ public class Converter {
 	public static void main(String args[]) throws IOException, DTDException,
 			SchemaException, SAXException {
 		
-		// TODO: refactor to use commons-cli
+		StringBuffer header = new StringBuffer();
+		header.append("\n");
+		header.append("Converts a DTD to an XML schema.\n\n");
+		header.append("   <DTD>: Name of the input DTD file.\n");
+		header.append("   <XSD>: Name of the output XML schema file.\n");
+		header.append("\n");
+		header.append("Options:");
 		
-		if ((args.length < 2) || (args.length > 3)) {
-			String s = "\nUsage:\n";
-			s += "java org.exolab.castor.xml.dtd.Converter dtd_file xsd_file [character_encoding]"
-					+ " [-tns=[TNS_PREFIX:]NAMESPACE_URI]"
-					+ " [-xmlns=[TNS_PREFIX:]NAMESPACE_URI]* \n\n";
-			s += "dtd_file: name of the input DTD file\n";
-			s += "xsd_file: name of the output Schema file\n";
-			s += "character_encoding: name of the character encoding,\n";
-			s += "                    if not specified, ASCII is chosen\n";
-			System.out.println(s);
-		} else {
-			String encoding = null;
-			String targetNameSpace = DEFAULT_NAME_SPACE;
-			Map<String, String> nameSpaceMap = new HashMap<String, String>();
+		Options options = new Options();
+		
+		Option targetNamespace = OptionBuilder
+			.withDescription("target namespace of the XML schema generated")
+			.isRequired(false)
+			.withLongOpt("targetNamespace")
+			.hasArg()
+			.withArgName("[prefix:]uri")
+			.create("tns");
 
-			// -- choose encoding
-			if (args.length < 3)
-				encoding = "US-ASCII";
+		Option xmlns = OptionBuilder
+		.withDescription("xml namespace declarations")
+		.isRequired(false)
+		.hasArgs()
+		.withValueSeparator(',')
+		.withArgName("[[prefix:]uri]*")
+		.create("xmlns");
 
-			else {
-				for (int i = 2; i < args.length; i++) {
-
-					if (args[i].toLowerCase().startsWith("-tns=")) {
-						Map<String, String> nameSpaceMapTemp = parseNamespace(args[i]);
-						targetNameSpace = nameSpaceMapTemp.get(NAME_SPACE_KEY);
-						nameSpaceMap.put(nameSpaceMapTemp
-								.get(NAME_SPACE_PREFIX_KEY), targetNameSpace);
-					} else if (args[i].toLowerCase().startsWith("-xmlns=")) {
-						Map<String, String> nameSpaceMapTemp = parseNamespace(args[i]);
-						nameSpaceMap.put(nameSpaceMapTemp
-								.get(NAME_SPACE_PREFIX_KEY), nameSpaceMapTemp
-								.get(NAME_SPACE_KEY));
-					} else {
-						if (args[2].equals("ascii") || args[2].equals("ASCII")
-								|| args[2].equals("us-ascii")) {
-							encoding = "US-ASCII";
-						} else if (args[2].equals("utf-8")) {
-							encoding = "UTF-8";
-						} else if (args[2].equals("utf-16")) {
-							encoding = "UTF-16";
-						} else {
-							encoding = args[2];
-						}
-					} // -- choose encoding
-
-				} // -- iter optional args
-
-			} // -- check optional args
-			
-			String inFile = args[0];
-			String outFile = args[1];
-			
-			Converter convertor = new Converter();
-			convertor.process(inFile, outFile, encoding, targetNameSpace, nameSpaceMap);
+		options.addOption(targetNamespace);
+		options.addOption(xmlns);
+		options.addOption("h", "help", false, "prints usage information");
+		options.addOption("e", "encoding", false, "character encoding");
+		
+		CommandLineParser parser = new GnuParser();
+		CommandLine line = null;
+	    try {
+			line = parser.parse(options, args);
+	    } catch (org.apache.commons.cli.ParseException e) {
+	    	System.err.println( "Parsing failed.  Reason: " + e.getMessage() );
 		}
+
+		if (args.length < 2 || line.hasOption("help")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("org.exolab.castor.xml.dtd.Converter <DTD> <XSD>", 
+					header.toString(),
+					options,
+					"");
+			return;
+		}
+		
+		String encoding = "US-ASCII";
+		String targetNameSpace = DEFAULT_NAME_SPACE;
+		Map<String, String> nameSpaceMap = new HashMap<String, String>();
+
+		if (line.hasOption("tns")) {
+			log.info("Found option -tns ...");
+			Map<String, String> nameSpaceMapTemp = parseNamespace(line.getOptionValue("tns"));
+			targetNameSpace = nameSpaceMapTemp.get(NAME_SPACE_KEY);
+			nameSpaceMap.put(nameSpaceMapTemp.get(NAME_SPACE_PREFIX_KEY), targetNameSpace);
+		}
+
+		if (line.hasOption("xmlns")) {
+			log.info("Found option -xmlns ...");
+			Map<String, String> nameSpaceMapTemp = parseNamespace(line.getOptionValue("xmlns"));
+			nameSpaceMap.put(nameSpaceMapTemp.get(NAME_SPACE_PREFIX_KEY), 
+					nameSpaceMapTemp.get(NAME_SPACE_KEY));
+		}
+
+		if (line.hasOption("encoding")) {
+			log.info("Found option -encoding ...");
+			String encodingValue = line.getOptionValue("encoding");
+			if (encodingValue.equalsIgnoreCase("ascii")
+					|| args[2].equalsIgnoreCase("us-ascii")) {
+				encoding = "US-ASCII";
+			} else if (encodingValue.equalsIgnoreCase("utf-8")) {
+				encoding = "UTF-8";
+			} else if (encodingValue.equalsIgnoreCase("utf-16")) {
+				encoding = "UTF-16";
+			} else {
+				encoding = encodingValue.toUpperCase();
+			}
+		}
+
+		String inFile = args[0];
+		String outFile = args[1];
+
+		Converter convertor = new Converter();
+		convertor.process(inFile, outFile, encoding, targetNameSpace, nameSpaceMap);
 	}
 
 	/**
