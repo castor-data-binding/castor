@@ -53,8 +53,8 @@ public final class SerializableResolver implements ResolverStrategy {
     /**
      * Associated {@link FieldMolder}.
      */
-    private FieldMolder _fieldMolder;
-    private int _fieldIndex;
+    private final FieldMolder _fieldMolder;
+    private final int _fieldIndex;
     
     /** 
      * Creates an instance of SerializableResolver.

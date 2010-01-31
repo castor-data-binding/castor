@@ -58,8 +58,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
      *      #markCreate(org.castor.persist.TransactionContext,
      *      org.exolab.castor.persist.OID, java.lang.Object)
      */
-    public boolean markCreate(final TransactionContext tx, final OID oid,
-            final Object object)
+    public boolean markCreate(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
         boolean updateCache = false;
         // create relation if the relation table
