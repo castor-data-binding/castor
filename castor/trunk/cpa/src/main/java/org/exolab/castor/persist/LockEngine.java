@@ -280,6 +280,11 @@ public final class LockEngine {
         }
 
         ds.close();
+
+        for (int n = 0; n < result.size(); n++) {
+            result.elementAt(n).resetResolvers();
+        }
+        
         return result;
     }
     
