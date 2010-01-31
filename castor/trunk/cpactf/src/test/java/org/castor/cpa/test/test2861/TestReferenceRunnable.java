@@ -9,13 +9,19 @@ import org.junit.Ignore;
 @Ignore
 public class TestReferenceRunnable extends CPAThreadedTestRunnable {
     private final TestReferenceChange _test;
+	private boolean _readOnly;
     
-    public TestReferenceRunnable(final TestReferenceChange test) {
+    public TestReferenceRunnable(final TestReferenceChange test, boolean readOnly) {
         _test = test;
+        _readOnly = readOnly;
     }
     
     @Override
     public void runTest() throws Throwable {
-        _test.executeQuery();
+    	if (_readOnly) {
+    		_test.executeQueryReadOnly();
+    	} else {
+    		_test.executeQuery();	
+    	}
     }
 }
