@@ -46,14 +46,11 @@ public final class PrimitiveResolver implements ResolverStrategy {
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.
-     * @param debug ???
      */
     public PrimitiveResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, 
-            final int fieldIndex,
-            final boolean debug) {
-        this._fieldMolder = fieldMolder;
-        this._fieldIndex = fieldIndex;
+            final FieldMolder fieldMolder, final int fieldIndex) {
+        _fieldMolder = fieldMolder;
+        _fieldIndex = fieldIndex;
     }
 
     /**

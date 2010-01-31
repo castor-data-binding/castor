@@ -58,12 +58,9 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.
-     * @param debug ???
      */
     public ManyRelationResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, 
-            final int fieldIndex,
-            final boolean debug) {
+            final FieldMolder fieldMolder, final int fieldIndex) {
         _classMolder = classMolder;
         _fieldMolder = fieldMolder;
         _fieldIndex = fieldIndex;

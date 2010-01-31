@@ -25,7 +25,6 @@ import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
 import org.castor.persist.proxy.LazyCGLIB;
 import org.castor.persist.proxy.SingleProxy;
-import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
@@ -56,26 +55,16 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     private int _fieldIndex;
    
     /**
-     * Indicates whether debug mode is active.
-     */
-    //TODO [WG]: Investigate about its use ....
-    private boolean _debug;
-    
-    /**
      * Creates an instance of this resolver class.
      * @param classMolder Enclosing class molder.
      * @param fieldMolder Field Molder
      * @param fieldIndex Field index within all fields of parent class molder.
-     * @param debug True if debug mode is on.
      */
-    public PersistanceCapableRelationResolver (final ClassMolder classMolder,
-            final FieldMolder fieldMolder, 
-            final int fieldIndex,
-            final boolean debug) {
+    public PersistanceCapableRelationResolver(final ClassMolder classMolder,
+            final FieldMolder fieldMolder, final int fieldIndex) {
         _classMolder = classMolder;
         _fieldMolder = fieldMolder;
         _fieldIndex = fieldIndex;
-        _debug = debug;
     }
     
     /**
@@ -200,26 +189,6 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 }
                 flags.setUpdateCache(true);
                 tx.markCreate(fieldClassMolder, value, oid);
-            }
-            
-            //TODO [WG]: can anybody please explain to me the meaning of the next two lines.
-            if (!_debug) { return flags; }
-            if (curIdentity == null) { return flags; } // do the next field if both are null
-
-            if ((value != null) && tx.isDeleted(value)) {
-                LOG.warn ("Deleted object found!");
-                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-                _fieldMolder.setValue(object, null, tx.getClassLoader());
-                return flags;
-            }
-
-            if (tx.isAutoStore() || _fieldMolder.isDependent()) {
-                if (value != tx.fetch(fieldClassMolder, curIdentity, null)) {
-                    throw new DuplicateIdentityException("");
-                }
             }
         } else {
             if (_fieldMolder.isStored() /* && _fieldMolder.isCheckDirty() */) {
