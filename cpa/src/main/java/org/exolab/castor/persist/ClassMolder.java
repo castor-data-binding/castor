@@ -158,9 +158,6 @@ public class ClassMolder {
     /** Is a key kenerator used for the base class? */
     public boolean _isKeyGenUsed;
 
-    /** True if org.exolab.castor.debug="true". */
-    private boolean _debug;
-
     /** Create priority. */
     private int _priority = -1;
 
@@ -190,7 +187,6 @@ public class ClassMolder {
             final ClassDescriptor clsDesc, final Persistence persist)
             throws ClassNotFoundException, MappingException {
 
-        _debug = Boolean.getBoolean("org.exolab.castor.debug");
         _engine = lock;
         _persistence = persist;
         _clsDesc = clsDesc;
@@ -347,7 +343,7 @@ public class ClassMolder {
             
             // create RelationResolver instance
             _resolvers[fieldMolderNumber] = ResolverFactory.createRelationResolver(
-                    _fhs[fieldMolderNumber], this, fieldMolderNumber, _debug);
+                    _fhs[fieldMolderNumber], this, fieldMolderNumber);
 
             fieldMolderNumber += 1;
         }
@@ -1485,7 +1481,7 @@ public class ClassMolder {
     public void resetResolvers () {
         if (!_resolversHaveBeenReset) {
             for (int i = 0; i < _fhs.length; i++) {
-                _resolvers[i] = ResolverFactory.createRelationResolver (_fhs[i], this, i, _debug);
+                _resolvers[i] = ResolverFactory.createRelationResolver (_fhs[i], this, i);
             }
             
             _resolversHaveBeenReset = true;

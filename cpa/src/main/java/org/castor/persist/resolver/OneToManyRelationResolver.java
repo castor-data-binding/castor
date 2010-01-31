@@ -46,13 +46,10 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
      * @param classMolder
      * @param fieldMolder
      * @param fieldIndex Field index within all fields of parent class molder.
-     * @param debug
      */
     public OneToManyRelationResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, 
-            final int fieldIndex,
-            final boolean debug) {
-        super(classMolder, fieldMolder, fieldIndex, debug);
+            final FieldMolder fieldMolder, final int fieldIndex) {
+        super(classMolder, fieldMolder, fieldIndex);
     }
     
     /**

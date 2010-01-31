@@ -39,35 +39,32 @@ public final class ResolverFactory {
      * 
      * @param fieldMolder The associated {@link FieldMolder}
      * @param classMolder The associated {@link ClassMolder}
-     * @param debug ???
      * @return The corresponding ResolverStratgey instance
      */
     public static ResolverStrategy createRelationResolver (final FieldMolder fieldMolder, 
-            final ClassMolder classMolder, final int fieldIndex, final boolean debug) {
+            final ClassMolder classMolder, final int fieldIndex) {
         
         ResolverStrategy relationResolver = null;
         
         int fieldType = fieldMolder.getFieldType();
         switch (fieldType) {
         case FieldMolder.PRIMITIVE:
-            relationResolver = new PrimitiveResolver (classMolder, fieldMolder, fieldIndex, debug);
+            relationResolver = new PrimitiveResolver(classMolder, fieldMolder, fieldIndex);
             break;
         case FieldMolder.SERIALIZABLE:
-            relationResolver = new SerializableResolver(
-                    classMolder, fieldMolder, fieldIndex, debug);
+            relationResolver = new SerializableResolver(classMolder, fieldMolder, fieldIndex);
             break;
         case FieldMolder.PERSISTANCECAPABLE:
             relationResolver = 
-                new PersistanceCapableRelationResolver(
-                        classMolder, fieldMolder, fieldIndex, debug);
+                new PersistanceCapableRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
         case FieldMolder.ONE_TO_MANY:
             relationResolver = 
-                new OneToManyRelationResolver (classMolder, fieldMolder, fieldIndex, debug);
+                new OneToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
         case FieldMolder.MANY_TO_MANY:
             relationResolver = 
-                new ManyToManyRelationResolver (classMolder, fieldMolder, fieldIndex, debug);
+                new ManyToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
         default:
 //            throw new PersistenceException ("Invalid field type '" 
