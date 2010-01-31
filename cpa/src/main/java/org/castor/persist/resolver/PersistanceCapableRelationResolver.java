@@ -45,14 +45,14 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     /**
      * Class molder of the enclosing class.
      */
-    private ClassMolder _classMolder;
+    private final ClassMolder _classMolder;
 
     /**
      * Field molder for the field to be resolved.
      */
-    private FieldMolder _fieldMolder;
+    private final FieldMolder _fieldMolder;
     
-    private int _fieldIndex;
+    private final int _fieldIndex;
    
     /**
      * Creates an instance of this resolver class.

@@ -45,12 +45,12 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public abstract class ManyRelationResolver implements ResolverStrategy {
     /** Associated {@link ClassMolder}. */
-    protected ClassMolder _classMolder;
+    protected final ClassMolder _classMolder;
     
     /** Associated {@link FieldMolder}. */
-    protected FieldMolder _fieldMolder;
+    protected final FieldMolder _fieldMolder;
     
-    private int _fieldIndex;
+    private final int _fieldIndex;
     
     /** 
      * Creates an instance of ManyRelationResolver.

@@ -37,8 +37,8 @@ import org.exolab.castor.persist.spi.Identity;
  */
 public final class PrimitiveResolver implements ResolverStrategy {
 
-    private FieldMolder _fieldMolder;
-    private int _fieldIndex;
+    private final FieldMolder _fieldMolder;
+    private final int _fieldIndex;
 
     /**
      * Creates an instance of PrimitiveResolver.
