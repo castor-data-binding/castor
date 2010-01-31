@@ -392,8 +392,6 @@ public class ClassMolder {
         boolean updateCache = false;
         boolean updatePersist = false;
         
-        resetResolvers();
-        
         UpdateAndRemovedFlags flags = null;
         for (int i = 0; i < _fhs.length; i++) {
             flags = _resolvers[i].removeRelation(tx, object, relatedMolder,
@@ -529,8 +527,6 @@ public class ClassMolder {
     throws PersistenceException {
         OID oid = locker.getOID();
 
-        resetResolvers();
-
         // Check for version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
             ClassDescriptorJDONature jdoNature =
@@ -613,8 +609,6 @@ public class ClassMolder {
             final Object object) throws PersistenceException {
 
         int fieldType;
-
-        resetResolvers();
 
         if (_persistence == null) {
             throw new PersistenceException("non persistence capable: "
@@ -704,8 +698,6 @@ public class ClassMolder {
             final Object object) throws PersistenceException {
 
         boolean updateCache = false;
-
-        resetResolvers();
 
         // iterate all the fields and mark all the dependent object.
         for (int i = 0; i < _fhs.length; i++) {
@@ -885,8 +877,6 @@ public class ClassMolder {
 
         AccessMode accessMode = getAccessMode(suggestedAccessMode);
 
-        resetResolvers();
-
         Object[] fields = locker.getObject(tx);
 
         boolean timeStampable = false;
@@ -1027,8 +1017,6 @@ public class ClassMolder {
         Object[] fields;
         int fieldType;
 
-        resetResolvers();
-
         if (oid.getIdentity() == null) {
             throw new IllegalStateException(
                     Messages.format("persist.missingIdentityForCacheUpdate", _name));
@@ -1085,9 +1073,6 @@ public class ClassMolder {
      * @param oid - the object identity of the target object
      */
     public void delete(final TransactionContext tx, final OID oid) throws PersistenceException {
-
-        resetResolvers();
-
         Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
         Identity ids = oid.getIdentity();
 
@@ -1134,8 +1119,6 @@ public class ClassMolder {
     public void markDelete(final TransactionContext tx, final OID oid, final DepositBox locker,
             final Object object) throws PersistenceException {
 
-        resetResolvers();
-
         Object[] fields = locker.getObject(tx);
 
         for (int i = 0; i < _fhs.length; i++) {
@@ -1169,8 +1152,6 @@ public class ClassMolder {
             final DepositBox locker, 
             final Object object)
             throws PersistenceException {
-
-        resetResolvers();
 
         if (oid.getIdentity() == null) {
             throw new PersistenceException(
