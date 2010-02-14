@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="org.castor.cascading.one_to_many_bi.Author" identity="id">
+		<cache-type type="count-limited" />
+		<map-to table="OneToMany_Bi_Author" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="books" type="org.castor.cascading.one_to_many_bi.Book" collection="vector">
+			<sql many-key="author_id" cascading="update"/>
+		</field>
+	</class>
+	<class name="org.castor.cascading.one_to_many_bi.Book" identity="id">
+		<cache-type type="count-limited" />
+		<map-to table="OneToMany_Bi_Book" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="author" type="org.castor.cascading.one_to_many_bi.Author">
+			<sql name="author_id" cascading="update" />
+		</field>
+	</class>
+</mapping>
