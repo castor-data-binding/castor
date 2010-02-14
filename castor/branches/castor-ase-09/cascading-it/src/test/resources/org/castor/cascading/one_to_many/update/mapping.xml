@@ -15,7 +15,7 @@
 			<sql name="name" type="char" />
 		</field>
 		<field name="books" type="org.castor.cascading.one_to_many.Book" collection="vector">
-			<sql many-key="author_id" cascading="create"/>
+			<sql many-key="author_id" cascading="update"/>
 		</field>
 	</class>
 	<class name="org.castor.cascading.one_to_many.Book" identity="id">
