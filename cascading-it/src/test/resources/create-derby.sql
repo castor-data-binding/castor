@@ -28,6 +28,20 @@ CREATE TABLE OneToMany_Book (
     FOREIGN KEY (author_id) REFERENCES OneToMany_Author (id)
 );
 
+CREATE TABLE OneToMany_Bi_Author (
+    id INTEGER PRIMARY KEY,
+    time_stamp bigint,
+    name varchar(100)
+);
+
+CREATE TABLE OneToMany_Bi_Book (
+    id INTEGER PRIMARY KEY,
+    author_id INTEGER NOT NULL,
+    time_stamp bigint,
+    name varchar(100),
+    FOREIGN KEY (author_id) REFERENCES OneToMany_Author (id)
+);
+
 CREATE TABLE ManyToOne_Author (
     id INTEGER PRIMARY KEY,
     time_stamp bigint,
