@@ -55,3 +55,22 @@ CREATE TABLE ManyToOne_Book (
     name varchar(100),
     FOREIGN KEY (author_id) REFERENCES ManyToOne_Author (id)
 );
+
+CREATE TABLE ManyToMany_Author (
+    id INTEGER PRIMARY KEY,
+    time_stamp bigint,
+    name varchar(100)
+);
+
+CREATE TABLE ManyToMany_Book (
+    id INTEGER PRIMARY KEY,
+    time_stamp bigint,
+    name varchar(100)
+);
+
+CREATE TABLE ManyToMany_BookAuthor (
+    author_id INTEGER NOT NULL,
+    book_id INTEGER NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES ManyToMany_Author (id),
+    FOREIGN KEY (book_id) REFERENCES ManyToMany_Book (id)
+);

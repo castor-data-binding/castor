@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="org.castor.cascading.many_to_many.Author" identity="id">
+		<cache-type type="none" />
+		<map-to table="ManyToMany_Author" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="books" type="org.castor.cascading.many_to_many.Book" collection="vector">
+			<sql name="book_id" many-table="ManyToMany_BookAuthor" many-key="author_id" />
+		</field>
+	</class>
+	<class name="org.castor.cascading.many_to_many.Book" identity="id">
+		<cache-type type="none" />
+		<map-to table="ManyToMany_Book" />
+		<field name="id" type="integer">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="timestamp" type="long">
+			<sql name="time_stamp" type="numeric" />
+		</field>
+		<field name="name" type="string">
+			<sql name="name" type="char" />
+		</field>
+		<field name="authors" type="org.castor.cascading.many_to_many.Author" collection="vector">
+			<sql name="author_id" many-table="ManyToMany_BookAuthor" many-key="book_id" />
+		</field>
+	</class>
+</mapping>
