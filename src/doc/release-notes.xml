@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2879" tool="jira">
+                    <description>
+                        Use Java 5 enums for mapping.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20100220</date>
+                </bug>
                 <bug id="2045" tool="jira">
                     <description>
                         Polymorphism issues with ClassMolder.load().
