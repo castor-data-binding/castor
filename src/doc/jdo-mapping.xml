@@ -425,7 +425,8 @@
             many-table  NMTOKEN   #IMPLIED
             transient   ( true | false )    "false"
             read-only   ( true | false )    "false"
-            dirty       ( check | ignore )  "check">]]></code-panel>
+            dirty       ( check | ignore )  "check">
+            cascading	( none | create | delete | commit | update | all ) "none"]]></code-panel>
   
         <p>The &lt;sql> element is used to denote information about the 
            database column to which a Java object is mapped. It should be declared 
@@ -453,6 +454,8 @@
           
            <li><b>dirty:</b> If the value is 'ignore', the field will not be checked
               against the database for modification.</li>
+              
+           <li><b>cascading:</b> If the field is a relation, this attribute specifies </li>
         </ul>
           
         <p>There are two more attributes used <b>only</b> with 'to-many' relations.</p>
