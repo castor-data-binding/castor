@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-cascading-operations.xml">
+  <properties>
+    <title>How to use cascading operations</title>
+    <abstract>
+       Describes the kind of cascading operations supported by Castor and provides examples of their use
+    </abstract>
+    <status>Draft</status>
+  </properties>
+  <body>
+    <title>How to use cascading operations</title>
+    <header>
+    </header>
+
+	<section title="Overview">
+
+        <p></p>
+        
+    </section>
+    
+    <section title="Intended Audience">
+
+        <p></p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>bla</p>
+
+                <code-panel>foo</code-panel>
+
+    </section>
+
+    <section title="Scenarios">
+
+        <p></p>
+
+        <section title="">
+
+            <p></p>
+
+            <code-panel>foo
+            </code-panel>
+            
+        </section>
+        
+        <section title="x2">
+
+            <p></p>
+
+            <code-panel>foo
+            </code-panel>
+
+        </section>
+
+        <section title="x3">
+
+            <p></p>
+
+            <code-panel>foo
+            </code-panel>
+
+        </section>
+
+    </section>
+    
+    <section title="Limitations">
+        
+         <p></p>
+
+        
+    </section>
+    
+    <section title="Tips">
+
+        <p></p>  
+        
+    </section>
+
+
+    <section title="References">
+
+        <ul>
+            <li><a href="jdo-mapping.html">JDO Mapping</a></li>
+        </ul>
+        
+    </section>
+
+
+    </body>
+</document>
