@@ -408,9 +408,171 @@ db.commit();]]></code-panel>
 					</tr>
 				</table>
 
-				<p><b>Example 2: removing objects TODO</b></p>
-				<p><b>Example 2: modifying objects TODO</b></p>
+				<p><b>Example 2: removing objects</b></p>
+				
+				<code-panel><![CDATA[
+db.begin();
 
+Department dep = db.load(Department.class, 23);
+dep.getEmployees().remove(2);
+
+db.commit();]]></code-panel>
+			
+				<p>Database after:</p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Sales"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">department_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>NULL</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>				
+				
+				<p>Note: this of course only works if you allow the employee's foreign key department_id to be NULL or,
+				alternatively, also delete the Employee when you remove the relationship (either by manually calling
+				db.remove() or TODO)</p>
+				
+				<p><b>Example 2: modifying objects</b></p>
+				
+				<code-panel><![CDATA[
+db.begin();
+
+Employee e4 = new Employee();
+e4.setId(4);
+e4.setName("George");
+
+Employee e5 = new Employee();
+e5.setId(5);
+e5.setName("John");
+
+Employee e6 = new Employee();
+e6.setId(6);
+e6.setName("Jack");
+
+Department dep = db.load(Department.class, 23);
+dep.setEmployees(Arrays.asList(e4, e5, e6));
+
+db.commit();]]></code-panel>
+			
+				<p>Database after:</p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Sales"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">department_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>NULL</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>"George"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>5</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>"Jack"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>				
+				
+				<p>The note to example 2 also applies here.</p>
+				
 
 			</section>
 			
