@@ -46,8 +46,16 @@
                 <li><a href="how-to-use-a-cache.html">How to use a cache</a></li>
                 <li><a href="how-to-map-enums.html">How to map enums</a></li>
                 <li><a href="how-to-connection-proxies.html">How to log SQL statements</a></li>
-                <li><a hreg="how-to-use-cascading-operations.html">How to use cascading operations</a></li>
             </ul>
+        </section>
+        
+        <section title="Cascading">
+        	<ul>
+                <li><a hreg="how-to-use-cascading-operations.html">How to use cascading operations - overview</a></li>
+        		<li><a href="how-to-cascade-creation.html">How to cascade creation</a></li>
+        		<li><a href="how-to-cascade-modification.html">How to cascade modification</a></li>
+        		<li><a href="how-to-cascade-deletion.html">How to cascade deletion</a></li>
+	        </ul>
         </section>
 
         <section title="Caches">

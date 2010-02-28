@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-cascading-operations.xml">
+	<properties>
+		<title>How to cascade creation</title>
+		<abstract>
+			Describes the various possibilities Castor provides to cascade creation
+		</abstract>
+		<status>Draft</status>
+	</properties>
+	<body>
+		<title>How to cascade creation</title>
+		<header>
+		</header>
+
+		<section title="Overview">
+
+			<p></p>
+
+		</section>
+
+		<section title="Intended Audience">
+
+			<p></p>
+
+		</section>
+
+		<section title="Prerequisites">
+
+			<p>bla</p>
+
+			<code-panel>foo</code-panel>
+
+		</section>
+
+		<section title="Scenarios">
+
+			<p></p>
+
+			<section title="db.create()">
+
+				<p>TODO</p>
+
+				<p>Here is a simple example, where the objects Author and Book are in a one-to-one 
+				relationship (i.e. every Book has exactly one Author):</p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Author a1 = new Author();
+a1.setId(1);
+a1.setName("John Jackson");
+
+Book b1 = new Book();
+b1.setId(1);
+b1.setTitle("My Life");
+b1.setAuthor(a1);
+
+db.create(b1);
+
+db.commit();]]></code-panel>
+
+				<p>Database before:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="2">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="2">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p>Database after:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>1</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+			</section>
+
+			<section title="db.commit()">
+
+				<p>TODO</p>
+
+				<p>To demonstrate, let's continue the example from the previous section:
+				We have a Book and an Author, in a one-to-one relationship, both already persisted.
+				If we now change the book's author to someone new, an object that is not yet in the database, 
+				and just call db.commit(), the new Author will be persisted automatically.</p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Author a2 = new Author();
+a2.setId(2);
+a2.setName("Jack Johnson");
+
+Book b1 = db.load(Book.class, 1);
+b1.setAuthor(a2);
+
+db.commit();]]></code-panel>
+
+				<p>Database before:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>1</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p>Database after:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Jack Johnson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>2</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+			</section>
+
+			<section title="Modifying a collection">
+
+				<p>TODO</p>
+
+				<p>For the following examples, we will use the objects Department and Employee which have a
+				one-to-many relationship (every Department has one or more Employees). On the Java side, this is expressed
+				as the Department having a collection of Employee objects. In the database this will obviously be
+				the other way around, with the Employee table referencing the Department table. Every example will use
+				the same database as a starting point:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Sales"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">department_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p><b>Example 1: adding objects</b></p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Employee e4 = new Employee();
+e4.setId(4);
+e4.setName("George");
+
+Department dep = db.load(Department.class, 23);
+dep.getEmployees().add(e4);
+
+db.commit();]]></code-panel>
+			
+				<p>Database after:</p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Sales"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">department_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>"George"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<p><b>Example 2: removing objects TODO</b></p>
+				<p><b>Example 2: modifying objects TODO</b></p>
+
+
+			</section>
+			
+			<section title="Unidirectional vs. bidirectional to-many relationships">
+				
+				<p>TODO</p>
+				
+			</section>
+				
+		</section>
+
+		<section title="Limitations">
+
+			<p></p>
+
+
+		</section>
+
+		<section title="Tips">
+
+			<p></p>
+
+		</section>
+
+
+		<section title="References">
+
+			<ul>
+				<li>
+					<a href="jdo-mapping.html">JDO Mapping</a>
+				</li>
+			</ul>
+
+		</section>
+
+
+	</body>
+</document>
