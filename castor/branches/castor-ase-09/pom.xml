@@ -22,6 +22,10 @@
         
         <module>cpa-testcase-archetype</module>
         <module>codegen-testcase-archetype</module>
+        
+        <module>jpa-extensions-it</module>
+        
+        <!-- <module>cascading-it</module>  -->
 
         <!-- re-enable once properly integrated  -->        
         <!-- module>fragmentmapper</module> -->
