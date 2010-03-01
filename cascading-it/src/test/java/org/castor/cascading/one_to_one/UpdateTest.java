@@ -25,6 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -53,26 +54,53 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@After
 	public void tearDown() {
-		this.simpleJdbcTemplate.update("DELETE FROM OneToOne_Book WHERE 1=1");
-		this.simpleJdbcTemplate.update("DELETE FROM OneToOne_Author WHERE 1=1");
+		deleteFromTables("OneToOne_Book", "OneToOne_Author");
 		db.getCacheManager().expireCache();
 	}
 
 	@Test
-	@Transactional
-	public void changeAuthor_AutoStore() throws Exception {
+	@NotTransactional
+	public void changeAuthorAutoStore() throws Exception {
 		db.setAutoStore(true);
-		changeAuthor();
+		Author author = new Author();
+		author.setId(12);
+		author.setName("Jack");
+
+		Book book = new Book();
+		book.setId(11);
+		book.setAuthor(author);
+		book.setName("Book");
+
+		// create objects
+		db.begin();
+		db.create(author);
+		db.create(book);
+		db.commit();
+
+		// load objects
+		db.begin();
+		Book db_book = db.load(Book.class, 11);
+		db.commit();
+
+		// change author
+		db_book.getAuthor().setName("Joe");
+
+		// update objects
+		db.begin();
+		db.update(db_book);
+		db.commit();
+
+		// load objects again and check
+		db.begin();
+		Book db_book2 = db.load(Book.class, 11);
+		db.commit();
+
+		assertEquals(db_book2.getAuthor().getName(), "Joe");
 	}
 
 	@Test
-	@Transactional
-	public void changeAuthor_Cascading() throws Exception {
-		db.setAutoStore(false);
-		changeAuthor();
-	}
-
-	public void changeAuthor() throws Exception {
+	@NotTransactional
+	public void changeAuthorCascading() throws Exception {
 		Author author = new Author();
 		author.setId(12);
 		author.setName("Jack");

@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -38,27 +39,60 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@After
 	public void tearDown() {
-		this.simpleJdbcTemplate.update("DELETE FROM ManyToOne_Book WHERE 1=1");
-		this.simpleJdbcTemplate
-				.update("DELETE FROM ManyToOne_Author WHERE 1=1");
+		deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
 		db.getCacheManager().expireCache();
 	}
 
 	@Test
-	@Transactional
-	public void changeAuthor_AutoStore() throws Exception {
+	@NotTransactional
+	public void changeAuthorAutoStore() throws Exception {
 		db.setAutoStore(true);
-		changeAuthor();
+		
+		Author author = new Author();
+		author.setId(11);
+		author.setName("Jack");
+
+		Book book1 = new Book();
+		book1.setId(12);
+		book1.setName("book1");
+		book1.setAuthor(author);
+
+		Book book2 = new Book();
+		book2.setId(13);
+		book2.setName("book2");
+		book2.setAuthor(author);
+
+		// create objects
+		db.begin();
+		db.create(author);
+		db.create(book1);
+		db.create(book2);
+		db.commit();
+
+		// load objects
+		db.begin();
+		Book db_book1 = db.load(Book.class, 12);
+		db.commit();
+
+		// change author
+		db_book1.getAuthor().setName("new jack");
+
+		// update objects
+		db.begin();
+		db.update(db_book1);
+		db.commit();
+
+		// load objects again and check
+		db.begin();
+		Author db_author = db.load(Author.class, 11);
+		db.commit();
+
+		assertEquals(db_author.getName(), "new jack");
 	}
 
 	@Test
-	@Transactional
-	public void changeAuthor_Cascading() throws Exception {
-		db.setAutoStore(false);
-		changeAuthor();
-	}
-
-	public void changeAuthor() throws Exception {
+	@NotTransactional
+	public void changeAuthorCascading() throws Exception {
 		Author author = new Author();
 		author.setId(11);
 		author.setName("Jack");

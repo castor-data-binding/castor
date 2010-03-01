@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.ExpectedException;
+import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -35,28 +36,14 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@After
 	public void tearDown() {
-		this.simpleJdbcTemplate.update("DELETE FROM ManyToOne_Book WHERE 1=1");
-		this.simpleJdbcTemplate
-				.update("DELETE FROM ManyToOne_Author WHERE 1=1");
+		deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
 		db.getCacheManager().expireCache();
 	}
 
 	@Test
-	@Transactional
-	public void create_AutoStore() throws Exception {
+	@NotTransactional
+	public void createAutoStore() throws Exception {
 		db.setAutoStore(true);
-		create();
-
-	}
-
-	@Test
-	@Transactional
-	public void create_Cascading() throws Exception {
-		db.setAutoStore(false);
-		create();
-	}
-
-	public void create() throws Exception {
 		Author author = new Author();
 		author.setId(1);
 
@@ -74,7 +61,7 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 		db.create(book2);
 		db.commit();
 
-		// now let's see if book & author were properly commited/created
+		// now let's see if book & author were properly committed/created
 		db.begin();
 		Author db_author = db.load(Author.class, 1);
 		Book db_book = db.load(Book.class, 2);
@@ -84,6 +71,56 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 		assertEquals(1, db_author.getId());
 		assertEquals(2, db_book.getId());
 		assertEquals(3, db_book2.getId());
+
+		db.begin();
+		db_author = db.load(Author.class, 1);
+		db_book = db.load(Book.class, 2);
+		db_book2 = db.load(Book.class, 3);
+		db.remove(db_author);
+		db.remove(db_book);
+		db.remove(db_book2);
+		db.commit();
+	}
+
+	@Test
+	@NotTransactional
+	public void createCasacading() throws Exception {
+		Author author = new Author();
+		author.setId(1);
+
+		Book book = new Book();
+		book.setId(2);
+		book.setAuthor(author);
+		Book book2 = new Book();
+		book2.setId(3);
+		book2.setAuthor(author);
+
+		// persist book and therefore author
+		// (because cascading=true for the relation book --> author)
+		db.begin();
+		db.create(book);
+		db.create(book2);
+		db.commit();
+
+		// now let's see if book & author were properly committed/created
+		db.begin();
+		Author db_author = db.load(Author.class, 1);
+		Book db_book = db.load(Book.class, 2);
+		Book db_book2 = db.load(Book.class, 3);
+		db.commit();
+
+		assertEquals(1, db_author.getId());
+		assertEquals(2, db_book.getId());
+		assertEquals(3, db_book2.getId());
+
+		db.begin();
+		db_author = db.load(Author.class, 1);
+		db_book = db.load(Book.class, 2);
+		db_book2 = db.load(Book.class, 3);
+		db.remove(db_author);
+		db.remove(db_book);
+		db.remove(db_book2);
+		db.commit();
 	}
 
 	@Test
