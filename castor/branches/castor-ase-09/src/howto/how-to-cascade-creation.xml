@@ -489,7 +489,7 @@ e4.setName("George");
 
 Employee e5 = new Employee();
 e5.setId(5);
-e5.setName("John");
+e5.setName("Joe");
 
 Employee e6 = new Employee();
 e6.setId(6);
@@ -558,7 +558,7 @@ db.commit();]]></code-panel>
 								</tr>
 								<tr bgcolor="#DEDEDE">
 									<td>5</td>
-									<td>"John"</td>
+									<td>"Joe"</td>
 									<td>23</td>
 								</tr>
 								<tr>
@@ -579,6 +579,110 @@ db.commit();]]></code-panel>
 			<section title="Unidirectional vs. bidirectional to-many relationships">
 				
 				<p>TODO</p>
+				
+				<p><b>Unidirectional</b></p>
+				
+				<p>Department and Employee are two objects in a one-to-many relationship. Every
+				Department can have one or more Employees. Starting with an empty database, we can now
+				execute the following statements:</p>
+				
+				<code-panel><![CDATA[
+db.begin();
+
+Employee e1 = new Employee();
+e5.setId(1);
+e5.setName("John");
+
+Employee e2 = new Employee();
+e6.setId(2);
+e6.setName("Paul");
+
+Department dep1 = new Department();
+dep1.setId(23);
+dep1.setName("Sales");
+dep1.setEmployees(Arrays.asList(e1,e2));
+
+Department dep2 = new Department();
+dep2.setId(42);
+dep2.setName("Accounting");
+dep2.setEmployees(Arrays.asList(e2));
+
+db.create(dep1);
+
+db.commit();]]></code-panel>
+			
+				<p>This will produce the following:</p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Sales"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Department-to-Employee</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">department_id</th>
+									<th align="left">employee_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>23</td>
+									<td>2</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
 				
 			</section>
 				
