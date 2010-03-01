@@ -5,48 +5,48 @@ import org.junit.Ignore;
 
 @Ignore
 public class Book implements TimeStampable {
-    private int id;
-    private long timestamp;
-    private String name;
-    private Author author;
+	private int id;
+	private long timestamp;
+	private String name;
+	private Author author;
 
-    public int getId() {
-	return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public long jdoGetTimeStamp() {
-	return timestamp;
-    }
+	public long jdoGetTimeStamp() {
+		return timestamp;
+	}
 
-    public void jdoSetTimeStamp(long timestamp) {
-	this.timestamp = timestamp;
-    }
+	public void jdoSetTimeStamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public long getTimestamp() {
-	return timestamp;
-    }
+	public long getTimestamp() {
+		return timestamp;
+	}
 
-    public void setTimestamp(long timestamp) {
-	this.timestamp = timestamp;
-    }
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-	return name;
-    }
-    
-    public void setAuthor(Author author) {
-	this.author = author;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Author getAuthor() {
-	return author;
-    }
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	public Author getAuthor() {
+		return author;
+	}
 }
