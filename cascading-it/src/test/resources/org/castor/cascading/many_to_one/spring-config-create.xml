@@ -30,7 +30,7 @@
 
 	<bean id="jdoManager"
 		class="org.castor.spring.orm.LocalCastorFactoryBean">
-		<property name="databaseName" value="test" />
+		<property name="databaseName" value="testManyToOneCreate" />
 		<property name="configLocation"
 			value="classpath:org/castor/cascading/many_to_one/create/jdo-conf.xml" />
 	</bean>
