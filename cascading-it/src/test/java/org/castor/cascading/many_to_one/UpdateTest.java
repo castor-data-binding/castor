@@ -35,12 +35,7 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Before
 	public void setUp() throws Exception {
 		db = jdoManager.getDatabase();
-	}
-
-	@After
-	public void tearDown() {
 		deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
-		db.getCacheManager().expireCache();
 	}
 
 	@Test
@@ -139,17 +134,7 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Transactional
 	public void withNullValue_AutoStore() throws Exception {
 		db.setAutoStore(true);
-		withNullValue();
-	}
-
-	@Test
-	@Transactional
-	public void withNullValue_Cascading() throws Exception {
-		db.setAutoStore(false);
-		withNullValue();
-	}
-
-	public void withNullValue() throws Exception {
+		
 		Author author = new Author();
 		author.setId(111);
 		author.setName("Jack");
@@ -184,4 +169,42 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 		}
 	}
 
+	@Test
+	@Transactional
+	public void withNullValue_Cascading() throws Exception {
+		db.setAutoStore(false);
+		
+		Author author = new Author();
+		author.setId(111);
+		author.setName("Jack");
+
+		Book book1 = new Book();
+		book1.setId(112);
+		book1.setName("book1");
+		book1.setAuthor(author);
+
+		// create objects
+		db.begin();
+		db.create(author);
+		db.create(book1);
+		db.commit();
+
+		// load objects
+		db.begin();
+		Book db_book1 = db.load(Book.class, 112);
+		db.commit();
+
+		// set null
+		db_book1.setAuthor(null);
+
+		try {
+			// update objects
+			db.begin();
+			db.update(db_book1);
+			db.commit();
+			fail("Expected exception");
+		} catch (PersistenceException e) {
+			// ok
+		}
+	}
 }
