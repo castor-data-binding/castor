@@ -142,7 +142,7 @@ public class FieldMolder {
     
     
     // TODO: there is a javax.persist.CascadeType that we can maybe use
-    public enum CascadingType { CREATE, COMMIT, DELETE, UPDATE }
+    public enum CascadingType { CREATE, DELETE, UPDATE }
     private EnumSet<CascadingType> _cascading;
     
     /** Indicates whether this field has been flagged as transient, i.e. not to be considered 
@@ -551,7 +551,7 @@ public class FieldMolder {
                 //       when this is finally made into a proper list (enumeration and all)
                 //       this will probably have to be changed
                 // TODO: also, we should probably use constants
-                // note: we assumee here that the types are delimited by whitespace
+                // note: we assume here that the types are delimited by whitespace
                 if (fieldMap.getSql().getCascading() != null) {
                     String[] temp = fieldMap.getSql().getCascading().toLowerCase().trim().split("\\s+");
                     List<String> cascadingTypes = java.util.Arrays.asList(temp);
@@ -560,9 +560,6 @@ public class FieldMolder {
                     } else {
                         if (cascadingTypes.contains("create")) {
                     	_cascading.add(CascadingType.CREATE);
-                        }
-                        if (cascadingTypes.contains("commit")) {
-                    	_cascading.add(CascadingType.COMMIT);
                         }
                         if (cascadingTypes.contains("delete")) {
                     	_cascading.add(CascadingType.DELETE);

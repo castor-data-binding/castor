@@ -43,10 +43,6 @@ public abstract class BaseRelationResolver implements ResolverStrategy {
     }
     
     // TODO: what's the role of autostore with these ones?
-    
-    public boolean isCascadingCommit() {
-	return _fieldMolder.getCascading().contains(CascadingType.COMMIT);
-    }
 
     public boolean isCascadingDelete() {
 	return _fieldMolder.getCascading().contains(CascadingType.DELETE);

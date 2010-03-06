@@ -437,6 +437,7 @@ public class ClassMolder {
                     maxPrior = Math.max(maxPrior, refPrior);
                 }
                 /* should and "if case" for add _ids[i].isForeginKey() in the future */
+                // TODO: this could have something to do with to-many relationships not working properly
             }
 
             /* adjust priority if there are dependent classes */
