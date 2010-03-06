@@ -32,12 +32,7 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Before
 	public void setUp() throws Exception {
 		db = jdoManager.getDatabase();
-	}
-
-	@After
-	public void tearDown() {
 		deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
-		db.getCacheManager().expireCache();
 	}
 
 	@Test
@@ -127,17 +122,51 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Transactional
 	public void createNewAuthorForBook_AutoStore() throws Exception {
 		db.setAutoStore(false);
-		createNewAuthorForBook();
+		
+		Author author = new Author();
+		author.setId(1);
+
+		Book book = new Book();
+		book.setId(2);
+		book.setAuthor(author);
+		Book book2 = new Book();
+		book2.setId(3);
+		book2.setAuthor(author);
+
+		// persist book and therefore author
+		// (because cascading=true for the relation book --> author)
+		db.begin();
+		db.create(book);
+		db.create(book2);
+		db.commit();
+
+		Author newAuthor = new Author();
+		newAuthor.setId(4);
+
+		// now let's see if book & author were properly commited/created
+		db.begin();
+		Book db_book = db.load(Book.class, 2);
+		db_book.setAuthor(newAuthor);
+		db.commit();
+
+		db.begin();
+		db_book = db.load(Book.class, 2);
+		Book db_book2 = db.load(Book.class, 3);
+		Author db_author = db.load(Author.class, 1);
+		Author db_newAuthor = db.load(Author.class, 4);
+		db.commit();
+
+		assertEquals(2, db_book.getId());
+		assertEquals(3, db_book2.getId());
+		assertEquals(1, db_author.getId());
+		assertEquals(4, db_newAuthor.getId());
 	}
 
 	@Test
 	@Transactional
 	public void createNewAuthorForBook_Cascading() throws Exception {
 		db.setAutoStore(true);
-		createNewAuthorForBook();
-	}
-
-	public void createNewAuthorForBook() throws Exception {
+		
 		Author author = new Author();
 		author.setId(1);
 
@@ -182,18 +211,7 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@ExpectedException(PersistenceException.class)
 	public void createWithNullValue_AutoStore() throws Exception {
 		db.setAutoStore(true);
-		createWithNullValue();
-	}
-
-	@Test
-	@Transactional
-	@ExpectedException(PersistenceException.class)
-	public void createWithNullValue_Cascading() throws Exception {
-		db.setAutoStore(false);
-		createWithNullValue();
-	}
-
-	public void createWithNullValue() throws Exception {
+		
 		Book book = new Book();
 		book.setId(2);
 		book.setAuthor(null);
@@ -204,4 +222,19 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 		db.commit();
 	}
 
+	@Test
+	@Transactional
+	@ExpectedException(PersistenceException.class)
+	public void createWithNullValue_Cascading() throws Exception {
+		db.setAutoStore(false);
+		
+		Book book = new Book();
+		book.setId(2);
+		book.setAuthor(null);
+
+		// should not work cause null is not allowed
+		db.begin();
+		db.create(book);
+		db.commit();
+	}
 }

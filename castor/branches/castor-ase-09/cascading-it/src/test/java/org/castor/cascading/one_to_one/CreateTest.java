@@ -56,13 +56,6 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 		db = jdoManager.getDatabase();
 		deleteFromTables("OneToOne_Book", "OneToOne_Author");
 	}
-
-	@After
-	public void tearDown() throws Exception {
-		this.simpleJdbcTemplate.update("DELETE FROM OneToOne_Book");
-		this.simpleJdbcTemplate.update("DELETE FROM OneToOne_Author");
-		db.getCacheManager().expireCache();
-	}
 	
 	@Test
 	@NotTransactional

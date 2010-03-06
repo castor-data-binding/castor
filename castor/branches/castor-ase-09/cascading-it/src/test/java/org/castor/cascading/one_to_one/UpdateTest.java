@@ -50,18 +50,14 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Before
 	public void setUp() throws Exception {
 		db = jdoManager.getDatabase();
-	}
-
-	@After
-	public void tearDown() {
 		deleteFromTables("OneToOne_Book", "OneToOne_Author");
-		db.getCacheManager().expireCache();
 	}
 
 	@Test
 	@NotTransactional
 	public void changeAuthorAutoStore() throws Exception {
 		db.setAutoStore(true);
+		
 		Author author = new Author();
 		author.setId(12);
 		author.setName("Jack");
@@ -101,6 +97,8 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Test
 	@NotTransactional
 	public void changeAuthorCascading() throws Exception {
+	    	db.setAutoStore(false);
+	    	
 		Author author = new Author();
 		author.setId(12);
 		author.setName("Jack");
@@ -138,20 +136,55 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	}
 
 	@Test
-	@Transactional
+	@NotTransactional
 	public void newAuthor_AutoStore() throws Exception {
 		db.setAutoStore(true);
-		newAuthor();
+		
+		Author author = new Author();
+		author.setId(12);
+		author.setName("Jack");
+
+		Book book = new Book();
+		book.setId(11);
+		book.setAuthor(author);
+		book.setName("Book");
+
+		// create objects
+		db.begin();
+		db.create(author);
+		db.create(book);
+		db.commit();
+
+		// load objects
+		db.begin();
+		Book db_book = db.load(Book.class, 11);
+		db.commit();
+
+		// replace author
+		Author author2 = new Author();
+		author2.setId(13);
+		author2.setName("John");
+
+		db_book.setAuthor(author2);
+
+		// update objects
+		db.begin();
+		db.update(db_book);
+		db.commit();
+
+		// load objects again and check
+		db.begin();
+		Book db_book2 = db.load(Book.class, 11);
+		db.commit();
+
+		assertEquals(db_book2.getAuthor().getName(), "John");
 	}
 
 	@Test
-	@Transactional
+	@NotTransactional
 	public void newAuthor_Cascading() throws Exception {
 		db.setAutoStore(false);
-		newAuthor();
-	}
-
-	public void newAuthor() throws Exception {
+		
 		Author author = new Author();
 		author.setId(12);
 		author.setName("Jack");
@@ -196,17 +229,7 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Transactional
 	public void withNullValue_AutoStore() throws Exception {
 		db.setAutoStore(true);
-		withNullValue();
-	}
-
-	@Test
-	@Transactional
-	public void withNullValue_Cascading() throws Exception {
-		db.setAutoStore(false);
-		withNullValue();
-	}
-
-	public void withNullValue() throws Exception {
+		
 		Author author = new Author();
 		author.setId(12);
 		author.setName("Jack");
@@ -236,7 +259,47 @@ public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 			db.begin();
 			db.update(db_book);
 			db.commit();
-			fail("Exception should have bennt thrown!");
+			fail("Exception should have been thrown!");
+		} catch (PersistenceException e) {
+			// everything ok, 'cause Exception has been thrown during update
+		}
+	}
+
+	@Test
+	@Transactional
+	public void withNullValue_Cascading() throws Exception {
+		db.setAutoStore(false);
+		
+		Author author = new Author();
+		author.setId(12);
+		author.setName("Jack");
+
+		Book book = new Book();
+		book.setId(11);
+		book.setAuthor(author);
+		book.setName("Book");
+
+		// create objects
+		db.begin();
+		db.create(author);
+		db.create(book);
+		db.commit();
+
+		// load objects
+		db.begin();
+		Book db_book = db.load(Book.class, 11);
+		db.commit();
+
+		// replace author with null
+		db_book.setAuthor(null);
+
+		// foreign key is not null -> exception should be thrown
+		try {
+			// update objects
+			db.begin();
+			db.update(db_book);
+			db.commit();
+			fail("Exception should have been thrown!");
 		} catch (PersistenceException e) {
 			// everything ok, 'cause Exception has been thrown during update
 		}
