@@ -14,21 +14,27 @@
 
 		<section title="Overview">
 
-			<p></p>
+			<p>Cascading creation allows you to transfer some of the responsibilities of creating objects to Castor.
+			  To be more precise: if you enable cascading creation on a relationship, all objects on one end of that
+			  relationship, that have not yet been created, will be created when the other end gets persisted.
+			  This saves you from manually creating every single object, which is especially useful when dealing with
+			  large object graphs that have many relationships or many objects in a single relationship.</p>			  
 
 		</section>
 
-		<section title="Intended Audience">
+		<section title="Enabling cascading creation">
 
-			<p></p>
+			<p>To enable cascading creation on a relationship you simply set the cascading attribute of the &lt;sql&gt; field
+			  describing the relation to "create" (or "all"):</p>
 
-		</section>
+			<code-panel><![CDATA[
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" cascading="create" />
+</field>
+]]></code-panel>
 
-		<section title="Prerequisites">
-
-			<p>bla</p>
-
-			<code-panel>foo</code-panel>
+    <p>In case of bidirectional relationships, be aware that it matters on which end you enable cascading creation.
+      It is also possible to enable it on both ends.</p>
 
 		</section>
 
@@ -38,7 +44,9 @@
 
 			<section title="db.create()">
 
-				<p>TODO</p>
+				<p>The most intuitive case is when you explicitly call db.create() on an object that has cascading
+				  creation enabled on one or more of his relationships. If the objects in those relationships have not
+				  yet been created, they now will be.</p>
 
 				<p>Here is a simple example, where the objects Author and Book are in a one-to-one 
 				relationship (i.e. every Book has exactly one Author):</p>
@@ -152,7 +160,10 @@ db.commit();]]></code-panel>
 
 			<section title="db.commit()">
 
-				<p>TODO</p>
+				<p>Cascading creation also works implicitly: any objects that are on the receiving end of a cascaded relationship
+				  will be created upon transaction commit, provided they do not exist yet and that the object on the
+				  primary end of that relationship does. In other words: if you modify a relationship property of a loaded object,
+				  any new objects that now need to be created will be created.</p>
 
 				<p>To demonstrate, let's continue the example from the previous section:
 				We have a Book and an Author, in a one-to-one relationship, both already persisted.
@@ -271,13 +282,13 @@ db.commit();]]></code-panel>
 
 			<section title="Modifying a collection">
 
-				<p>TODO</p>
+				<p>The real usefulness of cascading creation gets apparent when dealing with collections.</p>
 
 				<p>For the following examples, we will use the objects Department and Employee which have a
 				one-to-many relationship (every Department has one or more Employees). On the Java side, this is expressed
 				as the Department having a collection of Employee objects. In the database this will obviously be
-				the other way around, with the Employee table referencing the Department table. Every example will use
-				the same database as a starting point:</p>
+				the other way around, with the Employee table referencing the Department table. Every example in this section
+				will use the same database as a starting point:</p>
 
 				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
 					style="display:inline">
@@ -478,7 +489,7 @@ db.commit();]]></code-panel>
 				alternatively, also delete the Employee when you remove the relationship (either by manually calling
 				db.remove() or TODO)</p>
 				
-				<p><b>Example 2: modifying objects</b></p>
+				<p><b>Example 3: adding &amp; removing objects</b></p>
 				
 				<code-panel><![CDATA[
 db.begin();
@@ -573,134 +584,15 @@ db.commit();]]></code-panel>
 				
 				<p>The note to example 2 also applies here.</p>
 				
-
-			</section>
-			
-			<section title="Unidirectional vs. bidirectional to-many relationships">
-				
-				<p>TODO</p>
-				
-				<p><b>Unidirectional</b></p>
-				
-				<p>Department and Employee are two objects in a one-to-many relationship. Every
-				Department can have one or more Employees. Starting with an empty database, we can now
-				execute the following statements:</p>
-				
-				<code-panel><![CDATA[
-db.begin();
-
-Employee e1 = new Employee();
-e5.setId(1);
-e5.setName("John");
-
-Employee e2 = new Employee();
-e6.setId(2);
-e6.setName("Paul");
-
-Department dep1 = new Department();
-dep1.setId(23);
-dep1.setName("Sales");
-dep1.setEmployees(Arrays.asList(e1,e2));
-
-Department dep2 = new Department();
-dep2.setId(42);
-dep2.setName("Accounting");
-dep2.setEmployees(Arrays.asList(e2));
-
-db.create(dep1);
-
-db.commit();]]></code-panel>
-			
-				<p>This will produce the following:</p>
-			
-				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
-					style="display:inline">
-					<tr bgcolor="#ffffff">
-						<th>Department</th>
-					</tr>
-					<tr>
-						<td>
-							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
-								<tr bgcolor="#7270c2" style="color:#000000">
-									<th align="left">id</th>
-									<th align="left">name</th>
-								</tr>
-								<tr bgcolor="#DEDEDE">
-									<td>23</td>
-									<td>"Sales"</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-
-				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
-					style="display:inline">
-					<tr bgcolor="#ffffff">
-						<th>Employee</th>
-					</tr>
-					<tr>
-						<td>
-							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
-								<tr bgcolor="#7270c2" style="color:#000000">
-									<th align="left">id</th>
-									<th align="left">name</th>
-								</tr>
-								<tr bgcolor="#DEDEDE">
-									<td>1</td>
-									<td>"John"</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>"Paul"</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-				
-				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
-					style="display:inline">
-					<tr bgcolor="#ffffff">
-						<th>Department-to-Employee</th>
-					</tr>
-					<tr>
-						<td>
-							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
-								<tr bgcolor="#7270c2" style="color:#000000">
-									<th align="left">department_id</th>
-									<th align="left">employee_id</th>
-								</tr>
-								<tr bgcolor="#DEDEDE">
-									<td>23</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>23</td>
-									<td>2</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-				
 			</section>
 				
 		</section>
 
 		<section title="Limitations">
 
-			<p></p>
-
-
-		</section>
-
-		<section title="Tips">
-
-			<p></p>
+			<p>TODO</p>
 
 		</section>
-
 
 		<section title="References">
 
