@@ -14,31 +14,117 @@
 
 	<section title="Overview">
 
-        <p></p>
+        <p>Till now users of castor where able to automatically store/edit or delete objects which are related by 
+           a mapping file by using the autostore(boolean) method of a Database implementation. 
+           This was quite useful but on a second look you'll see, that it's not exactly what you want to have
+           espacially if you have a big project. 
+           You might want to have autostore activated for one object, but not for another. 
+           Or even more tricky, you might like to automatically track changes in one relation of an object but not in the other?
+
+		   The solution to that is the cascading-attribute in the sql tag of the mapping file!
+		</p>
         
     </section>
     
     <section title="Intended Audience">
 
-        <p></p>
-        
+        <p>
+        	1) Everyone who wants to cascade operations done to one object over any type of object relation.
+        </p>
+        <p>
+        	2) Everyone who now uses autostore in order to cascade operations should change that and use cascading attributes.
+        	First because it's possible to finer define which operations should get cascaded
+        	Second cause it's a long term goal to deprecate the autostore functionality!
+        </p>
+        <p>
+        	This and all other cascading documents address people familiar with the basic concepts of mapping files and relations
+        	between objects (on database level as well as on object level)
+        </p>
     </section>
     
     <section title="Prerequisites">
 
-        <p>bla</p>
+        <p>
+        	You should have a valid mapping file, containing at least two objects, beeing in relation with each other.
+        	For example:
+        	
+		</p>
 
-                <code-panel>foo</code-panel>
+                <code-panel>
+&lt;mapping&gt;
+	&lt;class name="org.castor.cascading.one_to_one.Author" identity="id"&gt;
+		&lt;cache-type type="none" /&gt;
+		&lt;map-to table="OneToOne_Author" /&gt;
+		&lt;field name="id" type="integer"&gt;
+			&lt;sql name="id" type="integer" /&gt;
+		&lt;/field&gt;
+		&lt;field name="timestamp" type="long"&gt;
+			&lt;sql name="time_stamp" type="numeric" /&gt;
+		&lt;/field&gt;
+		&lt;field name="name" type="string"&gt;
+			&lt;sql name="name" type="char" /&gt;
+		&lt;/field&gt;
+	&lt;/class&gt;
+	&lt;class name="org.castor.cascading.one_to_one.Book" identity="id"&gt;
+		&lt;cache-type type="none" /&gt;
+		&lt;map-to table="OneToOne_Book" /&gt;
+		&lt;field name="id" type="integer"&gt;
+			&lt;sql name="id" type="integer" /&gt;
+		&lt;/field&gt;
+		&lt;field name="timestamp" type="long"&gt;
+			&lt;sql name="time_stamp" type="numeric" /&gt;
+		&lt;/field&gt;
+		&lt;field name="name" type="string"&gt;
+			&lt;sql name="name" type="char" /&gt;
+		&lt;/field&gt;
+		&lt;field name="author" type="org.castor.cascading.one_to_one.Author"&gt;
+			&lt;sql name="author_id"/&gt;
+		&lt;/field&gt;
+	&lt;/class&gt;
+&lt;/mapping&gt;
+				</code-panel>
 
     </section>
+    
+    <section title="Steps">
+    	<section title="Add cascading attribute in sql tag>
+    		<p>
+    			In order to activate cascading for the relation defined in the mapping file
+    			you have to add the following attribute in to the mapping file:
+    			
+    			<code-panel>
+   	...
+   	
+    &lt;class name="org.castor.cascading.one_to_one.Book" identity="id"&gt;
+		&lt;cache-type type="none" /&gt;
+		...
+		
+		&lt;field name="author" type="org.castor.cascading.one_to_one.Author"&gt;
+			&lt;sql name="author_id" <font color="red">cascading="create"</font>/&gt;
+		&lt;/field&gt;
+	&lt;/class&gt;
+				</code-panel>
+				
+				<p>
+					Remember that the previous code adding the create operation is only an
+					example. You can define any combination of cascading attributes, using 
+					the standard xml syntax for collections deviding different selections with spaces
+				</p>
+    	</section>
+    </section>
 
-    <section title="Scenarios">
+    <section title="Possible functionality">
 
-        <p></p>
+        <p>
+        	In order to achieve an optimal granulation of activating and deactivating
+        	functionality, there are 5 possible operations which can be activated seperately
+        	or in any combination.
+       	</p>
 
-        <section title="">
+        <section title="Possible operations">
 
-            <p></p>
+            <p>
+            </p>
 
             <code-panel>foo
             </code-panel>
