@@ -985,6 +985,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // Must acquire a write lock on the object in order to delete it,
         // prevents object form being deleted while someone else is
         // looking at it.
+        //TODO ASE: somewhere here we should define the cascading delete operation but how and where?
         try {
             _tracker.markDeleted(object);
             engine.softLock(this, oid, _lockTimeout);

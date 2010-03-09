@@ -46,7 +46,7 @@ public interface ResolverStrategy {
      */
     Object create(TransactionContext tx, Object object)
     throws PersistenceException;
-    
+    //TODO: annotate code to ensure correct walk through related objects!
 
     /**
      * Called after successful creation of an object of the base class.

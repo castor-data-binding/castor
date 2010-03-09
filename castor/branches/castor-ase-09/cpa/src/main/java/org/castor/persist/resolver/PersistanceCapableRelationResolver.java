@@ -356,7 +356,8 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
         if (identity != null) {
             Object fetched = tx.fetch(fieldClassMolder, identity, null);
             if (fetched != null) {
-                if (_fieldMolder.isDependent()) {
+            	//TODO: changed by ASE team to implement cascading delete... please verify!
+                if (_fieldMolder.isDependent() || isCascadingDelete()) {
                     tx.delete(fetched);
                 } else {
                     // delete the object from the other side of the relation
@@ -365,7 +366,8 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
             }
         }
         
-        if (_fieldMolder.isDependent()) {
+        //TODO: changes done by ASE team... please verify
+        if (_fieldMolder.isDependent() || isCascadingDelete()) {
             Object fobject = _fieldMolder.getValue(object, tx.getClassLoader());
             if ((fobject != null) && tx.isPersistent(fobject)) {
                 tx.delete(fobject);
