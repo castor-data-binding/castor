@@ -87,7 +87,7 @@
     </section>
     
     <section title="Steps">
-    	<section title="Add cascading attribute in sql tag>
+    	<section title="Add cascading attribute in sql tag">
     		<p>
     			In order to activate cascading for the relation defined in the mapping file
     			you have to add the following attribute in to the mapping file:
@@ -117,62 +117,46 @@
 
         <p>
         	In order to achieve an optimal granulation of activating and deactivating
-        	functionality, there are 5 possible operations which can be activated seperately
+        	functionality, there are 3 possible operations which can be activated separately
         	or in any combination.
+        	
+        	What you have to keep in mind is that some cascading types does not only affect the 
+        	the coincidental same called database operations, but also other changes in object relations.
+        	For more explicit detail please read the sections specifying the attributes definite. 
        	</p>
 
         <section title="Possible operations">
 
-            <p>
-            </p>
-
-            <code-panel>foo
-            </code-panel>
-            
+            <section title="create">
+            	<ul>
+            		<li><a href="how-to-cascade-creation.html">Section with details for create operation</a></li>
+        		</ul>
+        	</section>
+        	<section title="delete">
+            	<ul>
+            		<li><a href="how-to-cascade-deletion.html">Section with details for delete operation</a></li>
+        		</ul>
+        	</section>
+        	<section title="update">
+            	<ul>
+            		<li><a href="how-to-cascade-update.html">Section with details for update operation</a></li>
+        		</ul>
+        	</section>
+        	<sections title="all">
+        		<p>
+        			The all operation says, that all three basic operations should be defined
+        			at the same moment! If you say cascading=all you mean the same as defining create,
+        			update and delete at the same time!
+        		</p>
+        	</section>
         </section>
-        
-        <section title="x2">
-
-            <p></p>
-
-            <code-panel>foo
-            </code-panel>
-
-        </section>
-
-        <section title="x3">
-
-            <p></p>
-
-            <code-panel>foo
-            </code-panel>
-
-        </section>
-
     </section>
     
-    <section title="Limitations">
-        
-         <p></p>
-
-        
-    </section>
-    
-    <section title="Tips">
-
-        <p></p>  
-        
-    </section>
-
-
     <section title="References">
-
         <ul>
             <li><a href="jdo-mapping.html">JDO Mapping</a></li>
         </ul>
-        
     </section>
-
 
     </body>
 </document>
