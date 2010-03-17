@@ -22,7 +22,7 @@ import org.castor.core.util.CastorProperties;
 import org.castor.core.util.AbstractProperties;
 
 /**
- * Properties of XML modul.
+ * Properties of XML module.
  * 
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -31,17 +31,17 @@ import org.castor.core.util.AbstractProperties;
 public class XMLProperties extends AbstractProperties {
     //--------------------------------------------------------------------------
 
-    /** Path to Castor properties of core modul. */
+    /** Path to Castor properties of core module. */
     private static final String FILEPATH = "/org/castor/xml/";
 
-    /** Name of Castor properties of core modul. */
+    /** Name of Castor properties of core module. */
     private static final String FILENAME = "castor.xml.properties";
     
     //--------------------------------------------------------------------------
     
     /**
      * Factory method for a default XML properties instance. Application and domain class
-     * loaders will be initialized to the one used to load this class. The properties instance
+     * loaders will be initialised to the one used to load this class. The properties instance
      * returned will be a CastorProperties with a XMLProperties and a CoreProperties instance
      * as parents. The CastorProperties holding user specific properties is the only one that
      * can be modified by put() and remove() methods. XMLProperties and CoreProperties are
@@ -62,12 +62,12 @@ public class XMLProperties extends AbstractProperties {
      * properties instance returned will be a CastorProperties with a XMLProperties and
      * a CoreProperties instance as parents. The CastorProperties holding user specific
      * properties is the only one that can be modified by put() and remove() methods.
-     * XMLProperties and CoreProperties are responsble to deliver Castor's default values
+     * XMLProperties and CoreProperties are responsible to deliver Castor's default values
      * if they have not been overwritten by the user.
      * 
-     * @param app Classloader to be used for all classes of Castor and its required libraries.
-     * @param domain Classloader to be used for all domain objects.
-     * @return Properties instance for Castor XML modul.
+     * @param app {@link ClassLoader} to be used for all classes of Castor and its required libraries.
+     * @param domain {@link ClassLoader} to be used for all domain objects.
+     * @return Properties instance for Castor XML module.
      */
     public static AbstractProperties newInstance(final ClassLoader app, final ClassLoader domain) {
         AbstractProperties core = new CoreProperties(app, domain);
@@ -197,7 +197,7 @@ public class XMLProperties extends AbstractProperties {
     public static final String JAVA_NAMING = "org.castor.xml.java.naming";        
     
     /**
-     * Property specifying whether to use validation in the Marshalling 
+     * Property specifying whether to use validation in the marshalling 
      * framework.
      * 
      *
@@ -238,7 +238,7 @@ public class XMLProperties extends AbstractProperties {
      public static final String PARSER_FEATURES = "org.exolab.castor.sax.features";
      
      /**
-      * Property specifying features to be disbaled on the underlying SAX parser.
+      * Property specifying features to be disabled on the underlying SAX parser.
       * This value contains a comma separated list of features to be disabled.
       * 
       * <pre>
