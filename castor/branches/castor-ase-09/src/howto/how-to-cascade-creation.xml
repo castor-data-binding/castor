@@ -103,7 +103,7 @@ db.commit();]]></code-panel>
 									<th align="left">author_id</th>
 								</tr>
 								<tr bgcolor="#DEDEDE">
-									<td colspan="2">(empty table)</td>
+									<td colspan="3">(empty table)</td>
 								</tr>
 							</table>
 						</td>
@@ -289,7 +289,7 @@ db.commit();]]></code-panel>
 				as the Department having a collection of Employee objects. In the database this will obviously be
 				the other way around, with the Employee table referencing the Department table. Every example in this section
 				will use the same database as a starting point:</p>
-
+				
 				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
 					style="display:inline">
 					<tr bgcolor="#ffffff">
@@ -304,7 +304,7 @@ db.commit();]]></code-panel>
 								</tr>
 								<tr bgcolor="#DEDEDE">
 									<td>23</td>
-									<td>"Sales"</td>
+									<td>"Accounting"</td>
 								</tr>
 							</table>
 						</td>
@@ -374,7 +374,7 @@ db.commit();]]></code-panel>
 								</tr>
 								<tr bgcolor="#DEDEDE">
 									<td>23</td>
-									<td>"Sales"</td>
+									<td>"Accounting"</td>
 								</tr>
 							</table>
 						</td>
@@ -445,7 +445,7 @@ db.commit();]]></code-panel>
 								</tr>
 								<tr bgcolor="#DEDEDE">
 									<td>23</td>
-									<td>"Sales"</td>
+									<td>"Accounting"</td>
 								</tr>
 							</table>
 						</td>
@@ -527,7 +527,7 @@ db.commit();]]></code-panel>
 								</tr>
 								<tr bgcolor="#DEDEDE">
 									<td>23</td>
-									<td>"Sales"</td>
+									<td>"Accounting"</td>
 								</tr>
 							</table>
 						</td>
@@ -588,17 +588,11 @@ db.commit();]]></code-panel>
 				
 		</section>
 
-		<section title="Limitations">
-
-			<p>TODO</p>
-
-		</section>
-
-		<section title="References">
+		<section title="See also">
 
 			<ul>
 				<li>
-					<a href="jdo-mapping.html">JDO Mapping</a>
+					<a href="how-to-use-cascading-operations.html">How to use cascading operations - overview</a>
 				</li>
 			</ul>
 

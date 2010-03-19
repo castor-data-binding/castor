@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.org/howto/how-to-use-cascading-operations.xml">
 	<properties>
-		<title>How to cascade deletion</title>
+		<title>How to cascade update</title>
 		<abstract>
-			Describes the various possibilities Castor provides to cascade deletion
+			Describes the various possibilities Castor provides to cascade update
 		</abstract>
 		<status>Draft</status>
 	</properties>
 	<body>
-		<title>How to cascade deletion</title>
+		<title>How to cascade update</title>
 		<header>
 		</header>
 
 		<section title="Overview">
 
-			<p>If you enable cascading deletion on a relationship, deleting the object on one end of the relationship
-			(i.e. calling db.remove() on the object) will also delete the object on the other end.</p>
+			<p>When working with long transactions, you can cascade the db.update() operation, so that, for example,
+			updating the root of a large object graph causes all connected entites to update as well (provided cascading
+			update is enabled on the particular relationships, of course).</p>
 
 		</section>
 
-		<section title="Enabling cascading deletion">
+		<section title="Enabling cascading update">
 
-			<p>To enable cascading deletion on a relationship you simply set the cascading attribute of the &lt;sql&gt; field
-			  describing the relation to "delete" (or "all"):</p>
+			<p>To enable cascading update on a relationship you simply set the cascading attribute of the &lt;sql&gt; field
+			  describing the relation to "update" (or "all"):</p>
 
 			<code-panel><![CDATA[
 <field name="book" type="myapp.Book" >
-  <sql name="book_id" cascading="delete" />
+  <sql name="book_id" cascading="update" />
 </field>
 ]]></code-panel>
 
-    <p>In case of bidirectional relationships, be aware that it matters on which end you enable cascading deletion.
+    <p>In case of bidirectional relationships, be aware that it matters on which end you enable cascading update.
       It is also possible to enable it on both ends.</p>
 
 		</section>
@@ -39,7 +40,7 @@
 
 			<p></p>
 
-			<section title="db.remove()">
+			<section title="db.update()">
 
 				<p>Let's say we have the objects Author and Book and they are in a one-to-one relationship, with every Book
 				having exactly one Author. The database looks like this:</p>
@@ -88,18 +89,21 @@
 					</tr>
 				</table>
 				
-				<p>Now, since we specified the relationship to cascade deletion, if we remove the book, 
-				the author gets removed too (after all, an author without a book isn't really an author).</p>
+				<p>Now let's change the book's title. Note that we never directly load the book and 
+				that the change happens outside of any transaction:</p>
 
 				<code-panel><![CDATA[
 db.begin();
+Author a1 = db.load(Author.class, 1);
+db.commit();
 
-Book b1 = db.load(Book.class, 1);
-db.remove(db1);
+a1.getBook().setName("My Fantastic Life");
 
+db.begin();
+db.update(a1);
 db.commit();]]></code-panel>
 
-				<p>Afterwards, the database predictably looks like this:</p>
+				<p>Afterwards, the database looks like this:</p>
 
 				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
 					style="display:inline">
@@ -114,7 +118,8 @@ db.commit();]]></code-panel>
 									<th align="left">name</th>
 								</tr>
 								<tr bgcolor="#DEDEDE">
-									<td colspan="2">(empty table)</td>
+									<td>1</td>
+									<td>"John Jackson"</td>
 								</tr>
 							</table>
 						</td>
@@ -135,21 +140,31 @@ db.commit();]]></code-panel>
 									<th align="left">author_id</th>
 								</tr>
 								<tr bgcolor="#DEDEDE">
-									<td colspan="3">(empty table)</td>
+									<td>1</td>
+									<td>"My Fantastic Life"</td>
+									<td>1</td>
 								</tr>
 							</table>
 						</td>
 					</tr>
 				</table>
-				
-				<p>Cascading the deletion of objects in to-many relationships works in exactly the same way.</p>
-				
-				<p>Note: You need to explicitly invoke db.remove() to delete an object. Simply setting a relational property to NULL
-				or removing an item from a collection will not remove the corresponding entity from the database, even with cascading
-				deletion enabled.</p>
 
 			</section>
 				
+		</section>
+
+		<section title="Limitations">
+			<ul>
+				<li>
+					<p>To-many relationships are currently not supported (except many-to-one).</p>
+				</li>
+				<li>
+					<p>As it is now, enabling cascading update will cause db.update() to also create any entities 
+					that have not yet been persisted. (In other words: setting cascading to "update" has the same 
+					effect as setting it to "update create", but only when invoking db.update().)</p>
+				</li>
+			</ul>
+			
 		</section>
 
 		<section title="See also">

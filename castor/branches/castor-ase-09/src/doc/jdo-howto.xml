@@ -51,10 +51,10 @@
         
         <section title="Cascading">
         	<ul>
-                <li><a hreg="how-to-use-cascading-operations.html">How to use cascading operations - overview</a></li>
+                <li><a href="how-to-use-cascading-operations.html">How to use cascading operations - overview</a></li>
         		<li><a href="how-to-cascade-creation.html">How to cascade creation</a></li>
-        		<li><a href="how-to-cascade-modification.html">How to cascade modification</a></li>
         		<li><a href="how-to-cascade-deletion.html">How to cascade deletion</a></li>
+        		<li><a href="how-to-cascade-update.html">How to cascade update</a></li>
 	        </ul>
         </section>
 
