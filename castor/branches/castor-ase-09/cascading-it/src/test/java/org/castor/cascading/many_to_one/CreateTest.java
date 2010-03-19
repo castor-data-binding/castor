@@ -1,10 +1,10 @@
 package org.castor.cascading.many_to_one;
 
 import static org.junit.Assert.assertEquals;
+
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.PersistenceException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,222 +19,228 @@ import org.springframework.transaction.annotation.Transactional;
  * Verifies the correct behaviour of cascading set to "create".
  * 
  * @author Ivo Friedberg
+ * @author Michael Schroeder
  */
 @ContextConfiguration(locations = { "spring-config-create.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-	@Autowired
-	private JDOManager jdoManager;
+    @Autowired
+    private JDOManager jdoManager;
 
-	Database db;
+    Database db;
 
-	@Before
-	public void setUp() throws Exception {
-		db = jdoManager.getDatabase();
-		deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
-	}
+    @Before
+    public void setUp() throws Exception {
+	db = jdoManager.getDatabase();
+	deleteFromTables("ManyToOne_Book", "ManyToOne_Author");
+    }
 
-	@Test
-	@NotTransactional
-	public void createAutoStore() throws Exception {
-		db.setAutoStore(true);
-		Author author = new Author();
-		author.setId(1);
+    @Test
+    @NotTransactional
+    public void create_AutoStore() throws Exception {
+	db.setAutoStore(true);
+	
+	// book1 --> author
+	// book2 --> author
+	
+	Author author = new Author();
+	author.setId(1);
 
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(author);
-		Book book2 = new Book();
-		book2.setId(3);
-		book2.setAuthor(author);
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(author);
+	
+	Book book2 = new Book();
+	book2.setId(3);
+	book2.setAuthor(author);
 
-		// persist book and therefore author
-		// (because cascading=true for the relation book --> author)
-		db.begin();
-		db.create(book);
-		db.create(book2);
-		db.commit();
+	// persist books and therefore author
+	// (because autostore = true)
+	db.begin();
+	db.create(book);
+	db.create(book2);
+	db.commit();
 
-		// now let's see if book & author were properly committed/created
-		db.begin();
-		Author db_author = db.load(Author.class, 1);
-		Book db_book = db.load(Book.class, 2);
-		Book db_book2 = db.load(Book.class, 3);
-		db.commit();
+	// now let's see if book & author were properly committed/created
+	db.begin();
+	Author db_author = db.load(Author.class, 1);
+	Book db_book = db.load(Book.class, 2);
+	Book db_book2 = db.load(Book.class, 3);
+	db.commit();
 
-		assertEquals(1, db_author.getId());
-		assertEquals(2, db_book.getId());
-		assertEquals(3, db_book2.getId());
+	assertEquals(1, db_author.getId());
+	assertEquals(2, db_book.getId());
+	assertEquals(3, db_book2.getId());
+    }
 
-		db.begin();
-		db_author = db.load(Author.class, 1);
-		db_book = db.load(Book.class, 2);
-		db_book2 = db.load(Book.class, 3);
-		db.remove(db_author);
-		db.remove(db_book);
-		db.remove(db_book2);
-		db.commit();
-	}
+    @Test
+    @NotTransactional
+    public void create_Casacading() throws Exception {
+	db.setAutoStore(false);
+	
+	// book1 --> author
+	// book2 --> author
+	
+	Author author = new Author();
+	author.setId(1);
 
-	@Test
-	@NotTransactional
-	public void createCasacading() throws Exception {
-		Author author = new Author();
-		author.setId(1);
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(author);
+	
+	Book book2 = new Book();
+	book2.setId(3);
+	book2.setAuthor(author);
 
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(author);
-		Book book2 = new Book();
-		book2.setId(3);
-		book2.setAuthor(author);
+	// persist books and therefore author
+	// (because cascading = create)
+	db.begin();
+	db.create(book);
+	db.create(book2);
+	db.commit();
 
-		// persist book and therefore author
-		// (because cascading=true for the relation book --> author)
-		db.begin();
-		db.create(book);
-		db.create(book2);
-		db.commit();
+	// now let's see if book & author were properly committed/created
+	db.begin();
+	Author db_author = db.load(Author.class, 1);
+	Book db_book = db.load(Book.class, 2);
+	Book db_book2 = db.load(Book.class, 3);
+	db.commit();
 
-		// now let's see if book & author were properly committed/created
-		db.begin();
-		Author db_author = db.load(Author.class, 1);
-		Book db_book = db.load(Book.class, 2);
-		Book db_book2 = db.load(Book.class, 3);
-		db.commit();
+	assertEquals(1, db_author.getId());
+	assertEquals(2, db_book.getId());
+	assertEquals(3, db_book2.getId());
+    }
 
-		assertEquals(1, db_author.getId());
-		assertEquals(2, db_book.getId());
-		assertEquals(3, db_book2.getId());
+    @Test
+    @Transactional
+    public void replaceAuthor_AutoStore() throws Exception {
+	db.setAutoStore(true);
 
-		db.begin();
-		db_author = db.load(Author.class, 1);
-		db_book = db.load(Book.class, 2);
-		db_book2 = db.load(Book.class, 3);
-		db.remove(db_author);
-		db.remove(db_book);
-		db.remove(db_book2);
-		db.commit();
-	}
+	// book  --> author
+	// book2 --> author
+	
+	Author author = new Author();
+	author.setId(1);
 
-	@Test
-	@Transactional
-	public void createNewAuthorForBook_AutoStore() throws Exception {
-		db.setAutoStore(false);
-		
-		Author author = new Author();
-		author.setId(1);
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(author);
 
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(author);
-		Book book2 = new Book();
-		book2.setId(3);
-		book2.setAuthor(author);
+	Book book2 = new Book();
+	book2.setId(3);
+	book2.setAuthor(author);
 
-		// persist book and therefore author
-		// (because cascading=true for the relation book --> author)
-		db.begin();
-		db.create(book);
-		db.create(book2);
-		db.commit();
+	// persist books and therefore author
+	// (because autostore = true)
+	db.begin();
+	db.create(book);
+	db.create(book2);
+	db.commit();
 
-		Author newAuthor = new Author();
-		newAuthor.setId(4);
+	// replace book's author with newAuthor
+	
+	Author newAuthor = new Author();
+	newAuthor.setId(4);
 
-		// now let's see if book & author were properly commited/created
-		db.begin();
-		Book db_book = db.load(Book.class, 2);
-		db_book.setAuthor(newAuthor);
-		db.commit();
+	db.begin();
+	Book db_book = db.load(Book.class, 2);
+	db_book.setAuthor(newAuthor);
+	db.commit();
 
-		db.begin();
-		db_book = db.load(Book.class, 2);
-		Book db_book2 = db.load(Book.class, 3);
-		Author db_author = db.load(Author.class, 1);
-		Author db_newAuthor = db.load(Author.class, 4);
-		db.commit();
+	db.begin();
+	db_book = db.load(Book.class, 2);
+	Book db_book2 = db.load(Book.class, 3);
+	Author db_author = db.load(Author.class, 1);
+	Author db_newAuthor = db.load(Author.class, 4);
+	db.commit();
+	
+	assertEquals(2, db_book.getId());
+	assertEquals(3, db_book2.getId());
+	assertEquals(1, db_author.getId());
+	assertEquals(4, db_newAuthor.getId());
+	assertEquals(4, db_book.getAuthor().getId());
+    }
 
-		assertEquals(2, db_book.getId());
-		assertEquals(3, db_book2.getId());
-		assertEquals(1, db_author.getId());
-		assertEquals(4, db_newAuthor.getId());
-	}
+    @Test
+    @Transactional
+    public void replaceAuthor_Cascading() throws Exception {
+	db.setAutoStore(false);
 
-	@Test
-	@Transactional
-	public void createNewAuthorForBook_Cascading() throws Exception {
-		db.setAutoStore(true);
-		
-		Author author = new Author();
-		author.setId(1);
+	// book  --> author
+	// book2 --> author
+	
+	Author author = new Author();
+	author.setId(1);
 
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(author);
-		Book book2 = new Book();
-		book2.setId(3);
-		book2.setAuthor(author);
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(author);
 
-		// persist book and therefore author
-		// (because cascading=true for the relation book --> author)
-		db.begin();
-		db.create(book);
-		db.create(book2);
-		db.commit();
+	Book book2 = new Book();
+	book2.setId(3);
+	book2.setAuthor(author);
 
-		Author newAuthor = new Author();
-		newAuthor.setId(4);
+	// persist books and therefore author
+	// (because cascading = create)
+	db.begin();
+	db.create(book);
+	db.create(book2);
+	db.commit();
 
-		// now let's see if book & author were properly commited/created
-		db.begin();
-		Book db_book = db.load(Book.class, 2);
-		db_book.setAuthor(newAuthor);
-		db.commit();
+	// replace book's author with newAuthor
+	
+	Author newAuthor = new Author();
+	newAuthor.setId(4);
 
-		db.begin();
-		db_book = db.load(Book.class, 2);
-		Book db_book2 = db.load(Book.class, 3);
-		Author db_author = db.load(Author.class, 1);
-		Author db_newAuthor = db.load(Author.class, 4);
-		db.commit();
+	db.begin();
+	Book db_book = db.load(Book.class, 2);
+	db_book.setAuthor(newAuthor);
+	db.commit();
 
-		assertEquals(2, db_book.getId());
-		assertEquals(3, db_book2.getId());
-		assertEquals(1, db_author.getId());
-		assertEquals(4, db_newAuthor.getId());
-	}
+	db.begin();
+	db_book = db.load(Book.class, 2);
+	Book db_book2 = db.load(Book.class, 3);
+	Author db_author = db.load(Author.class, 1);
+	Author db_newAuthor = db.load(Author.class, 4);
+	db.commit();
+	
+	assertEquals(2, db_book.getId());
+	assertEquals(3, db_book2.getId());
+	assertEquals(1, db_author.getId());
+	assertEquals(4, db_newAuthor.getId());
+	assertEquals(4, db_book.getAuthor().getId());
+    }
 
-	@Test
-	@Transactional
-	@ExpectedException(PersistenceException.class)
-	public void createWithNullValue_AutoStore() throws Exception {
-		db.setAutoStore(true);
-		
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(null);
+    @Test
+    @Transactional
+    @ExpectedException(PersistenceException.class)
+    public void createWithNullValue_AutoStore() throws Exception {
+	db.setAutoStore(true);
 
-		// should not work cause null is not allowed
-		db.begin();
-		db.create(book);
-		db.commit();
-	}
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(null);
 
-	@Test
-	@Transactional
-	@ExpectedException(PersistenceException.class)
-	public void createWithNullValue_Cascading() throws Exception {
-		db.setAutoStore(false);
-		
-		Book book = new Book();
-		book.setId(2);
-		book.setAuthor(null);
+	// should not work because null is not allowed
+	db.begin();
+	db.create(book);
+	db.commit();
+    }
 
-		// should not work cause null is not allowed
-		db.begin();
-		db.create(book);
-		db.commit();
-	}
+    @Test
+    @Transactional
+    @ExpectedException(PersistenceException.class)
+    public void createWithNullValue_Cascading() throws Exception {
+	db.setAutoStore(false);
+
+	Book book = new Book();
+	book.setId(2);
+	book.setAuthor(null);
+
+	// should not work because null is not allowed
+	db.begin();
+	db.create(book);
+	db.commit();
+    }
 }
