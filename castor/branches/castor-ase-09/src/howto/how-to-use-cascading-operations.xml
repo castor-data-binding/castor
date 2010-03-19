@@ -91,7 +91,7 @@
     		<p>
     			In order to activate cascading for the relation defined in the mapping file
     			you have to add the following attribute in to the mapping file:
-    			
+        </p>
     			<code-panel>
    	...
    	
@@ -142,7 +142,7 @@
             		<li><a href="how-to-cascade-update.html">Section with details for update operation</a></li>
         		</ul>
         	</section>
-        	<sections title="all">
+        	<section title="all">
         		<p>
         			The all operation says, that all three basic operations should be defined
         			at the same moment! If you say cascading=all you mean the same as defining create,
