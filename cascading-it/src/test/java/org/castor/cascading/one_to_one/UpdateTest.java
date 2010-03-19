@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.PersistenceException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,277 +31,281 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class is part of the functional test suite for Castor JDO and assists in
- * testing JPA annotation support.
- * 
- * @author Werner Guttmann
- * @since 1.3.1
+ * @author Michael Schroeder
  */
 @ContextConfiguration(locations = { "spring-config-update.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class UpdateTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-	@Autowired
-	private JDOManager jdoManager;
+    @Autowired
+    private JDOManager jdoManager;
 
-	Database db;
+    Database db;
 
-	@Before
-	public void setUp() throws Exception {
-		db = jdoManager.getDatabase();
-		deleteFromTables("OneToOne_Book", "OneToOne_Author");
+    @Before
+    public void setUp() throws Exception {
+	db = jdoManager.getDatabase();
+	deleteFromTables("OneToOne_Book", "OneToOne_Author");
+    }
+
+    @Test
+    @NotTransactional
+    public void changeAuthor_AutoStore() throws Exception {
+	db.setAutoStore(true);
+
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
+
+	Book book = new Book();
+	book.setId(11);
+	book.setName("Book");
+	book.setAuthor(author);
+
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
+
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
+
+	// change author
+	db_book.getAuthor().setName("Joe");
+
+	// update objects
+	db.begin();
+	db.update(db_book);
+	db.commit();
+
+	// load objects again and check
+	db.begin();
+	Book db_book2 = db.load(Book.class, 11);
+	db.commit();
+
+	assertEquals(db_book2.getAuthor().getName(), "Joe");
+    }
+
+    @Test
+    @NotTransactional
+    public void changeAuthor_Cascading() throws Exception {
+	db.setAutoStore(false);
+
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
+
+	Book book = new Book();
+	book.setId(11);
+	book.setAuthor(author);
+	book.setName("Book");
+
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
+
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
+
+	// change author
+	db_book.getAuthor().setName("Joe");
+
+	// update objects
+	db.begin();
+	db.update(db_book);
+	db.commit();
+
+	// load objects again and check
+	db.begin();
+	Book db_book2 = db.load(Book.class, 11);
+	db.commit();
+
+	assertEquals(db_book2.getAuthor().getName(), "Joe");
+    }
+
+    @Test
+    @NotTransactional
+    public void newAuthor_AutoStore() throws Exception {
+	db.setAutoStore(true);
+
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
+
+	Book book = new Book();
+	book.setId(11);
+	book.setAuthor(author);
+	book.setName("Book");
+
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
+
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
+
+	// replace author
+	Author author2 = new Author();
+	author2.setId(13);
+	author2.setName("John");
+
+	db_book.setAuthor(author2);
+
+	// update objects
+	db.begin();
+	db.update(db_book);
+	db.commit();
+
+	// load objects again and check
+	db.begin();
+	Book db_book2 = db.load(Book.class, 11);
+	db.commit();
+
+	assertEquals(db_book2.getAuthor().getName(), "John");
+    }
+
+    @Test
+    @NotTransactional
+    public void newAuthor_Cascading() throws Exception {
+	db.setAutoStore(false);
+
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
+
+	Book book = new Book();
+	book.setId(11);
+	book.setAuthor(author);
+	book.setName("Book");
+
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
+
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
+
+	// replace author
+	Author author2 = new Author();
+	author2.setId(13);
+	author2.setName("John");
+
+	db_book.setAuthor(author2);
+
+	// update objects
+	db.begin();
+	db.update(db_book);
+	db.commit();
+
+	// load objects again and check
+	db.begin();
+	Book db_book2 = db.load(Book.class, 11);
+	db.commit();
+
+	assertEquals(db_book2.getAuthor().getName(), "John");
+    }
+
+    @Test
+    @Transactional
+    public void withNullValue_AutoStore() throws Exception {
+	db.setAutoStore(true);
+
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
+
+	Book book = new Book();
+	book.setId(11);
+	book.setAuthor(author);
+	book.setName("Book");
+
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
+
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
+
+	// try replace author with null, which should fail
+	db_book.setAuthor(null);
+	try {
+	    // update objects
+	    db.begin();
+	    db.update(db_book);
+	    db.commit();
+	    fail("An exception should have been thrown");
+	} catch (PersistenceException e) {
+	    // ok
 	}
+    }
 
-	@Test
-	@NotTransactional
-	public void changeAuthorAutoStore() throws Exception {
-		db.setAutoStore(true);
-		
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
+    @Test
+    @Transactional
+    public void withNullValue_Cascading() throws Exception {
+	db.setAutoStore(false);
 
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
+	// book --> author
+	
+	Author author = new Author();
+	author.setId(12);
+	author.setName("Jack");
 
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
+	Book book = new Book();
+	book.setId(11);
+	book.setAuthor(author);
+	book.setName("Book");
 
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
+	// create objects
+	db.begin();
+	db.create(author);
+	db.create(book);
+	db.commit();
 
-		// change author
-		db_book.getAuthor().setName("Joe");
+	// load objects
+	db.begin();
+	Book db_book = db.load(Book.class, 11);
+	db.commit();
 
-		// update objects
-		db.begin();
-		db.update(db_book);
-		db.commit();
-
-		// load objects again and check
-		db.begin();
-		Book db_book2 = db.load(Book.class, 11);
-		db.commit();
-
-		assertEquals(db_book2.getAuthor().getName(), "Joe");
+	// try to replace author with null, which should fail
+	db_book.setAuthor(null);
+	try {
+	    // update objects
+	    db.begin();
+	    db.update(db_book);
+	    db.commit();
+	    fail("An exception should have been thrown");
+	} catch (PersistenceException e) {
+	    // ok
 	}
-
-	@Test
-	@NotTransactional
-	public void changeAuthorCascading() throws Exception {
-	    	db.setAutoStore(false);
-	    	
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
-
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
-
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
-
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
-
-		// change author
-		db_book.getAuthor().setName("Joe");
-
-		// update objects
-		db.begin();
-		db.update(db_book);
-		db.commit();
-
-		// load objects again and check
-		db.begin();
-		Book db_book2 = db.load(Book.class, 11);
-		db.commit();
-
-		assertEquals(db_book2.getAuthor().getName(), "Joe");
-	}
-
-	@Test
-	@NotTransactional
-	public void newAuthor_AutoStore() throws Exception {
-		db.setAutoStore(true);
-		
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
-
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
-
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
-
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
-
-		// replace author
-		Author author2 = new Author();
-		author2.setId(13);
-		author2.setName("John");
-
-		db_book.setAuthor(author2);
-
-		// update objects
-		db.begin();
-		db.update(db_book);
-		db.commit();
-
-		// load objects again and check
-		db.begin();
-		Book db_book2 = db.load(Book.class, 11);
-		db.commit();
-
-		assertEquals(db_book2.getAuthor().getName(), "John");
-	}
-
-	@Test
-	@NotTransactional
-	public void newAuthor_Cascading() throws Exception {
-		db.setAutoStore(false);
-		
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
-
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
-
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
-
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
-
-		// replace author
-		Author author2 = new Author();
-		author2.setId(13);
-		author2.setName("John");
-
-		db_book.setAuthor(author2);
-
-		// update objects
-		db.begin();
-		db.update(db_book);
-		db.commit();
-
-		// load objects again and check
-		db.begin();
-		Book db_book2 = db.load(Book.class, 11);
-		db.commit();
-
-		assertEquals(db_book2.getAuthor().getName(), "John");
-	}
-
-	@Test
-	@Transactional
-	public void withNullValue_AutoStore() throws Exception {
-		db.setAutoStore(true);
-		
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
-
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
-
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
-
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
-
-		// replace author with null
-		db_book.setAuthor(null);
-
-		// foreign key is not null -> exception should be thrown
-		try {
-			// update objects
-			db.begin();
-			db.update(db_book);
-			db.commit();
-			fail("Exception should have been thrown!");
-		} catch (PersistenceException e) {
-			// everything ok, 'cause Exception has been thrown during update
-		}
-	}
-
-	@Test
-	@Transactional
-	public void withNullValue_Cascading() throws Exception {
-		db.setAutoStore(false);
-		
-		Author author = new Author();
-		author.setId(12);
-		author.setName("Jack");
-
-		Book book = new Book();
-		book.setId(11);
-		book.setAuthor(author);
-		book.setName("Book");
-
-		// create objects
-		db.begin();
-		db.create(author);
-		db.create(book);
-		db.commit();
-
-		// load objects
-		db.begin();
-		Book db_book = db.load(Book.class, 11);
-		db.commit();
-
-		// replace author with null
-		db_book.setAuthor(null);
-
-		// foreign key is not null -> exception should be thrown
-		try {
-			// update objects
-			db.begin();
-			db.update(db_book);
-			db.commit();
-			fail("Exception should have been thrown!");
-		} catch (PersistenceException e) {
-			// everything ok, 'cause Exception has been thrown during update
-		}
-	}
+    }
 
 }
