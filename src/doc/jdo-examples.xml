@@ -459,7 +459,7 @@ public class <font color="red">Car extends Product</font> {
           <p><b><tt>COMP</tt></b>:</p>
 
           <code-panel>
-create table prod (
+create table comp (
   id        int           not null,
   make      varchar(200)  not null
 );</code-panel>
@@ -467,7 +467,7 @@ create table prod (
           <p><b><tt>CAR</tt></b>:</p>
 
           <code-panel>
-create table prod_group (
+create table car (
   id        int           not null,
   regIn     int           not null
 );</code-panel>
