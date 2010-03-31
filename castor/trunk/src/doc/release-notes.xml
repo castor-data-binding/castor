@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="2890" tool="jira">
+                    <description>
+                        Implemented first step of improvement of SQL statement classes.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>d.butterstein@web.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>d.butterstein@web.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100330</date>
+                </bug>
                 <bug id="2879" tool="jira">
                     <description>
                         Use Java 5 enums for mapping.

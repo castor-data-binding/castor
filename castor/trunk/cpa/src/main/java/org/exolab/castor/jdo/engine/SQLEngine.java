@@ -24,8 +24,9 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
+import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
 import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
@@ -192,7 +193,7 @@ public final class SQLEngine implements Persistence {
         _queryStatement = new SQLStatementQuery(this, factory);
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementInsert(this, factory);
-        _removeStatement = new SQLStatementDelete(this, factory);
+        _removeStatement = new SQLStatementDelete(this);
         _storeStatement = new SQLStatementUpdate(this, factory);
     }
     
@@ -345,7 +346,8 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        _removeStatement.executeStatement((Connection) conn, identity);
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        _removeStatement.executeStatement(castorConn, identity);
     }
 
     /**
