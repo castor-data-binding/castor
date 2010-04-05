@@ -533,7 +533,7 @@ public final class InfoToDescriptorConverter {
             // OneToMany or ManyToMany
             String collectionTypeName = jpaNature.getRelationCollectionType()
                     .getSimpleName().toLowerCase();
-            return FieldMappingCollectionType.valueOf(collectionTypeName);
+            return FieldMappingCollectionType.fromValue(collectionTypeName);
         }
         return null;
     }
