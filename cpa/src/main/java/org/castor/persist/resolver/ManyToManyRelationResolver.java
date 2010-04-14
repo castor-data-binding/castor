@@ -74,6 +74,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             // many-to-many relation is never dependent relation
             while (itor.hasNext()) {
                 Object oo = itor.next();
+                //ASE: another occurence of autostore which should be exchanged with cascading later on
                 if (tx.isAutoStore() && !tx.isRecorded(oo)) {
                     tx.markCreate(fieldClassMolder, oo, null);
                     updateCache = true;
@@ -329,6 +330,13 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             Iterator itor = ClassMolderHelper.getIterator(o);
             while (itor.hasNext()) {
                 Object oo = itor.next();
+                //ASE: another option would be to change this if clause!
+                //	   tx.isPersistent only checks with the tracker but not with the
+                //	   persistent storage! If this check would work properly
+                //	   most of the problems would be saved too
+                //	   but we might also have to check that we are not going to store
+                //	   the same relation twice what is possible if both objects are already
+                //	   created due to another relation they occur in!
                 if (tx.isPersistent(oo)) {
                     _fieldMolder.getRelationLoader().createRelation(
                             tx.getConnection(oid.getMolder().getLockEngine()), createdId,
