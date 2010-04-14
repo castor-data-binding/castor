@@ -158,6 +158,14 @@ public class CreateTest extends AbstractTransactionalJUnit4SpringContextTests {
 	newBook.setId(4);
 	newBook.setAuthor(author);
 
+	//ASE: I can't find out the reason why this doesn't work.
+	//	   At some point the Author object still contains book1 and
+	//	   Book2 instead of newBook (to see over the id's)
+	//     When newBook should be marked for creation the exception gets thrown.
+	//	   My best theory is, that there is an inconsistency in the author object.
+	//	   So there are two different versions of the author object
+	//	   and so at some point the tracker can't make sense out of it, but
+	//	   I can't follow the programm at some point!
 	db.begin();
 	Author db_author = db.load(Author.class, 1);
 	db_author.setBooks(Arrays.asList(book, newBook));
