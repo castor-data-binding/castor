@@ -673,6 +673,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // if autoStore is specified, we relieve user life a little bit here
         // so that if an object create automatically and user create it
         // again, it won't receive exception
+        //ASE: this autostore should be changed to cascading someday!
         if (_autoStore && _tracker.isTracking(object)) {
             return;
         }
@@ -788,6 +789,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                         toBeCreatedMolder.getCallback().creating(toBeCreated, _db);
                     }
 
+                    //ASE:here the problems begin with M:N(see inside to learn more)
                     OID oid = toBeCreatedLockEngine.create(this,
                             toBeCreatedOID, toBeCreated);
 

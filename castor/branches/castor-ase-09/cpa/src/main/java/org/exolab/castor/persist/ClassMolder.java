@@ -688,6 +688,15 @@ public class ClassMolder {
 
         // after successful creation, add the entry in the relation table for
         // all many-to-many relationship
+        //ASE: This is the source of problem with M:N relations. As we see at
+        //     this point, for every persisted object in any M:N relation, a
+        //	   new entry to the relation table is created. But this happens not
+        //	   only when both related objects are persisted but also after
+        //	   persistence of the first. But that cannot work!
+        // 	   A solution would be to store a collection of relations which have
+        //	   to persisted in the relation table after all objects are persisted 
+        //	   independently!
+        
         for (int i = 0; i < _fhs.length; i++) {
             entity.setField(_resolvers[i].postCreate(
                     tx, oid, object, entity.getField(i), createdId), i);
