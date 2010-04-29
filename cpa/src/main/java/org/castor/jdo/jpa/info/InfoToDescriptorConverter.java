@@ -15,6 +15,8 @@
  */
 package org.castor.jdo.jpa.info;
 
+import java.util.Map;
+
 import javax.persistence.FetchType;
 
 import org.castor.jdo.engine.SQLTypeInfos;
@@ -212,6 +214,13 @@ public final class InfoToDescriptorConverter {
          */
         jdoNature.setAccessMode(null);
         jdoNature.setKeyGeneratorDescriptor(null);
+
+        // Add named query if present.
+        final Map<String, String> namedQuery = nature.getNamedQuery();
+        if (namedQuery != null && namedQuery.size() == 1) {
+        	Map.Entry<String, String> entry = namedQuery.entrySet().iterator().next();
+            jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
+        }
 
         /*
          * generate and set FieldDescriptors for identities
