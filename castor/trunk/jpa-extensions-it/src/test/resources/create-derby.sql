@@ -1,5 +1,11 @@
 CREATE SCHEMA TEST;
 
+CREATE TABLE NamedQueries_person(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

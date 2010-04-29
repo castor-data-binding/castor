@@ -18,6 +18,8 @@ package org.castor.jdo.jpa.natures;
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
 
+import java.util.Map;
+
 /**
  * A {@link BaseNature} extension that gives access to information derived from
  * class bound JPA annotations.
@@ -44,6 +46,10 @@ public class JPAClassNature extends BaseNature {
      * Property Key for {@link javax.persistence.Table#schema()}. 
      */
     private static final String TABLE_SCHEMA = "TABLE_SCHEMA";
+    /**
+     * Property Key for {@link javax.persistence.NamedQuery}.
+     */
+    private static final String NAMED_QUERY = "NAMED_QUERY";
 
     /**
      * Instantiate a {@link JPAClassNature} to access the given
@@ -135,6 +141,23 @@ public class JPAClassNature extends BaseNature {
      */
     public String getTableSchema() {
         return (String) super.getProperty (TABLE_SCHEMA);
+    }
+
+    /**
+     * @return The value of{@link javax.persistence.NamedQuery}
+     * @see #NAMED_QUERY
+     */
+    @SuppressWarnings("unchecked")
+	public Map<String, String> getNamedQuery() {
+        return super.getPropertyAsMap (NAMED_QUERY);
+    }
+
+    /**
+     * @param namedQuery The value of {@link javax.persistence.NamedQuery}
+     * @see #NAMED_QUERY
+     */
+    public void setNamedQuery(final Map<String, String> namedQuery) {
+        super.setProperty (NAMED_QUERY, namedQuery);
     }
 
 }

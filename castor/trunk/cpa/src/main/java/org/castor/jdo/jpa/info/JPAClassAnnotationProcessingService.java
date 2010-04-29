@@ -17,25 +17,27 @@ package org.castor.jdo.jpa.info;
 
 import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingService;
 import org.castor.jdo.jpa.processors.classprocessors.JPAEntityProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
 
 /**
- * This is a standard {@link BaseTargetAwareAnnotationProcessingService} initialized with
- * JPA Annotation processors for class bound JPA annotations.
+ * This is a standard {@link BaseTargetAwareAnnotationProcessingService}
+ * initialized with JPA Annotation processors for class bound JPA annotations.
  * 
  * @author Peter Schmidt
  * @since 1.3
  */
 public class JPAClassAnnotationProcessingService extends
-        BaseTargetAwareAnnotationProcessingService {
+		BaseTargetAwareAnnotationProcessingService {
 
-    /**
-     * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA Annotation
-     * processors for class bound JPA annotations.
-     */
-    public JPAClassAnnotationProcessingService() {
-        this.addAnnotationProcessor(new JPAEntityProcessor());
-        this.addAnnotationProcessor(new JPATableProcessor());
-    }
+	/**
+	 * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA
+	 * Annotation processors for class bound JPA annotations.
+	 */
+	public JPAClassAnnotationProcessingService() {
+		this.addAnnotationProcessor(new JPAEntityProcessor());
+		this.addAnnotationProcessor(new JPATableProcessor());
+		this.addAnnotationProcessor(new JPANamedQueryProcessor());
+	}
 
 }
