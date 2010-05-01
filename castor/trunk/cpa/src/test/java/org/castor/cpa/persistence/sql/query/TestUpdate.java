@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ralf Joachim, Ahmad Hassan
+ * Copyright 2010 Ralf Joachim, Ahmad Hassan, Dennis Butterstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import junit.framework.TestCase;
  *
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
 public final class TestUpdate extends TestCase {
@@ -90,5 +91,21 @@ public final class TestUpdate extends TestCase {
         update.addAssignment(new Column("mycol1"), new Parameter("mycol1"));
         update.setCondition(new Column("mycol2").equal(new Parameter("mycol2")));
         assertEquals("UPDATE mytable SET mycol1=? WHERE mycol2=?", update.toString());
+    }
+
+    public void testWithoutCondition() {
+        Update update = new Update("mytable");
+        QueryContext ctx = new QueryContext();
+        update.toQueryString(ctx);
+        assertEquals("UPDATE mytable SET ", ctx.toString());
+    }
+
+    public void testAssignmentWithoutCondition() {
+        Update update = new Update("mytable");
+        QueryContext ctx = new QueryContext();
+        update.addAssignment(new Column("mycol1"), new Parameter("mycol1"));
+        update.addAssignment(new Column("mycol2"), new Parameter("mycol2"));
+        update.toQueryString(ctx);
+        assertEquals("UPDATE mytable SET mycol1=?, mycol2=?", ctx.toString());
     }
 }

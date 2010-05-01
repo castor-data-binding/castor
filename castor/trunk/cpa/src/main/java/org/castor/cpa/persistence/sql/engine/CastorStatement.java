@@ -19,11 +19,13 @@ package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -32,7 +34,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * CastorStatement class to wrap handling of PreparedStatements by providing functionality
  * to prepare statements, bind parameters, execute statements and, close statements.
  * 
- * @author <a href="mailto:d DOT butterstein AT web DOT de">Dennis Butterstein</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
@@ -65,7 +67,21 @@ public final class CastorStatement {
     }
 
     /**
-     * Method to prepare statement for an update and store it in local Variable.
+     * Method to prepare select statement and store it in local Variable.
+     * 
+     * @param select Prepared select-object to create statement for.
+     * @throws SQLException Reports database access errors.
+     */
+    public void prepareStatement(final Select select) throws SQLException {
+        _context = new QueryContext(_factory);
+
+        select.toString(_context);
+
+        _statement = _connection.prepareStatement(_context.toString());
+    }
+
+    /**
+     * Method to prepare update statement and store it in local Variable.
      * 
      * @param update Prepared update-object to create statement for.
      * @throws SQLException Reports database access errors.
@@ -79,7 +95,7 @@ public final class CastorStatement {
     }
 
     /**
-     * Method to prepare statement for an update, append passed condition and store it in
+     * Method to prepare update statement, append passed condition and store it in
      * local Variable.
      * 
      * @param update Prepared update-object to create statement for.
@@ -90,8 +106,7 @@ public final class CastorStatement {
     throws SQLException {
         _context = new QueryContext(_factory);
 
-        // TODO only create string for base statement without condition
-        update.toString(_context);
+        update.toQueryString(_context);
 
         if (condition != null) {
             _context.append(QueryConstants.SPACE);
@@ -104,7 +119,7 @@ public final class CastorStatement {
     }
 
     /**
-     * Method to prepare statement for an delete and store it in local Variable.
+     * Method to prepare delete statement and store it in local Variable.
      * 
      * @param delete Prepared delete-object to create statement for.
      * @throws SQLException Reports database access errors.
@@ -140,6 +155,17 @@ public final class CastorStatement {
     public int executeUpdate() throws SQLException {
         if (_statement == null) { throw new SQLException("Statment not prepared!"); }
         return _statement.executeUpdate();
+    }
+
+    /**
+     * Method to execute prepared statement and return ResultSet.
+     * 
+     * @return ResultSet containing data returned from database.
+     * @throws SQLException Reports database access errors.
+     */
+    public ResultSet executeQuery() throws SQLException {
+        if (_statement == null) { throw new SQLException("Statment not prepared!"); }
+        return _statement.executeQuery();
     }
 
     /**

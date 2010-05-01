@@ -1,6 +1,6 @@
 /*
- * Copyright 2009 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
- *                Ralf Joachim, Ahmad Hassan
+ * Copyright 2010 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
+ *                Ralf Joachim, Ahmad Hassan, Dennis Butterstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,9 @@
  */
 package org.castor.cpa.persistence.sql.engine;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.castor.cpa.persistence.sql.query.Update;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
@@ -38,7 +35,6 @@ import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * SQLStatementStore class that makes use of Update class hierarchy to generate sql
@@ -51,6 +47,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
 */
 public final class SQLStatementUpdate {
@@ -63,12 +60,7 @@ public final class SQLStatementUpdate {
     /** Name space to prepend to set parameter names to distinguish them from parameters
      *  of where clause. */
     private static final String SET_PARAM_NAMESPACE = "SET:";
-    
-    /** ThreadLocal attribute to store prepared statement for a
-     *  particular connection that is unique to one thread. */
-    private static final ThreadLocal<PreparedStatement> PREPARED_STATEMENT = 
-        new ThreadLocal<PreparedStatement>();
-    
+
     //-----------------------------------------------------------------------------------    
 
     /** Name of engine descriptor. */
@@ -79,10 +71,6 @@ public final class SQLStatementUpdate {
     
     /** Contains the Information specific to particular engine instance. */
     private final SQLFieldInfo[] _fields;
-    
-    /** Persistence factory for the database engine the entity is persisted in.
-     *  Used to format the SQL statement. */
-    private final PersistenceFactory _factory;
 
     /** Update SQL statement class hierarchy. */
     private Update _update;
@@ -103,18 +91,15 @@ public final class SQLStatementUpdate {
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
-     * @param factory Persistence factory for the database engine the entity is persisted in.
-     *        Used to format the SQL statement.
      */
-    public SQLStatementUpdate(final SQLEngine engine, final PersistenceFactory factory) {
+    public SQLStatementUpdate(final SQLEngine engine) {
         _type = engine.getDescriptor().getJavaClass().getName();
         _ids = engine.getColumnInfoForIdentities();
         _fields = engine.getInfo();
-        _factory = factory;
 
-        buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());        
+        buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
 
-        _statementUpdateCheck = new SQLStatementUpdateCheck(engine, factory);
+        _statementUpdateCheck = new SQLStatementUpdateCheck(engine);
     }
     
     /**
@@ -122,7 +107,7 @@ public final class SQLStatementUpdate {
      *
      * @param mapTo Table name retrieved from Class Descriptor trough JDO Nature.
      */
-    private void buildStatement(final String mapTo) {        
+    private void buildStatement(final String mapTo) {
         _update = new Update(mapTo);
 
         // add assignments to update statement
@@ -136,16 +121,8 @@ public final class SQLStatementUpdate {
                     ++count;
                 }
             }
-        }        
-        
-        // build condition for identities
-        Condition condition = new AndCondition();
-        for (int i = 0; i < _ids.length; i++) {
-            String name = _ids[i].getName();
-            condition.and(new Column(name).equal(new Parameter(name)));
         }
-        _update.setCondition(condition);
-        
+
         _hasFieldsToPersist = (count > 0);
         
         if (LOG.isTraceEnabled()) {
@@ -167,71 +144,65 @@ public final class SQLStatementUpdate {
      *         if a database access error occurs, type of one of the values to bind is ambiguous,
      *         identity or column size mismatch or object to be updated does not exist.
      */
-    public Object executeStatement(final Connection conn, final Identity identity,
+    public Object executeStatement(final CastorConnection conn, final Identity identity,
             final ProposedEntity newentity, final ProposedEntity oldentity)
     throws PersistenceException {
         // only execute an update statement if there are fields to persist
         if (_hasFieldsToPersist) {
-            // initialize query context
-            QueryContext ctx = new QueryContext(_factory);
-            
-            synchronized (this) {
-                // remember a copy of original conditions of update statement
-                Condition copy = new AndCondition();
-                copy.and(_update.getCondition());
 
-                try {
-                    // append conditions for fields other than identities
-                    appendOldEntityCondition(oldentity);
-                    
-                    // walk through the Update class hierarchy, build SQL string
-                    // and store it in query context
-                    _update.toString(ctx);
-                } finally {
-                    // restore original condition 
-                    _update.setCondition(copy);
-                }
+            CastorStatement stmt = conn.createStatement();
+
+            // build condition for identities
+            Condition condition = new AndCondition();
+            for (int i = 0; i < _ids.length; i++) {
+                String name = _ids[i].getName();
+                condition.and(new Column(name).equal(new Parameter(name)));
             }
 
+            appendOldEntityCondition(oldentity, condition);
+
             try {
-                // get PreparedStatment for the connection
-                prepareStatement(conn, ctx);
+                stmt.prepareStatement(_update, condition);
 
                 // bind new entity
-                bindNewEntity(newentity, ctx);
-                
+                bindNewEntity(newentity, stmt);
+
                 // bind identity
-                bindIdentity(identity, ctx);
-                
+                bindIdentity(identity, stmt);
+
                 // bind old entity
-                bindOldEntity(oldentity, ctx);
+                bindOldEntity(oldentity, stmt);
 
                 // executes prepared statement (SAP DB returns -1 here)
-                if (executeStatement() <= 0) {
+                if (stmt.executeUpdate() <= 0) {
                     // check whether the object had been modified or deleted and 
                     // raise appropriate exception
                     _statementUpdateCheck.updateFailureCheck(conn, identity);
-                }                
+                }
             } catch (SQLException ex) {
-                LOG.fatal(Messages.format("jdo.storeFatal", _type,  ctx.toString()), ex);
+                LOG.fatal(Messages.format("jdo.storeFatal", _type, stmt.toString()), ex);
                 throw new PersistenceException(Messages.format("persist.nested", ex), ex);
             } finally {
                 // close statement
-                closeStatement();
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    LOG.warn("Problem closing JDBC statement", e);
+                }
             }
         }
         return null;
     }
-    
+
     /**
      * Method that appends the fields other than identities to where condition of SQL statement.
      * 
      * @param oldentity Entity holding the old values to check for concurrent modifications.
+     * @param condition Condition to add old entity Conditions.
      * @throws PersistenceException If identity size mismatches or column length mismatches
      */
-    private void appendOldEntityCondition(final ProposedEntity oldentity) 
+    private void appendOldEntityCondition(final ProposedEntity oldentity, final Condition condition)
     throws PersistenceException {
-        Condition condition = _update.getCondition();
         
         if (oldentity.getFields() != null) {
             for (int i = 0; i < _fields.length; ++i) {
@@ -271,44 +242,18 @@ public final class SQLStatementUpdate {
                 }
             }
         }
-        
-        _update.setCondition(condition);
     }
-    
-    /**
-     * Prepare the SQL Statement.
-     * 
-     * @param conn An Open JDBC Connection.
-     * @param ctx Query context for SQL query building, specifying database specific quotations 
-     *            and parameters binding. 
-     * @throws SQLException If a database access error occurs.
-     */
-    private void prepareStatement(final Connection conn, final QueryContext ctx) 
-    throws SQLException { 
-        PreparedStatement preparedStatement = conn.prepareStatement(ctx.toString());
 
-        // set prepared statement in thread local variable
-        PREPARED_STATEMENT.set(preparedStatement);
-         
-        if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.storing", _type, preparedStatement.toString()));
-        }
-    }
-    
     /**
      * Bind values of new entity to the prepared statement.
      * 
      * @param newentity Entity holding the new values to set with update.
-     * @param ctx Query context for SQL query building, specifying database specific quotations 
-     *            and parameters binding. 
+     * @param stmt CastorStatement containing query relevant data to be extended by parameters.
      * @throws PersistenceException If identity or column size mismatches.
      * @throws SQLException If database access error occurs.
      */
-    private void bindNewEntity(final ProposedEntity newentity, final QueryContext ctx)
+    private void bindNewEntity(final ProposedEntity newentity, final CastorStatement stmt)
     throws PersistenceException, SQLException {
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
-        
         // bind fields of the row to be stored into the preparedStatement
         for (int i = 0; i < _fields.length; ++i) {
             if (_fields[i].isStore()) {
@@ -316,8 +261,7 @@ public final class SQLStatementUpdate {
                 Object value = newentity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                         ctx.bindParameter(preparedStatement, 
-                                 SET_PARAM_NAMESPACE + columns[j].getName(), 
+                         stmt.bindParameter(SET_PARAM_NAMESPACE + columns[j].getName(), 
                                  null, columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
@@ -327,8 +271,7 @@ public final class SQLStatementUpdate {
                     }
                     
                     for (int j = 0; j < columns.length; j++) {
-                       ctx.bindParameter(preparedStatement, 
-                               SET_PARAM_NAMESPACE + columns[j].getName(), 
+                       stmt.bindParameter(SET_PARAM_NAMESPACE + columns[j].getName(), 
                                columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                     }
                 } else {
@@ -336,55 +279,46 @@ public final class SQLStatementUpdate {
                         throw new PersistenceException("Complex field expected!");
                     }
                     
-                     ctx.bindParameter(preparedStatement, 
-                             SET_PARAM_NAMESPACE + columns[0].getName(),
+                     stmt.bindParameter(SET_PARAM_NAMESPACE + columns[0].getName(),
                              columns[0].toSQL(value), columns[0].getSqlType());
                 }
             }
-        }        
+        }
     }
-    
+
     /**
      * Bind identity values to the prepared statement.
      * 
      * @param identity Identity of the object to update.
-     * @param ctx Query context for SQL query building, specifying database specific quotations 
-     *            and parameters binding. 
+     * @param stmt CastorStatement containing query relevant data to be extended by parameters.
      * @throws SQLException If a database access error occurs.
      */
-    private void  bindIdentity(final Identity identity, final QueryContext ctx) 
+    private void  bindIdentity(final Identity identity, final CastorStatement stmt) 
     throws SQLException {
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
-                
         // bind the identity of the row to be stored into the preparedStatement
         for (int i = 0; i < _ids.length; i++) {
-            ctx.bindParameter(preparedStatement, _ids[i].getName(), 
-                    _ids[i].toSQL(identity.get(i)), _ids[i].getSqlType());
+            stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
+                    _ids[i].getSqlType());
 
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
                         _ids[i].toSQL(identity.get(i))));
             }
-        }          
+        }
     }
-    
+
     /**
      * Bind values of old entity to the prepared statement.
      * 
      * @param oldentity Entity holding the old values to check for concurrent modifications.
-     * @param ctx Query context for SQL query building, specifying database specific quotations 
-     *            and parameters binding. 
+     * @param stmt CastorStatement containing query relevant data to be extended by parameters.
      * @throws PersistenceException If identity or column size mismatches.
      * @throws SQLException If database access error occurs.
      */
-    private void bindOldEntity(final ProposedEntity oldentity, final QueryContext ctx) 
-    throws PersistenceException, SQLException {   
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();        
-        
+    private void bindOldEntity(final ProposedEntity oldentity, final CastorStatement stmt) 
+    throws PersistenceException, SQLException {
         // bind the old fields of the row to be stored into the preparedStatement
-        if (oldentity.getFields() != null) {            
+        if (oldentity.getFields() != null) {
             for (int i = 0; i < _fields.length; ++i) {
                 if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
                     SQLColumnInfo[] columns = _fields[i].getColumnInfo();
@@ -398,54 +332,25 @@ public final class SQLStatementUpdate {
                         }
                         
                         for (int j = 0; j < columns.length; j++) {
-                               ctx.bindParameter(preparedStatement, columns[j].getName(), 
-                                       columns[j].toSQL(id.get(j)), columns[j].getSqlType());
+                               stmt.bindParameter(columns[j].getName(), columns[j].toSQL(id.get(j)),
+                                       columns[j].getSqlType());
                         }
                     } else {
                         if (columns.length != 1) {
                             throw new PersistenceException("Complex field expected!");
                         }
                         
-                           ctx.bindParameter(preparedStatement, columns[0].getName(), 
-                                   columns[0].toSQL(value), columns[0].getSqlType());
+                           stmt.bindParameter(columns[0].getName(), columns[0].toSQL(value),
+                                   columns[0].getSqlType());
                     }
                 }
             }
         }
-        
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.format("jdo.storing", _type, preparedStatement.toString()));
-        }        
-    }
-    
-    /**
-     * Execute the prepared statement.
-     * 
-     * @return Number of rows affected. A value less than 1 does indicate that execution
-     *         has failed.
-     * @throws SQLException If a database access error occurs.
-     */
-    private int executeStatement() throws SQLException {
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();       
-        return preparedStatement.executeUpdate();
-    } 
-        
-    /**
-     * Close the prepared statement.
-     */
-    private void closeStatement() {
-        // get prepared statement from thread local variable
-        PreparedStatement preparedStatement = PREPARED_STATEMENT.get();
 
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        } catch (Exception ex) {
-            LOG.warn("Problem closing JDBC statement", ex);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
         }
     }
 
-    //-----------------------------------------------------------------------------------    
+    //----------------------------------------------------------------------------------------------
 }

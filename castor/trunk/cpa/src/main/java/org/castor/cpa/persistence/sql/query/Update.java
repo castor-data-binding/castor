@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ralf Joachim, Ahmad Hassan
+ * Copyright 2010 Ralf Joachim, Ahmad Hassan, Dennis Butterstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
 public final class Update extends QueryObject {    
@@ -103,6 +104,20 @@ public final class Update extends QueryObject {
 
     @Override
     public void toString(final QueryContext ctx) {
+        toQueryString(ctx);
+        
+        if (_condition != null) {
+            ctx.append(QueryConstants.SPACE);
+            ctx.append(QueryConstants.WHERE);
+            ctx.append(QueryConstants.SPACE);
+            _condition.toString(ctx);
+        }
+    }
+
+    /** Same function as toString, but does not append the locally stored conditions.
+     * @param ctx QueryContext to append the string representation of the object to.
+     */
+    public void toQueryString(final QueryContext ctx) {
         ctx.append(QueryConstants.UPDATE);
         ctx.append(QueryConstants.SPACE);
         
@@ -119,14 +134,7 @@ public final class Update extends QueryObject {
                 ctx.append(QueryConstants.SPACE);
             }
         }
-        
-        if (_condition != null) {
-            ctx.append(QueryConstants.SPACE);
-            ctx.append(QueryConstants.WHERE);
-            ctx.append(QueryConstants.SPACE);
-            _condition.toString(ctx);
-        }
-    }   
-    
+    }
+
     //-----------------------------------------------------------------------------------
 }

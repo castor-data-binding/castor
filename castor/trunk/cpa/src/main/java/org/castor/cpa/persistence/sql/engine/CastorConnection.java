@@ -25,7 +25,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * CastorConnection class holding connection and factory parameters to encapsulate
  * their usage in case of creation of CastorStatements.
  * 
- * @author <a href="mailto:d DOT butterstein AT web DOT de">Dennis Butterstein</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
