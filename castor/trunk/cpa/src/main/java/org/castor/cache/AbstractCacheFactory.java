@@ -33,10 +33,21 @@ public abstract class AbstractCacheFactory implements CacheFactory {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(AbstractCacheFactory.class);
     
+    /** Has the cache factory been initialized? */
+    private boolean _initialized = false;
+    
+    /**
+     * Has the cache factory been initialized?
+     * 
+     * @return <code>true</code> if cache factory has been initialized,
+     *         <code>false</code> otherwise.
+     */
+    protected final boolean isInitialized() { return _initialized; }
+    
     /**
      * {@inheritDoc}
      */
-    public final Cache getCache(final ClassLoader classLoader)
+    public final synchronized Cache getCache(final ClassLoader classLoader)
     throws CacheAcquireException {
         ClassLoader loader = classLoader;
         if (loader == null) { loader = Thread.currentThread().getContextClassLoader(); }
@@ -49,6 +60,8 @@ public abstract class AbstractCacheFactory implements CacheFactory {
             LOG.error(msg, e);
             throw new CacheAcquireException(msg, e);
         }
+        
+        _initialized = true;
         
         return cache;
     }

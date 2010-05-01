@@ -58,7 +58,8 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
      *
      * @param implementation Cache implementation classname to shutdown.
      */
-    public void shutdown(final String implementation) {
+    public synchronized void shutdown(final String implementation) {
+        if (!isInitialized()) { return; }
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class<?> cls = ldr.loadClass(implementation);
