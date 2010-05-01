@@ -77,6 +77,10 @@ public final class TestLoadBiNto1 extends TestCase {
         super.setUp();
 
         if (!_logHeader) {
+            LOG.info("");
+            LOG.info("");
+            LOG.info("TestLoadBiNto1 (" + (int) (10000 * TestCreate.FACTOR) + ")");
+            LOG.info("");
             LOG.info(format("", "begin", "result", "iterate", "commit", "close"));
             _logHeader = true;
         }
