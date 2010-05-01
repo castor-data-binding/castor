@@ -32,8 +32,52 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Changes</h2>
+                
+                <h3>Removed deprecated artefacts of CPA module</h3>
+                
+                <p>
+                    The following Interfaces, Classes, Methods and Properties that had been
+                    deprecated at previous Castor releases have been removed.
+                </p>
+                <ul>
+                    <li>Class: org.exolab.castor.jdo.JDO</li>
+                    <li>Property: org.exolab.castor.jdo.Database.ReadOnly</li>
+                    <li>Property: org.exolab.castor.jdo.Database.Shared</li>
+                    <li>Property: org.exolab.castor.jdo.Database.Exclusive</li>
+                    <li>Property: org.exolab.castor.jdo.Database.DbLocked</li>
+                    <li>Class: org.exolab.castor.persist.spi.Complex</li>
+                    <li>Interface: org.exolab.castor.persist.Lazy</li>
+                    <li>Class: org.castor.cpa.CPAConfiguration</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createDatabase(String, String, DataSource, Mapping)</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createDatabase(String, String, DataSource, Mapping[])</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createDatabase(String, String, Driver driver, Mapping)</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createDatabase(String, String, Driver driver, Mapping[])</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createMapping(String)</li>
+                    <li>Method: org.castor.jdo.util.JdoConfFactory.createTransactionDemarcation()</li>
+                </ul>
             </summary>
             <bugs>
+                <bug id="2917" tool="jira">
+                    <description>
+                        Removed deprecated artefacts of CPA module.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100501</date>
+                </bug>
                 <bug id="2906" tool="jira">
                     <description>
                         Used CastorConnection in SQLStatementUpdate.
