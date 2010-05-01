@@ -3,9 +3,6 @@ package org.castor.jdo.jpa.info;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.castor.jdo.jpa.info.ClassInfo;
-import org.castor.jdo.jpa.info.ClassInfoBuilder;
-import org.castor.jdo.jpa.info.InfoToDescriptorConverter;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
@@ -46,8 +43,7 @@ public class JPATestResolveCommand extends
      *         be finished when leaving the loop again.
      * @see org.exolab.castor.xml.util.ClassDescriptorResolutionCommand#resolve(java.lang.Class)
      */
-    public ClassDescriptor resolve(final Class type) {
-
+    public final ClassDescriptor resolve(final Class<?> type) {
         ClassInfo buildClassInfo = null;
         try {
             buildClassInfo = ClassInfoBuilder.buildClassInfo(type);
@@ -73,8 +69,7 @@ public class JPATestResolveCommand extends
         }
 
         /*
-         * generate new ClassDescriptor, add it the loopCache and start
-         * conversion
+         * generate new ClassDescriptor, add it the loopCache and start conversion
          */
         ClassDescriptorImpl classDesc = new ClassDescriptorImpl();
         _loopCache.put(type, classDesc);
@@ -83,8 +78,7 @@ public class JPATestResolveCommand extends
                     .getClassDescriptorResolver(), classDesc);
 
             /*
-             * conversion successful => remove it from the loopCache and return
-             * it
+             * conversion successful => remove it from the loopCache and return it
              */
             _loopCache.remove(type);
             return classDesc;
@@ -92,16 +86,9 @@ public class JPATestResolveCommand extends
             /*
              * conversion failed => remove it from the loopCache and return null
              */
-
-            /* 
-             * TODO: do we need more error handling that printing the stack
-             * trace?
-             */
             e.printStackTrace();
             _loopCache.remove(type);
             return null;
         }
-
     }
-
 }

@@ -129,7 +129,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= STATE_MAX) {
-            locked = (Locked) db.load(Locked.class, new Integer(countLocked));
+            locked = db.load(Locked.class, new Integer(countLocked));
             
             state = new State();
             state.setId(new Integer(count));
@@ -169,7 +169,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= DEPARTMENT_MAX) {
-            state = (State) db.load(State.class, new Integer(countState));
+            state = db.load(State.class, new Integer(countState));
             
             dept = new Department();
             dept.setId(new Integer(count));
@@ -300,10 +300,10 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= EQUIPMENT_MAX) {
-            type = (Type) db.load(Type.class, new Integer(countType));
-            supplier = (Supplier) db.load(Supplier.class, new Integer(countSupplier));
-            state = (State) db.load(State.class, new Integer(countState));
-            reason = (Reason) db.load(Reason.class, new Integer(countReason));
+            type = db.load(Type.class, new Integer(countType));
+            supplier = db.load(Supplier.class, new Integer(countSupplier));
+            state = db.load(State.class, new Integer(countState));
+            reason = db.load(Reason.class, new Integer(countReason));
             
             equip = new Equipment();
             equip.setId(new Integer(count));
@@ -348,7 +348,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= SERVICE_MAX) {
-            equip = (Equipment) db.load(Equipment.class, new Integer(countEquip));
+            equip = db.load(Equipment.class, new Integer(countEquip));
             
             service = new Service();
             service.setId(new Integer(count));

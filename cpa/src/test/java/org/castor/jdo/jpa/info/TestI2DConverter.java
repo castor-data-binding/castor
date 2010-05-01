@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author Peter Schmidt
  */
-public class TestI2DConverter {
+public final class TestI2DConverter {
 
     /** the used {@link ClassDescriptorResolver}. */
     private ClassDescriptorResolver _cmd;
@@ -110,10 +110,10 @@ public class TestI2DConverter {
     }
 
     @Ignore
-    public class CDRCmd implements ClassDescriptorResolver {
+    public final class CDRCmd implements ClassDescriptorResolver {
         private JPATestResolveCommand _cmd = new JPATestResolveCommand();
         
-        public ClassDescriptor resolve(final Class type) {
+        public ClassDescriptor resolve(final Class<?> type) {
             return _cmd.resolve(type);
         }
 
@@ -123,7 +123,5 @@ public class TestI2DConverter {
 
         public void setMappingLoader(final MappingLoader mappingLoader) {
         }
-
     }
-
 }

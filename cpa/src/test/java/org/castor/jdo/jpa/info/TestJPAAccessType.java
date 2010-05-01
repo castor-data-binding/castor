@@ -27,7 +27,6 @@ import javax.persistence.Id;
 
 import org.castor.jdo.jpa.natures.JPAFieldNature;
 import org.exolab.castor.mapping.MappingException;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 

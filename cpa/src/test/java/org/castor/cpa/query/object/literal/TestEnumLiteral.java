@@ -87,7 +87,7 @@ public final class TestEnumLiteral extends TestCase {
         assertEquals(MockEnum.TEST1, n1.getValue());
 
         try {
-            new EnumLiteral((Enum) null);
+            new EnumLiteral((Enum<?>) null);
             fail("NullPointerException expected !!!");
         } catch (NullPointerException e) {
             assertTrue(true);
