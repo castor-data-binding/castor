@@ -194,7 +194,7 @@ public final class SQLEngine implements Persistence {
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementInsert(this, factory);
         _removeStatement = new SQLStatementDelete(this);
-        _storeStatement = new SQLStatementUpdate(this, factory);
+        _storeStatement = new SQLStatementUpdate(this);
     }
     
     public SQLRelationLoader createSQLRelationLoader(final String manyTable,
@@ -336,7 +336,8 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        return _storeStatement.executeStatement((Connection) conn, identity, newentity, oldentity);
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        return _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
     }
 
     public void delete(final Object conn, final Identity identity)

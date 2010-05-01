@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
+ * Copyright 2010 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,8 +79,8 @@ public class SQLStatementInsert {
      * @param database A particular Database instance.
      * @param conn An Open JDBC connection.
      * @param identity Identity of the object to insert.
-     * @param entity
-     * @return Identity
+     * @param entity Entity holding the values to insert.
+     * @return Identity of the entity inserted.
      * @throws PersistenceException If failed to insert record into database. This could happen
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
      *         Identity, If provided Identity is null, If Extended engine is null.
