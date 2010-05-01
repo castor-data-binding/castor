@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${spring.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -136,13 +136,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <properties>
-        <org.springframework.version>3.0.2.RELEASE</org.springframework.version>
         <derby.version>10.5.3.0_1</derby.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
