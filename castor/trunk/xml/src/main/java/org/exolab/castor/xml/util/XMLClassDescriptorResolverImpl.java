@@ -207,7 +207,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public ClassDescriptor resolve(final Class type) throws ResolverException {
+    public ClassDescriptor resolve(final Class<?> type) throws ResolverException {
         if (type == null) {
             String message = "Type argument must not be null for resolve";
             LOG.warn(message);

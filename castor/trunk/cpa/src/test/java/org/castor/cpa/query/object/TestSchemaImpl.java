@@ -73,7 +73,7 @@ public final class TestSchemaImpl extends TestCase {
         }
 
         try {
-            new SchemaImpl((Class) null, "identifier");
+            new SchemaImpl((Class<?>) null, "identifier");
             fail("NullPointerException expected");
         } catch (NullPointerException ex) {
             assertTrue(true);
@@ -92,7 +92,7 @@ public final class TestSchemaImpl extends TestCase {
      */
     public void testGSetter() {
         String schemaname = "schema";
-        Class type = Foo.class;
+        Class<?> type = Foo.class;
         String identifier = "identifier";
         
         SchemaImpl schema1 = new SchemaImpl(schemaname, identifier);
@@ -113,7 +113,7 @@ public final class TestSchemaImpl extends TestCase {
      */
     public void testToString() {
         String schemaname = "schema";
-        Class type = Foo.class;
+        Class<?> type = Foo.class;
         String identifier = "identifier";
         
         SchemaImpl schema1 = new SchemaImpl(schemaname, identifier);

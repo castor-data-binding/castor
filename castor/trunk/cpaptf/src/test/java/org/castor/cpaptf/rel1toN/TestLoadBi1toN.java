@@ -268,7 +268,7 @@ public final class TestLoadBi1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId()));
+            iterateStates(db.load(Locked.class, oid.getId()));
 
             count++;
         }
@@ -310,7 +310,7 @@ public final class TestLoadBi1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId()));
+            iterateStates(db.load(Locked.class, oid.getId()));
 
             count++;
         }
@@ -353,7 +353,7 @@ public final class TestLoadBi1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
+            iterateStates(db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }
@@ -395,7 +395,7 @@ public final class TestLoadBi1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
+            iterateStates(db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }

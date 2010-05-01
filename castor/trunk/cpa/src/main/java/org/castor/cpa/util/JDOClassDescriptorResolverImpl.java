@@ -113,7 +113,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @return the ClassDescriptor for the given class, null if not found
      * @throws ResolverException Indicates that the given {@link Class} cannot be resolved.
      */
-    public ClassDescriptor resolve(final Class type) throws ResolverException {
+    public ClassDescriptor resolve(final Class<?> type) throws ResolverException {
         if (type == null) {
             return null;
         }
@@ -190,14 +190,14 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @param type type to look up.
      * @return a {@link ClassDescriptor} if found, null if not.
      */
-    private ClassDescriptor resolveByCache(final Class type) {
+    private ClassDescriptor resolveByCache(final Class<?> type) {
         return _classDescriptorCache.get(type);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void registerDescriptor(final Class type, final ClassDescriptor classDescriptor) {
+    public void registerDescriptor(final Class<?> type, final ClassDescriptor classDescriptor) {
         _classDescriptorCache.put(type, classDescriptor);
     }
 
@@ -226,7 +226,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public void addClass(final Class domainClass) {
+    public void addClass(final Class<?> domainClass) {
         _classes.add(domainClass);
     }
 

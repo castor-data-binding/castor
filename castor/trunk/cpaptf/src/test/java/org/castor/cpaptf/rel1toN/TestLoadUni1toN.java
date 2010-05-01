@@ -285,7 +285,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
+            iterateStatesOID(_db.load(Locked.class, oid.getId()),
                              Database.SHARED);
 
             count++;
@@ -330,7 +330,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
+            iterateStatesOID(_db.load(Locked.class, oid.getId()),
                              Database.SHARED);
 
             count++;
@@ -376,7 +376,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
+            iterateStatesOID(_db.load(Locked.class, oid.getId(),
                              Database.READONLY), Database.READONLY);
 
             count++;
@@ -421,7 +421,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
+            iterateStatesOID(_db.load(Locked.class, oid.getId(),
                              Database.READONLY), Database.READONLY);
 
             count++;
@@ -529,7 +529,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateEquipmentsOID((State) _db.load(State.class, oid.getId(), mode), mode);
+            iterateEquipmentsOID(_db.load(State.class, oid.getId(), mode), mode);
         }
     }
     
@@ -550,7 +550,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateServicesOID((Equipment) _db.load(Equipment.class, oid.getId(), mode),
+            iterateServicesOID(_db.load(Equipment.class, oid.getId(), mode),
                     mode);
         }
     }
