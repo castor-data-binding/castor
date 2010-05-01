@@ -22,7 +22,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager",  defaultRollback = true)
-public class NamedQueriesTests {
+public class NamedQueriesITCase {
 
     public final Log LOG = LogFactory.getLog(getClass());
 
