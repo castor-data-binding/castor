@@ -60,7 +60,7 @@ public final class OsCacheFactory implements CacheFactory {
      * @return A Cache instance.
      * @throws CacheAcquireException Problem instantiating a cache instance.
      */
-    public Cache getCache(final String implementation, final ClassLoader classLoader)
+    public synchronized Cache getCache(final String implementation, final ClassLoader classLoader)
     throws CacheAcquireException {
         ClassLoader loader = classLoader;
         if (loader == null) { loader = Thread.currentThread().getContextClassLoader(); }
@@ -127,6 +127,7 @@ public final class OsCacheFactory implements CacheFactory {
      * {@inheritDoc}
      */
     public void shutdown() {
+        if (_cache == null) { return; }
         synchronized (_cache) {
             invokeMethod(_cache, "destroy", null, null);
         }
