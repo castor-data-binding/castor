@@ -78,6 +78,11 @@ public final class TestGigaspacesCacheFactory extends TestCase {
         Level level = logger.getLevel();
         
         GigaspacesCacheFactory cf = new GigaspacesCacheFactory();
+        try {
+            cf.getCache(null);
+        } catch (CacheAcquireException ex) {
+            fail("Failed to get instance of GigaspacesCache from factroy");
+        }
         int counter = DistributedCacheFactoryMock.getCounter();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }

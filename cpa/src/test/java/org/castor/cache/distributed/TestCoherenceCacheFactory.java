@@ -78,6 +78,11 @@ public final class TestCoherenceCacheFactory extends TestCase {
         Level level = logger.getLevel();
         
         CoherenceCacheFactory cf = new CoherenceCacheFactory();
+        try {
+            cf.getCache(null);
+        } catch (CacheAcquireException ex) {
+            fail("Failed to get instance of CoherenceCache from factroy");
+        }
         int counter = DistributedCacheFactoryMock.getCounter();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
