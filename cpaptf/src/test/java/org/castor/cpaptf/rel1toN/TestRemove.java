@@ -36,6 +36,7 @@ public final class TestRemove extends TestCase {
     private static final String DATABASE_NAME = "rel1toN_uni";
     
     private static final Log LOG = LogFactory.getLog(TestRemove.class);
+    private static boolean _logHeader = false;
     
     private JDOManager _jdo = null;
 
@@ -66,7 +67,15 @@ public final class TestRemove extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        
+
+        if (!_logHeader) {
+            LOG.info("");
+            LOG.info("");
+            LOG.info("TestRemove (" + (int) (10000 * TestCreate.FACTOR) + ")");
+            LOG.info("");
+            _logHeader = true;
+        }
+
         _jdo = JDOManager.createInstance(DATABASE_NAME);
     }
     
