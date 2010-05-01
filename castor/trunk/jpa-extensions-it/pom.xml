@@ -89,11 +89,6 @@
 
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>               
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -179,7 +174,6 @@
         </repository>
     </repositories>
     
-    <!-- 
     <reporting>
         <plugins>
             <plugin>
@@ -195,7 +189,7 @@
                         <configuration>
                           <outputName>failsafe-report</outputName>
                           <reportsDirectories>
-                            <reportsDirectory>/home/user/src/surefire/target/checkout/maven-failsafe-plugin/target/failsafe-reports</reportsDirectory>
+                            <reportsDirectory>${basedir}/target/failsafe-reports</reportsDirectory>
                           </reportsDirectories>
                         </configuration>
                     </reportSet>
@@ -203,6 +197,5 @@
             </plugin>
         </plugins>
     </reporting>
-     -->
      
 </project>
