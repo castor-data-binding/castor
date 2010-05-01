@@ -162,44 +162,6 @@ public final class JDOConfFactory {
      * @param name Name of the database configuration.
      * @param engine Name of the database engine.
      * @param ds Datasource configuration.
-     * @param mapping Mapping configurations.
-     * @return Database configuration.
-     * @deprecated Pass mapping URL's to createDatabase() methods instead.
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final DataSource ds, final Mapping mapping) {
-        return createDatabase(name, engine, ds, new Mapping[] {mapping});
-    }
-
-    /**
-     * Create a database configuration with given name, engine and datasource
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param ds Datasource configuration.
-     * @param mappings Array of mapping configurations.
-     * @return Database configuration.
-     * @deprecated Pass mapping URL's to createDatabase() methods instead.
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final DataSource ds, final Mapping[] mappings) {
-        DatabaseChoice dbChoice = new DatabaseChoice();
-        dbChoice.setDataSource(ds);
-
-        Database dbConf = createDatabase(name, engine);
-        dbConf.setDatabaseChoice(dbChoice);
-        dbConf.setMapping(mappings);
-        return dbConf;
-    }
-
-    /**
-     * Create a database configuration with given name, engine and datasource
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param ds Datasource configuration.
      * @param mapping Mapping URL.
      * @return Database configuration.
      */
@@ -226,44 +188,6 @@ public final class JDOConfFactory {
         Database dbConf = createDatabase(name, engine);
         dbConf.setDatabaseChoice(dbChoice);
         dbConf.setMapping(createMappings(mappings));
-        return dbConf;
-    }
-
-    /**
-     * Create a database configuration with given name, engine and driver
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param driver Driver configuration.
-     * @param mapping Mapping configurations.
-     * @return Database configuration.
-     * @deprecated Pass mapping URL's to createDatabase() methods instead.
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final Driver driver, final Mapping mapping) {
-        return createDatabase(name, engine, driver, new Mapping[] {mapping});
-    }
-
-    /**
-     * Create a database configuration with given name, engine and driver
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param driver Driver configuration.
-     * @param mappings Array of mapping configurations.
-     * @return Database configuration.
-     * @deprecated Pass mapping URL's to createDatabase() methods instead.
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final Driver driver, final Mapping[] mappings) {
-        DatabaseChoice dbChoise = new DatabaseChoice();
-        dbChoise.setDriver(driver);
-
-        Database dbConf = createDatabase(name, engine);
-        dbConf.setDatabaseChoice(dbChoise);
-        dbConf.setMapping(mappings);
         return dbConf;
     }
 
@@ -409,19 +333,6 @@ public final class JDOConfFactory {
     }
 
     /**
-     * Create a JDO mapping configuration from given URL.
-     * 
-     * @param mapping URL to retrieve mapping configuration file.
-     * @return JDO Mapping configuration.
-     * @deprecated Pass mapping URL's to createDatabase() methods instead.
-     */
-    public static Mapping createMapping(final String mapping) {
-        Mapping mapConf = new Mapping();
-        mapConf.setHref(mapping);
-        return mapConf;
-    }
-
-    /**
      * Create an array of JDO mapping configurations from given array of URL's.
      * 
      * @param mappings Array of URL's to retrieve mapping configuration file.
@@ -434,16 +345,6 @@ public final class JDOConfFactory {
             mapConfs[i].setHref(mappings[i]);
         }
         return mapConfs;
-    }
-
-    /**
-     * Create a transaction demarcation configuration with local transaction handling.
-     * 
-     * @return TransactionDemarcation configuration with local transaction handling.
-     * @deprecated Use createLocalTransactionDemarcation() instead.
-     */
-    public static TransactionDemarcation createTransactionDemarcation() {
-        return createLocalTransactionDemarcation();
     }
 
     /**

@@ -12,18 +12,10 @@ public final class Identity implements java.io.Serializable {
     /**
      * Creates an instance of this class, based upon the parameter passed in.
      * 
-     * @param o Either a {@link Complex}, an {@link Identity} instance, or an Object[] instance.
+     * @param o Either an {@link Identity} instance, or an Object[] instance.
      */
     public Identity(final Object o) {
-        if (o instanceof Complex) {
-            Complex complex = (Complex) o;
-            _all = new Object[complex.size()];
-            _hashCode = 0;
-            for (int i = 0; i < complex.size(); i++) {
-                _all[i] = complex.get(i);
-                _hashCode += ((_all[i] == null) ? 0 : _all[i].hashCode());
-            }
-        } else if (o instanceof Identity) {
+        if (o instanceof Identity) {
             Identity identity = (Identity) o;
             _all = new Object[identity.size()];
             _hashCode = 0;

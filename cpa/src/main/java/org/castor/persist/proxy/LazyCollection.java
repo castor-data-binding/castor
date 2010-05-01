@@ -21,7 +21,6 @@ package org.castor.persist.proxy;
 import java.util.Collection;
 import java.util.List;
 
-import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.TxSynchronizable;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -38,7 +37,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
-public interface LazyCollection<T> extends Lazy, Collection<T>, TxSynchronizable {
+public interface LazyCollection<T> extends Collection<T>, TxSynchronizable {
     List<Identity> getIdsList();
     
     List<Identity> getRemovedIdsList();
