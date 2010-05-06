@@ -19,6 +19,7 @@ import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
 
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * A {@link BaseNature} extension that gives access to information derived from
@@ -49,7 +50,11 @@ public class JPAClassNature extends BaseNature {
     /**
      * Property Key for {@link javax.persistence.NamedQuery}.
      */
-    private static final String NAMED_QUERY = "NAMED_QUERY";
+    private static final String NAMED_QUERY = "NAMED_QUERY";  
+    /**
+     * Property Key for {@link org.castor.jdo.jpa.annotations.Cache}.
+     */
+    public static final String CACHE_PROPERTIES = "CACHE_PROPERTIES"; 
 
     /**
      * Instantiate a {@link JPAClassNature} to access the given
@@ -159,6 +164,22 @@ public class JPAClassNature extends BaseNature {
     public void setNamedQuery(final Map<String, String> namedQuery) {
         super.setProperty (NAMED_QUERY, namedQuery);
     }
+  
+    /**
+     * @see #CACHE_PROPERTIES
+     * @param schema
+     *            The value of {@link org.castor.jdo.jpa.annotations.Cache}
+     */
+    public void setCacheProperties(final Properties cacheProperties) {
+        super.setProperty (CACHE_PROPERTIES, cacheProperties);
+    }
 
+    /**
+     * @see #CACHE_PROPERTIES
+     * @return The value of {@link org.castor.jdo.jpa.annotations.Cache}
+     */
+    public Properties getCacheProperties() {
+        return (Properties) super.getProperty (CACHE_PROPERTIES);
+    }
 }
 

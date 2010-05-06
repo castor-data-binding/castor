@@ -16,6 +16,7 @@
 package org.castor.jdo.jpa.info;
 
 import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingService;
+import org.castor.jdo.jpa.processors.classprocessors.JPACacheProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPAEntityProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
@@ -38,6 +39,7 @@ public class JPAClassAnnotationProcessingService extends
 		this.addAnnotationProcessor(new JPAEntityProcessor());
 		this.addAnnotationProcessor(new JPATableProcessor());
 		this.addAnnotationProcessor(new JPANamedQueryProcessor());
+		this.addAnnotationProcessor(new JPACacheProcessor());
 	}
 
 }
