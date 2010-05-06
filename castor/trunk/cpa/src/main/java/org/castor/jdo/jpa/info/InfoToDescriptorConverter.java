@@ -16,6 +16,7 @@
 package org.castor.jdo.jpa.info;
 
 import java.util.Map;
+import java.util.Properties;
 
 import javax.persistence.FetchType;
 
@@ -208,7 +209,14 @@ public final class InfoToDescriptorConverter {
 
         jdoNature
                 .addCacheParam("name", classInfo.getDescribedClass().getName());
-
+        Properties cacheProperties = nature.getCacheProperties();
+        if (cacheProperties != null) {
+	        for (Object propertyKey : cacheProperties.keySet()) {
+	        	String key = (String)propertyKey;
+	        	jdoNature.addCacheParam(key, cacheProperties.getProperty(key));
+	        }
+        }
+        
         /*
          * TODO: NOT IMPLEMENTED
          */

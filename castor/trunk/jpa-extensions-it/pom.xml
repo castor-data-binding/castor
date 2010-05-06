@@ -68,7 +68,7 @@
                             <url>jdbc:derby:${basedir}/target/test;create=true</url>
                             <autocommit>true</autocommit>
                             <srcFiles>
-                                <!-- <srcFile>src/test/resources/drop-derby.sql</srcFile> -->
+                                <!--srcFile>src/test/resources/drop-derby.sql</srcFile-->
                                 <srcFile>src/test/resources/create-derby.sql</srcFile>
                             </srcFiles>
                         </configuration>

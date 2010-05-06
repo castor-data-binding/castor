@@ -1,5 +1,23 @@
 CREATE SCHEMA TEST;
 
+CREATE TABLE Cache_none(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Cache_unlimited(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Cache_limited(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE NamedQueries_person(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
