@@ -64,7 +64,7 @@
                     </description>
                     <contributor>
                         <name>Jean-Marc Borer</name>
-                        <email>ralf.joachim@syscon.eu</email>
+                        <email>jmborer@gmail.com</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -72,7 +72,7 @@
                     </submitter>
                     <reporter>
                         <name>Jean-Marc Borer</name>
-                        <email>ralf.joachim@syscon.eu</email>
+                        <email>jmborer@gmail.com</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
