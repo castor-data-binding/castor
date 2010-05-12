@@ -284,6 +284,16 @@ public class BuilderConfiguration {
          */
         public static final String EXTRA_DOCUMENTATION_METHODS = 
             "org.exolab.castor.builder.extraDocumentationMethods";
+
+        /**
+         * Property specifying whether cycle breaker code should be added to
+         * generated methods 'equals' and 'hashcode'; defaults to <i>true</i>.
+         * 
+         * <pre>
+         * org.exolab.castor.builder.useCycleBreaker = true
+         * </pre>
+         */
+        public static final String USE_CYCLE_BREAKER = "org.exolab.castor.builder.useCycleBreaker";
         
     } //--Property
 
@@ -521,7 +531,17 @@ public class BuilderConfiguration {
             _localProps.getProperty(Property.EXTRA_DOCUMENTATION_METHODS, "false");
         return new Boolean(extraDocumentationMethods).booleanValue();
     }
-    
+
+    /**
+     * Returns true if the class {@link CycleBreaker} should be used during code generation; 
+     * defaults to 'true'.
+     *
+     * @return true if the class {@link CycleBreaker} should be used during code generation
+     */
+    public final boolean useCycleBreaker() {
+        return Boolean.valueOf(_localProps.getProperty(Property.USE_CYCLE_BREAKER, "true"));
+    }
+
     /**
      * Returns the maximum number of static constant definitions that are
      * acceptable within one class file; default is 1000.

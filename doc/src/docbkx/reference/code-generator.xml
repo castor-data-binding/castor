@@ -236,6 +236,16 @@ org.exolab.castor.builder.javaVersion=5.0
              </row>
              <row>
                <entry>
+                    <xref linkend="xml.code.generator.properties.detailed.use.cyclebreaker"
+                          endterm="xml.code.generator.properties.detailed.use.cyclebreaker.short" />
+               </entry>
+               <entry>Use of cycle breaker code in generated <literal>equals</literal>/<literal>hashCode()</literal> method</entry>
+               <entry><literal>true</literal>/<literal>false</literal></entry>
+               <entry><literal>true</literal></entry>
+               <entry>1.3.2</entry>
+             </row>
+             <row>
+               <entry>
                     <xref linkend="xml.code.generator.properties.detailed.primitive.wrappers"
                           endterm="xml.code.generator.properties.detailed.primitive.wrappers.short" />
                </entry>
@@ -707,6 +717,32 @@ org.exolab.castor.builder.superclass=com.xyz.BaseObject</programlisting>
 # false by default
 org.exolab.castor.builder.equalsmethod=true</programlisting>
 
+        </section>
+        
+        <section id="xml.code.generator.properties.detailed.use.cyclebreaker">
+            <title>Use CycleBreaker for generation of equals()/hashcode() methods.</title>
+            <titleabbrev id="xml.code.generator.properties.detailed.use.cyclebreaker.short">org.exolab.castor.builder.useCycleBreaker</titleabbrev>
+            
+            <para>Since version: 1.3.2</para>
+            
+            <para>
+                Specifies whether cycle breaker code should be added to generated 
+                methods <literal>equals()</literal> and <literal>hashcode()</literal>.
+            </para>
+            
+            <programlisting language="xml">
+# Property specifying whether cycle breaker code should be added
+# to generated methods 'equals' and 'hashcode'. 
+#
+# Possible values:
+# - true (default)
+# - false
+#
+# &lt;pre&gt;
+# org.exolab.castor.builder.useCycleBreaker
+# &lt;/pre&gt;
+org.exolab.castor.builder.useCycleBreaker=true</programlisting>
+            
         </section>
 
         <section id="xml.code.generator.properties.detailed.primitive.wrappers">

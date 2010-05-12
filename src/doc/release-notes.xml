@@ -58,6 +58,27 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2834" tool="jira">
+                    <description>
+                        Made the use of cycle breaker code in generated equals()/hashcode()
+                        methods configurable.
+                    </description>
+                    <contributor>
+                        <name>Torsten Juergeleit</name>
+                        <email>torsten.juergeleit@online.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jean-Marc Borer</name>
+                        <email>jmborer@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20100512</date>
+                </bug>
                 <bug id="2746" tool="jira">
                     <description>
                         Fixed bug in CycleBreaker.
