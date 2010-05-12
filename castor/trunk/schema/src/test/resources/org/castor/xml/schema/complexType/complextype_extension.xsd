@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pre="my.namespace.org">
+
+    <xsd:complexType name="myType">
+        <xsd:complexContent>
+            <xsd:extension base="baseType">
+                <xsd:sequence>
+                    <xsd:element name="myAttr" />
+                    <xsd:element name="myAttr2" />
+                    <xsd:element name="myAttr3" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="baseType">
+        <xsd:sequence>
+            <xsd:element name="baseAttr" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
