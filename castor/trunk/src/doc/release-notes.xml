@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2746" tool="jira">
+                    <description>
+                        Fixed bug in CycleBreaker.
+                    </description>
+                    <contributor>
+                        <name>Jean-Marc Borer</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>wguttmn@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jean-Marc Borer</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20100512</date>
+                </bug>
                 <bug id="2896" tool="jira">
                     <description>
                         Prevented exceptions at shutdown of cache factories.
