@@ -60,7 +60,7 @@
                 <executions>
                     <execution>
                         <id>create schema</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>execute</goal>
                         </goals>
@@ -75,7 +75,7 @@
                     </execution>
                     <execution>
                         <id>derby shutdown</id>
-                        <phase>process-test-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>execute</goal>
                         </goals>
@@ -89,6 +89,11 @@
 
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -104,7 +109,14 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
