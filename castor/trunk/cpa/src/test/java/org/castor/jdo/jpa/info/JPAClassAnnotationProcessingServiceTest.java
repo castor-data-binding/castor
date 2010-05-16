@@ -1,5 +1,6 @@
 package org.castor.jdo.jpa.info;
 
+import org.castor.jdo.jpa.processors.classprocessors.JPANamedNativeQueryProcessor;
 import java.util.Set;
 
 import org.castor.core.annotationprocessing.AnnotationProcessor;
@@ -34,6 +35,11 @@ public class JPAClassAnnotationProcessingServiceTest {
     @Test
     public void namedQueryProcessorIsRegistered() throws Exception {
         assertThatProcessorTypeIsRegisteredWithService(JPANamedQueryProcessor.class);
+    }
+
+    @Test
+    public void namedNativeQueryProcessorIsRegistered() throws Exception{
+        assertThatProcessorTypeIsRegisteredWithService(JPANamedNativeQueryProcessor.class);
     }
 
     @Test

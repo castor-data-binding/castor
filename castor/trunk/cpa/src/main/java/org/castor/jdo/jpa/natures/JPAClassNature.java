@@ -52,6 +52,10 @@ public class JPAClassNature extends BaseNature {
      */
     private static final String NAMED_QUERY = "NAMED_QUERY";  
     /**
+     * Property Key for {@link javax.persistence.NamedNativeQuery}.
+     */
+    public static final String NAMED_NATIVE_QUERY = "NAMED_NATIVE_QUERY";
+    /**
      * Property Key for {@link org.castor.jdo.jpa.annotations.Cache}.
      */
     public static final String CACHE_PROPERTIES = "CACHE_PROPERTIES"; 
@@ -163,6 +167,22 @@ public class JPAClassNature extends BaseNature {
      */
     public void setNamedQuery(final Map<String, String> namedQuery) {
         super.setProperty (NAMED_QUERY, namedQuery);
+    }
+  
+    /**
+     * @return The value of{@link javax.persistence.NamedNativeQuery}
+     * @see #NAMED_NATIVE_QUERY
+     */
+    public Map getNamedNativeQuery() {
+        return super.getPropertyAsMap(NAMED_NATIVE_QUERY);
+    }
+
+    /**
+     * @param namedNativeQueryMap The value of {@link javax.persistence.NamedNativeQuery}
+     * @see #NAMED_NATIVE_QUERY
+     */
+    public void setNamedNativeQuery(final Map<String, String> namedNativeQueryMap) {
+        super.setProperty(NAMED_NATIVE_QUERY, namedNativeQueryMap);
     }
   
     /**

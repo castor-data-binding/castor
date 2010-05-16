@@ -18,6 +18,13 @@ CREATE TABLE Cache_limited(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE NamedNativeQueries_student(
+    id INTEGER NOT NULL,
+    firstname VARCHAR(25) NOT NULL,
+    lastname VARCHAR(25) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE NamedQueries_person(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
