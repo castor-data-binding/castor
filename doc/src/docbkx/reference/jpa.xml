@@ -157,5 +157,6 @@
   <xi:include href="jpa/annotations.xml"/>
   <xi:include href="jpa/configuration.xml"/>
   <xi:include href="jpa/configuration-spring.xml"/>
-
+  <xi:include href="jpa/extensions.xml"/>
+  
 </chapter>
