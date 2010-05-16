@@ -18,6 +18,7 @@ package org.castor.jdo.jpa.info;
 import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingService;
 import org.castor.jdo.jpa.processors.classprocessors.JPACacheProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPAEntityProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPANamedNativeQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
 
@@ -29,17 +30,18 @@ import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
  * @since 1.3
  */
 public class JPAClassAnnotationProcessingService extends
-		BaseTargetAwareAnnotationProcessingService {
+        BaseTargetAwareAnnotationProcessingService {
 
-	/**
-	 * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA
-	 * Annotation processors for class bound JPA annotations.
-	 */
-	public JPAClassAnnotationProcessingService() {
-		this.addAnnotationProcessor(new JPAEntityProcessor());
-		this.addAnnotationProcessor(new JPATableProcessor());
-		this.addAnnotationProcessor(new JPANamedQueryProcessor());
-		this.addAnnotationProcessor(new JPACacheProcessor());
-	}
+    /**
+     * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA
+     * Annotation processors for class bound JPA annotations.
+     */
+    public JPAClassAnnotationProcessingService() {
+        this.addAnnotationProcessor(new JPAEntityProcessor());
+        this.addAnnotationProcessor(new JPATableProcessor());
+        this.addAnnotationProcessor(new JPANamedQueryProcessor());
+        this.addAnnotationProcessor(new JPANamedNativeQueryProcessor());
+        this.addAnnotationProcessor(new JPACacheProcessor());
+    }
 
 }

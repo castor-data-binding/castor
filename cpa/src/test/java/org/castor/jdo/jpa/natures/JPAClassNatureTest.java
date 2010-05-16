@@ -1,5 +1,7 @@
 package org.castor.jdo.jpa.natures;
 
+import java.util.Map;
+import java.util.HashMap;
 import static org.junit.Assert.*;
 
 import java.util.Properties;
@@ -37,4 +39,19 @@ public class JPAClassNatureTest {
 		assertEquals(cacheProperties, nature.getCacheProperties());
 	}
 
+        @Test
+	public void setNamedNativeQueryValuesSetsRelatedProperty() throws Exception {
+		final String name="name";
+                final String query="query";
+
+                Map<String,String> namedNativeQueryMap = new HashMap();
+                namedNativeQueryMap.put(name, query);
+
+                when(holder.hasNature(canonicalName)).thenReturn(true);
+		when(holder.getProperty(canonicalName + JPAClassNature.NAMED_NATIVE_QUERY))
+				.thenReturn(namedNativeQueryMap);
+		nature = new JPAClassNature(holder);
+		nature.setNamedNativeQuery(namedNativeQueryMap);
+		assertEquals(namedNativeQueryMap, nature.getNamedNativeQuery());
+}
 }

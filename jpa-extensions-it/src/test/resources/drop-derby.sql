@@ -2,6 +2,7 @@ DROP TABLE TEST.Cache_none;
 DROP TABLE TEST.Cache_limited;
 DROP TABLE TEST.Cache_unlimited;
 DROP TABLE TEST.NamedQueries_person;
+DROP TABLE TEST.NamedNativeQueries_student;
 DROP TABLE TEST.single_staff;
 DROP TABLE TEST.OneToOne_show;
 DROP TABLE TEST.OneToOne_timeslot;

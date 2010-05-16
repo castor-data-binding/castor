@@ -183,7 +183,8 @@ public final class InfoToDescriptorConverter {
          */
         ClassMapping clsMapping = new ClassMapping();
         /*
-         * TODO: NOT IMPLEMENTED: not sure what to put in here... "Object _extends"?
+         * TODO: NOT IMPLEMENTED: not sure what to put in here...
+         * "Object _extends"?
          */
         clsMapping.setExtends(null);
         clsMapping.setName(classInfo.getDescribedClass().getName());
@@ -211,12 +212,12 @@ public final class InfoToDescriptorConverter {
                 .addCacheParam("name", classInfo.getDescribedClass().getName());
         Properties cacheProperties = nature.getCacheProperties();
         if (cacheProperties != null) {
-	        for (Object propertyKey : cacheProperties.keySet()) {
-	        	String key = (String)propertyKey;
-	        	jdoNature.addCacheParam(key, cacheProperties.getProperty(key));
-	        }
+            for (Object propertyKey : cacheProperties.keySet()) {
+                String key = (String) propertyKey;
+                jdoNature.addCacheParam(key, cacheProperties.getProperty(key));
+            }
         }
-        
+
         /*
          * TODO: NOT IMPLEMENTED
          */
@@ -226,8 +227,23 @@ public final class InfoToDescriptorConverter {
         // Add named query if present.
         final Map<String, String> namedQuery = nature.getNamedQuery();
         if (namedQuery != null && namedQuery.size() == 1) {
-        	Map.Entry<String, String> entry = namedQuery.entrySet().iterator().next();
+            Map.Entry<String, String> entry = namedQuery.entrySet().iterator()
+                    .next();
             jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
+        }
+
+        // Add named native query if present.
+        final Map namedNativeQueryMap = nature.getNamedNativeQuery();
+        if (namedNativeQueryMap != null && namedNativeQueryMap.size() == 1) {
+            final org.exolab.castor.mapping.xml.NamedNativeQuery namedNativeQuery = new org.exolab.castor.mapping.xml.NamedNativeQuery();
+            namedNativeQuery.setName((String) namedNativeQueryMap.keySet()
+                    .iterator().next());
+            namedNativeQuery.setQuery((String) namedNativeQueryMap.values()
+                    .iterator().next());
+            namedNativeQuery.setResultClass(classInfo.getDescribedClass()
+                    .getName());
+            jdoNature.addNamedNativeQuery(namedNativeQuery.getName(),
+                    namedNativeQuery);
         }
 
         /*
@@ -366,7 +382,6 @@ public final class InfoToDescriptorConverter {
             jpaNature.setJoinTableJoinColumns(relatedFieldNature
                     .getJoinTableInverseJoinColumns());
         }
-        
 
         /*
          * FieldDescriptor value setting
@@ -409,7 +424,7 @@ public final class InfoToDescriptorConverter {
          * FieldDescriptorJDONature value setting
          */
 
-        jdoNature.setSQLType(new int[] {sqlType});
+        jdoNature.setSQLType(new int[] { sqlType });
         jdoNature.setSQLName(createSQLName(fieldName, jpaNature,
                 fieldDescriptor.getClassDescriptor()));
         jdoNature.setManyKey(createManyKey(fieldName, jpaNature,
@@ -426,7 +441,8 @@ public final class InfoToDescriptorConverter {
         jdoNature.setTypeConvertor(null);
         jdoNature.setReadOnly(false);
         /*
-         * TODO: how to set this to false? How should JPA tell Castor to use or not use dirtyCheck
+         * TODO: how to set this to false? How should JPA tell Castor to use or
+         * not use dirtyCheck
          */
         jdoNature.setDirtyCheck(true);
 
@@ -685,8 +701,9 @@ public final class InfoToDescriptorConverter {
             String[] sqlManyKey = new String[1];
             // Column name if defined
             sqlManyKey[0] = jpaNature.getJoinTableJoinColumns()[0].name();
-            // TODO: maybe this should be referencedColumnName() instead... needs testing!
-            
+            // TODO: maybe this should be referencedColumnName() instead...
+            // needs testing!
+
             // If this is not defined, defaults are applying
             // defaults are not supported by Castor
             if ((sqlManyKey[0] == null) || (sqlManyKey[0].trim().length() == 0)) {
