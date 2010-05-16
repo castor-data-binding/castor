@@ -22,11 +22,21 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Defines a key-value pair which can be used for defining properties of both,<br/>
+ * built-in and external vendor-specific cache engines.
+ */
 @Documented
 @Target(value = TYPE)
 @Retention(value = RUNTIME)
 public @interface CacheProperty {
-    public String key();
+    /**
+     * The key of the cache engine property.
+     */
+	public String key();
 
+	/**
+	 * The value of the key of the cache engine property.
+	 */
     public String value();
 }
