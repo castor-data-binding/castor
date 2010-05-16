@@ -428,12 +428,8 @@
                 </p>
                 
                 <code-panel>
-> mvn test -P tests</code-panel>
+> mvn verify</code-panel>
 
-                <p>
-                    by activating the <i>tests</i> profile.
-                </p>
-    
             </section>
         
       </section>
@@ -473,6 +469,21 @@ mvn -Declipse.projectNameTemplate=[artifactId]-2612</code-panel>
          
       </section>
 
+    </section>
+    
+    <section title="Castor and Eclipse">
+    
+        <p>
+            In order to develop Castor sources with Eclipse, you will have
+            to perform the following steps so that you are fully enabled to 
+            code with Eclipse. 
+        </p>
+        
+        <ul>
+            <li><code>mvn compile</code></li>
+            <li><code>mvn eclipse:eclipse</code></li>
+            <li>Import all Castor modules into your Eclipse workspace.</li>
+        </ul>
     </section>
 
   </body>
