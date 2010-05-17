@@ -44,10 +44,12 @@
  */
 package org.exolab.castor.xml.validators;
 
+import java.text.MessageFormat;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.exolab.castor.util.RegExpEvaluator;
 import org.exolab.castor.xml.ValidationContext;
@@ -62,6 +64,13 @@ import org.exolab.castor.xml.ValidationException;
  * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public abstract class PatternValidator {
+    
+    protected static ResourceBundle resourceBundle;
+    
+    static {
+        resourceBundle = ResourceBundle.getBundle("ValidationMessages", Locale
+                .getDefault());
+    }
 
     /** 
      * The regular expressions to match against. 
@@ -83,6 +92,7 @@ public abstract class PatternValidator {
      */
     public PatternValidator() {
         super();
+        
     }
 
     /**
@@ -175,7 +185,7 @@ public abstract class PatternValidator {
         }
 
         if (context == null) {
-            throw new IllegalArgumentException("PatternValidator given a null context");
+            throw new IllegalArgumentException(resourceBundle.getString("patternValidator.error.exception"));
         }
 
         if (_regex == null) {
@@ -193,17 +203,20 @@ public abstract class PatternValidator {
         // If we get here, all patterns failed.
         StringBuffer buff = new StringBuffer("'" + str + "'");
         if (_patterns.size() == 1) {
-            buff.append(" does not match the required regular expression: ");
-            buff.append("\"");
-            buff.append(_patterns.getFirst());
-            buff.append("\"");
+            buff.append(MessageFormat.format(resourceBundle
+                    .getString("patternValidator.error.pattern.not.match"),
+                    new Object[] { _patterns.getFirst() }));
         } else {
-            buff.append(" does not match any of the following regular expressions: ");
+            StringBuffer patterns = new StringBuffer();
             for (String pattern : _patterns) {
-                buff.append("\"");
-                buff.append(pattern);
-                buff.append("\"");
+                patterns.append("\"");
+                patterns.append(pattern);
+                patterns.append("\"");
             }
+            
+            buff.append(MessageFormat.format(resourceBundle
+                    .getString("patternValidator.error.pattern.not.match.any"),
+                    new Object[] { patterns.toString() }));
         }
         throw new ValidationException(buff.toString());
     }
@@ -223,7 +236,7 @@ public abstract class PatternValidator {
                                                     throws ValidationException {
         if (object == null) {
             if (!_nillable) {
-                String err = "PatternValidator cannot validate a null object.";
+                String err = resourceBundle.getString("patternValidator.error.cannot.validate.null.object");
                 throw new ValidationException(err);
             }
             return;
@@ -239,9 +252,7 @@ public abstract class PatternValidator {
     private void initEvaluator(final ValidationContext context) {
         _regex = context.getInternalContext().getRegExpEvaluator();
         if (_regex == null && hasPattern()) {
-            throw new IllegalStateException("You are trying to use regular expressions without " 
-                    + "having specified a regular expression evaluator. Please use the " 
-                    + "castor.properties file to define such.");
+            throw new IllegalStateException(resourceBundle.getString("patternValidator.error.exception.noPatterns"));
         }
     }
 

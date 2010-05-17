@@ -45,6 +45,7 @@
 package org.exolab.castor.xml;
 
 import java.lang.reflect.Array;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
@@ -77,7 +78,7 @@ public class FieldValidator extends Validator {
     /** The actual type validator which is used to validate single instances of
      * the field. */
     private TypeValidator       _validator   = null;
-
+    
     /**
      * Creates a default FieldValidator.
      */
@@ -203,11 +204,15 @@ public class FieldValidator extends Validator {
                 return;
             }
             StringBuffer buff = new StringBuffer();
-            buff.append("The field '" + _descriptor.getFieldName() + "' ");
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
-                buff.append("(whose xml name is '" + _descriptor.getXMLName() + "') ");
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.required.field.whose"), 
+                        new Object[] {_descriptor.getFieldName(), object.getClass().getName(), _descriptor.getXMLName()}));
             }
-            buff.append("is a required field of class '" + object.getClass().getName());
+            else {
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.required.field"), 
+                        new Object[] {_descriptor.getFieldName(), object.getClass().getName()}));
+            }
+            
             throw new ValidationException(buff.toString());
         }
 
@@ -278,10 +283,8 @@ public class FieldValidator extends Validator {
             }
         } catch (ValidationException vx) {
             //-- add additional validation information
-            String err = "The following exception occured while validating field: "
-                         + _descriptor.getFieldName() + " of class: "
-                         + object.getClass().getName();
-            
+            String err = MessageFormat.format(resourceBundle.getString("validatorField.error.exception"), 
+                    new Object[] { _descriptor.getFieldName(), object.getClass().getName()});
             ValidationException validationException = new ValidationException(err, vx);
             addLocationInformation(_descriptor, validationException, occurence);
             throw validationException;
@@ -295,24 +298,28 @@ public class FieldValidator extends Validator {
         // field is not required, so no error.
         if (size < _minOccurs && (size != 0 || _descriptor.isRequired())) {
             StringBuffer buff = new StringBuffer();
-            buff.append("A minimum of " + _minOccurs + " " + _descriptor.getFieldName()
-                        + " object(s) ");
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
-                buff.append("(whose xml name is '" + _descriptor.getXMLName() + "') ");
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.min.occurs.whose"), 
+                        new Object[] { _minOccurs, _descriptor.getFieldName(), object.getClass().getName(),
+                    _descriptor.getXMLName()}));
+            } else {
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.min.occurs"), 
+                        new Object[] { _minOccurs, _descriptor.getFieldName(), object.getClass().getName()}));
             }
-            buff.append("are required for class: " + object.getClass().getName());
             throw new ValidationException(buff.toString());
         }
 
         // Check maximum.
         if (_maxOccurs >= 0 && size > _maxOccurs) {
             StringBuffer buff = new StringBuffer();
-            buff.append("A maximum of " + _maxOccurs + " " + _descriptor.getFieldName()
-                         + " object(s) ");
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
-                buff.append("(whose xml name is '" + _descriptor.getXMLName() + "') ");
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.max.occurs.whose"), 
+                        new Object[] { _maxOccurs, _descriptor.getFieldName(), object.getClass().getName(), _descriptor.getXMLName()}));
+            } else {
+                buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.max.occurs"), 
+                        new Object[] { _maxOccurs, _descriptor.getFieldName(), object.getClass().getName()}));
             }
-            buff.append("are allowed for class: " + object.getClass().getName() + ".");
+
             throw new ValidationException(buff.toString());
         }
 
