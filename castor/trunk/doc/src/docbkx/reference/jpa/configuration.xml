@@ -346,9 +346,17 @@ public class Person {
             which must be bound when executing the query.
         </para>
         <para>
-            The following code sample illustrates how to execute a named query.
+            The following code sample illustrates how to execute the named query defined
+            above:
         </para>
-        <programlisting language="java">
+        
+        <programlistingco>        
+           <areaspec>
+              <area id="jpa.namedquery.1" units="linecolumn" coords="5 88"/>
+              <area id="jpa.namedquery.2" units="linecolumn" coords="6 88"/>
+              <area id="jpa.namedquery.3" units="linecolumn" coords="7 88"/>
+           </areaspec>
+           <programlisting language="java">
 Database db = jdoManager.getDatabase();
 
 db.begin();
@@ -358,15 +366,23 @@ final QueryResults queryResults = query.execute();
 final Person queriedPerson = (Person) queryResults.next();
 queryResults.close();
 db.commit();
-        </programlisting>
+            </programlisting>
+        </programlistingco>
+        
         <para>Let's have a closer look on some of the lines from this example.</para>
-        <para>First we need to create an OQL query using the above defined named query.</para>
-        <programlisting>OQLQuery query = db.getNamedQuery("findPersonByName");</programlisting>
-        <para>Now we need to bind the placeholder <literal>$1</literal> to a value.</para>
-        <programlisting>query.bind("Max Mustermann");</programlisting>
-        <para>After binding, we ara able to actually execute the query and handle the results.</para>
-        <programlisting>QueryResults queryResults = query.execute();</programlisting>
-
+        
+        <calloutlist>
+            <callout arearefs="jpa.namedquery.1">
+                <para>... creates an OQL query using the above defined named query.</para>
+            </callout>
+            <callout arearefs="jpa.namedquery.2">
+                <para>.. binds the placeholder <literal>$1</literal> to a value.</para>
+            </callout>
+            <callout arearefs="jpa.namedquery.3">
+                <para>... executes the query and handle the results.</para>
+            </callout>
+        </calloutlist>
+        
     </section>
 
     <section>
@@ -399,7 +415,7 @@ public class Person {
         </programlisting>
         
         <para>Although the <literal>query</literal> itself is written
-        in native SQL syntax we use a <classname>OQLQuery</classname> object
+        in native SQL syntax, we - again - use a <classname>OQLQuery</classname> object
         to execute the query.</para>
 
         <programlisting language="java">
