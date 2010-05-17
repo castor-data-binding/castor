@@ -303,4 +303,114 @@ resolver.addPackage("org.castor.jpa");
    
     </section> -->
     
+    <section>
+        <title>HOW-TO create and use a named query</title>
+
+        <para>
+            The <literal>@NamedQuery</literal> annotation is used to specify a
+            named query in castor's own query language (OQL) and it is expressed
+            in metadata. The annotation takes the <literal>name</literal> and
+            an OQL <literal>query</literal> as parameters.
+        </para>
+        <para>
+            To define a named query, we first need a persistence entity where we
+            can attach the <literal>@NamedQuery</literal> annotation.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@NamedQuery(name = "findPersonByName", 
+            query = "SELECT p FROM your.package.Person p WHERE p.name = $1")
+public class Person {
+
+    private long id;
+    private String name;
+
+	@Id
+	public long getId() {...}
+
+	public void setId(final long id) {...}
+
+	public String getName() {...}
+
+	public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>
+            As you can see, we defined a query using the name <literal>
+            findPersonByName</literal>. The query itself uses
+            <literal>$1</literal> as a placeholder in its <literal>WHERE</literal>-clause,
+            which must be bound when executing the query.
+        </para>
+        <para>
+            The following code sample illustrates how to execute a named query.
+        </para>
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findPersonByName");
+query.bind("Max Mustermann");
+final QueryResults queryResults = query.execute();
+final Person queriedPerson = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+        </programlisting>
+        <para>Let's have a closer look on some of the lines from this example.</para>
+        <para>First we need to create an OQL query using the above defined named query.</para>
+        <programlisting>OQLQuery query = db.getNamedQuery("findPersonByName");</programlisting>
+        <para>Now we need to bind the placeholder <literal>$1</literal> to a value.</para>
+        <programlisting>query.bind("Max Mustermann");</programlisting>
+        <para>After binding, we ara able to actually execute the query and handle the results.</para>
+        <programlisting>QueryResults queryResults = query.execute();</programlisting>
+
+    </section>
+
+    <section>
+        <title>HOW-TO create and use a named native query</title>
+
+        <para>A named native query is a named query using native SQL syntax
+        instead of castor's own query language. The handling of the annotation
+        is similar to named queries.</para>
+
+        <para>First we need a entity to attach a query.</para>
+        <programlisting language="java">
+@Entity
+@Table(name = personTable)
+@NamedNativeQuery(name = "selectAllPersons",
+                  query = "SELECT * FROM personTable")
+public class Person {
+
+    private long id;
+    private String name;
+
+	@Id
+	public long getId() {...}
+
+	public void setId(final long id) {...}
+
+	public String getName() {...}
+
+	public void setName(final String name) {...}
+}
+        </programlisting>
+        
+        <para>Although the <literal>query</literal> itself is written
+        in native SQL syntax we use a <classname>OQLQuery</classname> object
+        to execute the query.</para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("selectAllPersons");
+final QueryResults queryResults = query.execute();
+... //process the results
+queryResults.close();
+db.commit();
+        </programlisting>
+    </section>
 </section>
