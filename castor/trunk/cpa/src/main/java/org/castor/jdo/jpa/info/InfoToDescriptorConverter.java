@@ -16,6 +16,7 @@
 package org.castor.jdo.jpa.info;
 
 import java.util.Map;
+
 import java.util.Properties;
 
 import javax.persistence.FetchType;
@@ -224,12 +225,12 @@ public final class InfoToDescriptorConverter {
         jdoNature.setAccessMode(null);
         jdoNature.setKeyGeneratorDescriptor(null);
 
-        // Add named query if present.
+        // Add named queries if present.
         final Map<String, String> namedQuery = nature.getNamedQuery();
-        if (namedQuery != null && namedQuery.size() == 1) {
-            Map.Entry<String, String> entry = namedQuery.entrySet().iterator()
-                    .next();
-            jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
+        if (namedQuery != null && namedQuery.size() > 0) {
+            for (Map.Entry<String, String> entry : namedQuery.entrySet()) {
+        	    jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
+            }
         }
 
         // Add named native query if present.

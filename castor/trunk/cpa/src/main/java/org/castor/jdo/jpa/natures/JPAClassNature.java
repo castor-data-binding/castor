@@ -50,7 +50,7 @@ public class JPAClassNature extends BaseNature {
     /**
      * Property Key for {@link javax.persistence.NamedQuery}.
      */
-    private static final String NAMED_QUERY = "NAMED_QUERY";  
+    public static final String NAMED_QUERY = "NAMED_QUERY";
     /**
      * Property Key for {@link javax.persistence.NamedNativeQuery}.
      */

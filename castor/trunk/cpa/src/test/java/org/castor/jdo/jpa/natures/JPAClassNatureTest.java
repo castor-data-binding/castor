@@ -15,29 +15,47 @@ import static org.mockito.Mockito.*;
 
 public class JPAClassNatureTest {
 
-	JPAClassNature nature;
-	@Mock
-	PropertyHolder holder;
+    JPAClassNature nature;
+    @Mock
+    PropertyHolder holder;
+    private static final String canonicalName =
+            JPAClassNature.class.getCanonicalName();
 
-	private static final String canonicalName = JPAClassNature.class
-			.getCanonicalName();
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-	}
+    @Test
+    public void setCachePropertiesSetsRelatedProperty() throws Exception {
+        Properties cacheProperties = new Properties();
+        cacheProperties.setProperty("type", "none");
+        when(holder.hasNature(canonicalName)).thenReturn(true);
+        when(holder.getProperty(canonicalName 
+                + JPAClassNature.CACHE_PROPERTIES)).thenReturn(cacheProperties);
+        nature = new JPAClassNature(holder);
+        nature.setCacheProperties(cacheProperties);
+        assertEquals(cacheProperties, nature.getCacheProperties());
+    }
 
-	@Test
-	public void setCachePropertiesSetsRelatedProperty() throws Exception {
-		Properties cacheProperties = new Properties();
-		cacheProperties.setProperty("type", "none");
-		when(holder.hasNature(canonicalName)).thenReturn(true);
-		when(holder.getProperty(canonicalName + JPAClassNature.CACHE_PROPERTIES))
-				.thenReturn(cacheProperties);
-		nature = new JPAClassNature(holder);
-		nature.setCacheProperties(cacheProperties);
-		assertEquals(cacheProperties, nature.getCacheProperties());
-	}
+    @Test
+    public void setNamedQueriesValuesSetsRelatedProperty() throws Exception {
+        final String name = "name";
+        final String query = "query";
+        final String name2 = "name2";
+        final String query2 = "query2";
+
+        Map<String, String> namedQueryMap = new HashMap();
+        namedQueryMap.put(name, query);
+        namedQueryMap.put(name2, query2);
+
+        when(holder.hasNature(canonicalName)).thenReturn(true);
+        when(holder.getProperty(canonicalName
+                + JPAClassNature.NAMED_QUERY)).thenReturn(namedQueryMap);
+        nature = new JPAClassNature(holder);
+        nature.setNamedQuery(namedQueryMap);
+        assertEquals(namedQueryMap, nature.getNamedQuery());
+    }
 
         @Test
 	public void setNamedNativeQueryValuesSetsRelatedProperty() throws Exception {

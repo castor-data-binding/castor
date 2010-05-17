@@ -21,7 +21,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-@TransactionConfiguration(transactionManager = "transactionManager",  defaultRollback = true)
+@TransactionConfiguration(transactionManager = "transactionManager",
+    defaultRollback = true)
 public class NamedQueriesITCase {
 
     public final Log LOG = LogFactory.getLog(getClass());
@@ -30,9 +31,10 @@ public class NamedQueriesITCase {
     protected JDOManager jdoManager;
 
     @Autowired
-    private PersonDao personDao;
+    private EmployeeDao employeeDao;
 
     private static final String NAME = "Hans Wurst";
+    private static final String ADDRESS = "1313 Mocking Lane";
 
     @Before
     public void initDb() throws PersistenceException {
@@ -52,44 +54,46 @@ public class NamedQueriesITCase {
     @Test
     public void executeNamedQueryDirectly() throws Exception {
     	Database db = jdoManager.getDatabase();
-    	
-        final Person personToPersist = new Person();
-        personToPersist.setId(1L);
-        personToPersist.setName(NAME);
-        
+
+        final Employee employeeToPersist = new Employee();
+        employeeToPersist.setId(1L);
+        employeeToPersist.setName(NAME);
+        employeeToPersist.setAddress(ADDRESS);
+
         db.begin();
-        db.create(personToPersist);
+        db.create(employeeToPersist);
         db.commit();
-        
+
         db.begin();
-        final OQLQuery query = db.getNamedQuery("findPersonByName");
+        final OQLQuery query = db.getNamedQuery("findEmployeeByName");
         query.bind(NAME);
         assertNotNull(query);
         final QueryResults queryResults = query.execute();
         assertNotNull(queryResults);
-        final Person queriedPerson = (Person) queryResults.next();
+        final Employee queriedEmployee = (Employee) queryResults.next();
         queryResults.close();
         db.commit();
-        
-        assertNotNull(queriedPerson);
-        assertEquals(NAME, queriedPerson.getName());
+
+        assertNotNull(queriedEmployee);
+        assertEquals(NAME, queriedEmployee.getName());
     }
 
     @Test
     public void executeNamedQueryViaDao() throws Exception {
     	Database db = jdoManager.getDatabase();
-    	
-        final Person personToPersist = new Person();
-        personToPersist.setId(2L);
-        personToPersist.setName(NAME);
-        
+
+        final Employee employeeToPersist = new Employee();
+        employeeToPersist.setId(2L);
+        employeeToPersist.setName(NAME);
+        employeeToPersist.setAddress(ADDRESS);
+
         db.begin();
-        db.create(personToPersist);
+        db.create(employeeToPersist);
         db.commit();
-        
-        final Person queriedPerson = personDao.getByName(NAME);
-        assertNotNull(queriedPerson);
-        assertEquals(NAME, queriedPerson.getName());
+
+        final Employee queriedEmployee = employeeDao.getByAddress(ADDRESS);
+        assertNotNull(queriedEmployee);
+        assertEquals(ADDRESS, queriedEmployee.getAddress());
     }
 
 }
