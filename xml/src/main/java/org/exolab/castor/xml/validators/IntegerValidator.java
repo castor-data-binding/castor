@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.xml.validators;
 
+import java.text.MessageFormat;
+
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
@@ -342,43 +344,46 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     /**
      * Validates the given Object.
      *
-     * @param i
+     * @param value
      *            the long to validate
      * @param context
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(final long i, final ValidationContext context)
+    public void validate(final long value, final ValidationContext context)
                                                     throws ValidationException {
-        if (_useFixed && i != _fixed) {
-            String err = "long " + i + " is not equal to the fixed value: " + _fixed;
+        if (_useFixed && value != _fixed) {
+            String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.not.fixed.value"),
+                    new Object[] {"long", value, _fixed });
             throw new ValidationException(err);
         }
 
-        if (_useMin && i < _min) {
-            String err = "long " + i + " is less than the minimum allowed value: " + _min;
+        if (_useMin && value < _min) {
+            String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.less.than.minimum"),
+                    new Object[] {"long", value, _min });
             throw new ValidationException(err);
         }
 
-        if (_useMax && i > _max) {
-            String err = "long " + i + " is greater than the maximum allowed value: " + _max;
+        if (_useMax && value > _max) {
+            String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.greater.than.maximum"),
+                    new Object[] {"long", value, _min });
             throw new ValidationException(err);
         }
 
         if (_totalDigits != -1) {
-            int length = Long.toString(i).length();
-            if (i < 0) {
+            int length = Long.toString(value).length();
+            if (value < 0) {
                 length--;
             }
             if (length > _totalDigits) {
-                String err = "long " + i + " has too many digits -- must have "
-                        + _totalDigits + " digits or fewer.";
+                String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.too.many.digits"),
+                        new Object[] {"long", value, _totalDigits });
                 throw new ValidationException(err);
             }
         }
 
         if (hasPattern()) {
-            super.validate(Long.toString(i), context);
+            super.validate(Long.toString(value), context);
         }
     }
 
@@ -405,8 +410,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     public void validate(final Object object, final ValidationContext context)
                                                     throws ValidationException {
         if (object == null) {
-            String err = "IntegerValidator cannot validate a null object.";
-            throw new ValidationException(err);
+            throw new ValidationException(resourceBundle.getString("integerValidator.error.null.object"));
         }
 
         long value = 0;
@@ -419,13 +423,13 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
                 try {
                     value = ((Integer) object).longValue();
                 } catch (Exception e) {
-                    String err = "Expecting a Long/Integer, received instead: ";
-                    err += object.getClass().getName();
+                    String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.wrong.class.lenient"),
+                            new Object[] { object.getClass().getName() });
                     throw new ValidationException(err);
                 }
             } else {
-                String err = "Expecting an Long, received instead: ";
-                err += object.getClass().getName();
+                String err = MessageFormat.format(resourceBundle.getString("integerValidator.error.wrong.class"),
+                        new Object[] { object.getClass().getName() });
                 throw new ValidationException(err);
             }
         }

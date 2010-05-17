@@ -49,6 +49,10 @@
  */
 package org.exolab.castor.xml;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.xml.BackwardCompatibilityContext;
@@ -66,12 +70,22 @@ import org.exolab.castor.xml.validators.ClassValidator;
  */
 public class Validator implements ClassValidator {
     private static final Log LOG = LogFactory.getLog(Validator.class);
+    
+    /** resource bundle */
+    protected static ResourceBundle resourceBundle;
+    
+    static {
+        resourceBundle = ResourceBundle.getBundle("ValidationMessages", Locale
+                .getDefault());
+    }
 
     /**
      * Creates a new Validator.
      */
     public Validator() {
         super();
+        //usage
+        //MessageFormat.format(rbm.getString(validator.cannot.validate.null.object), new Object[] {"Yes!!!", "is"});
     } //-- Validator
 
     /**
@@ -94,7 +108,7 @@ public class Validator implements ClassValidator {
     public void validate(final Object object, final ValidationContext context)
                                                      throws ValidationException {
         if (object == null) {
-            throw new ValidationException("Cannot validate a null Object.");
+            throw new ValidationException(resourceBundle.getString("validator.error.cannot.validate.null.object"));
         }
 
         if (context == null) {
@@ -107,8 +121,7 @@ public class Validator implements ClassValidator {
         }
 
         if (context.getClassDescriptorResolver() == null) {
-            String message = "ClassDescriptorResolver from context must not be null!";
-            LOG.warn(message);
+            String message = resourceBundle.getString("validator.error.class.descriptor.resolver.null");
             throw new IllegalStateException(message);
         }
 
@@ -175,7 +188,7 @@ public class Validator implements ClassValidator {
     
     public void checkUnresolvedIdrefs(ValidationContext context) throws ValidationException {
         if (context.getUnresolvedIdRefs().size() > 0) {
-            String err = "Unresolved IDREfs: " + context.getUnresolvedIdRefs().toString();
+            String err = MessageFormat.format(resourceBundle.getString("validator.error.class.descriptor.resolver.null"), new Object[] {context.getUnresolvedIdRefs().toString()});
             throw new ValidationException(err);
         }
     }
