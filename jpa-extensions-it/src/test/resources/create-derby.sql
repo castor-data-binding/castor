@@ -25,6 +25,13 @@ CREATE TABLE NamedNativeQueries_student(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE NamedQueries_employee(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE NamedQueries_person(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

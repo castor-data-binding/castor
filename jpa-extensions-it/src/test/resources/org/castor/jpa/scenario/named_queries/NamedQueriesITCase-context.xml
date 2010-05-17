@@ -10,7 +10,7 @@
 		class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean">
 		<property name="classes">
 			<list>
-				<value>org.castor.jpa.scenario.named_queries.Person</value>
+				<value>org.castor.jpa.scenario.named_queries.Employee</value>
 			</list>
 		</property>
 	</bean>
@@ -34,7 +34,7 @@
 		<property name="classDescriptorResolver" ref="classDescriptorResolver" />
 	</bean>
 
-	<bean id="personDao" class="org.castor.jpa.scenario.named_queries.PersonCastorDao">
+	<bean id="employeeDao" class="org.castor.jpa.scenario.named_queries.EmployeeCastorDao">
 		<property name="JDOManager" ref="jdoManager" />
 	</bean>
 
