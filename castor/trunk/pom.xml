@@ -27,8 +27,8 @@
         <module>cpactf</module>
         <module>jdo-extensions-it</module>
         <module>jpa-extensions-it</module>
-	    <!-- re-enable once issues have been sorted -->
-        <!-- <module>xmlctf</module>  -->
+
+        <module>xmlctf</module>
 
         <!-- re-enable once properly integrated  -->        
         <!-- module>fragmentmapper</module> -->
@@ -687,8 +687,7 @@
                <module>cpactf</module>
                <module>jdo-extensions-it</module>
                <module>jpa-extensions-it</module>
-                <!-- re-enable once issues have been sorted -->
-               <!-- <module>xmlctf</module>  -->
+               <module>xmlctf</module>
             </modules>            
         </profile>
         <!-- profile for executing all XML integration suite tests -->
@@ -697,8 +696,7 @@
             <modules>
                 <module>xmlctf-framework</module>
                 <module>maven-plugins</module>
-                <!-- re-enable once issues have been sorted -->
-                <!-- <module>xmlctf</module>  -->
+                <module>xmlctf</module>
             </modules>            
         </profile>
         <!-- profile for executing all CPA integration suite tests -->

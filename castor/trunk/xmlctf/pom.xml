@@ -15,7 +15,7 @@
 
     <packaging>jar</packaging>
 
-    <name>Castor XML - test suite</name>
+    <name>Castor XML - Integration tests</name>
     <description></description>
 
     <build>
@@ -25,7 +25,7 @@
                 <artifactId>castor-maven-plugins</artifactId>
                 <executions>
                     <execution>
-                        <phase>test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>xmlctf-text</goal>
                         </goals>
