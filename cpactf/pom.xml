@@ -83,7 +83,40 @@ http://maven.apache.org/maven-v4_0_0.xsd">
               <skip>true</skip>
             </configuration>
          </plugin>
-       </plugins>
+         
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.java</exclude>
+                    </excludes>
+                </configuration>
+             </plugin>
+         
+        </plugins>         
     </build>
 
 	<dependencies>
@@ -134,19 +167,5 @@ http://maven.apache.org/maven-v4_0_0.xsd">
       </dependency>
 
 	</dependencies>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
+    
 </project>
