@@ -278,11 +278,10 @@
 				</row>
 				<row>
 					<entry>NamedNativeQueries</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
-					<entry>This annotation specifies an array
-                                        of named native queries.</entry>
+					<entry>This annotation specifies an array of named native queries.</entry>
 				</row>
 				<row>
 					<entry>OneToMany</entry>
