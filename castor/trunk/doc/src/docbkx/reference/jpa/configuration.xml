@@ -26,7 +26,7 @@
     </itemizedlist>
 
     <section>
-        <title>HOW-TO persist a single class</title>
+        <title>HOW-TO persist a single class (@Entity, @Table, @Id)</title>
       
         <para>
             The goal is to take an existing JPA-annotated class 
@@ -145,7 +145,7 @@ JDOManager jdoManager = JDOManager.createInstance("jpa-extensions");
     </section>
 
     <section>
-        <title>HOW-TO persist a 1:1 relation</title>
+        <title>HOW-TO persist a 1:1 relation (@OneToOne)</title>
    
         <para>
             The goal is to take the existing JPA-annotated classes 
@@ -233,7 +233,7 @@ resolver.addPackage("org.castor.jpa");
 
 <section>
 
-   <title>Persist one to many relation</title>
+   <title>Persist one to many relation (@OnetoMany)</title>
    
    <para>First we have to annotate our java classes.</para>
    
@@ -304,7 +304,7 @@ resolver.addPackage("org.castor.jpa");
     </section> -->
     
     <section>
-        <title>HOW-TO create and use a named query</title>
+        <title>HOW-TO create and use a named query (@NamedQuery)</title>
 
         <para>
             The <literal>@NamedQuery</literal> annotation is used to specify a
@@ -386,7 +386,59 @@ db.commit();
     </section>
 
     <section>
-        <title>HOW-TO create and use a named native query</title>
+        <title>HOW-TO create and use multiple named queries (@NamedQueries)</title>
+
+        <para>The <literal>@NamedQueries</literal> annotation is used to specifiy 
+        multiple named queries.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "findPersonByName",
+                query = "SELECT p FROM your.package.Person p WHERE p.name = $1"),
+    @NamedQuery(name = "findPersonById",
+                query = "SELECT p FROM you.package.Person p WHERE p.id = $1")
+})
+public class Person {
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {...}
+
+    public void setId(final long id) {...}
+
+    public String getName() {...}
+
+    public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>In the obove example we defined two named queries, namly
+        <literal>findPersonByName</literal> and <literal>findPersonById</literal>.
+        The usage of each query is identical to the usasage of a single named query.
+        </para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findPersonById");
+query.bind(1000L);
+final QueryResults queryResults = query.execute();
+final Person queriedPerson = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+            </programlisting>
+
+    </section>
+
+    <section>
+        <title>HOW-TO create and use a named native query (@NamedNativeQuery)</title>
 
         <para>A named native query is a named query using native SQL syntax
         instead of castor's own query language. The handling of the annotation
@@ -429,4 +481,56 @@ queryResults.close();
 db.commit();
         </programlisting>
     </section>
+
+    <section>
+        <title>HOW-TO create and use multiple named native queries (@NamedNativeQueries)</title>
+
+        <para>The <literal>@NamedNativeQueries</literal> annotation is used to specifiy
+        multiple named native SQL queries.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@Table(name = personTable)
+@NamedNativeQueries({
+    @NamedNativeQuery(name = "selectAllPersons",
+                      query = "SELECT * FROM personTable"),
+    @NamedNativeQuery(name = "findMustermann",
+                      query = "SELECT * FROM personTable WHERE name='Max Mustermann' and id=1000")
+})
+public class Person {
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {...}
+
+    public void setId(final long id) {...}
+
+    public String getName() {...}
+
+    public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>As we have already seen, the usage of the two above defined queries
+        is equivalent to the usage of a single named native query.
+        </para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findMustermann");
+final QueryResults queryResults = query.execute();
+final Person maxMustermann = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+        </programlisting>
+
+</section>
+
 </section>
