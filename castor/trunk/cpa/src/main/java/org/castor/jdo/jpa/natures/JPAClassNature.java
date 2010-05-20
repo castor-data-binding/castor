@@ -173,7 +173,8 @@ public class JPAClassNature extends BaseNature {
      * @return The value of{@link javax.persistence.NamedNativeQuery}
      * @see #NAMED_NATIVE_QUERY
      */
-    public Map getNamedNativeQuery() {
+    @SuppressWarnings("unchecked")
+    public Map<String, String> getNamedNativeQuery() {
         return super.getPropertyAsMap(NAMED_NATIVE_QUERY);
     }
 

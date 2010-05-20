@@ -2,6 +2,7 @@ package org.castor.jpa.scenario.named_native_queries;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,6 +10,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.QueryResults;
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-public class NamedNativeQueriesITCase {
+public class NamedNativeQueryITCase {
 
     public final Log LOG = LogFactory.getLog(getClass());
 
@@ -49,7 +51,6 @@ public class NamedNativeQueriesITCase {
     }
 
     private void cleanDBIfNeeded() throws Exception {
-        db = jdoManager.getDatabase();
 
         db.begin();
         try {
@@ -72,57 +73,60 @@ public class NamedNativeQueriesITCase {
     }
 
     @Test
-    public void existingAndvalidQueriesReturnMatchingEntityInstances()
+    public void existingAndvalidQueryReturnsMatchingEntityInstances()
             throws Exception {
-        OQLQuery query;
-        QueryResults results;
-        StudentWithValidQueries queriedStudent;
-
         cleanDBIfNeeded();
-        createAndPersistStudent(StudentWithValidQueries.class);
+        createAndPersistStudent(StudentWithValidQuery.class);
 
         db.begin();
-        query = db.getNamedQuery("nativeFetchAllStudents");
+        final OQLQuery query = db.getNamedQuery("nativeSelectAllStudents");
         assertNotNull(query);
-        results = query.execute();
-        assertNotNull(results);
-        queriedStudent = (StudentWithValidQueries) results
+        final QueryResults queryResults = query.execute();
+        assertNotNull(queryResults);
+        final StudentWithValidQuery queriedStudent = (StudentWithValidQuery) queryResults
                 .next();
-        results.close();
-        db.commit();
-
-        assertNotNull(queriedStudent);
-        assertEquals(FIRSTNAME, queriedStudent.getFirstName());
-
-        queriedStudent = null;
-
-        db.begin();
-        query = db.getNamedQuery("nativeSelectMax");
-        assertNotNull(query);
-        results = query.execute();
-        assertNotNull(results);
-        queriedStudent = (StudentWithValidQueries) results
-                .next();
-        results.close();
+        queryResults.close();
         db.commit();
 
         assertNotNull(queriedStudent);
         assertEquals(FIRSTNAME, queriedStudent.getFirstName());
     }
 
-    @Test
-    public void existingButEmptyNamedNativeQueriesAnnotationDoesNotCauseTrouble() throws Exception{
+    @Test(expected = PersistenceException.class)
+    public void existingAndEmptyQueryThrowsSQLException() throws Exception {
         cleanDBIfNeeded();
-        createAndPersistStudent(StudentWithEmptyNNQueriesAnnotation.class);
+        createAndPersistStudent(StudentWithValidQuery.class);
 
         db.begin();
-        final StudentWithEmptyNNQueriesAnnotation loadedStudent =
-                db.load(StudentWithEmptyNNQueriesAnnotation.class, ID);
-        assertEquals(FIRSTNAME, loadedStudent.getFirstName());
+        final OQLQuery query = db.getNamedQuery("emptyQuery");
+        assertNotNull(query);
+        query.execute();
+        fail("Should have thrown a SQL Exception.");
         db.commit();
     }
 
-    /*
-     * Tests for possible query failures see NamedNativeQueryITCase
-     */
+    @Test(expected = QueryException.class)
+    public void existingAndInvalidQueryThrowsSQLException() throws Exception {
+        cleanDBIfNeeded();
+        createAndPersistStudent(StudentWithInvalidQuery.class);
+
+        db.begin();
+        final OQLQuery query = db.getNamedQuery("invalidQuery");
+        assertNotNull(query);
+        query.execute();
+        fail("Should have thrown a SQL Exception.");
+        db.commit();
     }
+
+    @Test(expected = QueryException.class)
+    public void nonExistingQueryThrowsQueryException() throws Exception {
+        cleanDBIfNeeded();
+        createAndPersistStudent(StudentWithValidQuery.class);
+
+        db.begin();
+        final OQLQuery query = db.getNamedQuery("no query with this name");
+        assertNotNull(query);
+        query.execute();
+        db.commit();
+    }
+}

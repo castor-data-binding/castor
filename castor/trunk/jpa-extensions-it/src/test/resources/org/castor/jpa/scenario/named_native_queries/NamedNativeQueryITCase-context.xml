@@ -10,9 +10,9 @@
         class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean">
         <property name="classes">
             <list>
-                <value>org.castor.jpa.scenario.named_native_queries.StudentWithValidQueries</value>
+                <value>org.castor.jpa.scenario.named_native_queries.StudentWithValidQuery</value>
                 <value>org.castor.jpa.scenario.named_native_queries.StudentWithEmptyQuery</value>
-                <value>org.castor.jpa.scenario.named_native_queries.StudentWithEmptyNNQueriesAnnotation</value>
+                <value>org.castor.jpa.scenario.named_native_queries.StudentWithInvalidQuery</value>
             </list>
         </property>
     </bean>

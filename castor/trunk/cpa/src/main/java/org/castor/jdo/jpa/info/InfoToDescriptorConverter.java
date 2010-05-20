@@ -233,18 +233,17 @@ public final class InfoToDescriptorConverter {
             }
         }
 
-        // Add named native query if present.
-        final Map namedNativeQueryMap = nature.getNamedNativeQuery();
-        if (namedNativeQueryMap != null && namedNativeQueryMap.size() == 1) {
-            final org.exolab.castor.mapping.xml.NamedNativeQuery namedNativeQuery = new org.exolab.castor.mapping.xml.NamedNativeQuery();
-            namedNativeQuery.setName((String) namedNativeQueryMap.keySet()
-                    .iterator().next());
-            namedNativeQuery.setQuery((String) namedNativeQueryMap.values()
-                    .iterator().next());
-            namedNativeQuery.setResultClass(classInfo.getDescribedClass()
-                    .getName());
-            jdoNature.addNamedNativeQuery(namedNativeQuery.getName(),
-                    namedNativeQuery);
+        // Add named native queries if present.
+        final Map<String, String> namedNativeQueryMap = nature.getNamedNativeQuery();
+        if (namedNativeQueryMap != null && namedNativeQueryMap.size() > 0) {
+            for (Map.Entry<String,String> entry: namedNativeQueryMap.entrySet()){
+                org.exolab.castor.mapping.xml.NamedNativeQuery namedNativeQuery = 
+                    new org.exolab.castor.mapping.xml.NamedNativeQuery();
+                namedNativeQuery.setName(entry.getKey());
+                namedNativeQuery.setQuery(entry.getValue());
+                namedNativeQuery.setResultClass(classInfo.getDescribedClass().getName());
+                jdoNature.addNamedNativeQuery(namedNativeQuery.getName(), namedNativeQuery);
+            }
         }
 
         /*
