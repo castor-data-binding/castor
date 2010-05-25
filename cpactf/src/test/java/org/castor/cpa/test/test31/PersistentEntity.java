@@ -211,6 +211,9 @@ public class PersistentEntity implements Persistent, TimeStampable,
         return null;
     }
 
+    public void jdoModify() throws Exception {
+    }
+
     public final void jdoStore(final boolean modified) throws Exception {
         if (modified) {
             _modificationTime = new Date();

@@ -156,6 +156,9 @@ public final class PersistentObject implements Persistent, TimeStampable, Serial
         return null;
     }
 
+    public void jdoModify() throws Exception {
+    }
+
     public void jdoStore(final boolean modified) throws Exception {
         Enumeration<PersistentObject> enumeration;
         PersistentObject child;

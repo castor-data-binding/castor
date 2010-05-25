@@ -38,11 +38,30 @@ CREATE TABLE NamedQueries_person(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE Callbacks_person(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Callbacks_cat(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     pay NUMERIC(7,2) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE staff_version(
+    id INTEGER NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    version BIGINT,
     PRIMARY KEY(id)
 );
 
