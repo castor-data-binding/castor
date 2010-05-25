@@ -5,6 +5,7 @@ DROP TABLE TEST.NamedQueries_person;
 DROP TABLE TEST.NamedQueries_employee
 DROP TABLE TEST.NamedNativeQueries_student;
 DROP TABLE TEST.single_staff;
+DROP TABLE TEST.staff_version;
 DROP TABLE TEST.OneToOne_show;
 DROP TABLE TEST.OneToOne_timeslot;
 DROP TABLE TEST.OneToOne_rating;

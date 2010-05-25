@@ -63,6 +63,10 @@ public class JDOCallback implements CallbackInterceptor {
         return ((Persistent) object).jdoLoad(accessMode);
     }
 
+    public void modifying(final Object object) throws Exception {
+        ((Persistent) object).jdoModify();
+    }
+
     public void storing(final Object object, final boolean modified) throws Exception {
         ((Persistent) object).jdoStore(modified);
     }

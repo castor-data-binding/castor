@@ -68,6 +68,14 @@ public interface CallbackInterceptor {
     Class<?> loaded(Object object, AccessMode accessMode) throws Exception;
 
     /**
+     * Called to indicate that an object has been modified and is up to storing.
+     *
+     * @param object The object
+     * @throws Exception An exception occured, the object cannot be stored
+     */
+    void modifying(Object object) throws Exception;
+
+    /**
      * Called to indicate that an object is to be stored in persistent
      * storage.
      *
@@ -139,4 +147,5 @@ public interface CallbackInterceptor {
      * @param object The object
      */
     void updated(Object object) throws Exception;
+
 }

@@ -93,6 +93,14 @@ public interface Persistent {
     Class jdoLoad(AccessMode accessMode) throws Exception;
 
     /**
+     * Called to indicate that an object has been modified and is to be stored
+     * in persistent storage.
+     *
+     * @throws Exception An exception occurred, the object cannot be modified
+     */
+    void jdoModify() throws Exception;
+
+    /**
      * Called to indicate that an object is to be stored in persistent
      * storage. This method is called at commit time on all persistent
      * objects in this transaction. Managed fields may not necessarily be
@@ -137,6 +145,7 @@ public interface Persistent {
      * @throws Exception An exception occured, the object cannot be stored
      */
     void jdoUpdate() throws Exception;
+
 }
 
 

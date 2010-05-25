@@ -37,6 +37,9 @@ implements CallbackInterceptor, InstanceFactory {
         return object.getClass();
     }
 
+    public void modifying(final Object object) throws Exception {
+    }
+
     public void storing(final Object object, final boolean modified)
     throws Exception {
         _callbacksInvoked.allow(CallbackState.STORING);

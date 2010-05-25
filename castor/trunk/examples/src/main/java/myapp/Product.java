@@ -7,19 +7,19 @@ import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.mapping.AccessMode;
 
 public class Product implements Persistent, TimeStampable {
-    private int          _id;
+    private int _id;
 
-    private String       _name;
+    private String _name;
 
-    private float        _price;
+    private float _price;
 
     private ProductGroup _group;
 
-    private long   _timeStamp;
+    private long _timeStamp;
 
-    private Vector       _details = new Vector();
+    private Vector _details = new Vector();
 
-    private Vector       _categories = new Vector();
+    private Vector _categories = new Vector();
 
     public int getId() {
         return _id;
@@ -61,10 +61,9 @@ public class Product implements Persistent, TimeStampable {
         return _details;
     }
 
-
     public void addDetail(final ProductDetail detail) {
-        _details.add( detail );
-        detail.setProduct( this );
+        _details.add(detail);
+        detail.setProduct(this);
     }
 
     public Vector getCategories() {
@@ -72,37 +71,46 @@ public class Product implements Persistent, TimeStampable {
     }
 
     public void addCategories(final Category category) {
-        if ( ! _categories.contains( category ) ) {
-            _categories.addElement( category );
-            category.addProduct( this );
+        if (!_categories.contains(category)) {
+            _categories.addElement(category);
+            category.addProduct(this);
         }
     }
 
-    public void jdoPersistent(final Database db) { }
+    public void jdoPersistent(final Database db) {
+    }
 
-    public void jdoTransient() { }
+    public void jdoTransient() {
+    }
 
     public Class jdoLoad(final AccessMode accessMode) {
-        if ( _name.indexOf("PC") >= 0 ) {
+        if (_name.indexOf("PC") >= 0) {
             return Computer.class;
         }
         return null;
     }
 
-    public void jdoBeforeCreate(final Database db) { }
+    public void jdoBeforeCreate(final Database db) {
+    }
 
-    public void jdoAfterCreate() { }
+    public void jdoAfterCreate() {
+    }
 
-    public void jdoStore(final boolean modified) { }
+    public void jdoStore(final boolean modified) {
+    }
 
-    public void jdoBeforeRemove() { }
+    public void jdoBeforeRemove() {
+    }
 
-    public void jdoAfterRemove() { }
+    public void jdoAfterRemove() {
+    }
 
-    public void jdoUpdate() { }
+    public void jdoUpdate() {
+    }
 
     public void jdoSetTimeStamp(final long timeStamp) {
-        // System.out.println( "CHANGING TIMESTAMP FROM: " + _timeStamp + " TO: " + timeStamp );
+        // System.out.println( "CHANGING TIMESTAMP FROM: " + _timeStamp +
+        // " TO: " + timeStamp );
         _timeStamp = timeStamp;
     }
 
@@ -113,5 +121,8 @@ public class Product implements Persistent, TimeStampable {
 
     public String toString() {
         return "<id: " + _id + " name: " + _name + " price: " + _price + ">";
+    }
+
+    public void jdoModify() throws Exception {
     }
 }

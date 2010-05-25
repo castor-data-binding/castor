@@ -1203,6 +1203,25 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             LockEngine engine = molder.getLockEngine();
             OID oid = _tracker.getOIDForObject(toPrepare);
 
+            // Do the `modifying` callbacks
+            if (!isDeleted && !isCreating && needsPersist && needsCache) {
+                if (_callback != null) {
+                    try {
+                        _callback.modifying(toPrepare);
+                    } catch (Exception e) {
+                        throw new TransactionAbortedException(Messages.format(
+                                "persist.nested", e), e);
+                    }
+                } else if (molder.getCallback() != null) {
+                    try {
+                        molder.getCallback().modifying(toPrepare);
+                    } catch (Exception e) {
+                        throw new TransactionAbortedException(Messages.format(
+                                "persist.nested", e), e);
+                    }
+                }
+            }
+
             if (!isDeleted && !isCreating) {
                 if (needsPersist) {
                     engine.store(this, oid, toPrepare);
@@ -1212,7 +1231,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 }
             }
 
-            // do the callback
+            // Do the `storing` callbacks
             if (!isDeleted && _callback != null) {
                 try {
                     _callback.storing(toPrepare, needsCache);
