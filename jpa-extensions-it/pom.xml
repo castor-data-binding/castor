@@ -174,7 +174,6 @@
     </dependencies>
 
     <properties>
-        <derby.version>10.5.3.0_1</derby.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
