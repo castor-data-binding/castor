@@ -1,3 +1,5 @@
+drop sequence test20_keygen_seq restrict;
+
 drop table test20_keygen;
 
 drop table test20_keygen_ext;

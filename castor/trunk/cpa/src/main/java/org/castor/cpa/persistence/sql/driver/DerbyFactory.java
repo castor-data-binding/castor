@@ -93,6 +93,35 @@ public final class DerbyFactory extends GenericFactory {
     public String getIdentitySelectString(final String tableName, final String columnName) {
         return "SELECT IDENTITY_VAL_LOCAL() FROM " + quoteName(tableName);
     }
+    
+    @Override
+    public boolean isKeyGeneratorSequenceSupported(final boolean returning, final boolean trigger) {
+    	if (returning || trigger) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
+    	
+    	switch (type) {
+    		case Types.INTEGER:
+    		case Types.SMALLINT:
+    		case Types.BIGINT:
+    			return true;
+    		default:
+    			return false;
+    	}
+    }
+    
+    @Override
+    public String getSequenceBeforeSelectString(final String seqName, 
+           final String tableName, final int increment) {
+    	return "VALUES (NEXT VALUE FOR " + seqName + ")";
+    }
 
     //-----------------------------------------------------------------------------------
 }
