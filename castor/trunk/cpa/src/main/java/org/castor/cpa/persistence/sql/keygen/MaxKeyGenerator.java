@@ -20,7 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -104,7 +103,7 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
      * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+            final String primKeyName) throws PersistenceException {
         PreparedStatement stmt = null;
         try {
             String sql = getQueryExpression(tableName, primKeyName);

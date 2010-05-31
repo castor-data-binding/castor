@@ -33,17 +33,17 @@ import org.exolab.castor.jdo.PersistenceException;
  */
 public interface KeyGeneratorTypeHandler <T> {
     //-----------------------------------------------------------------------------------    
-	
-	/**
-	 * Gets the value from resultset by calling getValue method and then 
-	 * calls the increment method to increment the extracted value.
-	 * 
-	 * @param rs A ResultSet object.
-	 * @return Returns the new value after incrementing it.
+
+    /**
+     * Gets the value from resultset by calling getValue method and then 
+     * calls the increment method to increment the extracted value.
+     * 
+     * @param rs A ResultSet object.
+     * @return Returns the new value after incrementing it.
      * @throws PersistenceException If ResultSet is empty or if the type handler 
      * should fail when current row of the record set is not valid,
      * @throws SQLException If database error occurs.
-	 */
+     */
     T getNextValue(ResultSet rs) throws PersistenceException, SQLException;
     
     /**

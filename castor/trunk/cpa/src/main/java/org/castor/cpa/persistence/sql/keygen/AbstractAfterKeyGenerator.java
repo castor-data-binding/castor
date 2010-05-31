@@ -43,7 +43,6 @@ import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Column;
@@ -162,7 +161,6 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
      */
     public Object executeStatement(final Database database, final Connection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
-        SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
         PreparedStatement stmt = null;
@@ -324,16 +322,10 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
         connection = getSeparateConnection(database);
         }
 
-        Properties prop = null;
-        if (stmt != null) {
-        prop = new Properties();
-        prop.put("insertStatement", stmt);
-        }
-
         try {
             Object identity;
             synchronized (connection) {
-            identity = this.generateKey(connection, _mapTo, id.getName(), prop);
+            identity = this.generateKey(connection, _mapTo, id.getName());
             }
 
             // TODO [SMH]: Move "if (identity == null)" into keygenerator.

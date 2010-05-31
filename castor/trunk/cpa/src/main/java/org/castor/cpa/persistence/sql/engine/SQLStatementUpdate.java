@@ -135,7 +135,8 @@ public final class SQLStatementUpdate {
     /**
      * Stores the identity to the database using JDBC Connection.
      * 
-     * @param conn An Open JDBC Connection.
+     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
+     *        statement.
      * @param identity Identity of the object to update.
      * @param newentity Entity holding the new values to set with update.
      * @param oldentity Entity holding the old values to check for concurrent modifications.

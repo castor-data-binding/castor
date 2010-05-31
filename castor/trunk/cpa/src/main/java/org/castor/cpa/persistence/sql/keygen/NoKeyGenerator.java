@@ -18,7 +18,6 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,7 +98,7 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
      * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+            final String primKeyName) throws PersistenceException {
         return null;
     }
     

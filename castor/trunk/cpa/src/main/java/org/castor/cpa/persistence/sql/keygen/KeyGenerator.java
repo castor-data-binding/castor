@@ -16,7 +16,6 @@
 package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
-import java.util.Properties;
 
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
@@ -51,12 +50,11 @@ public interface KeyGenerator {
      * @param conn An open connection within the given transaction
      * @param tableName The table name
      * @param primKeyName The primary key name
-     * @param props A temporary replacement for Principal object
      * @return A new key
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    Object generateKey(Connection conn, String tableName, String primKeyName, Properties props)
+    Object generateKey(Connection conn, String tableName, String primKeyName)
     throws PersistenceException;
 
     /**
