@@ -19,7 +19,6 @@ import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.Types;
 import java.text.DecimalFormat;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.castor.core.util.Messages;
@@ -39,24 +38,34 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
 
+    /** Format for IP-Address. */
     private static final DecimalFormat IP_FORMAT = new DecimalFormat("000");
 
+    /** Format used for time. */
     private static final DecimalFormat TIME_FORMAT = new DecimalFormat("0000000000000");
 
+    /** Format used for counter. */
     private static final DecimalFormat COUNTER_FORMAT = new DecimalFormat("00000");
-    
+
+    /** Maximum valid value for counter. */
     private static final long COUNTER_MAX = 99999;
 
+    /** Static counter variable. */
     private static long _staticCounter = 0;
-    
+
+    /** Variable to store host address. */
     private String _hostAddress;
 
     //-----------------------------------------------------------------------------------
 
     /**
      * Initialize the UUID key generator.
+     * @param factory Instance of PersistenceFactory to be used.
+     * @param sqlType SqlType variable to determine type.
+     * @throws MappingException An exception indicating an invalid mapping error.
      */
-    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType) throws MappingException {
+    public UUIDKeyGenerator(final PersistenceFactory factory, final int sqlType)
+    throws MappingException {
         super(factory);
         if ((sqlType != Types.CHAR) && (sqlType != Types.VARCHAR)
                 && (sqlType != Types.LONGVARCHAR)) {
@@ -68,6 +77,9 @@ public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
         initHostAddress();
     }
 
+    /** Method to initialize hostAddress variable on construction of this object.
+     * @throws MappingException MappingException An exception indicating an invalid mapping error.
+     */
     private void initHostAddress() throws MappingException {
         try {
             String host = InetAddress.getLocalHost().getHostAddress();
@@ -91,7 +103,7 @@ public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
      * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+            final String primKeyName) throws PersistenceException {
         StringBuffer sb = new StringBuffer();
         
         // getting IP (fixed length: 12 character)

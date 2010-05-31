@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2938" tool="jira">
+                    <description>
+                        Minor code cleanup at key generator.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100531</date>
+                </bug>
                 <bug id="2834" tool="jira">
                     <description>
                         Made the use of cycle breaker code in generated equals()/hashcode()

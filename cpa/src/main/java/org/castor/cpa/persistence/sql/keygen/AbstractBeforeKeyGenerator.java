@@ -18,7 +18,6 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -267,16 +266,10 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
         connection = getSeparateConnection(database);
         }
 
-        Properties prop = null;
-        if (stmt != null) {
-        prop = new Properties();
-        prop.put("insertStatement", stmt);
-        }
-
         try {
             Object identity;
             synchronized (connection) {
-            identity = this.generateKey(connection, _mapTo, id.getName(), prop);
+            identity = this.generateKey(connection, _mapTo, id.getName());
             }
 
             // TODO [SMH]: Move "if (identity == null)" into keygenerator.

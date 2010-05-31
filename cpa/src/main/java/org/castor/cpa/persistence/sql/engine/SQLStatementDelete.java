@@ -105,7 +105,8 @@ public final class SQLStatementDelete {
      * Execute statement to remove entity with given identity from database using given JDBC
      * connection. 
      * 
-     * @param conn An open JDBC connection.
+     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
+     *        statement.
      * @param identity Identity of the object to remove.
      * @return Always returns <code>null</code>. 
      * @throws PersistenceException If failed to remove object from database. This could happen

@@ -115,12 +115,11 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      * @param conn An open connection within the given transaction.
      * @param tableName The table name.
      * @param primKeyName The primary key name.
-     * @param props A temporary replacement for Principal object.
      * @return A new key.
      * @throws PersistenceException An error occured talking to persistent storage.
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+            final String primKeyName) throws PersistenceException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 

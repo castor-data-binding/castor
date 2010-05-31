@@ -49,31 +49,44 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(HighLowKeyGenerator.class);
-    
+
+    /** String constant for table. */
     private static final String SEQ_TABLE = "table";
 
+    /** String constant for key-column. */
     private static final String SEQ_KEY = "key-column";
 
+    /** String constant for value-column. */
     private static final String SEQ_VALUE = "value-column";
 
+    /** String constant for grab-size. */
     private static final String GRAB_SIZE = "grab-size";
 
+    /** String constant for same-connection. */
     private static final String SAME_CONNECTION = "same-connection";
 
+    /** String constant for global. */
     private static final String GLOBAL = "global";
-    
+
+    /** Int constant. */
     private static final int UPDATE_PARAM_MAX = 1;
 
+    /** Int constant. */
     private static final int UPDATE_PARAM_TABLE = 2;
 
+    /** Int constant. */
     private static final int UPDATE_PARAM_LAST = 3;
-    
+
+    /** Int constant. */
     private static final int INSERT_PARAM_TABLE = 1;
 
+    /** Int constant. */
     private static final int INSERT_PARAM_MAX = 2;
 
+    /** Int constant. */
     private static final int LOCK_TRIALS = 7;
 
+    /** Map to store value handler. */
     private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
         new HashMap<String, HighLowValueHandler<? extends Object>>();
 
@@ -130,7 +143,13 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
         
         initFromParameters(params);
     }
-    
+
+    /** Method to init some class variables.
+     * 
+     * @param params Database engine specific parameters. 
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
+     */
     public void initFromParameters(final Properties params) throws MappingException {
         _seqTable = params.getProperty(SEQ_TABLE);
         if (_seqTable == null) {
@@ -171,7 +190,7 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
      * {@inheritDoc}
      */
     public synchronized Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName, final Properties props) throws PersistenceException {
+            final String primKeyName) throws PersistenceException {
         String intTableName = tableName;
         if (_global) { intTableName = "<GLOBAL>"; }
         
