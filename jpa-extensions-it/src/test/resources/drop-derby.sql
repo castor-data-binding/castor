@@ -4,6 +4,12 @@ DROP TABLE TEST.Cache_unlimited;
 DROP TABLE TEST.NamedQueries_person;
 DROP TABLE TEST.NamedQueries_employee
 DROP TABLE TEST.NamedNativeQueries_student;
+DROP TABLE TEST.Callbacks_person;
+DROP TABLE TEST.Callbacks_cat;
+DROP TABLE TEST.EntityListeners_animal;
+DROP TABLE TEST.EntityListeners_pet;
+DROP TABLE TEST.EntityListeners_dog;
+DROP TABLE TEST.EntityListeners_retriever;
 DROP TABLE TEST.single_staff;
 DROP TABLE TEST.staff_version;
 DROP TABLE TEST.OneToOne_show;

@@ -50,6 +50,26 @@ CREATE TABLE Callbacks_cat(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE EntityListeners_animal(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE EntityListeners_pet(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE EntityListeners_dog(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE EntityListeners_retriever(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

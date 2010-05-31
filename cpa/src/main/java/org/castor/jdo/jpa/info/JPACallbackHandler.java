@@ -25,6 +25,10 @@ import javax.persistence.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Handles JPA annotation-driven callback hooks.
@@ -32,13 +36,23 @@ import java.lang.reflect.Method;
 public class JPACallbackHandler implements CallbackInterceptor {
 
     private static final Log LOG = LogFactory.getLog(JPACallbackHandler.class);
+    
+    /**
+     * Objects for which callbacks need to be invoked.
+     */
+    private final List<Object> objectsToInvokeCallbacksOn = new ArrayList<Object>();
+    
+    /**
+     * Memorises overridden callbacks.
+     */
+    private final Map<String, Object> overriddenCallbacks = new HashMap<String, Object>();
 
     public Class<?> loaded(final Object object, final AccessMode accessMode)
             throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `loaded`.");
         }
-        invokeCallbacksFor(PostLoad.class, object);
+        handleCallbacksFor(PostLoad.class, object);
         return object.getClass();
     }
 
@@ -46,7 +60,7 @@ public class JPACallbackHandler implements CallbackInterceptor {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `modifying`.");
         }
-        invokeCallbacksFor(PreUpdate.class, object);
+        handleCallbacksFor(PreUpdate.class, object);
     }
 
     public void storing(final Object object, final boolean modified)
@@ -55,7 +69,7 @@ public class JPACallbackHandler implements CallbackInterceptor {
             LOG.debug("Calling `storing`.");
         }
         if (modified) {
-            invokeCallbacksFor(PostUpdate.class, object);
+            handleCallbacksFor(PostUpdate.class, object);
         }
     }
 
@@ -64,28 +78,28 @@ public class JPACallbackHandler implements CallbackInterceptor {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `creating`.");
         }
-        invokeCallbacksFor(PrePersist.class, object);
+        handleCallbacksFor(PrePersist.class, object);
     }
 
     public void created(final Object object) throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `created`.");
         }
-        invokeCallbacksFor(PostPersist.class, object);
+        handleCallbacksFor(PostPersist.class, object);
     }
 
     public void removing(final Object object) throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `removing`.");
         }
-        invokeCallbacksFor(PreRemove.class, object);
+        handleCallbacksFor(PreRemove.class, object);
     }
 
     public void removed(final Object object) throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `removed`.");
         }
-        invokeCallbacksFor(PostRemove.class, object);
+        handleCallbacksFor(PostRemove.class, object);
     }
 
     public void releasing(final Object object, final boolean committed) {
@@ -110,32 +124,147 @@ public class JPACallbackHandler implements CallbackInterceptor {
     }
 
     /**
+     * Handles callbacks accordingly.
+     *
+     * @param annotationClass the annotation to look for
+     * @param object          the object to handle callbacks for
+     * @param <A>             helper annotation generics
+     * @throws InvocationTargetException on callback invocation error
+     * @throws IllegalAccessException    on illegal method access error
+     * @throws InstantiationException    on instantiation error
+     * @throws NoSuchMethodException     on method not present error
+     */
+    private <A extends Annotation> void handleCallbacksFor(
+            final Class<A> annotationClass, final Object object)
+            throws InvocationTargetException, IllegalAccessException,
+            InstantiationException, NoSuchMethodException {
+        objectsToInvokeCallbacksOn.clear();
+        overriddenCallbacks.clear();
+        walkCallbacksHierarchyFor(annotationClass, object);
+        if (objectsToInvokeCallbacksOn.size() > 1) {
+            handleOverriddenCallbacksFor(annotationClass,
+                    objectsToInvokeCallbacksOn.get(objectsToInvokeCallbacksOn
+                            .size() - 1));
+        }
+        for (Object obj : objectsToInvokeCallbacksOn) {
+            invokeCallbacksFor(annotationClass, obj);
+        }
+        for (Map.Entry<String, Object> entry : overriddenCallbacks.entrySet()) {
+            invokeCallback(entry.getValue().getClass().getDeclaredMethod(
+                    entry.getKey()), entry.getValue());
+        }
+    }
+
+    /**
+     * Walks callbacks hierarchy accordingly.
+     *
+     * @param annotationClass the annotation to look for
+     * @param object          the object to walk hierarchy for
+     * @param <A>             helper annotation generics
+     * @throws InvocationTargetException on callback invocation error
+     * @throws IllegalAccessException    on illegal method access error
+     * @throws InstantiationException    on instantiation error
+     */
+    private <A extends Annotation> void walkCallbacksHierarchyFor(
+            final Class<A> annotationClass, final Object object)
+            throws InvocationTargetException, IllegalAccessException,
+            InstantiationException {
+        final Class<?> klass = object.getClass();
+        if (klass.isAnnotationPresent(Entity.class)) {
+            final Class<?> superclass = klass.getSuperclass();
+            if (superclass != Object.class) {
+                walkCallbacksHierarchyFor(annotationClass, superclass
+                        .newInstance());
+            }
+            final EntityListeners entityListeners = klass.getAnnotation(
+                    EntityListeners.class);
+            if (entityListeners != null) {
+                final Class<?>[] listeners = entityListeners.value();
+                for (Class<?> listener : listeners) {
+                    invokeCallbacksFor(annotationClass, listener.newInstance());
+                }
+            } // Store object to invoke callbacks on.
+            objectsToInvokeCallbacksOn.add(object);
+        }
+    }
+
+    /**
+     * Handles overridden CB methods accordingly.
+     *
+     * @param annotationClass the annotation to look for
+     * @param object          the object to handle
+     * @throws InvocationTargetException on callback invocation error
+     * @throws IllegalAccessException    on illegal method access error
+     */
+    private <A extends Annotation> void handleOverriddenCallbacksFor(
+            final Class<A> annotationClass, final Object object)
+    throws InvocationTargetException, IllegalAccessException {
+        Class<?> klass = object.getClass();
+        Class<?> superclass = klass.getSuperclass();
+        while (superclass != Object.class) {
+            for (Method method : klass.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(annotationClass)) {
+                    final String methodName = method.getName();
+                    try {
+                        final Method overridden = superclass.getDeclaredMethod(
+                                methodName);
+                        if (overridden.isAnnotationPresent(annotationClass)) {
+                            overriddenCallbacks.put(methodName, object);
+                        }
+                    } catch (NoSuchMethodException e) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(String.format(
+                                    "CB method `%s` is not overridden in `%s`.",
+                                    method.getName(), superclass.getSimpleName()
+                            ));
+                        }
+                    }
+                }
+            }
+            superclass = superclass.getSuperclass();
+        }
+    }
+
+    /**
      * Invokes callback methods accordingly.
-     * 
-     * @param annotationClass
-     *            the annotation to look for
-     * @param object
-     *            the object to invoke callbacks on
-     * @param <A>
-     *            helper annotation generics
-     * @throws InvocationTargetException
-     *             on callback invocation error
-     * @throws IllegalAccessException
-     *             on illegal method access error
+     *
+     * @param annotationClass the annotation to look for
+     * @param object          the object to invoke callbacks on
+     * @param <A>             helper annotation generics
+     * @throws InvocationTargetException on callback invocation error
+     * @throws IllegalAccessException    on illegal method access error
      */
     private <A extends Annotation> void invokeCallbacksFor(
             final Class<A> annotationClass, final Object object)
             throws InvocationTargetException, IllegalAccessException {
-        final Method[] declaredMethods = object.getClass().getDeclaredMethods();
+        final Class<?> klass = object.getClass();
+        final Method[] declaredMethods = klass.getDeclaredMethods();
         for (Method method : declaredMethods) {
             if (method.isAnnotationPresent(annotationClass)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Invoking callback method: " + method.getName());
+                if (!overriddenCallbacks.containsKey(method.getName())) {
+                    invokeCallback(method, object);
                 }
-                method.setAccessible(true);
-                method.invoke(object);
             }
         }
+    }
+
+    /**
+     * Invokes a callback method accordingly.
+     *
+     * @param method the CB method to invoke
+     * @param object the object to invoke on
+     * @throws InvocationTargetException on callback invocation error
+     * @throws IllegalAccessException    on illegal method access error
+     */
+    private void invokeCallback(final Method method, final Object object)
+            throws InvocationTargetException, IllegalAccessException {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Invoking CB method `%s` on `%s`.",
+                    method.getName(), object.getClass().getSimpleName()
+            ));
+        }
+        method.setAccessible(true);
+        method.invoke(object);
     }
 
 }
