@@ -529,19 +529,17 @@ public class ClassMolder {
 
         // Check for version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature =
-                    new ClassDescriptorJDONature(_clsDesc);
+            ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(_clsDesc);
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
-                FieldDescriptor versionFieldDescriptor =
-                        jdoNature.getField(versionField);
+                FieldDescriptor versionFieldDescriptor = jdoNature.getField(versionField);
                 FieldHandler fieldHandler = versionFieldDescriptor.getHandler();
                 // Set the entity's version to the locker's version.
-                fieldHandler.setValue(proposedObject.getEntity(), locker
-                        .getVersion());
+                fieldHandler.setValue(proposedObject.getEntity(), locker.getVersion());
             }
         }
 
@@ -623,11 +621,11 @@ public class ClassMolder {
 
         // Check for version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature = 
-                new ClassDescriptorJDONature(_clsDesc);
+            ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(_clsDesc);
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
                 FieldDescriptor versionFieldDescriptor =
@@ -807,11 +805,11 @@ public class ClassMolder {
 
         // Set the new timestamp into version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature jdoNature =
-                    new ClassDescriptorJDONature(_clsDesc);
+            ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(_clsDesc);
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
                 FieldDescriptor versionFieldDescriptor =
@@ -888,16 +886,14 @@ public class ClassMolder {
         }
         
         ClassDescriptorJDONature jdoNature = null;
-        String versionField = null;
 
         // Check for version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            // Initialize nature.
             jdoNature = new ClassDescriptorJDONature(_clsDesc);
-            versionField = jdoNature.getVersionField();
+            String versionField = jdoNature.getVersionField();
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
-                objectTimestamp =
-                        getObjectVersion(versionField, jdoNature, object);
+                objectTimestamp =  getObjectVersion(versionField, jdoNature, object);
                 timeStampable = true;
             }
         }
@@ -1038,19 +1034,16 @@ public class ClassMolder {
                 throw new IllegalArgumentException("Field type invalid!");
             }
         }
-
         
-        ClassDescriptorJDONature jdoNature;
-        String versionField;
         Long objectVersion = null;
+        
         // Check for version field.
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            // Initialize nature.
-            jdoNature = new ClassDescriptorJDONature(_clsDesc);
-            versionField = jdoNature.getVersionField();
+            ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(_clsDesc);
+            String versionField = jdoNature.getVersionField();
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
-                objectVersion =
-                        (Long) getObjectVersion(versionField, jdoNature, object);
+                objectVersion = getObjectVersion(versionField, jdoNature, object);
             }
         }
         
