@@ -17,6 +17,7 @@ package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
 
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -69,7 +70,8 @@ public interface KeyGenerator {
      * Executes the SQL statement after preparing the PreparedStatement.
      * 
      * @param database A database instance.
-     * @param conn An Open JDBC connection.
+     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
+     *        statement.
      * @param identity Identity of the object to insert.
      * @param entity Entity instance from which field values to be fetached to
      *               bind with sql insert statement.
@@ -78,7 +80,7 @@ public interface KeyGenerator {
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
      *         Identity, If provided Identity is null, If Extended engine is null.
      */
-    Object executeStatement(final Database database, final Connection conn, 
+    Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException;
     
     /**

@@ -73,7 +73,7 @@ public final class SequenceAfterKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public SequenceAfterKeyGenerator(final PersistenceFactory factory, final Properties params,
             final int sqlType) throws MappingException {   
-        super(factory, params);
+        super(params);
         
         _factory = factory;        
         _seqName = params.getProperty("sequence", "{0}_seq");

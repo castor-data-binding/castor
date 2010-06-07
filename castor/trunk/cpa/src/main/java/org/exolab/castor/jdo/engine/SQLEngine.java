@@ -323,8 +323,9 @@ public final class SQLEngine implements Persistence {
     public Identity create(final Database database, final Object conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
         return (Identity) _createStatement.executeStatement(
-                database, (Connection) conn, identity, entity);
+                database, castorConn, identity, entity);
     }
 
     public Object store(final Object conn, final Identity identity,

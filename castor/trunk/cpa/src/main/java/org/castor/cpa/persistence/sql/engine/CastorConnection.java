@@ -61,5 +61,11 @@ public final class CastorConnection {
         return new CastorStatement(_factory, _connection);
     }
 
+    /** Getter returning current _connection.
+     * 
+     * @return Connection currently set.
+     */
+    public Connection getConnection() { return _connection; }
+
     //-----------------------------------------------------------------------------------    
 }

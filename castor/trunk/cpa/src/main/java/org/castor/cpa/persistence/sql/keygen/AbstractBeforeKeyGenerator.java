@@ -16,15 +16,15 @@
 package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.CastorStatement;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.persist.ProposedEntity;
@@ -68,9 +68,8 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
     /** Name of the Table extracted from Class descriptor. */
     private String _mapTo;
     
-    /** QueryContext for SQL query building, specifying database specific quotations 
-     *  and parameters binding. */
-    private final QueryContext _ctx;
+    /** Variable to store built insert class hierarchy. */
+    private Insert _insert;
 
     //-----------------------------------------------------------------------------------    
 
@@ -82,7 +81,6 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
      */
     public AbstractBeforeKeyGenerator(final PersistenceFactory factory) {
         _factory = factory;
-        _ctx = new QueryContext(_factory);
     }
     
     //-----------------------------------------------------------------------------------    
@@ -94,13 +92,13 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
-        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();    
-        Insert insert = new Insert(_mapTo);
+        _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
+        _insert = new Insert(_mapTo);
       
-        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();        
+        SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         for (int i = 0; i < ids.length; i++) {
             String name = ids[i].getName();
-            insert.addAssignment(new Column(name), new Parameter(name));
+            _insert.addAssignment(new Column(name), new Parameter(name));
         }
         
         SQLFieldInfo[] fields = _engine.getInfo();
@@ -108,31 +106,26 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
             if (fields[i].isStore()) {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
-                    String name = columns[j].getName();          
-                    insert.addAssignment(new Column(name), new Parameter(name));
+                    String name = columns[j].getName();
+                    _insert.addAssignment(new Column(name), new Parameter(name));
                 }
             }
-        }        
-        insert.toString(_ctx);
-        
-        if (LOG.isTraceEnabled()) {
-            LOG.trace(Messages.format("jdo.creating", _engineType, _ctx.toString()));
         }
-        
+
         return this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final Database database, final Connection conn, 
+    public Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
         SQLStatementInsertCheck lookupStatement = 
             new SQLStatementInsertCheck(_engine, _factory);    
         Identity internalIdentity = identity;
         SQLEngine extended = _engine.getExtends();
-        PreparedStatement stmt = null;
-        
+        CastorStatement stmt = conn.createStatement();
+
         try {
             // must create record in the parent table first. all other dependents
             // are created afterwards. quick and very dirty hack to try to make
@@ -140,22 +133,23 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
             if (extended != null) {
                 ClassDescriptor extDesc = extended.getDescriptor();
                 if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
-                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                    internalIdentity = extended.create(database, conn.getConnection(),
+                            entity, internalIdentity);
                 }
             }
-            
+
             // generate key before INSERT.
-            internalIdentity = generateKey(database, conn, null);
+            internalIdentity = generateKey(database, conn);
 
             // we only need to care on JDBC 3.0 at after INSERT.
-            stmt = conn.prepareStatement(_ctx.toString());
-            
+            stmt.prepareStatement(_insert);
+
             //bind Identities
             bindIdentity(internalIdentity, stmt);
 
             //bind  Fields
             bindFields(entity, stmt);
-            
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _engineType, stmt.toString()));
             }
@@ -166,7 +160,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
 
             return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, _ctx.toString()), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, stmt.toString()), except);
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
@@ -177,7 +171,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
             } catch (SQLException except2) {
                 LOG.warn("Problem closing JDBC statement", except2);
             }
-            
+
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         }
     }
@@ -186,11 +180,11 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
      * Binds the identity values.
      * 
      * @param internalIdentity Identity values.
-     * @param stmt PreapraedStatement containing the sql insert statement. 
+     * @param stmt CastorStatement containing Connection and PersistenceFactory.
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    public void bindIdentity(final Identity internalIdentity, final PreparedStatement stmt) 
+    public void bindIdentity(final Identity internalIdentity, final CastorStatement stmt) 
     throws SQLException, PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         if (internalIdentity.size() != ids.length) {
@@ -198,7 +192,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
         }
 
         for (int i = 0; i < ids.length; i++) {
-            _ctx.bindParameter(stmt, ids[i].getName(), ids[i].toSQL(internalIdentity.get(i)), 
+            stmt.bindParameter(ids[i].getName(), ids[i].toSQL(internalIdentity.get(i)), 
                     ids[i].getSqlType());
         }
     }
@@ -208,11 +202,11 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
      * 
      * @param entity Entity instance from which field values to be fetached to
      *               bind with sql insert statement.
-     * @param stmt PreparedStatement object containing sql staatement.
+     * @param stmt CastorStatement containing Connection and PersistenceFactory.
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    private void bindFields(final ProposedEntity entity, final PreparedStatement stmt
+    private void bindFields(final ProposedEntity entity, final CastorStatement stmt
             ) throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
@@ -221,8 +215,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        _ctx.bindParameter(stmt, columns[j].getName(), null, 
-                                columns[j].getSqlType());
+                        stmt.bindParameter(columns[j].getName(), null, columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -230,14 +223,14 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        _ctx.bindParameter(stmt, columns[j].getName(), 
-                                columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
+                        stmt.bindParameter(columns[j].getName(), columns[j].toSQL(identity.get(j)),
+                                columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    _ctx.bindParameter(stmt, columns[0].getName(), columns[0].toSQL(value), 
+                    stmt.bindParameter(columns[0].getName(), columns[0].toSQL(value),
                             columns[0].getSqlType());
                 }
             }
@@ -248,34 +241,32 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
      * Generates the key.
      * 
      * @param database Particular Database instance.
-     * @param conn An open JDBC Connection. 
-     * @param stmt PreparedStatement containing the SQL statement.
+     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
+     *        statement.
      * @return Identity that is generated.
      * @throws PersistenceException If fails to Generate key.
      */
-    private Identity generateKey(final Database database, final Connection conn,
-            final PreparedStatement stmt)
+    private Identity generateKey(final Database database, final CastorConnection conn)
     throws PersistenceException {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
 
         // TODO [SMH]: Change KeyGenerator.isInSameConnection to KeyGenerator.useSeparateConnection?
         // TODO [SMH]: Move "if (_keyGen.isInSameConnection() == false)"
         //                 out of SQLEngine and into key-generator?
-        Connection connection = conn;
+        Connection connection = conn.getConnection();
         if (!this.isInSameConnection()) {
-        connection = getSeparateConnection(database);
+            connection = getSeparateConnection(database);
         }
 
         try {
             Object identity;
             synchronized (connection) {
-            identity = this.generateKey(connection, _mapTo, id.getName());
+                identity = this.generateKey(connection, _mapTo, id.getName());
             }
 
             // TODO [SMH]: Move "if (identity == null)" into keygenerator.
             if (identity == null) {
-            throw new PersistenceException(
-            Messages.format("persist.noIdentity", _engineType));
+                throw new PersistenceException(Messages.format("persist.noIdentity", _engineType));
             }
 
             return new Identity(id.toJava(identity));
