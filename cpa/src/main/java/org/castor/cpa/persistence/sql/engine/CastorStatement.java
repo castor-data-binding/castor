@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.castor.cpa.persistence.sql.query.Delete;
+import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Select;
@@ -66,6 +67,34 @@ public final class CastorStatement {
         _connection = connection;
     }
 
+    //-----------------------------------------------------------------------------------
+
+    /** Method returning statement currently set.
+     * 
+     * @return Statement currently set.
+     */
+    public PreparedStatement getStatement() {
+        return _statement;
+    }
+
+    /** Method to set statement.
+     * 
+     * @param stmt Statement to be set
+     */
+    public void setStatement(final PreparedStatement stmt) {
+        _statement = stmt;
+    }
+
+    /** Method returning size of the parameter map.
+     * 
+     * @return Size of the current parameter map of the QueryContext.
+     */
+    public int getParameterSize() {
+        return _context.parameterSize();
+    }
+
+    //-----------------------------------------------------------------------------------
+
     /**
      * Method to prepare select statement and store it in local Variable.
      * 
@@ -90,6 +119,38 @@ public final class CastorStatement {
         _context = new QueryContext(_factory);
 
         update.toString(_context);
+
+        _statement = _connection.prepareStatement(_context.toString());
+    }
+
+    /**
+     * Method to prepare insert statement and store it in local Variable.
+     * 
+     * @param insert Prepared insert-object to create statement for.
+     * @param prepareStmt Flag to determine if statement has to be built or not.
+     * @throws SQLException Reports database access errors.
+     */
+    public void prepareStatement(final Insert insert, final Boolean prepareStmt)
+    throws SQLException {
+        _context = new QueryContext(_factory);
+
+        insert.toString(_context);
+
+        if (prepareStmt) {
+            _statement = _connection.prepareStatement(_context.toString());
+        }
+    }
+
+    /**
+     * Method to prepare insert statement and store it in local Variable.
+     * 
+     * @param insert Prepared insert-object to create statement for.
+     * @throws SQLException Reports database access errors.
+     */
+    public void prepareStatement(final Insert insert) throws SQLException {
+        _context = new QueryContext(_factory);
+
+        insert.toString(_context);
 
         _statement = _connection.prepareStatement(_context.toString());
     }
