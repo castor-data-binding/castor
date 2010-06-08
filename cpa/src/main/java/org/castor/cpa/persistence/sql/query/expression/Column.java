@@ -18,6 +18,7 @@ package org.castor.cpa.persistence.sql.query.expression;
 import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
  * Class representing a column of the database table.
@@ -91,6 +92,11 @@ public final class Column extends Expression {
         }
         ctx.append(ctx.quoteName(_name));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------    
 }

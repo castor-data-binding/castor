@@ -17,6 +17,7 @@ package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
  * A parameter in a SQL query. Values are always bound to parameter with names.
@@ -61,6 +62,11 @@ public final class Parameter extends Expression {
         ctx.addParameter(_name);
         ctx.append(QueryConstants.PARAMETER);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------    
 }

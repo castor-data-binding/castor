@@ -52,6 +52,24 @@ public final class Insert extends QueryObject {
     
     //-----------------------------------------------------------------------------------    
 
+    /** 
+     * Getter returning Qualifier currently set.
+     * 
+     * @return Qualifier currently set.
+     */
+    public Qualifier getQualifier() {
+        return _qualifier;
+    }
+
+    /** 
+     * Getter returning list of assignments currently set.
+     * 
+     * @return List of assignments currently set.
+     */
+    public List<Assignment> getAssignment() {
+        return _assignment;
+    }
+
     /**
      * Appends given assignment to the list of Assignment objects.
      * 
@@ -77,8 +95,8 @@ public final class Insert extends QueryObject {
     @Override
     public void toString(final QueryContext ctx) {
         ctx.append(QueryConstants.INSERT);
-        ctx.append(QueryConstants.SPACE);        
-        ctx.append(QueryConstants.INTO);        
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.INTO);
         ctx.append(QueryConstants.SPACE);
         
         _qualifier.toString(ctx);
@@ -112,6 +130,11 @@ public final class Insert extends QueryObject {
 
         ctx.append(QueryConstants.RPAREN);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
+
     //-----------------------------------------------------------------------------------
 }

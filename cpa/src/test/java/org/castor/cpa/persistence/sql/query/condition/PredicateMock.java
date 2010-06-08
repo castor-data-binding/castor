@@ -16,6 +16,7 @@
 package org.castor.cpa.persistence.sql.query.condition;
 
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 import org.junit.Ignore;
 
@@ -34,4 +35,9 @@ public final class PredicateMock extends Predicate {
 
     @Override
     public void toString(final QueryContext ctx) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept(final Visitor visitor) { }
 }

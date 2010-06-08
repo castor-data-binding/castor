@@ -65,7 +65,14 @@ public final class Delete extends QueryObject {
     public void setCondition(final Condition condition) {
         _condition = condition;
     }
-    
+
+    /**
+     * Get method returning <code>Qualifier</code> currently set.
+     * 
+     * @return Qualifier currently set.
+     */
+    public Qualifier getQualifier() { return _qualifier; }
+
     //-----------------------------------------------------------------------------------    
 
     @Override
@@ -83,6 +90,11 @@ public final class Delete extends QueryObject {
             _condition.toString(ctx);
         }
     }
+
+    /** 
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------    
 }

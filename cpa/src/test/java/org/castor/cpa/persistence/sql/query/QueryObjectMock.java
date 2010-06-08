@@ -30,4 +30,9 @@ public final class QueryObjectMock extends QueryObject {
     public void toString(final QueryContext ctx) {
         ctx.append("dummy");
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept(final Visitor visitor) { }
 }

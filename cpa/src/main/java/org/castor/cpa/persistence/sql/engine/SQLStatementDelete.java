@@ -120,9 +120,8 @@ public final class SQLStatementDelete {
             stmt.prepareStatement(_delete);
 
             for (int i = 0; i < _ids.length; i++) {
-                // bind value to prepared statement
                 stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
-                        _ids[i].getSqlType());
+                      _ids[i].getSqlType());
             }
 
             if (LOG.isDebugEnabled()) {
