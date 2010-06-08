@@ -166,7 +166,7 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
             if ((internalIdentity == null) && _useJDBC30) {
                 Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
 
-                stmt.prepareStatement(_insert, false);
+                stmt.prepareStatement(_insert);
                 String statement = stmt.toString();
                 Integer rgk = (Integer) field.get(statement);
 

@@ -16,6 +16,7 @@
 package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
  * Class for NEXTVAL sql function.
@@ -44,10 +45,23 @@ public final class NextVal extends Function {
     
     //-----------------------------------------------------------------------------------    
 
+    /** Method to get seqName currently set.
+     * 
+     * @return SeqName currently set.
+     */
+    public String getSeqName () { return _seqName; } 
+
+    //-----------------------------------------------------------------------------------    
+
     @Override
     public void toString(final QueryContext ctx) {
         ctx.append(ctx.getSequenceNextValString(_seqName));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------    
 }

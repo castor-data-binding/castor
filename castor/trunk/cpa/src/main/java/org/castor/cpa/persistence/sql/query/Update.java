@@ -99,7 +99,21 @@ public final class Update extends QueryObject {
     public void setCondition(final Condition condition) {
         _condition = condition;
     }
-    
+
+    /**
+     * Get method returning qualifier currently set.
+     *  
+     *  @return Qualifier of the table to update records of.
+     */
+    public Qualifier getQualifier() { return _qualifier; }
+
+    /**
+     * Get method returning current list of assignments.
+     *  
+     *  @return List of assignments.
+     */
+    public List<Assignment> getAssignment() { return _assignment; }
+
     //-----------------------------------------------------------------------------------    
 
     @Override
@@ -135,6 +149,11 @@ public final class Update extends QueryObject {
             }
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------
 }

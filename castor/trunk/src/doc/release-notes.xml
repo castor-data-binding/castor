@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2945" tool="jira">
+                    <description>
+                        Implemented visitor pattern for SQL statements and started using it.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100607</date>
+                </bug>
                 <bug id="2944" tool="jira">
                     <description>
                         Adapted some classes to use CastorStatement / CastorConnection.

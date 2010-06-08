@@ -189,7 +189,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             }
             
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            stmt.prepareStatement(_insert, false);
+            stmt.prepareStatement(_insert);
             String statement = stmt.toString();
             
             statement += " RETURNING ";

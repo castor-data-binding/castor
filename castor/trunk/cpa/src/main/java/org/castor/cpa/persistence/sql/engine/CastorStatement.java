@@ -21,14 +21,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
+import org.castor.cpa.persistence.sql.driver.OracleFactory;
+import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
+import org.castor.cpa.persistence.sql.driver.SQLServerFactory;
+import org.castor.cpa.persistence.sql.driver.SybaseFactory;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
-import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Update;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
+import org.castor.cpa.persistence.sql.query.visitor.DefaultQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.OracleQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.ParameterVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.PostgreSQLQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.SQLServerQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.SybaseQueryVisitor;
+import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
@@ -48,11 +59,14 @@ public final class CastorStatement {
     /** Variable to store local instance of the used Connection. */
     private final Connection _connection;
 
-    /** Variable to store local instance of the used QueryContext. */
-    private QueryContext _context;
-
     /** Variable to store local instance of the used PreparedStatment. */
     private PreparedStatement _statement;
+    
+    /** Variable to store local instance of the used PreparedStatment. */
+    private Map<String, Integer> _parameters;
+
+    /** Variable to store local instance of the query visitor. */
+    private Visitor _queryVis;
 
     //-----------------------------------------------------------------------------------    
 
@@ -69,7 +83,8 @@ public final class CastorStatement {
 
     //-----------------------------------------------------------------------------------
 
-    /** Method returning statement currently set.
+    /**
+     * Method returning statement currently set.
      * 
      * @return Statement currently set.
      */
@@ -77,7 +92,8 @@ public final class CastorStatement {
         return _statement;
     }
 
-    /** Method to set statement.
+    /**
+     * Method to set statement.
      * 
      * @param stmt Statement to be set
      */
@@ -85,12 +101,15 @@ public final class CastorStatement {
         _statement = stmt;
     }
 
-    /** Method returning size of the parameter map.
+    /**
+     * Method returning size of the parameter map.
      * 
      * @return Size of the current parameter map of the QueryContext.
+     * @throws SQLException Reports database access errors.
      */
-    public int getParameterSize() {
-        return _context.parameterSize();
+    public int getParameterSize() throws SQLException {
+        if (_parameters == null) { throw new SQLException("Parameters not prepared!"); }
+        return _parameters.size();
     }
 
     //-----------------------------------------------------------------------------------
@@ -102,57 +121,32 @@ public final class CastorStatement {
      * @throws SQLException Reports database access errors.
      */
     public void prepareStatement(final Select select) throws SQLException {
-        _context = new QueryContext(_factory);
+        ParameterVisitor parmVis = new ParameterVisitor();
+        parmVis.visit(select);
 
-        select.toString(_context);
+        _parameters = parmVis.getParameters(); 
 
-        _statement = _connection.prepareStatement(_context.toString());
-    }
-
-    /**
-     * Method to prepare update statement and store it in local Variable.
-     * 
-     * @param update Prepared update-object to create statement for.
-     * @throws SQLException Reports database access errors.
-     */
-    public void prepareStatement(final Update update) throws SQLException {
-        _context = new QueryContext(_factory);
-
-        update.toString(_context);
-
-        _statement = _connection.prepareStatement(_context.toString());
+        _queryVis = getMatchingQueryVisitor(_factory.getFactoryName());
+        _queryVis.visit(select);
+        _statement = _connection.prepareStatement(_queryVis.toString());
     }
 
     /**
      * Method to prepare insert statement and store it in local Variable.
      * 
      * @param insert Prepared insert-object to create statement for.
-     * @param prepareStmt Flag to determine if statement has to be built or not.
      * @throws SQLException Reports database access errors.
      */
-    public void prepareStatement(final Insert insert, final Boolean prepareStmt)
+    public void prepareStatement(final Insert insert)
     throws SQLException {
-        _context = new QueryContext(_factory);
+        ParameterVisitor parmVis = new ParameterVisitor();
+        parmVis.visit(insert);
 
-        insert.toString(_context);
-
-        if (prepareStmt) {
-            _statement = _connection.prepareStatement(_context.toString());
-        }
-    }
-
-    /**
-     * Method to prepare insert statement and store it in local Variable.
-     * 
-     * @param insert Prepared insert-object to create statement for.
-     * @throws SQLException Reports database access errors.
-     */
-    public void prepareStatement(final Insert insert) throws SQLException {
-        _context = new QueryContext(_factory);
-
-        insert.toString(_context);
-
-        _statement = _connection.prepareStatement(_context.toString());
+        _parameters = parmVis.getParameters();
+        
+        _queryVis = getMatchingQueryVisitor(_factory.getFactoryName());
+        _queryVis.visit(insert);
+        _statement = _connection.prepareStatement(_queryVis.toString());
     }
 
     /**
@@ -165,18 +159,16 @@ public final class CastorStatement {
      */
     public void prepareStatement(final Update update, final Condition condition) 
     throws SQLException {
-        _context = new QueryContext(_factory);
+        update.setCondition(condition);
+        
+        ParameterVisitor parmVis = new ParameterVisitor();
+        parmVis.visit(update);
 
-        update.toQueryString(_context);
-
-        if (condition != null) {
-            _context.append(QueryConstants.SPACE);
-            _context.append(QueryConstants.WHERE);
-            _context.append(QueryConstants.SPACE);
-            condition.toString(_context);
-        }
-
-        _statement = _connection.prepareStatement(_context.toString());
+        _parameters = parmVis.getParameters(); 
+        
+        _queryVis = getMatchingQueryVisitor(_factory.getFactoryName());
+        _queryVis.visit(update);
+        _statement = _connection.prepareStatement(_queryVis.toString());
     }
 
     /**
@@ -186,11 +178,14 @@ public final class CastorStatement {
      * @throws SQLException Reports database access errors.
      */
     public void prepareStatement(final Delete delete) throws SQLException {
-        _context = new QueryContext(_factory);
+        ParameterVisitor parmVis = new ParameterVisitor();
+        parmVis.visit(delete);
 
-        delete.toString(_context);
-
-        _statement = _connection.prepareStatement(_context.toString());
+        _parameters = parmVis.getParameters(); 
+        
+        _queryVis = getMatchingQueryVisitor(_factory.getFactoryName());
+        _queryVis.visit(delete);
+        _statement = _connection.prepareStatement(_queryVis.toString());
     }
 
     /**
@@ -204,7 +199,13 @@ public final class CastorStatement {
     public void bindParameter(final String name, final Object value, final int type)
     throws SQLException {
         if (_statement == null) { throw new SQLException("Statment not prepared!"); }
-        _context.bindParameter(_statement, name, value, type);
+        if (_parameters == null) { throw new SQLException("Parameters not prepared!"); }
+        Integer index = _parameters.get(name);
+        if (index != null) {
+            SQLTypeInfos.setValue(_statement, index.intValue(), value , type);
+        } else {
+            System.out.println("Unknown parameter: " + name);
+        }
     }
 
     /**
@@ -235,7 +236,7 @@ public final class CastorStatement {
      * @throws SQLException Reports database access errors.
      */
     public void close() throws SQLException {
-        _context = null;
+        _queryVis = null;
 
         if (_statement != null) {
             _statement.close();
@@ -244,13 +245,34 @@ public final class CastorStatement {
     }
 
     /**
-     * Method to get string representation of the existing context.
+     * Method to get string representation of the existing query string.
      * 
-     * @return String representation of the existing context.
+     * @return String representation of the existing query string.
      */
     public String toString() {
-        if (_context == null) { return null; }
-        return _context.toString();
+        if (_queryVis == null) { return null; }
+
+        return _queryVis.toString();
+    }
+
+    /** Method to determine correct implementation of database specific visitor
+     * to be used to construct statement.
+     * 
+     * @param factoryName Name of the used factory
+     * @return Visitor instance of the specific query visitor to be used.
+     */
+    private Visitor getMatchingQueryVisitor(final String factoryName) {
+        if (factoryName == OracleFactory.FACTORY_NAME) {
+            return new OracleQueryVisitor();
+        } else if (factoryName == PostgreSQLFactory.FACTORY_NAME) {
+            return new PostgreSQLQueryVisitor();
+        } else if (factoryName == SQLServerFactory.FACTORY_NAME) {
+            return new SQLServerQueryVisitor();
+        } else if (factoryName == SybaseFactory.FACTORY_NAME) {
+            return new SybaseQueryVisitor();
+        } else {
+            return new DefaultQueryVisitor();
+        }
     }
 
     //-----------------------------------------------------------------------------------    

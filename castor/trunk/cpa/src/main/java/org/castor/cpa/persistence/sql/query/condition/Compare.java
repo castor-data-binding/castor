@@ -16,6 +16,7 @@
 package org.castor.cpa.persistence.sql.query.condition;
 
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -102,6 +103,11 @@ public final class Compare extends Condition {
         ctx.append(_operator.toString());
         _right.toString(ctx);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
     
     //-----------------------------------------------------------------------------------    
 }

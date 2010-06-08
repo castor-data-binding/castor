@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
  * Represents a list of conditions that are concatenated by an AND operator.
@@ -111,6 +112,11 @@ public final class AndCondition extends CompoundCondition {
             }
         }
     }
+
+    /** 
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
     
     //-----------------------------------------------------------------------------------    
 }

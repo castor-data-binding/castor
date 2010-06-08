@@ -16,6 +16,7 @@
 package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.junit.Ignore;
 
 /**
@@ -29,4 +30,9 @@ import org.junit.Ignore;
 public final class ExpressionMock extends Expression {
     @Override
     public void toString(final QueryContext ctx) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept(final Visitor visitor) { }
 }

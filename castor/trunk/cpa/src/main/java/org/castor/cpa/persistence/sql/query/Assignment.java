@@ -70,7 +70,7 @@ public final class Assignment extends QueryObject {
     public Expression rightExpression() {
         return _right;
     }
-    
+
     //-----------------------------------------------------------------------------------    
     
     @Override
@@ -79,6 +79,11 @@ public final class Assignment extends QueryObject {
         ctx.append(QueryConstants.ASSIGN);
         _right.toString(ctx);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
+
     //-----------------------------------------------------------------------------------
 }

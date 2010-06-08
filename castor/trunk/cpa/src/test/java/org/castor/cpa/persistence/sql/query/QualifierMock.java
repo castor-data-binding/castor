@@ -29,4 +29,9 @@ public final class QualifierMock extends Qualifier {
     protected QualifierMock(final String name) {
         super(name);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept(final Visitor visitor) { }
 }

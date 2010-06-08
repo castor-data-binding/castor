@@ -17,6 +17,7 @@ package org.castor.cpa.persistence.sql.query.condition;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.QueryContext;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -63,5 +64,10 @@ public final class IsNullPredicate extends Predicate {
         ctx.append(QueryConstants.NULL);
     }
 
+    /** 
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
+    
     //-----------------------------------------------------------------------------------    
 }

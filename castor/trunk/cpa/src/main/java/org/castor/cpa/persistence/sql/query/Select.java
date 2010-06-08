@@ -79,6 +79,20 @@ public final class Select extends QueryObject {
     //-----------------------------------------------------------------------------------    
 
     /**
+     * Getter returning list of Expressions currently set.
+     * 
+     * @return List of current expressions.
+     */
+    public List<Expression> getSelect() { return _select; }
+
+    /**
+     * Getter returning Qualifier currently set.
+     * 
+     * @return Qualifier currently set.
+     */
+    public Qualifier getQualifier() { return _qualifier; }
+
+    /**
      * Get condition that specifies which records to select.
      * 
      * @return Condition that specifies which records to select.
@@ -95,7 +109,7 @@ public final class Select extends QueryObject {
     public void setCondition(final Condition condition) {
         _condition = condition;
     }
-    
+
     //-----------------------------------------------------------------------------------    
 
     @Override
@@ -128,6 +142,11 @@ public final class Select extends QueryObject {
             _condition.toString(ctx);
         }
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
+
     //-----------------------------------------------------------------------------------
 }
