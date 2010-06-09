@@ -15,6 +15,8 @@
                 <value>org.castor.jpa.scenario.callbacks.Pet</value>
                 <value>org.castor.jpa.scenario.callbacks.Dog</value>
                 <value>org.castor.jpa.scenario.callbacks.GoldenRetriever</value>
+                <value>org.castor.jpa.scenario.callbacks.Foo</value>
+                <value>org.castor.jpa.scenario.callbacks.Bar</value>
             </list>
         </property>
     </bean>

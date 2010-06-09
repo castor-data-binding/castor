@@ -9,7 +9,6 @@ import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,35 +26,43 @@ import java.util.List;
 @Transactional
 public class EntityListenersITCase {
 
-    private static final Log LOG = LogFactory.getLog(EntityListenersITCase.class);
-    
+    private static final Log LOG = LogFactory
+            .getLog(EntityListenersITCase.class);
+
     @Autowired
     protected JDOManager jdoManager;
 
     private static final long ID = 1L;
-    private static final List<String> DESIRED_CALLBACKS_EXECUTION_ORDER = new ArrayList<String>();
+    private List<String> desiredCallbacksExecutionOrder = new ArrayList<String>();
 
-    @BeforeClass
-    public static void initCallbackNamesList() throws Exception {
-        DESIRED_CALLBACKS_EXECUTION_ORDER.add("postPersistPetListener");
-        DESIRED_CALLBACKS_EXECUTION_ORDER.add("postPersistDogListener");
-        DESIRED_CALLBACKS_EXECUTION_ORDER.add("postPersistDogListener2");
-        DESIRED_CALLBACKS_EXECUTION_ORDER
+    private void initEntityListenerCallbacksTest() throws Exception {
+        desiredCallbacksExecutionOrder.clear();
+        desiredCallbacksExecutionOrder.add("postPersistPetListener");
+        desiredCallbacksExecutionOrder.add("postPersistDogListener");
+        desiredCallbacksExecutionOrder.add("postPersistDogListener2");
+        desiredCallbacksExecutionOrder
                 .add("postPersistGoldenRetrieverListener");
-        DESIRED_CALLBACKS_EXECUTION_ORDER.add("postPersistAnimal2");
-        DESIRED_CALLBACKS_EXECUTION_ORDER.add("postPersistPet");
-        DESIRED_CALLBACKS_EXECUTION_ORDER
+        desiredCallbacksExecutionOrder.add("postPersistAnimal2");
+        desiredCallbacksExecutionOrder.add("postPersistPet");
+        desiredCallbacksExecutionOrder
                 .add("postPersistAnimalFromGoldenRetriever");
     }
 
+    private void initExcludeListenerCallbacksTest() throws Exception {
+        desiredCallbacksExecutionOrder.add("postPersistFoo");
+        desiredCallbacksExecutionOrder.add("postPersistBar");
+    }
+
     @Before
-    public void initDb() throws PersistenceException {
+    public void init() throws PersistenceException {
+        CallbacksExecutionOrderMemory.getOrderedCallbackNames().clear();
+        desiredCallbacksExecutionOrder.clear();
         final Database db = jdoManager.getDatabase();
         assertNotNull(db);
     }
 
     @After
-    public void cleanDb() throws PersistenceException {
+    public void cleanup() throws PersistenceException {
         final Database db = jdoManager.getDatabase();
         if (db.isActive()) {
             db.rollback();
@@ -64,7 +71,8 @@ public class EntityListenersITCase {
     }
 
     @Test
-    public void postPersistCallbacks() throws Exception {
+    public void entityListenerCallbacks() throws Exception {
+        initEntityListenerCallbacksTest();
         final Database db = jdoManager.getDatabase();
         final Dog dogToPersist = new GoldenRetriever();
         dogToPersist.setId(ID);
@@ -75,7 +83,24 @@ public class EntityListenersITCase {
         final GoldenRetriever loadedDog = db.load(GoldenRetriever.class, ID);
         db.commit();
         assertEquals(ID, loadedDog.getId());
-        assertEquals(DESIRED_CALLBACKS_EXECUTION_ORDER,
+        assertEquals(desiredCallbacksExecutionOrder,
+                CallbacksExecutionOrderMemory.getOrderedCallbackNames());
+    }
+
+    @Test
+    public void excludeListenerCallbacks() throws Exception {
+        initExcludeListenerCallbacksTest();
+        final Database db = jdoManager.getDatabase();
+        final Bar barToPersist = new Bar();
+        barToPersist.setId(ID);
+        db.begin();
+        db.create(barToPersist);
+        db.commit();
+        db.begin();
+        final Bar loadedBar = db.load(Bar.class, ID);
+        db.commit();
+        assertEquals(ID, loadedBar.getId());
+        assertEquals(desiredCallbacksExecutionOrder,
                 CallbacksExecutionOrderMemory.getOrderedCallbackNames());
     }
 
