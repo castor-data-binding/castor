@@ -10,6 +10,8 @@ DROP TABLE TEST.EntityListeners_animal;
 DROP TABLE TEST.EntityListeners_pet;
 DROP TABLE TEST.EntityListeners_dog;
 DROP TABLE TEST.EntityListeners_retriever;
+DROP TABLE TEST.ExcludeListeners_foo;
+DROP TABLE TEST.ExcludeListeners_bar;
 DROP TABLE TEST.single_staff;
 DROP TABLE TEST.staff_version;
 DROP TABLE TEST.OneToOne_show;

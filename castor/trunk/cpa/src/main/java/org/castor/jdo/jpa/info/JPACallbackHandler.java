@@ -36,16 +36,21 @@ import java.util.Map;
 public class JPACallbackHandler implements CallbackInterceptor {
 
     private static final Log LOG = LogFactory.getLog(JPACallbackHandler.class);
-    
+
     /**
      * Objects for which callbacks need to be invoked.
      */
     private final List<Object> objectsToInvokeCallbacksOn = new ArrayList<Object>();
-    
+
     /**
      * Memorises overridden callbacks.
      */
     private final Map<String, Object> overriddenCallbacks = new HashMap<String, Object>();
+
+    /**
+     * Memorises if superclass listeners are to be excluded.
+     */
+    private boolean excludeSuperclassListeners = false;
 
     public Class<?> loaded(final Object object, final AccessMode accessMode)
             throws Exception {
@@ -125,14 +130,21 @@ public class JPACallbackHandler implements CallbackInterceptor {
 
     /**
      * Handles callbacks accordingly.
-     *
-     * @param annotationClass the annotation to look for
-     * @param object          the object to handle callbacks for
-     * @param <A>             helper annotation generics
-     * @throws InvocationTargetException on callback invocation error
-     * @throws IllegalAccessException    on illegal method access error
-     * @throws InstantiationException    on instantiation error
-     * @throws NoSuchMethodException     on method not present error
+     * 
+     * @param annotationClass
+     *            the annotation to look for
+     * @param object
+     *            the object to handle callbacks for
+     * @param <A>
+     *            helper annotation generics
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
+     * @throws InstantiationException
+     *             on instantiation error
+     * @throws NoSuchMethodException
+     *             on method not present error
      */
     private <A extends Annotation> void handleCallbacksFor(
             final Class<A> annotationClass, final Object object)
@@ -140,6 +152,7 @@ public class JPACallbackHandler implements CallbackInterceptor {
             InstantiationException, NoSuchMethodException {
         objectsToInvokeCallbacksOn.clear();
         overriddenCallbacks.clear();
+        excludeSuperclassListeners = false;
         walkCallbacksHierarchyFor(annotationClass, object);
         if (objectsToInvokeCallbacksOn.size() > 1) {
             handleOverriddenCallbacksFor(annotationClass,
@@ -157,13 +170,19 @@ public class JPACallbackHandler implements CallbackInterceptor {
 
     /**
      * Walks callbacks hierarchy accordingly.
-     *
-     * @param annotationClass the annotation to look for
-     * @param object          the object to walk hierarchy for
-     * @param <A>             helper annotation generics
-     * @throws InvocationTargetException on callback invocation error
-     * @throws IllegalAccessException    on illegal method access error
-     * @throws InstantiationException    on instantiation error
+     * 
+     * @param annotationClass
+     *            the annotation to look for
+     * @param object
+     *            the object to walk hierarchy for
+     * @param <A>
+     *            helper annotation generics
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
+     * @throws InstantiationException
+     *             on instantiation error
      */
     private <A extends Annotation> void walkCallbacksHierarchyFor(
             final Class<A> annotationClass, final Object object)
@@ -176,29 +195,63 @@ public class JPACallbackHandler implements CallbackInterceptor {
                 walkCallbacksHierarchyFor(annotationClass, superclass
                         .newInstance());
             }
-            final EntityListeners entityListeners = klass.getAnnotation(
-                    EntityListeners.class);
-            if (entityListeners != null) {
-                final Class<?>[] listeners = entityListeners.value();
-                for (Class<?> listener : listeners) {
-                    invokeCallbacksFor(annotationClass, listener.newInstance());
-                }
-            } // Store object to invoke callbacks on.
+            if (!excludeSuperclassListeners) {
+                invokeListenerCallbacksFor(annotationClass, klass);
+            }
+            if (klass.isAnnotationPresent(ExcludeSuperclassListeners.class)) {
+                excludeSuperclassListeners = true;
+            }
             objectsToInvokeCallbacksOn.add(object);
         }
     }
 
     /**
+     * Invokes listener callbacks accordingly.
+     * 
+     * @param annotationClass
+     *            the annotation to look for
+     * @param klass
+     *            the class to handle listeners
+     * @param <A>
+     *            helper annotation generics
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
+     * @throws InstantiationException
+     *             on instantiation error
+     */
+    private <A extends Annotation> void invokeListenerCallbacksFor(
+            final Class<A> annotationClass, final Class<?> klass)
+            throws InvocationTargetException, IllegalAccessException,
+            InstantiationException {
+        if (!klass.isAnnotationPresent(ExcludeDefaultListeners.class)) {
+            final EntityListeners entityListeners = klass
+                    .getAnnotation(EntityListeners.class);
+            if (entityListeners != null) {
+                final Class<?>[] listeners = entityListeners.value();
+                for (Class<?> listener : listeners) {
+                    invokeCallbacksFor(annotationClass, listener.newInstance());
+                }
+            }
+        }
+    }
+
+    /**
      * Handles overridden CB methods accordingly.
-     *
-     * @param annotationClass the annotation to look for
-     * @param object          the object to handle
-     * @throws InvocationTargetException on callback invocation error
-     * @throws IllegalAccessException    on illegal method access error
+     * 
+     * @param annotationClass
+     *            the annotation to look for
+     * @param object
+     *            the object to handle
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
      */
     private <A extends Annotation> void handleOverriddenCallbacksFor(
             final Class<A> annotationClass, final Object object)
-    throws InvocationTargetException, IllegalAccessException {
+            throws InvocationTargetException, IllegalAccessException {
         Class<?> klass = object.getClass();
         Class<?> superclass = klass.getSuperclass();
         while (superclass != Object.class) {
@@ -206,17 +259,19 @@ public class JPACallbackHandler implements CallbackInterceptor {
                 if (method.isAnnotationPresent(annotationClass)) {
                     final String methodName = method.getName();
                     try {
-                        final Method overridden = superclass.getDeclaredMethod(
-                                methodName);
+                        final Method overridden = superclass
+                                .getDeclaredMethod(methodName);
                         if (overridden.isAnnotationPresent(annotationClass)) {
                             overriddenCallbacks.put(methodName, object);
                         }
                     } catch (NoSuchMethodException e) {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug(String.format(
-                                    "CB method `%s` is not overridden in `%s`.",
-                                    method.getName(), superclass.getSimpleName()
-                            ));
+                            LOG
+                                    .debug(String
+                                            .format(
+                                                    "CB method `%s` is not overridden in `%s`.",
+                                                    method.getName(),
+                                                    superclass.getSimpleName()));
                         }
                     }
                 }
@@ -227,12 +282,17 @@ public class JPACallbackHandler implements CallbackInterceptor {
 
     /**
      * Invokes callback methods accordingly.
-     *
-     * @param annotationClass the annotation to look for
-     * @param object          the object to invoke callbacks on
-     * @param <A>             helper annotation generics
-     * @throws InvocationTargetException on callback invocation error
-     * @throws IllegalAccessException    on illegal method access error
+     * 
+     * @param annotationClass
+     *            the annotation to look for
+     * @param object
+     *            the object to invoke callbacks on
+     * @param <A>
+     *            helper annotation generics
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
      */
     private <A extends Annotation> void invokeCallbacksFor(
             final Class<A> annotationClass, final Object object)
@@ -250,18 +310,21 @@ public class JPACallbackHandler implements CallbackInterceptor {
 
     /**
      * Invokes a callback method accordingly.
-     *
-     * @param method the CB method to invoke
-     * @param object the object to invoke on
-     * @throws InvocationTargetException on callback invocation error
-     * @throws IllegalAccessException    on illegal method access error
+     * 
+     * @param method
+     *            the CB method to invoke
+     * @param object
+     *            the object to invoke on
+     * @throws InvocationTargetException
+     *             on callback invocation error
+     * @throws IllegalAccessException
+     *             on illegal method access error
      */
     private void invokeCallback(final Method method, final Object object)
             throws InvocationTargetException, IllegalAccessException {
         if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Invoking CB method `%s` on `%s`.",
-                    method.getName(), object.getClass().getSimpleName()
-            ));
+            LOG.debug(String.format("Invoking CB method `%s` on `%s`.", method
+                    .getName(), object.getClass().getSimpleName()));
         }
         method.setAccessible(true);
         method.invoke(object);

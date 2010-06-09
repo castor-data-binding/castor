@@ -70,6 +70,16 @@ CREATE TABLE EntityListeners_retriever(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE ExcludeListeners_foo(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE ExcludeListeners_bar(
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
