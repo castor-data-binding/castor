@@ -165,12 +165,20 @@ public final class InfoToDescriptorConverter {
                         + extendedClass.getName() + " in "
                         + classInfo.getDescribedClass().getName(), e);
             }
-
-            descriptor.setExtends(extendedClassDescriptor);
-            if (extendedClassDescriptor
-                    .hasNature(ClassDescriptorJDONature.class.getName())) {
-                new ClassDescriptorJDONature(extendedClassDescriptor)
-                        .addExtended(descriptor);
+            if (new ClassDescriptorJDONature(extendedClassDescriptor).hasMappedSuperclass()) {
+                ClassInfo extendedClassInfo = ClassInfoRegistry.getClassInfo(extendedClass);
+                for (FieldInfo fieldInfo : extendedClassInfo.getKeyFieldInfos()) {
+                    classInfo.addKey(fieldInfo);
+                }
+                for (FieldInfo fieldInfo : extendedClassInfo.getFieldInfos()) {
+                    classInfo.addFieldInfo(fieldInfo);
+                }
+            } else {
+                descriptor.setExtends(extendedClassDescriptor);
+                if (extendedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
+                    ClassDescriptorJDONature jdoClassNature = new ClassDescriptorJDONature(extendedClassDescriptor);
+                    jdoClassNature.addExtended(descriptor);
+                }
             }
         }
 
@@ -224,6 +232,9 @@ public final class InfoToDescriptorConverter {
          */
         jdoNature.setAccessMode(null);
         jdoNature.setKeyGeneratorDescriptor(null);
+
+        // Set abstract if present
+        jdoNature.setAbstract(nature.hasMappedSuperclass());
 
         // Add named queries if present.
         final Map<String, String> namedQuery = nature.getNamedQuery();

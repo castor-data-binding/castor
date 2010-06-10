@@ -76,6 +76,7 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
@@ -273,10 +274,16 @@ public final class LockEngine {
             } catch (ResolverException e) {
                 throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
             }
-            
-            Persistence persistence = _persistenceFactory.getPersistence(desc);
-            ClassMolder molder = new ClassMolder(ds, cdResolver, this, desc, persistence);
-            result.add(molder);
+            if (!(desc.hasNature(ClassDescriptorJDONature.class.getName()))) {
+                throw new IllegalArgumentException(
+                        "Class does not have a JDO descriptor");
+            }
+
+            if (!new ClassDescriptorJDONature(desc).hasMappedSuperclass()) {
+                Persistence persistence = _persistenceFactory.getPersistence(desc);
+                ClassMolder molder = new ClassMolder(ds, cdResolver, this, desc, persistence);
+                result.add(molder);
+            }
         }
 
         ds.close();
