@@ -48,6 +48,10 @@ public class JPAClassNature extends BaseNature {
      */
     private static final String TABLE_SCHEMA = "TABLE_SCHEMA";
     /**
+     * Nature property name for abstract.
+     */
+    public static final String MAPPED_SUPERCLASS = "MAPPED_SUPERCLASS";
+    /**
      * Property Key for {@link javax.persistence.NamedQuery}.
      */
     public static final String NAMED_QUERY = "NAMED_QUERY";
@@ -161,6 +165,24 @@ public class JPAClassNature extends BaseNature {
         return super.getPropertyAsMap (NAMED_QUERY);
     }
 
+     /**
+     * Set class to have a mapped super class.
+     *
+     * @param abstract Boolean True if the given class has a mapped super class.
+     */
+    public void setMappedSuperclass(final Boolean hasMappedSuperclass) {
+        setProperty(MAPPED_SUPERCLASS, hasMappedSuperclass);
+    }
+
+    /**
+     * Returns if class has a mapped super class.
+     *
+     * @return true if class has a mapped super class.
+     */
+    public boolean hasMappedSuperclass() {
+        return getBooleanPropertyDefaultFalse(MAPPED_SUPERCLASS);
+    }
+    
     /**
      * @param namedQuery The value of {@link javax.persistence.NamedQuery}
      * @see #NAMED_QUERY

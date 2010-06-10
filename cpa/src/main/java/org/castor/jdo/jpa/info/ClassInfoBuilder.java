@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 
 import javax.persistence.Entity;
 
+import javax.persistence.MappedSuperclass;
 import org.castor.core.annotationprocessing.AnnotationTargetException;
 import org.castor.core.annotationprocessing.TargetAwareAnnotationProcessingService;
 import org.castor.jdo.jpa.natures.JPAClassNature;
@@ -84,6 +85,14 @@ public final class ClassInfoBuilder {
             throw new IllegalArgumentException("Argument type must not be null");
         }
 
+         /*
+          * get and return classInfo from ClassInfoRegistry, if already generated
+          */
+        ClassInfo classInfo = ClassInfoRegistry.getClassInfo(type);
+        if (classInfo != null) {
+            return classInfo;
+        }
+        
         if (!isDescribable(type)) {
             return null;
         }
@@ -91,7 +100,7 @@ public final class ClassInfoBuilder {
         /*
          * create new ClassInfo and Nature
          */
-        ClassInfo classInfo = new ClassInfo(type);
+        classInfo = new ClassInfo(type);
         classInfo.addNature(JPAClassNature.class.getName());
         JPAClassNature jpaClassNature = new JPAClassNature(classInfo);
 
@@ -145,6 +154,11 @@ public final class ClassInfoBuilder {
                     "Castor-JPA does not support composite keys (found in "
                             + type.getName() + ")");
         }
+
+        /*
+         * register ClassInfo in Registry
+         */
+        ClassInfoRegistry.registerClassInfo(type, classInfo);
         return classInfo;
     }
 
@@ -244,7 +258,8 @@ public final class ClassInfoBuilder {
                 || Class.class.equals(type)) {
             return false;
         }
-        if (type.getAnnotation(Entity.class) == null) {
+        if (type.getAnnotation(Entity.class) == null &&
+              type.getAnnotation(MappedSuperclass.class) == null  ) {
             return false;
         }
         return true;

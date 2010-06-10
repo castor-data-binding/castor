@@ -1,5 +1,13 @@
 CREATE SCHEMA TEST;
 
+CREATE TABLE MappedSuperclass_keyboard(
+    id INTEGER NOT NULL,
+    numberOfKeys INTEGER NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    price INTEGER,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE Cache_none(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

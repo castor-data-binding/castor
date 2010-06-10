@@ -1,6 +1,7 @@
 DROP TABLE TEST.Cache_none;
 DROP TABLE TEST.Cache_limited;
 DROP TABLE TEST.Cache_unlimited;
+DROP TABLE TEST.MappedSuperclass_keyboard;
 DROP TABLE TEST.NamedQueries_person;
 DROP TABLE TEST.NamedQueries_employee
 DROP TABLE TEST.NamedNativeQueries_student;
