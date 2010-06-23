@@ -17,7 +17,6 @@ package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
@@ -84,19 +83,28 @@ public final class Column extends Expression {
 
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public void toString(final QueryContext ctx) {
-        if (_qualifier != null) {
-            _qualifier.toString(ctx);
-            ctx.append(QueryConstants.DOT);
-        }
-        ctx.append(ctx.quoteName(_name));
-    }
-
     /**
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
+
+    //-----------------------------------------------------------------------------------    
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        if (_qualifier != null) {
+            sb.append(_qualifier.toString());
+            sb.append(QueryConstants.DOT);
+        }
+        sb.append(_name);
+
+        return sb.toString();
+    }
 
     //-----------------------------------------------------------------------------------    
 }

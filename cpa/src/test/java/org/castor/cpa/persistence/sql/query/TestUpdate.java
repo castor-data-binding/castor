@@ -93,19 +93,4 @@ public final class TestUpdate extends TestCase {
         assertEquals("UPDATE mytable SET mycol1=? WHERE mycol2=?", update.toString());
     }
 
-    public void testWithoutCondition() {
-        Update update = new Update("mytable");
-        QueryContext ctx = new QueryContext();
-        update.toQueryString(ctx);
-        assertEquals("UPDATE mytable SET ", ctx.toString());
-    }
-
-    public void testAssignmentWithoutCondition() {
-        Update update = new Update("mytable");
-        QueryContext ctx = new QueryContext();
-        update.addAssignment(new Column("mycol1"), new Parameter("mycol1"));
-        update.addAssignment(new Column("mycol2"), new Parameter("mycol2"));
-        update.toQueryString(ctx);
-        assertEquals("UPDATE mytable SET mycol1=?, mycol2=?", ctx.toString());
-    }
 }

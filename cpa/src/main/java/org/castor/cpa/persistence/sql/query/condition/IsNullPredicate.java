@@ -16,7 +16,6 @@
 package org.castor.cpa.persistence.sql.query.condition;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
@@ -51,23 +50,32 @@ public final class IsNullPredicate extends Predicate {
 
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public void toString(final QueryContext ctx) {
-        expression().toString(ctx);
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.IS);
-        if (!evaluateTo()) {
-            ctx.append(QueryConstants.SPACE);
-            ctx.append(QueryConstants.NOT);
-        }
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.NULL);
-    }
-
     /** 
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
-    
+
+    //-----------------------------------------------------------------------------------    
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(expression().toString());
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.IS);
+        if (!evaluateTo()) {
+            sb.append(QueryConstants.SPACE);
+            sb.append(QueryConstants.NOT);
+        }
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.NULL);
+
+        return sb.toString();
+    }
+
     //-----------------------------------------------------------------------------------    
 }

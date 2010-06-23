@@ -32,7 +32,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 27 Jul 2009) $
  */
-public final class Select extends QueryObject {    
+public final class Select implements QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /** Qualifier of the table to select records of. */
@@ -112,41 +112,50 @@ public final class Select extends QueryObject {
 
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public void toString(final QueryContext ctx) {
-        ctx.append(QueryConstants.SELECT);
-        ctx.append(QueryConstants.SPACE);
-        
-        if (_select.isEmpty()) {
-            ctx.append(QueryConstants.STAR);
-        } else {
-            for (Iterator<Expression> iter = _select.iterator(); iter.hasNext(); ) {
-                iter.next().toString(ctx);
-                if (iter.hasNext()) {
-                    ctx.append(QueryConstants.SEPERATOR);
-                    ctx.append(QueryConstants.SPACE);
-                }
-            }
-        }
-        
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.FROM);
-        ctx.append(QueryConstants.SPACE);
-
-        _qualifier.toString(ctx);
-        
-        if (_condition != null) {
-            ctx.append(QueryConstants.SPACE);
-            ctx.append(QueryConstants.WHERE);
-            ctx.append(QueryConstants.SPACE);
-            _condition.toString(ctx);
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
+
+    //-----------------------------------------------------------------------------------
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(QueryConstants.SELECT);
+        sb.append(QueryConstants.SPACE);
+        
+        if (_select.isEmpty()) {
+            sb.append(QueryConstants.STAR);
+        } else {
+            for (Iterator<Expression> iter = _select.iterator(); iter.hasNext(); ) {
+                sb.append(iter.next().toString());
+                if (iter.hasNext()) {
+                    sb.append(QueryConstants.SEPERATOR);
+                    sb.append(QueryConstants.SPACE);
+                }
+            }
+        }
+        
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.FROM);
+        sb.append(QueryConstants.SPACE);
+
+        sb.append(_qualifier.toString());
+        
+        if (_condition != null) {
+            sb.append(QueryConstants.SPACE);
+            sb.append(QueryConstants.WHERE);
+            sb.append(QueryConstants.SPACE);
+            sb.append(_condition.toString());
+        }
+
+        return sb.toString();
+    }
 
     //-----------------------------------------------------------------------------------
 }

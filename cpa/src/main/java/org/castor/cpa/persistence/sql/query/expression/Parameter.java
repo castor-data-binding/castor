@@ -16,7 +16,6 @@
 package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Visitor;
 
 /**
@@ -57,16 +56,24 @@ public final class Parameter extends Expression {
 
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public void toString(final QueryContext ctx) {
-        ctx.addParameter(_name);
-        ctx.append(QueryConstants.PARAMETER);
-    }
-
     /**
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
+
+    //-----------------------------------------------------------------------------------    
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(QueryConstants.PARAMETER);
+
+        return sb.toString();
+    }
 
     //-----------------------------------------------------------------------------------    
 }

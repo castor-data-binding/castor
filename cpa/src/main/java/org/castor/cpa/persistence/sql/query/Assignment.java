@@ -25,7 +25,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
-public final class Assignment extends QueryObject {
+public final class Assignment implements QueryObject {
     //-----------------------------------------------------------------------------------
 
     /** Left operand of the assignment. */
@@ -72,13 +72,6 @@ public final class Assignment extends QueryObject {
     }
 
     //-----------------------------------------------------------------------------------    
-    
-    @Override
-    public void toString(final QueryContext ctx) {
-        _left.toString(ctx);
-        ctx.append(QueryConstants.ASSIGN);
-        _right.toString(ctx);
-    }
 
     /**
      * {@inheritDoc}
@@ -86,4 +79,21 @@ public final class Assignment extends QueryObject {
     public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(_left.toString());
+        sb.append(QueryConstants.ASSIGN);
+        sb.append(_right.toString());
+
+        return sb.toString();
+    }
+
+    //-----------------------------------------------------------------------------------
+
 }

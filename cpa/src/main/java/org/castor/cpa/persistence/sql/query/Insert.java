@@ -30,7 +30,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public final class Insert extends QueryObject {    
+public final class Insert implements QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /** Qualifier of the table to update records of. */
@@ -91,50 +91,59 @@ public final class Insert extends QueryObject {
     }
 
     //-----------------------------------------------------------------------------------    
-    
-    @Override
-    public void toString(final QueryContext ctx) {
-        ctx.append(QueryConstants.INSERT);
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.INTO);
-        ctx.append(QueryConstants.SPACE);
-        
-        _qualifier.toString(ctx);
-        
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.LPAREN);
-        
-        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            iter.next().leftExpression().toString(ctx);
-            if (iter.hasNext()) {
-                ctx.append(QueryConstants.SEPERATOR);
-                ctx.append(QueryConstants.SPACE);
-            }
-        }
-
-        ctx.append(QueryConstants.RPAREN); 
-        
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.VALUES);
-
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.LPAREN);   
-
-        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            iter.next().rightExpression().toString(ctx);
-            if (iter.hasNext()) {
-                ctx.append(QueryConstants.SEPERATOR);
-                ctx.append(QueryConstants.SPACE);
-            }
-        }
-
-        ctx.append(QueryConstants.RPAREN);
-    }
 
     /**
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
+
+    //-----------------------------------------------------------------------------------
+
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(QueryConstants.INSERT);
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.INTO);
+        sb.append(QueryConstants.SPACE);
+        
+        sb.append(_qualifier.toString());
+        
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.LPAREN);
+        
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            sb.append(iter.next().leftExpression().toString());
+            if (iter.hasNext()) {
+                sb.append(QueryConstants.SEPERATOR);
+                sb.append(QueryConstants.SPACE);
+            }
+        }
+
+        sb.append(QueryConstants.RPAREN); 
+        
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.VALUES);
+
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.LPAREN);   
+
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            sb.append(iter.next().rightExpression().toString());
+            if (iter.hasNext()) {
+                sb.append(QueryConstants.SEPERATOR);
+                sb.append(QueryConstants.SPACE);
+            }
+        }
+
+        sb.append(QueryConstants.RPAREN);
+
+        return sb.toString();
+    }
 
     //-----------------------------------------------------------------------------------
 }
