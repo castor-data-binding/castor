@@ -37,6 +37,9 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 public class SQLFieldInfo {
     private final String _tableName;
 
+    /** Variable holding the alias for this table. */
+    private String _tableAlias;
+
     private final boolean _store;
 
     private final boolean _multi;
@@ -168,6 +171,20 @@ public class SQLFieldInfo {
     }
     
     public String getTableName() { return _tableName; }
+    
+    /**
+     * Method returning table-alias currently set.
+     * 
+     * @return Table-alias currently set.
+     */
+    public String getTableAlias() { return _tableAlias; }
+    
+    /**
+     * Method setting current table-alias.
+     * 
+     * @param tableAlias Table-alias to be set.
+     */
+    public void setTableAlias(final String tableAlias) { _tableAlias = tableAlias; }
     
     public boolean isStore() { return _store; }
     
