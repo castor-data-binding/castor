@@ -97,5 +97,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/derby/derby/10.6.1.0/derby-10.6.1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.8.4/mockito-core-1.8.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>
