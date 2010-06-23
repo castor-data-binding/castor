@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.persistence.sql.query.expression;
 
-import org.castor.cpa.persistence.sql.query.QueryContext;
-
 import junit.framework.TestCase;
 
 /** 
@@ -52,13 +50,8 @@ public final class TestParameter extends TestCase {
     }
 
     public void testToString() {
-        QueryContext ctx = new QueryContext();
-        assertEquals(0, ctx.parameterSize());
-        
         Parameter parameter = new Parameter("myparameter");
-        parameter.toString(ctx);
-        
-        assertEquals(1, ctx.parameterSize());
-        assertEquals("?", ctx.toString());
+
+        assertEquals("?", parameter.toString());
     }
 }

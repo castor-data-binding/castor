@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.persistence.sql.query.expression;
 
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.junit.Ignore;
 
@@ -28,9 +27,6 @@ import org.junit.Ignore;
  */
 @Ignore
 public final class FunctionMock extends Expression {
-    @Override
-    public void toString(final QueryContext ctx) { }
-
     /**
      * {@inheritDoc}
      */

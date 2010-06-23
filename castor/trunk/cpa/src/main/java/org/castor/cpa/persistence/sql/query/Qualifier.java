@@ -24,7 +24,7 @@ import org.castor.cpa.persistence.sql.query.expression.Column;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public abstract class Qualifier extends QueryObject {
+public abstract class Qualifier implements QueryObject {
     //-----------------------------------------------------------------------------------    
 
     /** Name of the qualifier. */
@@ -67,9 +67,16 @@ public abstract class Qualifier extends QueryObject {
     
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public final void toString(final QueryContext ctx) {
-        ctx.append(ctx.quoteName(_name));
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public final String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(_name);
+
+        return sb.toString();
     }
     
     //-----------------------------------------------------------------------------------    

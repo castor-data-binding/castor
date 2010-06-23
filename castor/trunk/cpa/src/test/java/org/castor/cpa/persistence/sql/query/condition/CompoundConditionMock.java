@@ -15,7 +15,6 @@
  */
 package org.castor.cpa.persistence.sql.query.condition;
 
-import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.junit.Ignore;
 
@@ -40,9 +39,6 @@ public final class CompoundConditionMock extends CompoundCondition {
     public Condition not() {
         return null;
     }
-
-    @Override
-    public void toString(final QueryContext ctx) { }
 
     /**
      * {@inheritDoc}

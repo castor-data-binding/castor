@@ -34,7 +34,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
-public final class Update extends QueryObject {    
+public final class Update implements QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /** Qualifier of the table to update records of. */
@@ -116,44 +116,47 @@ public final class Update extends QueryObject {
 
     //-----------------------------------------------------------------------------------    
 
-    @Override
-    public void toString(final QueryContext ctx) {
-        toQueryString(ctx);
-        
-        if (_condition != null) {
-            ctx.append(QueryConstants.SPACE);
-            ctx.append(QueryConstants.WHERE);
-            ctx.append(QueryConstants.SPACE);
-            _condition.toString(ctx);
-        }
-    }
-
-    /** Same function as toString, but does not append the locally stored conditions.
-     * @param ctx QueryContext to append the string representation of the object to.
-     */
-    public void toQueryString(final QueryContext ctx) {
-        ctx.append(QueryConstants.UPDATE);
-        ctx.append(QueryConstants.SPACE);
-        
-        _qualifier.toString(ctx);
-        
-        ctx.append(QueryConstants.SPACE);
-        ctx.append(QueryConstants.SET);
-        ctx.append(QueryConstants.SPACE);
-
-        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            iter.next().toString(ctx);
-            if (iter.hasNext()) {
-                ctx.append(QueryConstants.SEPERATOR);
-                ctx.append(QueryConstants.SPACE);
-            }
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
     public void accept (final Visitor visitor) { visitor.visit(this); }
+
+    //-----------------------------------------------------------------------------------
+
+    
+    /** 
+     * Method constructing query string.
+     * 
+     * @return Constructed query string.
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(QueryConstants.UPDATE);
+        sb.append(QueryConstants.SPACE);
+        
+        sb.append(_qualifier.toString());
+        
+        sb.append(QueryConstants.SPACE);
+        sb.append(QueryConstants.SET);
+        sb.append(QueryConstants.SPACE);
+
+        for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
+            sb.append(iter.next().toString());
+            if (iter.hasNext()) {
+                sb.append(QueryConstants.SEPERATOR);
+                sb.append(QueryConstants.SPACE);
+            }
+        }
+        
+        if (_condition != null) {
+            sb.append(QueryConstants.SPACE);
+            sb.append(QueryConstants.WHERE);
+            sb.append(QueryConstants.SPACE);
+            sb.append(_condition.toString());
+        }
+
+        return sb.toString();
+    }
 
     //-----------------------------------------------------------------------------------
 }

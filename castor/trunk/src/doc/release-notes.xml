@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2948" tool="jira">
+                    <description>
+                        Cleaned up code by removing QueryContext brownfields.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100623</date>
+                </bug>
                 <bug id="2945" tool="jira">
                     <description>
                         Implemented visitor pattern for SQL statements and started using it.
