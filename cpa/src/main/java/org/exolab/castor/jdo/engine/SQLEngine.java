@@ -184,6 +184,16 @@ public final class SQLEngine implements Persistence {
             }
         }
 
+        for (int i = 0; i < fieldsInfo.size(); i++) {
+            SQLFieldInfo info = fieldsInfo.get(i);
+            if (info.isJoined()) {
+                String alias = info.getTableName() + "_f" + i;
+                info.setTableAlias(alias);
+            } else {
+                info.setTableAlias(info.getTableName());
+            }
+        }
+
         _ids = new SQLColumnInfo[idsInfo.size()];
         idsInfo.copyInto(_ids);
 
