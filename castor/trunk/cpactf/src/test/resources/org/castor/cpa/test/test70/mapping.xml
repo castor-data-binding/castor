@@ -2,114 +2,223 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                            "http://castor.org/mapping.dtd">
 <mapping>
-    <class name="org.castor.cpa.test.test70.Col" identity="id">
+    <class name="org.castor.cpa.test.test70.TestArray" identity="id">
         <description>Table used for testing different collection types support</description>
-        <cache-type type="none" />
         <map-to table="test70_col" />
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColArray" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="items" type="org.castor.cpa.test.test70.Item" collection="array">
+        <field name="items" type="org.castor.cpa.test.test70.ArrayItem" collection="array">
         </field>
     </class>
     
-    <class name="org.castor.cpa.test.test70.ColArrayList" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="arraylist">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColCollection" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="collection">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColEnumeration" extends="org.castor.cpa.test.test70.Col">
-        <description>Class used for testing collection type 'enumerate'</description>
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="enumerate">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColHashtable" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="hashtable">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColIterator" extends="org.castor.cpa.test.test70.Col">
-        <description>Class used for testing collection type 'iterator'</description>
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="iterator">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColMap" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="map">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColSet" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="set">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColSortedSet" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.ComparableItem" 
-            collection="sortedset">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ColVector" extends="org.castor.cpa.test.test70.Col">
-        <description>Table used for testing different collection types support</description>
-        <!-- this is a dirty hack, don't follows. It only work if load always done by db.load( MyClass.class, id ). -->
-        <map-to table="test70_col" />
-        <field name="item" type="org.castor.cpa.test.test70.Item" collection="vector">
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.ComparableItem" identity="id">
-        <description>Table used for testing SortedSet collection type support</description>
-        <cache-type type="none" />
-        <map-to table="test70_comp_item" />
-        <field name="id" type="integer">
-            <sql name="iid" type="integer" />
-        </field>
-        <field name="testCol" type="org.castor.cpa.test.test70.Col" >
-            <sql name="id" />
-        </field>
-    </class>
-    
-    <class name="org.castor.cpa.test.test70.Item" identity="id">
+    <class name="org.castor.cpa.test.test70.ArrayItem" identity="id">
         <description>Table used for testing different collection types support</description>
         <cache-type type="none" />
         <map-to table="test70_item" />
         <field name="id" type="integer">
             <sql name="iid" type="integer" />
         </field>
-        <field name="testCol" type="org.castor.cpa.test.test70.Col" >
+        <field name="testCol" type="org.castor.cpa.test.test70.TestArray" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestArrayList" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.ArrayListItem" collection="arraylist">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.ArrayListItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestArrayList" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestCollection" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.CollectionItem" collection="collection">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.CollectionItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestCollection" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestEnumeration" identity="id">
+        <description>Class used for testing collection type 'enumerate'</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.EnumerationItem" collection="enumerate">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.EnumerationItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestEnumeration" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestHashtable" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.HashtableItem" collection="hashtable">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.HashtableItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestHashtable" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestIterator" identity="id">
+        <description>Class used for testing collection type 'iterator'</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.IteratorItem" collection="iterator">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.IteratorItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestIterator" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestMap" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.MapItem" collection="map">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.MapItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestMap" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestSet" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.SetItem" collection="set">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.SetItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestSet" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestSortedSet" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.SortedSetItem" 
+            collection="sortedset">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.SortedSetItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_comp_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestSortedSet" >
+            <sql name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.TestVector" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <map-to table="test70_col" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="item" type="org.castor.cpa.test.test70.VectorItem" collection="vector">
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test70.VectorItem" identity="id">
+        <description>Table used for testing different collection types support</description>
+        <cache-type type="none" />
+        <map-to table="test70_item" />
+        <field name="id" type="integer">
+            <sql name="iid" type="integer" />
+        </field>
+        <field name="testCol" type="org.castor.cpa.test.test70.TestVector" >
             <sql name="id" />
         </field>
     </class>
