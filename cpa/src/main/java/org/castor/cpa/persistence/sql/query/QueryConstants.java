@@ -70,6 +70,12 @@ public final class QueryConstants {
     /** 'NULL' keyword for conditions of SQL queries. */
     public static final String NULL = "NULL";
 
+    /** 'JOIN' keyword for constructing joins of SQL queries. */
+    public static final String JOIN = "JOIN";
+
+    /** 'ON' keyword for constructing joins of SQL queries. */
+    public static final String ON = "ON";
+
     /** Character to use for spaces in SQL query. */
     public static final char SPACE = ' ';
     

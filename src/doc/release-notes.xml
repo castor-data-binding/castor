@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2954" tool="jira">
+                    <description>
+                        Added ability to handle joins to current class hierarchy.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100705</date>
+                </bug>
                 <bug id="2952" tool="jira">
                     <description>
                         Used visitor pattern to uncouple the order of select-columns

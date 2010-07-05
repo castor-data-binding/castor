@@ -35,12 +35,12 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
 public final class Select implements QueryObject {    
     //-----------------------------------------------------------------------------------    
 
-    /** Qualifier of the table to select records of. */
-    private final Qualifier _qualifier;
-    
     /** List of expressions to be returned by select statement. */
-    private final List<Expression> _select = new ArrayList<Expression>();  
-    
+    private final List<Expression> _select = new ArrayList<Expression>();
+
+    /** List of qualifiers to be used in from-clause. */
+    private final List<Qualifier> _from = new ArrayList<Qualifier>();
+
     /** Condition that specifies which records to select. */
     private Condition _condition;    
     
@@ -62,7 +62,7 @@ public final class Select implements QueryObject {
      */
     public Select(final Qualifier qualifier) {        
         if (qualifier == null) { throw new NullPointerException(); }
-        _qualifier = qualifier;
+        _from.add(qualifier);
     }    
     
     //-----------------------------------------------------------------------------------    
@@ -76,6 +76,15 @@ public final class Select implements QueryObject {
         _select.add(name);        
     }
 
+    /**
+     * Appends the provided qualifier to the list of qualifiers to be used to build from-clause.
+     * 
+     * @param qualifier Qualifier to be added to from-clause.
+     */
+    public void addFrom(final Qualifier qualifier) {
+        _from.add(qualifier);
+    }
+
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -86,11 +95,11 @@ public final class Select implements QueryObject {
     public List<Expression> getSelect() { return _select; }
 
     /**
-     * Getter returning Qualifier currently set.
+     * Getter returning from-list currently set.
      * 
-     * @return Qualifier currently set.
+     * @return From-list currently set.
      */
-    public Qualifier getQualifier() { return _qualifier; }
+    public List<Qualifier> getFrom() { return _from; }
 
     /**
      * Get condition that specifies which records to select.
@@ -110,12 +119,14 @@ public final class Select implements QueryObject {
         _condition = condition;
     }
 
-    //-----------------------------------------------------------------------------------    
-
     /**
-     * {@inheritDoc}
+     * Method to check if qualifiers exist to add to from-clause.
+     * 
+     * @return True: List of froms is not empty. False: List of froms is empty.
      */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
+    public boolean hasFrom() {
+        return !_from.isEmpty();
+    }
 
     //-----------------------------------------------------------------------------------
 
@@ -128,7 +139,7 @@ public final class Select implements QueryObject {
         StringBuffer sb = new StringBuffer();
         sb.append(QueryConstants.SELECT);
         sb.append(QueryConstants.SPACE);
-        
+
         if (_select.isEmpty()) {
             sb.append(QueryConstants.STAR);
         } else {
@@ -140,13 +151,49 @@ public final class Select implements QueryObject {
                 }
             }
         }
-        
+
         sb.append(QueryConstants.SPACE);
         sb.append(QueryConstants.FROM);
         sb.append(QueryConstants.SPACE);
 
-        sb.append(_qualifier.toString());
-        
+        for (Iterator<Qualifier> iter = _from.iterator(); iter.hasNext(); ) {
+            Qualifier qualifier = iter.next();
+            if (!qualifier.hasJoin()) {
+                if (qualifier instanceof TableAlias) {
+                    sb.append(((TableAlias) qualifier).getTable().toString());
+                    sb.append(QueryConstants.SPACE);
+                }
+                sb.append(qualifier.toString());
+            } else {
+                // Open all necessary parentheses before starting any joins.
+                for (int i = 0; i < qualifier.getJoins().size(); i++) {
+                    sb.append(QueryConstants.LPAREN);
+                }
+                for (int i = 0; i < qualifier.getJoins().size(); i++) {
+                    Join join = qualifier.getJoins().get(i);
+
+                    if (i == 0) {
+                        if (qualifier instanceof TableAlias) {
+                            sb.append(((TableAlias) qualifier).getTable().toString());
+                            sb.append(QueryConstants.SPACE);
+                        }
+                        sb.append(qualifier.toString());
+                    }
+
+                    sb.append(QueryConstants.SPACE);
+                    sb.append(join.toString());
+
+                    // Close opened parentheses after every JOIN-expression in the query.
+                    sb.append(QueryConstants.RPAREN);
+                }
+            }
+
+            if (iter.hasNext()) {
+                sb.append(QueryConstants.SEPERATOR);
+                sb.append(QueryConstants.SPACE);
+            }
+        }
+
         if (_condition != null) {
             sb.append(QueryConstants.SPACE);
             sb.append(QueryConstants.WHERE);
@@ -156,6 +203,11 @@ public final class Select implements QueryObject {
 
         return sb.toString();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------
 }
