@@ -30,6 +30,7 @@ import org.castor.cpa.persistence.sql.query.expression.Parameter;
  * Interface providing methods for Elements of the implementation of the visitor pattern.
  *
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public interface Visitor {
@@ -57,6 +58,13 @@ public interface Visitor {
     void visit(final Insert insert);
 
     /**
+     * Visit method to handle <code>Join</code> elements.
+     * 
+     * @param join Join object to be handled
+     */
+    void visit(final Join join);
+
+    /**
      * Visit method to handle select elements.
      * 
      * @param select Select object to be handled.
@@ -69,6 +77,13 @@ public interface Visitor {
      * @param table Table object to be handled.
      */
     void visit(final Table table);
+
+    /**
+     * Visit method to handle <code>TableAlias</code> elements.
+     * 
+     * @param tableAlias TableAlias object to be handled.
+     */
+    void visit(final TableAlias tableAlias);
 
     /**
      * Visit method to handle update elements.

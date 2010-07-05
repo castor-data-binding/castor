@@ -25,8 +25,10 @@ import java.util.Map;
 import org.castor.cpa.persistence.sql.query.Assignment;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.Join;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
+import org.castor.cpa.persistence.sql.query.TableAlias;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -71,6 +73,11 @@ public final class UncoupleVisitor implements Visitor {
     /**
      * {@inheritDoc}
      */
+    public void visit(final Join join) { }
+
+    /**
+     * {@inheritDoc}
+     */
     public void visit(final Select select) {
         for (Iterator<Expression> iter = select.getSelect().iterator(); iter.hasNext(); ) {
             iter.next().accept(this);
@@ -81,6 +88,11 @@ public final class UncoupleVisitor implements Visitor {
      * {@inheritDoc}
      */
     public void visit(final Table table) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void visit(final TableAlias tableAlias) { }
 
     /**
      * {@inheritDoc}

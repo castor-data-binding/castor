@@ -34,6 +34,8 @@ public final class Table extends Qualifier {
         super(name);
     }
 
+    //-----------------------------------------------------------------------------------    
+
     /**
      * {@inheritDoc}
      */

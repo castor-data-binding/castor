@@ -18,11 +18,15 @@
 
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import java.util.Iterator;
+
 import org.castor.cpa.persistence.sql.query.Assignment;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
+import org.castor.cpa.persistence.sql.query.TableAlias;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -192,6 +196,198 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
             + "(\"ID4\"=\"PARAM4\" OR \"ID5\"=null OR \"ID6\"=?)";
 
         assertEquals(expected, queryVis.toString());
+    }
+
+    @Test
+    public void testSelectWithJoinsDepth() {
+        Visitor queryVis = getVisitor();
+        
+        Table tab1 = new Table("FOO");
+        Column col1 = new Column(tab1, "ID");
+
+        Table tab2 = new Table("BAR");
+        Column col21 = new Column(tab2, "ID");
+        Column col22 = new Column(tab2, "ABC_ID");
+
+        TableAlias tab3 = new TableAlias(new Table("ABC"), "xyz");
+        Column col3 = new Column(tab3, "ID");
+
+        Select sel = new Select(tab1);
+        queryVis.visit(sel);
+        assertEquals("SELECT * FROM \"FOO\"", queryVis.toString());
+
+        queryVis = getVisitor();
+        tab1.addInnerJoin(tab2, col1.equal(col21));
+        queryVis.visit(sel);
+        assertEquals("SELECT * "
+                + "FROM (\"FOO\" "
+                + "INNER JOIN \"BAR\" "
+                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")", queryVis.toString());
+
+        queryVis = getVisitor();
+        tab2.addLeftJoin(tab3, col22.equal(col3));
+        queryVis.visit(sel);
+        assertEquals("SELECT * "
+                + "FROM (\"FOO\" "
+                + "INNER JOIN (\"BAR\" "
+                + "LEFT JOIN \"ABC\" \"XYZ\" "
+                + "ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\") "
+                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")", queryVis.toString());
+    }
+
+    @Test
+    public void testSelectWithJoinsBreadth() {
+        Visitor queryVis = getVisitor();
+        
+        Table tab1 = new Table("FOO");
+        Column col1 = new Column(tab1, "ID");
+
+        Table tab2 = new Table("BAR");
+        Column col21 = new Column(tab2, "ID");
+
+        TableAlias tab3 = new TableAlias(new Table("ABC"), "xyz");
+        Column col3 = new Column(tab3, "ID");
+
+        Table tab4 = new Table("tab4");
+        
+        Table tab5 = new Table("tab5");
+
+        Select sel = new Select(tab1);
+        queryVis.visit(sel);
+        assertEquals("SELECT * FROM \"FOO\"", queryVis.toString());
+
+        queryVis = getVisitor();
+        tab1.addInnerJoin(tab2, col1.equal(col21));
+        tab1.addInnerJoin(tab3, col1.equal(col3));
+        tab1.addInnerJoin(tab4);
+        tab1.addInnerJoin(tab5);
+        queryVis.visit(sel);
+        assertEquals("SELECT * FROM "
+                + "((((\"FOO\" INNER JOIN \"BAR\" ON \"FOO\".\"ID\"=\"BAR\".\"ID\") "
+                + "INNER JOIN \"ABC\" \"XYZ\" ON \"FOO\".\"ID\"=\"XYZ\".\"ID\") "
+                + "INNER JOIN \"TAB4\") "
+                + "INNER JOIN \"TAB5\")", queryVis.toString());
+    }
+
+
+    @Test
+    public void testSelectWithJoinsDepthAndBreadth() {
+      Visitor queryVis = getVisitor();
+
+      Table tab1 = new Table("table1");
+      Column col1 = new Column(tab1, "col1");
+
+      Table tab2 = new Table("table2");
+      Column col2 = new Column(tab2, "col2");
+
+      Table tab3 = new Table("table3");
+      Column col3 = new Column(tab3, "col3");
+
+      Table tab4 = new Table("table4");
+      Column col4 = new Column(tab4, "col4");
+
+      Table tab5 = new Table("table5");
+      Column col5 = new Column(tab5, "col5");
+
+      Table tab6 = new Table("table6");
+      Column col6 = new Column(tab6, "col6");
+
+      Table tab7 = new Table("table7");
+      Column col7 = new Column(tab7, "col7");
+
+      Select select = new Select(tab1);
+      
+      tab1.addInnerJoin(tab2, col1.equal(col2));
+      tab2.addFullJoin(tab3, col2.equal(col3));
+      tab2.addLeftJoin(tab7, col2.equal(col7));
+
+      tab1.addInnerJoin(tab4, col1.equal(col4));
+      tab4.addRightJoin(tab5, col4.equal(col5));
+      tab5.addLeftJoin(tab6, col5.equal(col6));
+
+      queryVis.visit(select);
+
+      assertEquals("SELECT * FROM "
+              + "((\"TABLE1\" INNER JOIN "
+              + "((\"TABLE2\" FULL JOIN \"TABLE3\" ON \"TABLE2\".\"COL2\"=\"TABLE3\".\"COL3\") "
+              + "LEFT JOIN \"TABLE7\" ON \"TABLE2\".\"COL2\"=\"TABLE7\".\"COL7\") "
+              + "ON \"TABLE1\".\"COL1\"=\"TABLE2\".\"COL2\") "
+              + "INNER JOIN (\"TABLE4\" "
+              + "RIGHT JOIN (\"TABLE5\" LEFT JOIN \"TABLE6\" "
+              + "ON \"TABLE5\".\"COL5\"=\"TABLE6\".\"COL6\") "
+              + "ON \"TABLE4\".\"COL4\"=\"TABLE5\".\"COL5\") "
+              + "ON \"TABLE1\".\"COL1\"=\"TABLE4\".\"COL4\")", queryVis.toString());
+    }
+
+    @Test
+    public void testSelectWithFrom() {
+        Visitor queryVis = getVisitor();
+        
+        Table tab1 = new Table("FOO");
+        Table tab2 = new Table("BAR");
+        TableAlias tab3 = new TableAlias(new Table("ABC"), "xyz");
+
+        Select sel = new Select(tab1);
+        sel.addFrom(tab2);
+        sel.addFrom(tab3);
+
+        queryVis.visit(sel);
+
+        assertTrue(sel.hasFrom());
+
+        Iterator<Qualifier> iter = sel.getFrom().iterator();
+        assertEquals(iter.next(), tab1);
+        assertEquals(iter.next(), tab2);
+        assertEquals(iter.next(), tab3);
+        assertFalse(iter.hasNext());
+
+        assertEquals("SELECT * "
+                + "FROM \"FOO\", \"BAR\", \"ABC\" \"XYZ\"", queryVis.toString());
+    }
+
+    @Test
+    public void testSelectWithFromAndJoins() {
+        Visitor queryVis = getVisitor();
+
+        Table tab1 = new Table("FOO");
+        Column col1 = new Column(tab1, "ID");
+
+        Table tab2 = new Table("BAR");
+        Column col21 = new Column(tab2, "ID");
+        Column col22 = new Column(tab2, "ABC_ID");
+
+        TableAlias tab3 = new TableAlias(new Table("ABC"), "xyz");
+        Column col3 = new Column(tab3, "ID");
+
+        Table tab4 = new Table("FN");
+        Table tab5 = new Table("ORD");
+        TableAlias tab6 = new TableAlias(new Table("FN"), "abc");
+
+        Select sel = new Select(tab1);
+        tab1.addInnerJoin(tab2, col1.equal(col21));
+        tab2.addLeftJoin(tab3, col22.equal(col3));
+
+        sel.addFrom(tab4);
+        sel.addFrom(tab5);
+        tab5.addRightJoin(tab6);
+
+        queryVis.visit(sel);
+
+        assertTrue(sel.hasFrom());
+
+        Iterator<Qualifier> iter = sel.getFrom().iterator();
+        assertEquals(iter.next(), tab1);
+        assertEquals(iter.next(), tab4);
+        assertEquals(iter.next(), tab5);
+        assertFalse(iter.hasNext());
+
+        assertEquals("SELECT * "
+                + "FROM (\"FOO\" "
+                + "INNER JOIN (\"BAR\" "
+                + "LEFT JOIN \"ABC\" \"XYZ\" "
+                + "ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\") "
+                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")"
+                + ", \"FN\", (\"ORD\" RIGHT JOIN \"FN\" \"ABC\")", queryVis.toString());
     }
 
   //---------------------------INSERT--------------------------------------------------------
