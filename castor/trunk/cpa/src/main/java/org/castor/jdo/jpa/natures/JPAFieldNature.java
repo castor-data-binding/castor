@@ -16,6 +16,7 @@
 package org.castor.jdo.jpa.natures;
 
 import javax.persistence.JoinColumn;
+import javax.persistence.TemporalType;
 
 import org.castor.core.nature.BaseNature;
 import org.castor.core.nature.PropertyHolder;
@@ -151,6 +152,11 @@ public class JPAFieldNature extends BaseNature {
      * relation type.
      */
     private static final String RELATION_OPTIONAL = "RELATION_OPTIONAL";
+
+    /**
+     * Property Key for {@link javax.persistence.Temporal}
+     */
+    public static final String TEMPORAL_TYPE = "TEMPORAL_TYPE";
 
     /**
      * Instantiate a {@link JPAFieldNature} to access the given
@@ -936,6 +942,23 @@ public class JPAFieldNature extends BaseNature {
             return false;
         }
         return isOptional;
+    }
+
+    /**
+     * @see #TEMPORAL_TYPE
+     * @return The {@link javax.persistence.TemporalType} of field.
+     */
+    public TemporalType getTemporalType() {
+        return (TemporalType) super.getProperty(TEMPORAL_TYPE);
+    }
+
+    /**
+     * @see #TEMPORAL_TYPE
+     * @param temporalType
+     *            set the {@link javax.persistence.TemporalType} of field.
+     */
+    public void setTemporalType(final TemporalType temporalType) {
+        super.setProperty(TEMPORAL_TYPE, temporalType);
     }
 
 }

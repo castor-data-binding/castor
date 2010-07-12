@@ -58,6 +58,12 @@ CREATE TABLE Callbacks_cat(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE Callbacks_martian(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE EntityListeners_animal(
     id INTEGER NOT NULL,
     PRIMARY KEY(id)
@@ -85,6 +91,14 @@ CREATE TABLE ExcludeListeners_foo(
 
 CREATE TABLE ExcludeListeners_bar(
     id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Temporal_person(
+    id INTEGER NOT NULL,
+    birthDate TIMESTAMP NOT NULL,
+    anotherDate TIME NOT NULL,
+    yetAnotherDate DATE NOT NULL,
     PRIMARY KEY(id)
 );
 
