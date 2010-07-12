@@ -1,5 +1,8 @@
 package org.castor.jpa.scenario.callbacks;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.spring.orm.CastorSystemException;
@@ -7,8 +10,6 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.PersistenceException;
 import org.junit.After;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-@TransactionConfiguration(transactionManager = "transactionManager",
-        defaultRollback = true)
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 public class CallbackHooksITCase {
 
@@ -162,6 +162,22 @@ public class CallbackHooksITCase {
             final Person loadedPerson = db.load(Person.class, ID_3);
             assertNotNull(loadedPerson);
             loadedPerson.setName("Hans Wurst");
+            db.commit();
+            fail("Should throw exceptions.");
+        } catch (PersistenceException e) {
+            LOG.debug("Exceptions thrown as expected: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void mappedSuperclassHandling() throws Exception {
+        final Database db = jdoManager.getDatabase();
+        final Martian martianToPersist = new Martian();
+        martianToPersist.setId(ID_1);
+        martianToPersist.setName("Manfred Mustermann");
+        try {
+            db.begin();
+            db.create(martianToPersist);
             db.commit();
             fail("Should throw exceptions.");
         } catch (PersistenceException e) {
