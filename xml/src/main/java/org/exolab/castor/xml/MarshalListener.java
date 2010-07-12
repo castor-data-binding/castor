@@ -62,6 +62,9 @@ public interface MarshalListener {
     /**
      * This method is called before an object
      * is to be marshalled.
+     * 
+     * In case of unchecked exceptions being thrown, those will be caught and 
+     * logged, but the marshalling process will not be interrupted.
      *
      * @param object the Object about to be marshalled.
      * @return false if the object should not be
@@ -75,6 +78,9 @@ public interface MarshalListener {
      * false for a given Object, this method will
      * not be called for that Object as marshalling
      * will not take place.
+     *
+     * In case of unchecked exceptions being thrown, those will be caught and 
+     * logged, but the marshalling process will not be interrupted.
      *
      * @param object the Object that was marshalled.
     **/
