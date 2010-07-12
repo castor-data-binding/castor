@@ -2071,8 +2071,9 @@ public class Marshaller extends MarshalFramework {
         if (!atRoot) _namespaces = _namespaces.getParent();
 
         //-- notify listener of post marshal
-        if (_marshalListener != null)
+        if (_marshalListener != null) {
             _marshalListener.postMarshal(object);
+        }
 
     } //-- void marshal(DocumentHandler)
 
