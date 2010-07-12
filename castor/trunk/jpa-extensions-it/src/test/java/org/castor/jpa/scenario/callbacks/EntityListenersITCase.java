@@ -1,13 +1,18 @@
 package org.castor.jpa.scenario.callbacks;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.PersistenceException;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -32,7 +34,8 @@ public class EntityListenersITCase {
     @Autowired
     protected JDOManager jdoManager;
 
-    private static final long ID = 1L;
+    private static final long ID_1 = 1L;
+    private static final long ID_2 = 2L;
     private List<String> desiredCallbacksExecutionOrder = new ArrayList<String>();
 
     private void initEntityListenerCallbacksTest() throws Exception {
@@ -75,14 +78,14 @@ public class EntityListenersITCase {
         initEntityListenerCallbacksTest();
         final Database db = jdoManager.getDatabase();
         final Dog dogToPersist = new GoldenRetriever();
-        dogToPersist.setId(ID);
+        dogToPersist.setId(ID_1);
         db.begin();
         db.create(dogToPersist);
         db.commit();
         db.begin();
-        final GoldenRetriever loadedDog = db.load(GoldenRetriever.class, ID);
+        final GoldenRetriever loadedDog = db.load(GoldenRetriever.class, ID_1);
         db.commit();
-        assertEquals(ID, loadedDog.getId());
+        assertEquals(ID_1, loadedDog.getId());
         assertEquals(desiredCallbacksExecutionOrder,
                 CallbacksExecutionOrderMemory.getOrderedCallbackNames());
     }
@@ -92,16 +95,38 @@ public class EntityListenersITCase {
         initExcludeListenerCallbacksTest();
         final Database db = jdoManager.getDatabase();
         final Bar barToPersist = new Bar();
-        barToPersist.setId(ID);
+        barToPersist.setId(ID_1);
         db.begin();
         db.create(barToPersist);
         db.commit();
         db.begin();
-        final Bar loadedBar = db.load(Bar.class, ID);
+        final Bar loadedBar = db.load(Bar.class, ID_1);
         db.commit();
-        assertEquals(ID, loadedBar.getId());
+        assertEquals(ID_1, loadedBar.getId());
         assertEquals(desiredCallbacksExecutionOrder,
                 CallbacksExecutionOrderMemory.getOrderedCallbackNames());
+    }
+
+    @Test
+    public void mappedSuperclassHandling() throws Exception {
+        final Database db = jdoManager.getDatabase();
+        final Martian martianToPersist = new Martian();
+        martianToPersist.setId(ID_2);
+        martianToPersist.setName("Max Musterfrau");
+        db.begin();
+        db.create(martianToPersist);
+        db.commit();
+
+        db.begin();
+        final Martian loadedMartian = db.load(Martian.class, ID_2);
+        assertNotNull(loadedMartian);
+        try {
+            db.remove(loadedMartian);
+            db.commit();
+            fail("Should throw exceptions.");
+        } catch (PersistenceException e) {
+            LOG.debug("Exceptions thrown as expected: " + e.getMessage());
+        }
     }
 
 }
