@@ -54,6 +54,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -70,7 +71,6 @@ import org.castor.core.util.HexDecoder;
 import org.castor.core.util.Messages;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
-import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -960,8 +960,15 @@ public class Marshaller extends MarshalFramework {
 
         //-- notify listener
         if (_marshalListener != null) {
-            if (!_marshalListener.preMarshal(object))
+            boolean toBeMarshalled = true;
+            try {
+                toBeMarshalled = _marshalListener.preMarshal(object);
+            } catch (RuntimeException e) {
+                LOG.error("Invoking #preMarshal() on your custom MarshalListener instance caused the following problem:", e);
+            }
+            if (!toBeMarshalled) {
                 return;
+            }
         }
 
         //-- handle AnyNode
@@ -2072,7 +2079,11 @@ public class Marshaller extends MarshalFramework {
 
         //-- notify listener of post marshal
         if (_marshalListener != null) {
+            try {
             _marshalListener.postMarshal(object);
+            } catch (RuntimeException e) {
+                LOG.error("Invoking #postMarshal() on your custom MarshalListener instance caused the following problem:", e);
+            }
         }
 
     } //-- void marshal(DocumentHandler)
