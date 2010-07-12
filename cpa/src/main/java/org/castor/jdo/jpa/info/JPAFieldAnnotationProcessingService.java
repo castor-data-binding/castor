@@ -16,16 +16,7 @@
 package org.castor.jdo.jpa.info;
 
 import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingService;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPABasicProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAColumnProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAIdProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAJoinColumnProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAJoinTableProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAManyToManyProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAManyToOneProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAOneToManyProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPAOneToOneProcessor;
-import org.castor.jdo.jpa.processors.fieldprocessors.JPATransientProcessor;
+import org.castor.jdo.jpa.processors.fieldprocessors.*;
 
 /**
  * This is a standard {@link BaseTargetAwareAnnotationProcessingService} initialized with
@@ -52,7 +43,7 @@ public class JPAFieldAnnotationProcessingService extends
         this.addAnnotationProcessor(new JPAOneToManyProcessor());
         this.addAnnotationProcessor(new JPAOneToOneProcessor());
         this.addAnnotationProcessor(new JPATransientProcessor());
-        
+        this.addAnnotationProcessor(new JPATemporalProcessor());
     }
 
 }

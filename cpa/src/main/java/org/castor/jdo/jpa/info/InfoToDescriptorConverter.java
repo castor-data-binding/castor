@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.persistence.FetchType;
+import javax.persistence.TemporalType;
 
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.jpa.natures.JPAClassNature;
@@ -370,6 +371,23 @@ public final class InfoToDescriptorConverter {
         Class<?> javaType = org.exolab.castor.mapping.loader.Types
                 .typeFromPrimitive(typeInfo.getFieldType());
         int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
+
+        final TemporalType temporalType = jpaNature.getTemporalType();
+        if (temporalType != null) {
+            switch (temporalType) {
+                case DATE:
+                    sqlType = java.sql.Types.DATE;
+                    break;
+                case TIME:
+                    sqlType = java.sql.Types.TIME;
+                    break;
+                case TIMESTAMP:
+                    sqlType = java.sql.Types.TIMESTAMP;
+                    break;
+                default:
+                    break;
+            }
+        }
 
         // ManyToMany JoinTable definition => if this field has a ManyToMany
         // relation, everything is defined from now on, because we do not

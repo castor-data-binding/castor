@@ -310,13 +310,20 @@ public final class SQLTypeInfos {
                     stmt.setFloat(index, ((Float) value).floatValue());
                     break;
                 case Types.TIME:
-                    stmt.setTime(index, (Time) value, getCalendar());
+                    final Time time = value instanceof java.util.Date ?
+                            new Time(((java.util.Date) value).getTime()) : null;
+                    stmt.setTime(index, time != null ? time : (Time) value, getCalendar());
                     break;
                 case Types.DATE:
-                    stmt.setDate(index, (Date) value);
+                    final Date date = value instanceof java.util.Date ?
+                            new Date(((java.util.Date) value).getTime()) : null;
+                    stmt.setDate(index, date != null ? date : (Date) value);
                     break;
                 case Types.TIMESTAMP:
-                    stmt.setTimestamp(index, (Timestamp) value, getCalendar());
+                    final Timestamp timestamp = value instanceof java.util.Date ?
+                            new Timestamp(((java.util.Date) value).getTime()) : null;
+                    stmt.setTimestamp(index, timestamp != null ? timestamp : (Timestamp) value,
+                            getCalendar());
                     break;
                 case Types.BLOB:
                     try {
