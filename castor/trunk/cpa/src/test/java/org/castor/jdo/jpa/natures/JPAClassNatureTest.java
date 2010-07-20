@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import java.util.Properties;
 
+import javax.persistence.InheritanceType;
 import org.castor.core.nature.PropertyHolder;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,18 @@ public class JPAClassNatureTest {
         nature = new JPAClassNature(holder);
         nature.setCacheProperties(cacheProperties);
         assertEquals(cacheProperties, nature.getCacheProperties());
+    }
+
+    @Test
+    public void setInheritanceRelatedProperty() throws Exception {
+        InheritanceType strategy = InheritanceType.JOINED;
+
+        when(holder.hasNature(canonicalName)).thenReturn(true);
+        when(holder.getProperty(canonicalName
+                + JPAClassNature.INHERITANCE_STRATEGY)).thenReturn(strategy);
+        nature = new JPAClassNature(holder);
+        nature.setInheritanceStrategy(strategy);
+        assertEquals(strategy, nature.getInheritanceStrategy());
     }
 
     @Test
