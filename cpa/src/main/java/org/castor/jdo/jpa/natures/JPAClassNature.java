@@ -20,6 +20,7 @@ import org.castor.core.nature.PropertyHolder;
 
 import java.util.Map;
 import java.util.Properties;
+import javax.persistence.InheritanceType;
 
 /**
  * A {@link BaseNature} extension that gives access to information derived from
@@ -47,6 +48,10 @@ public class JPAClassNature extends BaseNature {
      * Property Key for {@link javax.persistence.Table#schema()}. 
      */
     private static final String TABLE_SCHEMA = "TABLE_SCHEMA";
+     /**
+     * Property Key for {@link javax.persistence.Inheritance#strategy()}.
+     */
+    public static final String INHERITANCE_STRATEGY = "INHERITANCE_STRATEGY";
     /**
      * Nature property name for abstract.
      */
@@ -156,6 +161,22 @@ public class JPAClassNature extends BaseNature {
         return (String) super.getProperty (TABLE_SCHEMA);
     }
 
+     /**
+     * @see #INHERITANCE_STRATEGY
+     * @param strategy
+     *            The value of {@link javax.persistence.Inheritance#strategy()}
+     */
+    public void setInheritanceStrategy(final InheritanceType strategy) {
+        super.setProperty (INHERITANCE_STRATEGY, strategy);
+    }
+
+    /**
+     * @see #INHERITANCE_STRATEGY
+     * @return The value of{@link javax.persistence.Inheritance#strategy()}
+     */
+    public InheritanceType getInheritanceStrategy() {
+        return (InheritanceType) super.getProperty (INHERITANCE_STRATEGY);
+    }
     /**
      * @return The value of{@link javax.persistence.NamedQuery}
      * @see #NAMED_QUERY

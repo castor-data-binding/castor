@@ -144,6 +144,11 @@ public final class InfoToDescriptorConverter {
                 descriptor);
 
         /*
+         * ClassMapping: initialize
+         */
+        ClassMapping clsMapping = new ClassMapping();
+
+        /*
          * set classDescriptor infos
          */
 
@@ -176,6 +181,7 @@ public final class InfoToDescriptorConverter {
                 }
             } else {
                 descriptor.setExtends(extendedClassDescriptor);
+                clsMapping.setExtends(((ClassDescriptorImpl)extendedClassDescriptor).getMapping());
                 if (extendedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
                     ClassDescriptorJDONature jdoClassNature = new ClassDescriptorJDONature(extendedClassDescriptor);
                     jdoClassNature.addExtended(descriptor);
@@ -188,15 +194,6 @@ public final class InfoToDescriptorConverter {
          */
         descriptor.setDepends(null);
 
-        /*
-         * ClassMapping: initialize
-         */
-        ClassMapping clsMapping = new ClassMapping();
-        /*
-         * TODO: NOT IMPLEMENTED: not sure what to put in here...
-         * "Object _extends"?
-         */
-        clsMapping.setExtends(null);
         clsMapping.setName(classInfo.getDescribedClass().getName());
         for (FieldInfo idInfo : classInfo.getKeyFieldInfos()) {
             clsMapping.addIdentity(idInfo.getFieldName());

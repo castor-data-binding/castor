@@ -7,6 +7,7 @@ import java.util.Set;
 import org.castor.core.annotationprocessing.AnnotationProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPACacheProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPAEntityProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPAInheritanceProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
 import org.junit.Before;
@@ -46,6 +47,11 @@ public class JPAClassAnnotationProcessingServiceTest {
     @Test
     public void namedNativeQueriesProcessorIsRegistered() throws Exception {
         assertThatProcessorTypeIsRegisteredWithService(JPANamedNativeQueriesProcessor.class);
+    }
+
+    @Test
+    public void inheritanceProcessorIsRegistered() throws Exception {
+        assertThatProcessorTypeIsRegisteredWithService(JPAInheritanceProcessor.class);
     }
 
     @Test

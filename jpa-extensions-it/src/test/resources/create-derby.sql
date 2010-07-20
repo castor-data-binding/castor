@@ -1,5 +1,17 @@
 CREATE SCHEMA TEST;
 
+CREATE TABLE Inheritance_Plant(
+    id INTEGER NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Inheritance_Tree(
+    id INTEGER NOT NULL,
+    height INTEGER,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE MappedSuperclass_keyboard(
     id INTEGER NOT NULL,
     numberOfKeys INTEGER NOT NULL,
