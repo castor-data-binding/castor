@@ -372,20 +372,28 @@ public final class InfoToDescriptorConverter {
                 .typeFromPrimitive(typeInfo.getFieldType());
         int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
 
-        final TemporalType temporalType = jpaNature.getTemporalType();
-        if (temporalType != null) {
-            switch (temporalType) {
-                case DATE:
-                    sqlType = java.sql.Types.DATE;
-                    break;
-                case TIME:
-                    sqlType = java.sql.Types.TIME;
-                    break;
-                case TIMESTAMP:
-                    sqlType = java.sql.Types.TIMESTAMP;
-                    break;
-                default:
-                    break;
+        if (jpaNature.isLob()) {
+            if (typeInfo.getFieldType() == String.class) {
+                sqlType =  java.sql.Types.CLOB;
+            } else {
+                sqlType = java.sql.Types.BLOB;
+            }
+        } else {
+            final TemporalType temporalType = jpaNature.getTemporalType();
+            if (temporalType != null) {
+                switch (temporalType) {
+                    case DATE:
+                        sqlType = java.sql.Types.DATE;
+                        break;
+                    case TIME:
+                        sqlType = java.sql.Types.TIME;
+                        break;
+                    case TIMESTAMP:
+                        sqlType = java.sql.Types.TIMESTAMP;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

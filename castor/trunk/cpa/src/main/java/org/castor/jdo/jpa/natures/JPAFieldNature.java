@@ -159,6 +159,11 @@ public class JPAFieldNature extends BaseNature {
     public static final String TEMPORAL_TYPE = "TEMPORAL_TYPE";
 
     /**
+     * Property Key for {@link javax.persistence.Lob}
+     */
+    public static final String LOB = "LOB";
+
+    /**
      * Instantiate a {@link JPAFieldNature} to access the given
      * {@link PropertyHolder}.
      * 
@@ -959,6 +964,26 @@ public class JPAFieldNature extends BaseNature {
      */
     public void setTemporalType(final TemporalType temporalType) {
         super.setProperty(TEMPORAL_TYPE, temporalType);
+    }
+
+    /**
+     * @see #LOB
+     * @return true if {@link javax.persistence.Lob} was set on the
+     *         property, else false
+     */
+    public boolean isLob() {
+        Boolean isLob = (Boolean) super.getProperty(LOB);
+        return isLob != null && isLob;
+    }
+
+    /**
+     * @see #LOB
+     * @param isLob
+     *            if {@link javax.persistence.Lob} was found on that
+     *            property.
+     */
+    public void setLob(final boolean isLob) {
+        super.setProperty(LOB, isLob);
     }
 
 }

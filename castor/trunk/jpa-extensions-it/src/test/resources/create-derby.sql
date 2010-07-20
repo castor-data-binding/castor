@@ -102,6 +102,13 @@ CREATE TABLE Temporal_person(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE Lob_entity(
+    id INTEGER NOT NULL,
+    clob CLOB NOT NULL,
+    blob BLOB NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

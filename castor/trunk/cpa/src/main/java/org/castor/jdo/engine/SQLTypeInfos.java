@@ -15,8 +15,7 @@
  */
 package org.castor.jdo.engine;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
@@ -327,16 +326,25 @@ public final class SQLTypeInfos {
                     break;
                 case Types.BLOB:
                     try {
-                        InputStream stream = (InputStream) value;
+                        InputStream stream;
+                        if (value instanceof byte[]) {
+                            stream = new ByteArrayInputStream((byte[]) value);
+                        } else {
+                            stream = (InputStream) value;
+                        }
                         stmt.setBinaryStream(index, stream, stream.available());
                     } catch (IOException ex) {
                         throw new SQLException(ex.toString());
                     }
                     break;
                 case Types.CLOB:
-                    Clob clob = (Clob) value;
-                    stmt.setCharacterStream(index, clob.getCharacterStream(),
-                            (int) Math.min(clob.length(), Integer.MAX_VALUE));
+                    if (value instanceof String) {
+                        stmt.setCharacterStream(index, new StringReader((String) value),
+                                Math.min(((String) value).length(), Integer.MAX_VALUE));
+                    } else {
+                        stmt.setCharacterStream(index,((Clob) value).getCharacterStream(),
+                                (int) Math.min(((Clob) value).length(), Integer.MAX_VALUE));
+                    }
                     break;
                 default:
                     stmt.setObject(index, value, sqlType);
