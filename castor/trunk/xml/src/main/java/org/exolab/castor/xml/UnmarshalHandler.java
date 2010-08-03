@@ -94,6 +94,8 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.castor.core.util.StringUtil;
+
 /**
  * An unmarshaller to allowing unmarshaling of XML documents to
  * Java Objects. The Class must specify
@@ -324,9 +326,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void addNamespaceToPackageMapping(String nsURI, String packageName) 
     {
-        if (nsURI == null) nsURI = "";
-        if (packageName == null) packageName = "";
-    	_namespaceToPackage.put(nsURI, packageName);
+    	_namespaceToPackage.put(StringUtil.defaultString(nsURI), StringUtil.defaultString(packageName));
         
     } //-- addNamespaceToPackageMapping
 
@@ -702,8 +702,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 endElement(name);
                 return;
             }
-            String err = "error in xml, expecting </" + state._elementName;
-            err += ">, but received </" + name + "> instead.";
+            String err = "error in xml, expecting </" + state._elementName
+             + ">, but received </" + name + "> instead.";
             throw new SAXException(err);
         }
         
@@ -873,10 +873,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     if (addObject) handler.setValue(state._object, value);
                 }
                 catch(java.lang.IllegalStateException ise) {
-                    String err = "unable to add text content to ";
-                    err += descriptor.getXMLName();
-                    err += " due to the following error: " + ise;
-                    throw new SAXException(err, ise);
+                	StringBuffer err = new StringBuffer();
+                    err.append("unable to add text content to ");
+                    err.append(descriptor.getXMLName());
+                    err.append(" due to the following error: " + ise);
+                    throw new SAXException(err.toString(), ise);
                 }
             }
             //-- Handle references
@@ -888,10 +889,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             } else {
                 //-- check for non-whitespace...and report error
                 if (!isWhitespace(state._buffer)) {
-                    String err = "Illegal Text data found as child of: "
-                        + name;
-                    err += "\n  value: \"" + state._buffer + "\"";
-                    throw new SAXException(err);
+                	StringBuffer err = new StringBuffer();
+                	err.append("Illegal Text data found as child of: "
+                        + name);
+                	err.append("\n  value: \"" + state._buffer + "\"");
+                    throw new SAXException(err.toString());
                 }
             }
         }
@@ -985,8 +987,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             if (state.isUsed(descriptor)) {
                 
-                String err = "element \"" + name;
-                err += "\" occurs more than once. (parent class: " + state._type.getName() + ")";
+            	StringBuffer err = new StringBuffer();
+                err.append("element \"" + name);
+                err.append("\" occurs more than once. (parent class: " + state._type.getName() + ")");
                 
                 String location = name;
                 while (!_stateInfo.isEmpty()) {
@@ -997,10 +1000,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     location = state._elementName + "/" + location;
                 }
                 
-                err += "\n location: /" + location;
+                err.append("\n location: /" + location);
                 
                 ValidationException vx =
-                    new ValidationException(err);
+                    new ValidationException(err.toString());
                 
             	throw new SAXException(vx);
             }
@@ -1111,13 +1114,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             PrintWriter  pw = new PrintWriter(sw);
             ex.printStackTrace(pw);
             pw.flush();
-            String err = "unable to add '" + name + "' to <";
-            err += state._fieldDesc.getXMLName();
-            err += "> due to the following exception: \n";
-            err += ">>>--- Begin Exception ---<<< \n";
-            err += sw.toString();
-            err += ">>>---- End Exception ----<<< \n";
-            throw new SAXException(err, ex);
+            StringBuffer err = new StringBuffer();
+            err.append("unable to add '" + name + "' to <");
+            err.append(state._fieldDesc.getXMLName());
+            err.append("> due to the following exception: \n");
+            err.append(">>>--- Begin Exception ---<<< \n");
+            err.append(sw.toString());
+            err.append(">>>---- End Exception ----<<< \n");
+            throw new SAXException(err.toString(), ex);
         }
 
         //-- remove current namespace scoping
@@ -1160,16 +1164,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void endElement(String namespaceURI, String localName, String qName)
     throws org.xml.sax.SAXException {        
-        if ((qName == null) || (qName.length() == 0)) {
-            if ((localName == null) || (localName.length() == 0)) {
+        if (StringUtil.isEmpty(qName)) {
+            if (StringUtil.isEmpty(localName)) {
                 String error = "Missing either 'qName' or 'localName', both cannot be null or emtpy.";
                 throw new SAXException(error);
             }
             qName = localName;
-            if ((namespaceURI != null) && (namespaceURI.length() > 0)) {
+            if (StringUtil.isNotEmpty(namespaceURI)) {
                 //-- rebuild qName, for now
                 String prefix = _namespaces.getNamespacePrefix(namespaceURI);
-                if ((prefix != null) && (prefix.length() > 0))
+                if (StringUtil.isEmpty(prefix))
                     qName = prefix + ":" + localName;
             }
         }
@@ -1273,7 +1277,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
     throws org.xml.sax.SAXException {
         if (LOG.isTraceEnabled()) {
-            if ((qName != null) && (qName.length() > 0))
+            if (StringUtil.isNotEmpty(qName))
                 LOG.trace("#startElement: " + qName);
             else
             	LOG.trace("#startElement: " + localName);
@@ -1323,7 +1327,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- on the parser
             for (int i = 0; i < atts.getLength(); i++) {
                 String attName = atts.getQName(i);
-                if ((attName != null) && (attName.length() > 0)) {
+                if (StringUtil.isNotEmpty(attName)) {
                     if (attName.equals(XMLNS)) {
                         _namespaces.addNamespace("", atts.getValue(i));
                     }
@@ -1357,7 +1361,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (hasQNameAtts) {
             for (int i = 0; i < atts.getLength(); i++) {
                 String attName = atts.getQName(i);
-                if ((attName != null) && (attName.length() > 0)) {
+                if (StringUtil.isNotEmpty(attName)) {
                     //-- process any non-namespace qName atts
                     if ((!attName.equals(XMLNS)) && (!attName.startsWith(XMLNS_PREFIX))) 
                     {
@@ -1366,7 +1370,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                             String prefix = attName.substring(0, idx);
                             attName = attName.substring(idx+1);
                             String nsURI = atts.getURI(i);
-                            if ((nsURI == null) || (nsURI.length() == 0)) {
+                            if (StringUtil.isEmpty(nsURI)) {
                                 nsURI = _namespaces.getNamespaceURI(prefix);
                             }
                             _reusableAtts.setAttribute(attName, atts.getValue(i), nsURI);
@@ -1387,8 +1391,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             _elemInfo._attributes = atts;
         }
         
-        if ((localName == null) || (localName.length() == 0)) {
-            if ((qName == null) || (qName.length() == 0)) {
+        if (StringUtil.isEmpty(localName)) {
+            if (StringUtil.isEmpty(qName)) {
                 String error = "Missing either 'localName' or 'qName', both cannot be emtpy or null.";
                 throw new SAXException(error);
             }
@@ -1396,13 +1400,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             _elemInfo._qName = qName;
         }
         else {
-            if ((qName == null) || (qName.length() == 0)) {
-                if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
+            if (StringUtil.isEmpty(qName)) {
+                if (StringUtil.isEmpty(namespaceURI)) {
                     _elemInfo._qName = localName;
                 }
                 else {
                     String prefix = _namespaces.getNamespacePrefix(namespaceURI);
-                    if ((prefix != null) && (prefix.length() > 0)) {
+                    if (StringUtil.isNotEmpty(prefix)) {
                         _elemInfo._qName = prefix + ":" + localName;
                     }
                 }
@@ -1417,7 +1421,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (idx >= 0) {
             String prefix = localName.substring(0, idx);
             localName = localName.substring(idx+1);
-            if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
+            if (StringUtil.isEmpty(namespaceURI)) {
                 namespaceURI = _namespaces.getNamespaceURI(prefix);
             }
         } else {
@@ -1428,7 +1432,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 namespaceURI = defaultNamespace;
             }
             //-- adjust empty namespace
-            if ((namespaceURI != null) && (namespaceURI.length() == 0))
+            if (StringUtil.isEmpty(namespaceURI))
                 namespaceURI = null;
         }
         
@@ -1602,9 +1606,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
 
                 if (_topClass == null) {
-                    String err = "The class for the root element '" +
-                        name + "' could not be found.";
-                    throw new SAXException(err);
+                    StringBuffer err = new StringBuffer();
+                    err.append("The class for the root element '");
+                    err.append(name + "' could not be found.");
+                    throw new SAXException(err.toString());
                 }
             }
 
@@ -1636,9 +1641,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 			    if ((!isPrimitive(_topClass)) &&
              (!Serializable.class.isAssignableFrom( _topClass )))
              throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
-          String err = "unable to create XMLClassDescriptor " +
-                       "for class: " + _topClass.getName();
-          throw new SAXException(err);
+          StringBuffer err = new StringBuffer();
+          err.append("unable to create XMLClassDescriptor ");
+          err.append("for class: " + _topClass.getName());
+          throw new SAXException(err.toString());
             }
             _topState._classDesc = classDesc;
             _topState._type = _topClass;
@@ -1688,16 +1694,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         }
 
                         if (!_topClass.isAssignableFrom(instanceClass)) {
-                            String err = instanceClass + " is not a subclass of "
-                                + _topClass;
-                            throw new SAXException(err);
+                            StringBuffer err = new StringBuffer();
+                            err.append(instanceClass + " is not a subclass of "
+                                + _topClass);
+                            throw new SAXException(err.toString());
                         }
 
                     }
                     catch(Exception ex) {
-                        String msg = "unable to instantiate " +
-                            instanceClassname + "; ";
-                        throw new SAXException(msg + ex, ex);
+                    	StringBuffer msg = new StringBuffer();
+                    	msg.append("unable to instantiate " +
+                            instanceClassname + "; ");
+                    	msg.append(ex);
+                        throw new SAXException(msg.toString(), ex);
                     }
 
                     //-- try to create instance of the given Class
@@ -1766,10 +1775,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- Does container class even handle this field?
                 if (tempClassDesc.getFieldDescriptor(name, namespace, NodeType.Element) != null) {
                     if (!parentState._fieldDesc.isMultivalued()) { 
-                        String error = "The container object (" + tempClassDesc.getJavaClass().getName();
-                        error += ") cannot accept the child object associated with the element '" + name + "'";
-                        error += " because the container is already full!";
-                        ValidationException vx = new ValidationException(error);
+                        StringBuffer error = new StringBuffer();
+                        error.append("The container object (" + tempClassDesc.getJavaClass().getName());
+                        error.append(") cannot accept the child object associated with the element '" + name + "'");
+                        error.append(" because the container is already full!");
+                        ValidationException vx = new ValidationException(error.toString());
                         throw new SAXException(vx);    
                     }
                 }
@@ -1852,7 +1862,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- Namespace patch, should be moved to XMLClassDescriptor, but
             //-- this is the least intrusive patch at the moment. kv - 20030423
             if ((descriptor != null) && (!descriptor.isContainer())) {
-                if ((namespace != null) && (namespace.length() > 0)) {
+                if (StringUtil.isNotEmpty(namespace)) {
                     if (!namespaceEquals(namespace, descriptor.getNameSpaceURI())) {
                         //-- if descriptor namespace is not null, then we must
                         //-- have a namespace match, so set descriptor to null,
@@ -1906,14 +1916,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 
                 // handle multiple level locations (where count > 0) (CASTOR-1039)
                 // isWrapper = (isWrapper || hasFieldsAtLocation(name, classDesc));
-                String tmpLocation = name;
-                if (count > 0) { tmpLocation = path + "/" + name; }
-                isWrapper = (isWrapper || hasFieldsAtLocation(tmpLocation, classDesc));
+                StringBuffer tmpLocation = new StringBuffer();
+                tmpLocation.append(name);
+                if (count > 0) { tmpLocation.append(path + "/" + name); }
+                isWrapper = (isWrapper || hasFieldsAtLocation(tmpLocation.toString(), classDesc));
             }
             else if (descriptor != null) {
                 String tmpPath = descriptor.getLocationPath();
-                if (tmpPath == null) tmpPath = "";
-                if (path.equals(tmpPath))break; //-- found
+                if (path.equals(StringUtil.defaultString(tmpPath)))break; //-- found
                 descriptor = null; //-- not found, try again
             }
             else {
@@ -1981,8 +1991,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 return;
             }
             
-            String mesg = "unable to find FieldDescriptor for '" + name;
-            mesg += "' in ClassDescriptor of " + classDesc.getXMLName();
+            StringBuffer mesg = new StringBuffer();
+            mesg.append("unable to find FieldDescriptor for '" + name);
+            mesg.append("' in ClassDescriptor of " + classDesc.getXMLName());
 
             //-- unwrap classDesc, if necessary, for the check
             //-- Introspector.introspected done below
@@ -2017,7 +2028,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- otherwise report error since we cannot find a suitable 
             //-- descriptor
             else {
-                throw new SAXException(mesg);
+                throw new SAXException(mesg.toString());
             }
         } //-- end null descriptor
         
@@ -2204,8 +2215,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     useHandler = false;
                 }
                 catch(Exception ex) {
-                    String msg = "unable to instantiate " + instanceType;
-                    throw new SAXException(msg + "; " + ex, ex);
+                    StringBuffer msg = new StringBuffer();
+                    msg.append("unable to instantiate " + instanceType);
+                    msg.append("; " + ex);
+                    throw new SAXException(msg.toString(), ex);
                 }
 
             }
@@ -2350,11 +2363,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         }
                     }
                     catch(java.lang.Exception ex) {
-                        String err = "unable to instantiate a new type of: ";
-                        err += className(cls);
-                        err += "; " + ex.getMessage();
+                    	StringBuffer err = new StringBuffer();
+                        err.append("unable to instantiate a new type of: ");
+                        err.append(className(cls));
+                        err.append("; " + ex.getMessage());
                         //storing causal exception using SAX non-standard method...
-                        SAXException sx = new SAXException(err, ex);
+                        SAXException sx = new SAXException(err.toString(), ex);
                         //...and also using Java 1.4 method
                         //sx.initCause(ex);
                         throw sx;
@@ -2378,9 +2392,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         if ((state._object == null) && (!state._primitiveOrImmutable))
         {
-            String err = "unable to unmarshal: " + name + "\n";
-            err += " - unable to instantiate: " + className(cls);
-            throw new SAXException(err);
+        	StringBuffer err = new StringBuffer();
+        	err.append("unable to unmarshal: " + name + "\n");
+        	err.append(" - unable to instantiate: " + className(cls));
+            throw new SAXException(err.toString());
         }
 
         //-- assign object, if incremental
@@ -2393,10 +2408,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 handler.setValue(parentState._object, state._object);
             }
             catch(java.lang.IllegalStateException ise) {
-                String err = "unable to add \"" + name + "\" to ";
-                err += parentState._fieldDesc.getXMLName();
-                err += " due to the following error: " + ise;
-                throw new SAXException(err, ise);
+            	StringBuffer err = new StringBuffer();
+            	err.append("unable to add \"" + name + "\" to ");
+                err.append(parentState._fieldDesc.getXMLName());
+                err.append(" due to the following error: " + ise);
+                throw new SAXException(err.toString(), ise);
             }
         }
 
@@ -2497,19 +2513,17 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void error(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-        String err = "Parsing Error : "+exception.getMessage()+'\n'+
-                     "Line : "+ exception.getLineNumber() + '\n'+
-                     "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err, exception);
+    	StringBuffer err = new StringBuffer();
+    	err.append("Parsing Error : "+exception.getMessage()+'\n');
+    	err.append("Line : "+ exception.getLineNumber() + '\n');
+    	err.append("Column : "+exception.getColumnNumber() + '\n');
+        throw new SAXException (err.toString(), exception);
     } //-- error
 
     public void fatalError(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-        String err = "Parsing Error : "+exception.getMessage()+'\n'+
-                     "Line : "+ exception.getLineNumber() + '\n'+
-                     "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err, exception);
+    	this.error(exception);
 
     } //-- fatalError
 
@@ -2517,10 +2531,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void warning(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-        String err = "Parsing Error : "+exception.getMessage()+'\n'+
-                     "Line : "+ exception.getLineNumber() + '\n'+
-                     "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err, exception);
+    	this.error(exception);
 
     } //-- warning
 
@@ -2648,7 +2659,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     return classDesc.getJavaClass().getName();
 
                 //-- try to use "current Package"
-                if ((currentPackage != null) && currentPackage.length() > 0) {
+                if (StringUtil.isNotEmpty(currentPackage)) {
                 	adjClassName = currentPackage + '.' + className;
                 }
                 
@@ -2679,8 +2690,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the package name or null.
      */
     private String getMappedPackage(final String namespace) {
-        String lookUpKey = (namespace != null) ? namespace : "";
-        return (String) _namespaceToPackage.get(lookUpKey);
+        return (String) _namespaceToPackage.get(StringUtil.defaultString(namespace));
     }
 
     /**
@@ -2707,14 +2717,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- fields, we add an extra validation check here
                     //-- in case the class doesn't have a "has-method".
                     if (descriptor.isRequired() && (isValidating() || LOG.isDebugEnabled())) {
-                        String err = classDesc.getXMLName() + " is missing " 
-                            + "required attribute: " + descriptor.getXMLName();
-                        if (_locator != null) {
-                            err += "\n  - line: " + _locator.getLineNumber() 
-                                + " column: " + _locator.getColumnNumber();
+                    	StringBuffer err = new StringBuffer();
+                    	err.append(classDesc.getXMLName() + " is missing ");
+                    	err.append("required attribute: " + descriptor.getXMLName());
+                    	if (_locator != null) {
+                    		err.append("\n  - line: " + _locator.getLineNumber());
+                    		err.append(" column: " + _locator.getColumnNumber());
                         }
                         if (isValidating()) {
-                            throw new SAXException(err);
+                            throw new SAXException(err.toString());
                         }
                         LOG.debug(err);
                     }
@@ -2749,15 +2760,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String name      = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
             String path = descriptor.getLocationPath();
-            String fullAttributePath = "";
+            StringBuffer fullAttributePath = new StringBuffer();
             
-            if (path != null && path.length() > 0) {
-                fullAttributePath += path + "/"; 
+            if (StringUtil.isNotEmpty(path)) {
+                fullAttributePath.append(path + "/"); 
             }
             
-            fullAttributePath += name;
+            fullAttributePath.append(name);
             
-            if (fullAttributePath != null && !name.equals(fullAttributePath)) {
+            if (!name.equals(fullAttributePath.toString())) {
                 int index = atts.getIndex(name, namespace);
                 if (index >= 0) {
                     processedAtts[index] = true;
@@ -2776,10 +2787,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             try {
                 processAttribute(name, namespace, attValue, descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
-                String err = "unable to add attribute \"" + name + "\" to '";
-                err += state._classDesc.getJavaClass().getName();
-                err += "' due to the following error: " + ise;
-                throw new SAXException(err, ise);
+            	StringBuffer err = new StringBuffer();
+                err.append("unable to add attribute \"" + name + "\" to '");
+                err.append(state._classDesc.getJavaClass().getName());
+                err.append("' due to the following error: " + ise);
+                throw new SAXException(err.toString(), ise);
             }
         }
 
@@ -2840,11 +2852,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     --pIdx;
                     if (targetState._wrapper) {
                         //path = targetState.elementName + "/" + path;
-                        if (pathBuf == null) {
-                            pathBuf = new StringBuffer();
-                        } else {
-                            pathBuf.setLength(0);
-                        }
+                        pathBuf = resetStringBuffer(pathBuf);
                         pathBuf.append(targetState._elementName);
                         pathBuf.append('/');
                         pathBuf.append(path);
@@ -2856,19 +2864,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 
                     if (descriptor != null) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (tmpPath == null) {
-                            tmpPath = "";
-                        }
-                        if (path.equals(tmpPath)) {
+                        if (path.equals(StringUtil.defaultString(tmpPath))) {
                             break; //-- found
                         }
                     }
                         
-                    if (pathBuf == null) {
-                        pathBuf = new StringBuffer();
-                    } else {
-                        pathBuf.setLength(0);
-                    }
+                    pathBuf = resetStringBuffer(pathBuf);
                     pathBuf.append(targetState._elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
@@ -2894,14 +2895,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             try {
                 processAttribute(name, namespace, atts.getValue(i), descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
-                String err = "unable to add attribute \"" + name + "\" to '";
-                err += state._classDesc.getJavaClass().getName();
-                err += "' due to the following error: " + ise;
-                throw new SAXException(err, ise);
+            	StringBuffer err = new StringBuffer();
+                err.append("unable to add attribute \"" + name + "\" to '");
+                err.append(state._classDesc.getJavaClass().getName());
+                err.append("' due to the following error: " + ise);
+                throw new SAXException(err.toString(), ise);
             }
         }
 
     }
+
+	/**
+	 * Returns either the passed in StringBuffer and sets its length to 0, or if
+	 * the StringBuffer is null, an empty StringBuffer
+	 * 
+	 * @param buffer
+	 *            a StringBuffer, can be null
+	 * @return returns an empty StringBuffer
+	 */
+	private StringBuffer resetStringBuffer(StringBuffer buffer) {
+		if (buffer == null)
+		    return new StringBuffer();
+		
+		buffer.setLength(0);
+		return buffer;
+	}
 
     /**
      * Processes the given AttributeSet for wrapper elements.
@@ -2937,12 +2955,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
                 --pIdx;
                 if (targetState._wrapper) {
-                    //path = targetState.elementName + "/" + path;
-                    if (pathBuf == null) {
-                        pathBuf = new StringBuffer();
-                    } else {
-                        pathBuf.setLength(0);
-                    }
+                    pathBuf = resetStringBuffer(pathBuf);
                     pathBuf.append(targetState._elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
@@ -2960,10 +2973,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     if (descriptor.matches(name)) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (tmpPath == null) {
-                            tmpPath = "";
-                        }
-                        if (path.equals(tmpPath)) {
+                        if (path.equals(StringUtil.defaultString(tmpPath))) {
                             found = true;
                             break;
                         }
@@ -2973,12 +2983,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     break;
                 }
                         
-                //path = targetState.elementName + "/" + path;
-                if (pathBuf == null) {
-                    pathBuf = new StringBuffer();
-                } else {
-                    pathBuf.setLength(0);
-                }
+                pathBuf = resetStringBuffer(pathBuf);
                 pathBuf.append(targetState._elementName);
                 pathBuf.append('/');
                 pathBuf.append(path);
@@ -2994,10 +2999,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     processAttribute(name, namespace, atts.getValue(i),
                             descriptor, classDesc, targetState._object);
                 } catch (IllegalStateException ise) {
-                    String err = "unable to add attribute \"" + name + "\" to '";
-                    err += state._classDesc.getJavaClass().getName();
-                    err += "' due to the following error: " + ise;
-                    throw new SAXException(err, ise);
+                	StringBuffer err = new StringBuffer();
+                    err.append("unable to add attribute \"" + name + "\" to '");
+                    err.append(state._classDesc.getJavaClass().getName());
+                    err.append("' due to the following error: " + ise);
+                    throw new SAXException(err.toString(), ise);
                 }
             }
         }
@@ -3035,13 +3041,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              //-- fields, we add an extra validation check here
              //-- in case the class doesn't have a "has-method".
              if (descriptor.isRequired() && isValidating()) {
-                String err = classDesc.getXMLName() + " is missing " 
-                    + "required attribute: " + attName;
+            	 StringBuffer err = new StringBuffer();
+                err.append(classDesc.getXMLName() + " is missing " 
+                    + "required attribute: " + attName);
                 if (_locator != null) {
-                    err += "\n  - line: " + _locator.getLineNumber() 
-                        + " column: " + _locator.getColumnNumber();
+                	err.append("\n  - line: " + _locator.getLineNumber() 
+                        + " column: " + _locator.getColumnNumber());
                 }
-                throw new SAXException(err);
+                throw new SAXException(err.toString());
             }
             return;
         }
@@ -3093,7 +3100,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         Class type = descriptor.getFieldType();
         String valueType = descriptor.getSchemaType();
         boolean isPrimative = isPrimitive(type);
-        boolean isQName = (valueType != null && valueType.equals(QNAME_NAME));
+        boolean isQName = StringUtil.equals(valueType, QNAME_NAME);
         
         boolean isByteArray = false;
         if (type.isArray()) {
@@ -3245,7 +3252,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //check if the value is a QName that needs to
                 //be resolved (ns:value -> {URI}value)
                 String valueType = descriptor.getSchemaType();
-                if ((valueType != null) && (valueType.equals(QNAME_NAME))) {
+                if (StringUtil.equals(valueType, QNAME_NAME)) {
                         value = resolveNamespace(value);
                 }
                 args._values[argIndex] = value;
@@ -3404,12 +3411,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (handler != null) {
                 Enumeration enumeration = _namespaces.getLocalNamespacePrefixes();
                 while (enumeration.hasMoreElements()) {
-                    String nsPrefix = (String)enumeration.nextElement();
-                    if (nsPrefix == null) nsPrefix = "";
-                    String nsURI = _namespaces.getNamespaceURI(nsPrefix);
-                    if (nsURI == null) nsURI = "";
-                    MapItem mapItem = new MapItem(nsPrefix, nsURI);
-                    handler.setValue(state._object, mapItem);
+					String nsPrefix = StringUtil
+							.defaultString((String) enumeration.nextElement());
+					String nsURI = StringUtil.defaultString(_namespaces
+							.getNamespaceURI(nsPrefix));
+					MapItem mapItem = new MapItem(nsPrefix, nsURI);
+					handler.setValue(state._object, mapItem);
                 }
             }
         }
@@ -3442,7 +3449,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             result = result.substring(idx+1);
         }
         String namespace = _namespaces.getNamespaceURI(prefix);
-        if  ((namespace != null) && (namespace.length() > 0)) {
+        if  (StringUtil.isNotEmpty(namespace)) {
             result = '{'+namespace+'}'+result;
             return result;
         }
@@ -3707,16 +3714,17 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         try {
             return toPrimitiveObject(type, value);
         } catch (Exception ex) {
-            String err = "The following error occured while trying to ";
-            err += "unmarshal field " + fieldDesc.getFieldName();
+        	StringBuffer err = new StringBuffer();
+            err.append("The following error occured while trying to ");
+            err.append("unmarshal field " + fieldDesc.getFieldName());
             UnmarshalState state = (UnmarshalState) _stateInfo.peek();
             if (state != null) {
                 if (state._object != null) {
-                    err += " of class " + state._object.getClass().getName();
+                	err.append(" of class " + state._object.getClass().getName());
                 }
             }
-            err += ".";
-            SAXException saxException = new SAXException(err);
+            err.append(".");
+            SAXException saxException = new SAXException(err.toString());
             saxException.initCause(ex);
             throw saxException;
         }
