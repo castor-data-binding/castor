@@ -3740,12 +3740,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the new primitive {@link Object}
      */
     public static Object toPrimitiveObject(final Class type, String value) {
-
-		PrimitiveObject objectHolder = new PrimitiveObject();
-		objectHolder.setType(type);
-		objectHolder.setValue(value);
-
-		return objectHolder.getObject();
+		return PrimitiveObjectFactory.getObject(type, value);
     }
     
     /**

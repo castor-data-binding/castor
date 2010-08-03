@@ -15,6 +15,8 @@
  */
 package org.exolab.castor.xml;
 
+import org.castor.core.util.StringUtil;
+
 /**
  * This class is part of the command pattern implementation to instantiate an
  * object. It is used as a command by the command invoker {@link PrimitiveObject}.
@@ -27,7 +29,7 @@ public class PrimitiveFloat extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (isNull()) {
+        if (StringUtil.isEmpty(value)) {
             return new Float(0);
         }
 

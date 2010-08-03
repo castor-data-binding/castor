@@ -15,6 +15,8 @@
  */
 package org.exolab.castor.xml;
 
+import org.castor.core.util.StringUtil;
+
 /**
  * This class is part of the command pattern implementation to instantiate an
  * object. It is used as a command by the command invoker
@@ -24,13 +26,14 @@ package org.exolab.castor.xml;
  *         Erlacher</a>
  * 
  */
-public class PrimitiveLong extends PrimitiveObject {
+class PrimitiveLong extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (isNull())
+        if (StringUtil.isEmpty(value)) {
             return new Long(0);
-
+        }
+            
         return new Long(value);
     }
 
