@@ -23,7 +23,7 @@ package org.exolab.castor.xml;
  *         Erlacher</a>
  * 
  */
-public class PrimitiveString extends PrimitiveObject {
+class PrimitiveString extends PrimitiveObject {
 
     @Override
     public Object getObject() {

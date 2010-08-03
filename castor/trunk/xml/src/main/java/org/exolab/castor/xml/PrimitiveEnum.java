@@ -18,6 +18,8 @@ package org.exolab.castor.xml;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.castor.core.util.StringUtil;
+
 /**
  * This class is part of the command pattern implementation to instantiate an
  * object. It is used as a command by the command invoker {@link PrimitiveObject}.
@@ -26,11 +28,11 @@ import java.lang.reflect.Method;
  *         Erlacher</a>
  * 
  */
-public class PrimitiveEnum extends PrimitiveObject {
+class PrimitiveEnum extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (isNull()) {
+        if (StringUtil.isEmpty(value)) {
             return null;
         }
 

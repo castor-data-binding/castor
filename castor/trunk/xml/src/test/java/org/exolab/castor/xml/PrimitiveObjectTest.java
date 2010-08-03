@@ -18,11 +18,7 @@ public class PrimitiveObjectTest extends TestCase {
 
     public void testPrimitiveBigDecimal() {
 
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(BigDecimal.class);
-        object.setValue("-1.23E-12");
-        BigDecimal decimal = (BigDecimal) object.getObject();
+        BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getObject(BigDecimal.class, "-1.23E-12");
 
         Assert.assertEquals(decimal.unscaledValue(), new BigInteger("-123"));
         Assert.assertEquals(decimal.scale(), 14);
@@ -30,355 +26,203 @@ public class PrimitiveObjectTest extends TestCase {
     }
 
     public void testPrimitiveBigDecimalNull() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(BigDecimal.class);
-        object.setValue("");
-        BigDecimal decimal = (BigDecimal) object.getObject();
-
+        BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getObject(BigDecimal.class, null);
         Assert.assertEquals(decimal.unscaledValue(), new BigInteger("0"));
         Assert.assertEquals(decimal.scale(), 0);
+    }
 
-        object.setValue(null);
-        decimal = (BigDecimal) object.getObject();
-
+    public void testPrimitiveBigDecimalEmptyString() {
+        BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getObject(BigDecimal.class, "");
         Assert.assertEquals(decimal.unscaledValue(), new BigInteger("0"));
         Assert.assertEquals(decimal.scale(), 0);
-
     }
 
     public void testPrimitiveBigInteger() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(BigInteger.class);
-        object.setValue("-123");
-        BigInteger bigInt = (BigInteger) object.getObject();
-
+        BigInteger bigInt = (BigInteger) PrimitiveObjectFactory.getObject(BigInteger.class, "-123");
         Assert.assertEquals(bigInt, new BigInteger("-123"));
-
     }
 
     public void testPrimitiveBigIntegerNull() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(BigInteger.class);
-        object.setValue("");
-        BigInteger bigInt = (BigInteger) object.getObject();
-
+        BigInteger bigInt = (BigInteger) PrimitiveObjectFactory.getObject(BigInteger.class, "");
         Assert.assertEquals(bigInt, new BigInteger("0"));
 
-        object.setValue(null);
-        bigInt = (BigInteger) object.getObject();
-
+        bigInt = (BigInteger) PrimitiveObjectFactory.getObject(BigInteger.class, null);
         Assert.assertEquals(bigInt, new BigInteger("0"));
-
     }
 
     public void testPrimitiveBoolean() {
-        PrimitiveObject object = new PrimitiveObject();
-        object.setType(Boolean.class);
-
-        object.setValue("1");
-        Boolean bool = (Boolean) object.getObject();
+        Boolean bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "1");
         Assert.assertEquals(bool, true);
 
-        object.setValue("true");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "true");
         Assert.assertEquals(bool, true);
 
-        object.setValue("TRUE");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "TRUE");
         Assert.assertEquals(bool, true);
 
-        object.setValue("0");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "0");
         Assert.assertEquals(bool, false);
 
-        object.setValue("false");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "false");
         Assert.assertEquals(bool, false);
 
-        object.setValue("FALSE");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "FALSE");
         Assert.assertEquals(bool, false);
 
-        object.setType(Boolean.TYPE);
-
-        object.setValue("1");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "1");
         Assert.assertEquals(bool, true);
 
-        object.setValue("true");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "true");
         Assert.assertEquals(bool, true);
 
-        object.setValue("TRUE");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "TRUE");
         Assert.assertEquals(bool, true);
 
-        object.setValue("0");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "0");
         Assert.assertEquals(bool, false);
 
-        object.setValue("false");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "false");
         Assert.assertEquals(bool, false);
 
-        object.setValue("FALSE");
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.TYPE, "FALSE");
         Assert.assertEquals(bool, false);
     }
 
     public void testPrimitiveBooleanNull() {
-        PrimitiveObject object = new PrimitiveObject();
-        object.setType(Boolean.class);
-
-        object.setValue("");
-        Boolean bool = (Boolean) object.getObject();
+        Boolean bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, "");
         Assert.assertEquals(bool, false);
 
-        object.setValue(null);
-        bool = (Boolean) object.getObject();
+        bool = (Boolean) PrimitiveObjectFactory.getObject(Boolean.class, null);
         Assert.assertEquals(bool, false);
-
     }
 
     public void testPrimitiveByte() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Byte.class);
-        object.setValue("8");
-        Byte byt = (Byte) object.getObject();
+        Byte byt = (Byte) PrimitiveObjectFactory.getObject(Byte.class, "8");
         Assert.assertEquals(byt, new Byte("8"));
 
-        object.setType(Byte.TYPE);
-        byt = (Byte) object.getObject();
+        byt = (Byte) PrimitiveObjectFactory.getObject(Byte.TYPE, "8");
         Assert.assertEquals(byt, new Byte("8"));
-
     }
 
     public void testPrimitiveByteNull() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Byte.class);
-        object.setValue("");
-        Byte byt = (Byte) object.getObject();
+        Byte byt = (Byte) PrimitiveObjectFactory.getObject(Byte.class, "");
         Assert.assertEquals(byt, new Byte("0"));
 
-        object.setValue(null);
-        byt = (Byte) object.getObject();
-
+        byt = (Byte) PrimitiveObjectFactory.getObject(Byte.class, null);
         Assert.assertEquals(byt, new Byte("0"));
-
     }
 
     public void testPrimitiveChar() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Character.class);
-        object.setValue("I don't finish anythi");
-        Character chars = (Character) object.getObject();
+        Character chars = (Character) PrimitiveObjectFactory.getObject(Character.class, "I don't finish anythi");
         Assert.assertEquals(chars, new Character('I'));
-
     }
 
     public void testPrimitiveCharNull() {
-
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Character.class);
-        object.setValue("");
-        Character chars = (Character) object.getObject();
+        Character chars = (Character) PrimitiveObjectFactory.getObject(Character.class, "");
         Assert.assertEquals(chars, new Character('\0'));
 
-        object.setValue(null);
-        chars = (Character) object.getObject();
+        chars = (Character) PrimitiveObjectFactory.getObject(Character.class, null);
         Assert.assertEquals(chars, new Character('\0'));
-
     }
 
     public void testPrimitiveDefault() {
-        PrimitiveObject object = new PrimitiveObject();
-
         String value = "I don't finish anythi";
-        object.setType(UnknownError.class);
-        object.setValue(value);
-        String string = (String) object.getObject();
+        String string = (String) PrimitiveObjectFactory.getObject(UnknownError.class, value);
         Assert.assertEquals(string, value);
-
     }
 
     public void testPrimitiveDefaultNull() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        String value = null;
-        object.setValue(value);
-        Object retObject = object.getObject();
+        Object retObject = PrimitiveObjectFactory.getObject(UnknownError.class, null);
         Assert.assertEquals(retObject, null);
-
     }
 
     public void testPrimitiveDouble() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Double.class);
-        object.setValue("4.2");
-        Double value = (Double) object.getObject();
+        Double value = (Double) PrimitiveObjectFactory.getObject(Double.class, "4.2");
         Assert.assertEquals(value, new Double("4.2"));
 
-        object.setType(Double.TYPE);
-        value = (Double) object.getObject();
+        value = (Double) PrimitiveObjectFactory.getObject(Double.TYPE, "4.2");
         Assert.assertEquals(value, new Double("4.2"));
-
     }
 
     public void testPrimitiveDoubleNull() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        object.setType(Double.class);
-        Double value = (Double) object.getObject();
+        Double value = (Double) PrimitiveObjectFactory.getObject(Double.class, null);
         Assert.assertEquals(value, new Double("0.0"));
 
-        object.setType(Double.TYPE);
-        value = (Double) object.getObject();
+        value = (Double) PrimitiveObjectFactory.getObject(Double.TYPE, null);
         Assert.assertEquals(value, new Double("0.0"));
-
     }
 
     public void testPrimitiveEnum() {
-
         // TODO PE enum test
     }
 
     public void testPrimitiveFloat() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        Class<?> type = Float.TYPE;
-        object.setType(type);
-        object.setValue("42");
-        Float floatObject = (Float) object.getObject();
+        Float floatObject = (Float) PrimitiveObjectFactory.getObject(Float.TYPE, "42");
         Assert.assertEquals(floatObject, new Float("42"));
 
-        object.setValue("  43 ");
-        floatObject = (Float) object.getObject();
+        floatObject = (Float) PrimitiveObjectFactory.getObject(Float.TYPE, "  43  ");
         Assert.assertEquals(floatObject, new Float("43"));
 
-        type = Float.class;
-        object.setType(type);
-        object.setValue("44");
-        floatObject = (Float) object.getObject();
+        floatObject = (Float) PrimitiveObjectFactory.getObject(Float.class, "44");
         Assert.assertEquals(floatObject, new Float("44"));
 
-        object.setValue("  45 ");
-        floatObject = (Float) object.getObject();
+        floatObject = (Float) PrimitiveObjectFactory.getObject(Float.class, "  45  ");
         Assert.assertEquals(floatObject, new Float("45"));
-
     }
 
     public void testPrimitiveObject() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        Class<?> type = Integer.TYPE;
-        object.setType(type);
-        object.setValue("   42 ");
-        Integer integer = (Integer) object.getObject();
+        Integer integer = (Integer) PrimitiveObjectFactory.getObject(Integer.TYPE, "   42  ");
         Assert.assertTrue(integer == 42);
 
-        object.setType(String.class);
-        object.setValue("Hallo");
-        String string = (String) object.getObject();
+        String string = (String) PrimitiveObjectFactory.getObject(String.class, "Hallo");
         Assert.assertEquals(string, "Hallo");
-
     }
 
     public void testPrimitiveInteger() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        Class<?> type = Integer.TYPE;
-        object.setType(type);
-        object.setValue("42");
-        Integer integer = (Integer) object.getObject();
+        Integer integer = (Integer) PrimitiveObjectFactory.getObject(Integer.TYPE, "42");
         Assert.assertTrue(integer == 42);
 
-        object.setValue("  43 ");
-        integer = (Integer) object.getObject();
+        integer = (Integer) PrimitiveObjectFactory.getObject(Integer.TYPE, "  43  ");
         Assert.assertTrue(integer == 43);
 
-        type = Integer.class;
-        object.setType(type);
-        object.setValue("44");
-        integer = (Integer) object.getObject();
+        integer = (Integer) PrimitiveObjectFactory.getObject(Integer.class, "44");
         Assert.assertTrue(integer == 44);
 
-        object.setValue("  45 ");
-        integer = (Integer) object.getObject();
+        integer = (Integer) PrimitiveObjectFactory.getObject(Integer.class, "  45  ");
         Assert.assertTrue(integer == 45);
-
     }
 
     public void testPrimitiveLong() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        Class<?> type = Long.TYPE;
-        object.setType(type);
-        object.setValue("42");
-        Long longObject = (Long) object.getObject();
+        Long longObject = (Long) PrimitiveObjectFactory.getObject(Long.TYPE, "42");
         Assert.assertEquals(longObject, new Long("42"));
 
-        object.setValue("  43 ");
-        longObject = (Long) object.getObject();
+        longObject = (Long) PrimitiveObjectFactory.getObject(Long.TYPE, "  43  ");
         Assert.assertEquals(longObject, new Long("43"));
 
-        type = Long.class;
-        object.setType(type);
-        object.setValue("44");
-        longObject = (Long) object.getObject();
+        longObject = (Long) PrimitiveObjectFactory.getObject(Long.class, "44");
         Assert.assertEquals(longObject, new Long("44"));
 
-        object.setValue("  45 ");
-        longObject = (Long) object.getObject();
+        longObject = (Long) PrimitiveObjectFactory.getObject(Long.class, "  45  ");
         Assert.assertEquals(longObject, new Long("45"));
-
     }
 
     public void testPrimitiveShort() {
-        PrimitiveObject object = new PrimitiveObject();
-
-        Class<?> type = Short.TYPE;
-        object.setType(type);
-        object.setValue("42");
-        Short shortObject = (Short) object.getObject();
+        Short shortObject = (Short) PrimitiveObjectFactory.getObject(Short.TYPE, "42");
         Assert.assertEquals(shortObject, new Short("42"));
 
-        object.setValue("  43 ");
-        shortObject = (Short) object.getObject();
+        shortObject = (Short) PrimitiveObjectFactory.getObject(Short.TYPE, "  43  ");
         Assert.assertEquals(shortObject, new Short("43"));
 
-        type = Short.class;
-        object.setType(type);
-        object.setValue("44");
-        shortObject = (Short) object.getObject();
+        shortObject = (Short) PrimitiveObjectFactory.getObject(Short.class, "44");
         Assert.assertEquals(shortObject, new Short("44"));
 
-        object.setValue("  45 ");
-        shortObject = (Short) object.getObject();
+        shortObject = (Short) PrimitiveObjectFactory.getObject(Short.class, "  45  ");
         Assert.assertEquals(shortObject, new Short("45"));
-
     }
 
     public void testPrimitiveString() {
-        PrimitiveObject object = new PrimitiveObject();
-
         String value = "I don't finish anythi";
-        object.setType(UnknownError.class);
-        object.setValue(value);
-        String string = (String) object.getObject();
+        String string = (String) PrimitiveObjectFactory.getObject(UnknownError.class, value);
         Assert.assertEquals(string, value);
     }
 
