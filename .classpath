@@ -99,5 +99,8 @@
 	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.8.4/mockito-core-1.8.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/stax/stax/1.2.0/stax-1.2.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO"/>
+	<classpathentry kind="var" path="M2_REPO/stax/stax-api/1.0.1/stax-api-1.0.1.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>
