@@ -51,6 +51,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
@@ -780,6 +783,75 @@ public class Unmarshaller {
 		return unmarshal(new DOMEventProducer(node));
     } //-- unmarshal(EventProducer)
 
+	/**
+	 * Unmarshals objects of this {@link Unmarshaller}'s class type. The class must
+	 * specify the proper access methods (setters/getters) in order for
+	 * instances of the class to be properly unmarshalled.
+	 * 
+	 * @param eventReader
+	 *            the StaX {@link XMLEventReader} to read XML from.
+     * @exception MarshalException
+     *                indicates a general problem during the unmarshalling process.
+     * @throws ValidationException
+     *             indicates a problem related to validation.
+     *             
+     * @since 1.3.2
+	 **/
+	public Object unmarshal(XMLEventReader eventReader)
+			throws MarshalException, ValidationException {
+		return unmarshal(BaseSax2EventFromStaxProducer.createSax2EventFromStax(eventReader));
+	}
+
+	/**
+	 * Unmarshals objects of this {@link Unmarshaller}'s class type. The class must
+	 * specify the proper access methods (setters/getters) in order for
+	 * instances of the class to be properly unmarshalled.
+	 * 
+	 * @param streamReader
+	 *            the STaX {@link XMLStreamReader} to read XML from.
+	 * @exception MarshalException
+	 *                indicates a general problem during the unmarshalling process.
+	 * @throws ValidationException
+	 *             indicates a problem related to validation.
+	 *             
+     * @since 1.3.2
+	 **/
+	public Object unmarshal(XMLStreamReader streamReader)
+			throws MarshalException, ValidationException {
+		return unmarshal(BaseSax2EventFromStaxProducer.createSax2EventFromStax(streamReader));
+	}
+
+    /**
+     * Unmarshals objects of this {@link Unmarshaller}'s class type. <br/>
+     * The class must specify the proper access methods (setters/getters) in
+     * order for instances of the class to be properly unmarshalled. </br/>
+     * 
+     * @param eventProducer
+     *            the {@link SAX2EventAndErrorProducer} instance which produces
+     *            the SAX 2 events and handles SAX 2 errors.
+     * @exception MarshalException
+     *                indiactes a general error during the unmarshalling
+     *                process.
+     * @exception ValidationException
+     *                indicates a validation error.
+     * @since 1.3.2
+     **/
+    public Object unmarshal(SAX2EventAndErrorProducer eventProducer)
+        throws MarshalException, ValidationException
+    {
+        UnmarshalHandler handler = createHandler();
+        eventProducer.setContentHandler(handler);
+        eventProducer.setErrorHandler(handler);
+        try {
+            eventProducer.start();
+        }
+        catch(org.xml.sax.SAXException sx) {
+            convertSAXExceptionToMarshalException(handler, sx);
+        }
+        return handler.getObject();
+
+    }
+
     /**
      * Converts a SAXException to a (localised) MarshalException.
      * @param handler The {@link UnmarshalHandler} required to obtain DocumentLocator instance.
@@ -805,8 +877,6 @@ public class Unmarshaller {
     //-------------------------/
     //- Public Static Methods -/
     //-------------------------/
-
-
     /**
      * Returns a ContentHandler for the given UnmarshalHandler
      *
