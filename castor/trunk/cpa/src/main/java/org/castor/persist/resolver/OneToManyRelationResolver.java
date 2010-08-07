@@ -83,7 +83,8 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         throw new PersistenceException(
                                 "Dependent object may not change its master");
                     }
-                } else if (tx.isAutoStore()) {
+                    
+                } else if (isCascadingCreate(tx)) {
                     if (!tx.isRecorded(oo)) {
                         tx.markCreate(fieldClassMolder, oo, null);
                         if (fieldClassMolder.isKeyGenUsed()) {
@@ -236,6 +237,11 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         tx.markCreate(fieldClassMolder, addedEntity, oid);
                     }
                 }
+                
+//            } else if (isCascadingCreate(tx)) {
+            // TODO[ASE]: !!!!!!!!!!!!!!!!!!!!!!!!
+            // TODO[ASE]: investigate WHY tx can be NULL !!!!!!!!
+            // TODO[ASE]: !!!!!!!!!!!!!!!!!!!!!!!!
             } else if (tx.isAutoStore()) {
                 while (addedItor.hasNext()) {
                     Object addedEntity = addedItor.next();
@@ -278,7 +284,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     if (v != null && v.contains(actualIdentity)) {
                         tx.markUpdate(fieldClassMolder, element, oid);
                     }
-                } else if (tx.isAutoStore()) {
+                } else if (isCascadingUpdate(tx)) {
                     tx.markUpdate(fieldClassMolder, element, null);
                 }
             }
@@ -343,7 +349,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         throw new PersistenceException(
                                 "Dependent object may not change its master");
                     }
-                } else if (tx.isAutoStore()) {
+                } else if (isCascadingUpdate(tx)) {
                     if (!tx.isRecorded(oo)) {
                         boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
                         if (creating && fieldClassMolder._isKeyGenUsed) {

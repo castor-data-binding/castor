@@ -49,17 +49,19 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.jdo.util.ClassLoadingUtils;
+import org.castor.persist.CascadingType;
 import org.exolab.castor.jdo.DataObjectAccessException;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
@@ -135,6 +137,11 @@ public class FieldMolder {
     private Object        _default;
 
     private boolean _readonly;
+    
+    /**
+     * Enlists the cascading operations defined for this field.
+     */
+    private EnumSet<CascadingType> _cascading;
     
     /** Indicates whether this field has been flagged as transient, i.e. not to be considered 
      *  during any persistence operations. */
@@ -261,6 +268,14 @@ public class FieldMolder {
 
     public Class getCollectionType() {
         return _colClass;
+    }
+    
+    /**
+     * Returns the 'cascading operations' defined for this field.
+     * @return the 'cascading operations' defined.
+     */
+    public EnumSet<CascadingType> getCascading() {
+        return _cascading;
     }
 
     public Object getValue(final Object object, final ClassLoader loader) {
@@ -531,6 +546,31 @@ public class FieldMolder {
 
             if (fieldMap.getSql() != null) {
                 _readonly = fieldMap.getSql().getReadOnly();
+   
+                _cascading = EnumSet.noneOf(CascadingType.class);
+
+                // TODO: in the schema, cascading is still simply a string.
+                //       when this is finally made into a proper list (enumeration and all)
+                //       this will probably have to be changed
+                // TODO: also, we should probably use constants
+                // NOTE: we assume here that the types are delimited by whitespace
+                if (fieldMap.getSql().getCascading() != null) {
+                    String[] temp = fieldMap.getSql().getCascading().toLowerCase().trim().split("\\s+");
+                    List<String> cascadingTypes = java.util.Arrays.asList(temp);
+                    if (cascadingTypes.contains("all")) {
+                        _cascading = EnumSet.allOf(CascadingType.class);
+                    } else {
+                        if (cascadingTypes.contains("create")) {
+                    	_cascading.add(CascadingType.CREATE);
+                        }
+                        if (cascadingTypes.contains("delete")) {
+                    	_cascading.add(CascadingType.DELETE);
+                        }
+                        if (cascadingTypes.contains("update")) {
+                    	_cascading.add(CascadingType.UPDATE);
+                        }
+                    }
+                }
             }
 
             // check if comparator is specified, and if so, use it

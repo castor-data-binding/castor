@@ -20,6 +20,7 @@ package org.castor.persist.resolver;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -63,14 +64,15 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create relation if the relation table
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        Object o = _fieldMolder.getValue(object, tx.getClassLoader());
-        if (o != null) {
-            Iterator itor = ClassMolderHelper.getIterator(o);
+        Object objects = _fieldMolder.getValue(object, tx.getClassLoader());
+        if (objects != null) {
+            Iterator itor = ClassMolderHelper.getIterator(objects);
             // many-to-many relation is never dependent relation
             while (itor.hasNext()) {
-                Object oo = itor.next();
-                if (tx.isAutoStore() && !tx.isRecorded(oo)) {
-                    tx.markCreate(fieldClassMolder, oo, null);
+                Object objectToCreate = itor.next();
+                // TODO[ASE]: investigate whether this requires 'cascading update' as well.
+                if (isCascadingCreate(tx) && !tx.isRecorded(objectToCreate)) {
+                    tx.markCreate(fieldClassMolder, objectToCreate, null);
                     updateCache = true;
                 }
             }
@@ -138,12 +140,12 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         
-        Iterator removedItor;
+        Iterator<Identity> removedItor;
         Iterator addedItor;
         if (!(value instanceof LazyCollection)) {
-            ArrayList orgFields = (ArrayList) field;
+            List orgFields = (List) field;
 
-            Collection removed = ClassMolderHelper.getRemovedIdsList(tx,
+            Collection<Identity> removed = ClassMolderHelper.getRemovedIdsList(tx,
                     orgFields, value, fieldClassMolder);
             removedItor = removed.iterator();
 
@@ -169,7 +171,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             flags.setUpdateCache(true);
 
             while (removedItor.hasNext()) {
-                Identity removedId = (Identity) removedItor.next();
+                Identity removedId = removedItor.next();
                 
                 // must be loaded in transaction, so that the related object
                 // is properly locked and updated before we delete it.
@@ -206,7 +208,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                             oid.getIdentity(),
                             fieldClassMolder.getIdentity(tx, addedEntity));
                 } else {
-                    if (tx.isAutoStore()) {
+                    if (isCascadingCreate(tx)) {
                         if (!tx.isRecorded(addedEntity)) {
                             tx.markCreate(fieldClassMolder, addedEntity, null);
                         }
@@ -228,31 +230,30 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             final Object object, final AccessMode suggestedAccessMode,
             final Object field)
     throws PersistenceException {
-        ArrayList v = (ArrayList) field;
+        List values = (List) field;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        if (tx.isAutoStore()) {
-            ArrayList newSetOfIds = new ArrayList();
+        if (isCascadingUpdate(tx)) {
+            List<Identity> newSetOfIds = new ArrayList<Identity>();
 
             // iterate the collection of this data object field
             Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
                     .getValue(object, tx.getClassLoader()));
             while (itor.hasNext()) {
                 Object element = itor.next();
-                Object actualIdentity = fieldClassMolder.getActualIdentity(tx, element);
+                Identity actualIdentity = fieldClassMolder.getActualIdentity(tx, element);
                 newSetOfIds.add(actualIdentity);
                 if (!tx.isRecorded(element)) {
                     tx.markUpdate(fieldClassMolder, element, null);
                 }
             }
             // load all old objects for comparison in the preStore state
-            if (v != null) {
-                for (int j = 0; j < v.size(); j++) {
-                    if (!newSetOfIds.contains(v.get(j))) {
+            if (values != null) {
+                for (int j = 0; j < values.size(); j++) {
+                    if (!newSetOfIds.contains(values.get(j))) {
                         // load all the dependent object in cache for
-                        // modification
-                        // check at commit time.
+                        // modification check at commit time.
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
+                        tx.load((Identity) values.get(j), proposedValue, suggestedAccessMode);
                     }
                 }
             }
@@ -276,6 +277,13 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             Iterator itor = ClassMolderHelper.getIterator(o);
             while (itor.hasNext()) {
                 Object oo = itor.next();
+                //TODO[ASE]: another option would be to change this if clause!
+                //	   tx.isPersistent only checks with the tracker but not with the
+                //	   persistent storage! If this check would work properly
+                //	   most of the problems would be saved too
+                //	   but we might also have to check that we are not going to store
+                //	   the same relation twice what is possible if both objects are already
+                //	   created due to another relation they occur in!
                 if (tx.isPersistent(oo)) {
                     _fieldMolder.getRelationLoader().createRelation(
                             tx.getConnection(oid.getMolder().getLockEngine()), createdId,
@@ -298,15 +306,14 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create relation if the relation table
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        Object o = _fieldMolder.getValue(object, tx.getClassLoader());
-        if (o != null) {
-            Iterator itor = ClassMolderHelper.getIterator(o);
+        Object value = _fieldMolder.getValue(object, tx.getClassLoader());
+        if (value != null) {
+            Iterator itor = ClassMolderHelper.getIterator(value);
             // many-to-many relation is never dependent relation
             while (itor.hasNext()) {
                 Object oo = itor.next();
-                if (tx.isAutoStore() && !tx.isRecorded(oo)) {
-                    boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
-                    if (creating) {
+                if (isCascadingUpdate(tx) && !tx.isRecorded(oo)) {
+                    if (tx.markUpdate(fieldClassMolder, oo, null)) {
                         updateCache = true;
                     }
                 }

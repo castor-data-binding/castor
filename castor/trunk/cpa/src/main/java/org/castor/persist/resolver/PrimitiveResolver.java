@@ -35,9 +35,8 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public final class PrimitiveResolver implements ResolverStrategy {
+public final class PrimitiveResolver extends BaseRelationResolver {
 
-    private final FieldMolder _fieldMolder;
     private final int _fieldIndex;
 
     /**
@@ -49,7 +48,7 @@ public final class PrimitiveResolver implements ResolverStrategy {
      */
     public PrimitiveResolver(final ClassMolder classMolder,
             final FieldMolder fieldMolder, final int fieldIndex) {
-        _fieldMolder = fieldMolder;
+        super (classMolder, fieldMolder);
         _fieldIndex = fieldIndex;
     }
 

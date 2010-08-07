@@ -302,6 +302,16 @@
               </xsd:documentation>
           </xsd:annotation>
       </xsd:attribute>
+      <xsd:attribute name="cascading" type="xsd:string" use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute to specify cascading support; possible values are
+                  'none', 'all', 'create', 'delete' and 'update'; it is possible to use more than one
+                  of those values (when not using 'all' or 'none'), using whitespace as a 
+                  delimiter (as in 'create delete').
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
       <xsd:attribute name="read-only"  type="xsd:boolean"    use="optional" default="false"/>
 
       <!-- signals that this field is transient for database mapping (ie should be ignored) -->

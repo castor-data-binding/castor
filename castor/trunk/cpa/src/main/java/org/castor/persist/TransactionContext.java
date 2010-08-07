@@ -59,6 +59,8 @@ public interface TransactionContext {
      * created when the transaction is committed.
      * 
      * @param autoStore When set to <code>true</code> autoStore will be enabled.
+     * 
+     * @deprecated Please use the 'cascading' attribute of the field mapping instead.
      */
     void setAutoStore(final boolean autoStore);
 
@@ -66,6 +68,8 @@ public interface TransactionContext {
      * Test if autoStore option is enabled or not.
      *
      * @return <code>true</code> if autoStore option is enabled.
+     * 
+     * @deprecated Please use the 'cascading' attribute of the field mapping instead.
      */
     boolean isAutoStore();
 
@@ -471,10 +475,10 @@ public interface TransactionContext {
     boolean isPersistent(final Object object);
 
     /**
-     * Returns true if the object is previously queried/loaded/update/create in
+     * Returns true if the object has been previously queried/loaded/updated/created in
      * this transaction.
      * 
-     * @param object The object.
+     * @param object The object to investigate.
      * @return <code>true</code> if recorded in this transaction.
      */
     boolean isRecorded(final Object object);

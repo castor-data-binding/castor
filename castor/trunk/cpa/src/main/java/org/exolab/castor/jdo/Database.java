@@ -384,6 +384,9 @@ public interface Database {
      * transaction. If it is turn off, only dependent object will 
      * be created automatically.
      * @return True if the current transaction is set to 'autoStore'.
+     * 
+     * @deprecated As of Castor 1.3.2, please use the 'cascading' attribute 
+     *         of the field mapping instead.
      */
     boolean isAutoStore();
 
@@ -398,7 +401,7 @@ public interface Database {
      * theDataObject.
      * <p>
      * If db.update( theDataObject ), and theDataObject is
-     * loaded/queuied/created in a previous transaction, Castor
+     * loaded/queried/created in a previous transaction, Castor
      * will let theDataObject, and all reachable object from
      * theDataObject, participate in the current transaction.
      * <p>
@@ -406,6 +409,9 @@ public interface Database {
      * dependent object, and related objects must be created/update 
      * explicitly.
      * @param autoStore True if this feature should be enabled.
+     * 
+     * @deprecated As of Castor 1.3.2, please use the 'cascading' attribute 
+     *         of the field mapping instead.
      */
     void setAutoStore(boolean autoStore);
 
