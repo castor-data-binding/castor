@@ -40,18 +40,8 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public final class PersistanceCapableRelationResolver implements ResolverStrategy {
+public final class PersistanceCapableRelationResolver extends BaseRelationResolver {
 
-    /**
-     * Class molder of the enclosing class.
-     */
-    private final ClassMolder _classMolder;
-
-    /**
-     * Field molder for the field to be resolved.
-     */
-    private final FieldMolder _fieldMolder;
-    
     private final int _fieldIndex;
    
     /**
@@ -62,8 +52,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      */
     public PersistanceCapableRelationResolver(final ClassMolder classMolder,
             final FieldMolder fieldMolder, final int fieldIndex) {
-        _classMolder = classMolder;
-        _fieldMolder = fieldMolder;
+        super(classMolder, fieldMolder);
         _fieldIndex = fieldIndex;
     }
     
@@ -117,7 +106,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                                 + " new master: " + oid);
                     }
                 }
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingCreate(tx)) {
                 if (!tx.isRecorded(o)) {
                     tx.markCreate(fieldClassMolder, o, null);
                     if (!_fieldMolder.isStored() && fieldClassMolder.isKeyGenUsed()) {
@@ -208,7 +197,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     tx.markCreate(fieldClassMolder, value, oid);
                 }
 
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingCreate(tx)) {
                 if (curIdentity != null) {
                     Object deref = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (deref != null) {
@@ -289,7 +278,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                 tx.load(nfield, proposedValue, suggestedAccessMode);
             }
-        } else if (tx.isAutoStore()) {
+        } else if (isCascadingUpdate(tx)) {
             if ((o != null) && !tx.isRecorded(o)) {
                 tx.markUpdate(fieldClassMolder, o, null);
             }
@@ -336,7 +325,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         if (identity != null) {
             Object fetched = tx.fetch(fieldClassMolder, identity, null);
             if (fetched != null) {
-                if (_fieldMolder.isDependent()) {
+            	//TODO: changed by ASE team to implement cascading delete... please verify!
+                if (_fieldMolder.isDependent() || isCascadingDelete()) {
                     tx.delete(fetched);
                 } else {
                     // delete the object from the other side of the relation
@@ -345,7 +335,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             }
         }
         
-        if (_fieldMolder.isDependent()) {
+        //TODO: changes done by ASE team... please verify
+        if (_fieldMolder.isDependent() || isCascadingDelete()) {
             Object fobject = _fieldMolder.getValue(object, tx.getClassLoader());
             if ((fobject != null) && tx.isPersistent(fobject)) {
                 tx.delete(fobject);
@@ -496,7 +487,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 //    throw new PersistenceException(
                 //            "Dependent object may not change its master. Object: " + o
                 //            + " new master: " + oid);
-            } else if (tx.isAutoStore()) {
+            } else if (isCascadingUpdate(tx)) {
                 if (!tx.isRecorded(o)) {
                     // related object should be created right the way, if autoStore
                     // is enabled, to obtain a database lock on the row. If both side
