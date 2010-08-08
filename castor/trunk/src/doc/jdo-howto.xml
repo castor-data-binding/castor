@@ -41,12 +41,21 @@
             </ul>
         </section>
 
-        <section title="Core fatures">
+        <section title="Core features">
             <ul>
                 <li><a href="how-to-use-a-cache.html">How to use a cache</a></li>
                 <li><a href="how-to-map-enums.html">How to map enums</a></li>
                 <li><a href="how-to-connection-proxies.html">How to log SQL statements</a></li>
             </ul>
+        </section>
+        
+        <section title="Cascading">
+        	<ul>
+                <li><a href="how-to-use-cascading-operations.html">How to use cascading operations - overview</a></li>
+        		<li><a href="how-to-cascade-creation.html">How to use cascading on object creation</a></li>
+        		<li><a href="how-to-cascade-deletion.html">How to cascading on object deletion</a></li>
+        		<li><a href="how-to-cascade-update.html">How to cascading on object updates</a></li>
+	        </ul>
         </section>
 
         <section title="Caches">
