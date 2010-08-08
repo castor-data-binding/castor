@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-cascading-operations.xml">
+	<properties>
+		<title>How to cascade creation</title>
+		<abstract>
+			Describes the various possibilities Castor provides to cascade object creation
+		</abstract>
+		<status>Draft</status>
+	</properties>
+	<body>
+		<title>How to cascade object creation</title>
+		<header>
+		</header>
+
+		<section title="Overview">
+
+			<p>Cascading creation allows you to transfer some of the responsibilities of creating objects to Castor JDO.
+			  To be more precise: if you enable cascading creation on a relation between two classes, all objects on 
+              one end of that relation that have not yet been created will be created when the other end gets persisted.
+			  This saves you from manually creating every single object, which is especially useful when dealing with
+			  large object graphs that have 1:M (one to many) relations or many objects in a single relationship.</p>			  
+
+		</section>
+
+		<section title="Enabling cascading creation">
+
+			<p>
+                To enable cascading creation on a relation, you simply set the cascading 
+                attribute of the &lt;sql&gt; field describing the relation to "create" 
+                (or "all"):
+            </p>
+
+            <p>
+                In other words, the field mapping for the Java property <i>book</i> ...
+            </p>
+            
+			<code-panel><![CDATA[
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" />
+</field>
+]]></code-panel>
+
+            <p>
+                becomes
+            </p>
+
+            <code-panel><![CDATA[
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" cascading="create" />
+</field>
+]]></code-panel>
+
+            <p>
+                In case of bidirectional relations, it does matters on which 
+                end you enable cascading creation. It is also possible to 
+                enable it on both ends.
+            </p>
+
+		</section>
+
+		<section title="Scenarios">
+
+			<section title="db.create()">
+
+				<p>
+                    The most intuitive case is when you explicitly call <tt>db.create()</tt> 
+                    on an object that has cascading creation enabled on one or more of his 
+                    relations. If the objects in those relationships have not yet been 
+                    created, they will be as part of the <tt>create()</tt> execution.
+                </p>
+
+				<p>
+                    Here is a simple example, where the objects Author and Book are in a 
+                    one-to-one relation (i.e. every Book has exactly one Author):
+                </p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Author author = new Author();
+author.setId(1);
+author.setName("John Jackson");
+
+Book book = new Book();
+book.setId(1);
+book.setTitle("My Life");
+book.setAuthor(author);
+
+db.create(book);
+
+db.commit();]]></code-panel>
+
+                <p>
+                    Once the commit operation has successfully completed, both the 
+                    <tt>Author</tt> and the <tt>Book</tt> instance will have been persisted to your 
+                    data store. To highlight this, lets's have a look at the 
+                    corresponding database tables <b>before</b> and <b>after</b>
+                    the execution of above code fragment.
+                </p>
+
+				<p><b>Before</b></p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="2">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+                
+                <br/>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="3">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p><b>After</b></p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+                
+                <br/>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>1</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+			</section>
+
+			<section title="db.commit()">
+
+				<p>
+                    Cascading creation also works implicitly: any objects that are on the 
+                    receiving end of a cascaded relation will be created upon transaction commit, 
+                    provided they do not exist yet and that the object on the primary end of that 
+                    relation does. In other words: if you modify a relation property of a 
+                    loaded object, any new objects that now need to be created will be created.
+                </p>
+
+				<p>
+                    To demonstrate, let's continue the example from the previous section.
+				    We, again, have a <tt>Book</tt> and an <tt>Author</tt>, in a one-to-one relation, both already 
+                    persisted. If we now change the book's author to someone new, any object that 
+                    is not yet in the database will be persisted automatically. Just call db.commit()
+                    after setting the new author, and the new author will be persisted as 
+                    well.
+                </p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Author author = new Author();
+author.setId(2);
+author.setName("Bruce Willis");
+
+Book book = db.load(Book.class, 1);
+book.setAuthor(author);
+
+db.commit();]]></code-panel>
+
+                <p>
+                    In terms of unit test assertions, the current state of the author and 
+                    book instances can be expressed as follows:
+                </p>
+                
+                <code-panel>
+db.begin();
+
+Book book = db.load(Book.class, 1);
+assertNotNull(book);
+assertEquals(1, book.getId());
+
+Author author = book.getAuthor();
+<b>assertNotNull</b>(author);
+assertEquals(<b>2</b>, book.getId());
+
+db.commit();</code-panel>
+                
+                <p>
+                    As above, let's have a look at the corresponding database tables
+                    for the entities <tt>Author</tt> and <tt>Book</tt>: 
+                </p>
+
+				<p><b>Before</b></p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+                
+                <br/>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>1</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p><b>After</b></p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Bruce Willis"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+                
+                <br/>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>2</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+                
+                <p>
+                    Please note that we now have two authors stored, and that the book with
+                    an id value of '1' now has a foreign key relationship to the author with the 
+                    id value '2'.
+                </p>
+
+			</section>
+
+			<section title="Cascading create and collections">
+
+				<p>
+                    The real benefit of using cascading for object creation shows when dealing 
+                    with 1:M relations, usually expressed through Java collections in your 
+                    entity classes.
+                </p>
+
+				<p>
+                    For the remainder of this secction, we will use the Java classes <tt>Department</tt>
+                    and <tt>Employee</tt>, which have a 1:M relationship (in other words, every 
+                    department has one or more employees). On the Java side, this is expressed as the 
+                    <tt>Department</tt> having a collection of <tt>Employee</tt> objects in form of a 
+                    Java collection. In the database, this will obviously be the other way around, 
+                    with the <tt>emp</tt> table referencing the <tt>dept</tt> table. Every example 
+                    in this section will use the same database state as a starting point, as shown 
+                    here:
+                </p>
+				
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>dept</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Accounting"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>emp</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">dept_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p><b>Example 1: Adding objects</b></p>
+
+				<code-panel>
+db.begin();
+
+Employee employee = new Employee();
+employee.setId(4);
+employee.setName("George");
+
+Department department = db.load(Department.class, 23);
+department.getEmployees().add(employee);
+
+db.commit();</code-panel>
+			
+				<p><b>After</b></p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>dept</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Accounting"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>emp</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">dept_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>"George"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<p><b>Example 2: Removing objects</b></p>
+				
+				<code-panel>
+db.begin();
+
+Department department = db.load(Department.class, 23);
+department.getEmployees().remove(2);
+
+db.commit();</code-panel>
+			
+				<p><b>After</b></p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>dept</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Accounting"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>emp</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">dept_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>NULL</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>				
+				
+				<p>
+                    Note: this of course only works if you allow the employee's foreign 
+                    key <tt>dept_id</tt> to be <b>NULL</b> or, alternatively, also 
+                    delete the Employee when you remove the relationship (either by 
+                    manually calling db.remove() or <b>TODO</b>)
+                </p>
+				
+				<p><b>Example 3: Adding &amp; removing objects</b></p>
+				
+				<code-panel><![CDATA[
+db.begin();
+
+Employee e4 = new Employee();
+e4.setId(4);
+e4.setName("George");
+
+Employee e5 = new Employee();
+e5.setId(5);
+e5.setName("Joe");
+
+Employee e6 = new Employee();
+e6.setId(6);
+e6.setName("Jack");
+
+Department dep = db.load(Department.class, 23);
+dep.setEmployees(Arrays.asList(e4, e5, e6));
+
+db.commit();]]></code-panel>
+			
+				<p>Database after:</p>
+			
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>dept</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>23</td>
+									<td>"Accounting"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>emp</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+									<th align="left">dept_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John"</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>"Paul"</td>
+									<td>NULL</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>3</td>
+									<td>"Ringo"</td>
+									<td>NULL</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>"George"</td>
+									<td>23</td>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>5</td>
+									<td>"Joe"</td>
+									<td>23</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>"Jack"</td>
+									<td>23</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>				
+				
+				<p>The note to example 2 also applies here.</p>
+				
+			</section>
+				
+		</section>
+
+		<section title="See also">
+
+			<ul>
+				<li>
+					<a href="how-to-use-cascading-operations.html">How to use cascading operations - overview</a>
+				</li>
+			</ul>
+
+		</section>
+
+
+	</body>
+</document>
