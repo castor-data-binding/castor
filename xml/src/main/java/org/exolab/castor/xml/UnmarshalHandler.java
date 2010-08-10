@@ -80,6 +80,7 @@ import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.SAX2ANY;
@@ -246,19 +247,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private boolean _strictAttributes = false;
 
     /**
-     * A boolean that indicates element processing should
-     * be strict and an error should be flagged if any
-     * extra elements exist.
-    **/
-    private boolean _strictElements = true;
-
-    /**
-     * A depth counter that increases as we skip elements ( in startElement )
-     * and decreases as we process and endElement. Only active if _strictElemnts
-     */
-    private int     _ignoreElementDepth = 0;
-
-    /**
      * A flag to keep track of when a new namespace scope is needed.
      */
     private boolean _createNamespaceScope = true;
@@ -279,6 +267,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * The top-level xml:space value.
      */
     private boolean _wsPreserve = false;
+    
+    /**
+     * {@link StrictElementHandler} that deals with (potentially) ignorable content.
+     */
+    private StrictElementHandler _strictElementHandler = new StrictElementHandler();
     
     //----------------/
     //- Constructors -/
@@ -429,7 +422,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * allow non-matched attributes to simply be ignored.
     **/
     public void setIgnoreExtraElements(boolean ignoreExtraElems) {
-        _strictElements = (!ignoreExtraElems);
+        _strictElementHandler.setIgnoreExtraElements(ignoreExtraElems);
     } //-- setIgnoreExtraElements
 
     /**
@@ -541,7 +534,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, skip the text and return
-        if ( _ignoreElementDepth > 0) {
+        if (_strictElementHandler.skipElement()) {
             return;
         }
 
@@ -637,9 +630,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, decrease the ignore depth counter and return
-        if ( _ignoreElementDepth > 0) {
-            --_ignoreElementDepth;
-            return;
+        if (_strictElementHandler.skipEndElement()) {
+        	return;
         }
 
         //-- Do delagation if necessary
@@ -1206,7 +1198,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, skip the text and return
-        if ( _ignoreElementDepth > 0) {
+        if (_strictElementHandler.skipElement()) {
             return;
         }
 
@@ -1285,9 +1277,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, increase the ignore depth counter and return
-        if ((!_strictElements) && (_ignoreElementDepth > 0)) {
-            ++_ignoreElementDepth;
-            return;
+        if(_strictElementHandler.skipStartElement()) {
+        	return;
         }
 
         //-- if we are in an <any> section
@@ -1458,9 +1449,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, increase the ignore depth counter and return
-        if ((!_strictElements) && (_ignoreElementDepth > 0)) {
-            ++_ignoreElementDepth;
-            return;
+        if (_strictElementHandler.skipStartElement()) {
+        	return;
         }
 
         //-- if we are in an <any> section
@@ -2007,8 +1997,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 getInternalContext()
                 .getBooleanProperty(XMLProperties.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
                 .booleanValue();
-            if (! _strictElements) {
-                ++_ignoreElementDepth;
+            if (_strictElementHandler.skipStartElement()) {
                 //-- remove the StateInfo we just added
                 _stateInfo.pop();
                 // drop Namespace instance as well
