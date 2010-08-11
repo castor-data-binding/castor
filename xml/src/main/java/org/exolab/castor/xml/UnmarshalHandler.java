@@ -61,13 +61,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
+import org.castor.core.util.StringUtil;
 import org.castor.xml.InternalContext;
 import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLProperties;
@@ -80,6 +80,7 @@ import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.ContainerElement;
@@ -94,8 +95,6 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import org.castor.core.util.StringUtil;
 
 /**
  * An unmarshaller to allowing unmarshaling of XML documents to
@@ -156,7 +155,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     //- Private Member Variables -/
     //----------------------------/
 
-    private Stack            _stateInfo    = null;
     private UnmarshalState   _topState     = null;
     private Class            _topClass     = null;
 
@@ -273,6 +271,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private StrictElementHandler _strictElementHandler = new StrictElementHandler();
     
+    /**
+     * {@link UnmarshalStateStack} that saves UnmarshalStates on a stack.
+     */
+    private UnmarshalStateStack _stateStack = new UnmarshalStateStack();
+    
     //----------------/
     //- Constructors -/
     //----------------/
@@ -302,7 +305,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     protected UnmarshalHandler(final InternalContext internalContext, final Class<?> topClass) {
         super(internalContext);
-        _stateInfo          = new Stack();
         _idResolver         = new IDResolverImpl();
         _javaPackages       = new HashMap();
         _topClass           = topClass;
@@ -332,13 +334,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * current element is a simpleType.
      */
     public Object getCurrentObject() {
-        if (!_stateInfo.isEmpty()) {
-            UnmarshalState state = (UnmarshalState)_stateInfo.peek();
-            if (state != null)  {
-                return state._object;
-            }
-        }
-        return null;
+    	if (!_stateStack.isEmpty()) {
+			UnmarshalState state = _stateStack.getLastState();
+			if (state != null) {
+				return state._object;
+			}
+		}
+		return null;
     } //-- getCurrentObject
 
     /**
@@ -538,13 +540,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
 
-        if (_stateInfo.empty()) {
+        if (_stateStack.isEmpty()) {
             return;
         }
         if (_anyUnmarshaller != null)
            _anyUnmarshaller.characters(ch, start, length);
         else {
-             UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+             UnmarshalState state = _stateStack.getLastState();
              //-- handle whitespace
              boolean removedTrailingWhitespace = false;
              boolean removedLeadingWhitespace = false;
@@ -646,7 +648,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             else return;
         }
 
-        if (_stateInfo.empty()) {
+        if (_stateStack.isEmpty()) {
             throw new SAXException("missing start element: " + name);
         }
 
@@ -659,7 +661,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
          }
         //-- * End Namespace Handling
 
-        UnmarshalState state = (UnmarshalState) _stateInfo.pop();
+        UnmarshalState state = _stateStack.removeLastState();
 
         //-- make sure we have the correct closing tag
         XMLFieldDescriptor descriptor = state._fieldDesc;
@@ -668,7 +670,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             //maybe there is still a container to end
             if (descriptor.isContainer()) {
-                _stateInfo.push(state);
+                _stateStack.pushState(state);
                 //-- check for possible characters added to
                 //-- the container's state that should
                 //-- really belong to the parent state
@@ -685,7 +687,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 endElement(state._elementName);
                 
                 if (tmpBuffer != null) {
-                    state = (UnmarshalState) _stateInfo.peek();
+                    state = _stateStack.getLastState();
                     if (state._buffer == null)
                         state._buffer = tmpBuffer;
                     else
@@ -874,7 +876,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             //-- Handle references
             else if (descriptor.isReference()) {
-                UnmarshalState pState = (UnmarshalState) _stateInfo.peek();
+                UnmarshalState pState = _stateStack.getLastState();
                 processIDREF(state._buffer.toString(), descriptor, pState._object);
                 _namespaces = _namespaces.getParent();
                 return;
@@ -898,7 +900,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
         //-- if we are at root....just validate and we are done
-         if (_stateInfo.empty()) {
+         if (_stateStack.isEmpty()) {
              if (isValidating()) {
                 ValidationException first = null;
                 ValidationException last = null;
@@ -966,7 +968,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         boolean firstOccurance = false;
 
         //-- get target object
-        state = (UnmarshalState) _stateInfo.peek();
+        state = _stateStack.getLastState();
         if (state._wrapper) {
             state = fieldState._targetState;
         }
@@ -984,8 +986,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 err.append("\" occurs more than once. (parent class: " + state._type.getName() + ")");
                 
                 String location = name;
-                while (!_stateInfo.isEmpty()) {
-                    UnmarshalState tmpState = (UnmarshalState)_stateInfo.pop();
+                while (!_stateStack.isEmpty()) {
+                    UnmarshalState tmpState = _stateStack.removeLastState();
                     if (!tmpState._wrapper) {
                         if (tmpState._fieldDesc.isContainer()) continue;
                     }
@@ -1202,14 +1204,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
 
-        if (_stateInfo.empty()) {
+        if (_stateStack.isEmpty()) {
             return;
         }
         
         if (_anyUnmarshaller != null)
            _anyUnmarshaller.ignorableWhitespace(ch, start, length);
         else {
-             UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+             UnmarshalState state = _stateStack.getLastState();
              if (state._wsPreserve) {
                 if (state._buffer == null) state._buffer = new StringBuffer();
                 state._buffer.append(ch, start, length);
@@ -1528,7 +1530,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
         }
 
-        if (_stateInfo.empty()) {
+        if (_stateStack.isEmpty()) {
             //-- Initialize since this is the first element
 
             if (_topClass == null) {
@@ -1715,7 +1717,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 _topState._object = _topObject;
             }
             
-            _stateInfo.push(_topState);
+            _stateStack.pushState(_topState);
             
             if (!_topState._primitiveOrImmutable) {
                 //--The top object has just been initialized
@@ -1739,7 +1741,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
         //-- get MarshalDescriptor for the given element
-        UnmarshalState parentState = (UnmarshalState)_stateInfo.peek();
+        UnmarshalState parentState = _stateStack.getLastState();
 
         //Test if we can accept the field in the parentState
         //in case the parentState fieldDesc is a container
@@ -1774,7 +1776,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                 }
                 endElement(parentState._elementName);
-                parentState = (UnmarshalState)_stateInfo.peek();
+                parentState = _stateStack.getLastState();
             }
             tempClassDesc = null;
         }
@@ -1793,7 +1795,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         else
             state._wsPreserve = parentState._wsPreserve;
         
-        _stateInfo.push(state);
+        _stateStack.pushState(state);
 
         //-- make sure we should proceed
         if (parentState._object == null) {
@@ -1999,7 +2001,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 .booleanValue();
             if (_strictElementHandler.skipStartElement()) {
                 //-- remove the StateInfo we just added
-                _stateInfo.pop();
+                _stateStack.removeLastState();
                 // drop Namespace instance as well
                 _namespaces = _namespaces.getParent();
                 if (LOG.isDebugEnabled()) {
@@ -2724,7 +2726,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
 
-        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+        UnmarshalState state = _stateStack.getLastState();
         Object object = state._object;
 
         if (classDesc == null) {
@@ -2833,12 +2835,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor == null) {
                 //-- check for nested attribute...loop through
                 //-- stack and find correct descriptor
-                int pIdx = _stateInfo.size() - 2; //-- index of parentState
                 String path = state._elementName;
                 StringBuffer pathBuf = null;
-                while (pIdx >= 0) {
-                    UnmarshalState targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
-                    --pIdx;
+                while (_stateStack.hasAnotherParentState()) {
+                	UnmarshalState targetState = _stateStack.removeParentState();
                     if (targetState._wrapper) {
                         //path = targetState.elementName + "/" + path;
                         pathBuf = resetStringBuffer(pathBuf);
@@ -2919,7 +2919,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private void processWrapperAttributes(final AttributeSet atts)
         throws SAXException {
         
-        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+        UnmarshalState state = _stateStack.getLastState();
         
         //-- loop through attributes and look for the
         //-- ancestor objects that they may belong to
@@ -2936,13 +2936,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             XMLClassDescriptor classDesc = null;
             //-- check for nested attribute...loop through
             //-- stack and find correct descriptor
-            int pIdx = _stateInfo.size() - 2; //-- index of parentState
             String path = state._elementName;
             StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
-            while (pIdx >= 0) {
-                targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
-                --pIdx;
+            while (_stateStack.hasAnotherParentState()) {
+                targetState = _stateStack.removeParentState();
                 if (targetState._wrapper) {
                     pathBuf = resetStringBuffer(pathBuf);
                     pathBuf.append(targetState._elementName);
@@ -3053,7 +3051,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
 
             //-- save key in current state
-            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+            UnmarshalState state = _stateStack.getLastState();
             state._key = attValue;
 
             //-- resolve waiting references
@@ -3395,7 +3393,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             classDesc.getFieldDescriptor(null, null, NodeType.Namespace);
 
         if (nsDescriptor != null) {
-            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+            UnmarshalState state = _stateStack.getLastState();
             FieldHandler handler = nsDescriptor.getHandler();
             if (handler != null) {
                 Enumeration enumeration = _namespaces.getLocalNamespacePrefixes();
@@ -3706,7 +3704,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         	StringBuffer err = new StringBuffer();
             err.append("The following error occured while trying to ");
             err.append("unmarshal field " + fieldDesc.getFieldName());
-            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+            UnmarshalState state = _stateStack.getLastState();
             if (state != null) {
                 if (state._object != null) {
                 	err.append(" of class " + state._object.getClass().getName());
