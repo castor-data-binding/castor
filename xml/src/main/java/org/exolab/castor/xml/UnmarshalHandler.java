@@ -82,6 +82,7 @@ import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
+import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.SAX2ANY;
@@ -181,11 +182,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     **/
     private IDResolver _idResolver = null;
 
-   /**
-    * The unmarshaller listener.
-    */
-    private org.castor.xml.UnmarshalListener _unmarshalListener = null;
-    
     /**
      * A flag indicating whether or not to perform validation.
      **/
@@ -275,6 +271,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * {@link UnmarshalStateStack} that saves UnmarshalStates on a stack.
      */
     private UnmarshalStateStack _stateStack = new UnmarshalStateStack();
+    
+    
+    /**
+     * {@link UnmarshalListenerDelegate} that deals with UnmarshalListener calls.
+     */
+    private UnmarshalListenerDelegate _delegateUnmarshalListener = new UnmarshalListenerDelegate();
     
     //----------------/
     //- Constructors -/
@@ -475,13 +477,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @deprecated please move to the new {@link org.castor.xml.UnmarshalListener} interface
      */
     public void setUnmarshalListener (org.exolab.castor.xml.UnmarshalListener listener) {
-        if (listener == null) {
-            listener = null;
-        } else {
-            UnmarshalListenerAdapter adapter = new UnmarshalListenerAdapter();
-            adapter.setOldListener(listener);
-            _unmarshalListener = adapter;
-        }
+    	_delegateUnmarshalListener.setUnmarshalListener(listener);
     }
 
     /**
@@ -491,7 +487,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * of the UnmarshalHandler.
      */
     public void setUnmarshalListener (org.castor.xml.UnmarshalListener listener) {
-        _unmarshalListener = listener;
+    	_delegateUnmarshalListener.setUnmarshalListener(listener);
     }
 
     /**
@@ -894,10 +890,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- We're finished processing the object, so notify the
         //-- Listener (if any).
-        if (_unmarshalListener != null && state._object != null) {
-            _unmarshalListener.unmarshalled(state._object, 
-                    (state._parent == null) ? null : state._parent._object);
-        }
+        Object stateObject = state._object;
+		Object parentObject = (state._parent == null) ? null
+				: state._parent._object;
+        _delegateUnmarshalListener.unmarshalled(stateObject, parentObject);
 
         //-- if we are at root....just validate and we are done
          if (_stateStack.isEmpty()) {
@@ -1073,9 +1069,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         
                         // If there is a parent for this object, pass along
                         // a notification that we've finished adding a child
-                        if ( _unmarshalListener != null ) {
-                            _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
-                        }
+                        _delegateUnmarshalListener.fieldAdded(descriptor
+								.getFieldName(), state._object,
+								fieldState._object);
                     }
                 } else {
                 
@@ -1084,9 +1080,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
                     // If there is a parent for this object, pass along
                     // a notification that we've finished adding a child
-                    if ( _unmarshalListener != null ) {
-                        _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
-                    }
+                    _delegateUnmarshalListener.fieldAdded(descriptor
+							.getFieldName(), state._object, fieldState._object);
                 }                
             }
 
@@ -1722,12 +1717,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (!_topState._primitiveOrImmutable) {
                 //--The top object has just been initialized
                 //--notify the listener
-                if ( _unmarshalListener != null )
-                    _unmarshalListener.initialized(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
-                    
+            	Object stateObject = _topState._object;
+				Object parentObject = (_topState._parent == null) ? null
+						: _topState._parent._object;
+				
+				_delegateUnmarshalListener.initialized(stateObject, parentObject);  
                 processAttributes(atts, classDesc);
-                if ( _unmarshalListener != null )
-                    _unmarshalListener.attributesProcessed(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
+                _delegateUnmarshalListener.attributesProcessed(stateObject,
+						parentObject);
                 processNamespaces(classDesc);
             }
             
@@ -2410,11 +2407,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (state._object != null) {
             //--The object has just been initialized
             //--notify the listener
-            if ( _unmarshalListener != null )
-                _unmarshalListener.initialized(state._object, (state._parent==null)?null:state._parent._object);
+        	Object stateObject = state._object;
+			Object parentObject = (state._parent == null) ? null
+					: state._parent._object;
+			_delegateUnmarshalListener.initialized(stateObject, parentObject);
             processAttributes(atts, classDesc);
-            if ( _unmarshalListener != null )
-                _unmarshalListener.attributesProcessed(state._object, (state._parent==null)?null:state._parent._object);
+            _delegateUnmarshalListener.attributesProcessed(stateObject,
+					parentObject);
             processNamespaces(classDesc);
         }
         else if ((state._type != null) && (!state._primitiveOrImmutable)) {
