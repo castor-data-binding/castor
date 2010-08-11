@@ -80,6 +80,7 @@ import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.parsing.AnyNodeUnmarshalHandler;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
@@ -197,16 +198,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         = new StringClassDescriptor();
 
     /**
-     * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}.
-     */
-     private SAX2ANY _anyUnmarshaller = null;
-
-    /**
-     * The any branch depth.
-     */
-    private int _depth = 0;
-
-    /**
      * The AnyNode to add (if any).
      */
      private org.exolab.castor.types.AnyNode _node = null;
@@ -246,12 +237,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private boolean _createNamespaceScope = true;
     
     /**
-     * Keeps track of the current element information
-     * as passed by the parser.
-     */
-    private ElementInfo _elemInfo = null;
-    
-    /**
      * A "reusable" AttributeSet, for use when handling
      * SAX 2 ContentHandler.
      */
@@ -278,6 +263,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private UnmarshalListenerDelegate _delegateUnmarshalListener = new UnmarshalListenerDelegate();
     
+    private AnyNodeUnmarshalHandler _anyNodeHandler = null;
+
     //----------------/
     //- Constructors -/
     //----------------/
@@ -312,6 +299,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _topClass           = topClass;
         _namespaces         = new Namespaces();
         _namespaceToPackage = new HashMap();
+        _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaces);
     }
     
     /**
@@ -539,88 +527,84 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_stateStack.isEmpty()) {
             return;
         }
-        if (_anyUnmarshaller != null)
-           _anyUnmarshaller.characters(ch, start, length);
-        else {
-             UnmarshalState state = _stateStack.getLastState();
-             //-- handle whitespace
-             boolean removedTrailingWhitespace = false;
-             boolean removedLeadingWhitespace = false;
-             if (!state._wsPreserve) {
-                //-- trim leading whitespace characters
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+            _anyNodeHandler.characters(ch, start, length);
+            return;
+        }
+        
+        UnmarshalState state = _stateStack.getLastState();
+        //-- handle whitespace
+        boolean removedTrailingWhitespace = false;
+        boolean removedLeadingWhitespace = false;
+        if (!state._wsPreserve) {
+            //-- trim leading whitespace characters
+            while (length > 0) {
+                boolean whitespace = false;
+                switch(ch[start]) {
+                case ' ':
+                case '\r':
+                case '\n':
+                case '\t':
+                    whitespace = true;
+                    break;
+                default:
+                    break;
+                }
+                if (!whitespace) break;
+                removedLeadingWhitespace = true;
+                ++start;
+                --length;
+            }
+
+            if (length == 0) {
+                //-- we also need to mark trailing whitespace removed
+                //-- when we received only whitespace characters
+                removedTrailingWhitespace = removedLeadingWhitespace;
+            } else {
+                //-- trim trailing whitespace characters
                 while (length > 0) {
                     boolean whitespace = false;
-                    switch(ch[start]) {
-                        case ' ':
-                        case '\r':
-                        case '\n':
-                        case '\t':
-                        	whitespace = true;
-                            break;
-                        default:
-                            break;
+                    switch(ch[start+length-1]) {
+                    case ' ':
+                    case '\r':
+                    case '\n':
+                    case '\t':
+                        whitespace = true;
+                        break;
+                    default:
+                        break;
                     }
                     if (!whitespace) break;
-                    removedLeadingWhitespace = true;
-                    ++start;
+                    removedTrailingWhitespace = true;
                     --length;
                 }
-                
-                if (length == 0) {
-                    //-- we also need to mark trailing whitespace removed
-                    //-- when we received only whitespace characters
-                    removedTrailingWhitespace = removedLeadingWhitespace;
-                }
-                else {
-                    //-- trim trailing whitespace characters
-                    while (length > 0) {
-                        boolean whitespace = false;
-                        switch(ch[start+length-1]) {
-                            case ' ':
-                            case '\r':
-                            case '\n':
-                            case '\t':
-                                whitespace = true;
-                                break;
-                            default:
-                                break;
-                        }
-                        if (!whitespace) break;
-                        removedTrailingWhitespace = true;
-                        --length;
-                    }
-                }
-             }
-             
-             if (state._buffer == null) state._buffer = new StringBuffer();
-             else {
-                //-- non-whitespace content exists, add a space
-                if ((!state._wsPreserve) && (length > 0)) {
-                	if (state._trailingWhitespaceRemoved || removedLeadingWhitespace)
-                    {
-                		state._buffer.append(' ');
-                    }
-                }
-             }
-             state._trailingWhitespaceRemoved = removedTrailingWhitespace;
-             state._buffer.append(ch, start, length);
+            }
         }
+
+        if (state._buffer == null) {
+            state._buffer = new StringBuffer();
+        } else {
+            //-- non-whitespace content exists, add a space
+            if ((!state._wsPreserve) && (length > 0)) {
+                if (state._trailingWhitespaceRemoved || removedLeadingWhitespace)
+                {
+                    state._buffer.append(' ');
+                }
+            }
+        }
+        state._trailingWhitespaceRemoved = removedTrailingWhitespace;
+        state._buffer.append(ch, start, length);
     } //-- characters
 
 
-    public void endDocument()
-        throws org.xml.sax.SAXException
-    {
+    public void endDocument() throws org.xml.sax.SAXException {
         //-- I've found many application don't always call
         //-- #endDocument, so I usually never put any
         //-- important logic here
-
     } //-- endDocument
 
 
-    public void endElement(String name)
-        throws org.xml.sax.SAXException
-    {
+    public void endElement(String name) throws org.xml.sax.SAXException {
         
         if (LOG.isTraceEnabled()) {
         	LOG.trace("#endElement: " + name);
@@ -633,13 +617,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
         //-- Do delagation if necessary
-        if (_anyUnmarshaller != null) {
-            _anyUnmarshaller.endElement(name);
-            --_depth;
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+        	_anyNodeHandler.endElement(name);
             //we are back to the starting node
-            if (_depth == 0) {
-               _node = _anyUnmarshaller.getStartingNode();
-               _anyUnmarshaller = null;
+            if (_anyNodeHandler.isStartingNode()) {
+               _node = _anyNodeHandler.getStartingNode();
             }
             else return;
         }
@@ -1182,9 +1164,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- nothing to do , already taken care of in 
         //-- endElement except if we are unmarshalling an 
         //-- AnyNode
-        if (_anyUnmarshaller != null) {
-            _anyUnmarshaller.endPrefixMapping(prefix);
-        }
+    	if (_anyNodeHandler.hasAnyUnmarshaller()) {
+    		_anyNodeHandler.endPrefixMapping(prefix);
+		}
         
     } //-- endPrefixMapping
 
@@ -1203,9 +1185,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
         
-        if (_anyUnmarshaller != null)
-           _anyUnmarshaller.ignorableWhitespace(ch, start, length);
-        else {
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+            _anyNodeHandler.ignorableWhitespace(ch, start, length);
+        } else {
              UnmarshalState state = _stateStack.getLastState();
              if (state._wsPreserve) {
                 if (state._buffer == null) state._buffer = new StringBuffer();
@@ -1280,11 +1262,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- if we are in an <any> section
         //-- we delegate the event handling
-        if (_anyUnmarshaller != null) {
-            _depth++;
-           _anyUnmarshaller.startElement(namespaceURI, localName, qName, atts);
-           return;
-        }
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+        	_anyNodeHandler.startElement(namespaceURI, localName, qName, atts);
+			return;
+		}
         
         //-- Create a new namespace scope if necessary and
         //-- make sure the flag is reset to true
@@ -1368,16 +1349,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- else skip already processed in previous loop
             }
         }
-        
         //-- preserve parser passed arguments for any potential
         //-- delegation
-        if (_elemInfo == null) {
-            _elemInfo = new ElementInfo(null, atts);
-        }
-        else {
-            _elemInfo.clear();
-            _elemInfo._attributes = atts;
-        }
+        String tmpQName = null;
         
         if (StringUtil.isEmpty(localName)) {
             if (StringUtil.isEmpty(qName)) {
@@ -1385,25 +1359,26 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 throw new SAXException(error);
             }
             localName = qName;
-            _elemInfo._qName = qName;
+            tmpQName = qName;
         }
         else {
             if (StringUtil.isEmpty(qName)) {
                 if (StringUtil.isEmpty(namespaceURI)) {
-                    _elemInfo._qName = localName;
+                	tmpQName = localName;
                 }
                 else {
                     String prefix = _namespaces.getNamespacePrefix(namespaceURI);
                     if (StringUtil.isNotEmpty(prefix)) {
-                        _elemInfo._qName = prefix + ":" + localName;
+                    	tmpQName = prefix + ":" + localName;
                     }
                 }
                 
             }
             else {
-                _elemInfo._qName = qName;
+            	tmpQName = qName;
             }
         }
+        _anyNodeHandler.preservePassedArguments(tmpQName, atts);
         
         int idx = localName.indexOf(':');
         if (idx >= 0) {
@@ -1452,20 +1427,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- if we are in an <any> section
         //-- we delegate the event handling
-        if (_anyUnmarshaller != null) {
-            _depth++;
-           _anyUnmarshaller.startElement(name,attList);
-           return;
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+        	_anyNodeHandler.startElement(name, attList);
+			return;
         }
         
-        if (_elemInfo == null) {
-            _elemInfo = new ElementInfo(name, attList);
-        }
-        else {
-            _elemInfo.clear();
-            _elemInfo._qName = name;
-            _elemInfo._attributeList = attList;
-        }
+        _anyNodeHandler.preservePassedArguments(name, attList);
         
         //-- The namespace of the given element
         String namespace = null;
@@ -2250,24 +2217,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
                 else {
                     //we are dealing with an AnyNode
-                    //1- creates a new SAX2ANY handler
-                    _anyUnmarshaller = new SAX2ANY(_namespaces, state._wsPreserve);
-                    //2- delegates the element handling
-                    if (_elemInfo._attributeList != null) {
-                        //-- SAX 1
-                        _anyUnmarshaller.startElement(_elemInfo._qName, 
-                            _elemInfo._attributeList);
-                    }
-                    else {
-                        //-- SAX 2
-                        _anyUnmarshaller.startElement(namespace, name, _elemInfo._qName, 
-                            _elemInfo._attributes);
-                    }
-                    //first element so depth can only be one at this point
-                    _depth = 1;
-                    state._object = _anyUnmarshaller.getStartingNode();
-                    state._type = cls;
-                    //don't need to continue
+                	state._object = _anyNodeHandler.commonStartElement(name, namespace, state._wsPreserve);
+                	state._type = cls;
                      return;
                 }
             }
@@ -2472,8 +2423,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- Forward the call to SAX2ANY 
         //-- or create a namespace node
-        if (_anyUnmarshaller != null) {
-            _anyUnmarshaller.startPrefixMapping(prefix, uri);
+        if (_anyNodeHandler.hasAnyUnmarshaller()) {
+        	_anyNodeHandler.startPrefixMapping(prefix, uri);
         }
         else if (_createNamespaceScope) {
             _namespaces = _namespaces.createNamespaces();
@@ -3728,38 +3679,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public static Object toPrimitiveObject(final Class type, String value) {
 		return PrimitiveObjectFactory.getObject(type, value);
     }
-    
-    /**
-     * A utility class for keeping track of the
-     * qName and how the SAX parser passed attributes.
-     */
-    class ElementInfo {
-        private String _qName = null;
-        private Attributes _attributes = null;
-        private AttributeList _attributeList = null;
-        
-        ElementInfo() {
-            super();
-        }
-        
-        ElementInfo(String qName, Attributes atts) {
-            super();
-            _qName = qName;
-            _attributes = atts;
-        }
-        
-        ElementInfo(String qName, AttributeList atts) {
-            super();
-            _qName = qName;
-            _attributeList = atts;
-        }
-        
-        void clear() {
-            _qName = null;
-            _attributes = null;
-            _attributeList = null;
-        }
-    } //-- ElementInfo
     
     /**
      * Internal class used for passing constructor argument
