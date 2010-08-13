@@ -9,7 +9,7 @@ import org.xml.sax.SAXException;
 
 public class AnyNodeUnmarshalHandler {
 
-	private Namespaces _namespaces;
+	private NamespaceHandling _namespaceHandling;
 
 	/**
 	 * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}.
@@ -26,8 +26,8 @@ public class AnyNodeUnmarshalHandler {
 	 */
 	private ElementInfo _elemInfo = null;
 
-	public AnyNodeUnmarshalHandler(Namespaces namespaces) {
-		_namespaces = namespaces;
+	public AnyNodeUnmarshalHandler(NamespaceHandling namespaceHandling) {
+		_namespaceHandling = namespaceHandling;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class AnyNodeUnmarshalHandler {
 	public Object commonStartElement(String name, String namespace,
 			boolean wsPreserve) throws SAXException {
 		// 1- creates a new SAX2ANY handler
-		_anyUnmarshaller = new SAX2ANY(_namespaces, wsPreserve);
+		_anyUnmarshaller = new SAX2ANY(_namespaceHandling.getNamespaceContext(), wsPreserve);
 		// 2- delegates the element handling
 		if (_elemInfo._attributeList != null) {
 			// -- SAX 1
