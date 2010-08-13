@@ -69,7 +69,6 @@ import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
 import org.castor.core.util.StringUtil;
 import org.castor.xml.InternalContext;
-import org.castor.xml.UnmarshalListenerAdapter;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
@@ -81,12 +80,12 @@ import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
 import org.exolab.castor.xml.parsing.AnyNodeUnmarshalHandler;
-import org.exolab.castor.xml.parsing.UnmarshalStateStack;
+import org.exolab.castor.xml.parsing.NamespaceHandling;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
+import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.ContainerElement;
-import org.exolab.castor.xml.util.SAX2ANY;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.xml.sax.AttributeList;
@@ -203,16 +202,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      private org.exolab.castor.types.AnyNode _node = null;
 
     /**
-     * The namespace stack.
-     */
-    private Namespaces _namespaces = null;
-
-    /**
-     * A map of namespace URIs to Package Names.
-     */
-    private HashMap _namespaceToPackage = null;
-
-    /**
      * A reference to the ObjectFactory used to create instances
      * of the classes if the FieldHandler is not used.
      */
@@ -231,11 +220,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     **/
     private boolean _strictAttributes = false;
 
-    /**
-     * A flag to keep track of when a new namespace scope is needed.
-     */
-    private boolean _createNamespaceScope = true;
-    
     /**
      * A "reusable" AttributeSet, for use when handling
      * SAX 2 ContentHandler.
@@ -264,6 +248,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private UnmarshalListenerDelegate _delegateUnmarshalListener = new UnmarshalListenerDelegate();
     
     private AnyNodeUnmarshalHandler _anyNodeHandler = null;
+    
+    private NamespaceHandling _namespaceHandling = new NamespaceHandling();
 
     //----------------/
     //- Constructors -/
@@ -297,9 +283,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _idResolver         = new IDResolverImpl();
         _javaPackages       = new HashMap();
         _topClass           = topClass;
-        _namespaces         = new Namespaces();
-        _namespaceToPackage = new HashMap();
-        _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaces);
+        _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaceHandling);
     }
     
     /**
@@ -311,7 +295,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void addNamespaceToPackageMapping(String nsURI, String packageName) 
     {
-    	_namespaceToPackage.put(StringUtil.defaultString(nsURI), StringUtil.defaultString(packageName));
+    	_namespaceHandling.addNamespaceToPackageMapping(nsURI, packageName);
         
     } //-- addNamespaceToPackageMapping
 
@@ -725,7 +709,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             
             //-- remove current namespace scoping
-            _namespaces = _namespaces.getParent();
+            _namespaceHandling.removeCurrentNamespaceInstance();
             return;
         }
 
@@ -739,7 +723,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- is not a primitive or a byte[] we must simply return
         if ((state._object == null) && (!state._primitiveOrImmutable)) {
             //-- remove current namespace scoping
-            _namespaces = _namespaces.getParent();
+            _namespaceHandling.removeCurrentNamespaceInstance();
             return;
         }
         
@@ -856,7 +840,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             else if (descriptor.isReference()) {
                 UnmarshalState pState = _stateStack.getLastState();
                 processIDREF(state._buffer.toString(), descriptor, pState._object);
-                _namespaces = _namespaces.getParent();
+                _namespaceHandling.removeCurrentNamespaceInstance();
                 return;
             } else {
                 //-- check for non-whitespace...and report error
@@ -927,7 +911,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         if (descriptor.isIncremental()) {
             //-- remove current namespace scoping
-           _namespaces = _namespaces.getParent();
+        	_namespaceHandling.removeCurrentNamespaceInstance();
            return; //-- already added
         }
 
@@ -1001,7 +985,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //be resolved (ns:value -> {URI}value)
             String valueType = descriptor.getSchemaType();
             if ((valueType != null) && (valueType.equals(QNAME_NAME))) {
-                 val = resolveNamespace(val);
+                 val = _namespaceHandling.resolveNamespace(val);
             }
 
             boolean addObject = true;
@@ -1096,7 +1080,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
         //-- remove current namespace scoping
-        _namespaces = _namespaces.getParent();
+        _namespaceHandling.removeCurrentNamespaceInstance();
 
         // remove additional (artifical aka container) state introduced for single-valued (iow maxOccurs="1") choices.
         if (state._fieldDesc.isContainer() 
@@ -1143,7 +1127,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             qName = localName;
             if (StringUtil.isNotEmpty(namespaceURI)) {
                 //-- rebuild qName, for now
-                String prefix = _namespaces.getNamespacePrefix(namespaceURI);
+                String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
                 if (StringUtil.isEmpty(prefix))
                     qName = prefix + ":" + localName;
             }
@@ -1269,10 +1253,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- Create a new namespace scope if necessary and
         //-- make sure the flag is reset to true
-        if (_createNamespaceScope)
-            _namespaces = _namespaces.createNamespaces();
-        else
-            _createNamespaceScope = true;
+        if(_namespaceHandling.isNewNamespaceScopeNecessary())
+        	_namespaceHandling.startNamespaceScope();
+
             
         
         if (_reusableAtts == null) {
@@ -1298,11 +1281,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String attName = atts.getQName(i);
                 if (StringUtil.isNotEmpty(attName)) {
                     if (attName.equals(XMLNS)) {
-                        _namespaces.addNamespace("", atts.getValue(i));
+                        _namespaceHandling.addDefaultNamespace(atts.getValue(i));
                     }
                     else if (attName.startsWith(XMLNS_PREFIX)) {
                         String prefix = attName.substring(XMLNS_PREFIX.length());
-                        _namespaces.addNamespace(prefix, atts.getValue(i));
+                        _namespaceHandling.addNamespace(prefix, atts.getValue(i));
                     }
                     else {
                         //-- check for prefix
@@ -1318,7 +1301,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- attribute
                     attName = atts.getLocalName(i);
                     if (XMLNS.equals(attName)) {
-                        _namespaces.addNamespace("", atts.getValue(i));
+                    	_namespaceHandling.addDefaultNamespace(atts.getValue(i));
                     }
                     else {
                         _reusableAtts.setAttribute(attName, atts.getValue(i), atts.getURI(i));
@@ -1340,7 +1323,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                             attName = attName.substring(idx+1);
                             String nsURI = atts.getURI(i);
                             if (StringUtil.isEmpty(nsURI)) {
-                                nsURI = _namespaces.getNamespaceURI(prefix);
+                                nsURI = _namespaceHandling.getNamespaceURI(prefix);
                             }
                             _reusableAtts.setAttribute(attName, atts.getValue(i), nsURI);
                         }
@@ -1367,7 +1350,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 	tmpQName = localName;
                 }
                 else {
-                    String prefix = _namespaces.getNamespacePrefix(namespaceURI);
+                    String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
                     if (StringUtil.isNotEmpty(prefix)) {
                     	tmpQName = prefix + ":" + localName;
                     }
@@ -1385,11 +1368,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String prefix = localName.substring(0, idx);
             localName = localName.substring(idx+1);
             if (StringUtil.isEmpty(namespaceURI)) {
-                namespaceURI = _namespaces.getNamespaceURI(prefix);
+                namespaceURI = _namespaceHandling.getNamespaceURI(prefix);
             }
         } else {
             // check for default namespace declaration 
-            String defaultNamespace = _namespaces.getNamespaceURI("");
+            String defaultNamespace = _namespaceHandling.getDefaultNamespaceURI();
             // TODO[WG]: remove unnecessary check as it simply is wrong
             if (defaultNamespace != null && !defaultNamespace.equals("http://castor.exolab.org")) {
                 namespaceURI = defaultNamespace;
@@ -1440,7 +1423,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- Begin Namespace Handling :
         //-- XXX Note: This code will change when we update the XML event API
 
-        _namespaces = _namespaces.createNamespaces();
+        _namespaceHandling.createNamespace();
 
         //-- convert AttributeList to AttributeSet and process
         //-- namespace declarations
@@ -1454,7 +1437,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              name = name.substring(idx+1);
         }
 
-        namespace = _namespaces.getNamespaceURI(prefix);
+        namespace = _namespaceHandling.getNamespaceURI(prefix);
         
         //-- End Namespace Handling
         
@@ -1692,7 +1675,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 processAttributes(atts, classDesc);
                 _delegateUnmarshalListener.attributesProcessed(stateObject,
 						parentObject);
-                processNamespaces(classDesc);
+                _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
             }
             
             String pkg = getJavaPackage(_topClass);
@@ -1967,7 +1950,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- remove the StateInfo we just added
                 _stateStack.removeLastState();
                 // drop Namespace instance as well
-                _namespaces = _namespaces.getParent();
+                _namespaceHandling.removeCurrentNamespaceInstance();
                 if (LOG.isDebugEnabled()) {
                 	LOG.debug(mesg + " - ignoring extra element.");
                 }
@@ -2054,7 +2037,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //we need to recall startElement()
             //so that we can find a more appropriate descriptor in for the given name
-            _namespaces = _namespaces.createNamespaces();
+            _namespaceHandling.createNamespace();
             startElement(name, namespace, atts);
             return;
         }
@@ -2219,7 +2202,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //we are dealing with an AnyNode
                 	state._object = _anyNodeHandler.commonStartElement(name, namespace, state._wsPreserve);
                 	state._type = cls;
-                     return;
+                    return;
                 }
             }
             
@@ -2365,7 +2348,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             processAttributes(atts, classDesc);
             _delegateUnmarshalListener.attributesProcessed(stateObject,
 					parentObject);
-            processNamespaces(classDesc);
+            _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
         }
         else if ((state._type != null) && (!state._primitiveOrImmutable)) {
             if (atts != null) {
@@ -2426,12 +2409,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_anyNodeHandler.hasAnyUnmarshaller()) {
         	_anyNodeHandler.startPrefixMapping(prefix, uri);
         }
-        else if (_createNamespaceScope) {
-            _namespaces = _namespaces.createNamespaces();
-            _createNamespaceScope = false;
+        else if(_namespaceHandling.isNewNamespaceScopeNecessary()) {
+        	_namespaceHandling.stopNamespaceScope();
         }
-        
-        _namespaces.addNamespace(prefix, uri);
+        _namespaceHandling.addNamespace(prefix, uri);
         
         /*
         //-- add namespace declarations to set of current attributes        
@@ -2571,7 +2552,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 // there is a namespace prefix
                 String prefix = type.substring(0, idx);
                 type = type.substring(idx + 1);
-                typeNamespaceURI = _namespaces.getNamespaceURI(prefix);
+                typeNamespaceURI = _namespaceHandling.getNamespaceURI(prefix);
             }
 
             //-- Retrieve the type corresponding to the schema name and
@@ -2631,7 +2612,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the package name or null.
      */
     private String getMappedPackage(final String namespace) {
-        return (String) _namespaceToPackage.get(StringUtil.defaultString(namespace));
+        return _namespaceHandling.getMappedPackage(namespace);
     }
 
     /**
@@ -3103,7 +3084,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- QName resolution (ns:value -> {URI}value), if required
         if (isQName) {
-            value = resolveNamespace(value);
+            value = _namespaceHandling.resolveNamespace(value);
         }
         //-- set value
         handler.setValue(parent, value);
@@ -3190,7 +3171,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //be resolved (ns:value -> {URI}value)
                 String valueType = descriptor.getSchemaType();
                 if (StringUtil.equals(valueType, QNAME_NAME)) {
-                        value = resolveNamespace(value);
+                        value = _namespaceHandling.resolveNamespace(value);
                 }
                 args._values[argIndex] = value;
             } else {
@@ -3284,11 +3265,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         for (int i = 0; i < validAtts.length; i++) {
             String attName = atts.getName(i);
             if (attName.equals(XMLNS)) {
-                _namespaces.addNamespace("", atts.getValue(i));
+            	_namespaceHandling.addDefaultNamespace(atts.getValue(i));
             }
             else if (attName.startsWith(XMLNS_PREFIX)) {
                 String prefix = attName.substring(XMLNS_PREFIX_LENGTH);
-                _namespaces.addNamespace(prefix, atts.getValue(i));
+                _namespaceHandling.addNamespace(prefix, atts.getValue(i));
             }
             else {
                 validAtts[i] = true;
@@ -3308,7 +3289,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     String prefix = attName.substring(0, idx);
                     if (!prefix.equals(XML_PREFIX)) {
                         attName = attName.substring(idx+1);
-                        namespace = _namespaces.getNamespaceURI(prefix);
+                        namespace = _namespaceHandling.getNamespaceURI(prefix);
                         if (namespace == null) {
                             String error = "The namespace associated with "+
                                 "the prefix '" + prefix +
@@ -3327,76 +3308,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     } //-- method: processAttributeList
 
-    /**
-     * Saves local namespace declarations to the object
-     * model if necessary.
-     *
-     * @param classDesc the current ClassDescriptor.
-    **/
-    private void processNamespaces(XMLClassDescriptor classDesc) {
 
-
-        if (classDesc == null) return;
-
-        //-- process namespace nodes
-        XMLFieldDescriptor nsDescriptor =
-            classDesc.getFieldDescriptor(null, null, NodeType.Namespace);
-
-        if (nsDescriptor != null) {
-            UnmarshalState state = _stateStack.getLastState();
-            FieldHandler handler = nsDescriptor.getHandler();
-            if (handler != null) {
-                Enumeration enumeration = _namespaces.getLocalNamespacePrefixes();
-                while (enumeration.hasMoreElements()) {
-					String nsPrefix = StringUtil
-							.defaultString((String) enumeration.nextElement());
-					String nsURI = StringUtil.defaultString(_namespaces
-							.getNamespaceURI(nsPrefix));
-					MapItem mapItem = new MapItem(nsPrefix, nsURI);
-					handler.setValue(state._object, mapItem);
-                }
-            }
-        }
-    } //-- processNamespaces
-
-    /**
-     * Extracts the prefix and resolves it to it's associated namespace.
-     * If the prefix is 'xml', then no resolution will occur, however
-     * in all other cases the resolution will change the prefix:value
-     * as {NamespaceURI}value
-     *
-     * @param value the QName to resolve.
-     */
-    private Object resolveNamespace(Object value)
-        throws SAXException
-    {
-
-        if ( (value == null) || !(value instanceof String))
-            return value;
-
-        String result = (String)value;
-        int idx = result.indexOf(':');
-        String prefix = null;
-        if (idx > 0) {
-            prefix = result.substring(0,idx);
-            if (XML_PREFIX.equals(prefix)) {
-                //-- Do NOT Resolve the 'xml' prefix.
-                return value;
-            }
-            result = result.substring(idx+1);
-        }
-        String namespace = _namespaces.getNamespaceURI(prefix);
-        if  (StringUtil.isNotEmpty(namespace)) {
-            result = '{'+namespace+'}'+result;
-            return result;
-        }
-        else if ((namespace == null) && (prefix!=null))
-             throw new SAXException("The namespace associated with the prefix: '" + 
-                prefix + "' is null.");
-        else
-            return result;
-
-    }
 
     /**
      * Finds and returns an XMLClassDescriptor for the given class name.
