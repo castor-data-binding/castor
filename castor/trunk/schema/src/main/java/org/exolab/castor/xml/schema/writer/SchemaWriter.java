@@ -47,7 +47,9 @@ package org.exolab.castor.xml.schema.writer;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1258,79 +1260,80 @@ public class SchemaWriter {
         //-- process annotations
         processAnnotated(schema, schemaPrefix);
 
-        Enumeration enumeration = null;
          //-- process all imported schemas
-        enumeration = schema.getImportedSchema();
-        while (enumeration.hasMoreElements()) {
-            processImport((Schema)enumeration.nextElement(), schemaPrefix);
+        Collection<Schema> importedSchemas = schema.getImportedSchema();
+        for (Schema importedSchema : importedSchemas) {
+            processImport(importedSchema, schemaPrefix);
         }
         
         //-- process all cached included schemas
-        enumeration = schema.getCachedIncludedSchemas();
-        while (enumeration.hasMoreElements()) {
-        	processIncludedSchema((Schema)enumeration.nextElement(), schemaPrefix);
+        Collection<Schema> enumeration = schema.getCachedIncludedSchemas();
+        for (Schema includedSchema : enumeration) {
+            processIncludedSchema(includedSchema, schemaPrefix);
         }
         
         //-- process all redefinitions
-        enumeration = schema.getRedefineSchema();
-        while (enumeration.hasMoreElements()) {
-        	processRedefinition((RedefineSchema)enumeration.nextElement(), schema, schemaPrefix);
+        Collection<RedefineSchema> redefinedSchemas = schema.getRedefineSchema();
+        for (RedefineSchema redefinedSchema : redefinedSchemas) {
+            processRedefinition(redefinedSchema, schema, schemaPrefix);
         }
         
         //-- process all top level attributeGroup declarations
-        enumeration = schema.getAttributeGroups();
-        while (enumeration.hasMoreElements()) {
+        Iterator<AttributeGroup> attributeGroups = schema.getAttributeGroups().iterator();
+        while (attributeGroups.hasNext()) {
         	boolean found = false;
-        	AttributeGroup temp = (AttributeGroup) enumeration.nextElement();
+        	AttributeGroup temp = (AttributeGroup) attributeGroups.next();
         	//-- check if this attributeGroup is not 
             //-- part of a redefinition
-           if (temp instanceof AttributeGroupDecl) {
-	          if (((AttributeGroupDecl)temp).isRedefined())
-	          	found = true;
-           }
+        	if (temp instanceof AttributeGroupDecl) {
+        	    if (((AttributeGroupDecl)temp).isRedefined()) {
+        	        found = true;
+        	    }
+        	}
             
            //--check if this attributeGroup is not 
            //-- included 
-           Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-           while (includedSchemas.hasMoreElements()) {
-               Schema tempSchema = (Schema)includedSchemas.nextElement();
+           Collection<Schema> includedSchemas = schema.getCachedIncludedSchemas();
+           for (Schema includedSchema : includedSchemas) {
                if (temp instanceof AttributeGroupDecl) {
                    String name = ((AttributeGroupDecl)temp).getName();	
-                   found = (tempSchema.getAttributeGroup(name)!= null);
+                   found = (includedSchema.getAttributeGroup(name)!= null);
                }
            }
            
-           if (!found)
-                processAttributeGroup(temp,schemaPrefix);
+           if (!found) {
+               processAttributeGroup(temp,schemaPrefix);
+           }
         }
 
         //-- process all top level attribute declarations
-        enumeration = schema.getAttributes();
-        while (enumeration.hasMoreElements()) {
-        	AttributeDecl temp = (AttributeDecl) enumeration.nextElement();
+        Iterator<AttributeDecl> attributeDeclarations = schema.getAttributes().iterator();
+        while (attributeDeclarations.hasNext()) {
+        	AttributeDecl temp = (AttributeDecl) attributeDeclarations.next();
         	boolean found = false;
         	//--check if this attributeGroup is not 
         	//-- included 
-        	Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-        	while (includedSchemas.hasMoreElements()) {
-        		Schema tempSchema = (Schema)includedSchemas.nextElement();
+        	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+        	while (includedSchemas.hasNext()) {
+        		Schema tempSchema = (Schema)includedSchemas.next();
         		found = (tempSchema.getAttribute(temp.getName())!= null);
         	}
         	
-        	if (!found)
+        	if (!found) {
                 processAttribute(temp,schemaPrefix);
+            }
         }
 
         //-- process all top level element declarations
-        enumeration = schema.getElementDecls();
-        while (enumeration.hasMoreElements()) {
-        	ElementDecl temp = (ElementDecl) enumeration.nextElement();
+        Iterator<ElementDecl> elementDeclarations = schema.getElementDecls().iterator();
+        while (elementDeclarations.hasNext()) {
+        	ElementDecl temp = (ElementDecl) elementDeclarations.next();
         	boolean found = false;
         	//--check if this attributeGroup is not 
         	//-- included 
-        	Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-        	while (includedSchemas.hasMoreElements()) {
-        		Schema tempSchema = (Schema)includedSchemas.nextElement();
+        	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+        	while (includedSchemas.hasNext()) {
+        		Schema tempSchema = includedSchemas.next();
         		found = (tempSchema.getElementDecl(temp.getName())!= null);
         	}
         	
@@ -1339,15 +1342,15 @@ public class SchemaWriter {
         }
 
         //-- process all top level complex types
-        enumeration = schema.getComplexTypes();
-        while (enumeration.hasMoreElements()) {
-            ComplexType temp = (ComplexType) enumeration.nextElement();
+        Iterator<ComplexType> complexTypes = schema.getComplexTypes().iterator();
+        while (complexTypes.hasNext()) {
+            ComplexType temp = (ComplexType) complexTypes.next();
             boolean found = false;
             //--check if this attributeGroup is not 
             //-- included 
-            Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-            while (includedSchemas.hasMoreElements()) {
-            	Schema tempSchema = (Schema)includedSchemas.nextElement();
+            Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+            while (includedSchemas.hasNext()) {
+            	Schema tempSchema = includedSchemas.next();
             	found = (tempSchema.getComplexType(temp.getName())!= null);
             }
             if (!temp.isRedefined() && !found)
@@ -1355,15 +1358,15 @@ public class SchemaWriter {
         }
 
         //-- process all top level groups
-        enumeration = schema.getModelGroups();
-        while (enumeration.hasMoreElements()) {
-        	ModelGroup temp = (ModelGroup)enumeration.nextElement();
+        Iterator<ModelGroup> modelGroups = schema.getModelGroups().iterator();
+        while (modelGroups .hasNext()) {
+        	ModelGroup temp = modelGroups .next();
         	boolean found = false;
         	//--check if this Group is not 
         	//-- included 
-        	Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-        	while (includedSchemas.hasMoreElements()) {
-        		Schema tempSchema = (Schema)includedSchemas.nextElement();
+        	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+        	while (includedSchemas.hasNext()) {
+        		Schema tempSchema = includedSchemas.next();
         		found = (tempSchema.getModelGroup(temp.getName())!= null);
         	}
         	
@@ -1372,15 +1375,15 @@ public class SchemaWriter {
         }
 
         //-- process all top level simple types
-        enumeration = schema.getSimpleTypes();
-        while (enumeration.hasMoreElements()) {
-            SimpleType temp = (SimpleType) enumeration.nextElement();
+        Iterator<SimpleType> simpleTypes = schema.getSimpleTypes().iterator();
+        while (simpleTypes.hasNext()) {
+            SimpleType temp = (SimpleType) simpleTypes.next();
             boolean found = false;
             //--check if this attributeGroup is not 
             //-- included 
-            Enumeration includedSchemas = schema.getCachedIncludedSchemas();
-            while (includedSchemas.hasMoreElements()) {
-            	Schema tempSchema = (Schema)includedSchemas.nextElement();
+            Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+            while (includedSchemas.hasNext()) {
+            	Schema tempSchema = includedSchemas.next();
             	found = (tempSchema.getSimpleType(temp.getName())!= null);
             }
             if (!temp.isRedefined() && !found)
@@ -1504,8 +1507,9 @@ public class SchemaWriter {
     	_atts.clear();
         
     	String schemaLoc = schema.getSchemaLocation();
-    	if (schemaLoc != "") 
-      	    _atts.addAttribute("schemaLocation", null, schemaLoc);
+    	if (schemaLoc != "") {
+            _atts.addAttribute("schemaLocation", null, schemaLoc);
+        }
     	
     	_handler.startElement(ELEMENT_NAME, _atts);
         
@@ -1513,30 +1517,21 @@ public class SchemaWriter {
     	processAnnotated(schema, schemaPrefix);
     	
     	if (schemaLoc != "") {
-	    	Enumeration enumeration = null;
 	    	//--process complexTypes
-	        enumeration = schema.enumerateComplexTypes();
-	        while (enumeration.hasMoreElements()) {
-	        	ComplexType type = (ComplexType)enumeration.nextElement();
-	        	processComplexType(type, schemaPrefix);
-	        }
+	        for (ComplexType complexType : schema.enumerateComplexTypes()) {
+	            processComplexType(complexType, schemaPrefix);
+            }
 	    	//--process simpleTypes
-	        enumeration = schema.enumerateSimpleTypes();
-	        while (enumeration.hasMoreElements()) {
-	        	SimpleType type = (SimpleType)enumeration.nextElement();
-	        	processSimpleType(type, schemaPrefix);
-	        }
+	        for (SimpleType simpleType : schema.enumerateSimpleTypes()) {
+                processSimpleType(simpleType, schemaPrefix);
+            }
 	    	//--process groups
-	        enumeration = schema.enumerateGroups();
-	        while (enumeration.hasMoreElements()) {
-	        	ModelGroup group= (ModelGroup)enumeration.nextElement();
-	        	processGroup(group, schemaPrefix);
+	        for (ModelGroup modelGroup : schema.enumerateGroups()) {
+	        	processGroup(modelGroup, schemaPrefix);
 	        }
 	    	//--process AttributeGroups
-	        enumeration = schema.enumerateAttributeGroups();
-	        while (enumeration.hasMoreElements()) {
-	        	AttributeGroupDecl attGroup = (AttributeGroupDecl)enumeration.nextElement();
-	        	processAttributeGroup(attGroup, schemaPrefix);
+	        for (AttributeGroup attributeGroup : schema.enumerateAttributeGroups()) {
+	        	processAttributeGroup(attributeGroup, schemaPrefix);
 	        }
     	}
 	    _handler.endElement(ELEMENT_NAME);
@@ -1799,10 +1794,10 @@ public class SchemaWriter {
     private SimpleType getSimpleTypeFromSchema(Schema schema, String typeName) {
     	SimpleType base = schema.getSimpleType(typeName);
     	if(base == null) {
-    		Enumeration imports = schema.getImportedSchema();
-    		while (imports.hasMoreElements() && base == null) {
-				Schema sch = (Schema) imports.nextElement();
-				base = getSimpleTypeFromSchema(sch, typeName);
+    		Iterator<Schema> imports = schema.getImportedSchema().iterator();
+    		while (imports.hasNext() && base == null) {
+				Schema importedSchema = imports.next();
+				base = getSimpleTypeFromSchema(importedSchema, typeName);
 			}
     	}
     	return base;
