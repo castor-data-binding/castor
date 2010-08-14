@@ -45,11 +45,12 @@
 
 package org.exolab.castor.xml.schema;
 
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.validators.ValidationUtils;
-
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Vector;
+
+import org.exolab.castor.xml.ValidationException;
+import org.exolab.castor.xml.validators.ValidationUtils;
 
 /**
  * An XML Schema ElementDecl
@@ -441,9 +442,9 @@ public class ElementDecl extends Particle implements Referable {
      */
     public Enumeration getSubstitutionGroupMembers() {
     	Vector result = new Vector();
-    	Enumeration enumeration = _schema.getElementDecls();
-    	while (enumeration.hasMoreElements()) {
-    		ElementDecl temp  = (ElementDecl)enumeration.nextElement();
+    	Iterator<ElementDecl> enumeration = _schema.getElementDecls().iterator();
+    	while (enumeration.hasNext()) {
+    		ElementDecl temp  = (ElementDecl)enumeration.next();
     		String subName = temp.getSubstitutionGroup();
     		if (subName != null) {
                 // no namespace(s) or default namespace in use

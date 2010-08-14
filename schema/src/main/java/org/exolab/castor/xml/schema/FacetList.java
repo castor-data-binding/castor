@@ -62,13 +62,13 @@ public class FacetList implements java.io.Serializable {
     /**
      * The list of facets
     **/
-    private List facets    = null;
+    private List<Facet> facets    = null;
 
     /**
      * Creates a new FacetList
     **/
     public FacetList() {
-        facets = new ArrayList();
+        facets = new ArrayList<Facet>();
     } //-- FacetList
 
     /**
@@ -76,8 +76,9 @@ public class FacetList implements java.io.Serializable {
      * @param facet the facet to add
     **/
     public void add(Facet facet) {
-        if (facet != null)
+        if (facet != null) {
             facets.add(facet);
+        }
     } //-- add
 
     /**
@@ -86,9 +87,12 @@ public class FacetList implements java.io.Serializable {
      * @param facetList the FacetList to copy from
      */
     public void add(FacetList facetList) {
-        if (facetList == null) return;
-        for (int i = 0; i < facetList.facets.size(); i++)
+        if (facetList == null) {
+            return;
+        }
+        for (int i = 0; i < facetList.facets.size(); i++) {
             facets.add(facetList.facets.get(i));
+        }
     } //-- add
 
 
@@ -97,7 +101,7 @@ public class FacetList implements java.io.Serializable {
      * @param index the index of the Facet to return
     **/
     public Facet get(int index) {
-        return (Facet)facets.get(index);
+        return facets.get(index);
     } //-- get
 
     /**
@@ -115,7 +119,7 @@ public class FacetList implements java.io.Serializable {
      * @return the removed facet
      */
     public Facet remove(int index) {
-        return (Facet) facets.remove(index);
+        return facets.remove(index);
     } //-- remove
 
 
@@ -131,7 +135,7 @@ public class FacetList implements java.io.Serializable {
      * Returns an Enumeration of the Facets in this list
      * @return an Enumeration of the Facets in this list
     **/
-    public Enumeration enumerate() {
+    public Enumeration<Facet> enumerate() {
         return new FacetListEnumerator(this);
     } //-- enumerate
 
@@ -146,11 +150,12 @@ public class FacetList implements java.io.Serializable {
      * @return The facet of the list with the given name
      */
     public Facet contains(String name) {
-        if (name == null)
+        if (name == null) {
             return null;
-        Enumeration enumeration = enumerate();
+        }
+        Enumeration<Facet> enumeration = enumerate();
         while (enumeration.hasMoreElements()) {
-            Facet temp = (Facet)enumeration.nextElement();
+            Facet temp = enumeration.nextElement();
             if (temp.getName().equals(name))
                 return temp;
         }
