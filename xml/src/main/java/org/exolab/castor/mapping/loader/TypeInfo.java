@@ -65,7 +65,7 @@ public class TypeInfo
     /**
      * The field type.
      */
-    private Class          _fieldType;
+    private Class _fieldType;
 
 
     /**
@@ -110,7 +110,7 @@ public class TypeInfo
      *
      * @param fieldType The field type
     **/
-    public TypeInfo(Class fieldType) {
+    public TypeInfo(Class<?> fieldType) {
         this(fieldType, null, null, false, null, null, true );
     } //-- TypeInfo
 
@@ -129,7 +129,7 @@ public class TypeInfo
      * @param colHandler The collection handler for this field, or null if
      *  field is singular
      */
-    public TypeInfo(Class fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
+    public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
                     boolean required, Object defaultValue, CollectionHandler colHandler) {
         this(fieldType, convertorTo, convertorFrom, required, defaultValue, colHandler, true );
     }

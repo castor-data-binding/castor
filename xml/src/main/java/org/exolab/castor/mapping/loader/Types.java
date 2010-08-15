@@ -80,7 +80,7 @@ public class Types {
      * @return The type class
      * @throws ClassNotFoundException The specified class could not be found
      */
-    public static Class typeFromName( ClassLoader loader, String typeName )
+    public static Class<?> typeFromName( ClassLoader loader, String typeName )
         throws ClassNotFoundException
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
@@ -89,7 +89,7 @@ public class Types {
                          _typeInfos[ i ]._javaType );
         }
         if ( loader != null ) {
-            Class aClass = Class.forName(typeName, false, loader);
+            Class<?> aClass = Class.forName(typeName, false, loader);
             // _log.debug ("Loaded class " + aClass);
             return aClass;
         }
@@ -106,7 +106,7 @@ public class Types {
      * @param type The Java type
      * @return The default value or null
      */
-    public static Object getDefault( Class type )
+    public static Object getDefault( Class<?> type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
             if ( _typeInfos[ i ]._primitive == type ||
@@ -136,7 +136,7 @@ public class Types {
      * @param type The Java type (primitive or not)
      * @return A comparable non-primitive Java type
      */
-    public static Class typeFromPrimitive( Class type )
+    public static Class<?> typeFromPrimitive( Class<?> type )
     {
         /// Fix for arrays
         if ((type != null) && (type.isArray())
@@ -171,7 +171,7 @@ public class Types {
      * @param type The Java type
      * @return True if a simple type
      */
-    public static boolean isSimpleType( Class type )
+    public static boolean isSimpleType( Class<?> type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
             if ( _typeInfos[ i ]._javaType == type || _typeInfos[ i ]._primitive == type )
@@ -188,7 +188,7 @@ public class Types {
      * @param type The Java type
      * @return True if a primitive type
      */
-    public static boolean isPrimitiveType( Class type )
+    public static boolean isPrimitiveType( Class<?> type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
             if (_typeInfos[ i ]._primitive == type || 
@@ -199,24 +199,24 @@ public class Types {
     }
 
 
-    private static final Vector ENUMS = new Vector();
+    private static final Vector<Class<?>> ENUMS = new Vector<Class<?>>();
     
-    public static void addEnumType(Class type) {
+    public static void addEnumType(Class<?> type) {
         ENUMS.add(type);
     }
     
-    public static boolean isEnumType(Class type) {
+    public static boolean isEnumType(Class<?> type) {
         return ENUMS.contains(type);
     }
 
     
-    private static final Vector CONVERTIBLE = new Vector();
+    private static final Vector<Class<?>> CONVERTIBLE = new Vector<Class<?>>();
     
-    public static void addConvertibleType(Class type) {
+    public static void addConvertibleType(Class<?> type) {
         CONVERTIBLE.add(type);
     }
     
-    public static boolean isConvertibleType(Class type) {
+    public static boolean isConvertibleType(Class<?> type) {
         return CONVERTIBLE.contains(type);
     }
 
@@ -230,7 +230,7 @@ public class Types {
      * @return An instance of the class type specified.
      * @throws IllegalStateException The Java object cannot be constructed
      */
-    public static Object newInstance( Class type )
+    public static Object newInstance( Class<?> type )
         throws IllegalStateException
     {
         try {
@@ -256,7 +256,7 @@ public class Types {
      * @return An instance of the class type specified.
      * @throws IllegalStateException The Java object cannot be constructed
      */
-    public static Object newInstance( Class type, Object args[] )
+    public static Object newInstance( Class<?> type, Object args[] )
         throws IllegalStateException
     {
         
@@ -264,7 +264,7 @@ public class Types {
             return newInstance( type );
             
         try {
-            Constructor cons = findConstructor(type, args);
+            Constructor<?> cons = findConstructor(type, args);
             return cons.newInstance(args);
         }
         catch (NoSuchMethodException except) {
@@ -296,7 +296,7 @@ public class Types {
      * @param type The Java type
      * @return True if constructable
      */
-    public static boolean isConstructable( Class type )
+    public static boolean isConstructable( Class<?> type )
     {
         return isConstructable( type, false );
     }
@@ -310,7 +310,7 @@ public class Types {
      * @param type The Java type
      * @return True if constructable
      */
-    public static boolean isConstructable( Class type, boolean allowAbstractOrInterface )
+    public static boolean isConstructable( Class<?> type, boolean allowAbstractOrInterface )
     {
         try {
             if ( ( type.getModifiers() & Modifier.PUBLIC ) == 0 )
@@ -336,7 +336,7 @@ public class Types {
      * @param type The Java type
      * @return True if declared as serializable
      */
-    public static boolean isSerializable( Class type )
+    public static boolean isSerializable( Class<?> type )
     {
         return ( Serializable.class.isAssignableFrom( type ) );
     }
@@ -349,7 +349,7 @@ public class Types {
      * @param type The Java type
      * @return True if immutable type
      */
-    public static boolean isImmutable( Class type )
+    public static boolean isImmutable( Class<?> type )
     {
         for ( int i = 0 ; i < _typeInfos.length ; ++i ) {
             if ( _typeInfos[ i ]._javaType == type || _typeInfos[ i ]._primitive == type )
@@ -366,7 +366,7 @@ public class Types {
      * @param type The Java type
      * @return True if declared as cloneable
      */
-    public static boolean isCloneable( Class type )
+    public static boolean isCloneable( Class<?> type )
     {
         return ( Cloneable.class.isAssignableFrom( type ) );
     }
@@ -381,16 +381,16 @@ public class Types {
      * @return the matching constructor for the given arguments
      * @throws NoSuchMethodException If no constructor with the given number/types of arguments exists.
      */
-    private static Constructor findConstructor(Class type, Object[] args) 
+    private static Constructor<?> findConstructor(Class<?> type, Object[] args) 
         throws NoSuchMethodException
     {
         
-        Constructor[] constructors = type.getConstructors();
-        Constructor cons = null;
+        Constructor<?>[] constructors = type.getConstructors();
+        Constructor<?> cons = null;
         int rank = 0;
         
         for (int c = 0; c < constructors.length; c++) {
-            Class[] paramTypes = constructors[c].getParameterTypes();
+            Class<?>[] paramTypes = constructors[c].getParameterTypes();
             if (paramTypes.length != args.length) continue;
             
             int tmpRank = 0;
@@ -418,7 +418,7 @@ public class Types {
                 }
                 //-- check for primitive match
                 if (paramTypes[p].isPrimitive()) {
-                    Class pType = typeFromPrimitive(paramTypes[p]);
+                    Class<?> pType = typeFromPrimitive(paramTypes[p]);
                     if (pType.isAssignableFrom(args[p].getClass())) {
                         //-- good keep going, but don't increment rank
                         continue;
@@ -452,10 +452,10 @@ public class Types {
         final String _shortName;
         
         /** The primitive Java type, if exists (e.g. <tt>Integer.TYPE</tt>). */
-        final Class _primitive;
+        final Class<?> _primitive;
 
         /** The Java type (e.g. <tt>java.lang.Integer</tt>). */       
-        final Class _javaType;
+        final Class<?> _javaType;
         
         /** True if the type is immutable. */
         final boolean _immutable;
@@ -463,7 +463,7 @@ public class Types {
         /** The default value for the type, if known. */
         final Object _defaultValue;
         
-        TypeInfo(final String shortName, final Class primitive, final Class javaType,
+        TypeInfo(final String shortName, final Class<?> primitive, final Class<?> javaType,
                 final boolean immutable, final Object defaultValue) {
             _shortName  = shortName;
             _primitive  = primitive;
@@ -565,8 +565,8 @@ public class Types {
      * A hack for JDK 1.1 Compatibility
      * @return A Class instance for CLOB types.
      */
-    private static final Class getClobClass() {        
-        Class type = null;
+    private static final Class<?> getClobClass() {        
+        Class<?> type = null;
         try {
             type = Class.forName("java.sql.Clob");
         }
