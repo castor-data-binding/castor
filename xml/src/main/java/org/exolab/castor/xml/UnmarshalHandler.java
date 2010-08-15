@@ -79,12 +79,12 @@ import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.parsing.AttributeSetBuilder;
 import org.exolab.castor.xml.parsing.AnyNodeUnmarshalHandler;
 import org.exolab.castor.xml.parsing.NamespaceHandling;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
-import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
@@ -135,12 +135,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Attribute name for default namespace declaration
     **/
     private static final String   XMLNS             = "xmlns";
-
-    /**
-     * Attribute prefix for prefixed namespace declaration
-    **/
-    private final static String XMLNS_PREFIX        = "xmlns:";
-    private final static int    XMLNS_PREFIX_LENGTH = XMLNS_PREFIX.length();
 
     /**
      * The type attribute (xsi:type) used to denote the
@@ -219,12 +213,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * extra attributes exist.
     **/
     private boolean _strictAttributes = false;
-
-    /**
-     * A "reusable" AttributeSet, for use when handling
-     * SAX 2 ContentHandler.
-     */
-    private AttributeSetImpl _reusableAtts = null;
     
     /**
      * The top-level xml:space value.
@@ -241,7 +229,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private UnmarshalStateStack _stateStack = new UnmarshalStateStack();
     
-    
     /**
      * {@link UnmarshalListenerDelegate} that deals with UnmarshalListener calls.
      */
@@ -251,6 +238,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     
     private NamespaceHandling _namespaceHandling = new NamespaceHandling();
 
+    private AttributeSetBuilder _attributeSetFactory = null;
+    
     //----------------/
     //- Constructors -/
     //----------------/
@@ -284,6 +273,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _javaPackages       = new HashMap();
         _topClass           = topClass;
         _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaceHandling);
+        _attributeSetFactory = new AttributeSetBuilder(_namespaceHandling);
     }
     
     /**
@@ -1256,82 +1246,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if(_namespaceHandling.isNewNamespaceScopeNecessary())
         	_namespaceHandling.startNamespaceScope();
 
-            
-        
-        if (_reusableAtts == null) {
-            if (atts != null) 
-                _reusableAtts = new AttributeSetImpl(atts.getLength());
-            else {
-                //-- we can't pass a null AttributeSet to the
-                //-- startElement
-                _reusableAtts = new AttributeSetImpl();
-            }
-        }
-        else {
-            _reusableAtts.clear();
-        }
-        
-        //-- process attributes
-        boolean hasQNameAtts = false;
-        if ((atts != null) && (atts.getLength() > 0)) {
-            //-- look for any potential namespace declarations
-            //-- in case namespace processing was disable
-            //-- on the parser
-            for (int i = 0; i < atts.getLength(); i++) {
-                String attName = atts.getQName(i);
-                if (StringUtil.isNotEmpty(attName)) {
-                    if (attName.equals(XMLNS)) {
-                        _namespaceHandling.addDefaultNamespace(atts.getValue(i));
-                    }
-                    else if (attName.startsWith(XMLNS_PREFIX)) {
-                        String prefix = attName.substring(XMLNS_PREFIX.length());
-                        _namespaceHandling.addNamespace(prefix, atts.getValue(i));
-                    }
-                    else {
-                        //-- check for prefix
-                        if (attName.indexOf(':') < 0) {
-                            _reusableAtts.setAttribute(attName,
-                                atts.getValue(i), atts.getURI(i));
-                        }
-                        else hasQNameAtts = true;
-                    }
-                }
-                else {
-                    //-- if attName is null or empty, just process as a normal
-                    //-- attribute
-                    attName = atts.getLocalName(i);
-                    if (XMLNS.equals(attName)) {
-                    	_namespaceHandling.addDefaultNamespace(atts.getValue(i));
-                    }
-                    else {
-                        _reusableAtts.setAttribute(attName, atts.getValue(i), atts.getURI(i));
-                    }
-                }
-            }
-        }
-        //-- if we found any qName-only atts, process those
-        if (hasQNameAtts) {
-            for (int i = 0; i < atts.getLength(); i++) {
-                String attName = atts.getQName(i);
-                if (StringUtil.isNotEmpty(attName)) {
-                    //-- process any non-namespace qName atts
-                    if ((!attName.equals(XMLNS)) && (!attName.startsWith(XMLNS_PREFIX))) 
-                    {
-                        int idx = attName.indexOf(':');
-                        if (idx >= 0) {
-                            String prefix = attName.substring(0, idx);
-                            attName = attName.substring(idx+1);
-                            String nsURI = atts.getURI(i);
-                            if (StringUtil.isEmpty(nsURI)) {
-                                nsURI = _namespaceHandling.getNamespaceURI(prefix);
-                            }
-                            _reusableAtts.setAttribute(attName, atts.getValue(i), nsURI);
-                        }
-                    }
-                }
-                //-- else skip already processed in previous loop
-            }
-        }
         //-- preserve parser passed arguments for any potential
         //-- delegation
         String tmpQName = null;
@@ -1383,10 +1297,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- call private startElement
-        startElement(localName, namespaceURI, _reusableAtts);
+        startElement(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
         
     } //-- startElement
-    
+ 
     /**
      * <p>DocumentHandler#startElement</p>
      *
@@ -1395,6 +1309,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param name The name of the element.
      * @param attList The AttributeList containing the associated attributes for the
      *        element.
+     * @deprecated
      */
     public void startElement(String name, AttributeList attList)
     throws org.xml.sax.SAXException {
@@ -1425,10 +1340,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         _namespaceHandling.createNamespace();
 
-        //-- convert AttributeList to AttributeSet and process
-        //-- namespace declarations
-        AttributeSet atts = processAttributeList(attList);
-
         String prefix = "";
         //String qName = name;
         int idx = name.indexOf(':');
@@ -1442,7 +1353,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- End Namespace Handling
         
         //-- call private startElement method
-        startElement(name, namespace, atts);
+        startElement(name, namespace, _attributeSetFactory.getAttributeSet(attList));
         
     } //-- startElement
         
@@ -3243,72 +3154,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         return (value != null);
     }
-
-    /**
-     * Processes the attributes and namespace declarations found
-     * in the given SAX AttributeList. The global AttributeSet
-     * is cleared and updated with the attributes. Namespace
-     * declarations are added to the set of namespaces in scope.
-     *
-     * @param atts the AttributeList to process.
-    **/
-    private AttributeSet processAttributeList(AttributeList atts)
-        throws SAXException
-    {
-
-        if (atts == null) return new AttributeSetImpl(0);
-
-
-        //-- process all namespaces first
-        int attCount = 0;
-        boolean[] validAtts = new boolean[atts.getLength()];
-        for (int i = 0; i < validAtts.length; i++) {
-            String attName = atts.getName(i);
-            if (attName.equals(XMLNS)) {
-            	_namespaceHandling.addDefaultNamespace(atts.getValue(i));
-            }
-            else if (attName.startsWith(XMLNS_PREFIX)) {
-                String prefix = attName.substring(XMLNS_PREFIX_LENGTH);
-                _namespaceHandling.addNamespace(prefix, atts.getValue(i));
-            }
-            else {
-                validAtts[i] = true;
-                ++attCount;
-            }
-        }
-        //-- process validAtts...if any exist
-        AttributeSetImpl attSet = null;
-        if (attCount > 0) {
-            attSet = new AttributeSetImpl(attCount);
-            for (int i = 0; i < validAtts.length; i++) {
-                if (!validAtts[i]) continue;
-                String namespace = null;
-                String attName = atts.getName(i);
-                int idx = attName.indexOf(':');
-                if (idx > 0) {
-                    String prefix = attName.substring(0, idx);
-                    if (!prefix.equals(XML_PREFIX)) {
-                        attName = attName.substring(idx+1);
-                        namespace = _namespaceHandling.getNamespaceURI(prefix);
-                        if (namespace == null) {
-                            String error = "The namespace associated with "+
-                                "the prefix '" + prefix +
-                                "' could not be resolved.";
-                            throw new SAXException(error);
-
-                        }
-                    }
-                }
-                attSet.setAttribute(attName, atts.getValue(i), namespace);
-            }
-        }
-        else attSet = new AttributeSetImpl(0);
-
-        return attSet;
-
-    } //-- method: processAttributeList
-
-
 
     /**
      * Finds and returns an XMLClassDescriptor for the given class name.
