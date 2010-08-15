@@ -121,6 +121,13 @@ CREATE TABLE Lob_entity(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE Enum_entity(
+    id INTEGER NOT NULL,
+    stringEnum VARCHAR(50) NOT NULL,
+--    ordinalEnum INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE single_staff(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
