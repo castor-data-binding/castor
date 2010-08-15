@@ -16,6 +16,7 @@ DROP TABLE TEST.ExcludeListeners_foo;
 DROP TABLE TEST.ExcludeListeners_bar;
 DROP TABLE TEST.Temporal_person;
 DROP TABLE TEST.Lob_entity;
+DROP TABLE TEST.Enum_entity;
 DROP TABLE TEST.single_staff;
 DROP TABLE TEST.staff_version;
 DROP TABLE TEST.OneToOne_show;

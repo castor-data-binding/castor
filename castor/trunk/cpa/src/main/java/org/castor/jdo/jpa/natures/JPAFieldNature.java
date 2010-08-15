@@ -164,6 +164,11 @@ public class JPAFieldNature extends BaseNature {
     public static final String LOB = "LOB";
 
     /**
+     * Property Key for {@link javax.persistence.Enumerated}
+     */
+    public static final String STRING_ENUM_TYPE = "STRING_ENUM_TYPE";
+
+    /**
      * Instantiate a {@link JPAFieldNature} to access the given
      * {@link PropertyHolder}.
      * 
@@ -984,6 +989,28 @@ public class JPAFieldNature extends BaseNature {
      */
     public void setLob(final boolean isLob) {
         super.setProperty(LOB, isLob);
+    }
+
+    /**
+     * @see #STRING_ENUM_TYPE
+     * @return true if {@link javax.persistence.Enumerated} with value
+     *         {@link javax.persistence.EnumType} STRING was set on the
+     *         property, else false
+     */
+    public boolean isStringEnumType() {
+        Boolean isStringEnumType = (Boolean) super.getProperty(STRING_ENUM_TYPE);
+        return isStringEnumType != null && isStringEnumType;
+    }
+
+    /**
+     * @see #STRING_ENUM_TYPE
+     * @param isStringEnumType
+     *            if {@link javax.persistence.Enumerated} with value
+     *            {@link javax.persistence.EnumType} STRING was found on that
+     *            property.
+     */
+    public void setStringEnumType(final boolean isStringEnumType) {
+        super.setProperty(STRING_ENUM_TYPE, isStringEnumType);
     }
 
 }
