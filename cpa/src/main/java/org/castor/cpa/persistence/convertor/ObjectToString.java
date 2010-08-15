@@ -23,16 +23,13 @@ package org.castor.cpa.persistence.convertor;
  * @since 1.1.3
  */
 public final class ObjectToString extends AbstractSimpleTypeConvertor {
-    //-----------------------------------------------------------------------------------
 
     /**
-     * Default constructor.
+     * Creates an instance of this class.
      */
     public ObjectToString() {
         super(Object.class, String.class);
     }
-
-    //-----------------------------------------------------------------------------------
     
     /**
      * {@inheritDoc}
@@ -41,5 +38,4 @@ public final class ObjectToString extends AbstractSimpleTypeConvertor {
         return object.toString();
     }
 
-    //-----------------------------------------------------------------------------------
 }
