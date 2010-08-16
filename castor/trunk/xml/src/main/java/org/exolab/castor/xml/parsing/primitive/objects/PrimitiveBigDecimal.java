@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.parsing.primitive.objects;
 
 import org.castor.core.util.StringUtil;
 
@@ -25,15 +25,15 @@ import org.castor.core.util.StringUtil;
  *         Erlacher</a>
  * 
  */
-class PrimitiveChar extends PrimitiveObject {
+class PrimitiveBigDecimal extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (StringUtil.isNotEmpty(value)) {
-            return new Character(value.charAt(0));
+        if (StringUtil.isEmpty(value)) {
+            return new java.math.BigDecimal(0);
         }
 
-        return new Character('\0');
+        return new java.math.BigDecimal(value);
     }
 
 }
