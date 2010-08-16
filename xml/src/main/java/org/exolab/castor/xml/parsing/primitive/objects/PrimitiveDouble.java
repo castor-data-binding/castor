@@ -13,50 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.parsing.primitive.objects;
 
+import org.castor.core.util.StringUtil;
 
 /**
- * This class uses the command pattern. It implements the abstract Command and
- * is used as Command Invoker
+ * This class is part of the command pattern implementation to instantiate an
+ * object. It is used as a command by the command invoker {@link PrimitiveObject}.
  * 
  * @author <a href="mailto:philipp DOT erlacher AT gmail DOT com">Philipp
  *         Erlacher</a>
  * 
  */
-class PrimitiveObject {
+class PrimitiveDouble extends PrimitiveObject {
 
-	Class<?> type;
-	String value;
-	Object object;
+    @Override
+    public Object getObject() {
+        if (StringUtil.isEmpty(value)) {
+            return new Double(0.0);
+        }
 
-	/**
-	 * Sets the type and value for the class which should be instantiated
-	 * 
-	 * @param type
-	 *            Class
-	 */
-	void setType(final Class<?> type) {
-		this.type = type;
-	}
-
-	/**
-	 * Sets the value for the class which should be instantiated
-	 * 
-	 * @param value
-	 *            String
-	 */
-	void setValue(String value) {
-		this.object = this.value = value;
-	}
-
-	/**
-	 * Object that matches given Class and Value
-	 * 
-	 * @return Object
-	 */
-	Object getObject() {
-		return this.object;
-	}
+        return new Double(value);
+    }
 
 }

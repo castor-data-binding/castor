@@ -85,6 +85,7 @@ import org.exolab.castor.xml.parsing.NamespaceHandling;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
+import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;

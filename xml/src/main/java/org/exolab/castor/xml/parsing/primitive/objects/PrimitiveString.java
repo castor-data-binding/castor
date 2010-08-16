@@ -13,27 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.xml;
-
-import org.castor.core.util.StringUtil;
+package org.exolab.castor.xml.parsing.primitive.objects;
 
 /**
  * This class is part of the command pattern implementation to instantiate an
- * object. It is used as a command by the command invoker PrimitiveObject.
+ * object. It is used as a command by the command invoker {@link PrimitiveObject}.
  * 
  * @author <a href="mailto:philipp DOT erlacher AT gmail DOT com">Philipp
  *         Erlacher</a>
  * 
  */
-class PrimitiveByte extends PrimitiveObject {
+class PrimitiveString extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (StringUtil.isEmpty(value)) {
-            return new Byte((byte) 0);
-        }
-
-        return new Byte(value);
+        return object;
     }
 
 }
