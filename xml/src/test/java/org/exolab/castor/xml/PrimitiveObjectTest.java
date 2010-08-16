@@ -5,6 +5,7 @@ import java.math.BigInteger;
 
 import junit.framework.TestCase;
 
+import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
 import org.junit.Assert;
 
 /**
