@@ -18,12 +18,10 @@ package org.castor.jdo.jpa.info;
 import java.util.Map;
 
 import java.util.Properties;
-import java.lang.reflect.Method;
 
 import javax.persistence.FetchType;
 import javax.persistence.TemporalType;
 
-import org.castor.cpa.persistence.convertor.AbstractSimpleTypeConvertor;
 import org.castor.cpa.persistence.convertor.ObjectToString;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.jpa.natures.JPAClassNature;
@@ -372,7 +370,7 @@ public final class InfoToDescriptorConverter {
                 .typeFromPrimitive(typeInfo.getFieldType());
         int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
 
-        if (jpaNature.isStringEnumType()) {
+        if (jpaNature.isStringEnumType()) { // Serializing enums to VARCHAR.
             sqlType = java.sql.Types.VARCHAR;
         } else if (jpaNature.isLob()) {
             sqlType =  typeInfo.getFieldType() == String.class ?
@@ -541,52 +539,31 @@ public final class InfoToDescriptorConverter {
      *            The nature holding JPA information.
      * @return a {@link TypeInfo} according to information from the given
      *         {@link FieldInfo} and its {@link JPAFieldNature}.
+     * @throws org.exolab.castor.mapping.MappingException on enum mapping error
      */
     private static TypeInfo createTypeInfo(final FieldInfo fieldInfo,
-            final JPAFieldNature jpaNature) {
+            final JPAFieldNature jpaNature) throws MappingException {
         if (hasFieldRelation(jpaNature)) {
             return new TypeInfo(jpaNature.getRelationTargetEntity());
         } else if (jpaNature.isStringEnumType()) {
             final Class<?> fieldType = fieldInfo.getFieldType();
-            try {
+            try { // Use custom EnumTypeConvertor for conversion.
                 final TypeInfo typeInfo = new TypeInfo(fieldType,
                         new EnumTypeConvertor(String.class, fieldType,
                                 fieldType.getMethod("valueOf", String.class)),
                         new ObjectToString(), createRequired(jpaNature),
                         null, null);
-                Types.addEnumType(fieldType);
+                Types.addEnumType(fieldType); // Register type accordingly.
                 Types.addConvertibleType(fieldType);
                 return typeInfo;
-            } catch (NoSuchMethodException e) {
-                return null;
+            } catch (NoSuchMethodException ex) {
+                throw new MappingException(String.format(
+                        "Problem occurred mapping enum `%s`: %s", fieldType,
+                        ex.getMessage()), ex);
             }
         }
         return new TypeInfo(fieldInfo.getFieldType());
 
-    }
-
-    /**
-     * Custom convertor used to handle enum types.
-     */
-    private static class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
-        private final Method _method;
-
-        public EnumTypeConvertor(final Class<?> fromType, final Class<?> toType,
-                                 final Method method) {
-            super(fromType, toType);
-            _method = method;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public Object convert(final Object object) {
-            try {
-                return _method.invoke(toType(), (String) object);
-            } catch (Exception ex) {
-                return null;
-            }
-        }
     }
 
     /**
