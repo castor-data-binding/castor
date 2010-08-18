@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Castor Object Mapping DTD
+    Castor Object Mapping DTD.
 
     <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
                                "http://castor.exolab.org/mapping.dtd"
-
-    *Note*: This DTD is under evolution and subject to change.
 
  -->
 
@@ -19,7 +17,7 @@
     same collection.
 
  -->
-<!ELEMENT mapping ( description?, include*, class*, key-generator* )>
+<!ELEMENT mapping ( description?, include*, field-handler*, class*, key-generator* )>
 
 
 <!--
@@ -240,6 +238,15 @@
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT value (#PCDATA)>
 
+<!--
+    Global FieldHandler definitions, to be referenced from individual field mappings.
+
+-->
+<!ELEMENT field-handler ( param* )>
+<!ATTLIST field-handler
+    name    NMTOKEN   #IMPLIED
+    class   NMTOKEN   #IMPLIED>
+
 
 <!--
     Field mapping information relevant only for LDAP.
@@ -281,6 +288,10 @@
           name   NMTOKEN  #REQUIRED
           alias  NMTOKEN  #IMPLIED>
 
+<!--
+    A parameter, carrying a name and a value.
+    
+ -->
 <!ELEMENT param EMPTY>
 <!ATTLIST param
           name   NMTOKEN  #REQUIRED
