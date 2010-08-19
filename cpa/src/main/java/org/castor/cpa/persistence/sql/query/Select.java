@@ -43,7 +43,10 @@ public final class Select implements QueryObject {
 
     /** Condition that specifies which records to select. */
     private Condition _condition;    
-    
+
+    /** Flag to determine if statement should be executed with or without lock. */
+    private boolean _locked = false;
+
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -117,6 +120,24 @@ public final class Select implements QueryObject {
      */
     public void setCondition(final Condition condition) {
         _condition = condition;
+    }
+
+    /**
+     * Get locked-flag that specifies if query has to be executed in locked mode or not.
+     * 
+     * @return True: execute query in locked mode, False: execute without lock.
+     */
+    public boolean isLocked() {
+        return _locked;
+    }
+
+    /**
+     * Set locked-flag that specifies if query has to be executed in locked mode or not.
+     * 
+     * @param locked True: execute query in locked mode, False: execute without lock.
+     */
+    public void setLocked(final boolean locked) {
+        _locked = locked;
     }
 
     /**

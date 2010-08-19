@@ -17,6 +17,9 @@
  */
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.Select;
+
 /**
  * Visitor defining special behavior of query building for PostgreSql database.
  *
@@ -31,6 +34,18 @@ public final class PostgreSQLQueryVisitor extends DefaultDoubleQuoteNameQueryVis
      */
     protected String quoteName(final String name) {
         return doubleQuoteName(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void handleLock(final Select select) {
+        if (select.isLocked()) {
+            _queryString.append(QueryConstants.SPACE);
+            _queryString.append(QueryConstants.FOR);
+            _queryString.append(QueryConstants.SPACE);
+            _queryString.append(QueryConstants.UPDATE);
+        }
     }
 
     //-----------------------------------------------------------------------------------

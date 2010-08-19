@@ -384,7 +384,8 @@ public final class SQLEngine implements Persistence {
         	throw new PersistenceException("Size of identity field mismatched!");
         }
         
-        _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        _loadStatement.executeStatement(castorConn, identity, entity, accessMode);
     }
     
     public String toString() { return _clsDesc.toString(); }

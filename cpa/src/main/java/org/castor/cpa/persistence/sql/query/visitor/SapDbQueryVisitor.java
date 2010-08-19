@@ -19,6 +19,9 @@ package org.castor.cpa.persistence.sql.query.visitor;
 
 import java.util.StringTokenizer;
 
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.Select;
+
 /**
  * Visitor defining special behavior of query building for SapDb database.
  *
@@ -87,6 +90,18 @@ public final class SapDbQueryVisitor extends DefaultQueryVisitor {
         }
 
         return isAFunction;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void handleLock(final Select select) {
+        if (select.isLocked()) {
+            _queryString.append(QueryConstants.SPACE);
+            _queryString.append(QueryConstants.WITH);
+            _queryString.append(QueryConstants.SPACE);
+            _queryString.append(QueryConstants.LOCK);
+        }
     }
 
     //-----------------------------------------------------------------------------------

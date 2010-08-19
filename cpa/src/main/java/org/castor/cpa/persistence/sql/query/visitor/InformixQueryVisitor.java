@@ -21,27 +21,13 @@ import org.castor.cpa.persistence.sql.query.QueryConstants;
 import org.castor.cpa.persistence.sql.query.Select;
 
 /**
- * Visitor defining special behavior of query building for Oracle databases.
+ * Visitor defining special behavior of query building for informix database.
  *
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public final class OracleQueryVisitor extends DefaultDoubleQuoteNameQueryVisitor {
+public final class InformixQueryVisitor extends DefaultDoubleQuoteNameQueryVisitor {
     //-----------------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String quoteName(final String name) {
-        return doubleQuoteName(name).toUpperCase();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected String getSequenceNextValString(final String seqName) {
-        return seqName + ".nextval";
-    }
 
     /**
      * {@inheritDoc}
