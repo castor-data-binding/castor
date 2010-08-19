@@ -76,6 +76,18 @@ public final class QueryConstants {
     /** 'ON' keyword for constructing joins of SQL queries. */
     public static final String ON = "ON";
 
+    /** 'FOR' keyword for constructing FOR UPDATE-clauses. */
+    public static final String FOR = "FOR";
+
+    /** 'WITH' keyword for constructing WITH LOCK-clauses. */
+    public static final String WITH = "WITH";
+
+    /** 'LOCK' keyword for constructing WITH LOCK-clauses. */
+    public static final String LOCK = "LOCK";
+
+    /** 'HOLDLOCK' keyword for constructing WITH (HOLDLOCK)-clauses. */
+    public static final String HOLDLOCK = "HOLDLOCK";
+
     /** Character to use for spaces in SQL query. */
     public static final char SPACE = ' ';
     

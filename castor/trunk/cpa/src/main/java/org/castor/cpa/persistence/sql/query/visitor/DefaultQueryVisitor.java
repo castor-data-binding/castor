@@ -56,11 +56,11 @@ public class DefaultQueryVisitor implements Visitor {
     //-----------------------------------------------------------------------------------    
 
     /** StringBuilder used to append query string.*/
-    private final StringBuilder _queryString = new StringBuilder();
+    protected final StringBuilder _queryString = new StringBuilder();
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(DefaultQueryVisitor.class);
+    protected static final Log LOG = LogFactory.getLog(DefaultQueryVisitor.class);
 
     //-----------------------------------------------------------------------------------    
 
@@ -212,6 +212,8 @@ public class DefaultQueryVisitor implements Visitor {
             condition.accept(this);
         }
 
+        handleLock(select);
+
         if (LOG.isTraceEnabled()) { 
             LOG.trace("Visit select: " + toString());
         }
@@ -224,7 +226,7 @@ public class DefaultQueryVisitor implements Visitor {
      * 
      * @param qualifier Qualifier to process joins from.
      */
-    public void handleJoinConstruction(final Qualifier qualifier) {
+    protected final void handleJoinConstruction(final Qualifier qualifier) {
         if (!qualifier.hasJoin()) {
             addTableNames(qualifier);
         } else {
@@ -254,7 +256,7 @@ public class DefaultQueryVisitor implements Visitor {
      * 
      * @param qualifier Qualifier to add names from
      */
-    public void addTableNames(final Qualifier qualifier) {
+    protected void addTableNames(final Qualifier qualifier) {
         if (qualifier instanceof TableAlias) {
             ((TableAlias) qualifier).getTable().accept(this);
             _queryString.append(QueryConstants.SPACE);
@@ -462,6 +464,13 @@ public class DefaultQueryVisitor implements Visitor {
     protected String getSequenceNextValString(final String seqName) {
         return null;
     }
+
+    /**
+     * Method appending lock clauses as "FOR UPDATE" when needed.
+     * 
+     * @param select Select to check if locking-clauses have to be appended or not.
+     */
+    protected void handleLock(final Select select) { }
 
     /** 
      * {@inheritDoc}

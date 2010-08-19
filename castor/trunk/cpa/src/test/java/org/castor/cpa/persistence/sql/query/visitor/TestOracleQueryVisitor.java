@@ -23,6 +23,8 @@ import java.util.Iterator;
 import org.castor.cpa.persistence.sql.query.Assignment;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.Join;
+import org.castor.cpa.persistence.sql.query.JoinOperator;
 import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
@@ -58,6 +60,19 @@ public final class TestOracleQueryVisitor extends TestDefaultQueryVisitor {
         queryVis.visit(select);
         
         String expected = "SELECT * FROM \"TESTTABLE\"";
+
+        assertEquals(expected, queryVis.toString());
+    }
+
+    @Test
+    public void testSelectNoConditionNoExpressionWithLock() throws Exception {
+        Select select = new Select("TestTable");
+        select.setLocked(true);
+
+        Visitor queryVis = getVisitor();
+        queryVis.visit(select);
+        
+        String expected = "SELECT * FROM \"TESTTABLE\" FOR UPDATE";
 
         assertEquals(expected, queryVis.toString());
     }
@@ -723,6 +738,133 @@ public final class TestOracleQueryVisitor extends TestDefaultQueryVisitor {
     }
 
     @Test
+    public void testVisitJoin() throws Exception {
+        Visitor queryVis = getVisitor();
+        Table tab1 = new Table("tab1");
+        Column col1 = tab1.column("col1");
+        Table tab2 = new Table("tab2");
+        Column col2 = tab2.column("col2");
+        Join join = new Join(JoinOperator.LEFT, new Table("tab1"), col1.equal(col2));
+
+        queryVis.visit(join);
+
+        assertEquals("LEFT JOIN \"TAB1\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\"",
+                queryVis.toString());
+    }
+
+    @Test
+    public void testHandleJoinConstruction() {
+        Visitor queryVis = getVisitor();
+        Table table = new Table("tab1");
+        Column col1 = table.column("col1");
+        Table table2 = new Table("tab2");
+        Column col2 = table2.column("col2");
+
+        ((OracleQueryVisitor) queryVis).handleJoinConstruction(table);
+
+        assertEquals("\"TAB1\"", queryVis.toString());
+
+        table.addFullJoin(table2, col1.equal(col2));
+        queryVis = getVisitor();
+
+        ((OracleQueryVisitor) queryVis).handleJoinConstruction(table);
+
+        assertEquals("(\"TAB1\" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\")",
+                queryVis.toString());
+    }
+
+    @Test
+    public void testHandleJoinConstructionDepth() {
+        Visitor queryVis = getVisitor();
+        Table table = new Table("tab1");
+        Column col1 = table.column("col1");
+        Table table2 = new Table("tab2");
+        Column col2 = table2.column("col2");
+        Table table3 = new Table("tab3");
+        Column col3 = table3.column("col3");
+        Table table4 = new Table("tab4");
+        Column col4 = table4.column("col4");
+        table.addFullJoin(table2, col1.equal(col2));
+        table2.addFullJoin(table3, col2.equal(col3));
+        table3.addFullJoin(table4, col3.equal(col4));
+
+        ((OracleQueryVisitor) queryVis).handleJoinConstruction(table);
+
+        assertEquals("(\"TAB1\" FULL JOIN "
+                + "(\"TAB2\" FULL JOIN "
+                    + "(\"TAB3\" FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\") "
+                + "ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\") ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\")",
+                queryVis.toString());
+    }
+
+    @Test
+    public void testHandleJoinConstructionBreadth() {
+        Visitor queryVis = getVisitor();
+        Table table = new Table("tab1");
+        Column col1 = table.column("col1");
+        Table table2 = new Table("tab2");
+        Column col2 = table2.column("col2");
+        Table table3 = new Table("tab3");
+        Column col3 = table3.column("col3");
+        Table table4 = new Table("tab4");
+        Column col4 = table4.column("col4");
+        table.addFullJoin(table2, col1.equal(col2));
+        table.addFullJoin(table3, col2.equal(col3));
+        table.addFullJoin(table4, col3.equal(col4));
+
+        ((OracleQueryVisitor) queryVis).handleJoinConstruction(table);
+
+        assertEquals("((("
+                + "\"TAB1\" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\") "
+                + "FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\") "
+                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\")",
+                queryVis.toString());
+    }
+
+    @Test
+    public void testHandleJoinConstructionDepthAndBreadth() {
+        Visitor queryVis = getVisitor();
+        Table table = new Table("tab1");
+        Column col1 = table.column("col1");
+        Table table2 = new Table("tab2");
+        Column col2 = table2.column("col2");
+        Table table3 = new Table("tab3");
+        Column col3 = table3.column("col3");
+        Table table4 = new Table("tab4");
+        Column col4 = table4.column("col4");
+        table.addFullJoin(table2, col1.equal(col2));
+        table2.addFullJoin(table3, col2.equal(col3));
+        table.addFullJoin(table4, col3.equal(col4));
+
+        ((OracleQueryVisitor) queryVis).handleJoinConstruction(table);
+
+        assertEquals("("
+                + "(\"TAB1\" FULL JOIN "
+                    + "(\"TAB2\" FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\")"
+                + " ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\") "
+                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\")",
+                queryVis.toString());
+    }
+
+    @Test
+    public void testAddTableNames() {
+        Visitor queryVis = getVisitor();
+
+        Table table = new Table("TestTable");
+        ((OracleQueryVisitor) queryVis).addTableNames(table);
+
+        assertEquals("\"TESTTABLE\"", queryVis.toString());
+
+        queryVis = getVisitor();
+
+        TableAlias tblAls = new TableAlias(table, "TestTableAlias");
+        ((OracleQueryVisitor) queryVis).addTableNames(tblAls);
+
+        assertEquals("\"TESTTABLE\" \"TESTTABLEALIAS\"",
+                queryVis.toString());
+    }
+
+    @Test
     public void testVisitTable() throws Exception {
         Visitor queryVis = getVisitor();
         Table table = new Table("TestTable");
@@ -982,6 +1124,17 @@ public final class TestOracleQueryVisitor extends TestDefaultQueryVisitor {
 
         assertEquals(name + ".nextval",
                 ((OracleQueryVisitor) queryVis).getSequenceNextValString(name));
+    }
+
+    @Test
+    public void testHandleLock() throws Exception {
+        Select select = new Select("Test");
+        select.setLocked(true);
+
+        Visitor queryVis = getVisitor();
+        ((OracleQueryVisitor) queryVis).handleLock(select);
+
+        assertEquals(" FOR UPDATE", queryVis.toString());
     }
 
     protected Visitor getVisitor() {

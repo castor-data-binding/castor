@@ -23,9 +23,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.castor.cpa.persistence.sql.driver.DB2Factory;
+import org.castor.cpa.persistence.sql.driver.InformixFactory;
+import org.castor.cpa.persistence.sql.driver.MySQLFactory;
 import org.castor.cpa.persistence.sql.driver.OracleFactory;
 import org.castor.cpa.persistence.sql.driver.PostgreSQLFactory;
+import org.castor.cpa.persistence.sql.driver.ProgressFactory;
 import org.castor.cpa.persistence.sql.driver.SQLServerFactory;
+import org.castor.cpa.persistence.sql.driver.SapDbFactory;
 import org.castor.cpa.persistence.sql.driver.SybaseFactory;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
@@ -33,11 +38,16 @@ import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
+import org.castor.cpa.persistence.sql.query.visitor.DB2QueryVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.DefaultQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.InformixQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.MySQLQueryVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.OracleQueryVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.ParameterVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.PostgreSQLQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.ProgressQueryVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.SQLServerQueryVisitor;
+import org.castor.cpa.persistence.sql.query.visitor.SapDbQueryVisitor;
 import org.castor.cpa.persistence.sql.query.visitor.SybaseQueryVisitor;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -255,17 +265,28 @@ public final class CastorStatement {
         return _queryVis.toString();
     }
 
-    /** Method to determine correct implementation of database specific visitor
+    /**
+     * Method to determine correct implementation of database specific visitor
      * to be used to construct statement.
      * 
      * @param factoryName Name of the used factory
      * @return Visitor instance of the specific query visitor to be used.
      */
     private Visitor getMatchingQueryVisitor(final String factoryName) {
-        if (factoryName == OracleFactory.FACTORY_NAME) {
+        if (factoryName == DB2Factory.FACTORY_NAME) {
+            return new DB2QueryVisitor();
+        } else if (factoryName == InformixFactory.FACTORY_NAME) {
+            return new InformixQueryVisitor();
+        } else if (factoryName == MySQLFactory.FACTORY_NAME) {
+            return new MySQLQueryVisitor();
+        } else if (factoryName == OracleFactory.FACTORY_NAME) {
             return new OracleQueryVisitor();
         } else if (factoryName == PostgreSQLFactory.FACTORY_NAME) {
             return new PostgreSQLQueryVisitor();
+        } else if (factoryName == ProgressFactory.FACTORY_NAME) {
+            return new ProgressQueryVisitor();
+        } else if (factoryName == SapDbFactory.FACTORY_NAME) {
+            return new SapDbQueryVisitor();
         } else if (factoryName == SQLServerFactory.FACTORY_NAME) {
             return new SQLServerQueryVisitor();
         } else if (factoryName == SybaseFactory.FACTORY_NAME) {

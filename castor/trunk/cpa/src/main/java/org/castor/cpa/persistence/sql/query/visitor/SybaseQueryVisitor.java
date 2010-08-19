@@ -17,6 +17,11 @@
  */
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import org.castor.cpa.persistence.sql.query.Qualifier;
+import org.castor.cpa.persistence.sql.query.QueryConstants;
+import org.castor.cpa.persistence.sql.query.Select;
+import org.castor.cpa.persistence.sql.query.TableAlias;
+
 /**
  * Visitor defining special behavior of query building for Sybase database.
  *
@@ -25,6 +30,59 @@ package org.castor.cpa.persistence.sql.query.visitor;
  */
 public final class SybaseQueryVisitor extends DefaultDoubleQuoteNameQueryVisitor {
     //-----------------------------------------------------------------------------------
+
+    /** Variable storing select statement to check if lock-clauses are needed.*/
+    private Select _select;
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public void visit(final Select select) {
+        _select = select;
+        super.visit(select);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected void addTableNames(final Qualifier qualifier) {
+        if (qualifier instanceof TableAlias) {
+            ((TableAlias) qualifier).getTable().accept(this);
+            _queryString.append(QueryConstants.SPACE);
+        }
+        qualifier.accept(this);
+
+        if (_select.isLocked()) {
+            _queryString.append(QueryConstants.SPACE);
+            _queryString.append(QueryConstants.HOLDLOCK);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Get method returning select currently set.
+     * This method is only used for testing issues!
+     * 
+     * @return Select currently set.
+     */
+    @SuppressWarnings("unused")
+    private Select getSelect() {
+        return _select;
+    }
+
+    /**
+     * Set method to set current Select object.
+     * This method is only used for testing issues!
+     * 
+     * @param select Select to be set.
+     */
+    @SuppressWarnings("unused")
+    private void setSelect(final Select select) {
+        _select = select;
+    }
 
     /**
      * {@inheritDoc}
