@@ -1326,7 +1326,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- call private startElement
-        startElement(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
+        startElementProcessing(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
         
     } //-- startElement
  
@@ -1387,7 +1387,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- End Namespace Handling
         
         //-- call private startElement method
-        startElement(name, namespace, _attributeSetFactory.getAttributeSet(attList));
+        startElementProcessing(name, namespace, _attributeSetFactory.getAttributeSet(attList));
         
     } //-- startElement
         
@@ -1402,7 +1402,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param atts the AttributeSet containing the attributes associated
      * with the element.
      */
-    private void startElement
+    private void startElementProcessing
         (String name, String namespace, AttributeSet atts) 
         throws SAXException
     {
@@ -1422,229 +1422,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         if (_stateStack.isEmpty()) {
             //-- Initialize since this is the first element
-
-            if (_topClass == null) {
-                if (_topObject != null) {
-                    _topClass = _topObject.getClass();
-                }
-            }
-//            if (_cdResolver == null) {
-//                if (_topClass == null) {
-//                    String err = "The class for the root element '" +
-//                        name + "' could not be found.";
-//                    throw new SAXException(err);
-//                }
-//                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-//                _cdResolver.setClassLoader(_loader);
-//            }
-            if (getInternalContext().getXMLClassDescriptorResolver() == null) {
-                // Joachim 2007-09-04 check is new
-                String message = resourceBundle.getString("unmarshalHandler.log.warn.class.descriptor.not.set");
-                LOG.warn(message);
-                throw new IllegalStateException(message);
-            }
-
-            _topState = new UnmarshalState();            
-            _topState._elementName = name;
-            _topState._wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
-            
-            XMLClassDescriptor classDesc = null;
-            //-- If _topClass is null, then we need to search
-            //-- the resolver for one
-            String instanceClassname = null;
-            if (_topClass == null) {
-
-                //-- check for xsi:type
-                instanceClassname = getInstanceType(atts, null);
-                if (instanceClassname != null) {
-                    //-- first try loading class directly
-                    try {
-                        _topClass = loadClass(instanceClassname, null);
-                    }
-                    catch(ClassNotFoundException cnfe) {}
-                        
-                    if (_topClass == null) {
-                        classDesc = getClassDescriptor(instanceClassname);
-                        if (classDesc != null) {
-                            _topClass = classDesc.getJavaClass();
-                        }
-                        if (_topClass == null) {
-							String error = MessageFormat
-									.format(
-											resourceBundle
-													.getString("unmarshalHandler.error.class.not.found"),
-											new Object[] { instanceClassname });
-                            throw new SAXException(error);
-                        }
-                    }
-                }
-                else {
-                    classDesc = resolveByXMLName(name, namespace, null);
-                    if (classDesc == null) {
-                        classDesc = getClassDescriptor(name, _loader);
-                        if (classDesc == null) {
-                            classDesc = getClassDescriptor(getJavaNaming().toJavaClassName(name));
-                        }
-                    }
-                    if (classDesc != null) {
-                        _topClass = classDesc.getJavaClass();
-                    }
-                }
-
-                if (_topClass == null) {
-                	String err = MessageFormat
-					.format(
-							resourceBundle
-									.getString("unmarshalHandler.error.class.root.not.found"),
-							new Object[] { name });
-                    throw new SAXException(err);
-                }
-            }
-
-            //-- create a "fake" FieldDescriptor for the root element
-            XMLFieldDescriptorImpl fieldDesc
-                = new XMLFieldDescriptorImpl(_topClass,
-                                             name,
-                                             name,
-                                             NodeType.Element);
-
-            _topState._fieldDesc = fieldDesc;
-            //-- look for XMLClassDescriptor if null
-            //-- always check resolver first
-            if (classDesc == null)
-                classDesc = getClassDescriptor(_topClass);
-                
-            //-- check for top-level primitives 
-            if (classDesc == null) {
-                if (isPrimitive(_topClass)) {
-                    classDesc = new PrimitivesClassDescriptor(_topClass);
-                    fieldDesc.setIncremental(false);
-                    _topState._primitiveOrImmutable = true;
-                }
-            }
-            
-            fieldDesc.setClassDescriptor(classDesc);
-            if (classDesc == null) {
-                //-- report error
-			    if ((!isPrimitive(_topClass)) &&
-             (!Serializable.class.isAssignableFrom( _topClass )))
-             throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
-	
-				String err = MessageFormat
-						.format(
-								resourceBundle
-										.getString("unmarshalHandler.error.create.class.descriptor"),
-								new Object[] { _topClass.getName() });
-          
-          throw new SAXException(err);
-            }
-            _topState._classDesc = classDesc;
-            _topState._type = _topClass;
-
-            if  ((_topObject == null) && (!_topState._primitiveOrImmutable)) {
-                // Retrieving the xsi:type attribute, if present
-                String topPackage = getJavaPackage(_topClass);
-                
-                if (instanceClassname == null)
-                    instanceClassname = getInstanceType(atts, topPackage);
-                else {
-                    //-- instance type already processed above, reset
-                    //-- to null to prevent entering next block
-                    instanceClassname = null;
-                }
-                    
-                if (instanceClassname != null) {
-                    Class instanceClass = null;
-                    try {
-
-                        XMLClassDescriptor xcd =
-                            getClassDescriptor(instanceClassname);
-
-                        boolean loadClass = true;
-                        if (xcd != null) {
-                            instanceClass = xcd.getJavaClass();
-                            if (instanceClass != null) {
-                                loadClass = (!instanceClassname.equals(instanceClass.getName()));
-                            }
-                        }
-                        
-                        if (loadClass) {
-                            try {
-                                instanceClass = loadClass(instanceClassname, null);
-                            }
-                            catch(ClassNotFoundException cnfe) {
-                                //-- revert back to ClassDescriptor's associated
-                                //-- class
-                                if (xcd != null)
-                                    instanceClass = xcd.getJavaClass();
-                            }
-                        }
-
-                        if (instanceClass == null) {
-                        	String error = MessageFormat
-							.format(
-									resourceBundle
-											.getString("unmarshalHandler.error.class.not.found"),
-									new Object[] { instanceClassname });
-                            throw new SAXException(error);
-                        }
-
-                        if (!_topClass.isAssignableFrom(instanceClass)) {
-                        	String err = MessageFormat
-							.format(
-									resourceBundle
-											.getString("unmarshalHandler.error.not.subclass"),
-									new Object[] { instanceClass, _topClass });
-                            throw new SAXException(err);
-                        }
-
-                    }
-                    catch(Exception ex) {
-                    	String err = MessageFormat
-						.format(
-								resourceBundle
-										.getString("unmarshalHandler.error.unable.instantiate"),
-								new Object[] { instanceClassname });
-                        throw new SAXException(err, ex);
-                    }
-
-                    //-- try to create instance of the given Class
-                    Arguments args = processConstructorArgs(atts, classDesc);
-                    _topState._object = createInstance(instanceClass, args);
-                }
-                //-- no xsi type information present
-                else {
-                    //-- try to create instance of the given Class
-                    Arguments args = processConstructorArgs(atts, classDesc);
-                    _topState._object = createInstance(_topClass, args);
-                }
-            }
-            //-- otherwise use _topObject
-            else {
-                _topState._object = _topObject;
-            }
-            
-            _stateStack.pushState(_topState);
-            
-            if (!_topState._primitiveOrImmutable) {
-                //--The top object has just been initialized
-                //--notify the listener
-            	Object stateObject = _topState._object;
-				Object parentObject = (_topState._parent == null) ? null
-						: _topState._parent._object;
-				
-				_delegateUnmarshalListener.initialized(stateObject, parentObject);  
-                processAttributes(atts, classDesc);
-                _delegateUnmarshalListener.attributesProcessed(stateObject,
-						parentObject);
-                _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
-            }
-            
-            String pkg = getJavaPackage(_topClass);
-            if (getMappedPackage(namespace) == null) 
-            {
-                addNamespaceToPackageMapping(namespace, pkg);
-            }
+            processFirstElement(name, namespace, atts, xmlSpace);
             return;
         } //--rootElement
 
@@ -2011,7 +1789,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //we need to recall startElement()
             //so that we can find a more appropriate descriptor in for the given name
             _namespaceHandling.createNamespace();
-            startElement(name, namespace, atts);
+            startElementProcessing(name, namespace, atts);
             return;
         }
         //--End of the container support
@@ -2350,6 +2128,230 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     } //-- void startElement(String, AttributeList)
 
+	private void processFirstElement(String name, String namespace,
+			AttributeSet atts, String xmlSpace) throws SAXException {
+		if (_topClass == null) {
+		    if (_topObject != null) {
+		        _topClass = _topObject.getClass();
+		    }
+		}
+//            if (_cdResolver == null) {
+//                if (_topClass == null) {
+//                    String err = "The class for the root element '" +
+//                        name + "' could not be found.";
+//                    throw new SAXException(err);
+//                }
+//                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+//                _cdResolver.setClassLoader(_loader);
+//            }
+		if (getInternalContext().getXMLClassDescriptorResolver() == null) {
+		    // Joachim 2007-09-04 check is new
+		    String message = resourceBundle.getString("unmarshalHandler.log.warn.class.descriptor.not.set");
+		    LOG.warn(message);
+		    throw new IllegalStateException(message);
+		}
+
+		_topState = new UnmarshalState();            
+		_topState._elementName = name;
+		_topState._wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
+		
+		XMLClassDescriptor classDesc = null;
+		//-- If _topClass is null, then we need to search
+		//-- the resolver for one
+		String instanceClassname = null;
+		if (_topClass == null) {
+
+		    //-- check for xsi:type
+		    instanceClassname = getInstanceType(atts, null);
+		    if (instanceClassname != null) {
+		        //-- first try loading class directly
+		        try {
+		            _topClass = loadClass(instanceClassname, null);
+		        }
+		        catch(ClassNotFoundException cnfe) {}
+		            
+		        if (_topClass == null) {
+		            classDesc = getClassDescriptor(instanceClassname);
+		            if (classDesc != null) {
+		                _topClass = classDesc.getJavaClass();
+		            }
+		            if (_topClass == null) {
+						String error = MessageFormat
+								.format(
+										resourceBundle
+												.getString("unmarshalHandler.error.class.not.found"),
+										new Object[] { instanceClassname });
+		                throw new SAXException(error);
+		            }
+		        }
+		    }
+		    else {
+		        classDesc = resolveByXMLName(name, namespace, null);
+		        if (classDesc == null) {
+		            classDesc = getClassDescriptor(name, _loader);
+		            if (classDesc == null) {
+		                classDesc = getClassDescriptor(getJavaNaming().toJavaClassName(name));
+		            }
+		        }
+		        if (classDesc != null) {
+		            _topClass = classDesc.getJavaClass();
+		        }
+		    }
+
+		    if (_topClass == null) {
+		    	String err = MessageFormat
+				.format(
+						resourceBundle
+								.getString("unmarshalHandler.error.class.root.not.found"),
+						new Object[] { name });
+		        throw new SAXException(err);
+		    }
+		}
+
+		//-- create a "fake" FieldDescriptor for the root element
+		XMLFieldDescriptorImpl fieldDesc
+		    = new XMLFieldDescriptorImpl(_topClass,
+		                                 name,
+		                                 name,
+		                                 NodeType.Element);
+
+		_topState._fieldDesc = fieldDesc;
+		//-- look for XMLClassDescriptor if null
+		//-- always check resolver first
+		if (classDesc == null)
+		    classDesc = getClassDescriptor(_topClass);
+		    
+		//-- check for top-level primitives 
+		if (classDesc == null) {
+		    if (isPrimitive(_topClass)) {
+		        classDesc = new PrimitivesClassDescriptor(_topClass);
+		        fieldDesc.setIncremental(false);
+		        _topState._primitiveOrImmutable = true;
+		    }
+		}
+		
+		fieldDesc.setClassDescriptor(classDesc);
+		if (classDesc == null) {
+		    //-- report error
+		    if ((!isPrimitive(_topClass)) &&
+		 (!Serializable.class.isAssignableFrom( _topClass )))
+		 throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+
+			String err = MessageFormat
+					.format(
+							resourceBundle
+									.getString("unmarshalHandler.error.create.class.descriptor"),
+							new Object[] { _topClass.getName() });
+        
+        throw new SAXException(err);
+		}
+		_topState._classDesc = classDesc;
+		_topState._type = _topClass;
+
+		if  ((_topObject == null) && (!_topState._primitiveOrImmutable)) {
+		    // Retrieving the xsi:type attribute, if present
+		    String topPackage = getJavaPackage(_topClass);
+		    
+		    if (instanceClassname == null)
+		        instanceClassname = getInstanceType(atts, topPackage);
+		    else {
+		        //-- instance type already processed above, reset
+		        //-- to null to prevent entering next block
+		        instanceClassname = null;
+		    }
+		        
+		    if (instanceClassname != null) {
+		        Class instanceClass = null;
+		        try {
+
+		            XMLClassDescriptor xcd =
+		                getClassDescriptor(instanceClassname);
+
+		            boolean loadClass = true;
+		            if (xcd != null) {
+		                instanceClass = xcd.getJavaClass();
+		                if (instanceClass != null) {
+		                    loadClass = (!instanceClassname.equals(instanceClass.getName()));
+		                }
+		            }
+		            
+		            if (loadClass) {
+		                try {
+		                    instanceClass = loadClass(instanceClassname, null);
+		                }
+		                catch(ClassNotFoundException cnfe) {
+		                    //-- revert back to ClassDescriptor's associated
+		                    //-- class
+		                    if (xcd != null)
+		                        instanceClass = xcd.getJavaClass();
+		                }
+		            }
+
+		            if (instanceClass == null) {
+		            	String error = MessageFormat
+						.format(
+								resourceBundle
+										.getString("unmarshalHandler.error.class.not.found"),
+								new Object[] { instanceClassname });
+		                throw new SAXException(error);
+		            }
+
+		            if (!_topClass.isAssignableFrom(instanceClass)) {
+		            	String err = MessageFormat
+						.format(
+								resourceBundle
+										.getString("unmarshalHandler.error.not.subclass"),
+								new Object[] { instanceClass, _topClass });
+		                throw new SAXException(err);
+		            }
+
+		        }
+		        catch(Exception ex) {
+		        	String err = MessageFormat
+					.format(
+							resourceBundle
+									.getString("unmarshalHandler.error.unable.instantiate"),
+							new Object[] { instanceClassname });
+		            throw new SAXException(err, ex);
+		        }
+
+		        //-- try to create instance of the given Class
+		        Arguments args = processConstructorArgs(atts, classDesc);
+		        _topState._object = createInstance(instanceClass, args);
+		    }
+		    //-- no xsi type information present
+		    else {
+		        //-- try to create instance of the given Class
+		        Arguments args = processConstructorArgs(atts, classDesc);
+		        _topState._object = createInstance(_topClass, args);
+		    }
+		}
+		//-- otherwise use _topObject
+		else {
+		    _topState._object = _topObject;
+		}
+		
+		_stateStack.pushState(_topState);
+		
+		if (!_topState._primitiveOrImmutable) {
+		    //--The top object has just been initialized
+		    //--notify the listener
+			Object stateObject = _topState._object;
+			Object parentObject = (_topState._parent == null) ? null
+					: _topState._parent._object;
+			
+			_delegateUnmarshalListener.initialized(stateObject, parentObject);  
+		    processAttributes(atts, classDesc);
+		    _delegateUnmarshalListener.attributesProcessed(stateObject,
+					parentObject);
+		    _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
+		}
+		
+		String pkg = getJavaPackage(_topClass);
+		if (getMappedPackage(namespace) == null) {
+		    addNamespaceToPackageMapping(namespace, pkg);
+		}
+	}
 
 
     /**
