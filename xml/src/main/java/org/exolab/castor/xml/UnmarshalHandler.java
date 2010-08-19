@@ -2218,8 +2218,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		_topState._fieldDesc = fieldDesc;
 		//-- look for XMLClassDescriptor if null
 		//-- always check resolver first
-		if (classDesc == null)
-		    classDesc = getClassDescriptor(_topClass);
+		if (classDesc == null) {
+            classDesc = getClassDescriptor(_topClass);
+        }
 		    
 		//-- check for top-level primitives 
 		if (classDesc == null) {
@@ -2234,8 +2235,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		if (classDesc == null) {
 		    //-- report error
 		    if ((!isPrimitive(_topClass)) &&
-		 (!Serializable.class.isAssignableFrom( _topClass )))
-		 throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+		            (!Serializable.class.isAssignableFrom( _topClass ))) {
+                throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+            }
 
 			String err = MessageFormat
 					.format(
@@ -2243,7 +2245,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 									.getString("unmarshalHandler.error.create.class.descriptor"),
 							new Object[] { _topClass.getName() });
         
-        throw new SAXException(err);
+			throw new SAXException(err);
 		}
 		_topState._classDesc = classDesc;
 		_topState._type = _topClass;
@@ -2252,9 +2254,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		    // Retrieving the xsi:type attribute, if present
 		    String topPackage = getJavaPackage(_topClass);
 		    
-		    if (instanceClassname == null)
-		        instanceClassname = getInstanceType(atts, topPackage);
-		    else {
+		    if (instanceClassname == null) {
+                instanceClassname = getInstanceType(atts, topPackage);
+            } else {
 		        //-- instance type already processed above, reset
 		        //-- to null to prevent entering next block
 		        instanceClassname = null;
@@ -2264,8 +2266,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		        Class instanceClass = null;
 		        try {
 
-		            XMLClassDescriptor xcd =
-		                getClassDescriptor(instanceClassname);
+		            XMLClassDescriptor xcd = getClassDescriptor(instanceClassname);
 
 		            boolean loadClass = true;
 		            if (xcd != null) {
@@ -2282,8 +2283,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		                catch(ClassNotFoundException cnfe) {
 		                    //-- revert back to ClassDescriptor's associated
 		                    //-- class
-		                    if (xcd != null)
-		                        instanceClass = xcd.getJavaClass();
+		                    if (xcd != null) {
+                                instanceClass = xcd.getJavaClass();
+                            }
 		                }
 		            }
 
@@ -2318,16 +2320,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		        //-- try to create instance of the given Class
 		        Arguments args = processConstructorArgs(atts, classDesc);
 		        _topState._object = createInstance(instanceClass, args);
-		    }
-		    //-- no xsi type information present
-		    else {
+		    } else {
+		        //-- no xsi type information present
 		        //-- try to create instance of the given Class
 		        Arguments args = processConstructorArgs(atts, classDesc);
 		        _topState._object = createInstance(_topClass, args);
 		    }
-		}
-		//-- otherwise use _topObject
-		else {
+		} else {
+		    //-- otherwise use _topObject
 		    _topState._object = _topObject;
 		}
 		
@@ -2342,8 +2342,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 			
 			_delegateUnmarshalListener.initialized(stateObject, parentObject);  
 		    processAttributes(atts, classDesc);
-		    _delegateUnmarshalListener.attributesProcessed(stateObject,
-					parentObject);
+		    _delegateUnmarshalListener.attributesProcessed(stateObject, parentObject);
 		    _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
 		}
 		
