@@ -1,5 +1,7 @@
 package org.castor.jpa.scenario.enumerated;
 
+import static org.castor.jpa.scenario.enumerated.OrdinalEnum.ZERO;
+import static org.castor.jpa.scenario.enumerated.StringEnum.FOO;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.PersistenceException;
@@ -44,8 +46,8 @@ public class EnumeratedITCase {
         final Database db = jdoManager.getDatabase();
         final EnumEntity entityToPersist = new EnumEntity();
         entityToPersist.setId(ID);
-        entityToPersist.setStringEnum(StringEnum.FOO);
-//        entityToPersist.setOrdinalEnum(ZERO);
+        entityToPersist.setStringEnum(FOO);
+        entityToPersist.setOrdinalEnum(ZERO);
 
         db.begin();
         db.create(entityToPersist);
@@ -56,8 +58,8 @@ public class EnumeratedITCase {
         db.commit();
 
         assertNotNull(loadedEntity);
-        assertEquals(StringEnum.FOO, loadedEntity.getStringEnum());
-//        assertEquals(ZERO, loadedEntity.getOrdinalEnum());
+        assertEquals(FOO, loadedEntity.getStringEnum());
+        assertEquals(ZERO, loadedEntity.getOrdinalEnum());
     }
 
 }

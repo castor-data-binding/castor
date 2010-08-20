@@ -18,11 +18,15 @@ package org.castor.jdo.jpa.info;
 import java.util.Map;
 
 import java.util.Properties;
+import java.lang.reflect.Method;
 
 import javax.persistence.FetchType;
 import javax.persistence.TemporalType;
 
 import org.castor.cpa.persistence.convertor.ObjectToString;
+import org.castor.cpa.persistence.convertor.EnumToOrdinal;
+import org.castor.cpa.persistence.convertor.EnumTypeConvertor;
+import org.castor.cpa.persistence.convertor.EnumTypeConversionHelper;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.jpa.natures.JPAClassNature;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
@@ -370,8 +374,9 @@ public final class InfoToDescriptorConverter {
                 .typeFromPrimitive(typeInfo.getFieldType());
         int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
 
-        if (jpaNature.isStringEnumType()) { // Serializing enums to VARCHAR.
-            sqlType = java.sql.Types.VARCHAR;
+        if (fieldInfo.getFieldType().isEnum()) { // Serializing enum types.
+            sqlType = jpaNature.isStringEnumType() ? java.sql.Types.VARCHAR :
+                    java.sql.Types.INTEGER;
         } else if (jpaNature.isLob()) {
             sqlType =  typeInfo.getFieldType() == String.class ?
                     java.sql.Types.CLOB : java.sql.Types.BLOB;
@@ -543,15 +548,23 @@ public final class InfoToDescriptorConverter {
      */
     private static TypeInfo createTypeInfo(final FieldInfo fieldInfo,
             final JPAFieldNature jpaNature) throws MappingException {
+        final Class<?> fieldType = fieldInfo.getFieldType();
         if (hasFieldRelation(jpaNature)) {
             return new TypeInfo(jpaNature.getRelationTargetEntity());
-        } else if (jpaNature.isStringEnumType()) {
-            final Class<?> fieldType = fieldInfo.getFieldType();
-            try { // Use custom EnumTypeConvertor for conversion.
-                final TypeInfo typeInfo = new TypeInfo(fieldType,
-                        new EnumTypeConvertor(String.class, fieldType,
-                                fieldType.getMethod("valueOf", String.class)),
-                        new ObjectToString(), createRequired(jpaNature),
+        } else if (fieldType.isEnum()) {
+            try { // Apply custom enum type conversion.
+                final EnumTypeConversionHelper enumTypeConversionHelper =
+                        new EnumTypeConversionHelper(fieldType);
+                final Method method = jpaNature.isStringEnumType() ?
+                        fieldType.getMethod("valueOf", String.class) :
+                        enumTypeConversionHelper.getClass().getMethod(
+                                "getEnumConstantValueByOrdinal", int.class);
+                final EnumTypeConvertor typeConvertor = new EnumTypeConvertor(
+                        jpaNature.isStringEnumType() ? String.class : int.class,
+                        fieldType, method);
+                final TypeInfo typeInfo = new TypeInfo(fieldType, typeConvertor,
+                        jpaNature.isStringEnumType() ? new ObjectToString() :
+                                new EnumToOrdinal(), createRequired(jpaNature),
                         null, null);
                 Types.addEnumType(fieldType); // Register type accordingly.
                 Types.addConvertibleType(fieldType);
@@ -563,7 +576,6 @@ public final class InfoToDescriptorConverter {
             }
         }
         return new TypeInfo(fieldInfo.getFieldType());
-
     }
 
     /**
