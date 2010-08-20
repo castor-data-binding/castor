@@ -68,14 +68,15 @@ public class AttributeSetImpl implements AttributeSet {
     /**
      * The list of attributes in this AttributeSet.
      */
-    private List _attributes = null;
+    private List<Attribute> _attributes = new ArrayList<Attribute>();
 
+    
     /**
-     * Creates a new AttributeSetImpl
+     * Creates a new AttributeSetImpl.
      */
     public AttributeSetImpl() {
-        _attributes = new ArrayList();
-    } //-- AttributeSetImpl
+        super();
+    }
 
     /**
      * Creates a new AttributeSetImpl.
@@ -87,15 +88,14 @@ public class AttributeSetImpl implements AttributeSet {
             String err = "size cannot be less than zero";
             throw new IllegalArgumentException(err);
         }
-        _attributes = new ArrayList(size);
-    } //-- AttributeSetImpl
+    }
 
     /**
      * Removes all Attributes in this AttributeSetImpl
      */
     public void clear() {
         _attributes.clear();
-    } //-- clear
+    }
 
     /**
      * Returns the index of the attribute associated with the given name and
@@ -111,7 +111,7 @@ public class AttributeSetImpl implements AttributeSet {
         }
 
         for (int i = 0; i < _attributes.size(); i++) {
-            Attribute attr = (Attribute) _attributes.get(i);
+            Attribute attr = _attributes.get(i);
             if (namespace.equals(attr.namespace)) {
                 if (attr.name.equals(name)) {
                     return i;
@@ -119,7 +119,7 @@ public class AttributeSetImpl implements AttributeSet {
             }
         }
         return -1;
-    } //-- getIndex
+    }
 
     /**
      * Returns the name of the attribute located at the given index.
@@ -128,9 +128,9 @@ public class AttributeSetImpl implements AttributeSet {
      * @return the name of the attribute located at the given index.
      */
     public String getName(final int index) {
-        Attribute attr = (Attribute) _attributes.get(index);
+        Attribute attr = _attributes.get(index);
         return attr.name;
-    } //-- getName
+    }
 
     /**
      * Returns the namespace of the attribute located at the given index.
@@ -138,9 +138,9 @@ public class AttributeSetImpl implements AttributeSet {
      * @return the namespace of the attribute located at the given index.
      */
     public String getNamespace(final int index) {
-        Attribute attr = (Attribute) _attributes.get(index);
+        Attribute attr = _attributes.get(index);
         return attr.namespace;
-    } //-- getNamespace
+    }
 
     /**
      * Returns the number of Attributes within this AttributeSet.
@@ -149,7 +149,7 @@ public class AttributeSetImpl implements AttributeSet {
      */
     public int getSize() {
         return _attributes.size();
-    } //-- getSize
+    }
 
     /**
      * Returns the value of the attribute located at the given index within this
@@ -158,9 +158,9 @@ public class AttributeSetImpl implements AttributeSet {
      * @param index the index of the attribute whose value should be returned.
      */
     public String getValue(int index) {
-        Attribute attr = (Attribute)_attributes.get(index);
+        Attribute attr = _attributes.get(index);
         return attr.value;
-    } //-- getValue
+    }
 
     /**
      * Returns the value of the attribute associated with the given name. This
@@ -177,7 +177,7 @@ public class AttributeSetImpl implements AttributeSet {
             return attr.value;
         }
         return null;
-    } //-- getValue
+    }
 
     /**
      * Returns the value of the attribute associated with the given name. This
@@ -195,7 +195,7 @@ public class AttributeSetImpl implements AttributeSet {
             return attr.value;
         }
         return null;
-    } //-- getValue
+    }
 
     /**
      * Adds or replaces the attribute with the given name. No namespace is
@@ -206,7 +206,7 @@ public class AttributeSetImpl implements AttributeSet {
      */
     public void setAttribute(String name, String value) {
         setAttribute(name, value, EMPTY_STRING);
-    } //-- setAttribute
+    }
 
     /**
      * Adds or replaces the attribute with the given name. No namespace is
@@ -232,21 +232,26 @@ public class AttributeSetImpl implements AttributeSet {
         Attribute attr = getAttribute(name, namespace);
         if (attr == null) {
             _attributes.add(new Attribute(name, value, namespace));
+        } else {
+            attr.value = value;
         }
-        else attr.value = value;
 
-    } //-- setAttribute
+    }
 
     private Attribute getAttribute(String name, String namespace) {
-        if (namespace == null) namespace = EMPTY_STRING;
+        if (namespace == null) {
+            namespace = EMPTY_STRING;
+        }
         for (int i = 0; i < _attributes.size(); i++) {
-            Attribute attr = (Attribute)_attributes.get(i);
+            Attribute attr = _attributes.get(i);
             if (namespace.equals(attr.namespace)) {
-                if (attr.name.equals(name)) return attr;
+                if (attr.name.equals(name)) {
+                    return attr;
+                }
             }
         }
         return null;
-    } //-- getAttribute
+    }
 
     /**
      * A representation of an Attribute
@@ -259,14 +264,14 @@ public class AttributeSetImpl implements AttributeSet {
 
         public Attribute() {
             super();
-        } //-- Attribute
+        }
 
         public Attribute(String name, String value, String namespace) {
             this.name = name;
             this.value = value;
             this.namespace = namespace;
-        } //-- Attribute
+        }
 
-    } //-- class Attribute
+    }
 
-} //-- class AttributeSetImpl
+}

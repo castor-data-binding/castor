@@ -109,7 +109,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     private XMLFieldDescriptor[] _attArray = null;
 
     /** The Class that this ClassDescriptor describes. */
-    private Class _class = null;
+    private Class<?> _class = null;
 
     /** A variable to keep track of the number of container fields. */
     private int _containerCount = 0;
@@ -159,22 +159,22 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     
     /** Defines the sequence of elements for unmarshalling validation
      *  (to be used with compositor == SEQUENCE only). */
-    private List _sequenceOfElements = new ArrayList();
+    private List<XMLFieldDescriptor> _sequenceOfElements = new ArrayList<XMLFieldDescriptor>();
     
-    private List _substitutes = new LinkedList();    
+    private List<String> _substitutes = new LinkedList<String>();    
 
     /** Map holding the properties set and read by Natures. */
-    private Map _properties = new HashMap();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
     
     /** Map holding the available natures. */
-    private Set _natures = new HashSet();
+    private Set<String> _natures = new HashSet<String>();
 
     /**
      * Creates an XMLClassDescriptor class used by the Marshalling Framework.
      *
      * @param type the Class type with which this ClassDescriptor describes.
      */
-    public XMLClassDescriptorImpl(final Class type) {
+    public XMLClassDescriptorImpl(final Class<?> type) {
         this();
         if (type == null) {
             throw new IllegalArgumentException(NULL_CLASS_ERR);
@@ -189,7 +189,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      *
      * @param type the Class type with which this ClassDescriptor describes.
      */
-    public XMLClassDescriptorImpl(Class type, String xmlName) {
+    public XMLClassDescriptorImpl(Class<?> type, String xmlName) {
         this();
 
         if (type == null) {
@@ -253,7 +253,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      *         marshalled as XML attributes.
      */
     public XMLFieldDescriptor[]  getAttributeDescriptors() {
-        return (XMLFieldDescriptor[]) getAttributeArray().clone();
+        return getAttributeArray().clone();
     } // getAttributeDescriptors
 
     /**
@@ -275,7 +275,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      * that should be marshalled as XML elements.
      */
     public XMLFieldDescriptor[]  getElementDescriptors() {
-        return (XMLFieldDescriptor[]) getElementArray().clone();
+        return getElementArray().clone();
     } // getElementDescriptors
     
     /**
@@ -292,7 +292,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         		throw new ValidationException ("Element with name " + xmlName + " passed to type " + getXMLName() + " in incorrect order; It is not allowed to be the last element of this sequence!");
         	}
         	
-        	XMLFieldDescriptor expectedElementDescriptor = (XMLFieldDescriptor) _sequenceOfElements.get(parentState._expectedIndex);
+        	XMLFieldDescriptor expectedElementDescriptor = _sequenceOfElements.get(parentState._expectedIndex);
             
             String expectedElementName = expectedElementDescriptor.getXMLName();
             String elementName = xmlName;
@@ -303,7 +303,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             if (!anyNode && expectedElementDescriptor.getXMLName().equals("-error-if-this-is-used-")) {
             	
             	// find possible names
-            	ArrayList possibleNames = new ArrayList();
+            	List<String> possibleNames = new ArrayList<String>();
             	fillPossibleNames(possibleNames, expectedElementDescriptor);
             	
             	// check name
@@ -328,7 +328,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             if (!anyNode && !(expectedElementName).equals(elementName)) {
                 
                 // handle substitution groups !!! 
-                List substitutes =  expectedElementDescriptor.getSubstitutes();
+                List<String> substitutes =  expectedElementDescriptor.getSubstitutes();
                 if (substitutes != null && !substitutes.isEmpty()) {
                     if (substitutes.contains(elementName)) {
                         if (!parentState._withinMultivaluedElement) {
@@ -363,19 +363,19 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
    }
     
     
-    private void fillPossibleNames(List possibleNames, XMLFieldDescriptor descriptor) {
+    private void fillPossibleNames(List<String> possibleNames, XMLFieldDescriptor descriptor) {
     	XMLFieldDescriptor[] descriptors = ((XMLClassDescriptor)descriptor.getClassDescriptor()).getElementDescriptors();
     	if (descriptors.length == 0) {
     		return;
     	}
-    	for (int i = 0; i < descriptors.length; i++) {
-    		if ("_items".equals(descriptors[i].getFieldName() ) 
-    				|| "-error-if-this-is-used-".equals(descriptors[i].getXMLName())) {
-        		fillPossibleNames(possibleNames, descriptors[i]);
-        	} else {
-        		possibleNames.add(descriptors[i].getXMLName());
-        	}
-    	}
+    	for (XMLFieldDescriptor fieldDescriptor : descriptors) {
+    	    if ("_items".equals(fieldDescriptor.getFieldName() ) 
+    	            || "-error-if-this-is-used-".equals(fieldDescriptor.getXMLName())) {
+    	        fillPossibleNames(possibleNames, fieldDescriptor);
+    	    } else {
+    	        possibleNames.add(fieldDescriptor.getXMLName());
+    	    }
+        }
     }
 
     /**
@@ -837,9 +837,9 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         if (object == null) {
             throw new ValidationException("Cannot validate a null object.");
         }
-        Class a = getJavaClass();
+        Class<?> a = getJavaClass();
         ClassLoader acl = a.getClassLoader();
-        Class b = object.getClass();
+        Class<? extends Object> b = object.getClass();
         ClassLoader bcl = b.getClassLoader();
         if (!getJavaClass().isAssignableFrom(object.getClass())) {
             String err = "The given object is not an instance of the class"
@@ -1087,7 +1087,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      *
      * @return The Java class
      */
-    public Class getJavaClass() {
+    public Class<?> getJavaClass() {
         return _class;
     } //-- getJavaClass
 
@@ -1251,7 +1251,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                         }
                         //special case for collection
                         if (tempObj instanceof Collection) {
-                           result = ((Collection)tempObj).isEmpty();
+                           result = ((Collection) tempObj).isEmpty();
                         }
                     }
                 }
@@ -1275,7 +1275,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      * @return true if the given class should be treated as a primitive
      * type
     **/
-    static boolean isPrimitive(Class type) {
+    static boolean isPrimitive(Class<?> type) {
 
         if (type == null) return false;
 
@@ -1302,7 +1302,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     static boolean isDefaultPrimitiveValue(Object value) {
         if (value == null) return false;
 
-        Class type = value.getClass();
+        Class<?> type = value.getClass();
         if (type.isPrimitive()) {
             try {
                 return (value.equals(type.newInstance()));
@@ -1335,7 +1335,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      *
      * @param type the Class type being described
      */
-    public void setJavaClass(Class type) {
+    public void setJavaClass(Class<?> type) {
         this._class = type;
     } //-- setJavaClass
 
@@ -1440,14 +1440,12 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     protected void addSequenceElement(XMLFieldDescriptor element) {
         _sequenceOfElements.add(element);
     }
-
     
-    public List getSubstitutes()
-    {
+    public List<String> getSubstitutes() {
         return _substitutes;
     }
 
-    public void setSubstitutes(List substitutes) {
+    public void setSubstitutes(List<String> substitutes) {
         _substitutes = substitutes;
     }
          
@@ -1499,4 +1497,4 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         return _natures.contains(nature);
     }
     
-} //-- XMLClassDescriptor
+}

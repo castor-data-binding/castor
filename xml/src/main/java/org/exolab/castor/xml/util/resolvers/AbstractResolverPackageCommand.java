@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.util.ResolverPackageCommand;
 import org.exolab.castor.xml.util.ResolverStrategy;
@@ -33,12 +34,13 @@ import org.exolab.castor.xml.util.ResolverStrategy;
  * @since 1.2
  */
 public abstract class AbstractResolverPackageCommand implements ResolverPackageCommand {
+    
     private static final Log LOG = LogFactory.getLog(AbstractResolverPackageCommand.class);
 
     /**
      * {@inheritDoc}
      */
-    public final Map resolve(final String packageName, final Map properties)
+    public final Map<String, ClassDescriptor> resolve(final String packageName, final Map properties)
     throws ResolverException {
         String pName;
         if ((packageName == null) || ("".equals(packageName))) {
@@ -83,6 +85,6 @@ public abstract class AbstractResolverPackageCommand implements ResolverPackageC
      * @return a Map of className and XMLClassDescriptor
      * @throws ResolverException in case of unrecoverable problems at resolving
      */
-    protected abstract Map internalResolve(String packageName, ClassLoader classLoader, Map props)
+    protected abstract Map<String, ClassDescriptor> internalResolve(String packageName, ClassLoader classLoader, Map props)
     throws ResolverException;
 }
