@@ -105,33 +105,6 @@ public class InfoToDescriptorConverterTest {
     }
 
     @Test
-    public void namedNativeQueriesInformationWillBeConverted() throws Exception {
-
-        classInfo = new ClassInfo();
-        classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        classInfo.setDescribedClass(JpaNamedQueriesTestClass.class);
-        JPAClassNature nature = new JPAClassNature(classInfo);
-
-        Map<String, String> namedNativeQueriesMap = new HashMap<String, String>();
-        namedNativeQueriesMap.put(NAME, QUERY);
-        namedNativeQueriesMap.put(NAME2, QUERY2);
-        nature.setNamedNativeQuery(namedNativeQueriesMap);
-
-        descriptor = new ClassDescriptorImpl();
-        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
-        Map<String, NamedNativeQuery> returnedMap = (Map) descriptor
-                .getProperty(ClassDescriptorJDONature.class.getCanonicalName()
-                        + "namedNativeQueries");
-
-        assertTrue(returnedMap.keySet().contains(NAME));
-        assertTrue(returnedMap.keySet().contains(NAME2));
-        assertEquals(NAME, returnedMap.get(NAME).getName());
-        assertEquals(NAME2, returnedMap.get(NAME2).getName());
-        assertEquals(QUERY, returnedMap.get(NAME).getQuery());
-        assertEquals(QUERY2, returnedMap.get(NAME2).getQuery());
-    }
-
-    @Test
     public void sequenceGeneratedValueWillBeConverted() throws Exception {
         classInfo = ClassInfoBuilder
                 .buildClassInfo(SequenceGeneratedValueTestClass.class);
@@ -179,4 +152,43 @@ public class InfoToDescriptorConverterTest {
                 .getParams().get(TableKeyGenerator.DESCRIPTOR_KEY);
         assertEquals(Long.class, jpaDescriptor.getPrimaryKeyType());
     }
+    
+    @Test
+    public void versionFieldWillBeSet() throws Exception {
+        classInfo = ClassInfoBuilder
+                .buildClassInfo(VersionTestClass.class);
+        descriptor = new ClassDescriptorImpl();
+        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
+        ClassDescriptorJDONature jdoDescriptor = new ClassDescriptorJDONature(
+                descriptor);
+        assertEquals("version", jdoDescriptor.getVersionField());
+    }
+    
+    @Test
+    public void namedNativeQueriesInformationWillBeConverted() throws Exception {
+
+        classInfo = new ClassInfo();
+        classInfo.addNature(JPAClassNature.class.getCanonicalName());
+        classInfo.setDescribedClass(JpaNamedQueriesTestClass.class);
+        JPAClassNature nature = new JPAClassNature(classInfo);
+
+        Map<String, String> namedNativeQueriesMap = new HashMap<String, String>();
+        namedNativeQueriesMap.put(NAME, QUERY);
+        namedNativeQueriesMap.put(NAME2, QUERY2);
+        nature.setNamedNativeQuery(namedNativeQueriesMap);
+
+        descriptor = new ClassDescriptorImpl();
+        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
+        Map<String, NamedNativeQuery> returnedMap = (Map) descriptor
+                .getProperty(ClassDescriptorJDONature.class.getCanonicalName()
+                        + "namedNativeQueries");
+
+        assertTrue(returnedMap.keySet().contains(NAME));
+        assertTrue(returnedMap.keySet().contains(NAME2));
+        assertEquals(NAME, returnedMap.get(NAME).getName());
+        assertEquals(NAME2, returnedMap.get(NAME2).getName());
+        assertEquals(QUERY, returnedMap.get(NAME).getQuery());
+        assertEquals(QUERY2, returnedMap.get(NAME2).getQuery());
+    }
+
 }
