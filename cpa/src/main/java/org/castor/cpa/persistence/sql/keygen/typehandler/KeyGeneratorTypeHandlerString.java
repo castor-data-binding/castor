@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.persistence.sql.keygen;
+package org.castor.cpa.persistence.sql.keygen.typehandler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,47 +23,55 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 
 /** 
- *  Class implementing the KeyGeneratorTypeHandler for Integer type.
+ *  Class implementing the KeyGeneratorTypeHandler for String type.
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public final class KeyGeneratorTypeHandlerInteger
-implements KeyGeneratorTypeHandler <Integer> {
+public final class KeyGeneratorTypeHandlerString
+implements KeyGeneratorTypeHandler <String> {
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
-    private static final Integer ZERO = new Integer(0);
+    private static String _zero;
 
     /** <code>true</code> if the type handler should fail when current row of the record set is
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
     /**
-     * Construct an type handler for integer values.
+     * Construct an type handler for string values.
      * 
      * @param fail <code>true</code> if the type handler should fail when current row of the
      *        record set is not valid, <code>false</code> otherwise.
+     * @param length Length of the string.
      */
-    public KeyGeneratorTypeHandlerInteger(final boolean fail) {
+    public KeyGeneratorTypeHandlerString(final boolean fail, final int length) {
+        if (_zero == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++) { sb.append('z'); }
+            _zero = sb.toString();
+        }
         _fail = fail;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer getNextValue(final ResultSet rs) throws PersistenceException, SQLException {
+    public String getNextValue(final ResultSet rs) throws PersistenceException, SQLException {
         return increment(getValue(rs));
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer getValue(final ResultSet rs) throws PersistenceException, SQLException {
+    public String getValue(final ResultSet rs) throws PersistenceException, SQLException {
         if (rs.next()) {
-            return new Integer(rs.getInt(1));
+            String value = rs.getString(1);
+            if (value == null) { value = _zero; }
+            return value;
         } else if (!_fail) {
-            return ZERO;
+            return _zero;
         }
 
         String msg = Messages.format("persist.keyGenFailed", "");
@@ -73,22 +81,38 @@ implements KeyGeneratorTypeHandler <Integer> {
     /**
      * {@inheritDoc}
      */
-    public Integer increment(final Integer value) {
-        return new Integer(value.intValue() + 1);
+    public String increment(final String value) {
+        char[] array = value.toCharArray();
+        boolean overflow = true;
+        for (int i = array.length - 1; overflow && (i >= 0); i--) {
+            array[i]++;
+            overflow = (array[i] > 'z');
+            if (overflow) { array[i] = 'a'; }
+        }
+        return new String(array);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Integer add(final Integer value, final int offset) {
-        return new Integer(value.intValue() + offset);
+    public String add(final String value, final int offset) {
+        char[] array = value.toCharArray();
+        for (int j = 0; j < offset; j++) {
+            boolean overflow = true;
+            for (int i = array.length - 1; overflow && (i >= 0); i--) {
+                array[i]++;
+                overflow = (array[i] > 'z');
+                if (overflow) { array[i] = 'a'; }
+            }
+        }
+        return new String(array);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void bindValue(final PreparedStatement stmt, final int index, final Integer value)
+    public void bindValue(final PreparedStatement stmt, final int index, final String value)
     throws SQLException {
-        stmt.setInt(index, value.intValue());
+        stmt.setString(index, value);
     }
 }

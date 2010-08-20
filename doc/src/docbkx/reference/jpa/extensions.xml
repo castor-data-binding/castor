@@ -17,7 +17,7 @@
             specify properties in a vendor-independent way.
             Castor allows for cache-tuning on a per-entity basis by
             simply providing key-value pairs with the <interfacename>@CacheProperty</interfacename>
-            annotation in the <interface>@Cache</interface> container annotation.
+            annotation in the <interface>@Cache</interface> container annnotation.
         </para>
 
 

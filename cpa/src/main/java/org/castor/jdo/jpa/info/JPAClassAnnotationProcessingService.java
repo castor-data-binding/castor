@@ -24,6 +24,8 @@ import org.castor.jdo.jpa.processors.classprocessors.JPANamedNativeQueriesProces
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedNativeQueryProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueriesProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPASequenceGeneratorClassProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPATableGeneratorClassProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
 
 /**
@@ -50,6 +52,8 @@ public class JPAClassAnnotationProcessingService extends
         this.addAnnotationProcessor(new JPANamedQueriesProcessor());
         this.addAnnotationProcessor(new JPANamedNativeQueriesProcessor());
         this.addAnnotationProcessor(new JPACacheProcessor());
+        this.addAnnotationProcessor(new JPASequenceGeneratorClassProcessor());
+        this.addAnnotationProcessor(new JPATableGeneratorClassProcessor());
     }
 
 }

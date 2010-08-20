@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ralf Joachim
+ * Copyright 2010 Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.persistence.sql.keygen;
+package org.castor.cpa.persistence.sql.keygen.typehandler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,45 +23,53 @@ import org.castor.core.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 
 /** 
- *  Class implementing the KeyGeneratorTypeHandler for Long type.
+ *  Class implementing the KeyGeneratorTypeHandler for Integer type.
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public final class KeyGeneratorTypeHandlerLong
-implements KeyGeneratorTypeHandler <Long> {
+public final class KeyGeneratorTypeHandlerInteger
+implements KeyGeneratorTypeHandler <Integer> {
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
-    private static final Long ZERO = new Long(0);
+    private static final Integer ZERO = new Integer(0);
 
     /** <code>true</code> if the type handler should fail when current row of the record set is
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
+    private int allocationSize;
+    
     /**
-     * Construct an type handler for long values.
+     * Construct an type handler for integer values.
      * 
      * @param fail <code>true</code> if the type handler should fail when current row of the
      *        record set is not valid, <code>false</code> otherwise.
      */
-    public KeyGeneratorTypeHandlerLong(final boolean fail) {
+    public KeyGeneratorTypeHandlerInteger(final boolean fail) {
         _fail = fail;
+        this.allocationSize = 1;
+    }
+    
+    public KeyGeneratorTypeHandlerInteger(final boolean fail, final int allocationSize) {
+        this(fail);
+        this.allocationSize = allocationSize;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Long getNextValue(final ResultSet rs) throws PersistenceException, SQLException {
+    public Integer getNextValue(final ResultSet rs) throws PersistenceException, SQLException {
         return increment(getValue(rs));
     }
 
     /**
      * {@inheritDoc}
      */
-    public Long getValue(final ResultSet rs) throws PersistenceException, SQLException {
+    public Integer getValue(final ResultSet rs) throws PersistenceException, SQLException {
         if (rs.next()) {
-            return new Long(rs.getLong(1));
+            return new Integer(rs.getInt(1));
         } else if (!_fail) {
             return ZERO;
         }
@@ -73,22 +81,22 @@ implements KeyGeneratorTypeHandler <Long> {
     /**
      * {@inheritDoc}
      */
-    public Long increment(final Long value) {
-        return new Long(value.longValue() + 1);
+    public Integer increment(final Integer value) {
+        return new Integer(value.intValue() + allocationSize);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Long add(final Long value, final int offset) {
-        return new Long(value.longValue() + offset);
+    public Integer add(final Integer value, final int offset) {
+        return new Integer(value.intValue() + offset);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void bindValue(final PreparedStatement stmt, final int index, final Long value)
+    public void bindValue(final PreparedStatement stmt, final int index, final Integer value)
     throws SQLException {
-        stmt.setLong(index, value.longValue());
+        stmt.setInt(index, value.intValue());
     }
 }

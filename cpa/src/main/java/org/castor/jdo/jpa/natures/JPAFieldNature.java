@@ -15,6 +15,7 @@
  */
 package org.castor.jdo.jpa.natures;
 
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.TemporalType;
 
@@ -153,6 +154,16 @@ public class JPAFieldNature extends BaseNature {
      */
     private static final String RELATION_OPTIONAL = "RELATION_OPTIONAL";
 
+    /**
+     * Property Key for {@link javax.persistence.GeneratedValue#strategy()}
+     */
+    private static final String GENERATEDVALUE_STRATEGY = "GENERATEDVALUE_STRATEGY";
+
+    /**
+     * Property Key for {@link javax.persistence.GeneratedValue#generator()}
+     */
+    private static final String GENERATEDVALUE_GENERATOR = "GENERATEDVALUE_GENERATOR";
+    
     /**
      * Property Key for {@link javax.persistence.Temporal}
      */
@@ -954,6 +965,41 @@ public class JPAFieldNature extends BaseNature {
         return isOptional;
     }
 
+    /**
+     * Set the {@link javax.persistence.GeneratedValue#strategy()}
+     * @see #GENERATEDVALUE_STRATEGY
+     * @param strategy
+     */
+    public void setGeneratedValueStrategy(GenerationType strategy) {
+    	super.setProperty(GENERATEDVALUE_STRATEGY, strategy);
+    }
+    
+    /**
+     * Get the {@link javax.persistence.GeneratedValue#strategy()}
+     * @see #GENERATEDVALUE_STRATEGY
+     * @return strategy
+     */
+    public GenerationType getGeneratedValueStrategy() {
+    	return (GenerationType) super.getProperty(GENERATEDVALUE_STRATEGY);
+    }
+    
+    /**
+     * Set the {@link javax.persistence.GeneratedValue#generator()}
+     * @see #GENERATEDVALUE_STRATEGY
+     * @param strategy
+     */
+    public void setGeneratedValueGenerator(String generator) {
+    	super.setProperty(GENERATEDVALUE_GENERATOR, generator);
+    }
+    
+    /**
+     * Get the {@link javax.persistence.GeneratedValue#generator()}
+     * @see #GENERATEDVALUE_STRATEGY
+     * @return strategy
+     */
+    public String getGeneratedValueGenerator() {
+    	return (String) super.getProperty(GENERATEDVALUE_GENERATOR);
+    }
     /**
      * @see #TEMPORAL_TYPE
      * @return The {@link javax.persistence.TemporalType} of field.

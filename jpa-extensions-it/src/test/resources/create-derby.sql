@@ -1,5 +1,74 @@
 CREATE SCHEMA TEST;
 
+CREATE TABLE identity_generator (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1),
+    PRIMARY KEY(id),
+    name VARCHAR(32)
+);
+
+CREATE TABLE generator_table (
+    id_name VARCHAR(32),
+    id_value INTEGER
+);
+INSERT INTO generator_table VALUES('ID_GEN', NULL);
+
+CREATE TABLE table_key_generator (
+    custom_id_name VARCHAR(32),
+    custom_id_value INTEGER
+);
+INSERT INTO table_key_generator VALUES('FIELD_GEN', NULL);
+INSERT INTO table_key_generator VALUES('CLASS_GEN', NULL);
+
+CREATE TABLE auto_annotated_class (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE annotated_field_with_default_table_generator_definition (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE annotated_class_with_default_table_generator_definition (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE table_generator_field_subject (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE table_generator_class_subject (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE sequence_generator_class_with_default_sequence_name_seq START WITH 1;
+CREATE TABLE sequence_generator_class_with_default_sequence_name (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE sequence_generator_field_with_default_sequence_name_seq START WITH 1;
+CREATE TABLE sequence_generator_field_with_default_sequence_name (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE class_sequence START WITH 1;
+CREATE TABLE sequence_generator_class (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE field_sequence START WITH 1;
+CREATE TABLE sequence_generator_field (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+
 CREATE TABLE Inheritance_Plant(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

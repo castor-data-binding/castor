@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.cpa.persistence.sql.keygen;
+package org.castor.cpa.persistence.sql.keygen.typehandler;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -43,6 +43,8 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
+    private BigDecimal allocationSize;
+    
     /**
      * Construct an type handler for big decimal values.
      * 
@@ -51,6 +53,12 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      */
     public KeyGeneratorTypeHandlerBigDecimal(final boolean fail) {
         _fail = fail;
+        this.allocationSize = ONE;
+    }
+    
+    public KeyGeneratorTypeHandlerBigDecimal(final boolean fail, int allocationSize) {
+        this(fail);
+        this.allocationSize = new BigDecimal(allocationSize);
     }
 
     /**
@@ -80,7 +88,7 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      * {@inheritDoc}
      */
     public BigDecimal increment(final BigDecimal value) {
-        return value.add(ONE);
+        return value.add(allocationSize);
     }
 
     /**
