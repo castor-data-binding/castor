@@ -62,7 +62,7 @@
         <xsd:attribute name="extends"  type="xsd:IDREF"      use="optional">
             <xsd:annotation>
                 <xsd:documentation>
-                    An optional attribute to specify the extension realtionship 
+                    An optional attribute to specify the extension relationship 
                     between objects. Used only if mapping of the another object 
                     is provided.
                 </xsd:documentation>
