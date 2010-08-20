@@ -119,13 +119,13 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
         return _descriptorsByClassname.get(classname);
     }
 
-    /**
-     * @see org.exolab.castor.mapping.MappingLoader#descriptorIterator()
-     * {@inheritDoc}
-     */
-    public final Iterator<ClassDescriptor> descriptorIterator() {
-        return _descriptors.iterator();
-    }
+//    /**
+//     * @see org.exolab.castor.mapping.MappingLoader#descriptorIterator()
+//     * {@inheritDoc}
+//     */
+//    public final Iterator<ClassDescriptor> descriptorIterator() {
+//        return _descriptors.iterator();
+//    }
 
     public final List<ClassDescriptor> getDescriptors() {
         return _descriptors;
