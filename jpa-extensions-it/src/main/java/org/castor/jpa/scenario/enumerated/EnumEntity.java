@@ -12,7 +12,7 @@ public class EnumEntity {
 
     private long id;
     private StringEnum stringEnum;
-//    private OrdinalEnum ordinalEnum;
+    private OrdinalEnum ordinalEnum;
 
     @Id
     public long getId() {
@@ -32,12 +32,12 @@ public class EnumEntity {
         this.stringEnum = stringEnum;
     }
 
-//    public OrdinalEnum getOrdinalEnum() {
-//        return ordinalEnum;
-//    }
+    public OrdinalEnum getOrdinalEnum() {
+        return ordinalEnum;
+    }
 
-//    public void setOrdinalEnum(final OrdinalEnum ordinalEnum) {
-//        this.ordinalEnum = ordinalEnum;
-//    }
+    public void setOrdinalEnum(final OrdinalEnum ordinalEnum) {
+        this.ordinalEnum = ordinalEnum;
+    }
 
 }

@@ -124,7 +124,7 @@ CREATE TABLE Lob_entity(
 CREATE TABLE Enum_entity(
     id INTEGER NOT NULL,
     stringEnum VARCHAR(50) NOT NULL,
---    ordinalEnum INTEGER NOT NULL,
+    ordinalEnum INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
 
