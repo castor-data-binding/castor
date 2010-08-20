@@ -242,13 +242,13 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-    List getSubstitutes();
+    List<String> getSubstitutes();
 
     /**
      * Sets the possible substitution groups for this class.
      * @param substitutes Possible substitution groups for this class.
      */
-    void setSubstitutes(List substitutes); 
+    void setSubstitutes(List<String> substitutes); 
 
     /**
      * Sets whether the field described by this {@link XMLFieldDescriptorImpl} is

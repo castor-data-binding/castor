@@ -18,7 +18,6 @@ package org.castor.mapping;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -40,10 +39,10 @@ public final class MappingLoaderRegistry {
     private static final Log LOG = LogFactory.getLog(MappingLoaderRegistry.class);
     
     /** The cached mapping loader factories. */
-    private final List  _mappingLoaderFactories = new ArrayList();
+    private final List<MappingLoaderFactory>  _mappingLoaderFactories = new ArrayList<MappingLoaderFactory>();
 
     /** Already loaded mapping loaders. */
-    private final List _mappingLoaders = new ArrayList();
+    private final List<MappingLoader> _mappingLoaders = new ArrayList<MappingLoader>();
     
     /**
      * Creates an instance of this registry, loading the mapping loader
@@ -51,10 +50,9 @@ public final class MappingLoaderRegistry {
      * @param properties Properties.
      */
     public MappingLoaderRegistry(final AbstractProperties properties) {
-        Object[] objects = properties.getObjectArray(
-                CoreProperties.MAPPING_LOADER_FACTORIES, getClass().getClassLoader());
-        for (int i = 0; i < objects.length; i++) {
-            _mappingLoaderFactories.add(objects[i]);
+        Object[] objects = properties.getObjectArray(CoreProperties.MAPPING_LOADER_FACTORIES, getClass().getClassLoader());
+        for (Object mappingLoaderFactory : objects) {
+            _mappingLoaderFactories.add((MappingLoaderFactory) mappingLoaderFactory);
         }
     }
 
@@ -62,13 +60,10 @@ public final class MappingLoaderRegistry {
      * Deletes all 'cached' mapping loader factories.
      */
     public void clear() {
-        Iterator iter = _mappingLoaders.iterator();
-        while (iter.hasNext()) { 
-            ((MappingLoader) iter.next()).clear(); 
+        for (MappingLoader mappingLoader : _mappingLoaders) {
+            mappingLoader.clear();
         }
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Returns a mapping loader for the suitable source and binding type. The engine's
@@ -78,18 +73,16 @@ public final class MappingLoaderRegistry {
      * @param sourceType The type of the mapping source.
      * @param bindingType The binding type to load from mapping.
      * @return A mapping loader
-     * @throws MappingException A mapping error occured preventing
+     * @throws MappingException A mapping error occurred preventing
      *         descriptors from being generated from the loaded mapping
      */
     public MappingLoader getMappingLoader(
             final String sourceType,
             final BindingType bindingType) throws MappingException {
-        Iterator iter = _mappingLoaderFactories.iterator();
-        while (iter.hasNext()) {
-            MappingLoaderFactory loaderFactory = (MappingLoaderFactory) iter.next();
-            if (loaderFactory.getSourceType().equals(sourceType)
-                    && (loaderFactory.getBindingType() == bindingType)) {
-                MappingLoader mappingLoader = loaderFactory.getMappingLoader();
+        for (MappingLoaderFactory mappingLoaderFactory : _mappingLoaderFactories) {
+            if (mappingLoaderFactory.getSourceType().equals(sourceType)
+                    && (mappingLoaderFactory.getBindingType() == bindingType)) {
+                MappingLoader mappingLoader = mappingLoaderFactory.getMappingLoader();
                 _mappingLoaders.add(mappingLoader);
                 return mappingLoader;
             }
@@ -105,9 +98,8 @@ public final class MappingLoaderRegistry {
      * Returns a list of 'cached' mapping loader factories.
      * @return a list of 'cached' mapping loader factories.
      */
-    public Collection getMappingLoaderFactories() {
+    public Collection<MappingLoaderFactory> getMappingLoaderFactories() {
         return Collections.unmodifiableCollection(_mappingLoaderFactories);
     }
 
-    //--------------------------------------------------------------------------
 }

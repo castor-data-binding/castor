@@ -21,11 +21,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLConstants;
 
@@ -41,7 +43,7 @@ import org.exolab.castor.xml.XMLConstants;
 public class ByCDR extends AbstractResolverPackageCommand {
 	private static final Log LOG = LogFactory.getLog(ByCDR.class);
     
-	private ArrayList _loadedPackages = new ArrayList();
+	private List<String> _loadedPackages = new ArrayList<String>();
 
 	/**
 	 * No specific stuff needed.
@@ -89,36 +91,40 @@ public class ByCDR extends AbstractResolverPackageCommand {
      * <br>
      * {@inheritDoc}
      */
-    protected Map internalResolve(final String packageName, final ClassLoader classLoader,
+    protected Map<String, ClassDescriptor> internalResolve(final String packageName, final ClassLoader classLoader,
             final Map properties) throws ResolverException {
         
-        HashMap results = new HashMap();
+        Map<String, ClassDescriptor> results = new HashMap<String, ClassDescriptor>();
         if (!isEmptyPackageName(packageName) && _loadedPackages.contains(packageName)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Package: " + packageName + " has already been loaded.");
             }
             return results;
         }
-        if (!isEmptyPackageName(packageName)) { _loadedPackages.add(packageName); }
+        if (!isEmptyPackageName(packageName)) { 
+            _loadedPackages.add(packageName); 
+        }
         
         URL url = classLoader.getResource(ResolveHelpers.getQualifiedFileName(
                 XMLConstants.PKG_CDR_LIST_FILE, packageName));
-        if (url == null) { return results; }
+        if (url == null) { 
+            return results; 
+        }
 
         try {
             Properties cdrList = this.getProperties(url);
 
-            final Enumeration classes = cdrList.keys();
-            while (classes.hasMoreElements()) {
-                String clazzName = (String) classes.nextElement();
+            for (Object clazz : cdrList.keySet()) {
+                String clazzName = (String) clazz;
                 String descriptorClassName = (String) cdrList.get(clazzName);
                 try {
-                    Class descriptorClass = classLoader.loadClass(descriptorClassName);
+                    Class<?> descriptorClass = classLoader.loadClass(descriptorClassName);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Found descriptor: " + descriptorClass);
                     }
                     if (descriptorClass != null) {
-                        results.put(clazzName, descriptorClass.newInstance());
+                        ClassDescriptor instance = (ClassDescriptor) descriptorClass.newInstance(); 
+                        results.put(clazzName, instance);
                     } else if (LOG.isDebugEnabled()) {
                         LOG.debug("Loading of descriptor class: " + descriptorClassName
                                 + " for class: " + clazzName + " has failed - continue without");

@@ -83,7 +83,7 @@ public class ListClassDescriptor extends BaseDescriptor {
 
     /** The XML name for the described object. */
     private String                              _xmlName     = null;
-    /** The desired namespace for the described object. */
+    /** The desired XML name space for the described object. */
     private String                              _nsURI       = null;
     /** The type validator for this instance. */
     private TypeValidator                       _validator   = null;
@@ -170,7 +170,7 @@ public class ListClassDescriptor extends BaseDescriptor {
      *
      * @return the Class that this ClassDescriptor describes
      */
-    public Class getJavaClass() {
+    public Class<?> getJavaClass() {
         return java.util.List.class;
     } //-- getClassType()
 

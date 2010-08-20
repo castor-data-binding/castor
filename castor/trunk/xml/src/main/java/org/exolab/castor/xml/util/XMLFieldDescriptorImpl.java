@@ -121,7 +121,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      */
     private String _xmlPath    = null;
 
-	private List _substitutes;
+	private List<String> _substitutes;
 
     /**
      * Indicates whether the field described by this {@link XMLFieldDescriptorImpl} is
@@ -134,12 +134,16 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
     //- Constructors -/
     //----------------/
 
-    public XMLFieldDescriptorImpl(final Class fieldType, final String fieldName,
+    public XMLFieldDescriptorImpl(final Class<?> fieldType, final String fieldName,
             final String xmlName, final NodeType nodeType) {
         _matches = new String[0];
 
-        if (fieldName == null) { throw new IllegalArgumentException(NULL_NAME_ERR); }
-        if (fieldType == null) { throw new IllegalArgumentException(NULL_CLASS_ERR); }
+        if (fieldName == null) { 
+            throw new IllegalArgumentException(NULL_NAME_ERR); 
+        }
+        if (fieldType == null) { 
+            throw new IllegalArgumentException(NULL_CLASS_ERR); 
+        }
 
         setFieldName(fieldName);
 
@@ -235,10 +239,6 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
             _validator.setDescriptor(this);
         }
     }
-
-    //------------------/
-    //- Public Methods -/
-    //------------------/
 
     /**
      * Sets whether or not the value of the field represented by this
@@ -370,7 +370,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
     public String getNameSpaceURI() {
         ClassDescriptor parent = getContainingClassDescriptor();
         if ((_nsURI == null) && (parent != null) && _useParentClassNamespace) {
-            Class type = getFieldType();
+            Class<?> type = getFieldType();
             boolean test = ! (isAnyNode(type));
             if ((_nodeType == NodeType.Element) && test) {
                 if (parent instanceof XMLClassDescriptor) {
@@ -427,7 +427,9 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      * {@inheritDoc}
      */
     public String getXMLProperty(final String propertyName) {
-        if ((_xmlProperties == null) || (propertyName == null)) { return null; }
+        if ((_xmlProperties == null) || (propertyName == null)) { 
+            return null; 
+        }
         return _xmlProperties.getProperty(propertyName);
     }
 
@@ -633,7 +635,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
         }
 
         StringTokenizer st = new StringTokenizer(matchExpr);
-        ArrayList names = new ArrayList();
+        List<String> names = new ArrayList<String>();
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
             if (WILD_CARD.equals(token)) {
@@ -757,10 +759,6 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
         return buffer.toString();
     }
 
-    //-------------------/
-    //- Private Methods -/
-    //-------------------/
-
     /**
      * Returns true if the given class should be treated as a primitive type.
      * This method will return true for all Java primitive types, the set of
@@ -768,7 +766,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      *
      * @return true If the given class should be treated as a primitive type.
      */
-    private static boolean isPrimitive(final Class type) {
+    private static boolean isPrimitive(final Class<?> type) {
         if (type == null) {
             return false;
         }
@@ -793,7 +791,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      * @param type The class to check.
      * @return true If the given class is a built-in type.
      */
-    private static boolean isBuiltInType(final Class type) {
+    private static boolean isBuiltInType(final Class<?> type) {
         if (type == null) {
             return false;
         }
@@ -802,11 +800,11 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
         return (CoreDescriptors.getDescriptor(type) != null);
     }
 
-    private static boolean isMappedItem(final Class fieldType) {
+    private static boolean isMappedItem(final Class<?> fieldType) {
         return (fieldType == MapItem.class);
     }
 
-    private static boolean isAnyNode(final Class type) {
+    private static boolean isAnyNode(final Class<?> type) {
        return (type == Object.class);
     }
     
@@ -814,8 +812,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      * Returns the possible substitution groups for this class.
      * @return the possible substitution groups for this class.
      */
-    public List getSubstitutes()
-    {
+    public List<String> getSubstitutes() {
         return _substitutes;
     }
 
@@ -823,7 +820,7 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
      * Sets the possible substitution groups for this class.
      * @param substitutes Possible substitution groups for this class.
      */
-    public void setSubstitutes(List substitutes) {
+    public void setSubstitutes(List<String> substitutes) {
         _substitutes = substitutes;
     }
 

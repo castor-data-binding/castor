@@ -73,6 +73,7 @@ import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLProperties;
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapHandler;
@@ -209,7 +210,7 @@ public class Marshaller extends MarshalFramework {
     /**
      * Records Java packages being used during marshalling.
     **/
-    private List _packages = new ArrayList();
+    private List<String> _packages = new ArrayList<String>();
 
     /**
      * A stack of parent objects...to prevent circular
@@ -221,7 +222,7 @@ public class Marshaller extends MarshalFramework {
      * A list of ProcessingInstructions to output
      * upon marshalling of the document.
     **/
-    private List _processingInstructions = new ArrayList();
+    private List<ProcessingInstruction> _processingInstructions = new ArrayList<ProcessingInstruction>();
 
     /**
      * Name of the root element to use.
@@ -271,7 +272,7 @@ public class Marshaller extends MarshalFramework {
 
     /** Set of full class names of proxy interfaces. If the class to be marshalled implements
      *  one of them the superclass will be marshalled instead of the class itself. */
-    private final Set _proxyInterfaces = new HashSet();
+    private final Set<String> _proxyInterfaces = new HashSet<String>();
 
     /**
      * Creates a new {@link Marshaller} with the given SAX {@link DocumentHandler}.
@@ -907,8 +908,7 @@ public class Marshaller extends MarshalFramework {
                     _handler.startDocument();
                     //-- handle processing instructions
                     for (int i = 0; i < _processingInstructions.size(); i++) {
-                        ProcessingInstruction pi = (ProcessingInstruction)
-                            _processingInstructions.get(i);
+                        ProcessingInstruction pi = _processingInstructions.get(i);
                         _handler.processingInstruction(pi.getTarget(),
                             pi.getData());
                     }
@@ -989,12 +989,14 @@ public class Marshaller extends MarshalFramework {
 
         //-- add object to stack so we don't potentially get into
         //-- an endlessloop
-        if (_parents.search(object) >= 0) return;
+        if (_parents.search(object) >= 0) {
+            return;
+        }
         _parents.push(object);
 
         final boolean isNil = (object instanceof NilObject);
 
-        Class cls = null;
+        Class<?> cls = null;
 
         if (!isNil) {
             cls = object.getClass();
@@ -1002,9 +1004,11 @@ public class Marshaller extends MarshalFramework {
             if (_proxyInterfaces.size() > 0) {
                 boolean isProxy = false;
                 
-                Class[] interfaces = cls.getInterfaces();
+                Class<?>[] interfaces = cls.getInterfaces();
                 for (int i = 0; i < interfaces.length; i++) {
-                    if (_proxyInterfaces.contains(interfaces[i].getName())) { isProxy = true; }
+                    if (_proxyInterfaces.contains(interfaces[i].getName())) { 
+                        isProxy = true; 
+                    }
                 }
                 
                 if (isProxy) { cls = cls.getSuperclass(); }
@@ -1062,7 +1066,7 @@ public class Marshaller extends MarshalFramework {
                 classDesc = STRING_CLASS_DESCRIPTOR;
                 //-- check to see if we need to save the xsi:type
                 //-- for this class
-                Class fieldType = descriptor.getFieldType();
+                Class<?> fieldType = descriptor.getFieldType();
                 if (cls != fieldType) {
                     while (fieldType.isArray()) {
                         fieldType = fieldType.getComponentType();
@@ -1114,7 +1118,7 @@ public class Marshaller extends MarshalFramework {
                             }
 
                             if (tmpDesc != null) {
-                                Class tmpType = tmpDesc.getJavaClass();
+                                Class<?> tmpType = tmpDesc.getJavaClass();
                                 if (tmpType == cls) {
                                     containsDesc = (!tmpType.isInterface());
                                 }
@@ -1271,13 +1275,14 @@ public class Marshaller extends MarshalFramework {
              if ((xmlElementName != null) && (xmlElementNameClassDesc != null)) {
                  // More than one class can map to a given element name
                  try {
-                     Iterator classDescriptorIter = getResolver().resolveAllByXMLName(xmlElementName, null, null);
+                     Iterator<ClassDescriptor> classDescriptorIter = getResolver().resolveAllByXMLName(xmlElementName, null, null);
                      for (; classDescriptorIter.hasNext();) {
                          xmlElementNameClassDesc = (XMLClassDescriptor) classDescriptorIter.next();
-                         if (cls == xmlElementNameClassDesc.getJavaClass())
-                             break;
-                          //reset the classDescriptor --> none has been found
-                          xmlElementNameClassDesc = null;
+                         if (cls == xmlElementNameClassDesc.getJavaClass()) {
+                            break;
+                         }
+                         //reset the classDescriptor --> none has been found
+                         xmlElementNameClassDesc = null;
                      }
                  }
                  catch(ResolverException rx) {
@@ -1652,7 +1657,7 @@ public class Marshaller extends MarshalFramework {
         //-- text nodes + daughter elements
         //---------------------------------------
 
-        Stack wrappers = null;
+        Stack<WrapperInfo> wrappers = null;
 
 
         //----------------------
@@ -1684,7 +1689,7 @@ public class Marshaller extends MarshalFramework {
                     if (path != null) {
                         _attributes.clear();
                         if (wrappers == null) {
-                            wrappers  = new SafeStack();
+                            wrappers  = new SafeStack<WrapperInfo>();
                         }
                         try {
                             while (path != null) {
@@ -1737,7 +1742,7 @@ public class Marshaller extends MarshalFramework {
                     //-- </Wrapper>
 
                     char[] chars = null;
-                    Class objType = obj.getClass();
+                    Class<?> objType = obj.getClass();
                     if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
                         //-- handle base64/hexbinary content
                         final String schemaType = descriptor.getSchemaType();
@@ -1872,7 +1877,7 @@ public class Marshaller extends MarshalFramework {
             if (wrappers != null) {
                 try {
                     while (!wrappers.empty()) {
-                        WrapperInfo wInfo = (WrapperInfo)wrappers.peek();
+                        WrapperInfo wInfo = wrappers.peek();
                         if (path != null) {
                             if (wInfo._location.equals(path)) {
                                 path = null;
@@ -1897,7 +1902,7 @@ public class Marshaller extends MarshalFramework {
             if (path != null) {
                 _attributes.clear();
                 if (wrappers == null) {
-                    wrappers  = new SafeStack();
+                    wrappers  = new SafeStack<WrapperInfo>();
                 }
                 try {
                     while (path != null) {
@@ -1952,7 +1957,7 @@ public class Marshaller extends MarshalFramework {
                 obj = new NilObject(classDesc, elemDescriptor);
             }
 
-            final Class type = obj.getClass();
+            final Class<?> type = obj.getClass();
 
             MarshalState myState = mstate.createMarshalState(object, name);
             myState._nestedAtts = nestedAtts;
@@ -2023,7 +2028,7 @@ public class Marshaller extends MarshalFramework {
         if (wrappers != null) {
             try {
                 while (!wrappers.empty()) {
-                    WrapperInfo wInfo = (WrapperInfo) wrappers.peek();
+                    WrapperInfo wInfo = wrappers.peek();
                     boolean popStack = true;
                     if (nestedAttCount > 0) {
                         for (int na = 0; na < nestedAtts.length; na++) {
@@ -2059,7 +2064,7 @@ public class Marshaller extends MarshalFramework {
         }
 
         dealWithNestedAttributes(object, handler, nsPrefix, nsURI,
-                nestedAttCount, nestedAtts, new SafeStack());
+                nestedAttCount, nestedAtts, new SafeStack<WrapperInfo>());
 
         //-- finish element
         try {
@@ -2090,7 +2095,7 @@ public class Marshaller extends MarshalFramework {
 
     private void dealWithNestedAttributes(Object object,
             ContentHandler handler, String nsPrefix, String nsURI,
-            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack wrappers)
+            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack<WrapperInfo> wrappers)
             throws MarshalException {
         //-- Handle any additional attribute locations that were
         //-- not handled when dealing with wrapper elements
@@ -2155,7 +2160,7 @@ public class Marshaller extends MarshalFramework {
                     }
 
                     while (!wrappers.empty()) {
-                        WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
+                        WrapperInfo wInfo = wrappers.pop();
                         handler.endElement(nsURI, wInfo._localName, wInfo._qName);
                     }
                 } catch (Exception e) {
@@ -2167,12 +2172,12 @@ public class Marshaller extends MarshalFramework {
 
     private void dealWithNestedAttributesNested(Object object,
             ContentHandler handler, String nsPrefix, String nsURI,
-            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack wrappers)
+            int nestedAttCount, XMLFieldDescriptor[] nestedAtts, Stack<WrapperInfo> wrappers)
             throws MarshalException {
         //-- Handle any additional attribute locations that were
         //-- not handled when dealing with wrapper elements
         
-        WrapperInfo wrapperInfo = (WrapperInfo) wrappers.peek();
+        WrapperInfo wrapperInfo = wrappers.peek();
         String currentLocation = wrapperInfo._location;
         
         if (nestedAttCount > 0) {
@@ -2242,7 +2247,7 @@ public class Marshaller extends MarshalFramework {
                     }
 
                     while (!wrappers.empty()) {
-                        WrapperInfo wInfo = (WrapperInfo)wrappers.pop();
+                        WrapperInfo wInfo = wrappers.pop();
                         handler.endElement(nsURI, wInfo._localName, wInfo._qName);
                     }
                 } catch (Exception e) {
@@ -2486,7 +2491,7 @@ public class Marshaller extends MarshalFramework {
      * @exception MarshalException when there is a problem
      * retrieving or creating the XMLClassDescriptor for the given class
     **/
-    private XMLClassDescriptor getClassDescriptor(final Class cls)
+    private XMLClassDescriptor getClassDescriptor(final Class<?> cls)
     throws MarshalException {
         XMLClassDescriptor classDesc = null;
 
@@ -2611,7 +2616,7 @@ public class Marshaller extends MarshalFramework {
         }
         else if (value != null) {
             //-- handle hex/base64 content
-            Class objType = value.getClass();
+            Class<?> objType = value.getClass();
             if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
                 value = encodeBinaryData(value, attDescriptor.getSchemaType());
             }
@@ -2654,7 +2659,7 @@ public class Marshaller extends MarshalFramework {
                 }
                 Object collectionValue = enumeration.nextElement();
                 //-- handle hex/base64 content
-                Class objType = collectionValue.getClass();
+                Class<?> objType = collectionValue.getClass();
                 if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
                     collectionValue = encodeBinaryData(collectionValue, descriptor.getComponentType());
                 }
