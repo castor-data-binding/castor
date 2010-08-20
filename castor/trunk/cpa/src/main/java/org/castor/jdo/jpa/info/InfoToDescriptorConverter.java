@@ -21,15 +21,18 @@ import java.util.Properties;
 import java.lang.reflect.Method;
 
 import javax.persistence.FetchType;
+import javax.persistence.GenerationType;
 import javax.persistence.TemporalType;
 
 import org.castor.cpa.persistence.convertor.ObjectToString;
 import org.castor.cpa.persistence.convertor.EnumToOrdinal;
 import org.castor.cpa.persistence.convertor.EnumTypeConvertor;
 import org.castor.cpa.persistence.convertor.EnumTypeConversionHelper;
+import org.castor.cpa.persistence.sql.keygen.TableKeyGenerator;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.jpa.natures.JPAClassNature;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
+import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -234,7 +237,6 @@ public final class InfoToDescriptorConverter {
          * TODO: NOT IMPLEMENTED
          */
         jdoNature.setAccessMode(null);
-        jdoNature.setKeyGeneratorDescriptor(null);
 
         // Set abstract if present
         jdoNature.setAbstract(nature.hasMappedSuperclass());
@@ -267,6 +269,12 @@ public final class InfoToDescriptorConverter {
                 .getKeyFieldCount()];
         int i = 0;
         for (FieldInfo fieldInfo : classInfo.getKeyFieldInfos()) {
+        	JPAFieldNature jpaKeyInfo = new JPAFieldNature(fieldInfo);
+        	if (jpaKeyInfo.getGeneratedValueStrategy() != null) {
+        		KeyGeneratorDescriptor generatorDescriptor;
+                generatorDescriptor = describeKeyGenerator(fieldInfo, jpaKeyInfo);
+        		jdoNature.setKeyGeneratorDescriptor(generatorDescriptor);
+        	}
             keys[i] = convert(descriptor, fieldInfo, cdr);
             i++;
         }
@@ -286,6 +294,52 @@ public final class InfoToDescriptorConverter {
 
         descriptor.setFields(fields);
 
+    }
+
+    private static KeyGeneratorDescriptor describeKeyGenerator(
+            FieldInfo fieldInfo, JPAFieldNature jpaKeyInfo) {
+        GenerationType strategy = jpaKeyInfo.getGeneratedValueStrategy();
+        String strategyName = strategy.toString();
+        Properties generatorParameters = new Properties();
+        String generatorName;
+        JPAKeyGeneratorManager manager = JPAKeyGeneratorManager.getInstance();
+        KeyGeneratorDescriptor generatorDescriptor;
+        switch (strategy) {
+        case SEQUENCE:
+        	generatorName = jpaKeyInfo.getGeneratedValueGenerator();
+        	JPASequenceGeneratorDescriptor sequenceGeneratorDescriptor = 
+        		(JPASequenceGeneratorDescriptor)manager.get(generatorName);
+        	String sequenceName = sequenceGeneratorDescriptor.getSequenceName();
+        	if (!"".equals(sequenceName)) {
+        		generatorParameters.put("sequence", sequenceName);
+        	}
+        	break;
+        case AUTO:
+            strategyName = GenerationType.TABLE.toString();
+            JPATableGeneratorDescriptor autoGeneratorDescriptor = 
+                (JPATableGeneratorDescriptor)manager.getAuto();
+            autoGeneratorDescriptor.setPrimaryKeyType(fieldInfo.getFieldType());
+            generatorParameters.put(TableKeyGenerator.DESCRIPTOR_KEY, autoGeneratorDescriptor);
+            break;
+        case TABLE:
+        	generatorName = jpaKeyInfo.getGeneratedValueGenerator();       			
+        	JPATableGeneratorDescriptor tableGeneratorDescriptor = 
+        		(JPATableGeneratorDescriptor)manager.get(generatorName);
+        	tableGeneratorDescriptor.setPrimaryKeyType(fieldInfo.getFieldType());
+        	generatorParameters.put(TableKeyGenerator.DESCRIPTOR_KEY, tableGeneratorDescriptor);
+        	break;
+        case IDENTITY:
+            strategyName = strategy.toString().toUpperCase();
+            break;
+        default:
+        	break;
+        }
+        
+        generatorDescriptor = 
+        	new KeyGeneratorDescriptor(strategyName, 
+        			strategyName, 
+        			generatorParameters);
+        return generatorDescriptor;
     }
 
     /**

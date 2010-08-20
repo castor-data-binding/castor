@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.castor.cpa.persistence.sql.keygen.TableKeyGenerator;
 import org.castor.jdo.jpa.natures.JPAClassNature;
+import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.xml.NamedNativeQuery;
@@ -129,4 +131,52 @@ public class InfoToDescriptorConverterTest {
         assertEquals(QUERY2, returnedMap.get(NAME2).getQuery());
     }
 
+    @Test
+    public void sequenceGeneratedValueWillBeConverted() throws Exception {
+        classInfo = ClassInfoBuilder
+                .buildClassInfo(SequenceGeneratedValueTestClass.class);
+        descriptor = new ClassDescriptorImpl();
+        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
+
+        ClassDescriptorJDONature jdoDescriptor = new ClassDescriptorJDONature(
+                descriptor);
+        KeyGeneratorDescriptor generatorDescriptor = jdoDescriptor
+                .getKeyGeneratorDescriptor();
+        assertEquals("SEQUENCE",
+                generatorDescriptor.getKeyGeneratorFactoryName());
+        Properties generatorParameters = generatorDescriptor.getParams();
+        assertEquals("test_sequence",
+                generatorParameters.getProperty("sequence"));
+    }
+
+    @Test
+    public void tableGeneratedValueWillBeConverted() throws Exception {
+        classInfo = ClassInfoBuilder
+                .buildClassInfo(TableGeneratedValueTestClass.class);
+        descriptor = new ClassDescriptorImpl();
+        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
+
+        ClassDescriptorJDONature jdoDescriptor = new ClassDescriptorJDONature(
+                descriptor);
+        KeyGeneratorDescriptor generatorDescriptor = jdoDescriptor
+                .getKeyGeneratorDescriptor();
+        assertEquals("TABLE", generatorDescriptor.getKeyGeneratorFactoryName());
+    }
+
+    @Test
+    public void primaryKeyTypeWillBeSetInTableGeneratorDescriptor()
+            throws Exception {
+        classInfo = ClassInfoBuilder
+                .buildClassInfo(TableGeneratedValueTestClass.class);
+        descriptor = new ClassDescriptorImpl();
+        InfoToDescriptorConverter.convert(classInfo, resolver, descriptor);
+
+        ClassDescriptorJDONature jdoDescriptor = new ClassDescriptorJDONature(
+                descriptor);
+        KeyGeneratorDescriptor generatorDescriptor = jdoDescriptor
+                .getKeyGeneratorDescriptor();
+        JPATableGeneratorDescriptor jpaDescriptor = (JPATableGeneratorDescriptor) generatorDescriptor
+                .getParams().get(TableKeyGenerator.DESCRIPTOR_KEY);
+        assertEquals(Long.class, jpaDescriptor.getPrimaryKeyType());
+    }
 }

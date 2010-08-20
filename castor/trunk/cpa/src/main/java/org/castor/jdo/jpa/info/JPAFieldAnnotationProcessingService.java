@@ -46,6 +46,9 @@ public class JPAFieldAnnotationProcessingService extends
         this.addAnnotationProcessor(new JPATemporalProcessor());
         this.addAnnotationProcessor(new JPALobProcessor());
         this.addAnnotationProcessor(new JPAEnumeratedProcessor());
+        this.addAnnotationProcessor(new JPASequenceGeneratorFieldProcessor());
+        this.addAnnotationProcessor(new JPAGeneratedValueProcessor());
+        this.addAnnotationProcessor(new JPATableGeneratorFieldProcessor());
     }
 
 }

@@ -9,7 +9,10 @@ import org.castor.jdo.jpa.processors.classprocessors.JPACacheProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPAEntityProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPAInheritanceProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPANamedQueryProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPASequenceGeneratorClassProcessor;
+import org.castor.jdo.jpa.processors.classprocessors.JPATableGeneratorClassProcessor;
 import org.castor.jdo.jpa.processors.classprocessors.JPATableProcessor;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,6 +62,16 @@ public class JPAClassAnnotationProcessingServiceTest {
         assertThatProcessorTypeIsRegisteredWithService(JPACacheProcessor.class);
     }
 
+	@Test
+	public void sequenceGeneratorProcessorIsRegistered() throws Exception {
+		assertThatProcessorTypeIsRegisteredWithService(JPASequenceGeneratorClassProcessor.class);
+	}
+	
+	@Test
+	public void tableGeneratorProcessorIsRegistered() throws Exception {
+		assertThatProcessorTypeIsRegisteredWithService(JPATableGeneratorClassProcessor.class);
+	}
+    
     public void assertThatProcessorTypeIsRegisteredWithService(
             Class<? extends AnnotationProcessor> processorType)
             throws Exception {
