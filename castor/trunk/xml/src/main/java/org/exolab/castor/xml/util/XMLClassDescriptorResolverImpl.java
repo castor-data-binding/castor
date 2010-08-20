@@ -402,6 +402,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
        
     /**
      * {@inheritDoc}
+     * @deprecated
      */
     public void loadClassDescriptors(final String packageName) throws ResolverException {
         String message = "Already deprecated in the interface!";
