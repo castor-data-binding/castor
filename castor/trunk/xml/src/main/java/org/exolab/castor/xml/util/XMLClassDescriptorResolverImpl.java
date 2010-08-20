@@ -169,10 +169,9 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     public void setMappingLoader(final MappingLoader mappingLoader) {
         _mappingLoader = mappingLoader;
         if (mappingLoader != null) {
-            Iterator<ClassDescriptor> descriptors = mappingLoader.descriptorIterator();
-            while (descriptors.hasNext()) {
-                XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
-                _descriptorCache.addDescriptor(descriptor.getJavaClass().getName(), descriptor);
+            for (ClassDescriptor classDescriptor : mappingLoader.getDescriptors()) {
+                _descriptorCache.addDescriptor(classDescriptor.getJavaClass().getName(), 
+                        (XMLClassDescriptor) classDescriptor);
             }
         }
     }
@@ -648,7 +647,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
                 String clsName = iter.next();
                 this.addDescriptor(clsName, (XMLClassDescriptor) descriptors.get(clsName));
             }
-        } //-- addAllDescriptors
+        }
     } // -- DescriptorCacheImpl
     
     /**
