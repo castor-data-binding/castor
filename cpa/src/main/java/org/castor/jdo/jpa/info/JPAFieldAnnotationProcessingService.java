@@ -19,8 +19,8 @@ import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingS
 import org.castor.jdo.jpa.processors.fieldprocessors.*;
 
 /**
- * This is a standard {@link BaseTargetAwareAnnotationProcessingService} initialized with
- * JPA Annotation processors for field bound JPA annotations.
+ * This is a standard {@link BaseTargetAwareAnnotationProcessingService}
+ * initialized with JPA Annotation processors for field bound JPA annotations.
  * 
  * @author Peter Schmidt
  * @since 1.3
@@ -29,8 +29,8 @@ public class JPAFieldAnnotationProcessingService extends
         BaseTargetAwareAnnotationProcessingService {
 
     /**
-     * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA Annotation
-     * processors for field bound JPA annotations.
+     * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA
+     * Annotation processors for field bound JPA annotations.
      */
     public JPAFieldAnnotationProcessingService() {
         this.addAnnotationProcessor(new JPABasicProcessor());
@@ -49,6 +49,7 @@ public class JPAFieldAnnotationProcessingService extends
         this.addAnnotationProcessor(new JPASequenceGeneratorFieldProcessor());
         this.addAnnotationProcessor(new JPAGeneratedValueProcessor());
         this.addAnnotationProcessor(new JPATableGeneratorFieldProcessor());
+        this.addAnnotationProcessor(new JPAVersionProcessor());
     }
 
 }

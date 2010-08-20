@@ -175,4 +175,9 @@
          <scope>test</scope>
       </dependency>
    </dependencies>
+   
+   <properties>
+        <derby.version>10.6.1.0</derby.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 </project>

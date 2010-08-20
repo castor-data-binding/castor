@@ -293,9 +293,19 @@ public final class InfoToDescriptorConverter {
         }
 
         descriptor.setFields(fields);
-
+        
+        defineVersionField(classInfo, jdoNature);
     }
 
+    private static void defineVersionField(final ClassInfo classInfo,
+            ClassDescriptorJDONature jdoNature) {
+        JPAVersionManager manager = JPAVersionManager.getInstance();
+        String versionField = manager.get(classInfo.getDescribedClass());
+        if (versionField != null) {
+            jdoNature.setVersionField(versionField);
+        }
+    }
+    
     private static KeyGeneratorDescriptor describeKeyGenerator(
             FieldInfo fieldInfo, JPAFieldNature jpaKeyInfo) {
         GenerationType strategy = jpaKeyInfo.getGeneratedValueStrategy();

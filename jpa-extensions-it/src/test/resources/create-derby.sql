@@ -69,6 +69,22 @@ CREATE TABLE sequence_generator_field (
 );
 
 
+CREATE SEQUENCE non_cached_version_sequence START WITH 1;
+CREATE TABLE non_cached_version (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    version BIGINT,
+    name VARCHAR(32)
+);
+
+CREATE SEQUENCE version_sequence START WITH 1;
+CREATE TABLE version (
+    id INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    version BIGINT,
+    name VARCHAR(32)
+);
+
 CREATE TABLE Inheritance_Plant(
     id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,

@@ -1168,9 +1168,7 @@ public class SchemaWriter {
 
     } //-- processIdentityConstraint
 
-    private void processSchema(Schema schema)
-        throws SAXException
-    {
+    private void processSchema(Schema schema) throws SAXException {
         //-- calculate schema prefix
         String schemaPrefix = getNSPrefix(schema, schema.getSchemaNamespace());
         if (schemaPrefix == null) {
@@ -1291,8 +1289,7 @@ public class SchemaWriter {
         	    }
         	}
             
-           //--check if this attributeGroup is not 
-           //-- included 
+           //--check if this attributeGroup is not already included 
            Collection<Schema> includedSchemas = schema.getCachedIncludedSchemas();
            for (Schema includedSchema : includedSchemas) {
                if (temp instanceof AttributeGroupDecl) {
@@ -1307,87 +1304,86 @@ public class SchemaWriter {
         }
 
         //-- process all top level attribute declarations
-        Iterator<AttributeDecl> attributeDeclarations = schema.getAttributes().iterator();
-        while (attributeDeclarations.hasNext()) {
-        	AttributeDecl temp = (AttributeDecl) attributeDeclarations.next();
-        	boolean found = false;
-        	//--check if this attributeGroup is not 
-        	//-- included 
+        Collection<AttributeDecl> attributeDeclarations = schema.getAttributes();
+        for (AttributeDecl attribute : attributeDeclarations) {
+        	boolean alreadyIncluded = false;
+        	//--check if this attribute is not already included
         	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
         	while (includedSchemas.hasNext()) {
-        		Schema tempSchema = (Schema)includedSchemas.next();
-        		found = (tempSchema.getAttribute(temp.getName())!= null);
+        		Schema tempSchema = includedSchemas.next();
+        		// TODO[Java 5.0]: check whether algorithm is wrong !!!
+        		alreadyIncluded = (tempSchema.getAttribute(attribute.getName())!= null);
         	}
         	
-        	if (!found) {
-                processAttribute(temp,schemaPrefix);
+        	if (!alreadyIncluded) {
+                processAttribute(attribute, schemaPrefix);
             }
         }
 
         //-- process all top level element declarations
-        Iterator<ElementDecl> elementDeclarations = schema.getElementDecls().iterator();
-        while (elementDeclarations.hasNext()) {
-        	ElementDecl temp = (ElementDecl) elementDeclarations.next();
-        	boolean found = false;
-        	//--check if this attributeGroup is not 
-        	//-- included 
+        Collection<ElementDecl> elementDeclarations = schema.getElementDecls();
+        for (ElementDecl element : elementDeclarations) {
+        	boolean alreadyIncluded = false;
+        	//--check if this element is not already included 
         	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
         	while (includedSchemas.hasNext()) {
         		Schema tempSchema = includedSchemas.next();
-        		found = (tempSchema.getElementDecl(temp.getName())!= null);
+                // TODO[Java 5.0]: check whether algorithm is wrong !!!
+        		alreadyIncluded = (tempSchema.getElementDecl(element.getName())!= null);
         	}
         	
-        	if (!found)
-        	    processElement(temp,schemaPrefix);
+        	if (!alreadyIncluded) {
+                processElement(element, schemaPrefix);
+            }
         }
 
         //-- process all top level complex types
-        Iterator<ComplexType> complexTypes = schema.getComplexTypes().iterator();
-        while (complexTypes.hasNext()) {
-            ComplexType temp = (ComplexType) complexTypes.next();
-            boolean found = false;
-            //--check if this attributeGroup is not 
-            //-- included 
+        Collection<ComplexType> complexTypes = schema.getComplexTypes();
+        for (ComplexType complexType : complexTypes) {
+            boolean alreadyIncluded = false;
+            //--check if this complex type is not already included 
             Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
             while (includedSchemas.hasNext()) {
-            	Schema tempSchema = includedSchemas.next();
-            	found = (tempSchema.getComplexType(temp.getName())!= null);
+                Schema tempSchema = includedSchemas.next();
+                // TODO[Java 5.0]: check whether algorithm is wrong !!!
+                alreadyIncluded = (tempSchema.getComplexType(complexType.getName())!= null);
             }
-            if (!temp.isRedefined() && !found)
-                processComplexType(temp, schemaPrefix);
+            if (!complexType.isRedefined() && !alreadyIncluded) {
+                processComplexType(complexType, schemaPrefix);
+            }
         }
 
         //-- process all top level groups
-        Iterator<ModelGroup> modelGroups = schema.getModelGroups().iterator();
-        while (modelGroups .hasNext()) {
-        	ModelGroup temp = modelGroups .next();
-        	boolean found = false;
-        	//--check if this Group is not 
-        	//-- included 
-        	Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
-        	while (includedSchemas.hasNext()) {
-        		Schema tempSchema = includedSchemas.next();
-        		found = (tempSchema.getModelGroup(temp.getName())!= null);
-        	}
-        	
-        	if (!temp.isRedefined() && !found)
-        	    processGroup(temp, schemaPrefix);
+        Collection<ModelGroup> modelGroups = schema.getModelGroups();
+        for (ModelGroup modelGroup : modelGroups) {
+            boolean alreadyIncluded = false;
+            //--check if this Group is not already included 
+            Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
+            while (includedSchemas.hasNext()) {
+                Schema tempSchema = includedSchemas.next();
+                // TODO[Java 5.0]: check whether algorithm is wrong !!!
+                alreadyIncluded = (tempSchema.getModelGroup(modelGroup.getName())!= null);
+            }
+            
+            if (!modelGroup.isRedefined() && !alreadyIncluded) {
+                processGroup(modelGroup, schemaPrefix);
+            }
         }
 
         //-- process all top level simple types
-        Iterator<SimpleType> simpleTypes = schema.getSimpleTypes().iterator();
-        while (simpleTypes.hasNext()) {
-            SimpleType temp = (SimpleType) simpleTypes.next();
+        Collection<SimpleType> simpleTypes = schema.getSimpleTypes();
+        for (SimpleType simpleType : simpleTypes) {
             boolean found = false;
             //--check if this attributeGroup is not 
             //-- included 
             Iterator<Schema> includedSchemas = schema.getCachedIncludedSchemas().iterator();
             while (includedSchemas.hasNext()) {
             	Schema tempSchema = includedSchemas.next();
-            	found = (tempSchema.getSimpleType(temp.getName())!= null);
+            	found = (tempSchema.getSimpleType(simpleType.getName())!= null);
             }
-            if (!temp.isRedefined() && !found)
-                processSimpleType(temp, schemaPrefix);
+            if (!simpleType.isRedefined() && !found) {
+                processSimpleType(simpleType, schemaPrefix);
+            }
         }
 
         _handler.endElement(ELEM_SCHEMA);
