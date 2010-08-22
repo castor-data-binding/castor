@@ -90,7 +90,7 @@ public class VersionITCase {
         assertTrue(version1 != version2);
     }
 
-    @Test(expected = ObjectModifiedException.class)
+    @Test
     @Transactional
     public void exceptionWillBeThrownUponConcurrentModificationOfNonCachingEntity()
             throws Exception {
