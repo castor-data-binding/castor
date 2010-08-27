@@ -30,6 +30,7 @@ public final class TestNamedQueries extends CPATestCase {
     private static final String SELECT_ALL_ENTITY_ONE = "selectAllEntity";
     private static final String SELECT_ALL_ENTITY_HINT = "selectEntitiesWithHint";
     private static final String SELECT_ENTITY_ONE_BY_ID = "selectEntityById";
+    private static final String SELECT_ENTITY_ONE_BY_ID_AND_NAME = "selectEntityByIdAndName";
     private static final String SELECT_KNIGHTS_WHO_SAY_NI = "selectAllNightsWhoSayNi";
     private static final String QUERY_WITH_BAD_SYNTAX = "queryBadSyntax";
     
@@ -110,6 +111,27 @@ public final class TestNamedQueries extends CPATestCase {
 
         assertNotNull(entity);
         assertEquals(new Integer(0), entity.getId());
+        
+        db.commit();
+        db.close();
+    }
+    
+    public void testNamedQuery2Para() throws Exception {
+        Database db = getJDOManager(DBNAME, MAPPING).getDatabase();
+        
+        // load EntityOne with Id=1 from persistent store
+        db.begin();
+        
+        OQLQuery query = db.getNamedQuery(SELECT_ENTITY_ONE_BY_ID_AND_NAME);
+        query.bind(new Integer(0));
+        query.bind(String.valueOf(0));
+        QueryResults results = query.execute();
+        
+        Entity entity = (Entity) results.next();
+
+        assertNotNull(entity);
+        assertEquals(new Integer(0), entity.getId());
+        assertEquals(String.valueOf(0), entity.getName());
         
         db.commit();
         db.close();
