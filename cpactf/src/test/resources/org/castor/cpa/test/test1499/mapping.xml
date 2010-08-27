@@ -20,6 +20,9 @@
     <named-query name="selectEntityById">
       <query>SELECT e FROM org.castor.cpa.test.test1499.Entity e WHERE e.id=$1</query>
     </named-query>
+    <named-query name="selectEntityByIdAndName">
+      <query>SELECT e FROM org.castor.cpa.test.test1499.Entity e WHERE e.id=$1 and e.name=$2</query>
+    </named-query>
     <named-query name="selectEntitiesWithHint">
       <query>SELECT e FROM org.castor.cpa.test.test1499.Entity e</query>
       <query-hint name="beggingCastor" value="please load my objects!"/>
