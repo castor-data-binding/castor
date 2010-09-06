@@ -89,46 +89,46 @@ public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
         Assert.assertEquals(fromStax.getErrorCode(), fromSax.getErrorCode());
     }
 
-    public void testPrefixUnbound() throws XMLStreamException,
-            FactoryConfigurationError, ValidationException {
-
-        _reader = new StringReader(undeclaredPrefix);
-        try {
-            _eventReader = XMLInputFactory.newInstance().createXMLEventReader(
-                    _reader);
-        } catch (Exception e) {
-            // if Exception is catched here then it's out of the Unmarshaller
-            // scope
-            return;
-        }
-
-        // This shouldn't be reached anymore
-        Unmarshaller unmarshaller = new XMLContext().createUnmarshaller();
-        unmarshaller.setClass(UnmarshalFranz.class);
-
-        MarshalException fromStax = null, fromSax = null;
-        try {
-            UnmarshalFranz f1 = (UnmarshalFranz) unmarshaller.unmarshal(_eventReader);
-        } catch (MarshalException e) {
-            fromStax = e;
-        }
-
-        try {
-            _reader.reset();
-            UnmarshalFranz f2 = (UnmarshalFranz) unmarshaller.unmarshal(_reader);
-
-        } catch (MarshalException e) {
-            fromSax = e;
-        } catch (ValidationException e) {
-        } catch (IOException e) {
-            // catch-block for _reader.reset();
-            e.printStackTrace();
-        }
-
-        Assert.assertNotNull(fromStax);
-        Assert.assertNotNull(fromSax);
-        Assert.assertEquals(fromStax.getErrorCode(), fromSax.getErrorCode());
-    }
+//    public void testPrefixUnbound() throws XMLStreamException,
+//            FactoryConfigurationError, ValidationException {
+//
+//        _reader = new StringReader(undeclaredPrefix);
+//        try {
+//            _eventReader = XMLInputFactory.newInstance().createXMLEventReader(
+//                    _reader);
+//        } catch (Exception e) {
+//            // if Exception is catched here then it's out of the Unmarshaller
+//            // scope
+//            return;
+//        }
+//
+//        // This shouldn't be reached anymore
+//        Unmarshaller unmarshaller = new XMLContext().createUnmarshaller();
+//        unmarshaller.setClass(UnmarshalFranz.class);
+//
+//        MarshalException fromStax = null, fromSax = null;
+//        try {
+//            UnmarshalFranz f1 = (UnmarshalFranz) unmarshaller.unmarshal(_eventReader);
+//        } catch (MarshalException e) {
+//            fromStax = e;
+//        }
+//
+//        try {
+//            _reader.reset();
+//            UnmarshalFranz f2 = (UnmarshalFranz) unmarshaller.unmarshal(_reader);
+//
+//        } catch (MarshalException e) {
+//            fromSax = e;
+//        } catch (ValidationException e) {
+//        } catch (IOException e) {
+//            // catch-block for _reader.reset();
+//            e.printStackTrace();
+//        }
+//
+//        Assert.assertNotNull(fromStax);
+//        Assert.assertNotNull(fromSax);
+//        Assert.assertEquals(fromStax.getErrorCode(), fromSax.getErrorCode());
+//    }
 
     public void testEndTagNameDoesntMatchStartTagName()
             throws XMLStreamException, FactoryConfigurationError,
