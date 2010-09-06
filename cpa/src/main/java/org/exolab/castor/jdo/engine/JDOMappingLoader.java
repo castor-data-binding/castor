@@ -591,16 +591,12 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     protected TypeInfo getTypeInfo(final Class fieldType, final CollectionHandler colHandler,
             final FieldMapping fieldMap) throws MappingException {
-        Class internalFieldType = fieldType;
-        TypeConvertor convertorTo = null;
-        TypeConvertor convertorFrom = null;
-        String        typeName = null;
-        Class         sqlType = null;
-        String        sqlParam = null;
+        Class internalFieldType = Types.typeFromPrimitive(fieldType);
+        String typeName = null;
+        Class sqlType = null;
+        String sqlParam = null;
 
-        internalFieldType = Types.typeFromPrimitive(internalFieldType);
         String[] sqlTypes = getSqlTypes(fieldMap);
-
         if ((fieldMap.getSql() != null) && (sqlTypes.length > 0)) {
             //--TO Check
             typeName = sqlTypes[0];
@@ -609,9 +605,14 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         } else {
             sqlType = internalFieldType;
         }
+        
         if (_factory != null) {
             sqlType = _factory.adjustSqlType(sqlType);
         }
+        
+        TypeConvertor convertorTo = null;
+        TypeConvertor convertorFrom = null;
+
         if (internalFieldType != sqlType) {
             try {
                 convertorTo = _typeConvertorRegistry.getConvertor(
@@ -630,10 +631,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                     } catch (NoSuchMethodException nsmx) {
                         //-- Do nothing
                     }
-                    try {
-                        if (cons == null) {
-                            //-- make sure a valueOf factory method
-                            //-- exists and no user specified handler exists
+                    
+                    if (cons == null) {
+                        //-- make sure a valueOf factory method exists
+                        try {
                             Method method = internalFieldType.getMethod(VALUE_OF, STRING_ARG);
                             Class returnType = method.getReturnType();
                             if ((returnType != null)
@@ -641,7 +642,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                 int mods = method.getModifiers();
                                 if (Modifier.isStatic(mods)) {
                                     // create individual SQLTypeConverter
-                                    convertorTo = new EnumTypeConvertor(
+                                    convertorTo = new String2EnumTypeConvertor(
                                             sqlType, internalFieldType, method);
 
                                     Types.addEnumType(internalFieldType);
@@ -649,31 +650,49 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                     isTypeSafeEnum = true;
                                 }
                             }
+                        } catch (NoSuchMethodException nsmx) {
+                            //-- Do nothing
                         }
-                    } catch (NoSuchMethodException nsmx) {
-                        //-- Do nothing
+                    }
+                    
+                    if (isTypeSafeEnum) {
+                    	//-- check if name() method should be used instead of toString()
+                        try {
+                            Method method = internalFieldType.getMethod(NAME);
+                            if (String.class == method.getReturnType()) {
+                                convertorFrom = new Enum2StringTypeConvertor(
+                                		internalFieldType, sqlType, method);
+                            }
+                        } catch (NoSuchMethodException nsmx) {
+                            //-- Do nothing
+                        }
                     }
                 }
+                
                 if (!isTypeSafeEnum) {
-                    throw new MappingException("mapping.noConvertor", sqlType.getName(),
-                            internalFieldType.getName());
+                    throw new MappingException("mapping.noConvertor",
+                    		sqlType.getName(), internalFieldType.getName());
                 }
             }
-            convertorFrom = _typeConvertorRegistry.getConvertor(
-                    internalFieldType, sqlType, sqlParam);
+            
+            if (convertorFrom == null) {
+                convertorFrom = _typeConvertorRegistry.getConvertor(
+                        internalFieldType, sqlType, sqlParam);
+            }
             
             if ((convertorTo != null) && (convertorFrom != null)) {
                 Types.addConvertibleType(internalFieldType);
             }
         }
+        
         return new TypeInfo(internalFieldType, convertorTo, convertorFrom,
                             fieldMap.getRequired(), null, colHandler);
     }
     
-    private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
+    private class String2EnumTypeConvertor extends AbstractSimpleTypeConvertor {
         private final Method _method;
 
-        public EnumTypeConvertor(final Class<?> fromType,
+        public String2EnumTypeConvertor(final Class<?> fromType,
                 final Class<?> toType, final Method method) {
             super(fromType, toType);
 
@@ -692,6 +711,27 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
     }
 
+    private class Enum2StringTypeConvertor extends AbstractSimpleTypeConvertor {
+        private final Method _method;
+
+        public Enum2StringTypeConvertor(final Class<?> fromType,
+                final Class<?> toType, final Method method) {
+            super(fromType, toType);
+
+            _method = method;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public Object convert(final Object object) {
+            try {
+                return _method.invoke(object);
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+    }
 
     protected FieldDescriptorImpl createFieldDesc(final Class javaClass,
             final FieldMapping fieldMap) throws MappingException {

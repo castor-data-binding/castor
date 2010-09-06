@@ -34,6 +34,18 @@
             <summary>
                 <h2>Changes</h2>
                 
+                <h3>Java enum handling</h3>
+                
+                <p>
+                    To persist an Java enum it needs to be converted to a string. To do so
+                    Castor previously called toString() method of the enum. This worked out
+                    well until the toString() method got overwritten by a user to provide
+                    localized messages to be displayed for the enum values. In such a case
+                    the localized message got written to the database which caused failures
+                    when entity was loaded from database again. By calling name() method to
+                    convert the enum value to an string this will not happen any more.
+                </p>
+                
                 <h3>Removed deprecated artefacts of CPA module</h3>
                 
                 <p>
@@ -58,6 +70,27 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2990" tool="jira">
+                    <description>
+                        Changed handling of Java enums to call name() instead of toString()
+                        when converting to a string value.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100906</date>
+                </bug>
                 <bug id="2858" tool="jira">
                     <description>
                         Fixed wrong priority for references to extended class hierarchy.
@@ -76,7 +109,7 @@
                     </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
-                    <date>20091231</date>
+                    <date>20100906</date>
                 </bug>
                 <bug id="2957" tool="jira">
                     <description>
