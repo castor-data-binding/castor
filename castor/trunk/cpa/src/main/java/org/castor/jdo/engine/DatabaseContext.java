@@ -110,6 +110,10 @@ public final class DatabaseContext {
         
         _factory = factory;
 
+        if (_classDescriptorResolver == null) {
+            _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
+        }
+
         initializeEngine(engine);
         _initialized = true;
     }
@@ -143,6 +147,10 @@ public final class DatabaseContext {
         // If the factory was already initialized, ignore
         // this request to initialize it.
         if (!_initialized) {
+            if (_classDescriptorResolver == null) {
+                _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
+            }
+
             initializeMapping();
             
             JDOConfAdapter adapt = new JDOConfAdapter(_jdoConf);
@@ -173,6 +181,24 @@ public final class DatabaseContext {
      */
     private void initializeMapping() throws MappingException {
         try {
+            // Initialize all the class mappings of the database.
+            Enumeration<? extends org.castor.jdo.conf.ClassMapping> classMappings =
+                _jdoConf.getDatabase(_index).enumerateClassMapping();
+            while (classMappings.hasMoreElements()) {
+                org.castor.jdo.conf.ClassMapping classConf = classMappings.nextElement();
+                String className = classConf.getName();
+                _classDescriptorResolver.addClass(Class.forName(className));
+            }
+            
+            // Initialize all the package mappings of the database.
+            Enumeration<? extends org.castor.jdo.conf.PackageMapping> packageMappings =
+                _jdoConf.getDatabase(_index).enumeratePackageMapping();
+            while (packageMappings.hasMoreElements()) {
+                org.castor.jdo.conf.PackageMapping packageConf = packageMappings.nextElement();
+                String packageName = packageConf.getName();
+                _classDescriptorResolver.addPackage(packageName);
+            }
+            
             // Initialize all the mappings of the database.
             Enumeration<? extends org.castor.jdo.conf.Mapping> mappings =
                 _jdoConf.getDatabase(_index).enumerateMapping();
@@ -219,9 +245,6 @@ public final class DatabaseContext {
         MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(
                 _mapping, BindingType.JDO, factory);
         
-        if (_classDescriptorResolver == null) {
-            _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
-        }
         _classDescriptorResolver.setMappingLoader(mappingLoader);
         
         _engine = new PersistenceEngineFactory().createEngine(

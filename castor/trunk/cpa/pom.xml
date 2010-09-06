@@ -54,6 +54,7 @@
                 <schema>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf.xsd</schema>
                 <properties>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf.builder.properties</properties>
                 <packaging>org.castor.jdo.conf</packaging>
+                <bindingfile>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf-binding.xml</bindingfile>
              </configuration>
              <executions>
                 <execution>
