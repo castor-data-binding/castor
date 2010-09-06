@@ -58,6 +58,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2858" tool="jira">
+                    <description>
+                        Fixed wrong priority for references to extended class hierarchy.
+                    </description>
+                    <contributor>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Clovis Wichoski</name>
+                        <email>clovis.wichoski@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20091231</date>
+                </bug>
                 <bug id="2957" tool="jira">
                     <description>
                         Used select class hierarchy at SQLStatementLoad.

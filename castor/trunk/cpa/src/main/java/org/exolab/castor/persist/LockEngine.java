@@ -290,6 +290,7 @@ public final class LockEngine {
 
         for (int n = 0; n < result.size(); n++) {
             result.elementAt(n).resetResolvers();
+            result.elementAt(n).getPriority();
         }
         
         return result;
