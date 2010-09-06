@@ -32,4 +32,5 @@
       <sql name="master_id" />
     </field>
   </class>
+
 </mapping>

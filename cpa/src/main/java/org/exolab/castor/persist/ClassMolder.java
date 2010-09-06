@@ -45,6 +45,8 @@
 package org.exolab.castor.persist;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -420,33 +422,49 @@ public class ClassMolder {
             // circular reference detected, do not loop
             return 0;
         } else if (_priority < 0) {
-            // mark current Molder to avoid infinite loop with circular reference
-            _priority = -2;
-            int maxPrior = 0;
-            for (int i = 0; i < _fhs.length; i++) {
-                if (_fhs[i].isPersistanceCapable()
-                        && (_fhs[i].getFieldClassMolder() != this)
-                        && _fhs[i].isStored()) {
-                    int refPrior = _fhs[i].getFieldClassMolder().getPriority() + 1;
-                    maxPrior = Math.max(maxPrior, refPrior);
+            // find root of extends hierarchy
+            ClassMolder root = this;
+            while (root._extends != null) { root = root._extends; }
+            
+            // find all class molders of extends hierarchy
+            List<ClassMolder> molders = getAllExtendentMolders(root);
+            
+            // mark all class molders of extends hierarchy as work in progress
+            for (ClassMolder molder : molders) { molder._priority = -2; }
+            
+            // preset maximum priority
+            int maxPriority = 0;
+            
+            // calculate maximum priority from all classes referenced by the whole hierarchy
+            for (ClassMolder molder : molders) {
+                FieldMolder[] fhs = molder._fhs;
+                for (int i = 0; i < fhs.length; i++) {
+                    FieldMolder fh = fhs[i];
+                    if (fh.isPersistanceCapable() && fh.isStored()
+                            && (fh.getFieldClassMolder() != this)) {
+                        int refPriority = fh.getFieldClassMolder().getPriority() + 1;
+                        maxPriority = Math.max(maxPriority, refPriority);
+                    }
                 }
-                /* should and "if case" for add _ids[i].isForeginKey() in the future */
-                // TODO: this could have something to do with to-many relationships not working properly
             }
 
-            /* adjust priority if there are dependent classes */
-            if (_depends != null) {
-                maxPrior = Math.max(maxPrior, _depends.getPriority() + 1);
-            }
-
-            /* adjust priority if there are extendent classes */
-            if (_extends != null) {
-                  maxPrior = Math.max(maxPrior, _extends.getPriority() + 1);
-            }
-
-            _priority  = maxPrior;
+            // set priority of the whole hierarchy to the calculated maximum
+            for (ClassMolder molder : molders) { molder._priority = maxPriority; }
         }
+        
         return _priority;
+    }
+    
+    private List<ClassMolder> getAllExtendentMolders(final ClassMolder root) {
+        List<ClassMolder> molders = new ArrayList<ClassMolder>();
+        molders.add(root);
+        
+        if (root._extendent != null) {
+            for (ClassMolder extendent : root._extendent) {
+                molders.addAll(getAllExtendentMolders(extendent));
+            }
+        }
+        return molders;
     }
 
     public void loadTimeStamp(final TransactionContext tx, final DepositBox locker,
