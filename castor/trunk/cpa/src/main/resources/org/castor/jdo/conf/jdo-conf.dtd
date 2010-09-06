@@ -58,7 +58,7 @@
     sybase       Sybase 11
  -->
 
-<!ELEMENT database ( ( driver | data-source | jndi )?, mapping+ )>
+<!ELEMENT database ( ( driver | data-source | jndi )?, mapping* )>
 <!ATTLIST database
           name   ID    #REQUIRED
           engine CDATA "generic">
