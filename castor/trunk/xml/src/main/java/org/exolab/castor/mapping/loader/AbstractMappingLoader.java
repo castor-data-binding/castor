@@ -132,6 +132,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** Factory method name for type-safe enumerations. */
     protected static final String VALUE_OF = "valueOf";
 
+    /** Method name to get string value of a type-safe enumerations. */
+    protected static final String NAME = "name";
+
     /**
      * The {@link AbstractInternalContext} is the centerpiece providing runtime configuration
      * and state information.
