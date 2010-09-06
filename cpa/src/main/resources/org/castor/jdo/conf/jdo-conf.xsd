@@ -37,7 +37,7 @@
           <xsd:element ref="data-source" />
           <xsd:element ref="jndi" />
         </xsd:choice>
-        <xsd:element ref="mapping" minOccurs="1" maxOccurs="unbounded" />
+        <xsd:element ref="mapping" minOccurs="0" maxOccurs="unbounded" />
       </xsd:sequence>
       <xsd:attribute name="name" type="xsd:ID" use="required"/>
       <xsd:attribute name="engine" type="xsd:string" use="optional" default="generic" />
