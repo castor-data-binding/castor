@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.jdo.conf.ClassMapping;
 import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
@@ -28,6 +29,7 @@ import org.castor.jdo.conf.Driver;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Jndi;
 import org.castor.jdo.conf.Mapping;
+import org.castor.jdo.conf.PackageMapping;
 import org.castor.jdo.conf.Param;
 import org.castor.jdo.conf.TransactionDemarcation;
 import org.castor.jdo.conf.TransactionManager;
@@ -424,6 +426,30 @@ public final class JDOConfFactory {
     public static Mapping createXmlMapping(final String mapping) {
         Mapping mapConf = new Mapping();
         mapConf.setHref(mapping);
+        return mapConf;
+    }
+
+    /**
+     * Create an class mapping configurations for JDO from given class name.
+     * 
+     * @param classname Class name to retrieve mapping information.
+     * @return Class mapping configuration for JDO.
+     */
+    public static ClassMapping createClassMapping(final String classname) {
+        ClassMapping mapConf = new ClassMapping();
+        mapConf.setName(classname);
+        return mapConf;
+    }
+
+    /**
+     * Create an package mapping configurations for JDO from given package name.
+     * 
+     * @param packagename Package name to retrieve mapping information.
+     * @return Package mapping configuration for JDO.
+     */
+    public static PackageMapping createPackageMapping(final String packagename) {
+    	PackageMapping mapConf = new PackageMapping();
+        mapConf.setName(packagename);
         return mapConf;
     }
 
