@@ -34,12 +34,12 @@ public class JPAKeyGeneratorManagerTest {
 		manager.add(name, descriptor2);
 	}
 	
-	@Test
-	public void resetClearsManagedGenerators() throws Exception {
-		manager.add(name, descriptor2);
-		manager.reset();
-		assertTrue(manager.isEmpty());
-	}
+//	@Test
+//	public void resetClearsManagedGenerators() throws Exception {
+//		manager.add(name, descriptor2);
+//		manager.reset();
+//		assertTrue(manager.isEmpty());
+//	}
 	
 	@Test
 	public void autoGeneratorWillBeCreatedIfDoesntExist() throws Exception {
