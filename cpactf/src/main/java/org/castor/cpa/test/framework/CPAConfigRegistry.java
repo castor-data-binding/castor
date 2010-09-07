@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.castor.cpa.test.framework.xml.Configuration;
 import org.castor.cpa.test.framework.xml.CpactfConf;
 import org.castor.cpa.test.framework.xml.DataSource;
 import org.castor.cpa.test.framework.xml.Database;
@@ -28,12 +27,10 @@ import org.castor.cpa.test.framework.xml.DatabaseChoice;
 import org.castor.cpa.test.framework.xml.Driver;
 import org.castor.cpa.test.framework.xml.Jndi;
 import org.castor.cpa.test.framework.xml.Manager;
-import org.castor.cpa.test.framework.xml.Mapping;
 import org.castor.cpa.test.framework.xml.Param;
 import org.castor.cpa.test.framework.xml.Transaction;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.cpa.test.framework.xml.types.TransactionModeType;
-import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.util.DTDResolver;
 import org.exolab.castor.xml.MarshalException;
@@ -55,9 +52,6 @@ public final class CPAConfigRegistry {
     private String _defaultDatabaseName;
     
     private String _defaultTransactionName;
-    
-    private final Map<String, Configuration> _configurations
-        = new HashMap<String, Configuration>();
     
     private final Map<String, Database> _databases
         = new HashMap<String, Database>();
@@ -84,12 +78,6 @@ public final class CPAConfigRegistry {
 
         _defaultDatabaseName = cpactfconf.getDefaultDatabase();
         _defaultTransactionName = cpactfconf.getDefaultTransaction();
-        
-        Iterator<? extends Configuration> cfgIter = cpactfconf.iterateConfiguration();
-        while (cfgIter.hasNext()) {
-            Configuration config = cfgIter.next();
-            _configurations.put(config.getName(), config);
-        }
         
         Iterator<? extends Database> dbIter = cpactfconf.iterateDatabase();
         while (dbIter.hasNext()) {
@@ -127,56 +115,13 @@ public final class CPAConfigRegistry {
         return database.getEngine();
     }
     
-    public JdoConf createJdoConf(
-            final String cfg, final String db, final String tx) {
-        if (cfg == null) {
-            throw new CPAConfigException("No configuration name specified.");
-        } else if (!_configurations.containsKey(cfg)) {
-            throw new CPAConfigException("Mapping config '" + cfg + "' not found.");
-        } else if (!_databases.containsKey(db)) {
-            throw new CPAConfigException("Database config '" + db + "' not found.");
-        } else if (!_transactions.containsKey(tx)) {
-            throw new CPAConfigException("Transaction config '" + tx + "' not found.");
-        }
-
-        return JDOConfFactory.createJdoConf(
-                createDatabase(cfg, db, createMappings(cfg)),
-                createTransactionDemarcation(tx));
-    }
-    
-    public JdoConf createJdoConf(
-            final String cfg, final String db, final String tx, final String[] mappings) {
-        if (cfg == null) {
+    public org.castor.jdo.conf.Database createDbConfig(final String name, final String db) {
+        if (name == null) {
             throw new CPAConfigException("No configuration name specified.");
         } else if (!_databases.containsKey(db)) {
             throw new CPAConfigException("Database config '" + db + "' not found.");
-        } else if (!_transactions.containsKey(tx)) {
-            throw new CPAConfigException("Transaction config '" + tx + "' not found.");
         }
 
-        return JDOConfFactory.createJdoConf(
-                createDatabase(cfg, db, mappings),
-                createTransactionDemarcation(tx));
-    }
-    
-    private String[] createMappings(final String cfg) {
-        Configuration config = _configurations.get(cfg);
-        
-        int count = config.getMappingCount();
-        String[] mappings = new String[count];
-        for (int i = 0; i < count; i++) {
-            Mapping mapping = config.getMapping(i);
-            if (mapping.getHref() == null) {
-                throw new CPAConfigException("No mapping URL specified "
-                        + "in mapping config '" + cfg + "'.");
-            }
-            mappings[i] = mapping.getHref();
-        }
-        return mappings;
-    }
-    
-    private org.castor.jdo.conf.Database createDatabase(
-            final String name, final String db, final String[] mappings) {
         Database database = _databases.get(db);
         
         if (database.getEngine() == null) {
@@ -191,23 +136,24 @@ public final class CPAConfigRegistry {
                     + "in database config '" + db + "'.");
         }
         
+        org.castor.jdo.conf.Database dbConfig;
         if (choice.getDriver() != null) {
-            return JDOConfFactory.createDatabase(name, engine, 
-                    createDriver(db, choice.getDriver()), mappings);
+            dbConfig = JDOConfFactory.createDatabase(name, engine, 
+                    createDriver(db, choice.getDriver()));
         } else if (choice.getDataSource() != null) {
-            return JDOConfFactory.createDatabase(name, engine, 
-                    createDataSource(db, choice.getDataSource()), mappings);
+            dbConfig = JDOConfFactory.createDatabase(name, engine, 
+                    createDataSource(db, choice.getDataSource()));
         } else if (choice.getJndi() != null) {
-            return JDOConfFactory.createDatabase(name, engine, 
-                    createJNDI(db, choice.getJndi()), mappings);
+            dbConfig = JDOConfFactory.createDatabase(name, engine, 
+                    createJNDI(db, choice.getJndi()));
         } else {
             throw new CPAConfigException("Neither driver, datasource nor jndi specified "
                     + "in database config '" + db + "'.");
         }
+        return dbConfig;
     }
     
-    private org.castor.jdo.conf.Driver createDriver(
-            final String db, final Driver driver) {
+    private org.castor.jdo.conf.Driver createDriver(final String db, final Driver driver) {
         String classname = driver.getClassName();
         if (classname == null) {
             throw new CPAConfigException("No classname specified for driver "
@@ -239,25 +185,23 @@ public final class CPAConfigRegistry {
         return JDOConfFactory.createDriver(classname, connect, user, password);
     }
     
-    private org.castor.jdo.conf.DataSource createDataSource(
-            final String db, final DataSource datasource) {
-        String classname = datasource.getClassName();
+    private org.castor.jdo.conf.DataSource createDataSource(final String db, final DataSource ds) {
+        String classname = ds.getClassName();
         if (classname == null) {
             throw new CPAConfigException("No classname specified for datasource "
                     + "in database config '" + db + "'.");
         }
 
         Properties props = new Properties();
-        for (int i = 0; i < datasource.getParamCount(); i++) {
-            Param param = datasource.getParam(i);
+        for (int i = 0; i < ds.getParamCount(); i++) {
+            Param param = ds.getParam(i);
             props.put(param.getName(), param.getValue());
         }
         
         return JDOConfFactory.createDataSource(classname, props);
     }
     
-    private org.castor.jdo.conf.Jndi createJNDI(
-            final String db, final Jndi jndi) {
+    private org.castor.jdo.conf.Jndi createJNDI(final String db, final Jndi jndi) {
         String name = jndi.getName();
         if (name == null) {
             throw new CPAConfigException("No JNDI name specified "
@@ -267,8 +211,11 @@ public final class CPAConfigRegistry {
         return JDOConfFactory.createJNDI(name);
     }
     
-    private org.castor.jdo.conf.TransactionDemarcation createTransactionDemarcation(
-            final String tx) {
+    public org.castor.jdo.conf.TransactionDemarcation createTxConfig(final String tx) {
+        if (!_transactions.containsKey(tx)) {
+            throw new CPAConfigException("Transaction config '" + tx + "' not found.");
+        }
+
         Transaction trans = _transactions.get(tx);
         
         if (trans.getMode() == TransactionModeType.LOCAL) {

@@ -1,10 +1,5 @@
 <cpactf-conf default-database="derby-embedded" default-transaction="local">
 
-    <configuration name="default">
-        <description>Default mapping configuration used at script execution</description>
-        <mapping href="/default-mapping.xml"/>
-    </configuration>
-
     <database name="db2-drv" engine="db2">
         <description>Database configuration for DB2</description>
         <driver url="jdbc:db2:cpactf"

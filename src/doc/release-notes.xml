@@ -70,6 +70,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2995" tool="jira">
+                    <description>
+                        Removed requirement to specify default mapping/configuration for CPACTF.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100907</date>
+                </bug>
                 <bug id="2994" tool="jira">
                     <description>
                         Added support to specify class and package mapping in jdo-conf.
