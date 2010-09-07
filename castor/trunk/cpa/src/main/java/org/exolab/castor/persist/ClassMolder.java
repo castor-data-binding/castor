@@ -80,6 +80,7 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.NamedNativeQuery;
+import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
@@ -177,30 +178,35 @@ public class ClassMolder {
      * 
      * @param ds is the helper class for resolving depends and extends relationship
      *        among all the ClassMolder in the same LockEngine.
-     * @param classDescrResolver {@link ClassDescriptorResolver} instance
+     * @param classDescriptorResolver {@link ClassDescriptorResolver} instance
      * @param lock the lock engine.
-     * @param clsDesc the classDescriptor for the base class.
-     * @param persist the Persistence for the base class.
+     * @param classDescriptor the classDescriptor for the base class.
+     * @param persistenceEngine the Persistence for the base class.
      * @throws ClassNotFoundException If a class cannot be loaded.
      * @throws MappingException if an error occurred with analyzing the mapping information.
      */
-    ClassMolder(final DatingService ds, final ClassDescriptorResolver classDescrResolver, 
-            final LockEngine lock,
-            final ClassDescriptor clsDesc, final Persistence persist)
+    ClassMolder(final DatingService ds, final ClassDescriptorResolver classDescriptorResolver, 
+            final LockEngine lock, final ClassDescriptor classDescriptor, 
+            final Persistence persistenceEngine)
             throws ClassNotFoundException, MappingException {
 
         _engine = lock;
-        _persistence = persist;
-        _clsDesc = clsDesc;
+        _persistence = persistenceEngine;
+        _clsDesc = classDescriptor;
         
-        ClassMapping clsMap = ((ClassDescriptorImpl) clsDesc).getMapping();
-        _name = clsMap.getName();
-        _accessMode = AccessMode.valueOf(clsMap.getAccess().toString());
+        ClassMapping classMapping = ((ClassDescriptorImpl) classDescriptor).getMapping();
+        _name = classDescriptor.getJavaClass().getName();
+        // _name = classMapping.getName();
+        _accessMode = AccessMode.valueOf(classMapping.getAccess().toString());
 
         ds.register(_name, this);
 
-        ClassMapping dependClassMapping = (ClassMapping) clsMap.getDepends();
-        ClassMapping extendsClassMapping = (ClassMapping) clsMap.getExtends();
+        // TODO: replace usage of ClassMapping.getDepends() with use of ClassDescriptor.get???()
+        ClassMapping dependClassMapping = (ClassMapping) classMapping.getDepends();
+//        ClassDescriptor dependClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getDepends();
+        // TODO: replace usage of ClassMapping.getExtends() with use of ClassDescriptor.get???()
+        ClassMapping extendsClassMapping = (ClassMapping) classMapping.getExtends();
+//        ClassDescriptor extendsClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getExtends();
 
         //if ( dep != null && ext != null )
         //    throw new MappingException("A JDO cannot both extends and depends on other objects");
@@ -208,129 +214,141 @@ public class ClassMolder {
         if (dependClassMapping != null) {
             ds.pairDepends(this, dependClassMapping.getName());
         }
+//        if (dependClassDescriptor != null) {
+//            ds.pairDepends(this, dependClassDescriptor.getClass().getName());
+//        }
 
         if (extendsClassMapping != null) {
             ds.pairExtends(this, extendsClassMapping.getName());
         }
+//        if (extendsClassDescriptor != null) {
+//            ds.pairExtends(this, extendsClassDescriptor.getClass().getName());
+//        }
 
-        if (clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-            ClassDescriptorJDONature nature;
-            nature = new ClassDescriptorJDONature(clsDesc);
+        if (classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(classDescriptor);
             _cacheParams = nature.getCacheParams();
             _isKeyGenUsed = nature.getKeyGeneratorDescriptor() != null;
         }
 
         // construct <tt>FieldMolder</tt>s for each of the identity fields of
         // the base class.
-        FieldMapping[] fmId = ClassMolderHelper.getIdFields(clsMap);
-        _ids = new FieldMolder[fmId.length];
-        for (int i = 0; i < _ids.length; i++) {
-            _ids[i] = new FieldMolder(ds, this, fmId[i]);
+        FieldMapping[] identityFieldMappings = ClassMolderHelper.getIdFields(classMapping);
+        _ids = new FieldMolder[identityFieldMappings.length];
+        int m = 0;
+        for (FieldMapping identityFieldMapping : identityFieldMappings) {
+            _ids[m++] = new FieldMolder(ds, this, identityFieldMapping);
+            
         }
 
         // construct <tt>FieldModlers</tt>s for each of the non-transient fields 
         // of the base class 
-        FieldMapping[] fmFields = ClassMolderHelper.getFullFields(clsMap);
+        FieldMapping[] fieldMappings = ClassMolderHelper.getFullFields(classMapping);
         
         int numberOfNonTransientFieldMolders = 0;
-        for (int i = 0; i < fmFields.length; i++) {
-            if (!isFieldTransient(fmFields[i])) {
+        for (FieldMapping fieldMapping : fieldMappings) {
+            if (!isFieldTransient(fieldMapping)) {
                 numberOfNonTransientFieldMolders += 1;
             }
         }
+
         _fhs = new FieldMolder[numberOfNonTransientFieldMolders];
         _resolvers = new ResolverStrategy[numberOfNonTransientFieldMolders];
         
-        int fieldMolderNumber = 0;
-        for (int i = 0; i < fmFields.length; i++) {
+        int fieldMolderCount = 0;
+        for (FieldMapping fieldMapping : fieldMappings) {
             
             // don't create field molder for transient fields
-            if (isFieldTransient(fmFields[i])) {
+            if (isFieldTransient(fieldMapping)) {
                 continue;
             }
             
-            if ((fmFields[i].getSql() != null) && (fmFields[i].getSql().getManyTable() != null)) {
+            Sql sqlMapping = fieldMapping.getSql();
+            
+            if ((sqlMapping != null) && (sqlMapping.getManyTable() != null)) {
                 // the fields is not primitive
                 String[] relatedIdSQL = null;
                 int[] relatedIdType = null;
                 TypeConvertor[] relatedIdConvertTo = null;
                 TypeConvertor[] relatedIdConvertFrom = null;
                 
-                String manyTable = fmFields[i].getSql().getManyTable();
+                String manyTable = sqlMapping.getManyTable();
 
-                String[] idSQL = new String[fmId.length];
-                int[] idType = new int[fmId.length];
-                TypeConvertor[] idConvertFrom = new TypeConvertor[fmId.length];
-                TypeConvertor[] idConvertTo = new TypeConvertor[fmId.length];
-                FieldDescriptor[] fd = ((ClassDescriptorImpl) clsDesc).getIdentities();
-                for (int j = 0; j < fmId.length; j++) {
-                    idSQL[j] = fmId[j].getSql().getName()[0];
-
-                    if (fd[j].hasNature(FieldDescriptorJDONature.class.getName())) {
-                        int[] type = new FieldDescriptorJDONature(fd[j]).getSQLType();
-                        idType[j] = (type == null) ? 0 : type[0];
-                        FieldHandlerImpl fh = (FieldHandlerImpl) fd[j].getHandler();
-                        idConvertTo[j] = fh.getConvertTo();
-                        idConvertFrom[j] = fh.getConvertFrom();
+                String[] idSQL = new String[identityFieldMappings.length];
+                int[] idType = new int[identityFieldMappings.length];
+                TypeConvertor[] idConvertFrom = new TypeConvertor[identityFieldMappings.length];
+                TypeConvertor[] idConvertTo = new TypeConvertor[identityFieldMappings.length];
+                FieldDescriptor[] identityFieldDescriptors = ((ClassDescriptorImpl) classDescriptor).getIdentities();
+                int identityFieldCount = 0;
+                for (FieldMapping identityFieldMapping : identityFieldMappings) {
+                    idSQL[identityFieldCount] = identityFieldMapping.getSql().getName()[0];
+                    FieldDescriptor identityFieldDescriptor = identityFieldDescriptors[identityFieldCount];
+                    if (identityFieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                        int[] type = new FieldDescriptorJDONature(identityFieldDescriptor).getSQLType();
+                        idType[identityFieldCount] = (type == null) ? 0 : type[0];
+                        FieldHandlerImpl fh = (FieldHandlerImpl) identityFieldDescriptor.getHandler();
+                        idConvertTo[identityFieldCount] = fh.getConvertTo();
+                        idConvertFrom[identityFieldCount] = fh.getConvertFrom();
                     } else {
                         throw new MappingException(
                                 "Identity type must contains sql information: " + _name);
                     }
+                    identityFieldCount++;
                 }
 
-                ClassDescriptor relDesc = null;
+                ClassDescriptor relatedClassDescriptor = null;
                 try {
-                    JDOClassDescriptorResolver jdoCDR;
-                    jdoCDR = (JDOClassDescriptorResolver) classDescrResolver;
-                    relDesc = jdoCDR.resolve(fmFields[i].getType());
+                    JDOClassDescriptorResolver jdoCDR = (JDOClassDescriptorResolver) classDescriptorResolver;
+                    relatedClassDescriptor = jdoCDR.resolve(fieldMapping.getType());
                 } catch (ResolverException e) {
                     throw new MappingException("Problem resolving class descriptor for class " 
-                            + fmFields.getClass(), e);
+                            + fieldMappings.getClass(), e);
                 }
                                 
-                if (relDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
-                    FieldDescriptor[] relatedIds = ((ClassDescriptorImpl) relDesc).getIdentities();
-                    relatedIdSQL = new String[relatedIds.length];
-                    relatedIdType = new int[relatedIds.length];
-                    relatedIdConvertTo = new TypeConvertor[relatedIds.length];
-                    relatedIdConvertFrom = new TypeConvertor[relatedIds.length];
-                    for (int j = 0; j < relatedIdSQL.length; j++) {
-                        if (relatedIds[j].hasNature(FieldDescriptorJDONature.class.getName())) {
-                            FieldDescriptorJDONature nature;
-                            nature = new FieldDescriptorJDONature(relatedIds[j]);
+                if (relatedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
+                    FieldDescriptor[] relatedIdentityDescriptors = ((ClassDescriptorImpl) relatedClassDescriptor).getIdentities();
+                    relatedIdSQL = new String[relatedIdentityDescriptors.length];
+                    relatedIdType = new int[relatedIdentityDescriptors.length];
+                    relatedIdConvertTo = new TypeConvertor[relatedIdentityDescriptors.length];
+                    relatedIdConvertFrom = new TypeConvertor[relatedIdentityDescriptors.length];
+                    int relatedIdentityCount = 0;
+                    for (FieldDescriptor relatedIdentityDescriptor : relatedIdentityDescriptors) {
+                        if (relatedIdentityDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                            FieldDescriptorJDONature nature = new FieldDescriptorJDONature(relatedIdentityDescriptor);
                             String[] tempId = nature.getSQLName();
-                            relatedIdSQL[j] = (tempId == null) ? null : tempId[0];
+                            relatedIdSQL[relatedIdentityCount] = (tempId == null) ? null : tempId[0];
                             int[] tempType =  nature.getSQLType();
-                            relatedIdType[j] = (tempType == null) ? 0 : tempType[0];
-                            FieldHandlerImpl fh = (FieldHandlerImpl) relatedIds[j].getHandler();
-                            relatedIdConvertTo[j] = fh.getConvertTo();
-                            relatedIdConvertFrom[j] = fh.getConvertFrom();
+                            relatedIdType[relatedIdentityCount] = (tempType == null) ? 0 : tempType[0];
+                            FieldHandlerImpl fh = (FieldHandlerImpl) relatedIdentityDescriptors[relatedIdentityCount].getHandler();
+                            relatedIdConvertTo[relatedIdentityCount] = fh.getConvertTo();
+                            relatedIdConvertFrom[relatedIdentityCount] = fh.getConvertFrom();
                         } else {
                             throw new MappingException(
                                     "Field type is not persistence-capable: "
-                                    + relatedIds[j].getFieldName());
+                                    + relatedIdentityDescriptors[relatedIdentityCount].getFieldName());
                         }
+                        relatedIdentityCount++;
                     }
                 }
 
                 // if many-key exist, idSQL is overridden
-                String[] manyKey = fmFields[i].getSql().getManyKey();
+                String[] manyKey = sqlMapping.getManyKey();
                 if ((manyKey != null) && (manyKey.length != 0)) {
                     if (manyKey.length != idSQL.length) {
                         throw new MappingException(
                                 "The number of many-keys doesn't match referred object: "
-                                + clsDesc.getJavaClass().getName());
+                                + classDescriptor.getJavaClass().getName());
                     }
                     idSQL = manyKey;
                 }
 
                 // if name="" exist, relatedIdSQL is overridden
-                String[] manyName = fmFields[i].getSql().getName();
+                String[] manyName = fieldMapping.getSql().getName();
                 if ((manyName != null) && (manyName.length != 0)) {
                     if (manyName.length != relatedIdSQL.length) {
                         throw new MappingException(
                                 "The number of many-keys doesn't match referred object: "
-                                + relDesc.getJavaClass().getName());
+                                + relatedClassDescriptor.getJavaClass().getName());
                     }
                     relatedIdSQL = manyName;
                 }
@@ -338,16 +356,16 @@ public class ClassMolder {
                 SQLRelationLoader loader = _persistence.createSQLRelationLoader(
                         manyTable, idSQL, idType, idConvertTo, idConvertFrom,
                         relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
-                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i], loader);
+                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldMapping, loader);
             } else {
-                _fhs[fieldMolderNumber] = new FieldMolder(ds, this, fmFields[i]);
+                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldMapping);
             }
             
             // create RelationResolver instance
-            _resolvers[fieldMolderNumber] = ResolverFactory.createRelationResolver(
-                    _fhs[fieldMolderNumber], this, fieldMolderNumber);
+            _resolvers[fieldMolderCount] = ResolverFactory.createRelationResolver(
+                    _fhs[fieldMolderCount], this, fieldMolderCount);
 
-            fieldMolderNumber += 1;
+            fieldMolderCount += 1;
         }
 
         // ssa, FIXME : Are the two statements equivalents ?
