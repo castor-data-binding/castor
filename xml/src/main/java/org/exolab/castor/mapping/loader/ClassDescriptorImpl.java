@@ -78,14 +78,14 @@ public class ClassDescriptorImpl implements ClassDescriptor {
 
     /**
      * {@link ClassMapping} instance holding class mapping information required
-     * during initialization of e.g. (JDO) ClassMolder.
+     * during initialisation of e.g. (JDO) ClassMolder.
      */
     private ClassMapping _mapping;
     
     /** 
      * The Java class for this descriptor. 
      */
-    private Class _javaClass;
+    private Class<?> _javaClass;
 
     /** 
      * The descriptor of the class which this class extends,
@@ -107,12 +107,12 @@ public class ClassDescriptorImpl implements ClassDescriptor {
     /**
      * Map holding the properties set and read by natures.
      */
-    private Map _properties = new HashMap();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
     
     /**
      * Map holding the available natures.
      */
-    private Set _natures = new HashSet();
+    private Set<String> _natures = new HashSet<String>();
 
    /**
      * Identity {@link FieldDescriptor}s. 
@@ -139,7 +139,7 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      * Sets the Java {@link Class} as described by this descriptor.
      * @param javaClass The Java {@link Class} instance as described by this descriptor.
      */
-    public void setJavaClass(final Class javaClass) {
+    public void setJavaClass(final Class<?> javaClass) {
         _javaClass = javaClass;
     }
 
@@ -148,7 +148,7 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      * 
      * @see org.exolab.castor.mapping.ClassDescriptor#getJavaClass()
      */
-    public Class getJavaClass() {
+    public Class<?> getJavaClass() {
         return _javaClass;
     }
     
@@ -204,7 +204,7 @@ public class ClassDescriptorImpl implements ClassDescriptor {
     public FieldDescriptor[] getFields() {
         return _fields;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see java.lang.Object#toString()
