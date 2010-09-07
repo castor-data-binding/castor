@@ -25,7 +25,6 @@
 
 		<!-- integration test suites -->
         <module>cpactf</module>
-        <module>jdo-extensions-it</module>
         <module>jpa-extensions-it</module>
 
         <module>xmlctf</module>
@@ -694,7 +693,6 @@
             <id>it</id>
             <modules>
                <module>cpactf</module>
-               <module>jdo-extensions-it</module>
                <module>jpa-extensions-it</module>
                <module>xmlctf</module>
             </modules>            

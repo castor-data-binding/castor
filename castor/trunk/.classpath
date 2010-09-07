@@ -52,9 +52,6 @@
 	<classpathentry kind="src" output="core/eclipse" path="core/src/test/resources"/>
 	<classpathentry kind="src" output="diff/eclipse" path="diff/src/main/java"/>
 	<classpathentry kind="src" path="src/bugs"/>
-	<classpathentry kind="src" path="jdo-extensions-it/src/test/java"/>
-	<classpathentry kind="src" path="jdo-extensions-it/src/test/resources"/>
-	<classpathentry kind="src" path="jdo-extensions-it/target/generated-sources/castor"/>
 	<classpathentry kind="src" path="jpa-extensions-it/src/main/java"/>
 	<classpathentry kind="src" path="jpa-extensions-it/src/test/java"/>
 	<classpathentry kind="src" path="jpa-extensions-it/src/test/resources"/>
