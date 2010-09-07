@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
+import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.jdo.OQLQuery;
@@ -72,7 +73,7 @@ public final class Test356 extends CPATestCase {
     
     public void testDoubleEntities() throws Exception {
         try {
-            JdoConf jdoConf = createJdoConf("double");
+            JdoConf jdoConf = getJdoConf("double");
             JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
             fail();
         } catch (MappingException ex) {
@@ -82,7 +83,7 @@ public final class Test356 extends CPATestCase {
     }
 
     public void testIntEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("int");
+        JdoConf jdoConf = getJdoConf("int");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-int");
 
@@ -104,7 +105,7 @@ public final class Test356 extends CPATestCase {
     }
 
     public void testIntAndDoubleEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("int-and-double");
+        JdoConf jdoConf = getJdoConf("int-and-double");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-int-and-double");
         
@@ -126,7 +127,7 @@ public final class Test356 extends CPATestCase {
     }
 
     public void testIntAndIntegerEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("int-and-integer");
+        JdoConf jdoConf = getJdoConf("int-and-integer");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-int-and-integer");
         
@@ -148,7 +149,7 @@ public final class Test356 extends CPATestCase {
     }
 
     public void testIntegerEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("integer");
+        JdoConf jdoConf = getJdoConf("integer");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-integer");
         
@@ -170,7 +171,7 @@ public final class Test356 extends CPATestCase {
     }
 
     public void testIntegerAndDoubleEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("integer-and-double");
+        JdoConf jdoConf = getJdoConf("integer-and-double");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-integer-and-double");
         
@@ -193,7 +194,7 @@ public final class Test356 extends CPATestCase {
     }
     
     public void testLoadNullIntAndIntegerEntities() throws Exception {
-        JdoConf jdoConf = createJdoConf("int-and-integer");
+        JdoConf jdoConf = getJdoConf("int-and-integer");
         JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
         JDOManager jdo = JDOManager.createInstance(DBNAME + "-int-and-integer");
         
@@ -209,8 +210,12 @@ public final class Test356 extends CPATestCase {
         jdo = null;
     }
     
-    private JdoConf createJdoConf(final String extension) {
+    private JdoConf getJdoConf(final String extension) {
+        String name = DBNAME + "-" + extension;
         String mapping = MessageFormat.format(MAPPING, new Object[] {extension});
-        return getJdoConf(DBNAME + "-" + extension, mapping);
+
+        org.castor.jdo.conf.Database dbConfig = getDbConfig(name);
+        dbConfig.addMapping(JDOConfFactory.createXmlMapping(mapping));
+        return JDOConfFactory.createJdoConf(dbConfig, getTxConfig());
     }
 }

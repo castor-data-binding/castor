@@ -70,8 +70,7 @@ public final class Test1002 extends CPATestCase {
     
     public void testLoad() {
         try {
-            JdoConf jdoConf = createJdoConf(getJdoConf(DBNAME, MAPPING));
-            JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
+            JDOManager.loadConfiguration(createJdoConf(), getJdoConfBaseURL());
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             fail(ex.getMessage());
@@ -87,18 +86,20 @@ public final class Test1002 extends CPATestCase {
         JDOManager.disposeInstance(DBNAME);
     }
 
-    private JdoConf createJdoConf(final JdoConf orgConf) {
-        org.castor.jdo.conf.Database orgDB = orgConf.getDatabase(0);
+    private JdoConf createJdoConf() {
+        org.castor.jdo.conf.Database orgDB = getDbConfig(DBNAME);
+        orgDB.addMapping(JDOConfFactory.createXmlMapping(MAPPING));
         
         // the jndi configuration should be ignored as it never get accessed
         org.castor.jdo.conf.Jndi jndi = JDOConfFactory.createJNDI(
                 "java:comp/env/jdbc/SimpleTest");
         org.castor.jdo.conf.Database jndiDB = JDOConfFactory.createDatabase(
-                orgDB.getName() + "-jndi", orgDB.getEngine(), jndi,
-                "jndi:/localhost/test/WEB-INF/conf/common.xml");
-        
+                orgDB.getName() + "-jndi", orgDB.getEngine(), jndi);
+        jndiDB.addMapping(JDOConfFactory.createXmlMapping(
+                "jndi:/localhost/test/WEB-INF/conf/common.xml"));
+
         org.castor.jdo.conf.Database[] dbs = new org.castor.jdo.conf.Database[] {jndiDB, orgDB};
-        return JDOConfFactory.createJdoConf(dbs, orgConf.getTransactionDemarcation());
+        return JDOConfFactory.createJdoConf(dbs, getTxConfig());
     }
     
     private void executeQuery(final Database db) throws PersistenceException {

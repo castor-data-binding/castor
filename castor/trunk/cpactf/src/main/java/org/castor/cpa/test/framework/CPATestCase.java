@@ -24,6 +24,7 @@ import org.castor.cpa.CPAProperties;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.engine.DatabaseRegistry;
+import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.mapping.MappingException;
 
@@ -82,43 +83,29 @@ public abstract class CPATestCase extends TestCase {
         return _registry.getJdoConfBaseURL();
     }
     
-    public static final JdoConf getJdoConf(final String name) {
-        return _registry.createJdoConf(name, _database, _transaction);
+    public static final org.castor.jdo.conf.Database getDbConfig(final String name) {
+        return _registry.createDbConfig(name, _database);
     }
-    
-    public static final JdoConf getJdoConf(final String name, final String mapping) {
-        return getJdoConf(name, new String[] {mapping});
-    }
-    
-    public static final JdoConf getJdoConf(final String name, final String[] mappings) {
-        return _registry.createJdoConf(name, _database, _transaction, mappings);
-    }
-    
-    public static final JDOManager getJDOManager(final String name)
-    throws MappingException {
-        if (!DatabaseRegistry.isDatabaseRegistred(name)) {
-            JdoConf jdoConf = _registry.createJdoConf(name, _database, _transaction);
-            String baseURL = _registry.getJdoConfBaseURL();
-            JDOManager.loadConfiguration(jdoConf, baseURL);
-        }
 
+    public static final org.castor.jdo.conf.TransactionDemarcation getTxConfig() {
+        return _registry.createTxConfig(_transaction);
+    }
+
+    public static final JDOManager getJDOManager(final org.castor.jdo.conf.Database dbConfig)
+    throws MappingException {
+        String name = dbConfig.getName();
+        if (!DatabaseRegistry.isDatabaseRegistred(name)) {
+            JdoConf jdoConf = JDOConfFactory.createJdoConf(dbConfig, getTxConfig());
+            JDOManager.loadConfiguration(jdoConf, getJdoConfBaseURL());
+        }
         return JDOManager.createInstance(name);
     }
     
     public static final JDOManager getJDOManager(final String name, final String mapping)
     throws MappingException {
-        return getJDOManager(name, new String[] {mapping});
-    }
-    
-    public static final JDOManager getJDOManager(final String name, final String[] mappings)
-    throws MappingException {
-        if (!DatabaseRegistry.isDatabaseRegistred(name)) {
-            JdoConf jdoConf = _registry.createJdoConf(name, _database, _transaction, mappings);
-            String baseURL = _registry.getJdoConfBaseURL();
-            JDOManager.loadConfiguration(jdoConf, baseURL);
-        }
-
-        return JDOManager.createInstance(name);
+        org.castor.jdo.conf.Database dbConfig = getDbConfig(name);
+        dbConfig.addMapping(JDOConfFactory.createXmlMapping(mapping));
+        return getJDOManager(dbConfig);
     }
     
     //--------------------------------------------------------------------------
@@ -158,7 +145,14 @@ public abstract class CPATestCase extends TestCase {
             _engine = _registry.getEngine(_database);
 
             try {
-                _connection = getJDOManager("default").getConnectionFactory().createConnection();
+                if (!DatabaseRegistry.isDatabaseRegistred("default")) {
+                    JdoConf jdoConf = JDOConfFactory.createJdoConf(
+                            getDbConfig("default"), getTxConfig());
+                    String baseURL = _registry.getJdoConfBaseURL();
+                    JDOManager.loadConfiguration(jdoConf, baseURL);
+                }
+                JDOManager jdo = JDOManager.createInstance("default");
+                _connection = jdo.getConnectionFactory().createConnection();
             } catch (Exception ex) {
                 throw new IllegalStateException();
             }

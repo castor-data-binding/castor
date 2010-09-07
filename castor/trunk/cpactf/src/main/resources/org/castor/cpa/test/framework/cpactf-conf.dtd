@@ -10,47 +10,10 @@
     means at execution time of the test suite.
  -->
 
-<!ELEMENT cpactf-conf ( configuration+, database+, transaction+ ) >
+<!ELEMENT cpactf-conf ( database+, transaction+ ) >
 <!ATTLIST cpactf-conf
           default-database IDREF #REQUIRED
           default-transaction IDREF #REQUIRED>
-
-
-<!--
-    The named test suite configurations specify the mapping between Java classes
-    and tables in that database server.
-
-    The class mapping is included from an external mapping file, allowing
-    multiple mappings to be included in the same configuration, as well as two
-    configurations to share the same mappings. For concurrency and integrity
-    reasons, two configurations should never attempt to use overlapping mappings.
-
-    A real database configuration to be used by castor is build by combining
-    the mappings of the test suite configuration with one of the database
-    definitions and one of the transaction definitions. The test suite
-    configuration to be used is loaded by the test case by its name while
-    database and transaction definitions are defined by the default element or
-    specified at command line.
- -->
-
-<!ELEMENT configuration ( description?, mapping+ )>
-<!ATTLIST configuration
-          name ID #REQUIRED>
-
-
-
-<!--
-    Includes class mapping from the specified mapping file.
-
-    The href attribute may be an absolute URL (typically a file: URL)
-    or a name relative to the base URL of the test suite configuration
-    file (typically in the same path).
- -->
-
-<!ELEMENT mapping EMPTY>
-<!ATTLIST mapping
-          href CDATA #REQUIRED>
-
 
 
 <!--
