@@ -11,6 +11,7 @@ import org.exolab.castor.jdo.PersistenceException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
@@ -90,7 +91,7 @@ public class VersionITCase {
         assertTrue(version1 != version2);
     }
 
-    @Test
+    @Ignore
     @Transactional
     public void exceptionWillBeThrownUponConcurrentModificationOfNonCachingEntity()
             throws Exception {
