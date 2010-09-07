@@ -70,9 +70,29 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="2997" tool="jira">
+                    <description>
+                        Removed jdo-extensions-it module.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100907</date>
+                </bug>
                 <bug id="2996" tool="jira">
                     <description>
-                        Integrated tests of jdo-extension-it into CPACTF.
+                        Integrated tests of jdo-extensions-it into CPACTF.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
