@@ -221,7 +221,8 @@
       <xsd:attribute name="collection"    use="optional">
          <xsd:annotation>
             <xsd:documentation>
-                An optional attribute used to specify the type of the collection.
+                An optional attribute used to specify the type of the collection, if 
+                the property is multi-valued.
             </xsd:documentation>
          </xsd:annotation>
          <xsd:simpleType>
