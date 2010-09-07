@@ -61,17 +61,30 @@ http://maven.apache.org/maven-v4_0_0.xsd">
           <plugin>
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>castor-maven-plugin</artifactId>
-             <configuration>
-                <schema>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.xsd</schema>
-                <properties>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.builder.properties</properties>
-                <packaging>org.castor.cpa.test.framework.xml</packaging>
-             </configuration>
              <executions>
                 <execution>
+                   <id>execution1</id>
+                   <configuration>
+                      <schema>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.xsd</schema>
+                      <properties>${basedir}/src/main/resources/org/castor/cpa/test/framework/cpactf-conf.builder.properties</properties>
+                      <packaging>org.castor.cpa.test.framework.xml</packaging>
+                   </configuration>
                    <goals>
                       <goal>generate</goal>
                    </goals>
                 </execution>
+                <execution>
+                   <id>execution2</id>
+                   <configuration>
+                      <schema>${basedir}/src/test/resources/schema.xsd</schema>
+                      <properties>${basedir}/src/test/resources/binding.generation.properties</properties>
+                      <generateImportedSchemas>true</generateImportedSchemas>
+                      <createJdoDescriptors>true</createJdoDescriptors>
+                   </configuration>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+               </execution>
              </executions>
           </plugin>
           
@@ -163,6 +176,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
       <dependency>
          <groupId>org.apache.derby</groupId>
          <artifactId>derby</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.dbunit</groupId>
+         <artifactId>dbunit</artifactId>
+         <version>2.2.3</version>
          <scope>test</scope>
       </dependency>
 
