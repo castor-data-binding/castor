@@ -61,7 +61,7 @@ public interface ClassDescriptor extends PropertyHolder {
      *
      * @return The Java class
      */
-    Class getJavaClass();
+    Class<?> getJavaClass();
 
     /**
      * Returns a list of fields represented by this descriptor.
