@@ -18,7 +18,7 @@ public class FieldDescriptorImpl implements FieldDescriptor {
     private String _fieldName;
 
     /** The type of the field. */
-    private Class _fieldType;
+    private Class<?> _fieldType;
 
     /** The type class descriptor, if this field is of a type known by a descriptor. */
     private ClassDescriptor _classDescriptor;
@@ -44,12 +44,12 @@ public class FieldDescriptorImpl implements FieldDescriptor {
     /**
      * Map holding the properties set and read by natures.
      */
-    private Map _properties = new HashMap();
+    private Map<String, Object> _properties = new HashMap<String, Object>();
 
     /**
      * Map holding the available natures.
      */
-    private Set _natures = new HashSet();
+    private Set<String> _natures = new HashSet<String>();
     
     /**
      * Creates a default instance of a field descriptor.
@@ -125,7 +125,7 @@ public class FieldDescriptorImpl implements FieldDescriptor {
      * 
      * @param fieldType Field type.
      */
-    public final void setFieldType(final Class fieldType) {
+    public final void setFieldType(final Class<?> fieldType) {
         _fieldType = fieldType;
     }
 
@@ -133,7 +133,7 @@ public class FieldDescriptorImpl implements FieldDescriptor {
      * @see org.exolab.castor.mapping.FieldDescriptor#getFieldType()
      * {@inheritDoc}
      */
-    public final Class getFieldType() {
+    public final Class<?> getFieldType() {
         return _fieldType;
     }
 
