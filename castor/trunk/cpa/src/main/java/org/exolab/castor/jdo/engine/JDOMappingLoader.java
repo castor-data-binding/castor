@@ -286,7 +286,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         clsDesc.setExtends(extDesc);
         
-        // If this class depends on another class, obtain the depended class.
+        // If this class depends on another class, obtain the class it depends upon.
         clsDesc.setDepends(getDepended(classMapping, javaClass));
         
         // Create all field descriptors.
