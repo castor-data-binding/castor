@@ -196,7 +196,6 @@ public class ClassMolder {
         
         ClassMapping classMapping = ((ClassDescriptorImpl) classDescriptor).getMapping();
         _name = classDescriptor.getJavaClass().getName();
-        // _name = classMapping.getName();
         _accessMode = AccessMode.valueOf(classMapping.getAccess().toString());
 
         ds.register(_name, this);
