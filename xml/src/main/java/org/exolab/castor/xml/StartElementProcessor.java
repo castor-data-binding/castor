@@ -115,27 +115,27 @@ public class StartElementProcessor {
         // -- container and we need to close out the container
         // -- before proceeding:
         boolean canAccept = false;
-        while ((parentState._fieldDesc != null)
-                && (parentState._fieldDesc.isContainer() && !canAccept)) {
-            XMLClassDescriptor tempClassDesc = parentState._classDesc;
+        while ((parentState.getFieldDescriptor() != null)
+                && (parentState.getFieldDescriptor().isContainer() && !canAccept)) {
+            XMLClassDescriptor tempClassDesc = parentState.getClassDescriptor();
 
             // -- Find ClassDescriptor for Parent
             if (tempClassDesc == null) {
-                tempClassDesc = (XMLClassDescriptor) parentState._fieldDesc
+                tempClassDesc = (XMLClassDescriptor) parentState.getFieldDescriptor()
                         .getClassDescriptor();
                 if (tempClassDesc == null)
                     tempClassDesc = _unmarshalHandler
-                            .getClassDescriptor(parentState._object.getClass());
+                            .getClassDescriptor(parentState.getObject().getClass());
             }
 
             canAccept = tempClassDesc.canAccept(name, namespace,
-                    parentState._object);
+                    parentState.getObject());
 
             if (!canAccept) {
                 // -- Does container class even handle this field?
                 if (tempClassDesc.getFieldDescriptor(name, namespace,
                         NodeType.Element) != null) {
-                    if (!parentState._fieldDesc.isMultivalued()) {
+                    if (!parentState.getFieldDescriptor().isMultivalued()) {
                         String error = MessageFormat
                                 .format(resourceBundle
                                         .getString("unmarshalHandler.error.container.full"),
@@ -146,7 +146,7 @@ public class StartElementProcessor {
                         throw new SAXException(vx);
                     }
                 }
-                _unmarshalHandler.endElement(parentState._elementName);
+                _unmarshalHandler.endElement(parentState.getElementName());
                 parentState = _unmarshalHandler.getStateStack().getLastState();
             }
             tempClassDesc = null;
@@ -154,20 +154,20 @@ public class StartElementProcessor {
 
         // -- create new state object
         state = new UnmarshalState();
-        state._elementName = name;
-        state._parent = parentState;
+        state.setElementName(name);
+        state.setParent(parentState);
 
         if (xmlSpace != null) {
-            state._wsPreserve = UnmarshalHandler.PRESERVE.equals(xmlSpace);
+            state.setWhitespacePreserving(UnmarshalHandler.PRESERVE.equals(xmlSpace));
         } else {
-            state._wsPreserve = parentState._wsPreserve;
+            state.setWhitespacePreserving(parentState.isWhitespacePreserving());
         }
 
         _unmarshalHandler.getStateStack().pushState(state);
 
         // -- make sure we should proceed
-        if (parentState._object == null) {
-            if (!parentState._wrapper) {
+        if (parentState.getObject() == null) {
+            if (!parentState.isWrapper()) {
                 return;
             }
         }
@@ -175,13 +175,13 @@ public class StartElementProcessor {
         Class cls = null;
 
         // -- Find ClassDescriptor for Parent
-        XMLClassDescriptor classDesc = parentState._classDesc;
+        XMLClassDescriptor classDesc = parentState.getClassDescriptor();
         if (classDesc == null) {
-            classDesc = (XMLClassDescriptor) parentState._fieldDesc
+            classDesc = (XMLClassDescriptor) parentState.getFieldDescriptor()
                     .getClassDescriptor();
             if (classDesc == null)
                 classDesc = _unmarshalHandler
-                        .getClassDescriptor(parentState._object.getClass());
+                        .getClassDescriptor(parentState.getObject().getClass());
         } else {
             // classDesc.resetElementCount();
         }
@@ -254,7 +254,7 @@ public class StartElementProcessor {
             // handle multiple level locations (where count > 0) (CASTOR-1039)
             // if ((descriptor == null) && (count == 0) &&
             // (!targetState.wrapper)) {
-            if ((descriptor == null) && (!targetState._wrapper)) {
+            if ((descriptor == null) && (!targetState.isWrapper())) {
                 MarshalFramework.InheritanceMatch[] matches = null;
                 try {
                     matches = _unmarshalHandler.searchInheritance(name,
@@ -270,7 +270,7 @@ public class StartElementProcessor {
                     // for the first match whose parent file descriptor XML
                     // name matches the name of the element we are under
                     for (int i = 0; i < matches.length; i++) {
-                        if (parentState._elementName
+                        if (parentState.getElementName()
                                 .equals(matches[i].parentFieldDesc
                                         .getLocationPath())) {
                             match = matches[i];
@@ -321,13 +321,13 @@ public class StartElementProcessor {
 
             // -- adjust name and try parent
             if (count == 0)
-                path = targetState._elementName;
+                path = targetState.getElementName();
             else {
                 if (pathBuf == null)
                     pathBuf = new StringBuffer();
                 else
                     pathBuf.setLength(0);
-                pathBuf.append(targetState._elementName);
+                pathBuf.append(targetState.getElementName());
                 pathBuf.append('/');
                 pathBuf.append(path);
                 path = pathBuf.toString();
@@ -336,8 +336,8 @@ public class StartElementProcessor {
             // -- get
             // --pIdx;
             // targetState = (UnmarshalState)_stateInfo.elementAt(pIdx);
-            targetState = targetState._parent;
-            classDesc = targetState._classDesc;
+            targetState = targetState.getParent();
+            classDesc = targetState.getClassDescriptor();
             count++;
         }
 
@@ -361,9 +361,9 @@ public class StartElementProcessor {
 
             // -- isWrapper?
             if (isWrapper) {
-                state._classDesc = new XMLClassDescriptorImpl(
-                        ContainerElement.class, name);
-                state._wrapper = true;
+                state.setClassDescriptor(new XMLClassDescriptorImpl(
+                        ContainerElement.class, name));
+                state.setWrapper(true);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("wrapper-element: " + name);
                 }
@@ -425,11 +425,11 @@ public class StartElementProcessor {
 
         // -- Save targetState (used in endElement)
         if (targetState != parentState) {
-            state._targetState = targetState;
+            state.setTargetState(targetState);
             parentState = targetState; // -- reassign
         }
 
-        Object object = parentState._object;
+        Object object = parentState.getObject();
         // --container support
         if (descriptor.isContainer()) {
             // create a new state to set the container as the object
@@ -442,14 +442,14 @@ public class StartElementProcessor {
             // -- clear current state and re-use for the container
             state.clear();
             // -- inherit whitespace preserving from the parentState
-            state._wsPreserve = parentState._wsPreserve;
-            state._parent = parentState;
+            state.setWhitespacePreserving(parentState.isWhitespacePreserving());
+            state.setParent(parentState);
 
             // here we can hard-code a name or take the field name
-            state._elementName = descriptor.getFieldName();
-            state._fieldDesc = descriptor;
-            state._classDesc = (XMLClassDescriptor) descriptor
-                    .getClassDescriptor();
+            state.setElementName(descriptor.getFieldName());
+            state.setFieldDescriptor(descriptor);
+            state.setClassDescriptor((XMLClassDescriptor) descriptor
+                    .getClassDescriptor());
             Object containerObject = null;
 
             // 1-- the container is not multivalued (not a collection)
@@ -458,8 +458,8 @@ public class StartElementProcessor {
                 FieldHandler handler = descriptor.getHandler();
                 containerObject = handler.getValue(object);
                 if (containerObject != null) {
-                    if (state._classDesc != null) {
-                        if (state._classDesc.canAccept(name, namespace,
+                    if (state.getClassDescriptor() != null) {
+                        if (state.getClassDescriptor().canAccept(name, namespace,
                                 containerObject)) {
                             // remove the descriptor from the used list
                             parentState.markAsNotUsed(descriptor);
@@ -482,8 +482,8 @@ public class StartElementProcessor {
                     throw new SAXException(ex);
                 }
             }
-            state._object = containerObject;
-            state._type = containerObject.getClass();
+            state.setObject(containerObject);
+            state.setType(containerObject.getClass());
 
             // we need to recall startElement()
             // so that we can find a more appropriate descriptor in for the
@@ -495,7 +495,7 @@ public class StartElementProcessor {
         // --End of the container support
 
         // -- Find object type and create new Object of that type
-        state._fieldDesc = descriptor;
+        state.setFieldDescriptor(descriptor);
 
         /*
          * <update> we need to add this code back in, to make sure we have
@@ -535,7 +535,7 @@ public class StartElementProcessor {
                 // -- XXXX can't use the handler if the field
                 // -- XXXX types are different
                 if (descriptor.getFieldType() != cls) {
-                    state._derived = true;
+                    state.setDerived(true);
                 }
             } else {
                 cls = descriptor.getFieldType();
@@ -551,7 +551,7 @@ public class StartElementProcessor {
 
             // Retrieving the xsi:type attribute, if present
             String currentPackage = _unmarshalHandler
-                    .getJavaPackage(parentState._type);
+                    .getJavaPackage(parentState.getType());
             String instanceType = _unmarshalHandler.getInstanceType(atts,
                     currentPackage);
             if (instanceType != null) {
@@ -618,14 +618,14 @@ public class StartElementProcessor {
 
             // -- Handle ArrayHandler
             if (cls == Object.class) {
-                if (parentState._object instanceof ArrayHandler)
-                    cls = ((ArrayHandler) parentState._object).componentType();
+                if (parentState.getObject() instanceof ArrayHandler)
+                    cls = ((ArrayHandler) parentState.getObject()).componentType();
             }
 
             // -- Handle support for "Any" type
 
             if (cls == Object.class) {
-                Class pClass = parentState._type;
+                Class pClass = parentState.getType();
                 ClassLoader loader = pClass.getClassLoader();
                 // -- first look for a descriptor based
                 // -- on the XML name
@@ -658,10 +658,10 @@ public class StartElementProcessor {
                     useHandler = false;
                 } else {
                     // we are dealing with an AnyNode
-                    state._object = _unmarshalHandler.getAnyNodeHandler()
+                    state.setObject(_unmarshalHandler.getAnyNodeHandler()
                             .commonStartElement(name, namespace,
-                                    state._wsPreserve);
-                    state._type = cls;
+                                    state.isWhitespacePreserving()));
+                    state.setType(cls);
                     return;
                 }
             }
@@ -673,13 +673,13 @@ public class StartElementProcessor {
             // -- check for immutable
             if (MarshalFramework.isPrimitive(cls) || descriptor.isImmutable()
                     || byteArray) {
-                state._object = null;
-                state._primitiveOrImmutable = true;
+                state.setObject(null);
+                state.setPrimitiveOrImmutable(true);
                 // -- handle immutable types, such as java.util.Locale
                 if (descriptor.isImmutable()) {
                     if (classDesc == null)
                         classDesc = _unmarshalHandler.getClassDescriptor(cls);
-                    state._classDesc = classDesc;
+                    state.setClassDescriptor(classDesc);
                     Arguments args = _unmarshalHandler.processConstructorArgs(
                             atts, classDesc);
                     if ((args != null) && (args.size() > 0)) {
@@ -692,12 +692,12 @@ public class StartElementProcessor {
 
                 // -- XXXX should remove this test once we can
                 // -- XXXX come up with a better solution
-                if ((!state._derived) && useHandler) {
+                if ((!state.isDerived()) && useHandler) {
 
                     boolean create = true;
                     if (_unmarshalHandler.isReuseObjects()) {
-                        state._object = handler.getValue(parentState._object);
-                        create = (state._object == null);
+                        state.setObject(handler.getValue(parentState.getObject()));
+                        create = (state.getObject() == null);
                     }
                     if (create) {
                         Arguments args = _unmarshalHandler
@@ -705,16 +705,16 @@ public class StartElementProcessor {
                         if ((args.getValues() != null) && (args.getValues().length > 0)) {
                             if (handler instanceof ExtendedFieldHandler) {
                                 ExtendedFieldHandler efh = (ExtendedFieldHandler) handler;
-                                state._object = efh.newInstance(
-                                        parentState._object, args.getValues());
+                                state.setObject(efh.newInstance(
+                                        parentState.getObject(), args.getValues()));
                             } else {
                                 String err = resourceBundle
                                         .getString("unmarshalHandler.error.constructor.arguments");
                                 throw new SAXException(err);
                             }
                         } else {
-                            state._object = handler
-                                    .newInstance(parentState._object);
+                            state.setObject(handler
+                                    .newInstance(parentState.getObject()));
                         }
                     }
                 }
@@ -722,8 +722,8 @@ public class StartElementProcessor {
                 // -- between descriptor#getFieldType and
                 // -- handler#newInstance...I should hope not, but
                 // -- who knows
-                if (state._object != null) {
-                    cls = state._object.getClass();
+                if (state.getObject() != null) {
+                    cls = state.getObject().getClass();
                     if (classDesc != null) {
                         if (classDesc.getJavaClass() != cls) {
                             classDesc = null;
@@ -732,14 +732,14 @@ public class StartElementProcessor {
                 } else {
                     try {
                         if (cls.isArray()) {
-                            state._object = new ArrayHandler(
-                                    cls.getComponentType());
+                            state.setObject(new ArrayHandler(
+                                    cls.getComponentType()));
                             cls = ArrayHandler.class;
                         } else {
                             Arguments args = _unmarshalHandler
                                     .processConstructorArgs(atts, classDesc);
-                            state._object = _unmarshalHandler.createInstance(
-                                    cls, args);
+                            state.setObject(_unmarshalHandler.createInstance(
+                                    cls, args));
                             // state.object = _class.newInstance();
                         }
                     } catch (java.lang.Exception ex) {
@@ -754,7 +754,7 @@ public class StartElementProcessor {
                     }
                 }
             }
-            state._type = cls;
+            state.setType(cls);
         } catch (java.lang.IllegalStateException ise) {
             LOG.error(ise.toString());
             throw new SAXException(ise);
@@ -766,9 +766,9 @@ public class StartElementProcessor {
         if (classDesc == null) {
             classDesc = _unmarshalHandler.getClassDescriptor(cls);
         }
-        state._classDesc = classDesc;
+        state.setClassDescriptor(classDesc);
 
-        if ((state._object == null) && (!state._primitiveOrImmutable)) {
+        if ((state.getObject() == null) && (!state.isPrimitiveOrImmutable())) {
             String err = MessageFormat.format(resourceBundle
                     .getString("unmarshalHandler.error.unable.unmarshal"),
                     new Object[] { name, _unmarshalHandler.className(cls) });
@@ -785,32 +785,32 @@ public class StartElementProcessor {
                 LOG.debug(debug);
             }
             try {
-                handler.setValue(parentState._object, state._object);
+                handler.setValue(parentState.getObject(), state.getObject());
             } catch (java.lang.IllegalStateException ise) {
                 String err = MessageFormat
                         .format(resourceBundle
                                 .getString("unmarshalHandler.error.unable.add.element"),
                                 new Object[] { name,
-                                        parentState._fieldDesc.getXMLName(),
+                                        parentState.getFieldDescriptor().getXMLName(),
                                         ise.getMessage() });
                 throw new SAXException(err, ise);
             }
         }
 
-        if (state._object != null) {
+        if (state.getObject() != null) {
             // --The object has just been initialized
             // --notify the listener
-            Object stateObject = state._object;
-            Object parentObject = (state._parent == null) ? null
-                    : state._parent._object;
+            Object stateObject = state.getObject();
+            Object parentObject = (state.getParent() == null) ? null
+                    : state.getParent().getObject();
             _unmarshalHandler.getDelegateUnmarshalListener().initialized(
                     stateObject, parentObject);
             _unmarshalHandler.processAttributes(atts, classDesc);
             _unmarshalHandler.getDelegateUnmarshalListener().attributesProcessed(
                     stateObject, parentObject);
             _unmarshalHandler.getNamespaceHandling().processNamespaces(classDesc,
-                    _unmarshalHandler.getStateStack().getLastState()._object);
-        } else if ((state._type != null) && (!state._primitiveOrImmutable)) {
+                    _unmarshalHandler.getStateStack().getLastState().getObject());
+        } else if ((state.getType() != null) && (!state.isPrimitiveOrImmutable())) {
             if (atts != null) {
                 _unmarshalHandler.processWrapperAttributes(atts);
                 String warn = MessageFormat.format(resourceBundle
@@ -823,7 +823,7 @@ public class StartElementProcessor {
             if (atts != null) {
                 String nil = atts.getValue(MarshalFramework.NIL_ATTR,
                         MarshalFramework.XSI_NAMESPACE);
-                state._nil = "true".equals(nil);
+                state.setNil("true".equals(nil));
                 _unmarshalHandler.processWrapperAttributes(atts);
             }
         }

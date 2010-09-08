@@ -124,9 +124,9 @@ public class EndElementProcessor {
                 .removeLastState();
 
         // -- make sure we have the correct closing tag
-        XMLFieldDescriptor descriptor = state._fieldDesc;
+        XMLFieldDescriptor descriptor = state.getFieldDescriptor();
 
-        if (!state._elementName.equals(name)) {
+        if (!state.getElementName().equals(name)) {
 
             // maybe there is still a container to end
             if (descriptor.isContainer()) {
@@ -135,23 +135,23 @@ public class EndElementProcessor {
                 // -- the container's state that should
                 // -- really belong to the parent state
                 StringBuffer tmpBuffer = null;
-                if (state._buffer != null) {
-                    if (!UnmarshalHandler.isWhitespace(state._buffer)) {
-                        if (state._classDesc.getContentDescriptor() == null) {
-                            tmpBuffer = state._buffer;
-                            state._buffer = null;
+                if (state.getBuffer() != null) {
+                    if (!UnmarshalHandler.isWhitespace(state.getBuffer())) {
+                        if (state.getClassDescriptor().getContentDescriptor() == null) {
+                            tmpBuffer = state.getBuffer();
+                            state.setBuffer(null);
                         }
                     }
                 }
                 // -- end container
-                _unmarshalHandler.endElement(state._elementName);
+                _unmarshalHandler.endElement(state.getElementName());
 
                 if (tmpBuffer != null) {
                     state = _unmarshalHandler.getStateStack().getLastState();
-                    if (state._buffer == null)
-                        state._buffer = tmpBuffer;
+                    if (state.getBuffer() == null)
+                        state.setBuffer(tmpBuffer);
                     else
-                        state._buffer.append(tmpBuffer.toString());
+                        state.getBuffer().append(tmpBuffer.toString());
                 }
                 _unmarshalHandler.endElement(name);
                 return;
@@ -159,22 +159,22 @@ public class EndElementProcessor {
             String err = MessageFormat
                     .format(resourceBundle
                             .getString("unmarshalHandler.error.different.endElement.expected"),
-                            new Object[] { state._elementName, name });
+                            new Object[] { state.getElementName(), name });
             throw new SAXException(err);
         }
 
         // -- clean up current Object
-        Class<?> type = state._type;
+        Class<?> type = state.getType();
 
         if (type == null) {
-            if (!state._wrapper) {
+            if (!state.isWrapper()) {
                 // -- this message will only show up if debug
                 // -- is turned on...how should we handle this case?
                 // -- should it be a fatal error?
                 String info = MessageFormat
                         .format(resourceBundle
                                 .getString("unmarshalHandler.log.info.no.Descriptor.found"),
-                                new Object[] { state._elementName });
+                                new Object[] { state.getElementName() });
                 LOG.info(info);
             }
 
@@ -184,30 +184,30 @@ public class EndElementProcessor {
             // -- for searching descriptors in this manner can
             // -- be slow
             StringBuffer tmpBuffer = null;
-            if (state._buffer != null) {
-                if (!UnmarshalHandler.isWhitespace(state._buffer)) {
-                    tmpBuffer = state._buffer;
-                    state._buffer = null;
+            if (state.getBuffer() != null) {
+                if (!UnmarshalHandler.isWhitespace(state.getBuffer())) {
+                    tmpBuffer = state.getBuffer();
+                    state.setBuffer(null);
                 }
             }
             if (tmpBuffer != null) {
                 UnmarshalState targetState = state;
-                String locPath = targetState._elementName;
-                while ((targetState = targetState._parent) != null) {
-                    if ((targetState._wrapper)
-                            || (targetState._classDesc == null)) {
-                        locPath = targetState._elementName + "/" + locPath;
+                String locPath = targetState.getElementName();
+                while ((targetState = targetState.getParent()) != null) {
+                    if ((targetState.isWrapper())
+                            || (targetState.getClassDescriptor() == null)) {
+                        locPath = targetState.getElementName() + "/" + locPath;
                         continue;
                     }
 
-                    XMLFieldDescriptor tmpDesc = targetState._classDesc
+                    XMLFieldDescriptor tmpDesc = targetState.getClassDescriptor()
                             .getContentDescriptor();
                     if (tmpDesc != null
                             && locPath.equals(tmpDesc.getLocationPath())) {
-                        if (targetState._buffer == null)
-                            targetState._buffer = tmpBuffer;
+                        if (targetState.getBuffer() == null)
+                            targetState.setBuffer(tmpBuffer);
                         else
-                            targetState._buffer.append(tmpBuffer.toString());
+                            targetState.getBuffer().append(tmpBuffer.toString());
                     }
                 }
             }
@@ -226,7 +226,7 @@ public class EndElementProcessor {
 
         // -- If we don't have an instance object and the Class type
         // -- is not a primitive or a byte[] we must simply return
-        if ((state._object == null) && (!state._primitiveOrImmutable)) {
+        if ((state.getObject() == null) && (!state.isPrimitiveOrImmutable())) {
             // -- remove current namespace scoping
             _unmarshalHandler.getNamespaceHandling()
                     .removeCurrentNamespaceInstance();
@@ -235,37 +235,37 @@ public class EndElementProcessor {
 
         // / DEBUG System.out.println("end: " + name);
 
-        if (state._primitiveOrImmutable) {
+        if (state.isPrimitiveOrImmutable()) {
 
             String str = null;
 
-            if (state._buffer != null) {
-                str = state._buffer.toString();
-                state._buffer.setLength(0);
+            if (state.getBuffer() != null) {
+                str = state.getBuffer().toString();
+                state.getBuffer().setLength(0);
             }
 
             if (type == String.class
                     && !((XMLFieldDescriptorImpl) descriptor)
                             .isDerivedFromXSList()) {
                 if (str != null)
-                    state._object = str;
-                else if (state._nil) {
-                    state._object = null;
+                    state.setObject(str);
+                else if (state.isNil()) {
+                    state.setObject(null);
                 } else {
-                    state._object = "";
+                    state.setObject("");
                 }
             }
             // -- special handling for byte[]
             else if (byteArray && !descriptor.isDerivedFromXSList()) {
                 if (str == null)
-                    state._object = new byte[0];
+                    state.setObject(new byte[0]);
                 else {
-                    state._object = _unmarshalHandler.decodeBinaryData(
-                            descriptor, str);
+                    state.setObject(_unmarshalHandler.decodeBinaryData(
+                            descriptor, str));
                 }
             } else if (state._args != null) {
-                state._object = _unmarshalHandler.createInstance(state._type,
-                        state._args);
+                state.setObject(_unmarshalHandler.createInstance(state.getType(),
+                        state._args));
             } else if (descriptor.isMultivalued()
                     && descriptor.getSchemaType() != null
                     && descriptor.getSchemaType().equals("list")
@@ -277,7 +277,7 @@ public class EndElementProcessor {
                     String tokenValue = attrValueTokenizer.nextToken();
                     if (MarshalFramework.isPrimitive(descriptor.getFieldType())) {
                         primitives.add(_unmarshalHandler.toPrimitiveObject(
-                                type, tokenValue, state._fieldDesc));
+                                type, tokenValue, state.getFieldDescriptor()));
                     } else {
                         Class<?> valueType = descriptor.getFieldType();
                         // -- handle base64/hexBinary
@@ -289,31 +289,31 @@ public class EndElementProcessor {
                     }
 
                 }
-                state._object = primitives;
+                state.setObject(primitives);
             } else {
-                if (state._nil) {
-                    state._object = null;
+                if (state.isNil()) {
+                    state.setObject(null);
                 } else {
-                    state._object = _unmarshalHandler.toPrimitiveObject(type,
-                            str, state._fieldDesc);
+                    state.setObject(_unmarshalHandler.toPrimitiveObject(type,
+                            str, state.getFieldDescriptor()));
                 }
             }
-        } else if (ArrayHandler.class.isAssignableFrom(state._type)) {
-            state._object = ((ArrayHandler) state._object).getObject();
-            state._type = state._object.getClass();
+        } else if (ArrayHandler.class.isAssignableFrom(state.getType())) {
+            state.setObject(((ArrayHandler) state.getObject()).getObject());
+            state.setType(state.getObject().getClass());
 
         }
 
         // -- check for character content
-        if ((state._buffer != null) && (state._buffer.length() > 0)
-                && (state._classDesc != null)) {
-            XMLFieldDescriptor cdesc = state._classDesc.getContentDescriptor();
+        if ((state.getBuffer() != null) && (state.getBuffer().length() > 0)
+                && (state.getClassDescriptor() != null)) {
+            XMLFieldDescriptor cdesc = state.getClassDescriptor().getContentDescriptor();
             if (cdesc != null) {
-                Object value = state._buffer.toString();
+                Object value = state.getBuffer().toString();
                 if (MarshalFramework.isPrimitive(cdesc.getFieldType()))
                     value = _unmarshalHandler.toPrimitiveObject(
                             cdesc.getFieldType(), (String) value,
-                            state._fieldDesc);
+                            state.getFieldDescriptor());
                 else {
                     Class<?> valueType = cdesc.getFieldType();
                     // -- handle base64/hexBinary
@@ -330,7 +330,7 @@ public class EndElementProcessor {
                     if (_unmarshalHandler.isReuseObjects()) {
                         // -- check to see if we need to
                         // -- add the object or not
-                        Object tmp = handler.getValue(state._object);
+                        Object tmp = handler.getValue(state.getObject());
                         if (tmp != null) {
                             // -- Do not add object if values
                             // -- are equal
@@ -338,7 +338,7 @@ public class EndElementProcessor {
                         }
                     }
                     if (addObject)
-                        handler.setValue(state._object, value);
+                        handler.setValue(state.getObject(), value);
                 } catch (java.lang.IllegalStateException ise) {
                     String err = MessageFormat
                             .format(resourceBundle
@@ -352,17 +352,17 @@ public class EndElementProcessor {
             else if (descriptor.isReference()) {
                 UnmarshalState pState = _unmarshalHandler.getStateStack()
                         .getLastState();
-                _unmarshalHandler.processIDREF(state._buffer.toString(),
-                        descriptor, pState._object);
+                _unmarshalHandler.processIDREF(state.getBuffer().toString(),
+                        descriptor, pState.getObject());
                 _unmarshalHandler.getNamespaceHandling()
                         .removeCurrentNamespaceInstance();
                 return;
             } else {
                 // -- check for non-whitespace...and report error
-                if (!UnmarshalHandler.isWhitespace(state._buffer)) {
+                if (!UnmarshalHandler.isWhitespace(state.getBuffer())) {
                     String err = MessageFormat.format(resourceBundle
                             .getString("unmarshalHandler.error.illegal.text"),
-                            new Object[] { name, state._buffer });
+                            new Object[] { name, state.getBuffer() });
                     throw new SAXException(err);
                 }
             }
@@ -370,9 +370,9 @@ public class EndElementProcessor {
 
         // -- We're finished processing the object, so notify the
         // -- Listener (if any).
-        Object stateObject = state._object;
-        Object parentObject = (state._parent == null) ? null
-                : state._parent._object;
+        Object stateObject = state.getObject();
+        Object parentObject = (state.getParent() == null) ? null
+                : state.getParent().getObject();
         _unmarshalHandler.getDelegateUnmarshalListener().unmarshalled(
                 stateObject, parentObject);
 
@@ -408,7 +408,7 @@ public class EndElementProcessor {
                     ValidationContext context = new ValidationContext();
                     context.setInternalContext(_unmarshalHandler
                             .getInternalContext());
-                    validator.validate(state._object, context);
+                    validator.validate(state.getObject(), context);
                     if (!_unmarshalHandler.getInternalContext()
                             .getLenientIdValidation()) {
                         validator.checkUnresolvedIdrefs(context);
@@ -436,7 +436,7 @@ public class EndElementProcessor {
             return; // -- already added
         }
 
-        Object val = state._object;
+        Object val = state.getObject();
 
         // --special code for AnyNode handling
         if (_unmarshalHandler.getAnyNode() != null) {
@@ -452,8 +452,8 @@ public class EndElementProcessor {
 
         // -- get target object
         state = _unmarshalHandler.getStateStack().getLastState();
-        if (state._wrapper) {
-            state = fieldState._targetState;
+        if (state.isWrapper()) {
+            state = fieldState.getTargetState();
         }
 
         // -- check to see if we have already read in
@@ -468,17 +468,17 @@ public class EndElementProcessor {
                 while (!_unmarshalHandler.getStateStack().isEmpty()) {
                     UnmarshalState tmpState = _unmarshalHandler.getStateStack()
                             .removeLastState();
-                    if (!tmpState._wrapper) {
-                        if (tmpState._fieldDesc.isContainer())
+                    if (!tmpState.isWrapper()) {
+                        if (tmpState.getFieldDescriptor().isContainer())
                             continue;
                     }
-                    location = state._elementName + "/" + location;
+                    location = state.getElementName() + "/" + location;
                 }
 
                 String err = MessageFormat
                         .format(resourceBundle
                                 .getString("unmarshalHandler.error.element.occurs.more.than.once"),
-                                new Object[] { name, state._type.getName(),
+                                new Object[] { name, state.getType().getName(),
                                         location });
 
                 ValidationException vx = new ValidationException(err);
@@ -487,8 +487,8 @@ public class EndElementProcessor {
             }
             state.markAsUsed(descriptor);
             // -- if this is the identity then save id
-            if (state._classDesc.getIdentity() == descriptor) {
-                state._key = val;
+            if (state.getClassDescriptor().getIdentity() == descriptor) {
+                state.setKey(val);
             }
         } else {
             // -- check occurance of descriptor
@@ -513,10 +513,10 @@ public class EndElementProcessor {
 
             boolean addObject = true;
             if (_unmarshalHandler.isReuseObjects()
-                    && fieldState._primitiveOrImmutable) {
+                    && fieldState.isPrimitiveOrImmutable()) {
                 // -- check to see if we need to
                 // -- add the object or not
-                Object tmp = handler.getValue(state._object);
+                Object tmp = handler.getValue(state.getObject());
                 if (tmp != null) {
                     // -- Do not add object if values
                     // -- are equal
@@ -527,7 +527,7 @@ public class EndElementProcessor {
             // -- special handling for mapped objects
             if (descriptor.isMapped()) {
                 if (!(val instanceof MapItem)) {
-                    MapItem mapItem = new MapItem(fieldState._key, val);
+                    MapItem mapItem = new MapItem(fieldState.getKey(), val);
                     val = mapItem;
                 } else {
                     // -- make sure value exists (could be a reference)
@@ -536,7 +536,7 @@ public class EndElementProcessor {
                         // -- save for later...
                         addObject = false;
                         _unmarshalHandler.addReference(mapItem.toString(),
-                                state._object, descriptor);
+                                state.getObject(), descriptor);
                     }
                 }
             }
@@ -544,7 +544,7 @@ public class EndElementProcessor {
             if (addObject) {
                 // -- clear any collections if necessary
                 if (firstOccurance && _unmarshalHandler.isClearCollections()) {
-                    handler.resetValue(state._object);
+                    handler.resetValue(state.getObject());
                 }
 
                 if (descriptor.isMultivalued()
@@ -555,24 +555,24 @@ public class EndElementProcessor {
                     List<Object> values = (List<Object>) val;
                     for (Object value : values) {
                         // -- finally set the value!!
-                        handler.setValue(state._object, value);
+                        handler.setValue(state.getObject(), value);
 
                         // If there is a parent for this object, pass along
                         // a notification that we've finished adding a child
                         _unmarshalHandler.getDelegateUnmarshalListener()
                                 .fieldAdded(descriptor.getFieldName(),
-                                        state._object, fieldState._object);
+                                        state.getObject(), fieldState.getObject());
                     }
                 } else {
 
                     // -- finally set the value!!
-                    handler.setValue(state._object, val);
+                    handler.setValue(state.getObject(), val);
 
                     // If there is a parent for this object, pass along
                     // a notification that we've finished adding a child
                     _unmarshalHandler.getDelegateUnmarshalListener()
                             .fieldAdded(descriptor.getFieldName(),
-                                    state._object, fieldState._object);
+                                    state.getObject(), fieldState.getObject());
                 }
             }
 
@@ -596,7 +596,7 @@ public class EndElementProcessor {
             String err = MessageFormat
                     .format(resourceBundle
                             .getString("unmarshalHandler.error.unable.add.element"),
-                            new Object[] { name, state._fieldDesc.getXMLName(),
+                            new Object[] { name, state.getFieldDescriptor().getXMLName(),
                                     sw.toString() });
             throw new SAXException(err, ex);
         }
@@ -607,9 +607,9 @@ public class EndElementProcessor {
 
         // remove additional (artifical aka container) state introduced for
         // single-valued (iow maxOccurs="1") choices.
-        if (state._fieldDesc.isContainer() && state._classDesc.isChoice()
-                && !state._fieldDesc.isMultivalued()) {
-            _unmarshalHandler.endElement(state._elementName);
+        if (state.getFieldDescriptor().isContainer() && state.getClassDescriptor().isChoice()
+                && !state.getFieldDescriptor().isMultivalued()) {
+            _unmarshalHandler.endElement(state.getElementName());
         }
 
     }

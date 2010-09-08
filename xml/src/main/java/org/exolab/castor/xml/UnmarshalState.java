@@ -54,99 +54,95 @@ import java.util.HashSet;
  * @version $Revision$ $Date: 2004-12-11 02:25:45 -0700 (Sat, 11 Dec 2004) $
  */
 public class UnmarshalState {
+    
     /** Holds on to Constructor arguments. */
     UnmarshalHandler.Arguments _args = null;
     
     /** Holds the current location path. */
-    String _location = "";
+    private String _location = "";
     
     /** Indicates if the xsi:nil='true' attribute was present on the element. */
-    boolean _nil = false;
+    private boolean _nil = false;
     
     /** The xml element name of the current object. */
-    String _elementName = null;
+    private String _elementName = null;
 
     /** Characters read in during unmarshalling. */
-    StringBuffer _buffer = null;
+    private StringBuffer _buffer = null;
 
     /** The key for the object. This may be null if no key
      *  or identity has been specified. */
-    Object _key = null;
+    private Object _key = null;
     
     /** The current that we are unmarshalling to. */
-    Object _object = null;
+    private Object _object = null;
     
     /** The class of the object, mainly used for primitives. */
-    Class _type = null;
+    private Class<?> _type = null;
 
     /** The field descriptor for the Object. */
-    XMLFieldDescriptor _fieldDesc = null;
+    private XMLFieldDescriptor _fieldDescriptor = null;
 
     /** The class descriptor for the Object, in case
      *  FieldDescriptor#getClassDescriptor returns null. */
-    XMLClassDescriptor _classDesc = null;
+    private XMLClassDescriptor _classDescriptor = null;
 
     /** Is the field a primitive or immutable type? */
-    boolean _primitiveOrImmutable = false;
+    private boolean _primitiveOrImmutable = false;
 
-    /** The list of *used* field descriptors.
-     * Note: Initialized upon demand, no need to create the list for primitive fields. */
-    private HashSet _markedList = null;
+    /** The list of *used* field descriptors. */
+    private HashSet<XMLFieldDescriptor> _markedList = new HashSet<XMLFieldDescriptor>();
 
     /** Is this a derived field? */
-    boolean _derived = false;
+    private boolean _derived = false;
     
     /** Is this a wrapper state? */
-    boolean _wrapper = false;
+    private boolean _wrapper = false;
     
     /** The whitespace preserve flag. */
-    boolean _wsPreserve = false;
+    private boolean _whitespacePreserving = false;
     
-    boolean _trailingWhitespaceRemoved = false;
+    private boolean _trailingWhitespaceRemoved = false;
     
     /** Index of next expected sequence element; used during validation. */
-    public int _expectedIndex = 0;
+    private int _expectedIndex = 0;
     
     /** Indicates (during validation) whether the current field descriptor 
      *  points to a multi-valued element. */
-    public boolean _withinMultivaluedElement = false;
+    private boolean _withinMultivaluedElement = false;
     
     /** The UnmarshalState which contains information about the parent object for object
      *  containted within this state. Used when handling element containers/wrappers. */
-    UnmarshalState _targetState = null;
+    private UnmarshalState _targetState = null;
     
     /** A reference to the parent state. */
-    UnmarshalState _parent = null;
+    private UnmarshalState _parent = null;
 
-    UnmarshalState() {
-        super();
-    }
-    
     /**
      * Reinitializes all variables
      */
     void clear() {
         
         _args = null;
-        _location = "";
-        _elementName = null;
-        _buffer = null;
-        _key = null;
-        _nil = false;
-        _object = null;
-        _type = null;
-        _fieldDesc = null;
-        _classDesc = null;
-        _primitiveOrImmutable = false;
+        setLocation("");
+        setElementName(null);
+        setBuffer(null);
+        setKey(null);
+        setNil(false);
+        setObject(null);
+        setType(null);
+        setFieldDescriptor(null);
+        setClassDescriptor(null);
+        setPrimitiveOrImmutable(false);
         if (_markedList != null) {
             _markedList.clear();
         }
-        _derived = false;
-        _wrapper = false;
-        _targetState = null;
-        _wsPreserve = false;
-        _parent = null;
-        _trailingWhitespaceRemoved = false;
+        setDerived(false);
+        setWrapper(false);
+        setTargetState(null);
+        setWhitespacePreserving(false);
+        setParent(null);
+        setTrailingWhitespaceRemoved(false);
     } //-- clear
 
     /**
@@ -155,7 +151,6 @@ public class UnmarshalState {
      * @param descriptor the XMLFieldDescriptor to mark.
      */
     void markAsUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { _markedList = new HashSet(5); }
         _markedList.add(descriptor);
     }
 
@@ -167,5 +162,149 @@ public class UnmarshalState {
     boolean isUsed(XMLFieldDescriptor descriptor) {
         if (_markedList == null) { return false; }
         return _markedList.contains(descriptor);
+    }
+
+    void setFieldDescriptor(XMLFieldDescriptor fieldDesc) {
+        _fieldDescriptor = fieldDesc;
+    }
+
+    XMLFieldDescriptor getFieldDescriptor() {
+        return _fieldDescriptor;
+    }
+
+    void setObject(Object object) {
+        _object = object;
+    }
+
+    Object getObject() {
+        return _object;
+    }
+
+    void setKey(Object key) {
+        _key = key;
+    }
+
+    Object getKey() {
+        return _key;
+    }
+
+    void setType(Class<?> type) {
+        _type = type;
+    }
+
+    Class<?> getType() {
+        return _type;
+    }
+
+    void setClassDescriptor(XMLClassDescriptor classDesc) {
+        _classDescriptor = classDesc;
+    }
+
+    XMLClassDescriptor getClassDescriptor() {
+        return _classDescriptor;
+    }
+
+    void setLocation(String location) {
+        _location = location;
+    }
+
+    String getLocation() {
+        return _location;
+    }
+
+    void setElementName(String elementName) {
+        _elementName = elementName;
+    }
+
+    String getElementName() {
+        return _elementName;
+    }
+
+    void setBuffer(StringBuffer buffer) {
+        _buffer = buffer;
+    }
+
+    StringBuffer getBuffer() {
+        return _buffer;
+    }
+
+    void setDerived(boolean derived) {
+        _derived = derived;
+    }
+
+    boolean isDerived() {
+        return _derived;
+    }
+
+    void setWrapper(boolean wrapper) {
+        _wrapper = wrapper;
+    }
+
+    boolean isWrapper() {
+        return _wrapper;
+    }
+
+    void setWhitespacePreserving(boolean wsPreserve) {
+        _whitespacePreserving = wsPreserve;
+    }
+
+    boolean isWhitespacePreserving() {
+        return _whitespacePreserving;
+    }
+
+    void setPrimitiveOrImmutable(boolean primitiveOrImmutable) {
+        _primitiveOrImmutable = primitiveOrImmutable;
+    }
+
+    boolean isPrimitiveOrImmutable() {
+        return _primitiveOrImmutable;
+    }
+
+    void setTrailingWhitespaceRemoved(boolean trailingWhitespaceRemoved) {
+        _trailingWhitespaceRemoved = trailingWhitespaceRemoved;
+    }
+
+    boolean isTrailingWhitespaceRemoved() {
+        return _trailingWhitespaceRemoved;
+    }
+
+    void setTargetState(UnmarshalState targetState) {
+        _targetState = targetState;
+    }
+
+    UnmarshalState getTargetState() {
+        return _targetState;
+    }
+
+    void setParent(UnmarshalState parent) {
+        _parent = parent;
+    }
+
+    UnmarshalState getParent() {
+        return _parent;
+    }
+
+    void setNil(boolean nil) {
+        _nil = nil;
+    }
+
+    boolean isNil() {
+        return _nil;
+    }
+
+    public void setExpectedIndex(int expectedIndex) {
+        _expectedIndex = expectedIndex;
+    }
+
+    public int getExpectedIndex() {
+        return _expectedIndex;
+    }
+
+    public void setWithinMultivaluedElement(boolean withinMultivaluedElement) {
+        _withinMultivaluedElement = withinMultivaluedElement;
+    }
+
+    public boolean isWithinMultivaluedElement() {
+        return _withinMultivaluedElement;
     }
 }

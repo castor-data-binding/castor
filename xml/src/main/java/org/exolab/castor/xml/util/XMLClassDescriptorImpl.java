@@ -288,11 +288,11 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             final XMLFieldDescriptor elementDescriptor, UnmarshalState parentState, String xmlName) throws ValidationException {
         if (_compositor == SEQUENCE && _sequenceOfElements.size() > 0) {
         	
-        	if (parentState._expectedIndex == _sequenceOfElements.size() ) {
+        	if (parentState.getExpectedIndex() == _sequenceOfElements.size() ) {
         		throw new ValidationException ("Element with name " + xmlName + " passed to type " + getXMLName() + " in incorrect order; It is not allowed to be the last element of this sequence!");
         	}
         	
-        	XMLFieldDescriptor expectedElementDescriptor = _sequenceOfElements.get(parentState._expectedIndex);
+        	XMLFieldDescriptor expectedElementDescriptor = _sequenceOfElements.get(parentState.getExpectedIndex());
             
             String expectedElementName = expectedElementDescriptor.getXMLName();
             String elementName = xmlName;
@@ -309,20 +309,20 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             	// check name
             	if (!possibleNames.contains(elementName)) {
             		if (!expectedElementDescriptor.isRequired()) {
-            			 parentState._expectedIndex++;
+            			 parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
                          checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
             		} else {
             			throw new ValidationException ("Element with name " + elementName + " passed to type " + getXMLName() + " in incorrect order; expected element has to be member of the expected choice.");
             		}
             	} else {
-            		parentState._expectedIndex++;
+            		parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
             	}
                 return;
             }
 
             // multi valued flag
-            if (expectedElementDescriptor.isMultivalued() && !parentState._withinMultivaluedElement) {
-            	parentState._withinMultivaluedElement = true;
+            if (expectedElementDescriptor.isMultivalued() && !parentState.isWithinMultivaluedElement()) {
+            	parentState.setWithinMultivaluedElement(true);
             }
             
             if (!anyNode && !(expectedElementName).equals(elementName)) {
@@ -331,16 +331,16 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 List<String> substitutes =  expectedElementDescriptor.getSubstitutes();
                 if (substitutes != null && !substitutes.isEmpty()) {
                     if (substitutes.contains(elementName)) {
-                        if (!parentState._withinMultivaluedElement) {
-                            parentState._expectedIndex++;
+                        if (!parentState.isWithinMultivaluedElement()) {
+                            parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
                         }
                         return;
                     }
                 }
                 // handle multi-valued fields
                 if (expectedElementDescriptor.isMultivalued()) {
-                	parentState._withinMultivaluedElement = false;
-                    parentState._expectedIndex++;
+                	parentState.setWithinMultivaluedElement(false);
+                    parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
                     checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
                     return;
                 }
@@ -350,14 +350,14 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 }
                 
                 // non required field, proceed until next required field
-                parentState._expectedIndex++;
+                parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
                 checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
                 return;
                 
             }
             
-            if (!parentState._withinMultivaluedElement) {
-                parentState._expectedIndex++;
+            if (!parentState.isWithinMultivaluedElement()) {
+                parentState.setExpectedIndex(parentState.getExpectedIndex() + 1);
             }
         }
    }

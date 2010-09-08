@@ -49,18 +49,14 @@ package org.exolab.castor.xml;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -72,25 +68,20 @@ import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
 import org.castor.core.util.StringUtil;
 import org.castor.xml.InternalContext;
-import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
-import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
-import org.exolab.castor.xml.parsing.AttributeSetBuilder;
 import org.exolab.castor.xml.parsing.AnyNodeUnmarshalHandler;
+import org.exolab.castor.xml.parsing.AttributeSetBuilder;
 import org.exolab.castor.xml.parsing.NamespaceHandling;
 import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
-import org.exolab.castor.xml.util.ContainerElement;
-import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
@@ -163,7 +154,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     //----------------------------/
 
     private UnmarshalState   _topState     = null;
-    private Class            _topClass     = null;
+    private Class<?>         _topClass     = null;
 
     /**
      * The top-level instance object, this may be set by the user
@@ -196,9 +187,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Hashtable to store idReference and ReferenceInfo
      */
-    private Hashtable _resolveTable = new Hashtable();
+    private Hashtable<String, ReferenceInfo> _resolveTable = new Hashtable<String, ReferenceInfo>();
     
-    private Map _javaPackages = null;    
+    private Map<Class<?>, String> _javaPackages = null;    
 
     private ClassLoader _loader = null;
 
@@ -285,7 +276,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     protected UnmarshalHandler(final InternalContext internalContext, final Class<?> topClass) {
         super(internalContext);
         _idResolver         = new IDResolverImpl();
-        _javaPackages       = new HashMap();
+        _javaPackages       = new HashMap<Class<?>, String>();
         _topClass           = topClass;
         _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaceHandling);
         _attributeSetFactory = new AttributeSetBuilder(_namespaceHandling);
@@ -316,7 +307,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     	if (!_stateStack.isEmpty()) {
 			UnmarshalState state = _stateStack.getLastState();
 			if (state != null) {
-				return state._object;
+				return state.getObject();
 			}
 		}
 		return null;
@@ -329,11 +320,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the root Object being unmarshalled.
     **/
     public Object getObject() {
-        if (_topState != null) return _topState._object;
+        if (_topState != null) {
+            return _topState.getObject();
+        }
         return null;
-    } //-- getObject
-
-
+    }
 
     /**
      * Sets the ClassLoader to use when loading classes
@@ -498,8 +489,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     //-----------------------------------/
 
     public void characters(char[] ch, int start, int length)
-        throws SAXException
-    {
+        throws SAXException {
     	new CharactersProcessor(this).compute(ch, start, length);
     } //-- characters
 
@@ -582,11 +572,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
     public void ignorableWhitespace(char[] ch, int start, int length)
-        throws org.xml.sax.SAXException
-    {
-        
-        //-- If we are skipping elements that have appeared in the XML but for
-        //-- which we have no mapping, skip the text and return
+            throws org.xml.sax.SAXException {
+
+        // -- If we are skipping elements that have appeared in the XML but for
+        // -- which we have no mapping, skip the text and return
         if (_strictElementHandler.skipElement()) {
             return;
         }
@@ -594,24 +583,23 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_stateStack.isEmpty()) {
             return;
         }
-        
+
         if (_anyNodeHandler.hasAnyUnmarshaller()) {
             _anyNodeHandler.ignorableWhitespace(ch, start, length);
         } else {
-             UnmarshalState state = _stateStack.getLastState();
-             if (state._wsPreserve) {
-                if (state._buffer == null) state._buffer = new StringBuffer();
-                state._buffer.append(ch, start, length);
-             }
+            UnmarshalState state = _stateStack.getLastState();
+            if (state.isWhitespacePreserving()) {
+                if (state.getBuffer() == null)
+                    state.setBuffer(new StringBuffer());
+                state.getBuffer().append(ch, start, length);
+            }
         }
-    } //-- ignorableWhitespace
+    } // -- ignorableWhitespace
 
     public void processingInstruction(String target, String data)
-        throws org.xml.sax.SAXException
-    {
-        //-- do nothing for now
-    } //-- processingInstruction
-
+            throws org.xml.sax.SAXException {
+        // -- do nothing for now
+    } // -- processingInstruction
 
     public void setDocumentLocator(Locator locator) {
         this._locator = locator;
@@ -636,9 +624,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Signals the start of a new document
      */
-    public void startDocument()
-        throws org.xml.sax.SAXException
-    {
+    public void startDocument() throws org.xml.sax.SAXException {
 
         //-- I've found many application don't always call
         //-- #startDocument, so I usually never put any
@@ -848,8 +834,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		}
 
 		_topState = new UnmarshalState();            
-		_topState._elementName = name;
-		_topState._wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
+		_topState.setElementName(name);
+		_topState.setWhitespacePreserving((xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve);
 		
 		XMLClassDescriptor classDesc = null;
 		//-- If _topClass is null, then we need to search
@@ -911,7 +897,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		                                 name,
 		                                 NodeType.Element);
 
-		_topState._fieldDesc = fieldDesc;
+		_topState.setFieldDescriptor(fieldDesc);
 		//-- look for XMLClassDescriptor if null
 		//-- always check resolver first
 		if (classDesc == null) {
@@ -923,7 +909,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		    if (isPrimitive(_topClass)) {
 		        classDesc = new PrimitivesClassDescriptor(_topClass);
 		        fieldDesc.setIncremental(false);
-		        _topState._primitiveOrImmutable = true;
+		        _topState.setPrimitiveOrImmutable(true);
 		    }
 		}
 		
@@ -943,10 +929,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
 			throw new SAXException(err);
 		}
-		_topState._classDesc = classDesc;
-		_topState._type = _topClass;
+		_topState.setClassDescriptor(classDesc);
+		_topState.setType(_topClass);
 
-		if  ((_topObject == null) && (!_topState._primitiveOrImmutable)) {
+		if  ((_topObject == null) && (!_topState.isPrimitiveOrImmutable())) {
 		    // Retrieving the xsi:type attribute, if present
 		    String topPackage = getJavaPackage(_topClass);
 		    
@@ -959,7 +945,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		    }
 		        
 		    if (instanceClassname != null) {
-		        Class instanceClass = null;
+		        Class<?> instanceClass = null;
 		        try {
 
 		            XMLClassDescriptor xcd = getClassDescriptor(instanceClassname);
@@ -1015,31 +1001,31 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 		        //-- try to create instance of the given Class
 		        Arguments args = processConstructorArgs(atts, classDesc);
-		        _topState._object = createInstance(instanceClass, args);
+		        _topState.setObject(createInstance(instanceClass, args));
 		    } else {
 		        //-- no xsi type information present
 		        //-- try to create instance of the given Class
 		        Arguments args = processConstructorArgs(atts, classDesc);
-		        _topState._object = createInstance(_topClass, args);
+		        _topState.setObject(createInstance(_topClass, args));
 		    }
 		} else {
 		    //-- otherwise use _topObject
-		    _topState._object = _topObject;
+		    _topState.setObject(_topObject);
 		}
 		
 		_stateStack.pushState(_topState);
 		
-		if (!_topState._primitiveOrImmutable) {
+		if (!_topState.isPrimitiveOrImmutable()) {
 		    //--The top object has just been initialized
 		    //--notify the listener
-			Object stateObject = _topState._object;
-			Object parentObject = (_topState._parent == null) ? null
-					: _topState._parent._object;
+			Object stateObject = _topState.getObject();
+			Object parentObject = (_topState.getParent() == null) ? null
+					: _topState.getParent().getObject();
 			
 			_delegateUnmarshalListener.initialized(stateObject, parentObject);  
 		    processAttributes(atts, classDesc);
 		    _delegateUnmarshalListener.attributesProcessed(stateObject, parentObject);
-		    _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState()._object);
+		    _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState().getObject());
 		}
 		
 		String pkg = getJavaPackage(_topClass);
@@ -1168,7 +1154,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             final XMLFieldDescriptor descriptor) {
         
         ReferenceInfo refInfo = new ReferenceInfo(idRef, parent, descriptor);
-        refInfo.setNext((ReferenceInfo) _resolveTable.get(idRef));
+        refInfo.setNext(_resolveTable.get(idRef));
         _resolveTable.put(idRef, refInfo);
     }
     
@@ -1178,7 +1164,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param type The class type to be used during instantiation
      * @param args (Optional) arguments to be used during instantiation
      */
-     Object createInstance(final Class type, final Arguments args)
+     Object createInstance(final Class<?> type, final Arguments args)
             throws SAXException {
         Object instance = null;
         try {
@@ -1348,10 +1334,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
         UnmarshalState state = _stateStack.getLastState();
-        Object object = state._object;
+        Object object = state.getObject();
 
         if (classDesc == null) {
-            classDesc = state._classDesc;
+            classDesc = state.getClassDescriptor();
             if (classDesc == null) {
                 //-- no class desc, cannot process atts
                 //-- except for wrapper/location atts
@@ -1402,7 +1388,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             	String error = MessageFormat
     			.format(resourceBundle
     					.getString("unmarshalHandler.error.unable.add.attribute"),
-    					new Object[] { name, state._classDesc.getJavaClass().getName(), ise });
+    					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
                 throw new SAXException(error, ise);
             }
         }
@@ -1428,7 +1414,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (XSI_NAMESPACE.equals(namespace)) {
                 if (NIL_ATTR.equals(name)) {
                     String value = atts.getValue(i);
-                    state._nil = ("true".equals(value));
+                    state.setNil(("true".equals(value)));
                 }
                 continue;
             }
@@ -1443,7 +1429,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 	String debugMsg = MessageFormat
         			.format(resourceBundle
         					.getString("unmarshalHandler.log.debug.ignore.extra.attribute"),
-        					new Object[] { name, state._classDesc.getJavaClass().getName() });
+        					new Object[] { name, state.getClassDescriptor().getJavaClass().getName() });
                     LOG.debug(debugMsg);
                 }
                 continue;
@@ -1458,20 +1444,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor == null) {
                 //-- check for nested attribute...loop through
                 //-- stack and find correct descriptor
-                String path = state._elementName;
+                String path = state.getElementName();
                 StringBuffer pathBuf = null;
                 while (_stateStack.hasAnotherParentState()) {
                 	UnmarshalState targetState = _stateStack.removeParentState();
-                    if (targetState._wrapper) {
+                    if (targetState.isWrapper()) {
                         //path = targetState.elementName + "/" + path;
                         pathBuf = resetStringBuffer(pathBuf);
-                        pathBuf.append(targetState._elementName);
+                        pathBuf.append(targetState.getElementName());
                         pathBuf.append('/');
                         pathBuf.append(path);
                         path = pathBuf.toString();
                         continue;
                     }
-                    classDesc = targetState._classDesc;
+                    classDesc = targetState.getClassDescriptor();
                     descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
                 
                     if (descriptor != null) {
@@ -1482,7 +1468,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                         
                     pathBuf = resetStringBuffer(pathBuf);
-                    pathBuf.append(targetState._elementName);
+                    pathBuf.append(targetState.getElementName());
                     pathBuf.append('/');
                     pathBuf.append(path);
                     path = pathBuf.toString();
@@ -1499,7 +1485,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 	String errorMsg = MessageFormat
         			.format(resourceBundle
         					.getString("unmarshalHandler.error.strict.attribute.error"),
-        					new Object[] { name, state._elementName });
+        					new Object[] { name, state.getElementName() });
                     throw new SAXException(errorMsg);
                 }
                 continue;
@@ -1511,7 +1497,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             	String errorMsg = MessageFormat
     			.format(resourceBundle
     					.getString("unmarshalHandler.error.unable.add.attribute"),
-    					new Object[] { name, state._classDesc.getJavaClass().getName(), ise });
+    					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
                 throw new SAXException(errorMsg, ise);
             }
         }
@@ -1560,20 +1546,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             XMLClassDescriptor classDesc = null;
             //-- check for nested attribute...loop through
             //-- stack and find correct descriptor
-            String path = state._elementName;
+            String path = state.getElementName();
             StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
             while (_stateStack.hasAnotherParentState()) {
                 targetState = _stateStack.removeParentState();
-                if (targetState._wrapper) {
+                if (targetState.isWrapper()) {
                     pathBuf = resetStringBuffer(pathBuf);
-                    pathBuf.append(targetState._elementName);
+                    pathBuf.append(targetState.getElementName());
                     pathBuf.append('/');
                     pathBuf.append(path);
                     path = pathBuf.toString();
                     continue;
                 }
-                classDesc = targetState._classDesc;
+                classDesc = targetState.getClassDescriptor();
                 
                 XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
                 boolean found = false;
@@ -1595,7 +1581,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
                         
                 pathBuf = resetStringBuffer(pathBuf);
-                pathBuf.append(targetState._elementName);
+                pathBuf.append(targetState.getElementName());
                 pathBuf.append('/');
                 pathBuf.append(path);
                 path = pathBuf.toString();
@@ -1608,12 +1594,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor != null) {
                 try {
                     processAttribute(name, namespace, atts.getValue(i),
-                            descriptor, classDesc, targetState._object);
+                            descriptor, classDesc, targetState.getObject());
                 } catch (IllegalStateException ise) {
                 	String errorMsg = MessageFormat
         			.format(resourceBundle
         					.getString("unmarshalHandler.error.unable.add.attribute"),
-        					new Object[] { name, state._classDesc.getJavaClass().getName(), ise });
+        					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
                     throw new SAXException(errorMsg, ise);
                 }
             }
@@ -1690,7 +1676,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             //-- save key in current state
             UnmarshalState state = _stateStack.getLastState();
-            state._key = attValue;
+            state.setKey(attValue);
 
             //-- resolve waiting references
             resolveReferences(attValue, parent);
@@ -1722,7 +1708,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- attribute field type
-        Class type = descriptor.getFieldType();
+        Class<?> type = descriptor.getFieldType();
         String valueType = descriptor.getSchemaType();
         boolean isPrimative = isPrimitive(type);
         boolean isQName = StringUtil.equals(valueType, QNAME_NAME);
@@ -1764,7 +1750,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             final XMLFieldDescriptor descriptor, 
             final Object parent, 
             final FieldHandler handler,
-            final Class type, 
+            final Class<?> type, 
             final boolean isPrimitive, 
             final boolean isQName,
             final boolean isByteArray) throws SAXException {
@@ -1905,13 +1891,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return The value, potentially converted to an enum-style class.
      */
     private Object convertToEnumObject(final XMLFieldDescriptor descriptor, Object value) {
-        Class fieldType = descriptor.getFieldType();
+        Class<?> fieldType = descriptor.getFieldType();
         Method valueOfMethod;
         try {
             valueOfMethod = fieldType.getMethod("valueOf", new Class[] {String.class});
             if (valueOfMethod != null 
                     && Modifier.isStatic(valueOfMethod.getModifiers())) {
-                Class returnType = valueOfMethod.getReturnType();
+                Class<?> returnType = valueOfMethod.getReturnType();
                 if (returnType.isAssignableFrom(fieldType)) {
                     Object enumObject = valueOfMethod.invoke(null, new Object[] {value});
                     value = enumObject;
@@ -1963,7 +1949,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private XMLClassDescriptor getClassDescriptor (String className)
         throws SAXException
     {
-        Class type = null;
+        Class<?> type = null;
         try {
             //-- use specified ClassLoader if necessary
 		    if (_loader != null) {
@@ -1985,7 +1971,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * be generated.
      * @param cls the Class to get the ClassDescriptor for
     **/
-    XMLClassDescriptor getClassDescriptor(final Class cls)
+    XMLClassDescriptor getClassDescriptor(final Class<?> cls)
     throws SAXException {
         if (cls == null) { return null; }
 
@@ -2081,11 +2067,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param type the Class to return the package of
      * @return the package for the given Class
     **/
-	String getJavaPackage(Class type)
+	String getJavaPackage(Class<?> type)
 	{
 		if (type == null)
 			return null;
-		String pkg = (String)_javaPackages.get(type);
+		String pkg = _javaPackages.get(type);
 		if(pkg == null)
 		{
 			pkg = type.getName();
@@ -2103,7 +2089,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Returns the name of a class, handles array types
      * @return the name of a class, handles array types
     **/
-    String className(Class type) {
+    String className(Class<?> type) {
         if (type.isArray()) {
             return className(type.getComponentType()) + "[]";
         }
@@ -2141,7 +2127,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param className the name of the class to load
      * @param loader the ClassLoader to use, this may be null.
     **/
-    Class loadClass(String className, ClassLoader loader)
+    Class<?> loadClass(String className, ClassLoader loader)
         throws ClassNotFoundException
     {
         //-- use passed in loader
@@ -2169,7 +2155,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
 
-        ReferenceInfo refInfo = (ReferenceInfo) _resolveTable.remove(id);
+        ReferenceInfo refInfo = _resolveTable.remove(id);
         while (refInfo != null) {
             try {
                 FieldHandler handler = refInfo.getDescriptor().getHandler();
@@ -2203,20 +2189,20 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @exception SAXException If the String cannot be converted to a primitive object type
      */
     Object toPrimitiveObject
-        (final Class type, final String value, final XMLFieldDescriptor fieldDesc) 
+        (final Class<?> type, final String value, final XMLFieldDescriptor fieldDesc) 
         throws SAXException {
         try {
             return toPrimitiveObject(type, value);
         } catch (Exception ex) {
             UnmarshalState state = _stateStack.getLastState();
             if (state != null) {
-                if (state._object != null) {
+                if (state.getObject() != null) {
 					String errorMsg = MessageFormat
 							.format(
 									resourceBundle
 											.getString("unmarshalHandler.error.unmarshal.field.of.class"),
 									new Object[] { fieldDesc.getFieldName(),
-											state._object.getClass().getName() });
+											state.getObject().getClass().getName() });
 					throw new SAXException(errorMsg, ex);
                 }
             }
@@ -2236,7 +2222,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param value the {@link String} to convert to a primitive
      * @return the new primitive {@link Object}
      */
-    public static Object toPrimitiveObject(final Class type, String value) {
+    public static Object toPrimitiveObject(final Class<?> type, String value) {
 		return PrimitiveObjectFactory.getObject(type, value);
     }
     
@@ -2277,7 +2263,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public static class ArrayHandler {
         
-        Class _componentType = null;
+        Class<?> _componentType = null;
         
         ArrayList<Object> _items = null;
         
@@ -2286,7 +2272,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
          *
          * @param componentType the ComponentType for the array.
          */
-        ArrayHandler(final Class componentType) {
+        ArrayHandler(final Class<?> componentType) {
             if (componentType == null) {
                 String errMsg = resourceBundle.getString("unmarshalHandler.error.componentType.null");
                 throw new IllegalArgumentException(errMsg);
@@ -2332,7 +2318,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
          * Returns the component type handled by this class.
          * @return The component type handled by this class.
          */
-        public Class componentType() {
+        public Class<?> componentType() {
             return _componentType;
         }
         
@@ -2422,7 +2408,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Hashtable to store idReference and ReferenceInfo
      * @return Hashtable
      */
-	public Hashtable getResolveTable() {
+	public Hashtable<String, ReferenceInfo> getResolveTable() {
 		return _resolveTable;
 	}
 
