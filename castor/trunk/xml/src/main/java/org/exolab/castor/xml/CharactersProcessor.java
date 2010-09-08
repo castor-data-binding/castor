@@ -94,7 +94,7 @@ public class CharactersProcessor {
         // -- handle whitespace
         boolean removedTrailingWhitespace = false;
         boolean removedLeadingWhitespace = false;
-        if (!state._wsPreserve) {
+        if (!state.isWhitespacePreserving()) {
             // -- trim leading whitespace characters
             while (length > 0) {
                 boolean whitespace = false;
@@ -141,18 +141,18 @@ public class CharactersProcessor {
             }
         }
 
-        if (state._buffer == null) {
-            state._buffer = new StringBuffer();
+        if (state.getBuffer() == null) {
+            state.setBuffer(new StringBuffer());
         } else {
             // -- non-whitespace content exists, add a space
-            if ((!state._wsPreserve) && (length > 0)) {
-                if (state._trailingWhitespaceRemoved
+            if ((!state.isWhitespacePreserving()) && (length > 0)) {
+                if (state.isTrailingWhitespaceRemoved()
                         || removedLeadingWhitespace) {
-                    state._buffer.append(' ');
+                    state.getBuffer().append(' ');
                 }
             }
         }
-        state._trailingWhitespaceRemoved = removedTrailingWhitespace;
-        state._buffer.append(ch, start, length);
+        state.setTrailingWhitespaceRemoved(removedTrailingWhitespace);
+        state.getBuffer().append(ch, start, length);
     }
 }
