@@ -18,7 +18,7 @@ package org.exolab.castor.xml;
 import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
- * Internal class used to save state for reference resolving.
+ * Internal class used to save state for reference resolution.
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 0000 $ $Date:$
  */
@@ -35,10 +35,10 @@ class ReferenceInfo {
     private ReferenceInfo next = null;
 
     /**
-     * Creates a new ReferenceInfo
-     * @param id
-     * @param target
-     * @param descriptor
+     * Creates a new {@link ReferenceInfo}.
+     * @param id The identity of this XML ID reference instance.
+     * @param target The target object referenced by this IDREF instance.
+     * @param descriptor The {@link XMLFieldDescriptor} for the target object.
      */
     public ReferenceInfo(final String id, final Object target, final XMLFieldDescriptor descriptor) {
         this.id = id;
@@ -47,7 +47,7 @@ class ReferenceInfo {
     }
 
     /**
-     * Sets a refrence to the 'next' ReferenceInfo instance.
+     * Sets a reference to the 'next' ReferenceInfo instance.
      * @param info The 'next' ReferenceInfo instance.
      */
     public void setNext(ReferenceInfo info) {
