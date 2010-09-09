@@ -263,9 +263,9 @@ public class EndElementProcessor {
                     state.setObject(_unmarshalHandler.decodeBinaryData(
                             descriptor, str));
                 }
-            } else if (state._args != null) {
+            } else if (state.getConstructorArguments() != null) {
                 state.setObject(_unmarshalHandler.createInstance(state.getType(),
-                        state._args));
+                        state.getConstructorArguments()));
             } else if (descriptor.isMultivalued()
                     && descriptor.getSchemaType() != null
                     && descriptor.getSchemaType().equals("list")

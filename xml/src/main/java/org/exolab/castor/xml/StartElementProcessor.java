@@ -683,7 +683,7 @@ public class StartElementProcessor {
                     Arguments args = _unmarshalHandler.processConstructorArgs(
                             atts, classDesc);
                     if ((args != null) && (args.size() > 0)) {
-                        state._args = args;
+                        state.setConstructorArguments(args);
                     }
                 }
             } else {

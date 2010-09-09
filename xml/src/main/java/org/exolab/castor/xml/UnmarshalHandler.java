@@ -1171,8 +1171,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (args == null) {
                 instance = _objectFactory.createInstance(type);
             } else {
-                instance = _objectFactory.createInstance(type, args._types,
-                        args._values);
+                instance = _objectFactory.createInstance(type, args.getTypes(),
+                        args.getValues());
             }
         } catch (Exception ex) {
         	String error = MessageFormat
@@ -1824,8 +1824,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return args;
         }
         
-        args._values = new Object[count];
-        args._types  = new Class[count];
+        args.setValues(new Object[count]);
+        args.setTypes(new Class[count]);
         
         for (XMLFieldDescriptor descriptor : descriptors) {
             
@@ -1845,7 +1845,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 throw new SAXException(errorMsg);
             }
 
-            args._types[argIndex] = descriptor.getFieldType();
+            args.setType(argIndex, descriptor.getFieldType());
             String name = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
 
@@ -1855,8 +1855,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 Object value = atts.getValue(index);
                 //-- check for proper type and do type
                 //-- conversion
-                if (isPrimitive(args._types[argIndex])) {
-                    value = toPrimitiveObject(args._types[argIndex], (String) value, descriptor);
+                if (isPrimitive(args.getType(argIndex))) {
+                    value = toPrimitiveObject(args.getType(argIndex), (String) value, descriptor);
                 } else {
                     // check whether we are looking at an enum-style object, and if so,
                     // convert the (string) value
@@ -1869,13 +1869,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if (StringUtil.equals(valueType, QNAME_NAME)) {
                         value = _namespaceHandling.resolveNamespace(value);
                 }
-                args._values[argIndex] = value;
+                args.setValue(argIndex, value);
             } else {
-                if (isPrimitive(args._types[argIndex])) {
-                    args._values[argIndex] = 
-                        toPrimitiveObject(args._types[argIndex], null, descriptor);
+                if (isPrimitive(args.getType(argIndex))) {
+                    args.setValue(argIndex, toPrimitiveObject(args.getType(argIndex), null, descriptor));
                 } else {
-                    args._values[argIndex] = null;
+                    args.setValue(argIndex, null);
                 }
             }
         }
@@ -2238,7 +2237,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         /**
          * Constructor argument types.
          */
-        private Class[] _types  = null;
+        private Class<?>[] _types  = null;
         
         /**
          * Returns the number of constructor arguments.
@@ -2251,9 +2250,34 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return _values.length;
         }
 
+        public Class<?>[] getTypes() {
+            return _types;
+        }
+
         public Object[] getValues() {
             return _values;
         }
+
+        public Class<?> getType(int index) {
+            return _types[index];
+        }
+        
+        public void setValues(Object[] values) {
+            _values = values;
+        }
+
+        public void setValue(int index, Object value) {
+            _values[index] = value;
+        }
+
+        public void setTypes(Class<?>[] types) {
+            _types = types;
+        }
+
+        public void setType(int index, Class<?> type) {
+            _types[index] = type;
+        }
+
     }
 
     /**
