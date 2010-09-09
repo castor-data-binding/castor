@@ -64,6 +64,10 @@ public class FieldDescriptorJDONature extends BaseNature {
      * Nature property name for sql types.
      */
     private static final String SQL_TYPE = "sqlType";
+    /**
+     * Nature property name for sql lazy attribute.
+     */
+    private static final String SQL_LAZY = "sqlLazy";
 
     /**
      * Creates an instance of {@link FieldDescriptorJDONature}.
@@ -199,4 +203,21 @@ public class FieldDescriptorJDONature extends BaseNature {
     public void setSQLType(final int[] sqlType) {
         setProperty(SQL_TYPE, sqlType);
     }
+    
+    /**
+     * Returns true if laziness is set for this field.
+     * @return True if this field should be lazy.
+     */
+    public boolean isLazy() {
+        return getBooleanPropertyDefaultFalse(SQL_LAZY);
+    }
+
+    /**
+     * Sets whether this field should be lazy.
+     * @param lazy True if this field should dirty be lazy.
+     */
+    public void setLazy(final boolean lazy) {
+        setProperty(SQL_LAZY, new Boolean(lazy));
+    }
+    
 }
