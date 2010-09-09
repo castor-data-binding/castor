@@ -754,17 +754,18 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // If the field is declared as a collection, grab the collection type as
         // well and use it to locate the field/accessor.
         CollectionHandler colHandler = null;
+        boolean isLazy = fieldMap.getLazy();
         if (fieldMap.getCollection() != null) {
             Class colType = CollectionHandlers.getCollectionType(
                     fieldMap.getCollection().toString());
             colHandler = CollectionHandlers.getHandler(colType);
             
-            if (colType.getName().equals("java.util.Iterator") && fieldMap.getLazy()) {
+            if (colType.getName().equals("java.util.Iterator") && isLazy) {
                 String err = "Lazy loading not supported for collection type 'iterator'";
                 throw new MappingException(err);
             }
 
-            if (colType.getName().equals("java.util.Enumeration") && fieldMap.getLazy()) {
+            if (colType.getName().equals("java.util.Enumeration") && isLazy) {
                 String err = "Lazy loading not supported for collection type 'enumerate'";
                 throw new MappingException(err);
             }
@@ -894,6 +895,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         fieldJdoNature.setDirtyCheck(!SqlDirtyType.IGNORE.equals(sql.getDirty()));
         fieldJdoNature.setReadOnly(sql.getReadOnly());
+        
+        // extract values for 'laziness' from field mapping
+        fieldJdoNature.setLazy(isLazy);
         
         return fieldDescriptor;
     }
