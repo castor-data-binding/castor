@@ -46,6 +46,7 @@
 package org.exolab.castor.xml;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The state information class for the UnmarshalHandler.
@@ -56,7 +57,7 @@ import java.util.HashSet;
 public class UnmarshalState {
     
     /** Holds on to Constructor arguments. */
-    UnmarshalHandler.Arguments _args = null;
+    private UnmarshalHandler.Arguments _args = null;
     
     /** Holds the current location path. */
     private String _location = "";
@@ -91,7 +92,7 @@ public class UnmarshalState {
     private boolean _primitiveOrImmutable = false;
 
     /** The list of *used* field descriptors. */
-    private HashSet<XMLFieldDescriptor> _markedList = new HashSet<XMLFieldDescriptor>();
+    private Set<XMLFieldDescriptor> _markedList = new HashSet<XMLFieldDescriptor>();
 
     /** Is this a derived field? */
     private boolean _derived = false;
@@ -111,8 +112,8 @@ public class UnmarshalState {
      *  points to a multi-valued element. */
     private boolean _withinMultivaluedElement = false;
     
-    /** The UnmarshalState which contains information about the parent object for object
-     *  containted within this state. Used when handling element containers/wrappers. */
+    /** The {@link UnmarshalState} which contains information about the parent object for the object
+     *  contained within this state. Used when handling element containers/wrappers. */
     private UnmarshalState _targetState = null;
     
     /** A reference to the parent state. */
@@ -123,7 +124,7 @@ public class UnmarshalState {
      */
     void clear() {
         
-        _args = null;
+        setConstructorArguments(null);
         setLocation("");
         setElementName(null);
         setBuffer(null);
@@ -306,5 +307,13 @@ public class UnmarshalState {
 
     public boolean isWithinMultivaluedElement() {
         return _withinMultivaluedElement;
+    }
+
+    void setConstructorArguments(UnmarshalHandler.Arguments args) {
+        _args = args;
+    }
+
+    UnmarshalHandler.Arguments getConstructorArguments() {
+        return _args;
     }
 }
