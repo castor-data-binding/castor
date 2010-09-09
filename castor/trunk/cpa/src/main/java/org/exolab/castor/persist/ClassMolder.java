@@ -232,6 +232,9 @@ public class ClassMolder {
 
         // construct <tt>FieldMolder</tt>s for each of the identity fields of
         // the base class.
+        
+        //TODO[WG]: in oder to switch towards the use of ClassDescriptor.getIdentities()
+        //TODO[WG]: one needs to replicate the functionality of getIdFields() on the descriptor side.
         FieldMapping[] identityFieldMappings = ClassMolderHelper.getIdFields(classMapping);
         _ids = new FieldMolder[identityFieldMappings.length];
         int m = 0;
@@ -242,6 +245,8 @@ public class ClassMolder {
 
         // construct <tt>FieldModlers</tt>s for each of the non-transient fields 
         // of the base class 
+        //TODO[WG]: in oder to switch towards the use of ClassDescriptor.getFields()
+        //TODO[WG]: one needs to replicate the functionality of getFullFields() on the descriptor side.
         FieldMapping[] fieldMappings = ClassMolderHelper.getFullFields(classMapping);
         
         int numberOfNonTransientFieldMolders = 0;
