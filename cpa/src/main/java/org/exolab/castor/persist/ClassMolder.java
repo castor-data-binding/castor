@@ -595,14 +595,14 @@ public class ClassMolder {
 
         // iterates over all the field of the object and bind all field.
         for (int i = 0; i < _fhs.length; i++) {
-            int fieldType = _fhs[i].getFieldType();
+            FieldPersistenceType fieldType = _fhs[i].getFieldPertsistenceType();
             
             switch (fieldType) {
-            case FieldMolder.PRIMITIVE:
-            case FieldMolder.SERIALIZABLE:
-            case FieldMolder.PERSISTANCECAPABLE:
-            case FieldMolder.ONE_TO_MANY:
-            case FieldMolder.MANY_TO_MANY:
+            case PRIMITIVE:
+            case SERIALIZABLE:
+            case PERSISTANCECAPABLE:
+            case ONE_TO_MANY:
+            case MANY_TO_MANY:
                 _resolvers[i].load(tx, oid, proposedObject, accessMode);
                 break;
             default:
@@ -647,8 +647,6 @@ public class ClassMolder {
     public Identity create(final TransactionContext tx, final OID oid, final DepositBox locker,
             final Object object) throws PersistenceException {
 
-        int fieldType;
-
         if (_persistence == null) {
             throw new PersistenceException("non persistence capable: "
                     + oid.getName());
@@ -683,14 +681,14 @@ public class ClassMolder {
 
         // copy the object to cache should make a new field now,
         for (int i = 0; i < _fhs.length; i++) {
-            fieldType = _fhs[i].getFieldType();
+            FieldPersistenceType fieldPersistenceType = _fhs[i].getFieldPertsistenceType();
 
-            switch (fieldType) {
-            case FieldMolder.PRIMITIVE:
-            case FieldMolder.PERSISTANCECAPABLE:
-            case FieldMolder.SERIALIZABLE:
-            case FieldMolder.ONE_TO_MANY:
-            case FieldMolder.MANY_TO_MANY:
+            switch (fieldPersistenceType) {
+            case PRIMITIVE:
+            case PERSISTANCECAPABLE:
+            case SERIALIZABLE:
+            case ONE_TO_MANY:
+            case MANY_TO_MANY:
                 entity.setField(_resolvers[i].create(tx, object), i);
                 break;
 
@@ -1061,7 +1059,6 @@ public class ClassMolder {
             final Object object) {
 
         Object[] fields;
-        int fieldType;
 
         if (oid.getIdentity() == null) {
             throw new IllegalStateException(
@@ -1071,13 +1068,13 @@ public class ClassMolder {
         fields = new Object[_fhs.length];
 
         for (int i = 0; i < _fhs.length; i++) {
-            fieldType = _fhs[i].getFieldType();
-            switch (fieldType) {
-            case FieldMolder.PRIMITIVE:
-            case FieldMolder.SERIALIZABLE:
-            case FieldMolder.PERSISTANCECAPABLE:
-            case FieldMolder.ONE_TO_MANY:
-            case FieldMolder.MANY_TO_MANY:
+            FieldPersistenceType fieldPersistenceType = _fhs[i].getFieldPertsistenceType();
+            switch (fieldPersistenceType) {
+            case PRIMITIVE:
+            case SERIALIZABLE:
+            case PERSISTANCECAPABLE:
+            case ONE_TO_MANY:
+            case MANY_TO_MANY:
                 fields[i] = _resolvers[i].updateCache(tx, oid, object);
                 break;
             default:
@@ -1165,13 +1162,13 @@ public class ClassMolder {
         Object[] fields = locker.getObject(tx);
 
         for (int i = 0; i < _fhs.length; i++) {
-            int fieldType = _fhs[i].getFieldType();
+            FieldPersistenceType fieldType = _fhs[i].getFieldPertsistenceType();
             switch (fieldType) {
-            case FieldMolder.PRIMITIVE:
-            case FieldMolder.SERIALIZABLE:
-            case FieldMolder.PERSISTANCECAPABLE:
-            case FieldMolder.ONE_TO_MANY:
-            case FieldMolder.MANY_TO_MANY:
+            case PRIMITIVE:
+            case SERIALIZABLE:
+            case PERSISTANCECAPABLE:
+            case ONE_TO_MANY:
+            case MANY_TO_MANY:
                 _resolvers[i].markDelete(tx, object, fields[i]);
                 break;
             default:
@@ -1226,7 +1223,7 @@ public class ClassMolder {
      */
     public Object newInstance(final ClassLoader loader)
     throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        Class aClass = null;
+        Class<?> aClass = null;
         aClass = ClassLoadingUtils.loadClass(loader, _name);
         return aClass.newInstance();
     }
@@ -1353,8 +1350,8 @@ public class ClassMolder {
      * @param loader the classloader.
      * @return the <code>Class</code> instance.
      */
-    public Class getJavaClass(final ClassLoader loader) {
-        Class result = null;
+    public Class<?> getJavaClass(final ClassLoader loader) {
+        Class<?> result = null;
         try {
             result = ClassLoadingUtils.loadClass(loader, _name);
         } catch (ClassNotFoundException e) {

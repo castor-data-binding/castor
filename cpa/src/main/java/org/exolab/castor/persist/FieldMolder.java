@@ -94,12 +94,6 @@ public class FieldMolder {
     
     private static final String FIELD_TYPE_SERIALIZABLE = "serializable";
     
-    public static final short PRIMITIVE = 0;
-    public static final short SERIALIZABLE = 1;
-    public static final short PERSISTANCECAPABLE = 2;
-    public static final short ONE_TO_MANY = 3;
-    public static final short MANY_TO_MANY = 4;
-
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging.
@@ -162,7 +156,7 @@ public class FieldMolder {
     private SQLRelationLoader _manyToManyLoader;
 
     public String toString() {
-        return "FieldMolder for " + _enclosingClassMolder.getName() + "." + _fieldName + " of type " + _fieldType;
+        return "FieldMolder for " + _enclosingClassMolder.getName() + "." + _fieldName + " of type " + getFieldTypeName();
     }
 
     public String getName() {
@@ -184,20 +178,20 @@ public class FieldMolder {
     public SQLRelationLoader getRelationLoader() {
         return _loader;
     }*/
-    public short getFieldType() {
+    public FieldPersistenceType getFieldPertsistenceType() {
         if (!isPersistanceCapable()) {
-            return isSerializable() ? SERIALIZABLE : PRIMITIVE;
+            return isSerializable() ? FieldPersistenceType.SERIALIZABLE : FieldPersistenceType.PRIMITIVE;
         }
  
         if (!isMulti()) {
-            return PERSISTANCECAPABLE;
+            return FieldPersistenceType.PERSISTANCECAPABLE;
         }
 
         if (!isManyToMany()) {
-            return ONE_TO_MANY;
+            return FieldPersistenceType.ONE_TO_MANY;
         }
 
-        return MANY_TO_MANY;
+        return FieldPersistenceType.MANY_TO_MANY;
     }
 
     public SQLRelationLoader getRelationLoader() {
@@ -392,7 +386,7 @@ public class FieldMolder {
                 }
             } else {
                 throw new DataObjectAccessException(
-                        "no method to set value for field: " + _fieldType + " in class: " + _enclosingClassMolder);
+                        "no method to set value for field: " + getFieldTypeName() + " in class: " + _enclosingClassMolder);
             }
             // If the field has no set method, ignore it.
             // If this is a problem, identity it someplace else.
@@ -481,9 +475,9 @@ public class FieldMolder {
          new CollectionInfo(COLLECTION_TYPE_VECTOR, java.util.Vector.class),
          new CollectionInfo(COLLECTION_TYPE_ARRAYLIST, java.util.ArrayList.class),
          new CollectionInfo(COLLECTION_TYPE_HASHTABLE, java.util.Hashtable.class),
-         new CollectionInfo(COLLECTION_TYPE_MAP, java.util.HashMap.class),
+         new CollectionInfo(COLLECTION_TYPE_HASHMAP, java.util.HashMap.class),
          new CollectionInfo(COLLECTION_TYPE_SET, java.util.Set.class),
-         new CollectionInfo(COLLECTION_TYPE_SET, java.util.HashSet.class),
+         new CollectionInfo(COLLECTION_TYPE_HASHSET, java.util.HashSet.class),
          new CollectionInfo(COLLECTION_TYPE_MAP, java.util.Map.class),
          new CollectionInfo(COLLECTION_TYPE_ARRAY, Object[].class),
          new CollectionInfo(COLLECTION_TYPE_SORTED_SET, java.util.SortedSet.class),
@@ -558,32 +552,12 @@ public class FieldMolder {
                 _comparator = comparator;
             }
             
-            FieldMappingCollectionType collectionType = fieldMapping
-                    .getCollection();
-            if (collectionType != null) {
-                _multi = true;
-                // simple arrays support
-                if (COLLECTION_TYPE_ARRAY.equals(collectionType.toString())) {
-                    String arrayClassName = "[L" + fieldType + ";";
-                    try {
-                        _collectionClass = datingService.resolve(arrayClassName);
-                    } catch (ClassNotFoundException e) {
-                        throw new MappingException("mapping.classNotFound",
-                                arrayClassName);
-                    }
-                } else {
-                    _collectionClass = getCollectionType(collectionType.toString(),
-                            _lazy);
-                    if (_collectionClass != SortedSet.class && _comparator != null) {
-                        throw new MappingException(
-                                Messages.message("mapping.wrong.use.of.comparator"));
-                    }
-                }
-                _store = false;
-            }
+            establishCollectionDefinition(datingService, fieldMapping.getCollection(),
+                    fieldType);
+            
             // Set field name, if it is null, we try to discover it with
             // return type of set/get method.
-            _fieldType = fieldType;
+            setFieldTypeName(fieldType);
 
             Class enclosingClass;
             try {
@@ -611,21 +585,7 @@ public class FieldMolder {
             }
 
             if (fieldMapping.getDirect()) {
-                // No accessor, map field directly.
-                Class<?>  fieldClass = (_collectionClass != null) ? _collectionClass : null;
-                _defaultReflectService.setField(findField(enclosingClass, fieldName, fieldClass));
-                if (_defaultReflectService.getField() == null) {
-                    throw new MappingException(Messages.format(
-                            "mapping.fieldNotAccessible", fieldName, enclosingClass.getName()));
-                }
-                _defaultReflectService.setFieldType(_defaultReflectService.getField().getType());
-                if ((_defaultReflectService.getField().getModifiers() != Modifier.PUBLIC)
-                        && (_defaultReflectService.getField().getModifiers()
-                                != (Modifier.PUBLIC | Modifier.VOLATILE))) {
-                    throw new MappingException(Messages.format(
-                            "mapping.fieldNotAccessible", _defaultReflectService.getField().getName(),
-                            _defaultReflectService.getField().getDeclaringClass().getName()));
-                }
+                establishDirectFieldAccess(fieldName, enclosingClass);
             } else {
                 String getMethod = fieldMapping.getGetMethod();
                 String setMethod = fieldMapping.getSetMethod();
@@ -792,7 +752,7 @@ public class FieldMolder {
                 throw new MappingException("_field or _setMethod can't be created");
             }
 
-            datingService.pairFieldClass(this, _fieldType);
+            datingService.pairFieldClass(this, getFieldTypeName());
         } catch (NullPointerException e) {
             _log.fatal("Caught unexpected NullPointerException: ", e);
             throw new MappingException("Unexpected Null pointer!\n" + e);
@@ -807,6 +767,61 @@ public class FieldMolder {
             _default = null;
         }
 
+    }
+
+    /**
+     * @param datingService
+     * @param fieldMapping
+     * @param fieldType
+     * @throws MappingException
+     */
+    private void establishCollectionDefinition(
+            final DatingService datingService, final FieldMappingCollectionType collectionType,
+            String fieldType) throws MappingException {
+        if (collectionType != null) {
+            _multi = true;
+            // simple arrays support
+            if (COLLECTION_TYPE_ARRAY.equals(collectionType.toString())) {
+                String arrayClassName = "[L" + fieldType + ";";
+                try {
+                    _collectionClass = datingService.resolve(arrayClassName);
+                } catch (ClassNotFoundException e) {
+                    throw new MappingException("mapping.classNotFound",
+                            arrayClassName);
+                }
+            } else {
+                _collectionClass = getCollectionType(collectionType.toString(),
+                        _lazy);
+                if (_collectionClass != SortedSet.class && _comparator != null) {
+                    throw new MappingException(
+                            Messages.message("mapping.wrong.use.of.comparator"));
+                }
+            }
+            _store = false;
+        }
+    }
+
+    /**
+     * If direct field access is configured, set the (directly accessed) field on the {@link FieldHandler}.
+     * @param fieldName The name of the field.
+     * @param enclosingClass The class type of the enclosing class.
+     * @throws MappingException If no such field is present on the class in question.
+     */
+    private void establishDirectFieldAccess(String fieldName,
+            Class<?> enclosingClass) throws MappingException {
+        Class<?>  fieldClass = (_collectionClass != null) ? _collectionClass : null;
+        _defaultReflectService.setField(findField(enclosingClass, fieldName, fieldClass));
+        if (_defaultReflectService.getField() == null) {
+            throw new MappingException(Messages.format(
+                    "mapping.fieldNotAccessible", fieldName, enclosingClass.getName()));
+        }
+        _defaultReflectService.setFieldType(_defaultReflectService.getField().getType());
+        int modifiers = _defaultReflectService.getField().getModifiers();
+        if ((modifiers != Modifier.PUBLIC) && (modifiers != (Modifier.PUBLIC | Modifier.VOLATILE))) {
+            throw new MappingException(Messages.format(
+                    "mapping.fieldNotAccessible", _defaultReflectService.getField().getName(),
+                    _defaultReflectService.getField().getDeclaringClass().getName()));
+        }
     }
 
     /**
@@ -1217,6 +1232,14 @@ public class FieldMolder {
     }
 
 
+    private void setFieldTypeName(String fieldType) {
+        _fieldType = fieldType;
+    }
+
+    private String getFieldTypeName() {
+        return _fieldType;
+    }
+
     /**
      * Provides all the necessary instances of <code>Method</code>, <code>Class</code>
      * and <code>Field</code> for a given <code>ClassLoader</code> instance.
@@ -1225,14 +1248,13 @@ public class FieldMolder {
     private class ReflectService {
 
         /**
-         * Default constructor. All fields need to be set one by one.
+         * Default constructor. 
          */
         public ReflectService () {
-            // no code to execute
         }
 
         /**
-         * Contructs a ReflectService object based on the instance provided
+         * Constructs a ReflectService object based on the instance provided
          * and uses the <code>ClassLoader</code> to build Reflection fields.
          * 
          * @param refSrv the ReflectService that serve as a based for the new instance

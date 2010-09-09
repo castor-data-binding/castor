@@ -19,6 +19,7 @@ package org.castor.persist.resolver;
 
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.FieldMolder;
+import org.exolab.castor.persist.FieldPersistenceType;
 
 /**
  * Factory class for instantiating ResolverStragegy instances.
@@ -46,23 +47,23 @@ public final class ResolverFactory {
         
         ResolverStrategy relationResolver = null;
         
-        int fieldType = fieldMolder.getFieldType();
+        FieldPersistenceType fieldType = fieldMolder.getFieldPertsistenceType();
         switch (fieldType) {
-        case FieldMolder.PRIMITIVE:
+        case PRIMITIVE:
             relationResolver = new PrimitiveResolver(classMolder, fieldMolder, fieldIndex);
             break;
-        case FieldMolder.SERIALIZABLE:
+        case SERIALIZABLE:
             relationResolver = new SerializableResolver(classMolder, fieldMolder, fieldIndex);
             break;
-        case FieldMolder.PERSISTANCECAPABLE:
+        case PERSISTANCECAPABLE:
             relationResolver = 
                 new PersistanceCapableRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
-        case FieldMolder.ONE_TO_MANY:
+        case ONE_TO_MANY:
             relationResolver = 
                 new OneToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
-        case FieldMolder.MANY_TO_MANY:
+        case MANY_TO_MANY:
             relationResolver = 
                 new ManyToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
             break;
