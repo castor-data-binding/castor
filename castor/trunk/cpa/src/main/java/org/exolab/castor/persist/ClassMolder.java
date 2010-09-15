@@ -200,29 +200,7 @@ public class ClassMolder {
 
         ds.register(_name, this);
 
-        // TODO: replace usage of ClassMapping.getDepends() with use of ClassDescriptor.get???()
-        ClassMapping dependClassMapping = (ClassMapping) classMapping.getDepends();
-//        ClassDescriptor dependClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getDepends();
-        // TODO: replace usage of ClassMapping.getExtends() with use of ClassDescriptor.get???()
-        ClassMapping extendsClassMapping = (ClassMapping) classMapping.getExtends();
-//        ClassDescriptor extendsClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getExtends();
-
-        //if ( dep != null && ext != null )
-        //    throw new MappingException("A JDO cannot both extends and depends on other objects");
-
-        if (dependClassMapping != null) {
-            ds.pairDepends(this, dependClassMapping.getName());
-        }
-//        if (dependClassDescriptor != null) {
-//            ds.pairDepends(this, dependClassDescriptor.getClass().getName());
-//        }
-
-        if (extendsClassMapping != null) {
-            ds.pairExtends(this, extendsClassMapping.getName());
-        }
-//        if (extendsClassDescriptor != null) {
-//            ds.pairExtends(this, extendsClassDescriptor.getClass().getName());
-//        }
+        dealWithExtendsAndDepends(ds, classDescriptor);
 
         if (classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
             ClassDescriptorJDONature nature = new ClassDescriptorJDONature(classDescriptor);
@@ -376,6 +354,33 @@ public class ClassMolder {
         //        if ( Persistent.class.isAssignableFrom( _base ) )
         if (Persistent.class.isAssignableFrom(ds.resolve(_name))) {
             _callback = new JDOCallback();
+        }
+    }
+    
+    /**
+     * Remaining method that relies on the usage of {@link ClassMapping} to extract
+     * information from the JDO mapping file rather than relying on {@link ClassDescriptor}
+     * and associated JDO-specific natures.
+     * 
+     * @param ds {@link DatingService} instance.
+     * @param classDescriptor The {@link ClassDescriptor} instance used to describe the class at hand.
+     * @throws MappingException If something unforeseen happens ....
+     */
+    private void dealWithExtendsAndDepends(final DatingService ds,
+            final ClassDescriptor classDescriptor) throws MappingException {
+
+        ClassDescriptor dependClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getDepends();
+        ClassDescriptor extendsClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getExtends();
+
+        //if ( dep != null && ext != null )
+        //    throw new MappingException("A JDO cannot both extends and depends on other objects");
+
+        if (dependClassDescriptor != null) {
+            ds.pairDepends(this, dependClassDescriptor.getJavaClass().getName());
+        }
+
+        if (extendsClassDescriptor != null) {
+            ds.pairExtends(this, extendsClassDescriptor.getJavaClass().getName());
         }
     }
     
