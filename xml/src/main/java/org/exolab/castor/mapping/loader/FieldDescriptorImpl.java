@@ -1,5 +1,6 @@
 package org.exolab.castor.mapping.loader;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 
 public class FieldDescriptorImpl implements FieldDescriptor {
 
@@ -35,11 +37,32 @@ public class FieldDescriptorImpl implements FieldDescriptor {
     /** True if the field type is required. */
     private boolean _required;
 
+    /** True if access to field is direct. */
+    private boolean _direct;
+    
+    /** True if access to field is lazy. */
+    private boolean _lazy;
+    
     /** True if the object described by this descriptor is multi-valued. */
     private boolean _multivalued;
     
     /** True if the field is part of the identity of the class. */
     private boolean _identity;
+
+    /** The name of a class that implements the {@link Comparator} interface. */
+    private String _comparator;
+
+    /** The name of the 'getter' method used to obtain the value of a property. */
+    private String _getMethod;
+
+    /** The name of the 'setter' method used to set the value of a property. */
+    private String _setMethod;
+
+    /** The name of the 'create' method used to create an instance of a property. */
+    private String _createMethod;
+    
+    /** The type of the collection, if the field is multi-valued. */
+    private FieldMappingCollectionType _collection;
 
     /**
      * Map holding the properties set and read by natures.
@@ -301,7 +324,62 @@ public class FieldDescriptorImpl implements FieldDescriptor {
      */
     public boolean hasNature(final String nature) {
         return _natures.contains(nature);
-    
+    }
+
+    public String getComparator() {
+        return _comparator;
+    }
+
+    public void setComparator(String comparator) {
+        _comparator = comparator;
+    }
+
+    public FieldMappingCollectionType getCollection() {
+        return _collection;
+    }
+
+    public void setCollection(FieldMappingCollectionType collection) {
+        _collection = collection;
+    }
+
+    public boolean isDirect() {
+        return _direct;
+    }
+
+    public void setDirect(boolean direct) {
+        _direct = direct;
+    }
+
+    public String getGetMethod() {
+        return _getMethod;
+    }
+
+    public void setGetMethod(String getMethod) {
+        _getMethod = getMethod;
+    }
+
+    public String getSetMethod() {
+        return _setMethod;
+    }
+
+    public void setSetMethod(String setMethod) {
+        _setMethod = setMethod;
+    }
+
+    public String getCreateMethod() {
+        return _createMethod;
+    }
+
+    public void setCreateMethod(String createMethod) {
+        _createMethod = createMethod;
+    }
+
+    public boolean isLazy() {
+        return _lazy;
+    }
+
+    public void setLazy(boolean lazy) {
+        _lazy = lazy;
     }
 
     public String toString() {
