@@ -47,5 +47,8 @@ DROP TABLE TEST.OneToMany_role;
 DROP TABLE TEST.ManyToMany_author;
 DROP TABLE TEST.ManyToMany_book;
 DROP TABLE TEST.ManyToMany_books_authors;
+DROP TABLE TEST.Inheritance_Big_Tree;
+DROP TABLE TEST.Inheritance_Tree;
+DROP TABLE TEST.Inheritance_Plant;
 
 DROP SCHEMA TEST;
