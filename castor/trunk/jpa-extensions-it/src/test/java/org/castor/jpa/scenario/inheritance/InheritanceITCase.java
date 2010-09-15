@@ -54,6 +54,10 @@ public class InheritanceITCase {
             db.remove(db.load(Tree.class, ID));
         } catch (Exception e) {
         }
+        try {
+            db.remove(db.load(BigTree.class, ID));
+        } catch (Exception e) {
+        }
         db.commit();
     }
 
@@ -85,6 +89,28 @@ public class InheritanceITCase {
         LOG.warn(queriedTree.getClass().getCanonicalName()+queriedTree.getId()+queriedTree.getName()+queriedTree.getHeight());
         assertEquals(NAME, queriedTree.getName());
         assertEquals(HEIGHT, queriedTree.getHeight());
+    }
+
+    @Test
+    public void joinedInheritanceWorksAcrossThreeLevels() throws Exception {
+        cleanDBIfNeeded();
+        createAndPersistPlant(BigTree.class);
+
+        db.begin();
+        BigTree updateTree = db.load(BigTree.class, ID);
+        assertNotNull(updateTree);
+        updateTree.setHeight(HEIGHT);
+        updateTree.setNumberOfLeaves(1000);
+        db.commit();
+
+        db.begin();
+        BigTree queriedTree = db.load(BigTree.class, ID);
+        db.commit();
+        assertNotNull(queriedTree);
+        LOG.warn(queriedTree.getClass().getCanonicalName()+queriedTree.getId()+queriedTree.getName()+queriedTree.getHeight());
+        assertEquals(NAME, queriedTree.getName());
+        assertEquals(HEIGHT, queriedTree.getHeight());
+        assertEquals(1000, queriedTree.getNumberOfLeaves());
     }
 
     @Test(expected = ClassNotPersistenceCapableException.class)

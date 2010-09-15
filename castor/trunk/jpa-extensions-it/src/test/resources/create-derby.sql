@@ -97,6 +97,18 @@ CREATE TABLE Inheritance_Tree(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE Inheritance_Flower(
+    id INTEGER NOT NULL,
+    color VARCHAR(255),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Inheritance_Big_Tree(
+    id INTEGER NOT NULL,
+    NumberOfLeaves INTEGER,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE MappedSuperclass_keyboard(
     id INTEGER NOT NULL,
     numberOfKeys INTEGER NOT NULL,
