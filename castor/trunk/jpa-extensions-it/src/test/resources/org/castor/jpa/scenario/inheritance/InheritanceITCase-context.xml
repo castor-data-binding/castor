@@ -14,6 +14,7 @@
                 <value>org.castor.jpa.scenario.inheritance.Tree</value>
 				<value>org.castor.jpa.scenario.inheritance.Flower</value>
 				<value>org.castor.jpa.scenario.inheritance.Grass</value>
+                <value>org.castor.jpa.scenario.inheritance.BigTree</value>
 			</list>
         </property>
     </bean>
@@ -31,7 +32,7 @@
     </bean>
 
     <bean id="jdoManager" class="org.castor.spring.orm.LocalCastorFactoryBean">
-        <property name="databaseName" value="testSimple" />
+        <property name="databaseName" value="testInheritance" />
         <property name="configLocation"
             value="classpath:org/castor/jpa/scenario/inheritance/derby-jdo-conf.xml" />
         <property name="classDescriptorResolver" ref="classDescriptorResolver" />
