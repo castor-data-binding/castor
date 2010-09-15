@@ -65,9 +65,13 @@ public class FieldDescriptorJDONature extends BaseNature {
      */
     private static final String SQL_TYPE = "sqlType";
     /**
-     * Nature property name for sql lazy attribute.
+     * Nature property name for transient attribute.
      */
-    private static final String SQL_LAZY = "sqlLazy";
+    private static final String SQL_TRANSIENT = "sqlTransient";
+    /**
+     * Nature property name for sql cascade property.
+     */
+    private static final String CASCADING = "sqlCascading";
 
     /**
      * Creates an instance of {@link FieldDescriptorJDONature}.
@@ -171,7 +175,6 @@ public class FieldDescriptorJDONature extends BaseNature {
     }
     
     /**
-     * TODO improve
      * Returns the convertor from the field type to an external type.
      * @return Convertor from field type
      */
@@ -205,19 +208,35 @@ public class FieldDescriptorJDONature extends BaseNature {
     }
     
     /**
-     * Returns true if laziness is set for this field.
-     * @return True if this field should be lazy.
+     * Returns true if transient is set for this field.
+     * @return True if this field should be transient.
      */
-    public boolean isLazy() {
-        return getBooleanPropertyDefaultFalse(SQL_LAZY);
+    public boolean isTransient() {
+        return getBooleanPropertyDefaultFalse(SQL_TRANSIENT);
     }
 
     /**
-     * Sets whether this field should be lazy.
-     * @param lazy True if this field should dirty be lazy.
+     * Sets whether this field should be transient.
+     * @param lazy True if this field should be transient.
      */
-    public void setLazy(final boolean lazy) {
-        setProperty(SQL_LAZY, new Boolean(lazy));
+    public void setTransient(final boolean isTransient) {
+        setProperty(SQL_TRANSIENT, new Boolean(isTransient));
     }
-    
+
+    /**
+     * Returns the cascading types for the given field.
+     * @return The cascading values.
+     */
+    public String getCascading() {
+        return (String) getProperty(CASCADING);
+    }
+
+    /**
+     * Sets the cascading values for the given field.
+     * @param cascading The cascading values to be set.
+     */
+    public void setCascading(final String cascading) {
+        setProperty(CASCADING, cascading);
+    }
+
 }

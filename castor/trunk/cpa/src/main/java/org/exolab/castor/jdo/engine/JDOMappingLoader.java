@@ -897,7 +897,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         fieldJdoNature.setReadOnly(sql.getReadOnly());
         
         // extract values for 'laziness' from field mapping
-        fieldJdoNature.setLazy(isLazy);
+        fieldDescriptor.setLazy(isLazy);
         
         return fieldDescriptor;
     }
