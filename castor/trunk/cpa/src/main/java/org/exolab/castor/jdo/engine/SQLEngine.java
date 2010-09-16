@@ -18,6 +18,7 @@
 package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -28,6 +29,7 @@ import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
 import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
+import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -90,6 +92,10 @@ public final class SQLEngine implements Persistence {
     private final SQLStatementDelete _removeStatement;
 
     private final SQLStatementUpdate _storeStatement;
+
+    private final TableInfo _tableInfo;
+
+    private HashMap<ClassDescriptor, TableInfo> _tblMap = new HashMap<ClassDescriptor, TableInfo>();
 
     public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
     throws MappingException {
@@ -176,22 +182,25 @@ public final class SQLEngine implements Persistence {
                 if (!fieldDescriptors[i].isTransient()) {
                     if ((fieldDescriptors[i].hasNature(FieldDescriptorJDONature.class.getName()))
                             || (fieldDescriptors[i].getClassDescriptor() != null))  {
-                        
-                        fieldsInfo.add(new SQLFieldInfo(clsDesc, fieldDescriptors[i],
-                                new ClassDescriptorJDONature(base).getTableName(), !stack.empty()));
+
+                        SQLFieldInfo inf = new SQLFieldInfo(clsDesc, fieldDescriptors[i],
+                                new ClassDescriptorJDONature(base).getTableName(), !stack.empty());
+                        fieldsInfo.add(inf);
+                        if (inf.isJoined()) {
+                            String alias = inf.getTableName() + "_f" + i;
+                            inf.setTableAlias(alias);
+                        } else {
+                            inf.setTableAlias(inf.getTableName());
+                        }
                     }
                 }
             }
         }
 
-        for (int i = 0; i < fieldsInfo.size(); i++) {
-            SQLFieldInfo info = fieldsInfo.get(i);
-            if (info.isJoined()) {
-                String alias = info.getTableName() + "_f" + i;
-                info.setTableAlias(alias);
-            } else {
-                info.setTableAlias(info.getTableName());
-            }
+        _tableInfo = new TableInfo(clsDesc, _tblMap);
+
+        for (TableInfo tblInf : _tblMap.values()) {
+            tblInf.adjustTableLinks();
         }
 
         _ids = new SQLColumnInfo[idsInfo.size()];
@@ -199,7 +208,7 @@ public final class SQLEngine implements Persistence {
 
         _fields = new SQLFieldInfo[fieldsInfo.size()];
         fieldsInfo.copyInto(_fields);
-        
+
         _queryStatement = new SQLStatementQuery(this, factory);
         _loadStatement = new SQLStatementLoad(this, factory);
         _createStatement = new SQLStatementInsert(this, factory);
@@ -315,6 +324,10 @@ public final class SQLEngine implements Persistence {
         return _queryStatement.getQueryExpression();
     }
 
+    public TableInfo getTableInfo() { return _tableInfo; }
+
+    public HashMap<ClassDescriptor, TableInfo> getTableMap() { return _tblMap; }
+
     protected Object idToJava(final int index, final Object object) {
         if ((object == null) || (_ids[index].getConvertTo() == null)) {
             return object;
@@ -338,7 +351,7 @@ public final class SQLEngine implements Persistence {
                 database, castorConn, identity, entity);
     }
 
-    public Object store(final Object conn, final Identity identity,
+    public void store(final Object conn, final Identity identity,
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
@@ -348,7 +361,7 @@ public final class SQLEngine implements Persistence {
         }
 
         CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
-        return _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
+        _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
     }
 
     public void delete(final Object conn, final Identity identity)
@@ -383,7 +396,7 @@ public final class SQLEngine implements Persistence {
         if (identity.size() != _ids.length) {
         	throw new PersistenceException("Size of identity field mismatched!");
         }
-        
+
         CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
         _loadStatement.executeStatement(castorConn, identity, entity, accessMode);
     }

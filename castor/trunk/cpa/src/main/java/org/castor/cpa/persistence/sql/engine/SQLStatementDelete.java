@@ -23,13 +23,14 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
@@ -56,11 +57,11 @@ public final class SQLStatementDelete {
     /** Name of engine descriptor. */
     private final String _type;
 
-    /** Column information for identities specific to the particular engine instance. */
-    private final SQLColumnInfo[] _ids;
-
     /** Variable to store built delete class hierarchy. */
     private Delete _delete;
+
+    /** TableInfo object holding queried table with its relations. */
+    private TableInfo _tableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -72,7 +73,7 @@ public final class SQLStatementDelete {
      */
     public SQLStatementDelete(final SQLEngine engine) {
         _type = engine.getDescriptor().getJavaClass().getName();
-        _ids = engine.getColumnInfoForIdentities();
+        _tableInfo = engine.getTableInfo();
 
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
     }
@@ -85,8 +86,8 @@ public final class SQLStatementDelete {
     private void buildStatement(final String mapTo) {
         // build condition for delete statement
         Condition condition = new AndCondition();
-        for (int i = 0; i < _ids.length; i++) {
-            String name = _ids[i].getName();
+        for (ColInfo col : _tableInfo.getPkColumns()) {
+            String name = col.getName();
             condition.and(new Column(name).equal(new Parameter(name)));
         }
 
@@ -108,20 +109,19 @@ public final class SQLStatementDelete {
      * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
      *        statement.
      * @param identity Identity of the object to remove.
-     * @return Always returns <code>null</code>. 
      * @throws PersistenceException If failed to remove object from database. This could happen
      *         if a database access error occurs, type of one of the values to bind is ambiguous
      *         or object to be deleted does not exist.
      */
-    public Object executeStatement(final CastorConnection conn, final Identity identity)
+    public void executeStatement(final CastorConnection conn, final Identity identity)
     throws PersistenceException {
         CastorStatement stmt = conn.createStatement();
         try {
             stmt.prepareStatement(_delete);
 
-            for (int i = 0; i < _ids.length; i++) {
-                stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
-                      _ids[i].getSqlType());
+            // bind the identity of the row to be stored into the preparedStatement
+            for (ColInfo col : _tableInfo.toSQL(identity)) {
+                stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
             }
 
             if (LOG.isDebugEnabled()) {
@@ -146,8 +146,6 @@ public final class SQLStatementDelete {
                 LOG.warn("Problem closing JDBC statement", e);
             }
         }
-
-        return null;
     }
 
     //-----------------------------------------------------------------------------------    

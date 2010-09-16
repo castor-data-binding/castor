@@ -147,13 +147,12 @@ public interface Persistence {
      * @param newentity The fields to store
      * @param identity The object's identity
      * @param oldentity The original fields, or null
-     * @return The object's stamp, or null
      * @throws PersistenceException The object has been modified in
      *         persistence storage since it was last loaded or has been
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    Object store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
+    void store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
     throws PersistenceException;
 
     /**
