@@ -500,6 +500,15 @@ public final class JDOClassDescriptorFactory {
 
        jsc.add("");
 
+       jsc.add(name + "FieldDescr.setDirect(false);");
+       jsc.add(name + "FieldDescr.setRequired(" + xmlNature.isRequired() + ");");
+       jsc.add(name + "FieldDescr.setSetMethod(\"set"
+               + toUpperCaseFirstLetter(name) + "\");");
+       jsc.add(name + "FieldDescr.setGetMethod(\"get"
+               + toUpperCaseFirstLetter(name) + "\");");
+
+       jsc.add("");
+
        //-- parent class descriptor
        jsc.add(name + "FieldDescr.setContainingClassDescriptor(this);");
        
@@ -873,7 +882,15 @@ public final class JDOClassDescriptorFactory {
        jsc.add(name + "FieldJdoNature.setManyKey(new String[] { " + name + "SqlName });");
        jsc.add(name + "FieldJdoNature.setDirtyCheck(" + Boolean.toString(manyNature.isDirty()) + ");");
        jsc.add(name + "FieldJdoNature.setReadOnly(" + Boolean.toString(manyNature.isReadOnly()) + ");");
-       
+
+       jsc.add("");
+
+       jsc.add(name + "FieldDescr.setDirect(false);");
+       jsc.add(name + "FieldDescr.setName(\"" + name + "\");");
+       jsc.add(name + "FieldDescr.setRequired(" + xmlNature.isRequired() + ");");
+       // TODO support of other collection types
+       jsc.add(name + "FieldDescr.setCollection(FieldMappingCollectionType.ARRAY);");
+
        jsc.add("");
 
        //-- parent class descriptor

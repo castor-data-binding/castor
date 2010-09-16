@@ -60,14 +60,14 @@ import org.castor.core.util.Messages;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.CascadingType;
 import org.exolab.castor.jdo.DataObjectAccessException;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.Types;
-import org.exolab.castor.mapping.xml.FieldMapping;
-import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
-import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 
 /**
  * FieldMolder represents a field of a data object class. It is used by
@@ -91,8 +91,6 @@ public class FieldMolder {
     private static final String COLLECTION_TYPE_ITERATOR = "iterator";
     private static final String COLLECTION_TYPE_ENUMERATON = "enumerate";
     private static final String COLLECTION_TYPE_SORTED_MAP = "sortedmap";
-    
-    private static final String FIELD_TYPE_SERIALIZABLE = "serializable";
     
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -430,7 +428,7 @@ public class FieldMolder {
     }
 
     // ======================================================
-    //  copy from FieldHanlder.java and modified
+    //  copy from FieldHandler.java and modified
     // ======================================================
     protected Class<?> getCollectionType(final String coll, final boolean lazy) {
         /* 
@@ -498,31 +496,19 @@ public class FieldMolder {
      * @throws MappingException The field or its accessor methods are not
      *  found, not accessible, not of the specified type, etc
      */
-    public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldMapping fieldMapping,
+    public FieldMolder(final DatingService ds, final ClassMolder eMold, final FieldDescriptor fieldDescriptor,
             final SQLRelationLoader loader) throws MappingException {
 
-        this(ds, eMold, fieldMapping);
+        this(ds, eMold, fieldDescriptor);
         
         _manyToManyLoader = loader;
     }
 
-    public FieldMolder(final DatingService datingService, final ClassMolder enclosingClassMolder, final FieldMapping fieldMapping)
+    public FieldMolder(final DatingService datingService, final ClassMolder enclosingClassMolder, final FieldDescriptor fieldDescriptor)
             throws MappingException {
 
-        //TODO{refactor]: still uses FieldMapping to obtain all required configuration values
-        //TODO{refactor]: uses fieldMapping.getName():String --> should use FieldDescriptor.getFieldName():String 
-        //TODO{refactor]: uses fieldMapping.getType():String --> should use FieldDescriptor.getFieldType():Class
-        //TODO{refactor]: uses fieldMapping.getSql():Sql --> REFACTOR within its OWN method
-        //TODO{refactor]: uses fieldMapping.getComparator():String --> FieldDescriptor.getComparator() MISSING !!!
-        //TODO{refactor]: uses fieldMapping.getTransient():String --> should use FieldDescriptor.isTransient():boolean
-        //TODO{refactor]: uses fieldMapping.getDirect():String --> FieldDescriptor.getDirect() MISSING !!!
-        //TODO{refactor]: uses fieldMapping.getGetMethod():String --> FieldDescriptor.getGetMethod() MISSING !!!
-        //TODO{refactor]: uses fieldMapping.getSetMethod():String --> FieldDescriptor.getSetMethod() MISSING !!!
-        //TODO{refactor]: uses fieldMapping.getCreateMethod():String --> FieldDescriptor.getCreateMethod() MISSING !!!
-        //TODO{refactor]: uses fieldMapping.getLazy():String --> FieldDescriptor.getLazy() MISSING !!!
-        
-        String fieldName = fieldMapping.getName();
-        String fieldType = fieldMapping.getType();
+        String fieldName = fieldDescriptor.getFieldName();
+        String fieldType = fieldDescriptor.getFieldType().getName();
         
         try {
             // create the reflection service with the ClassLoader hold in the
@@ -533,26 +519,22 @@ public class FieldMolder {
             // Set enclosing ClassMolder
             _enclosingClassMolder = enclosingClassMolder;
 
-            // Set isLazy
-            _lazy = fieldMapping.getLazy();
-
-            if (FIELD_TYPE_SERIALIZABLE.equals(fieldType)) {
+            if ("java.io.Serializable".equals(fieldType)) {
                 _serial = true;
             }
             
             // check whether complete field is declared transient
-            _transient = fieldMapping.getTransient();
+            _transient = fieldDescriptor.isTransient();
             
-            Sql sql = fieldMapping.getSql();
-            dealWithSqlMapping(sql);
+            dealWithSqlMapping(fieldDescriptor);
 
             // check if comparator is specified, and if so, use it
-            String comparator = fieldMapping.getComparator();
+            String comparator = ((FieldDescriptorImpl) fieldDescriptor).getComparator();
             if (comparator != null) {
                 _comparator = comparator;
             }
             
-            establishCollectionDefinition(datingService, fieldMapping.getCollection(),
+            establishCollectionDefinition(datingService, ((FieldDescriptorImpl) fieldDescriptor).getCollection(), 
                     fieldType);
             
             // Set field name, if it is null, we try to discover it with
@@ -574,7 +556,7 @@ public class FieldMolder {
                 _reflectServices.put(_defaultReflectService._loader, this._defaultReflectService);
             }
 
-            Class  declaredClass = null;
+            Class declaredClass = null;
             if (fieldType != null) {
                 try {
                     declaredClass = Types.typeFromName(enclosingClass.getClassLoader(), fieldType);
@@ -584,11 +566,11 @@ public class FieldMolder {
                 }
             }
 
-            if (fieldMapping.getDirect()) {
+            if (((FieldDescriptorImpl) fieldDescriptor).isDirect()) {
                 establishDirectFieldAccess(fieldName, enclosingClass);
             } else {
-                String getMethod = fieldMapping.getGetMethod();
-                String setMethod = fieldMapping.getSetMethod();
+                String getMethod = ((FieldDescriptorImpl) fieldDescriptor).getGetMethod();
+                String setMethod = ((FieldDescriptorImpl) fieldDescriptor).getSetMethod();
                 
                 if ((getMethod == null) && (setMethod == null)) {
 
@@ -609,7 +591,7 @@ public class FieldMolder {
                             }
                             last = enclosingClass;
                             
-                            if (fieldType.compareTo("boolean") == 0) {
+                            if (fieldType.compareTo("boolean") == 0 || fieldType.compareTo("java.lang.Boolean") == 0) {
                                 try {
                                     methodName = METHOD_IS_PREFIX
                                                + capitalize(name.substring(0, point));
@@ -638,7 +620,7 @@ public class FieldMolder {
                             getSeq.add(method);
                             enclosingClass = method.getReturnType();
                             // setter;   Note: javaClass already changed, use "last"
-                            if (fieldType.compareTo("boolean") == 0) {
+                            if (fieldType.compareTo("boolean") == 0 || fieldType.compareTo("java.lang.Boolean") == 0) {
                                 methodName = METHOD_SET_PREFIX + methodName.substring(2);
                             } else {
                                 methodName = METHOD_SET_PREFIX + methodName.substring(3);
@@ -671,7 +653,7 @@ public class FieldMolder {
                     _defaultReflectService.setGetMethod(null);
                     
                     // if field is of type boolean, check whether is<Field>() is defined.
-                    if (fieldType != null && fieldType.compareTo("boolean") == 0) {
+                    if (fieldType != null && (fieldType.compareTo("boolean") == 0 || fieldType.compareTo("java.lang.Boolean") == 0)) {
                         _defaultReflectService.setGetMethod(findAccessor(
                                 enclosingClass, METHOD_IS_PREFIX + capitalize(name), methodClass, true));
                     }
@@ -681,8 +663,9 @@ public class FieldMolder {
                                 enclosingClass, METHOD_GET_PREFIX + capitalize(name), methodClass, true));
                     }
 
-                    if (_defaultReflectService.getGetMethod() == null) {
-                        if (fieldType.compareTo("boolean") == 0) {
+                    Method getMethodTemp = _defaultReflectService.getGetMethod();
+                    if (getMethodTemp == null) {
+                        if (fieldType.compareTo("boolean") == 0 || fieldType.compareTo("java.lang.Boolean") == 0) {
                             throw new MappingException("mapping.accessorNotFound",
                                     METHOD_GET_PREFIX + "/" + METHOD_IS_PREFIX + capitalize(name),
                                     fieldType, enclosingClassMolder.getName());
@@ -737,13 +720,13 @@ public class FieldMolder {
                     Class<?> fieldClassType = _defaultReflectService.getFieldType();
 
                     establishGetMethod(enclosingClass, getMethod, fieldClassType);
-                    establishSetAndAddMethod(fieldMapping.getLazy(), enclosingClass,
+                    establishSetAndAddMethod(((FieldDescriptorImpl) fieldDescriptor).isLazy(), enclosingClass,
                             declaredClass, setMethod, fieldClassType);
                 }
             }
 
 
-            establishCreateMethod(fieldMapping.getCreateMethod(), fieldName, enclosingClass);
+            establishCreateMethod(((FieldDescriptorImpl) fieldDescriptor).getCreateMethod(), fieldName, enclosingClass);
             establishHasAndDeleteMethods(fieldName, enclosingClass);
 
             if ((_defaultReflectService.getField() == null)
@@ -979,25 +962,22 @@ public class FieldMolder {
         }
     }
 
-    private void dealWithSqlMapping(Sql sql) throws MappingException {
-        if ((sql == null)
-                || (sql.getDirty() == null)
-                || !sql.getDirty().equals(SqlDirtyType.IGNORE)) {
-            _check = true;
-        }
+    private void dealWithSqlMapping(FieldDescriptor fieldDescriptor) throws MappingException {
+        if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+            FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
+            if (nature.isDirtyCheck()) {
+                _check = true;
+            }
 
-        if (sql == null) {
-            _store = false;
-        } else if (sql.getManyTable() != null) {
-            _store = false;
-        } else if (sql.getName().length == 0) {
-            _store = false;
-        } else {
-            _store = true;
-        }
-
-        if (sql != null) {
-            _readonly = sql.getReadOnly();
+            if (nature.getManyTable() != null) {
+                _store = false;
+            } else if (nature.getSQLName() == null || nature.getSQLName().length == 0) {
+                _store = false;
+            } else {
+                _store = true;
+            }
+        
+            _readonly = nature.isReadonly();
    
             _cascading = EnumSet.noneOf(CascadingType.class);
 
@@ -1006,8 +986,8 @@ public class FieldMolder {
             //       this will probably have to be changed
             // TODO: also, we should probably use constants
             // NOTE: we assume here that the types are delimited by whitespace
-            if (sql.getCascading() != null) {
-                String[] temp = sql.getCascading().toLowerCase().trim().split("\\s+");
+            if (nature.getCascading() != null) {
+                String[] temp = nature.getCascading().toLowerCase().trim().split("\\s+");
                 List<String> cascadingTypes = java.util.Arrays.asList(temp);
                 if (cascadingTypes.contains("all")) {
                     _cascading = EnumSet.allOf(CascadingType.class);
@@ -1024,12 +1004,14 @@ public class FieldMolder {
                 }
             }
             
-            boolean isSQLTransient = sql.getTransient();
+            boolean isSQLTransient = nature.isTransient();
             if (_transient && !isSQLTransient) {
                 throw new MappingException (Messages.message("persist.transient.conflict"));
             }
-            _transient = isSQLTransient;  
+            _transient = isSQLTransient;
+            
         }
+        _lazy = ((FieldDescriptorImpl) fieldDescriptor).isLazy();
     }
 
     /**

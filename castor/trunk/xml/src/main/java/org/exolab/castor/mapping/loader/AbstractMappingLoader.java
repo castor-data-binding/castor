@@ -298,7 +298,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      */
     protected final ClassDescriptor getExtended(final ClassMapping clsMap,
                                                 final Class<?> javaClass) throws MappingException {
-        if (clsMap.getExtends() == null) { return null; }
+        if (clsMap.getExtends() == null) { 
+            return null;
+        }
 
         ClassMapping mapping = (ClassMapping) clsMap.getExtends();
         Class<?> type = resolveType(mapping.getName());
@@ -332,7 +334,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      */
     protected final ClassDescriptor getDepended(final ClassMapping clsMap,
                                                 final Class<?> javaClass) throws MappingException {
-        if (clsMap.getDepends() == null) { return null; }
+        if (clsMap.getDepends() == null) { 
+            return null; 
+        }
 
         ClassMapping mapping = (ClassMapping) clsMap.getDepends();
         Class<?> type = resolveType(mapping.getName());
@@ -577,7 +581,22 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 fieldName, typeInfo, handler, fieldMap.getTransient());
 
         fieldDesc.setRequired(fieldMap.getRequired());
-
+        
+        // set collection type as specified in mapping file
+        fieldDesc.setCollection(fieldMap.getCollection());
+        
+        // set various method informations 
+        fieldDesc.setComparator(fieldMap.getComparator());
+        fieldDesc.setCreateMethod(fieldMap.getCreateMethod());
+        fieldDesc.setGetMethod(fieldMap.getGetMethod());
+        fieldDesc.setSetMethod(fieldMap.getSetMethod());
+        
+        // set direct access (if defined)
+        fieldDesc.setDirect(fieldMap.getDirect());
+        
+        // extract values for 'laziness' from field mapping
+        fieldDesc.setLazy(fieldMap.isLazy());
+        
         // If we're using an ExtendedFieldHandler we need to set the FieldDescriptor
         if (exfHandler != null) {
             ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDesc);

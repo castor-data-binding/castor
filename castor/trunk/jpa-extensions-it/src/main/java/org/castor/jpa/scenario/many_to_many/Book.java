@@ -57,8 +57,7 @@ public class Book {
     }
 
     @ManyToMany(targetEntity = Author.class)
-    // @JoinTable(name="ManyToMany_books_authors",
-    @JoinTable(name = "bullshit", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @JoinTable(name = "ManyToMany_books_authors", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     public Collection<Author> getAuthors() {
         return authors;
     }
