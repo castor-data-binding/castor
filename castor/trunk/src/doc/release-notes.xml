@@ -70,6 +70,26 @@
                 </ul>
             </summary>
             <bugs>
+                <bug id="3003" tool="jira">
+                    <description>
+                        Created info classes that provide a view on mapping from database perspective.
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20100916</date>
+                </bug>
                 <bug id="2997" tool="jira">
                     <description>
                         Removed jdo-extensions-it module.
