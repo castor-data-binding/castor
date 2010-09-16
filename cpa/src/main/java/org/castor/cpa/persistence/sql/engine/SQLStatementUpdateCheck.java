@@ -24,6 +24,8 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -32,7 +34,6 @@ import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
@@ -63,12 +64,12 @@ public final class SQLStatementUpdateCheck {
 
     /** The name of engine descriptor. */
     private final String _type;
-    
-    /** Column information for identities specific to the particular engine instance. */
-    private final SQLColumnInfo[] _ids;
 
     /** Select SQL statement class hierarchy. */
     private Select _select;
+
+    /** TableInfo object holding queried table with its relations. */
+    private TableInfo _tableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -80,7 +81,7 @@ public final class SQLStatementUpdateCheck {
      */
     public SQLStatementUpdateCheck(final SQLEngine engine) {
         _type = engine.getDescriptor().getJavaClass().getName();
-        _ids = engine.getColumnInfoForIdentities();
+        _tableInfo = engine.getTableInfo();
 
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
     }
@@ -97,13 +98,13 @@ public final class SQLStatementUpdateCheck {
         
         // define conditions for select statement
         Condition condition = new AndCondition();
-        for (int i = 0; i < _ids.length; i++) {             
-            condition.and(table.column(_ids[i].getName()).equal(new Parameter(_ids[i].getName())));
+        for (ColInfo col : _tableInfo.getPkColumns()) {
+            condition.and(table.column(col.getName()).equal(new Parameter(col.getName())));
         }
 
         // initialize select statement returning only first identity column 
         _select = new Select(table);
-        _select.addSelect(table.column(_ids[0].getName()));
+        _select.addSelect(table.column(_tableInfo.getPkColumns().get(0).getName()));
         _select.setCondition(condition);
 
     }
@@ -131,14 +132,13 @@ public final class SQLStatementUpdateCheck {
             stmt.prepareStatement(_select);
 
             // bind the identity of the row into the preparedStatement
-            for (int i = 0; i < _ids.length; i++) {
+            for (ColInfo col : _tableInfo.toSQL(identity)) {
                 // bind value to prepared statement
-                stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
-                        _ids[i].getSqlType());
+                stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
                 
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
-                            _ids[i].toSQL(identity.get(i))));
+                    LOG.trace(Messages.format("jdo.bindingIdentity", col.getName(),
+                            col.toSQL(col.getValue())));
                 }
             }
 
