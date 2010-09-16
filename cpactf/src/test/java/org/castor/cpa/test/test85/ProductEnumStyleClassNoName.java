@@ -26,7 +26,7 @@ public final class ProductEnumStyleClassNoName {
     public ProductEnumStyleClassNoName() { }
     
     public ProductEnumStyleClassNoName(
-    		final int id, final String name, final KindEnumStyleClassNoName kind) {
+            final int id, final String name, final KindEnumStyleClassNoName kind) {
         _id = id;
         _name = name;
         _kind = kind;

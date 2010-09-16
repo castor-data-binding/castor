@@ -52,8 +52,8 @@ public final class TestEnum extends CPATestCase  {
     }
 
     public void testEnumStyleClassNoName() throws Exception {
-    	ProductEnumStyleClassNoName pc, pl1, pl2, pu, pl3, pl4, pd;
-    	
+        ProductEnumStyleClassNoName pc, pl1, pl2, pu, pl3, pl4, pd;
+
         _db.begin(); 
         pc = new ProductEnumStyleClassNoName(1, "LCD", KindEnumStyleClassNoName.MONITOR);
         _db.create(pc);
@@ -89,13 +89,13 @@ public final class TestEnum extends CPATestCase  {
         // create some products
         _db.begin();
         _db.create(new ProductEnumStyleClassNoName(1, "LCD",
-        		KindEnumStyleClassNoName.MONITOR));
+                KindEnumStyleClassNoName.MONITOR));
         _db.create(new ProductEnumStyleClassNoName(2, "Laser",
-        		KindEnumStyleClassNoName.PRINTER));
+                KindEnumStyleClassNoName.PRINTER));
         _db.create(new ProductEnumStyleClassNoName(3, "Desktop",
-        		KindEnumStyleClassNoName.COMPUTER));
+                KindEnumStyleClassNoName.COMPUTER));
         _db.create(new ProductEnumStyleClassNoName(4, "Notebook",
-        		KindEnumStyleClassNoName.COMPUTER));
+                KindEnumStyleClassNoName.COMPUTER));
         _db.commit();
 
         // query and delete all product
@@ -107,19 +107,19 @@ public final class TestEnum extends CPATestCase  {
         QueryResults results = query.execute();
         pq = (ProductEnumStyleClassNoName) results.next();
         assertEquals(pq, new ProductEnumStyleClassNoName(1, "LCD",
-        		KindEnumStyleClassNoName.MONITOR));
+                KindEnumStyleClassNoName.MONITOR));
         _db.remove(pq);
         pq = (ProductEnumStyleClassNoName) results.next();
         assertEquals(pq, new ProductEnumStyleClassNoName(2, "Laser",
-        		KindEnumStyleClassNoName.PRINTER));
+                KindEnumStyleClassNoName.PRINTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassNoName) results.next();
         assertEquals(pq, new ProductEnumStyleClassNoName(3, "Desktop",
-        		KindEnumStyleClassNoName.COMPUTER));
+                KindEnumStyleClassNoName.COMPUTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassNoName) results.next();
         assertEquals(pq, new ProductEnumStyleClassNoName(4, "Notebook",
-        		KindEnumStyleClassNoName.COMPUTER));
+                KindEnumStyleClassNoName.COMPUTER));
         _db.remove(pq);  
         assertFalse(results.hasMore());
         results.close();
@@ -128,8 +128,8 @@ public final class TestEnum extends CPATestCase  {
     }
 
     public void testEnumStyleClassSameName() throws Exception {
-    	ProductEnumStyleClassSameName pc, pl1, pl2, pu, pl3, pl4, pd;
-    	
+        ProductEnumStyleClassSameName pc, pl1, pl2, pu, pl3, pl4, pd;
+
         _db.begin(); 
         pc = new ProductEnumStyleClassSameName(1, "LCD", KindEnumStyleClassSameName.MONITOR);
         _db.create(pc);
@@ -165,13 +165,13 @@ public final class TestEnum extends CPATestCase  {
         // create some products
         _db.begin();
         _db.create(new ProductEnumStyleClassSameName(1, "LCD",
-        		KindEnumStyleClassSameName.MONITOR));
+                KindEnumStyleClassSameName.MONITOR));
         _db.create(new ProductEnumStyleClassSameName(2, "Laser",
-        		KindEnumStyleClassSameName.PRINTER));
+                KindEnumStyleClassSameName.PRINTER));
         _db.create(new ProductEnumStyleClassSameName(3, "Desktop",
-        		KindEnumStyleClassSameName.COMPUTER));
+                KindEnumStyleClassSameName.COMPUTER));
         _db.create(new ProductEnumStyleClassSameName(4, "Notebook",
-        		KindEnumStyleClassSameName.COMPUTER));
+                KindEnumStyleClassSameName.COMPUTER));
         _db.commit();
 
         // query and delete all product
@@ -183,19 +183,19 @@ public final class TestEnum extends CPATestCase  {
         QueryResults results = query.execute();
         pq = (ProductEnumStyleClassSameName) results.next();
         assertEquals(pq, new ProductEnumStyleClassSameName(1, "LCD",
-        		KindEnumStyleClassSameName.MONITOR));
+                KindEnumStyleClassSameName.MONITOR));
         _db.remove(pq);
         pq = (ProductEnumStyleClassSameName) results.next();
         assertEquals(pq, new ProductEnumStyleClassSameName(2, "Laser",
-        		KindEnumStyleClassSameName.PRINTER));
+                KindEnumStyleClassSameName.PRINTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassSameName) results.next();
         assertEquals(pq, new ProductEnumStyleClassSameName(3, "Desktop",
-        		KindEnumStyleClassSameName.COMPUTER));
+                KindEnumStyleClassSameName.COMPUTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassSameName) results.next();
         assertEquals(pq, new ProductEnumStyleClassSameName(4, "Notebook",
-        		KindEnumStyleClassSameName.COMPUTER));
+                KindEnumStyleClassSameName.COMPUTER));
         _db.remove(pq);  
         assertFalse(results.hasMore());
         results.close();
@@ -204,8 +204,8 @@ public final class TestEnum extends CPATestCase  {
     }
 
     public void testEnumStyleClassDiffName() throws Exception {
-    	ProductEnumStyleClassDiffName pc, pl1, pl2, pu, pl3, pl4, pd;
-    	
+        ProductEnumStyleClassDiffName pc, pl1, pl2, pu, pl3, pl4, pd;
+
         _db.begin(); 
         pc = new ProductEnumStyleClassDiffName(1, "LCD", KindEnumStyleClassDiffName.MONITOR);
         _db.create(pc);
@@ -241,13 +241,13 @@ public final class TestEnum extends CPATestCase  {
         // create some products
         _db.begin();
         _db.create(new ProductEnumStyleClassDiffName(1, "LCD",
-        		KindEnumStyleClassDiffName.MONITOR));
+                KindEnumStyleClassDiffName.MONITOR));
         _db.create(new ProductEnumStyleClassDiffName(2, "Laser",
-        		KindEnumStyleClassDiffName.PRINTER));
+                KindEnumStyleClassDiffName.PRINTER));
         _db.create(new ProductEnumStyleClassDiffName(3, "Desktop",
-        		KindEnumStyleClassDiffName.COMPUTER));
+                KindEnumStyleClassDiffName.COMPUTER));
         _db.create(new ProductEnumStyleClassDiffName(4, "Notebook",
-        		KindEnumStyleClassDiffName.COMPUTER));
+                KindEnumStyleClassDiffName.COMPUTER));
         _db.commit();
 
         // query and delete all product
@@ -259,19 +259,19 @@ public final class TestEnum extends CPATestCase  {
         QueryResults results = query.execute();
         pq = (ProductEnumStyleClassDiffName) results.next();
         assertEquals(pq, new ProductEnumStyleClassDiffName(1, "LCD",
-        		KindEnumStyleClassDiffName.MONITOR));
+                KindEnumStyleClassDiffName.MONITOR));
         _db.remove(pq);
         pq = (ProductEnumStyleClassDiffName) results.next();
         assertEquals(pq, new ProductEnumStyleClassDiffName(2, "Laser",
-        		KindEnumStyleClassDiffName.PRINTER));
+                KindEnumStyleClassDiffName.PRINTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassDiffName) results.next();
         assertEquals(pq, new ProductEnumStyleClassDiffName(3, "Desktop",
-        		KindEnumStyleClassDiffName.COMPUTER));
+                KindEnumStyleClassDiffName.COMPUTER));
         _db.remove(pq);
         pq = (ProductEnumStyleClassDiffName) results.next();
         assertEquals(pq, new ProductEnumStyleClassDiffName(4, "Notebook",
-        		KindEnumStyleClassDiffName.COMPUTER));
+                KindEnumStyleClassDiffName.COMPUTER));
         _db.remove(pq);  
         assertFalse(results.hasMore());
         results.close();
@@ -280,8 +280,8 @@ public final class TestEnum extends CPATestCase  {
     }
 
     public void testJavaEnumSameName() throws Exception {
-    	ProductJavaEnumSameName pc, pl1, pl2, pu, pl3, pl4, pd;
-    	
+        ProductJavaEnumSameName pc, pl1, pl2, pu, pl3, pl4, pd;
+
         _db.begin(); 
         pc = new ProductJavaEnumSameName(1, "LCD", KindJavaEnumSameName.MONITOR);
         _db.create(pc);
@@ -317,13 +317,13 @@ public final class TestEnum extends CPATestCase  {
         // create some products
         _db.begin();
         _db.create(new ProductJavaEnumSameName(1, "LCD",
-        		KindJavaEnumSameName.MONITOR));
+                KindJavaEnumSameName.MONITOR));
         _db.create(new ProductJavaEnumSameName(2, "Laser",
-        		KindJavaEnumSameName.PRINTER));
+                KindJavaEnumSameName.PRINTER));
         _db.create(new ProductJavaEnumSameName(3, "Desktop",
-        		KindJavaEnumSameName.COMPUTER));
+                KindJavaEnumSameName.COMPUTER));
         _db.create(new ProductJavaEnumSameName(4, "Notebook",
-        		KindJavaEnumSameName.COMPUTER));
+                KindJavaEnumSameName.COMPUTER));
         _db.commit();
 
         // query and delete all product
@@ -335,19 +335,19 @@ public final class TestEnum extends CPATestCase  {
         QueryResults results = query.execute();
         pq = (ProductJavaEnumSameName) results.next();
         assertEquals(pq, new ProductJavaEnumSameName(1, "LCD",
-        		KindJavaEnumSameName.MONITOR));
+                KindJavaEnumSameName.MONITOR));
         _db.remove(pq);
         pq = (ProductJavaEnumSameName) results.next();
         assertEquals(pq, new ProductJavaEnumSameName(2, "Laser",
-        		KindJavaEnumSameName.PRINTER));
+                KindJavaEnumSameName.PRINTER));
         _db.remove(pq);
         pq = (ProductJavaEnumSameName) results.next();
         assertEquals(pq, new ProductJavaEnumSameName(3, "Desktop",
-        		KindJavaEnumSameName.COMPUTER));
+                KindJavaEnumSameName.COMPUTER));
         _db.remove(pq);
         pq = (ProductJavaEnumSameName) results.next();
         assertEquals(pq, new ProductJavaEnumSameName(4, "Notebook",
-        		KindJavaEnumSameName.COMPUTER));
+                KindJavaEnumSameName.COMPUTER));
         _db.remove(pq);  
         assertFalse(results.hasMore());
         results.close();
@@ -356,8 +356,8 @@ public final class TestEnum extends CPATestCase  {
     }
 
     public void testJavaEnumDiffName() throws Exception {
-    	ProductJavaEnumDiffName pc, pl1, pl2, pu, pl3, pl4, pd;
-    	
+        ProductJavaEnumDiffName pc, pl1, pl2, pu, pl3, pl4, pd;
+
         _db.begin(); 
         pc = new ProductJavaEnumDiffName(1, "LCD", KindJavaEnumDiffName.MONITOR);
         _db.create(pc);
@@ -393,13 +393,13 @@ public final class TestEnum extends CPATestCase  {
         // create some products
         _db.begin();
         _db.create(new ProductJavaEnumDiffName(1, "LCD",
-        		KindJavaEnumDiffName.MONITOR));
+                KindJavaEnumDiffName.MONITOR));
         _db.create(new ProductJavaEnumDiffName(2, "Laser",
-        		KindJavaEnumDiffName.PRINTER));
+                KindJavaEnumDiffName.PRINTER));
         _db.create(new ProductJavaEnumDiffName(3, "Desktop",
-        		KindJavaEnumDiffName.COMPUTER));
+                KindJavaEnumDiffName.COMPUTER));
         _db.create(new ProductJavaEnumDiffName(4, "Notebook",
-        		KindJavaEnumDiffName.COMPUTER));
+                KindJavaEnumDiffName.COMPUTER));
         _db.commit();
 
         // query and delete all product
@@ -411,19 +411,19 @@ public final class TestEnum extends CPATestCase  {
         QueryResults results = query.execute();
         pq = (ProductJavaEnumDiffName) results.next();
         assertEquals(pq, new ProductJavaEnumDiffName(1, "LCD",
-        		KindJavaEnumDiffName.MONITOR));
+                KindJavaEnumDiffName.MONITOR));
         _db.remove(pq);
         pq = (ProductJavaEnumDiffName) results.next();
         assertEquals(pq, new ProductJavaEnumDiffName(2, "Laser",
-        		KindJavaEnumDiffName.PRINTER));
+                KindJavaEnumDiffName.PRINTER));
         _db.remove(pq);
         pq = (ProductJavaEnumDiffName) results.next();
         assertEquals(pq, new ProductJavaEnumDiffName(3, "Desktop",
-        		KindJavaEnumDiffName.COMPUTER));
+                KindJavaEnumDiffName.COMPUTER));
         _db.remove(pq);
         pq = (ProductJavaEnumDiffName) results.next();
         assertEquals(pq, new ProductJavaEnumDiffName(4, "Notebook",
-        		KindJavaEnumDiffName.COMPUTER));
+                KindJavaEnumDiffName.COMPUTER));
         _db.remove(pq);  
         assertFalse(results.hasMore());
         results.close();

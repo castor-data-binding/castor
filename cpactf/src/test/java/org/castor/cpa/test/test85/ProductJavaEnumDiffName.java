@@ -26,7 +26,7 @@ public final class ProductJavaEnumDiffName {
     public ProductJavaEnumDiffName() { }
     
     public ProductJavaEnumDiffName(
-    		final int id, final String name, final KindJavaEnumDiffName kind) {
+            final int id, final String name, final KindJavaEnumDiffName kind) {
         _id = id;
         _name = name;
         _kind = kind;
