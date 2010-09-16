@@ -26,7 +26,7 @@ public final class ProductJavaEnumSameName {
     public ProductJavaEnumSameName() { }
     
     public ProductJavaEnumSameName(
-    		final int id, final String name, final KindJavaEnumSameName kind) {
+            final int id, final String name, final KindJavaEnumSameName kind) {
         _id = id;
         _name = name;
         _kind = kind;

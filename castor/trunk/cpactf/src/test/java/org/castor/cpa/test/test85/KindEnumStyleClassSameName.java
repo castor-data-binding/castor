@@ -31,18 +31,18 @@ implements Cloneable, Comparable<KindEnumStyleClassSameName>, Serializable {
     private static final long serialVersionUID = -4999799304409658395L;
 
     private static final Map<String, KindEnumStyleClassSameName> KINDS =
-    	new HashMap<String, KindEnumStyleClassSameName>();
+        new HashMap<String, KindEnumStyleClassSameName>();
 
     public static final KindEnumStyleClassSameName MOUSE =
-    	new KindEnumStyleClassSameName("MOUSE");
+        new KindEnumStyleClassSameName("MOUSE");
     public static final KindEnumStyleClassSameName KEYBOARD =
-    	new KindEnumStyleClassSameName("KEYBOARD");
+        new KindEnumStyleClassSameName("KEYBOARD");
     public static final KindEnumStyleClassSameName COMPUTER =
-    	new KindEnumStyleClassSameName("COMPUTER");
+        new KindEnumStyleClassSameName("COMPUTER");
     public static final KindEnumStyleClassSameName PRINTER =
-    	new KindEnumStyleClassSameName("PRINTER");
+        new KindEnumStyleClassSameName("PRINTER");
     public static final KindEnumStyleClassSameName MONITOR =
-    	new KindEnumStyleClassSameName("MONITOR");
+        new KindEnumStyleClassSameName("MONITOR");
 
     private final String _name;
 
