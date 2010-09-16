@@ -287,6 +287,7 @@ CREATE TABLE ManyToMany_book(
 );
 
 CREATE TABLE ManyToMany_books_authors(
+    id INTEGER NOT NULL,
     book_id INTEGER NOT NULL,
-    author_id INTEGER NOT NULL
+    author_id INTEGER
 );

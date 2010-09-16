@@ -262,11 +262,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         clsDesc.addNature(ClassDescriptorJDONature.class.getName());
         ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(clsDesc);
         
-        // Set reference to class mapping on class descriptor.
-        clsDesc.setMapping(classMapping);
-        
         // Obtain the Java class.
-        Class javaClass = resolveType(classMapping.getName());
+        Class<?> javaClass = resolveType(classMapping.getName());
         if (!Types.isConstructable(javaClass, true)) {
             throw new MappingException(
                     "mapping.classNotConstructable", javaClass.getName());
@@ -876,10 +873,23 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDescriptor);
         }
 
-        // if SQL mapping declares transient 
+        // if SQL mapping declares transient
+        // TODO: cross-check that this should be implemented like this
         if (sql.getTransient()) {
             fieldDescriptor.setTransient(true);
         }
+        
+        // set collection type as specified in mapping file
+        fieldDescriptor.setCollection(fieldMap.getCollection());
+        
+        fieldDescriptor.setComparator(fieldMap.getComparator());
+        fieldDescriptor.setCreateMethod(fieldMap.getCreateMethod());
+        fieldDescriptor.setGetMethod(fieldMap.getGetMethod());
+        fieldDescriptor.setSetMethod(fieldMap.getSetMethod());
+        fieldDescriptor.setDirect(fieldMap.getDirect());
+        
+        // extract values for 'laziness' from field mapping
+        fieldDescriptor.setLazy(isLazy);
         
         FieldDescriptorJDONature fieldJdoNature = 
             new FieldDescriptorJDONature(fieldDescriptor);
@@ -896,8 +906,8 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         fieldJdoNature.setDirtyCheck(!SqlDirtyType.IGNORE.equals(sql.getDirty()));
         fieldJdoNature.setReadOnly(sql.getReadOnly());
         
-        // extract values for 'laziness' from field mapping
-        fieldDescriptor.setLazy(isLazy);
+        fieldJdoNature.setCascading(sql.getCascading());
+        fieldJdoNature.setTransient(sql.getTransient());
         
         return fieldDescriptor;
     }

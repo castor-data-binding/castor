@@ -75,12 +75,11 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.mapping.loader.ClassDescriptorHelper;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.NamedNativeQuery;
-import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
@@ -107,7 +106,7 @@ import org.exolab.castor.xml.ResolverException;
  *
  * @author <a href="yip@intalio.com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @author <a href="mailto:wernert DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  */
 
 public class ClassMolder {
@@ -194,12 +193,14 @@ public class ClassMolder {
         _persistence = persistenceEngine;
         _clsDesc = classDescriptor;
         
-        ClassMapping classMapping = ((ClassDescriptorImpl) classDescriptor).getMapping();
         _name = classDescriptor.getJavaClass().getName();
-        _accessMode = AccessMode.valueOf(classMapping.getAccess().toString());
-
         ds.register(_name, this);
-
+        
+        if (classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
+            ClassDescriptorJDONature nature = new ClassDescriptorJDONature(classDescriptor);
+            _accessMode = nature.getAccessMode();
+        }
+        
         dealWithExtendsAndDepends(ds, classDescriptor);
 
         if (classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
@@ -211,25 +212,22 @@ public class ClassMolder {
         // construct <tt>FieldMolder</tt>s for each of the identity fields of
         // the base class.
         
-        //TODO[WG]: in oder to switch towards the use of ClassDescriptor.getIdentities()
-        //TODO[WG]: one needs to replicate the functionality of getIdFields() on the descriptor side.
-        FieldMapping[] identityFieldMappings = ClassMolderHelper.getIdFields(classMapping);
-        _ids = new FieldMolder[identityFieldMappings.length];
+        FieldDescriptor[] identityDescriptors = ClassDescriptorHelper.getIdFields(classDescriptor);
+        
+        _ids = new FieldMolder[identityDescriptors.length];
         int m = 0;
-        for (FieldMapping identityFieldMapping : identityFieldMappings) {
-            _ids[m++] = new FieldMolder(ds, this, identityFieldMapping);
-            
+        for (FieldDescriptor identityDescriptor : identityDescriptors) {
+            _ids[m++] = new FieldMolder(ds, this, identityDescriptor);
         }
 
         // construct <tt>FieldModlers</tt>s for each of the non-transient fields 
         // of the base class 
-        //TODO[WG]: in oder to switch towards the use of ClassDescriptor.getFields()
-        //TODO[WG]: one needs to replicate the functionality of getFullFields() on the descriptor side.
-        FieldMapping[] fieldMappings = ClassMolderHelper.getFullFields(classMapping);
+        
+        FieldDescriptor[] fieldDescriptors = ClassDescriptorHelper.getFullFields(classDescriptor);
         
         int numberOfNonTransientFieldMolders = 0;
-        for (FieldMapping fieldMapping : fieldMappings) {
-            if (!isFieldTransient(fieldMapping)) {
+        for (FieldDescriptor fieldDescriptor : fieldDescriptors) {
+            if (!isFieldTransient(fieldDescriptor)) {
                 numberOfNonTransientFieldMolders += 1;
             }
         }
@@ -238,39 +236,40 @@ public class ClassMolder {
         _resolvers = new ResolverStrategy[numberOfNonTransientFieldMolders];
         
         int fieldMolderCount = 0;
-        for (FieldMapping fieldMapping : fieldMappings) {
-            
+        for (FieldDescriptor fieldDescriptor : fieldDescriptors) {
+
+
             // don't create field molder for transient fields
-            if (isFieldTransient(fieldMapping)) {
+            if (isFieldTransient(fieldDescriptor)) {
                 continue;
             }
-            
-            Sql sqlMapping = fieldMapping.getSql();
-            
-            if ((sqlMapping != null) && (sqlMapping.getManyTable() != null)) {
+
+            if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName()) && 
+                    new FieldDescriptorJDONature(fieldDescriptor).getManyTable() != null) {
+                FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
+                
                 // the fields is not primitive
                 String[] relatedIdSQL = null;
                 int[] relatedIdType = null;
                 TypeConvertor[] relatedIdConvertTo = null;
                 TypeConvertor[] relatedIdConvertFrom = null;
-                
-                String manyTable = sqlMapping.getManyTable();
 
-                String[] idSQL = new String[identityFieldMappings.length];
-                int[] idType = new int[identityFieldMappings.length];
-                TypeConvertor[] idConvertFrom = new TypeConvertor[identityFieldMappings.length];
-                TypeConvertor[] idConvertTo = new TypeConvertor[identityFieldMappings.length];
+                String manyTable = nature.getManyTable();
+
+                String[] idSQL = new String[identityDescriptors.length];
+                int[] idType = new int[identityDescriptors.length];
+                TypeConvertor[] idConvertFrom = new TypeConvertor[identityDescriptors.length];
+                TypeConvertor[] idConvertTo = new TypeConvertor[identityDescriptors.length];
                 FieldDescriptor[] identityFieldDescriptors = ((ClassDescriptorImpl) classDescriptor).getIdentities();
                 int identityFieldCount = 0;
-                for (FieldMapping identityFieldMapping : identityFieldMappings) {
-                    idSQL[identityFieldCount] = identityFieldMapping.getSql().getName()[0];
-                    FieldDescriptor identityFieldDescriptor = identityFieldDescriptors[identityFieldCount];
+                for (FieldDescriptor identityFieldDescriptor : identityFieldDescriptors) {
                     if (identityFieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                        idSQL[identityFieldCount] = new FieldDescriptorJDONature(identityFieldDescriptor).getSQLName()[0];
                         int[] type = new FieldDescriptorJDONature(identityFieldDescriptor).getSQLType();
                         idType[identityFieldCount] = (type == null) ? 0 : type[0];
-                        FieldHandlerImpl fh = (FieldHandlerImpl) identityFieldDescriptor.getHandler();
-                        idConvertTo[identityFieldCount] = fh.getConvertTo();
-                        idConvertFrom[identityFieldCount] = fh.getConvertFrom();
+                        FieldHandlerImpl fieldHandler = (FieldHandlerImpl) identityFieldDescriptor.getHandler();
+                        idConvertTo[identityFieldCount] = fieldHandler.getConvertTo();
+                        idConvertFrom[identityFieldCount] = fieldHandler.getConvertFrom();
                     } else {
                         throw new MappingException(
                                 "Identity type must contains sql information: " + _name);
@@ -281,12 +280,12 @@ public class ClassMolder {
                 ClassDescriptor relatedClassDescriptor = null;
                 try {
                     JDOClassDescriptorResolver jdoCDR = (JDOClassDescriptorResolver) classDescriptorResolver;
-                    relatedClassDescriptor = jdoCDR.resolve(fieldMapping.getType());
+                    relatedClassDescriptor = jdoCDR.resolve(fieldDescriptor.getFieldType().getName());
                 } catch (ResolverException e) {
                     throw new MappingException("Problem resolving class descriptor for class " 
-                            + fieldMappings.getClass(), e);
+                            + fieldDescriptor.getClass().getName(), e);
                 }
-                                
+
                 if (relatedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
                     FieldDescriptor[] relatedIdentityDescriptors = ((ClassDescriptorImpl) relatedClassDescriptor).getIdentities();
                     relatedIdSQL = new String[relatedIdentityDescriptors.length];
@@ -296,10 +295,10 @@ public class ClassMolder {
                     int relatedIdentityCount = 0;
                     for (FieldDescriptor relatedIdentityDescriptor : relatedIdentityDescriptors) {
                         if (relatedIdentityDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
-                            FieldDescriptorJDONature nature = new FieldDescriptorJDONature(relatedIdentityDescriptor);
-                            String[] tempId = nature.getSQLName();
+                            FieldDescriptorJDONature relatedNature = new FieldDescriptorJDONature(relatedIdentityDescriptor);
+                            String[] tempId = relatedNature.getSQLName();
                             relatedIdSQL[relatedIdentityCount] = (tempId == null) ? null : tempId[0];
-                            int[] tempType =  nature.getSQLType();
+                            int[] tempType =  relatedNature.getSQLType();
                             relatedIdType[relatedIdentityCount] = (tempType == null) ? 0 : tempType[0];
                             FieldHandlerImpl fh = (FieldHandlerImpl) relatedIdentityDescriptors[relatedIdentityCount].getHandler();
                             relatedIdConvertTo[relatedIdentityCount] = fh.getConvertTo();
@@ -314,7 +313,7 @@ public class ClassMolder {
                 }
 
                 // if many-key exist, idSQL is overridden
-                String[] manyKey = sqlMapping.getManyKey();
+                String[] manyKey = nature.getManyKey();
                 if ((manyKey != null) && (manyKey.length != 0)) {
                     if (manyKey.length != idSQL.length) {
                         throw new MappingException(
@@ -325,7 +324,7 @@ public class ClassMolder {
                 }
 
                 // if name="" exist, relatedIdSQL is overridden
-                String[] manyName = fieldMapping.getSql().getName();
+                String[] manyName = nature.getSQLName();
                 if ((manyName != null) && (manyName.length != 0)) {
                     if (manyName.length != relatedIdSQL.length) {
                         throw new MappingException(
@@ -334,15 +333,15 @@ public class ClassMolder {
                     }
                     relatedIdSQL = manyName;
                 }
-                
+
                 SQLRelationLoader loader = _persistence.createSQLRelationLoader(
                         manyTable, idSQL, idType, idConvertTo, idConvertFrom,
                         relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
-                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldMapping, loader);
+                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor, loader);
             } else {
-                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldMapping);
+                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor);
             }
-            
+
             // create RelationResolver instance
             _resolvers[fieldMolderCount] = ResolverFactory.createRelationResolver(
                     _fhs[fieldMolderCount], this, fieldMolderCount);
@@ -356,7 +355,7 @@ public class ClassMolder {
             _callback = new JDOCallback();
         }
     }
-    
+
     /**
      * Remaining method that relies on the usage of {@link ClassMapping} to extract
      * information from the JDO mapping file rather than relying on {@link ClassDescriptor}
@@ -384,12 +383,15 @@ public class ClassMolder {
         }
     }
     
-    public ClassDescriptor getClassDescriptor() { return _clsDesc; }
-
-    private boolean isFieldTransient(final FieldMapping fieldMapping) {
-        boolean isFieldTransient = fieldMapping.getTransient();
-        if (fieldMapping.getSql() != null) {
-            isFieldTransient |= fieldMapping.getSql().getTransient();
+    public ClassDescriptor getClassDescriptor() { 
+        return _clsDesc; 
+    }
+    
+    private boolean isFieldTransient(final FieldDescriptor fieldDescriptor) {
+        boolean isFieldTransient = fieldDescriptor.isTransient();
+        if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+            FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
+            isFieldTransient |= nature.isTransient();
         }
         return isFieldTransient;
     }
@@ -402,10 +404,10 @@ public class ClassMolder {
      * be set null. If the related object is a Collection, then
      * the related object will be removed from the Collection. <p>
      *
-     * If any changed occured, transactionContext.markModified
+     * If any changed occurred, transactionContext.markModified
      * will be called, to indicate the object is modified. <p>
      *
-     * It method will iterate thur all of the object's field and
+     * It method will iterate through all of the object's field and
      * try to remove all the occurrence.
      *
      * @param tx the TransactionContext of the transaction in action
@@ -1041,7 +1043,6 @@ public class ClassMolder {
      *            the object.
      * @return the object's version.
      */
-    @SuppressWarnings("unchecked")
     private Long getObjectVersion(final String versionField,
             final ClassDescriptorJDONature jdoNature, final Object object) {
         FieldDescriptor versionFieldDescriptor =
@@ -1373,9 +1374,9 @@ public class ClassMolder {
      * @param cls the Class to check the assignation
      * @return true if assignable
      */
-    public boolean isAssignableFrom (final Class cls) {
+    public boolean isAssignableFrom (final Class<?> cls) {
         ClassLoader loader = cls.getClassLoader();
-        Class molderClass = null;
+        Class<?> molderClass = null;
         try {
             molderClass = ClassLoadingUtils.loadClass(loader, _name);
         } catch (ClassNotFoundException e) {

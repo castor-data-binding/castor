@@ -44,11 +44,6 @@ import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.loader.Types;
-import org.exolab.castor.mapping.xml.ClassChoice;
-import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.FieldMapping;
-import org.exolab.castor.mapping.xml.MapTo;
-import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
@@ -152,14 +147,8 @@ public final class InfoToDescriptorConverter {
                 descriptor);
 
         /*
-         * ClassMapping: initialize
-         */
-        ClassMapping clsMapping = new ClassMapping();
-
-        /*
          * set classDescriptor infos
          */
-
         descriptor.setJavaClass(classInfo.getDescribedClass());
 
         descriptor.setExtends(null);
@@ -189,7 +178,6 @@ public final class InfoToDescriptorConverter {
                 }
             } else {
                 descriptor.setExtends(extendedClassDescriptor);
-                clsMapping.setExtends(((ClassDescriptorImpl)extendedClassDescriptor).getMapping());
                 if (extendedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
                     ClassDescriptorJDONature jdoClassNature = new ClassDescriptorJDONature(extendedClassDescriptor);
                     jdoClassNature.addExtended(descriptor);
@@ -202,15 +190,8 @@ public final class InfoToDescriptorConverter {
          */
         descriptor.setDepends(null);
 
-        clsMapping.setName(classInfo.getDescribedClass().getName());
-        for (FieldInfo idInfo : classInfo.getKeyFieldInfos()) {
-            clsMapping.addIdentity(idInfo.getFieldName());
-        }
-        clsMapping.setClassChoice(new ClassChoice());
-        descriptor.setMapping(clsMapping);
-        MapTo mapTo = new MapTo();
-        clsMapping.setMapTo(mapTo);
-
+        descriptor.setJavaClass(classInfo.getDescribedClass());
+        
         /*
          * set ClassDescriptorJDONature infos
          */
@@ -221,7 +202,6 @@ public final class InfoToDescriptorConverter {
             tableName = nature.getEntityName();
         }
         jdoNature.setTableName(tableName);
-        mapTo.setTable(tableName);
 
         jdoNature
                 .addCacheParam("name", classInfo.getDescribedClass().getName());
@@ -549,24 +529,22 @@ public final class InfoToDescriptorConverter {
          */
         jdoNature.setDirtyCheck(true);
 
-        /*
-         * Generate and setup FieldMapping
-         */
 
-        FieldMapping fieldMapping = new FieldMapping();
-        parent.getMapping().getClassChoice().addFieldMapping(fieldMapping);
-
-        fieldMapping.setName(fieldName);
-        fieldMapping.setIdentity(fieldDescriptor.isIdentity());
-        fieldMapping.setRequired(fieldDescriptor.isRequired());
-        fieldMapping.setLazy(createFMLazy(jpaNature));
-        fieldMapping.setDirect(false); // field access => not supported
-        fieldMapping.setGetMethod(fieldInfo.getGetterMethod().getName());
-        fieldMapping.setSetMethod(fieldInfo.getSetterMethod().getName());
-        fieldMapping.setCollection(createColletionType(jpaNature));
-        fieldMapping.setSql(createFMSQL(fieldName, jpaNature, fieldDescriptor
-                .getClassDescriptor(), sqlType, parent));
-        fieldMapping.setType(typeInfo.getFieldType().getName());
+        fieldDescriptor.setFieldName(fieldName);
+        
+//        fieldMapping.setIdentity(fieldDescriptor.isIdentity());
+        
+        fieldDescriptor.setLazy(createFMLazy(jpaNature));
+        fieldDescriptor.setDirect(false); // field access => not supported
+        
+        fieldDescriptor.setGetMethod(fieldInfo.getGetterMethod().getName());
+        fieldDescriptor.setSetMethod(fieldInfo.getSetterMethod().getName());
+        fieldDescriptor.setCollection(createColletionType(jpaNature));
+        
+        setJDONatureValues(fieldName, jpaNature, fieldDescriptor.getClassDescriptor(), 
+                sqlType, parent, fieldDescriptor);
+        
+        fieldDescriptor.setFieldType(typeInfo.getFieldType());
 
         return fieldDescriptor;
     }
@@ -644,14 +622,12 @@ public final class InfoToDescriptorConverter {
 
     /**
      * Create the right parameter values for
-     * {@link FieldMapping#setRequired(boolean)} and
      * {@link FieldDescriptorImpl#setRequired(boolean)} according to given JPA
      * specific information.
      * 
      * @param jpaNature
      *            The nature holding JPA information.
      * @return the right parameter values for
-     *         {@link FieldMapping#setRequired(boolean)} and
      *         {@link FieldDescriptorImpl#setRequired(boolean)}.
      */
     private static boolean createRequired(final JPAFieldNature jpaNature) {
@@ -679,13 +655,13 @@ public final class InfoToDescriptorConverter {
 
     /**
      * Create the right parameter values for
-     * {@link FieldMapping#setCollection(FieldMappingCollectionType)} according
+     * {@link FieldDescriptor#setCollection(FieldMappingCollectionType)} according
      * to given JPA specific information.
      * 
      * @param jpaNature
      *            The nature holding JPA information.
      * @return the right parameter values for
-     *         {@link FieldMapping#setCollection(FieldMappingCollectionType)}.
+     *         {@link FieldDescriptor#setCollection(FieldMappingCollectionType)}.
      */
     private static FieldMappingCollectionType createColletionType(
             final JPAFieldNature jpaNature) {
@@ -699,11 +675,12 @@ public final class InfoToDescriptorConverter {
     }
 
     /**
-     * Create the right parameter values for {@link FieldMapping#setSql(Sql)}
-     * according to given JPA specific information. This method may (in case of
-     * a default mapped OneToMany relation) access the parents
-     * {@link ClassDescriptorImpl#getIdentity()}, so identities have to be
-     * converted before relational fields are, to avoid loops.
+     * Set the correct values on the JDO nature of the FieldDescriptor so that
+     * the information given by the means of JPA annotations is matched. 
+     * 
+     * This method may (in case of a default mapped OneToMany relation) access 
+     * the parents {@link ClassDescriptorImpl#getIdentity()}, so identities have 
+     * to be converted before relational fields are, to avoid loops.
      * 
      * @param fieldName
      *            The name of the field.
@@ -716,52 +693,63 @@ public final class InfoToDescriptorConverter {
      * @param parentClassDescriptor
      *            The {@link ClassDescriptorImpl} of the field owning class to
      *            get the identity field (see above).
-     * @return the right parameter values for
-     *         {@link FieldMapping#setLazy(boolean)}.
      * @throws MappingException
      *             if the sqlType is not recognized.
      */
-    private static Sql createFMSQL(final String fieldName,
+    private static void setJDONatureValues(final String fieldName,
             final JPAFieldNature jpaNature,
             final ClassDescriptor fieldClassDescriptor, final int sqlType,
-            final ClassDescriptorImpl parentClassDescriptor)
+            final ClassDescriptorImpl parentClassDescriptor,
+            final FieldDescriptor fieldDescriptor)
             throws MappingException {
-        Sql fieldSql = new Sql();
-        if (!hasFieldRelation(jpaNature)) {
-            // for non-relational field
-            for (String sqlName : createSQLName(fieldName, jpaNature,
-                    fieldClassDescriptor)) {
-                fieldSql.addName(sqlName);
-            }
-            fieldSql.setType(SQLTypeInfos.sqlTypeNum2sqlTypeName(sqlType));
-        } else if (isXToOne(jpaNature)) {
-            // for 1:1 or N:1 (owning side)
-            for (String sqlName : createSQLName(fieldName, jpaNature,
-                    fieldClassDescriptor)) {
-                fieldSql.addName(sqlName);
-                fieldSql.addManyKey(sqlName);
-            }
-        } else {
-            // for 1:N or M:N
-            String[] manyKeys = createManyKey(fieldName, jpaNature,
-                    fieldClassDescriptor, parentClassDescriptor);
-            for (String sqlName : manyKeys) {
-                fieldSql.addName(sqlName);
-                fieldSql.addManyKey(sqlName);
+        
+        if (!fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+            FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldClassDescriptor);
+
+            String[] sqlNames = createSQLName(fieldName, jpaNature, fieldClassDescriptor);
+
+            //        Sql fieldSql = new Sql();
+            if (!hasFieldRelation(jpaNature)) {
+                // for non-relational field
+                //            for (String sqlName : sqlNames) {
+                //                fieldSql.addName(sqlName);
+                //            }
+                nature.setSQLName(sqlNames);
+                //            fieldSql.setType(SQLTypeInfos.sqlTypeNum2sqlTypeName(sqlType));
+                nature.setSQLType(new int[] { sqlType });
+
+            } else if (isXToOne(jpaNature)) {
+                // for 1:1 or N:1 (owning side)
+                //            for (String sqlName : sqlNames) {
+                //                fieldSql.addName(sqlName);
+                //                fieldSql.addManyKey(sqlName);
+                //            }
+                nature.setSQLName(sqlNames);
+                nature.setManyKey(sqlNames);
+            } else {
+                // for 1:N or M:N
+                String[] manyKeys = createManyKey(fieldName, jpaNature,
+                        fieldClassDescriptor, parentClassDescriptor);
+                //            for (String sqlName : manyKeys) {
+                //                fieldSql.addName(sqlName);
+                //                fieldSql.addManyKey(sqlName);
+                //            }
+                nature.setSQLName(manyKeys);
+                nature.setManyKey(manyKeys);
             }
         }
-        return fieldSql;
+//        return fieldSql;
     }
 
     /**
      * Create the right parameter values for
-     * {@link FieldMapping#setLazy(boolean)} according to given JPA specific
+     * {@link FieldDescriptorImpl#setLazy(boolean)} according to given JPA specific
      * information.
      * 
      * @param jpaNature
      *            The nature holding JPA information.
      * @return the right parameter values for
-     *         {@link FieldMapping#setLazy(boolean)}.
+     *         {@link FieldDescriptorImpl#setLazy(boolean)}.
      */
     private static boolean createFMLazy(final JPAFieldNature jpaNature) {
         if (jpaNature.isRelationLazyFetch()) {

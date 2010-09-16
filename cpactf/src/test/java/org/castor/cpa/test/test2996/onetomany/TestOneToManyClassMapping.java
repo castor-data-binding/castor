@@ -19,10 +19,12 @@ import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.mapping.MappingException;
+import org.junit.Ignore;
 
 /**
  * Tests one to one relation with class mapping. 
  */
+@Ignore
 public class TestOneToManyClassMapping extends AbstractTestOneToMany {
     private static final String DBNAME = "test2996-onetomany-class";
     private static final String MAPPING_HOUSE = House.class.getName();
