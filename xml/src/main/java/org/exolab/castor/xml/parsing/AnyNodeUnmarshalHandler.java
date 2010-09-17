@@ -1,7 +1,6 @@
 package org.exolab.castor.xml.parsing;
 
 import org.exolab.castor.types.AnyNode;
-import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.util.SAX2ANY;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
@@ -192,7 +191,7 @@ public class AnyNodeUnmarshalHandler {
 	 *            Attributes
 	 */
 	public void preservePassedArguments(String name, Attributes atts) {
-		setElementInfo(_elemInfo, name, atts);
+		_elemInfo = setElementInfo(_elemInfo, name, atts);
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class AnyNodeUnmarshalHandler {
 	 *            AttributeList
 	 */
 	public void preservePassedArguments(String name, AttributeList attList) {
-		setElementInfo(_elemInfo, name, attList);
+		_elemInfo = setElementInfo(_elemInfo, name, attList);
 	}
 
 	/**
@@ -256,9 +255,9 @@ public class AnyNodeUnmarshalHandler {
 	 * passed attributes.
 	 */
 	class ElementInfo {
-		private String _qName = null;
-		private Attributes _attributes = null;
-		private AttributeList _attributeList = null;
+		String _qName = null;
+		Attributes _attributes = null;
+		AttributeList _attributeList = null;
 
 		ElementInfo() {
 			super();
