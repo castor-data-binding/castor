@@ -17,21 +17,25 @@ package org.castor.jdo.jpa.info;
 
 import java.util.Map;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.lang.reflect.Method;
 
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.TemporalType;
 
-import org.castor.cpa.persistence.convertor.ObjectToString;
 import org.castor.cpa.persistence.convertor.EnumToOrdinal;
 import org.castor.cpa.persistence.convertor.EnumTypeConvertor;
 import org.castor.cpa.persistence.convertor.EnumTypeConversionHelper;
+import org.castor.cpa.persistence.convertor.ObjectToString;
 import org.castor.cpa.persistence.sql.keygen.TableKeyGenerator;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.jdo.jpa.natures.JPAClassNature;
 import org.castor.jdo.jpa.natures.JPAFieldNature;
+import org.castor.persist.CascadingType;
 import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
@@ -473,8 +477,27 @@ public final class InfoToDescriptorConverter {
         fieldDescriptor.setFieldType(typeInfo.getFieldType());
         fieldDescriptor.setIdentity(jpaNature.isId());
 
-        // descriptor.setClassDescriptor
         if (hasFieldRelation(jpaNature)) {
+            if (jpaNature.getCascadeTypes() != null) {
+                final StringBuilder cascading = new StringBuilder();
+                final List<CascadeType> cascadeTypes = Arrays.asList(
+                        jpaNature.getCascadeTypes());
+                if (cascadeTypes.contains(CascadeType.ALL)) {
+                    cascading.append(CascadingType.CREATE.name());
+                    cascading.append(" ");
+                    cascading.append(CascadingType.DELETE.name());
+                } else {
+                    if (cascadeTypes.contains(CascadeType.PERSIST)) {
+                        cascading.append(CascadingType.CREATE.name());
+                        cascading.append(" ");
+                    }
+                    if (cascadeTypes.contains(CascadeType.REMOVE)) {
+                        cascading.append(CascadingType.DELETE.name());
+                    }
+                }
+                jdoNature.setCascading(cascading.toString());
+            }
+            // descriptor.setClassDescriptor
             try {
                 fieldDescriptor.setClassDescriptor(cdr.resolve(jpaNature
                         .getRelationTargetEntity()));

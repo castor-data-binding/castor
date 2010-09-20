@@ -95,7 +95,7 @@ public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
              * @OneToOne.cascade
              */
             if (oneToOne.cascade().length > 0) {
-                _log.warn("Cascading of relations is not supported by Castor!");
+                jpaFieldNature.setCascadeTypes(oneToOne.cascade());
             }
 
             /*

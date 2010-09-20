@@ -57,6 +57,7 @@ public class TestJPAOneToManyProcessor {
         assertTrue(jpaFieldNature.isRelationLazyFetch());
         assertEquals(Collection.class, jpaFieldNature
                 .getRelationCollectionType());
+        assertEquals(CascadeType.ALL, jpaFieldNature.getCascadeTypes()[0]);
 
         /* check field "blob" */
         fieldInfo = classInfo.getFieldInfoByName("blob");

@@ -219,7 +219,7 @@ public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
              * @ManyToMany.cascade
              */
             if (manyToMany.cascade().length > 0) {
-                _log.warn("Cascading of relations is not supported by Castor!");
+                jpaFieldNature.setCascadeTypes(manyToMany.cascade());
             }
 
             /*
