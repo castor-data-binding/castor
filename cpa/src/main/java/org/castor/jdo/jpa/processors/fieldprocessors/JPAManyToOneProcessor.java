@@ -94,7 +94,7 @@ public class JPAManyToOneProcessor extends BaseJPAAnnotationProcessor {
              * @ManyToOne.cascade
              */
             if (manyToOne.cascade().length > 0) {
-                _log.warn("Cascading of relations is not supported by Castor!");
+                jpaFieldNature.setCascadeTypes(manyToOne.cascade());
             }
 
             /*

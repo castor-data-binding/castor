@@ -8,11 +8,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Collection;
+import java.util.Arrays;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import org.castor.jdo.jpa.info.ClassInfo;
 import org.castor.jdo.jpa.info.ClassInfoBuilder;
@@ -71,7 +69,12 @@ public class TestJPAManyToMany {
         assertNotNull(fieldNature.getRelationMappedBy());
         assertEquals("dependents", fieldNature.getRelationMappedBy());
         assertEquals(Bidir1a.class, fieldNature.getRelationTargetEntity());
-
+        assertNotNull(fieldNature.getCascadeTypes());
+        assertEquals(2, fieldNature.getCascadeTypes().length);
+        assertTrue(Arrays.asList(fieldNature.getCascadeTypes())
+                .contains(CascadeType.PERSIST));
+        assertTrue(Arrays.asList(fieldNature.getCascadeTypes())
+                .contains(CascadeType.REMOVE));
     }
 
     @Test
@@ -235,7 +238,10 @@ public class TestJPAManyToMany {
             _id = id;
         }
 
-        @ManyToMany(mappedBy = "dependents")
+        @ManyToMany(
+                mappedBy = "dependents",
+                cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+        )
         public Collection<Bidir1a> getOwner() {
             return _owner;
         }

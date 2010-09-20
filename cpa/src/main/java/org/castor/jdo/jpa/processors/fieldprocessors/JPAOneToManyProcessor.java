@@ -122,7 +122,7 @@ public class JPAOneToManyProcessor extends BaseJPAAnnotationProcessor {
              * @OneToMany.cascade
              */
             if (oneToMany.cascade().length > 0) {
-                _log.warn("Cascading of relations is not supported by Castor!");
+                jpaFieldNature.setCascadeTypes(oneToMany.cascade());
             }
 
             /*

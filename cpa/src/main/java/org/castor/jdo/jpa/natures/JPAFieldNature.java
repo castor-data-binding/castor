@@ -15,6 +15,7 @@
  */
 package org.castor.jdo.jpa.natures;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.TemporalType;
@@ -178,6 +179,11 @@ public class JPAFieldNature extends BaseNature {
      * Property Key for {@link javax.persistence.Enumerated}
      */
     public static final String STRING_ENUM_TYPE = "STRING_ENUM_TYPE";
+
+    /**
+     * Property Key for {@link javax.persistence.CascadeType} array of a relation.
+     */
+    public static final String CASCADE_TYPES = "CASCADE_TYPES";
 
     /**
      * Instantiate a {@link JPAFieldNature} to access the given
@@ -1057,6 +1063,23 @@ public class JPAFieldNature extends BaseNature {
      */
     public void setStringEnumType(final boolean isStringEnumType) {
         super.setProperty(STRING_ENUM_TYPE, isStringEnumType);
+    }
+
+    /**
+     * @see #CASCADE_TYPES
+     * @return The {@link javax.persistence.CascadeType} array of relation.
+     */
+    public CascadeType[] getCascadeTypes() {
+        return (CascadeType[]) super.getProperty(CASCADE_TYPES);
+ }
+
+    /**
+     * @see #CASCADE_TYPES
+     * @param cascadeTypes
+     *            set the {@link javax.persistence.CascadeType} array of relation.
+     */
+    public void setCascadeTypes(final CascadeType[] cascadeTypes) {
+        super.setProperty(CASCADE_TYPES, cascadeTypes);
     }
 
 }

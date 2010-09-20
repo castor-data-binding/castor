@@ -291,3 +291,14 @@ CREATE TABLE ManyToMany_books_authors(
     book_id INTEGER NOT NULL,
     author_id INTEGER
 );
+
+CREATE TABLE Cascading_parent(
+    id INTEGER NOT NULL,
+    child_id INTEGER NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE Cascading_child(
+    id INTEGER NOT NULL,
+    PRIMARY KEY (id)
+);
