@@ -92,13 +92,6 @@ public final class TableLink {
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Method adding a single startCol.
-     * 
-     * @param col Column to be added as a start column.
-     */
-    public void addStartCol(final ColInfo col) { _startCols.add(col); }
-
-    /**
      * Method returning a list of start columns.
      * 
      * @return List of start columns.
@@ -141,13 +134,6 @@ public final class TableLink {
     public String getTableAlias() { return _tableAlias; }
 
     /**
-     * Method setting given relation Type as this tableLinks type.
-     * 
-     * @param type RelationType to be set.
-     */
-    public void setRelationType(final int type) { _relationType = type; }
-
-    /**
      * Method returning relation type currently set.
      * 
      * @return Relation type currently set.
@@ -167,13 +153,6 @@ public final class TableLink {
      * @return Many key currently set.
      */
     public List<String> getManyKey() { return _manyKey; }
-
-    /**
-     * Method setting given fieldIndex.
-     * 
-     * @param fieldIndex To be set.
-     */
-    public void setFieldIndex(final int fieldIndex) { _fldIndex = fieldIndex; }
 
     /**
      * Method returning fieldIndex currently set.
