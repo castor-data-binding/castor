@@ -116,18 +116,6 @@ public final class ColInfo implements Cloneable {
         return _convertFrom.convert(object);
     }
 
-    /**
-     * Method converting sql data types to java data types.
-     * @param object Object to be translated to a java data type.
-     * @return Object converted to a java data type.
-     */
-    public Object toJava(final Object object) {
-        if ((object == null) || (_convertTo == null)) {
-            return object;
-        }
-        return _convertTo.convert(object);
-    }
-
     //-----------------------------------------------------------------------------------    
 
     /**

@@ -429,13 +429,6 @@ public final class TableInfo {
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Method setting given extendedTable.
-     * 
-     * @param extendedTable ExtendedTable to be set.
-     */
-    public void setExtendedTable(final TableInfo extendedTable) { _extendedTable = extendedTable; }
-
-    /**
      * Method returning extendedTable currently set.
      * 
      * @return ExtendedTable currently set.
@@ -462,13 +455,6 @@ public final class TableInfo {
      * @return List of columns currently set.
      */
     public List<ColInfo> getColumns() { return _columns; }
-
-    /**
-     * Method to add a new foreign key to this TableInfo.
-     * 
-     * @param lnk TableLink representing foreign key to be added.
-     */
-    public void addFkColumn(final TableLink lnk) { _fks.add(lnk); }
 
     /**
      * Method returning list of foreign keys.
