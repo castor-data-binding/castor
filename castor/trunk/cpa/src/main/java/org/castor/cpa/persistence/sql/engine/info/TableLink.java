@@ -45,14 +45,16 @@ public final class TableLink {
     /** Constant defining many table relation (n:m). */
     public static final int MANY_TABLE = 2;
 
+    //-----------------------------------------------------------------------------------    
+
     /** List of columns of the left table used to construct a join. */
-    private ArrayList<ColInfo> _startCols;
+    private List<ColInfo> _startCols;
 
     /** Target table to be joined on the left one. */
     private TableInfo _targetTable;
 
     /** List of columns of the target table used to construct a join. */
-    private ArrayList<ColInfo> _targetCols;
+    private List<ColInfo> _targetCols;
 
     /** Table alias needed to join a table already in the query. */
     private String _tableAlias;
@@ -80,7 +82,7 @@ public final class TableLink {
      * @param fieldIndex Index of the startColumns.
      */
     protected TableLink(final TableInfo targetTable, final int relationType,
-            final String tableAlias, final ArrayList<ColInfo> startColumns, final int fieldIndex) {
+            final String tableAlias, final List<ColInfo> startColumns, final int fieldIndex) {
         _targetTable = targetTable;
         _relationType = relationType;
         _tableAlias = tableAlias;
@@ -96,7 +98,7 @@ public final class TableLink {
      * 
      * @return List of start columns.
      */
-    public ArrayList<ColInfo> getStartCols() { return _startCols; }
+    public List<ColInfo> getStartCols() { return _startCols; }
 
     /**
      * Method adding a single targetCol.
@@ -117,7 +119,7 @@ public final class TableLink {
      * 
      * @return List of target columns of the join.
      */
-    public ArrayList<ColInfo> getTargetCols() { return _targetCols; }
+    public List<ColInfo> getTargetCols() { return _targetCols; }
 
     /**
      * Method returning the right table of the join.
