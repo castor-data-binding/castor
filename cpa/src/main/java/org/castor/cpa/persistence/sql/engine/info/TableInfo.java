@@ -20,8 +20,8 @@ package org.castor.cpa.persistence.sql.engine.info;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.PersistenceException;
 
@@ -57,13 +57,13 @@ public final class TableInfo {
     private ClassDescriptor _clsDesc;
 
     /** List of primary key columns. */
-    private ArrayList<ColInfo> _pkColumns = new ArrayList<ColInfo>();
+    private List<ColInfo> _pkColumns = new ArrayList<ColInfo>();
 
     /** List of normal columns with no special meaning. */
-    private ArrayList<ColInfo> _columns = new ArrayList<ColInfo>();
+    private List<ColInfo> _columns = new ArrayList<ColInfo>();
 
     /** List of foreign keys consisting of TableLinks. */
-    private ArrayList<TableLink> _fks = new ArrayList<TableLink>();
+    private List<TableLink> _fks = new ArrayList<TableLink>();
 
     /** Index to map columns back to fields. */
     private int _fldIndex = 0;
@@ -87,7 +87,7 @@ public final class TableInfo {
      * @throws MappingException Exception thrown when errors occur.
      */
     public TableInfo(final ClassDescriptor clsDesc,
-            final HashMap<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+            final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
         _clsDesc = clsDesc;
 
         if (!_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
@@ -250,7 +250,7 @@ public final class TableInfo {
      * @throws MappingException Error thrown when construction of new table fails.
      */
     private TableInfo getTableInfo(final ClassDescriptor clsDesc,
-            final HashMap<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+            final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
         if (tblMap.containsKey(clsDesc)) {
             return tblMap.get(clsDesc);
         }
@@ -348,7 +348,7 @@ public final class TableInfo {
      * @param input Identity containing values to be assigned to corresponding columns.
      * @return ArrayList containing all columns with their corresponding values.
      */
-    public ArrayList<ColInfo> toSQL(final Identity input) {
+    public List<ColInfo> toSQL(final Identity input) {
         ArrayList<ColInfo> pksWithValues = new ArrayList<ColInfo>();
 
         for (int i = 0; i < _pkColumns.size(); i++) {
