@@ -53,9 +53,6 @@ public final class TableInfo {
     /** List of tables that are extending this one. */
     private List<TableInfo> _extendingTables = new ArrayList<TableInfo>();
 
-    /** ClassDescriptor of this table. */
-    private ClassDescriptor _clsDesc;
-
     /** List of primary key columns. */
     private List<ColInfo> _pkColumns = new ArrayList<ColInfo>();
 
@@ -88,31 +85,45 @@ public final class TableInfo {
      */
     public TableInfo(final ClassDescriptor clsDesc,
             final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
-        _clsDesc = clsDesc;
-
-        if (!_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
+        if (!clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
             throw new MappingException("ClassDescriptor has not a JDOClassDescriptor");
         }
-        _tableName = new ClassDescriptorJDONature(_clsDesc).getTableName();
+        _tableName = new ClassDescriptorJDONature(clsDesc).getTableName();
 
         if (tblMap == null) { throw new MappingException("Table map was not initialized!"); }
 
-        tblMap.put(_clsDesc, this);
-
-        String fldDescJdoNatureName = FieldDescriptorJDONature.class.getName();
+        tblMap.put(clsDesc, this);
 
         // add extended table to tableInfo if exists.
-        if (_clsDesc.getExtends() != null) {
-            _extendedTable = getTableInfo(_clsDesc.getExtends(), tblMap);
-        }
+        resolveExtendedTable(clsDesc, tblMap);
 
         // add extending tables to known resources.
-        for (ClassDescriptor desc : new ClassDescriptorJDONature(_clsDesc).getExtended()) {
-            _extendingTables.add(getTableInfo(desc, tblMap));
-        }
+        resolveExtendingTables(clsDesc, tblMap);
 
         // first we have to add the primary keys of this class.
-        FieldDescriptor[] ids = ((ClassDescriptorImpl) getClassDescriptor()).getIdentities();
+        resolvePrimaryKeys(clsDesc);
+
+        // then we have to add the other columns, such as foreign keys and normal columns.
+        resolveColumns(clsDesc, tblMap);
+    }
+
+    private void resolveExtendedTable(final ClassDescriptor clsDesc,
+            final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+        if (clsDesc.getExtends() != null) {
+            _extendedTable = getTableInfo(clsDesc.getExtends(), tblMap);
+        }
+    }
+    
+    private void resolveExtendingTables(final ClassDescriptor clsDesc,
+            final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+        for (ClassDescriptor desc : new ClassDescriptorJDONature(clsDesc).getExtended()) {
+            _extendingTables.add(getTableInfo(desc, tblMap));
+        }
+    }
+    
+    private void resolvePrimaryKeys(final ClassDescriptor clsDesc) throws MappingException {
+        String fldDescJdoNatureName = FieldDescriptorJDONature.class.getName();
+        FieldDescriptor[] ids = ((ClassDescriptorImpl) clsDesc).getIdentities();
         for (int i = 0; i < ids.length; i++) {
             if (!ids[i].hasNature(fldDescJdoNatureName)) {
                 throw new MappingException("Except JDOFieldDescriptor");
@@ -124,9 +135,12 @@ public final class TableInfo {
             addPkColumn(new ColInfo(sqlName[0], sqlType[0], fh.getConvertTo(), fh.getConvertFrom(),
                     false, -1, false));
         }
-
-        // then we have to add the other columns, such as foreign keys and normal columns.
-        FieldDescriptor[] fieldDscs = getClassDescriptor().getFields();
+    }
+    
+    private void resolveColumns(final ClassDescriptor clsDesc,
+            final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+        String fldDescJdoNatureName = FieldDescriptorJDONature.class.getName();
+        FieldDescriptor[] fieldDscs = clsDesc.getFields();
         for (int i = 0; i < fieldDscs.length; i++) {
             // fieldDescriptors[i] is persistent in db if it is not transient
             // and it has a JDOFieldDescriptor or has a ClassDescriptor
@@ -143,7 +157,7 @@ public final class TableInfo {
                 FieldDescriptor[] relids = ((ClassDescriptorImpl) related).getIdentities();
                 String[] names = constructIdNames(relids);
 
-                FieldDescriptor[] classids = ((ClassDescriptorImpl) _clsDesc).getIdentities();
+                FieldDescriptor[] classids = ((ClassDescriptorImpl) clsDesc).getIdentities();
                 String[] classnames = constructIdNames(classids);
 
                 if (!(fieldDscs[i].hasNature(fldDescJdoNatureName))) {
@@ -237,7 +251,7 @@ public final class TableInfo {
             _fldIndex++;
         }
     }
-
+    
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -434,13 +448,6 @@ public final class TableInfo {
      * @return ExtendedTable currently set.
      */
     public TableInfo getExtendedTable() { return _extendedTable; }
-
-    /**
-     * Method returning classDescriptor currently set.
-     * 
-     * @return ClassDescriptor currently set.
-     */
-    public ClassDescriptor getClassDescriptor() { return _clsDesc; }
 
     /**
      * Method to add a single column to the columns list.
