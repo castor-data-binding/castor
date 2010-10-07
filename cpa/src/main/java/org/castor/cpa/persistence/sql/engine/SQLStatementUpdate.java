@@ -148,7 +148,7 @@ public final class SQLStatementUpdate {
 
             // build condition for identities
             Condition condition = new AndCondition();
-            for (ColInfo col : _tableInfo.getPkColumns()) {
+            for (ColInfo col : _tableInfo.getPrimaryKey().getColumns()) {
                 String name = col.getName();
                 condition.and(new Column(name).equal(new Parameter(name)));
             }

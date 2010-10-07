@@ -66,8 +66,7 @@ public final class TableLink {
     private List<String> _manyKey;
 
     /** Variable storing fieldIndex for the tableLink. Combined columns that are used as
-     *  startCols of a tableLink need an own field index.
-     */
+     *  startCols of a tableLink need an own field index. */
     private int _fldIndex;
 
     //-----------------------------------------------------------------------------------    

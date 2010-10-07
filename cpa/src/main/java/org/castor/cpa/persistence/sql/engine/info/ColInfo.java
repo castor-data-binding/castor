@@ -38,6 +38,9 @@ public final class ColInfo implements Cloneable {
 
     /** Variable storing the type of this column. */
     private int _type;
+    
+    /** Does this column belong to a primary key? */
+    private boolean _primaryKey = false;
 
     /** Flag telling if column is persistent or not. */
     private boolean _store;
@@ -66,10 +69,11 @@ public final class ColInfo implements Cloneable {
      * @param store Flag telling if column is persistent or not
      * @param fieldIndex Index of the field this column belongs to
      * @param dirty Flag telling if this column was changed or not
+     * @param primaryKey Does this column belong to a primary key?
      */
     protected ColInfo (final String sqlName, final int type,
             final TypeConvertor convertTo, final TypeConvertor convertFrom, final boolean store,
-            final int fieldIndex, final boolean dirty) {
+            final int fieldIndex, final boolean dirty, final boolean primaryKey) {
         _sqlName = sqlName;
         _type = type;
         _convertTo = convertTo;
@@ -77,6 +81,7 @@ public final class ColInfo implements Cloneable {
         _store = store;
         _fldIndex = fieldIndex;
         _dirty = dirty;
+        _primaryKey = primaryKey;
     }
 
     /**
@@ -99,6 +104,8 @@ public final class ColInfo implements Cloneable {
         _store = column._store;
         _fldIndex = column._fldIndex;
         _dirty = column._dirty;
+        _primaryKey = column._primaryKey;
+
     }
 
     //-----------------------------------------------------------------------------------    
@@ -124,6 +131,13 @@ public final class ColInfo implements Cloneable {
      * @return Name of this column.
      */
     public String getName() { return _sqlName; }
+
+    /**
+     * Does this column belong to a primary key?
+     * 
+     * @return Does this column belong to a primary key?
+     */
+    public boolean isPrimaryKey() { return _primaryKey; }
 
     /**
      * Method setting given value.
