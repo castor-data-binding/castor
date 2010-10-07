@@ -31,6 +31,7 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
 import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.engine.info.TableLink;
 import org.castor.cpa.persistence.sql.query.Qualifier;
@@ -337,8 +338,8 @@ public final class SQLStatementLoad {
                 LOG.trace(Messages.format("jdo.loading", _type, stmt.toString()));
             }
 
-            for (ColInfo col : info.toSQL(identity)) {
-                stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
+            for (ColumnValue value : info.toSQL(identity)) {
+                stmt.bindParameter(value.getName(), value.getValue(), value.getType());
             }
 
             if (LOG.isDebugEnabled()) {

@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -120,8 +121,8 @@ public final class SQLStatementDelete {
             stmt.prepareStatement(_delete);
 
             // bind the identity of the row to be stored into the preparedStatement
-            for (ColInfo col : _tableInfo.toSQL(identity)) {
-                stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
+            for (ColumnValue value : _tableInfo.toSQL(identity)) {
+                stmt.bindParameter(value.getName(), value.getValue(), value.getType());
             }
 
             if (LOG.isDebugEnabled()) {

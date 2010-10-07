@@ -21,6 +21,7 @@ package org.castor.cpa.persistence.sql.engine;
 import java.sql.SQLException;
 
 import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -198,10 +199,10 @@ public final class SQLStatementUpdate {
     private void appendOldEntityCondition(final ProposedEntity oldentity, final Condition condition)
     throws PersistenceException {
         if (oldentity.getFields() != null) {
-            for (ColInfo col : _tableInfo.toSQL(oldentity.getFields())) {
-                if (col.isStore() && col.isDirty()) {
-                    String name = col.getName();
-                    if (col.getValue() == null) {
+            for (ColumnValue value : _tableInfo.toSQL(oldentity.getFields())) {
+                if (value.isStore() && value.isDirty()) {
+                    String name = value.getName();
+                    if (value.getValue() == null) {
                         condition.and(new Column(name).isNull());
                     } else {
                         condition.and(new Column(name).equal(new Parameter(name)));
@@ -222,15 +223,10 @@ public final class SQLStatementUpdate {
     private void bindNewEntity(final ProposedEntity newentity, final CastorStatement stmt)
     throws PersistenceException, SQLException {
         //         bind fields of the row to be stored into the preparedStatement
-        for (ColInfo col : _tableInfo.toSQL(newentity.getFields())) {
-            if (col.isStore()) {
-                if (col.getValue() == null) {
-                    stmt.bindParameter(SET_PARAM_NAMESPACE + col.getName(), null,
-                            col.getSqlType());
-                } else if (col.getValue() != null) {
-                    stmt.bindParameter(SET_PARAM_NAMESPACE + col.getName(),
-                            col.toSQL(col.getValue()), col.getSqlType());
-                }
+        for (ColumnValue value : _tableInfo.toSQL(newentity.getFields())) {
+            if (value.isStore()) {
+                stmt.bindParameter(SET_PARAM_NAMESPACE + value.getName(), value.getValue(),
+                        value.getType());
             }
         }
     }
@@ -245,12 +241,12 @@ public final class SQLStatementUpdate {
     private void  bindIdentity(final Identity identity, final CastorStatement stmt) 
     throws SQLException {
         // bind the identity of the row to be stored into the preparedStatement
-        for (ColInfo col : _tableInfo.toSQL(identity)) {
-            stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
+        for (ColumnValue value : _tableInfo.toSQL(identity)) {
+            stmt.bindParameter(value.getName(), value.getValue(), value.getType());
 
             if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.bindingIdentity", col.getName(),
-                        col.toSQL(col.getValue())));
+                LOG.trace(Messages.format("jdo.bindingIdentity", value.getName(),
+                        value.getValue()));
             }
         }
     }
@@ -266,11 +262,10 @@ public final class SQLStatementUpdate {
     private void bindOldEntity(final ProposedEntity oldentity, final CastorStatement stmt) 
     throws PersistenceException, SQLException {
         // bind the old fields of the row to be stored into the preparedStatement
-        for (ColInfo col : _tableInfo.toSQL(oldentity.getFields())) {
-            if (col.isStore() && col.isDirty()) {
-                if (col.getValue() != null) {
-                    stmt.bindParameter(col.getName(), col.toSQL(col.getValue()),
-                            col.getSqlType());
+        for (ColumnValue value : _tableInfo.toSQL(oldentity.getFields())) {
+            if (value.isStore() && value.isDirty()) {
+                if (value.getValue() != null) {
+                    stmt.bindParameter(value.getName(), value.getValue(), value.getType());
                 }
             }
         }

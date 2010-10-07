@@ -20,6 +20,7 @@ package org.castor.cpa.persistence.sql.engine.info;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -366,16 +367,14 @@ public final class TableInfo {
      * @param input Identity containing values to be assigned to corresponding columns.
      * @return ArrayList containing all columns with their corresponding values.
      */
-    public List<ColInfo> toSQL(final Identity input) {
-        ArrayList<ColInfo> pksWithValues = new ArrayList<ColInfo>();
+    public List<ColumnValue> toSQL(final Identity input) {
+        List<ColumnValue> values = new ArrayList<ColumnValue>();
 
         for (int i = 0; i < _primaryKey.getColumns().size(); i++) {
-            ColInfo column = new ColInfo(_primaryKey.getColumns().get(i));
-            column.setValue(input.get(i));
-            pksWithValues.add(column);
+            values.add(new ColumnValue(_primaryKey.getColumns().get(i), input.get(i)));
         }
 
-        return pksWithValues;
+        return values;
     }
 
     /**
@@ -384,25 +383,25 @@ public final class TableInfo {
      * @param input Identity containing values to be assigned to corresponding columns.
      * @return ArrayList containing all columns with their corresponding values.
      */
-    public List<ColInfo> toSQL(final Object[] input) {
-        List<ColInfo> colsWithValues = new ArrayList<ColInfo>();
+    public List<ColumnValue> toSQL(final Object[] input) {
+        List<ColumnValue> values = new ArrayList<ColumnValue>();
 
-        for (int i = 0; i < _columns.size(); i++) {
-            if (!_columns.get(i).isPrimaryKey()) {
-                colsWithValues.add(new ColInfo(_columns.get(i)));
+        for (ColInfo column : _columns) {
+            if (!column.isPrimaryKey()) {
+                values.add(new ColumnValue(column));
             }
         }
 
         for (TableLink lnk : _fks) {
             for (ColInfo col : lnk.getStartCols()) {
-                if (!colsWithValues.contains(col)) {
+                if (!values.contains(col)) {
                     if (col.getFieldIndex() == -1) {
                         // index of foreign key columns has to be taken from tableLink
-                        // because the the fields in this case have to use other fieldindexes
+                        // because the fields in this case have to use other fieldindexes
                         // than in their tables.
                         col.setFieldIndex(lnk.getFieldIndex());
                     }
-                    colsWithValues.add(col);
+                    values.add(new ColumnValue(col));
                 }
             }
         }
@@ -412,19 +411,19 @@ public final class TableInfo {
             Object inpt = input[i];
             if (inpt == null) {
                 // append 'is NULL' in case the value is null
-                while (counter < colsWithValues.size()
-                        && i == colsWithValues.get(counter).getFieldIndex()) {
-                    colsWithValues.get(counter).setValue(null);
+                while (counter < values.size()
+                        && i == values.get(counter).getFieldIndex()) {
+                    values.get(counter).setValue(null);
                     counter++;
                 }
             } else if (inpt instanceof Identity) {
                 Identity identity = (Identity) inpt;
 
                 int indx = 0;
-                while (counter < colsWithValues.size()
-                        && i == colsWithValues.get(counter).getFieldIndex()) {
+                while (counter < values.size()
+                        && i == values.get(counter).getFieldIndex()) {
                     if (identity.get(indx) != null) {
-                        colsWithValues.get(counter).setValue(identity.get(indx));
+                        values.get(counter).setValue(identity.get(indx));
                     }
                     indx++;
                     counter++;
@@ -434,15 +433,17 @@ public final class TableInfo {
                     throw new PersistenceException("Size of identity field mismatch!");
                 }
             } else {
-                while (counter < colsWithValues.size()
-                        && i == colsWithValues.get(counter).getFieldIndex()) {
-                    colsWithValues.get(counter).setValue(inpt);
+                while (counter < values.size()
+                        && i == values.get(counter).getFieldIndex()) {
+                    if (!(inpt instanceof Collection)) {
+                        values.get(counter).setValue(inpt);
+                    }
                     counter++;
                 }
             }
         }
 
-        return colsWithValues;
+        return values;
     }
 
     //-----------------------------------------------------------------------------------    

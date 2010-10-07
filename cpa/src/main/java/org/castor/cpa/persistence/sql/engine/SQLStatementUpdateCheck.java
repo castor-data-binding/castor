@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
@@ -132,13 +133,13 @@ public final class SQLStatementUpdateCheck {
             stmt.prepareStatement(_select);
 
             // bind the identity of the row into the preparedStatement
-            for (ColInfo col : _tableInfo.toSQL(identity)) {
+            for (ColumnValue value : _tableInfo.toSQL(identity)) {
                 // bind value to prepared statement
-                stmt.bindParameter(col.getName(), col.toSQL(col.getValue()), col.getSqlType());
+                stmt.bindParameter(value.getName(), value.getValue(), value.getType());
                 
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace(Messages.format("jdo.bindingIdentity", col.getName(),
-                            col.toSQL(col.getValue())));
+                    LOG.trace(Messages.format("jdo.bindingIdentity", value.getName(),
+                            value.getValue()));
                 }
             }
 
