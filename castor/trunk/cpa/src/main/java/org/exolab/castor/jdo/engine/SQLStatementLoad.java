@@ -152,8 +152,10 @@ public final class SQLStatementLoad {
                 TableInfo extendedTable = currentTblInf.getExtendedTable();
                 tempTbl = new Table(extendedTable.getTableName());
 
-                AndCondition cond = constructCondition(walkTbl, currentTblInf.getPkColumns(),
-                        CompareOperator.EQ, tempTbl, extendedTable.getPkColumns());
+                AndCondition cond = constructCondition(walkTbl,
+                        currentTblInf.getPrimaryKey().getColumns(),
+                        CompareOperator.EQ, tempTbl,
+                        extendedTable.getPrimaryKey().getColumns());
 
                 walkTbl.addInnerJoin(tempTbl, cond);
                 joinTableInfos.add(extendedTable);
@@ -172,7 +174,7 @@ public final class SQLStatementLoad {
 
             // construct where condition for the query
             Condition condition = new AndCondition();
-            for (ColInfo col : _mainTableInfo.getPkColumns()) {
+            for (ColInfo col : _mainTableInfo.getPrimaryKey().getColumns()) {
                 String name = col.getName();
                 condition.and(mainTbl.column(name).equal(new Parameter(name)));
             }
@@ -192,8 +194,9 @@ public final class SQLStatementLoad {
         for (TableInfo tbl : info.getExtendingTables()) {
             Table t = new Table(tbl.getTableName());
 
-            mainTbl.addLeftJoin(t, constructCondition(mainTbl, _mainTableInfo.getPkColumns(),
-                    CompareOperator.EQ, t, tbl.getPkColumns()));
+            mainTbl.addLeftJoin(t, constructCondition(mainTbl,
+                    _mainTableInfo.getPrimaryKey().getColumns(),
+                    CompareOperator.EQ, t, tbl.getPrimaryKey().getColumns()));
 
             addCols(tbl, joinTableInfos, mainTbl, false);
 
@@ -216,9 +219,7 @@ public final class SQLStatementLoad {
             final Table mainTbl, final boolean addJoin) {
         Qualifier table = new Table(tblInfo.getTableName());
 
-        addColumns(table, tblInfo.getPkColumns());
-
-        addColumns(table, tblInfo.getColumns());
+        addAllColumns(table, tblInfo.getColumns());
 
         // handle foreign keys: add their columns and joins if necessary
         for (TableLink tblLnk : tblInfo.getFkColumns()) {
@@ -240,13 +241,13 @@ public final class SQLStatementLoad {
                     }
 
                     if (TableLink.MANY_KEY == (tblLnk.getRelationType())) {
-                        addColumns(joinTable, joinTableInfo.getPkColumns());
+                        addAllColumns(joinTable, joinTableInfo.getPrimaryKey().getColumns());
                     } else if (TableLink.MANY_TABLE == (tblLnk.getRelationType())) {
-                        addColumns(joinTable, joinTableInfo.getColumns());
+                        addSimpleColumns(joinTable, joinTableInfo.getColumns());
                     }
                 }
             } else {
-                addColumns(table, tblLnk.getStartCols());
+                addAllColumns(table, tblLnk.getStartCols());
             }
         }
     }
@@ -257,9 +258,17 @@ public final class SQLStatementLoad {
      * @param table Table to add columns from.
      * @param columns Columns to be added for given table.
      */
-    private void addColumns(final Qualifier table, final List<ColInfo> columns) {
+    private void addAllColumns(final Qualifier table, final List<ColInfo> columns) {
         for (ColInfo col : columns) {
             _select.addSelect(table.column(col.getName()));
+        }
+    }
+    
+    private void addSimpleColumns(final Qualifier table, final List<ColInfo> columns) {
+        for (ColInfo col : columns) {
+            if (!col.isPrimaryKey()) {
+                _select.addSelect(table.column(col.getName()));
+            }
         }
     }
     

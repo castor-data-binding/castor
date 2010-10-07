@@ -98,13 +98,13 @@ public final class SQLStatementUpdateCheck {
         
         // define conditions for select statement
         Condition condition = new AndCondition();
-        for (ColInfo col : _tableInfo.getPkColumns()) {
+        for (ColInfo col : _tableInfo.getPrimaryKey().getColumns()) {
             condition.and(table.column(col.getName()).equal(new Parameter(col.getName())));
         }
 
         // initialize select statement returning only first identity column 
         _select = new Select(table);
-        _select.addSelect(table.column(_tableInfo.getPkColumns().get(0).getName()));
+        _select.addSelect(table.column(_tableInfo.getPrimaryKey().getColumns().get(0).getName()));
         _select.setCondition(condition);
 
     }

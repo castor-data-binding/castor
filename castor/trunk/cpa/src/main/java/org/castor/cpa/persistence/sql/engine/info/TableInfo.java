@@ -53,8 +53,8 @@ public final class TableInfo {
     /** List of tables that are extending this one. */
     private List<TableInfo> _extendingTables = new ArrayList<TableInfo>();
 
-    /** List of primary key columns. */
-    private List<ColInfo> _pkColumns = new ArrayList<ColInfo>();
+    /** Primary key of the table. */
+    private final PrimaryKeyInfo _primaryKey;
 
     /** List of normal columns with no special meaning. */
     private List<ColInfo> _columns = new ArrayList<ColInfo>();
@@ -73,6 +73,7 @@ public final class TableInfo {
      * @param tableName Name of the table to be constructed.
      */
     private TableInfo(final String tableName) {
+        _primaryKey = new PrimaryKeyInfo(this);
         _tableName = tableName;
     }
 
@@ -85,6 +86,8 @@ public final class TableInfo {
      */
     public TableInfo(final ClassDescriptor clsDesc,
             final Map<ClassDescriptor, TableInfo> tblMap) throws MappingException {
+        _primaryKey = new PrimaryKeyInfo(this);
+
         if (!clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
             throw new MappingException("ClassDescriptor has not a JDOClassDescriptor");
         }
@@ -132,8 +135,9 @@ public final class TableInfo {
             int[] sqlType =  new FieldDescriptorJDONature(ids[i]).getSQLType();
             FieldHandlerImpl fh = (FieldHandlerImpl) ids[i].getHandler();
 
-            addPkColumn(new ColInfo(sqlName[0], sqlType[0], fh.getConvertTo(), fh.getConvertFrom(),
-                    false, -1, false));
+            ColInfo column = new ColInfo(sqlName[0], sqlType[0], fh.getConvertTo(),
+                    fh.getConvertFrom(), false, -1, false, true);
+            addCol(column);
         }
     }
     
@@ -165,7 +169,7 @@ public final class TableInfo {
                     TableInfo table = getTableInfo(related, tblMap);
 
                     TableLink tblLnk = new TableLink(table, TableLink.MANY_KEY,
-                            table.getTableName() + "_f" + i, _pkColumns, _fldIndex);
+                            table.getTableName() + "_f" + i, _primaryKey.getColumns(), _fldIndex);
                     _fks.add(tblLnk);
                     tblLnk.setManyKey(Arrays.asList(classnames));
                 } else {
@@ -189,7 +193,7 @@ public final class TableInfo {
                     if (jdoFieldNature.getManyTable() != null) {
                         TableInfo table = new TableInfo(jdoFieldNature.getManyTable());
                         TableLink tblLnk = new TableLink(table, TableLink.MANY_TABLE,
-                                table.getTableName() + "_f" + i, _pkColumns, _fldIndex);
+                                table.getTableName() + "_f" + i, _primaryKey.getColumns(), _fldIndex);
                         _fks.add(tblLnk);
 
                         // add normal columns
@@ -217,17 +221,17 @@ public final class TableInfo {
                             columns.add(new ColInfo(names[j],
                                     new FieldDescriptorJDONature(relId).getSQLType()[0],
                                     fh.getConvertTo(), fh.getConvertFrom(), store, _fldIndex,
-                                    jdoFieldNature.isDirtyCheck()));
+                                    jdoFieldNature.isDirtyCheck(), false));
                         }
                         TableInfo table = getTableInfo(related, tblMap);
                         TableLink tblLnk = new TableLink(table, TableLink.SIMPLE,
                                 table.getTableName() + "_f" + i, columns, _fldIndex);
                         _fks.add(tblLnk);
-                        tblLnk.addTargetCols(table.getPkColumns());
+                        tblLnk.addTargetCols(table.getPrimaryKey().getColumns());
                     } else {
                         TableInfo table = getTableInfo(related, tblMap);
                         TableLink tblLnk = new TableLink(table, TableLink.MANY_KEY,
-                                table.getTableName() + "_f" + i, _pkColumns, _fldIndex);
+                                table.getTableName() + "_f" + i, _primaryKey.getColumns(), _fldIndex);
                         _fks.add(tblLnk);
 
                         tblLnk.setManyKey(Arrays.asList(joinFields));
@@ -246,7 +250,7 @@ public final class TableInfo {
 
                 FieldHandlerImpl fh = (FieldHandlerImpl) fieldDscs[i].getHandler();
                 addCol(new ColInfo (sqlName, jdoFieldNature.getSQLType()[0], fh.getConvertTo(),
-                        fh.getConvertFrom(), store, _fldIndex, dirtyCheck));
+                        fh.getConvertFrom(), store, _fldIndex, dirtyCheck, false));
             }
             _fldIndex++;
         }
@@ -343,8 +347,8 @@ public final class TableInfo {
      */
     public List<ColInfo> iterateAll() {
         List<ColInfo> cols = new ArrayList<ColInfo>();
-        cols.addAll(_pkColumns);
         cols.addAll(_columns);
+        
         for (TableLink lnk : _fks) {
             for (ColInfo col : lnk.getStartCols()) {
                 if (!cols.contains(col)) {
@@ -365,8 +369,8 @@ public final class TableInfo {
     public List<ColInfo> toSQL(final Identity input) {
         ArrayList<ColInfo> pksWithValues = new ArrayList<ColInfo>();
 
-        for (int i = 0; i < _pkColumns.size(); i++) {
-            ColInfo column = new ColInfo(_pkColumns.get(i));
+        for (int i = 0; i < _primaryKey.getColumns().size(); i++) {
+            ColInfo column = new ColInfo(_primaryKey.getColumns().get(i));
             column.setValue(input.get(i));
             pksWithValues.add(column);
         }
@@ -384,8 +388,9 @@ public final class TableInfo {
         List<ColInfo> colsWithValues = new ArrayList<ColInfo>();
 
         for (int i = 0; i < _columns.size(); i++) {
-            ColInfo column = new ColInfo(_columns.get(i));
-            colsWithValues.add(column);
+            if (!_columns.get(i).isPrimaryKey()) {
+                colsWithValues.add(new ColInfo(_columns.get(i)));
+            }
         }
 
         for (TableLink lnk : _fks) {
@@ -452,9 +457,15 @@ public final class TableInfo {
     /**
      * Method to add a single column to the columns list.
      * 
-     * @param col Column to be added.
+     * @param column Column to be added.
      */
-    public void addCol(final ColInfo col) { _columns.add(col); }
+    private void addCol(final ColInfo column) {
+        _columns.add(column);
+        
+        if (column.isPrimaryKey()) {
+            _primaryKey.addColumn(column);
+        }
+    }
 
     /**
      * Method returning columns currently set.
@@ -471,18 +482,11 @@ public final class TableInfo {
     public List<TableLink> getFkColumns() { return _fks; }
 
     /**
-     * Method to add a single primary key column.
+     * Get primary key of the table.
      * 
-     * @param col Column to be added to the primary keys list.
+     * @return Primary key of the table.
      */
-    public void addPkColumn(final ColInfo col) { _pkColumns.add(col); }
-
-    /**
-     * Method returning primary key columns currently set.
-     * 
-     * @return List of primary key columns.
-     */
-    public List<ColInfo> getPkColumns() { return _pkColumns; }
+    public PrimaryKeyInfo getPrimaryKey() { return _primaryKey; }
 
     /**
      * Method returning name of this table.

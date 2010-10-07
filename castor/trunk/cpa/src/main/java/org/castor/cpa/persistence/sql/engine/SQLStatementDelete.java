@@ -86,7 +86,7 @@ public final class SQLStatementDelete {
     private void buildStatement(final String mapTo) {
         // build condition for delete statement
         Condition condition = new AndCondition();
-        for (ColInfo col : _tableInfo.getPkColumns()) {
+        for (ColInfo col : _tableInfo.getPrimaryKey().getColumns()) {
             String name = col.getName();
             condition.and(new Column(name).equal(new Parameter(name)));
         }
