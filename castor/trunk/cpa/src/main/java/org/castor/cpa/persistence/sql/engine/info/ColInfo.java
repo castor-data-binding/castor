@@ -33,9 +33,6 @@ public final class ColInfo implements Cloneable {
     /** Variable storing name of this column. */
     private String _sqlName;
 
-    /** Variable storing value of this column. */
-    private Object _value;
-
     /** Variable storing the type of this column. */
     private int _type;
     
@@ -91,23 +88,6 @@ public final class ColInfo implements Cloneable {
      */
     protected ColInfo(final String sqlName) { _sqlName = sqlName; }
 
-    /**
-     * Copy constructor.
-     * 
-     * @param column ColInfo to copy.
-     */
-    protected ColInfo(final ColInfo column) {
-        _sqlName = column._sqlName;
-        _type = column._type;
-        _convertTo = column._convertTo;
-        _convertFrom = column._convertFrom;
-        _store = column._store;
-        _fldIndex = column._fldIndex;
-        _dirty = column._dirty;
-        _primaryKey = column._primaryKey;
-
-    }
-
     //-----------------------------------------------------------------------------------    
 
     /**
@@ -138,20 +118,6 @@ public final class ColInfo implements Cloneable {
      * @return Does this column belong to a primary key?
      */
     public boolean isPrimaryKey() { return _primaryKey; }
-
-    /**
-     * Method setting given value.
-     * 
-     * @param value Given value to be set.
-     */
-    public void setValue(final Object value) { _value = value; }
-
-    /**
-     * Method returning value currently set.
-     * 
-     * @return Value currently set.
-     */
-    public Object getValue() { return _value; }
 
     /**
      * Method returning sqlType currently set.
