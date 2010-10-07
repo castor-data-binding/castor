@@ -29,6 +29,7 @@ import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
 import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
+import org.castor.cpa.persistence.sql.engine.info.InfoFactory;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
@@ -94,8 +95,6 @@ public final class SQLEngine implements Persistence {
     private final SQLStatementUpdate _storeStatement;
 
     private final TableInfo _tableInfo;
-
-    private HashMap<ClassDescriptor, TableInfo> _tblMap = new HashMap<ClassDescriptor, TableInfo>();
 
     public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
     throws MappingException {
@@ -197,11 +196,9 @@ public final class SQLEngine implements Persistence {
             }
         }
 
-        _tableInfo = new TableInfo(clsDesc, _tblMap);
-
-        for (TableInfo tblInf : _tblMap.values()) {
-            tblInf.adjustTableLinks();
-        }
+        InfoFactory infoFactory = new InfoFactory();
+        _tableInfo = infoFactory.createTableInfo(clsDesc);
+        infoFactory.resolveForeignKeys();
 
         _ids = new SQLColumnInfo[idsInfo.size()];
         idsInfo.copyInto(_ids);
@@ -325,8 +322,6 @@ public final class SQLEngine implements Persistence {
     }
 
     public TableInfo getTableInfo() { return _tableInfo; }
-
-    public HashMap<ClassDescriptor, TableInfo> getTableMap() { return _tblMap; }
 
     protected Object idToJava(final int index, final Object object) {
         if ((object == null) || (_ids[index].getConvertTo() == null)) {
