@@ -223,7 +223,7 @@ public final class SQLStatementLoad {
         addAllColumns(table, tblInfo.getColumns());
 
         // handle foreign keys: add their columns and joins if necessary
-        for (TableLink tblLnk : tblInfo.getFkColumns()) {
+        for (TableLink tblLnk : tblInfo.getForeignKeys()) {
             if (!(TableLink.SIMPLE == tblLnk.getRelationType())) {
                 TableInfo joinTableInfo = tblLnk.getTargetTable();
                 Qualifier joinTable = new Table(joinTableInfo.getTableName());

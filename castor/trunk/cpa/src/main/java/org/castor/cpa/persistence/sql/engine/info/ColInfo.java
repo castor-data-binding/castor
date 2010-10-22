@@ -49,9 +49,6 @@ public final class ColInfo implements Cloneable {
     private boolean _dirty;
 
     /** Variable storing the converter to convert the type of this columns value. */
-    private TypeConvertor _convertTo;
-
-    /** Variable storing the converter to convert the type of this columns value. */
     private TypeConvertor _convertFrom;
 
     //-----------------------------------------------------------------------------------    
@@ -69,11 +66,10 @@ public final class ColInfo implements Cloneable {
      * @param primaryKey Does this column belong to a primary key?
      */
     protected ColInfo (final String sqlName, final int type,
-            final TypeConvertor convertTo, final TypeConvertor convertFrom, final boolean store,
+            final TypeConvertor convertFrom, final boolean store,
             final int fieldIndex, final boolean dirty, final boolean primaryKey) {
         _sqlName = sqlName;
         _type = type;
-        _convertTo = convertTo;
         _convertFrom = convertFrom;
         _store = store;
         _fldIndex = fieldIndex;
