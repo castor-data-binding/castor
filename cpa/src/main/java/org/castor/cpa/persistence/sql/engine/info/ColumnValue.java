@@ -1,29 +1,38 @@
 package org.castor.cpa.persistence.sql.engine.info;
 
-public class ColumnValue {
-    private final ColInfo _info;
+public final class ColumnValue {
+    //-----------------------------------------------------------------------------------    
+
+	private final ColInfo _info;
+    private final int _index;
     private Object _value;
     
-    public ColumnValue(final ColInfo info, final Object value) {
-        this(info);
+    //-----------------------------------------------------------------------------------    
+
+    public ColumnValue(final ColInfo info, final int index, final Object value) {
+        _info = info;
+        _index = index;
+        
         setValue(value);
     }
     
-    public ColumnValue(final ColInfo info) {
-        _info = info;
-    }
+    //-----------------------------------------------------------------------------------    
+
+    protected void setValue(final Object value) { _value = _info.toSQL(value); }
     
+    //-----------------------------------------------------------------------------------    
+
     public String getName() { return _info.getName(); }
     
     public int getType() { return _info.getSqlType(); }
-    
-    public int getFieldIndex() { return _info.getFieldIndex(); }
     
     public boolean isStore() { return _info.isStore(); }
     
     public boolean isDirty() { return _info.isDirty(); }
     
-    public void setValue(final Object value) { _value = _info.toSQL(value); }
+    public int getIndex() { return _index; }
     
     public Object getValue() { return _value; }
+
+    //-----------------------------------------------------------------------------------    
 }

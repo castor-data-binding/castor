@@ -126,7 +126,8 @@ public final class TableInfo {
 
         List<ColInfo> columns = getPrimaryKey().getColumns();
         for (int i = 0; i < columns.size(); i++) {
-            values.add(new ColumnValue(columns.get(i), input.get(i)));
+        	ColInfo column = columns.get(i);
+            values.add(new ColumnValue(column, column.getFieldIndex(), input.get(i)));
         }
 
         return values;
@@ -143,20 +144,21 @@ public final class TableInfo {
 
         for (ColInfo column : _columns) {
             if (!column.isPrimaryKey()) {
-                values.add(new ColumnValue(column));
+                values.add(new ColumnValue(column, column.getFieldIndex(), null));
             }
         }
 
         for (TableLink lnk : _foreignKeys) {
             for (ColInfo column : lnk.getStartCols()) {
                 if (!values.contains(column)) {
-                    if (column.getFieldIndex() == -1) {
+                	int index = column.getFieldIndex();
+                    if (index == -1) {
                         // index of foreign key columns has to be taken from tableLink
                         // because the fields in this case have to use other fieldindexes
                         // than in their tables.
-                        column.setFieldIndex(lnk.getFieldIndex());
+                        index = lnk.getFieldIndex();
                     }
-                    values.add(new ColumnValue(column));
+                    values.add(new ColumnValue(column, index , null));
                 }
             }
         }
@@ -168,7 +170,7 @@ public final class TableInfo {
             if (inpt == null) {
                 // append 'is NULL' in case the value is null
                 while (counter < values.size()
-                        && i == values.get(counter).getFieldIndex()) {
+                        && i == values.get(counter).getIndex()) {
                     values.get(counter).setValue(null);
                     counter++;
                 }
@@ -177,7 +179,7 @@ public final class TableInfo {
 
                 int indx = 0;
                 while (counter < values.size()
-                        && i == values.get(counter).getFieldIndex()) {
+                        && i == values.get(counter).getIndex()) {
                     if (identity.get(indx) != null) {
                         values.get(counter).setValue(identity.get(indx));
                     }
@@ -190,7 +192,7 @@ public final class TableInfo {
                 }
             } else {
                 while (counter < values.size()
-                        && i == values.get(counter).getFieldIndex()) {
+                        && i == values.get(counter).getIndex()) {
                     if (!(inpt instanceof Collection)) {
                         values.get(counter).setValue(inpt);
                     }
