@@ -137,13 +137,6 @@ public final class ColInfo implements Cloneable {
     public int getFieldIndex() { return _fldIndex; }
 
     /**
-     * Method setting the given field index.
-     * 
-     * @param fieldIndex FieldIndex to be set.
-     */
-    public void setFieldIndex(final int fieldIndex) { _fldIndex = fieldIndex; }
-
-    /**
      * Method returning dirty flag.
      * 
      * @return Dirty flag.
