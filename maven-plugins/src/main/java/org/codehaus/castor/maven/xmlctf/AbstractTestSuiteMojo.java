@@ -74,6 +74,18 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
     private MavenProject project;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
+
+        boolean skipMavenTests = Boolean.getBoolean("maven.test.skip");
+        skipMavenTests |= Boolean.getBoolean("skipTests");
+        skipMavenTests |= Boolean.getBoolean("skipITs");
+        
+        if (skipMavenTests) {
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Skipping XML CTF tests as per configuration.");
+            }
+            return;
+        }
+        
         getLog().info("Starting Castor Mastertestsuite");
 
         // testRoot checks
@@ -140,7 +152,7 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
             System.setProperty(TestCaseAggregator.PRINT_STACK_TRACE, "true");
         }
 
-        getLog().info("classpath for sourcegenerator is:" + classpath);
+        getLog().info("classpath for sourcegenerator is: " + classpath);
 
         // run testCase
         TestCaseAggregator aggregator = new TestCaseAggregator(testRootFile, outputRoot);
