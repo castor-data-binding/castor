@@ -428,7 +428,17 @@
                 </p>
                 
                 <code-panel>
-> mvn verify</code-panel>
+> mvn (clean) verify</code-panel>
+
+                <p>
+                    By default, JUnit summary test output is excluded from both unit
+                    and integration tests. To have this output (re)enabled, please
+                    use the following Maven goals:
+                </p>
+
+                <code-panel>
+> mvn clean verify -Dsurefire.print.summary=true
+> mvn clean test -Dsurefire.print.summary=true</code-panel>
 
             </section>
         
