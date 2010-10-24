@@ -23,7 +23,7 @@
     <!-- to set the level to DEBUG for Castor, please uncomment -->
     
     <category name="org.exolab.castor">
-      <priority value="info" />
+      <priority value="warn" />
     </category>
     
 
