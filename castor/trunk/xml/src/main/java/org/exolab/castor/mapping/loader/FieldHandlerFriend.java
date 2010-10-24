@@ -65,13 +65,13 @@ public abstract class FieldHandlerFriend implements FieldHandler
     
     /**
      * Returns the FieldDescriptor for the field that this 
-     * handler is reponsibile for, or null if no FieldDescriptor
+     * handler is responsible for, or null if no FieldDescriptor
      * has been set. This method is useful for implementations
-     * of the FieldHandler interface that wish to obtain information
+     * of the {@link FieldHandler} interface that wish to obtain information
      * about the field in order to make the FieldHandler more generic
      * and reusable, or simply for validation purposes.
      *
-     * @return the FieldDescriptor, or null if none exists.
+     * @return the {@link FieldDescriptor}, or null if none exists.
      */
     protected abstract FieldDescriptor getFieldDescriptor();
     
