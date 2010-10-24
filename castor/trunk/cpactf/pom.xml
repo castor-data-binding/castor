@@ -182,6 +182,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
          <scope>test</scope>
       </dependency>
 
+      <dependency>
+         <groupId>commons-logging</groupId>
+         <artifactId>commons-logging</artifactId>
+      </dependency>
+
 	</dependencies>
     
 </project>
