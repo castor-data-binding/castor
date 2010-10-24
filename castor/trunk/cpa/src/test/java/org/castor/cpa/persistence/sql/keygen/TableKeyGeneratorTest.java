@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.Properties;
 
+import org.castor.cpa.jpa.info.JPATableGeneratorDescriptor;
 import org.castor.cpa.persistence.sql.query.PersistenceFactoryMock;
-import org.castor.jdo.jpa.info.JPATableGeneratorDescriptor;
 import org.exolab.castor.mapping.MappingException;
 
 import org.junit.Before;
