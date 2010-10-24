@@ -23,6 +23,7 @@
             <plugin>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-maven-plugins</artifactId>
+                <version>${project.version}</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
