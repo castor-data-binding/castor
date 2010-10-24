@@ -153,6 +153,10 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
         }
 
         getLog().info("classpath for sourcegenerator is: " + classpath);
+        String[] classpathEntries = classpath.split(";");
+        for (String classpathEntry : classpathEntries) {
+            getLog().info(classpathEntry);
+        }
 
         // run testCase
         TestCaseAggregator aggregator = new TestCaseAggregator(testRootFile, outputRoot);
