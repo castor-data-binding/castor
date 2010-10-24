@@ -37,24 +37,24 @@ public final class TableLink {
     //-----------------------------------------------------------------------------------    
 
     /** Constant defining simple table-link (1:1). */
-    public static final int SIMPLE = 0;
+    public static final int REFERS_TO = 0;
 
     /** Constant defining many key relation (1:m). */
-    public static final int MANY_KEY = 1;
+    public static final int REFERED_BY = 1;
 
     /** Constant defining many table relation (n:m). */
-    public static final int MANY_TABLE = 2;
+    public static final int MANY_TO_MANY = 2;
 
     //-----------------------------------------------------------------------------------    
 
     /** List of columns of the left table used to construct a join. */
-    private List<ColInfo> _startCols;
+    private List<ColumnInfo> _startCols;
 
     /** Target table to be joined on the left one. */
     private TableInfo _targetTable;
 
     /** List of columns of the target table used to construct a join. */
-    private List<ColInfo> _targetCols;
+    private List<ColumnInfo> _targetCols;
 
     /** Table alias needed to join a table already in the query. */
     private String _tableAlias;
@@ -81,13 +81,13 @@ public final class TableLink {
      * @param fieldIndex Index of the startColumns.
      */
     protected TableLink(final TableInfo targetTable, final int relationType,
-            final String tableAlias, final List<ColInfo> startColumns, final int fieldIndex) {
+            final String tableAlias, final List<ColumnInfo> startColumns, final int fieldIndex) {
         _targetTable = targetTable;
         _relationType = relationType;
         _tableAlias = tableAlias;
         _startCols = startColumns;
         _fldIndex = fieldIndex;
-        _targetCols = new ArrayList<ColInfo>();
+        _targetCols = new ArrayList<ColumnInfo>();
     }
 
     //-----------------------------------------------------------------------------------    
@@ -97,28 +97,28 @@ public final class TableLink {
      * 
      * @return List of start columns.
      */
-    public List<ColInfo> getStartCols() { return _startCols; }
+    public List<ColumnInfo> getStartCols() { return _startCols; }
 
     /**
      * Method adding a single targetCol.
      * 
      * @param col Column to be added as a target column.
      */
-    public void addTargetCol(final ColInfo col) { _targetCols.add(col); }
+    public void addTargetCol(final ColumnInfo col) { _targetCols.add(col); }
 
     /**
      * Method adding a list of targetCols.
      * 
      * @param cols List of columns to be added as target columns.
      */
-    public void addTargetCols(final List<ColInfo> cols) { _targetCols.addAll(cols); }
+    public void addTargetCols(final List<ColumnInfo> cols) { _targetCols.addAll(cols); }
 
     /**
      * Method returning a list of target columns.
      * 
      * @return List of target columns of the join.
      */
-    public List<ColInfo> getTargetCols() { return _targetCols; }
+    public List<ColumnInfo> getTargetCols() { return _targetCols; }
 
     /**
      * Method returning the right table of the join.

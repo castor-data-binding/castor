@@ -10,14 +10,15 @@ import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 
 public final class InfoFactory {
     //-----------------------------------------------------------------------------------    
 
-	private Map<ClassDescriptor, TableInfo> _map = new HashMap<ClassDescriptor, TableInfo>();
-
+	private final Map<String, TableInfo> _entityMap = new HashMap<String, TableInfo>();
+    
     //-----------------------------------------------------------------------------------    
 
 	/**
@@ -30,7 +31,8 @@ public final class InfoFactory {
      */
     public TableInfo createTableInfo(final ClassDescriptor classDescriptor)
     throws MappingException {
-        TableInfo table = _map.get(classDescriptor);
+    	String name = classDescriptor.getJavaClass().getName();
+        TableInfo table = _entityMap.get(name);
         if (table == null) {
             if (!classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
                 throw new MappingException("ClassDescriptor is not a JDOClassDescriptor");
@@ -39,7 +41,7 @@ public final class InfoFactory {
 
             table = new TableInfo(classNature.getTableName());
             
-            _map.put(classDescriptor, table);
+            _entityMap.put(name, table);
 
             // set extended table if exists
             if (classDescriptor.getExtends() != null) {
@@ -62,137 +64,152 @@ public final class InfoFactory {
     
     private void resolvePrimaryKeys(final ClassDescriptor classDescriptor, final TableInfo table)
     throws MappingException {
-        FieldDescriptor[] ids = ((ClassDescriptorImpl) classDescriptor).getIdentities();
-        for (int i = 0; i < ids.length; i++) {
-            if (!ids[i].hasNature(FieldDescriptorJDONature.class.getName())) {
+    	for (FieldDescriptor selfFD: ((ClassDescriptorImpl) classDescriptor).getIdentities()) {
+            if (!selfFD.hasNature(FieldDescriptorJDONature.class.getName())) {
                 throw new MappingException("Excepted JDOFieldDescriptor");
             }
-            String[] sqlName = new FieldDescriptorJDONature(ids[i]).getSQLName();
-            int[] sqlType =  new FieldDescriptorJDONature(ids[i]).getSQLType();
-            FieldHandlerImpl fh = (FieldHandlerImpl) ids[i].getHandler();
+            FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
+            String sqlName = selfFN.getSQLName()[0];
+            int selfType = selfFN.getSQLType()[0];
+            TypeConvertor convFrom = ((FieldHandlerImpl) selfFD.getHandler()).getConvertFrom();
 
-            ColInfo column = new ColInfo(sqlName[0], sqlType[0],
-                    fh.getConvertFrom(), false, -1, false, true);
-            table.addColumn(column);
-        }
+            ColumnInfo column = new ColumnInfo(sqlName, -1, selfType, convFrom, false, false);
+            table.getPrimaryKey().addColumn(column);
+    	}
     }
     
-    private void resolveColumns(final ClassDescriptor classDescriptor, final TableInfo table)
+    private void resolveColumns(final ClassDescriptor selfCD, final TableInfo table)
     throws MappingException {
-        FieldDescriptor[] fieldDscs = classDescriptor.getFields();
-        int fieldIndex = 0;
-        for (int i = 0; i < fieldDscs.length; i++) {
-            // fieldDescriptors[i] is persistent in db if it is not transient
-            // and it has a JDOFieldDescriptor or has a ClassDescriptor
-            if (fieldDscs[i].isTransient()
-                    || !(fieldDscs[i].hasNature(FieldDescriptorJDONature.class.getName()))
-                    && (fieldDscs[i].getClassDescriptor() == null)) { continue; }
+        FieldDescriptor[] selfFDs = selfCD.getFields();
+        int persIndex = 0;
+        for (int fieldIndex = 0; fieldIndex < selfFDs.length; fieldIndex++) {
+        	FieldDescriptor selfFD = selfFDs[fieldIndex];
+        	
+            // field is persistent if it is not transient
+            if (selfFD.isTransient()) { continue; }
+            
+            // field is persistent if it has a JDOFieldDescriptor or has a ClassDescriptor
+            if (!selfFD.hasNature(FieldDescriptorJDONature.class.getName())
+                    && (selfFD.getClassDescriptor() == null)) { continue; }
 
-            ClassDescriptor related = fieldDscs[i].getClassDescriptor();
-            if (related != null) {
-                if (!(related.hasNature(ClassDescriptorJDONature.class.getName()))) {
-                    throw new MappingException("Related class is not JDOClassDescriptor");
+            ClassDescriptor referedCD = selfFD.getClassDescriptor();
+            if (referedCD != null) {
+                if (!(referedCD.hasNature(ClassDescriptorJDONature.class.getName()))) {
+                    throw new MappingException("Related class is not a JDOClassDescriptor");
+                }
+                
+                int mode = TableLink.REFERED_BY;
+                String[] backCols = null;
+                String[] referedCols = null;
+                String manyTableName = null;
+                boolean isStore = false;
+                boolean isDirtyCheck = false;
+
+                if (selfFD.hasNature(FieldDescriptorJDONature.class.getName())) {
+                    FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
+
+                    if (selfFN.getManyTable() != null) {
+                    	mode = TableLink.MANY_TO_MANY;
+                    } else if (selfFN.getSQLName() != null) {
+                    	mode = TableLink.REFERS_TO;
+                    } else {
+                    	mode = TableLink.REFERED_BY;
+                    }
+                    
+                    backCols = selfFN.getManyKey();
+                    referedCols = selfFN.getSQLName();
+                    manyTableName = selfFN.getManyTable();
+                    isStore = (table.getExtendedTable() == null) && !selfFN.isReadonly();
+                    isDirtyCheck = selfFN.isDirtyCheck();
                 }
 
-                FieldDescriptor[] relids = ((ClassDescriptorImpl) related).getIdentities();
-                String[] names = constructIdNames(relids);
-
-                FieldDescriptor[] ids = ((ClassDescriptorImpl) classDescriptor).getIdentities();
-                String[] classnames = constructIdNames(ids);
-
-                if (!(fieldDscs[i].hasNature(FieldDescriptorJDONature.class.getName()))) {
-                    // needed when there are fields without given columns (test 89)
-                    TableInfo relatedTable = createTableInfo(related);
-
-                    TableLink tblLnk = new TableLink(relatedTable, TableLink.MANY_KEY,
-                    		relatedTable.getTableName() + "_f" + i,
-                            table.getPrimaryKey().getColumns(), fieldIndex);
-                    table.addForeignKey(tblLnk);
-                    tblLnk.setManyKey(Arrays.asList(classnames));
+                FieldDescriptor[] selfIDs = ((ClassDescriptorImpl) selfCD).getIdentities();
+                if (backCols == null) {
+                	backCols = getSQLNames(selfIDs);
                 } else {
-                    FieldDescriptorJDONature jdoFieldNature = 
-                        new FieldDescriptorJDONature(fieldDscs[i]);
-
-                    String[] tempNames = jdoFieldNature.getSQLName();
-                    if ((tempNames != null) && (tempNames.length != relids.length)) {
+                    if (backCols.length != selfIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
-                                + "does not match with what specified in manyKey");
+                                + "does not match with primary key of current class");
                     }
-                    names = (tempNames != null) ? tempNames : names;
+                }
 
-                    String[] joinFields = jdoFieldNature.getManyKey();
-                    if ((joinFields != null) && (joinFields.length != classnames.length)) {
+                FieldDescriptor[] referedIDs = ((ClassDescriptorImpl) referedCD).getIdentities();
+                if (referedCols == null) {
+                	referedCols = getSQLNames(referedIDs);
+                } else {
+                    if (referedCols.length != referedIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
-                                + "does not match with what specified in manyKey");
+                                + "does not match with primary key of related class");
                     }
-                    joinFields = (joinFields != null) ? joinFields : classnames;
+                }
 
-                    if (jdoFieldNature.getManyTable() != null) {
-                        TableInfo manyTable = new TableInfo(jdoFieldNature.getManyTable());
-                        TableLink tblLnk = new TableLink(manyTable, TableLink.MANY_TABLE,
-                                manyTable.getTableName() + "_f" + i,
-                                table.getPrimaryKey().getColumns(), fieldIndex);
-                        table.addForeignKey(tblLnk);
+                if (mode == TableLink.MANY_TO_MANY) {
+              	    // many to many relation
+                    TableInfo manyTable = new TableInfo(manyTableName);
+                    TableLink foreignKey = new TableLink(manyTable, mode,
+                            manyTable.getTableName() + "_f" + fieldIndex,
+                            table.getPrimaryKey().getColumns(), persIndex);
+                    table.addForeignKey(foreignKey);
 
-                        // add normal columns
-                        for (String name : Arrays.asList(names)) {
-                            manyTable.addColumn(new ColInfo(name));
-                        }
-
-                        // add target columns
-                        for (String join : Arrays.asList(joinFields)) {
-                            tblLnk.addTargetCol(new ColInfo(join));
-                        }
-                    } else if (jdoFieldNature.getSQLName() != null) {
-                        // 1:1 relation
-                        boolean store = (table.getExtendedTable() == null)
-                        			  && !jdoFieldNature.isReadonly();
-                        ArrayList<ColInfo> columns = new ArrayList<ColInfo>();
-                        for (int j = 0; j < relids.length; j++) {
-                            if (!(relids[j].hasNature(FieldDescriptorJDONature.class.getName()))) {
-                                throw new MappingException("Related class identities field does"
-                                        + " not contains sql information!");
-                            }
-
-                            FieldDescriptor relId = relids[j];
-                            FieldHandlerImpl fh = (FieldHandlerImpl) relId.getHandler();
-
-                            columns.add(new ColInfo(names[j],
-                                    new FieldDescriptorJDONature(relId).getSQLType()[0],
-                                    fh.getConvertFrom(), store, fieldIndex,
-                                    jdoFieldNature.isDirtyCheck(), false));
-                        }
-                        TableInfo relatedTable = createTableInfo(related);
-                        TableLink tblLnk = new TableLink(relatedTable, TableLink.SIMPLE,
-                                relatedTable.getTableName() + "_f" + i, columns, fieldIndex);
-                        table.addForeignKey(tblLnk);
-                        tblLnk.addTargetCols(relatedTable.getPrimaryKey().getColumns());
-                    } else {
-                        TableInfo relatedTable = createTableInfo(related);
-                        TableLink tblLnk = new TableLink(relatedTable, TableLink.MANY_KEY,
-                                relatedTable.getTableName() + "_f" + i,
-                                table.getPrimaryKey().getColumns(), fieldIndex);
-                        table.addForeignKey(tblLnk);
-                        tblLnk.setManyKey(Arrays.asList(joinFields));
+                    // add normal columns
+                    for (String referedCol : referedCols) {
+                        manyTable.addColumn(new ColumnInfo(referedCol));
                     }
+
+                    // add target columns
+                    for (String backCol : backCols) {
+                        foreignKey.addTargetCol(new ColumnInfo(backCol));
+                    }
+                } else if (mode == TableLink.REFERS_TO) {
+                    // refers to one
+                    ArrayList<ColumnInfo> columns = new ArrayList<ColumnInfo>();
+                    for (int j = 0; j < referedIDs.length; j++) {
+                        if (!(referedIDs[j].hasNature(FieldDescriptorJDONature.class.getName()))) {
+                            throw new MappingException("Related class identities field does"
+                                    + " not contains sql information!");
+                        }
+
+                        FieldDescriptor relId = referedIDs[j];
+                        FieldHandlerImpl fh = (FieldHandlerImpl) relId.getHandler();
+
+                        columns.add(new ColumnInfo(referedCols[j], persIndex,
+                                new FieldDescriptorJDONature(relId).getSQLType()[0],
+                                fh.getConvertFrom(), isStore, isDirtyCheck));
+                    }
+                    TableInfo relatedTable = createTableInfo(referedCD);
+                    TableLink foreignKey = new TableLink(relatedTable, mode,
+                            relatedTable.getTableName() + "_f" + fieldIndex, columns, persIndex);
+                    table.addForeignKey(foreignKey);
+                    foreignKey.addTargetCols(relatedTable.getPrimaryKey().getColumns());
+                } else {
+                	// refered by one or many 
+                    TableInfo relatedTable = createTableInfo(referedCD);
+                    TableLink foreignKey = new TableLink(relatedTable, mode,
+                            relatedTable.getTableName() + "_f" + fieldIndex,
+                            table.getPrimaryKey().getColumns(), persIndex);
+                    table.addForeignKey(foreignKey);
+                    foreignKey.setManyKey(Arrays.asList(backCols));
                 }
             } else {
-                FieldDescriptorJDONature jdoFieldNature =
-                    new FieldDescriptorJDONature(fieldDscs[i]);
-                boolean store = (table.getExtendedTable() == null)
-                              && !jdoFieldNature.isReadonly();
-                boolean dirtyCheck = jdoFieldNature.isDirtyCheck();
+            	// simple field
+                FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
 
-                String sqlName = fieldDscs[i].getFieldName();
-                if (jdoFieldNature.getSQLName() != null) {
-                    sqlName = jdoFieldNature.getSQLName()[0];
+                String sqlName = selfFD.getFieldName();
+                if (selfFN.getSQLName() != null) {
+                    sqlName = selfFN.getSQLName()[0];
                 }
 
-                FieldHandlerImpl fh = (FieldHandlerImpl) fieldDscs[i].getHandler();
-                table.addColumn(new ColInfo (sqlName, jdoFieldNature.getSQLType()[0],
-                		fh.getConvertFrom(), store, fieldIndex, dirtyCheck, false));
+                int selfType = selfFN.getSQLType()[0];
+                TypeConvertor convFrom = ((FieldHandlerImpl) selfFD.getHandler()).getConvertFrom();
+                boolean isStore = (table.getExtendedTable() == null) && !selfFN.isReadonly();
+                boolean isDirtyCheck = selfFN.isDirtyCheck();
+
+                ColumnInfo column = new ColumnInfo(sqlName, persIndex, selfType, convFrom,
+                		isStore, isDirtyCheck);
+                table.addColumn(column);
             }
-            fieldIndex++;
+            
+            persIndex++;
         }
     }
     
@@ -203,7 +220,7 @@ public final class InfoFactory {
      * @return Array of the names of the columns.
      * @throws MappingException If an error occurs.
      */
-    private String[] constructIdNames(final FieldDescriptor[] fieldDesc) throws MappingException {
+    private String[] getSQLNames(final FieldDescriptor[] fieldDesc) throws MappingException {
         String[] names = new String[fieldDesc.length];
         for (int j = 0; j < fieldDesc.length; j++) {
             names[j] = new FieldDescriptorJDONature(fieldDesc[j]).getSQLName()[0];
@@ -212,12 +229,13 @@ public final class InfoFactory {
                         + "not contain sql information!");
             }
         }
-
         return names;
     }
 
+    //-----------------------------------------------------------------------------------    
+
     public void resolveForeignKeys() {
-        for (TableInfo table : _map.values()) {
+        for (TableInfo table : _entityMap.values()) {
             adjustTableLinks(table);
         }
     }
@@ -229,23 +247,23 @@ public final class InfoFactory {
      * columns will be already created when needed.
      */
     private void adjustTableLinks(final TableInfo table) {
-        for (TableLink tblLnk : table.getForeignKeys()) {
-            if (TableLink.MANY_KEY == tblLnk.getRelationType()) {
-                for (ColInfo col : tblLnk.getTargetTable().iterateAll()) {
-                    for (String key : tblLnk.getManyKey()) {
+        for (TableLink foreignKey : table.getForeignKeys()) {
+            if (TableLink.REFERED_BY == foreignKey.getRelationType()) {
+                for (ColumnInfo col : foreignKey.getTargetTable().iterateAll()) {
+                    for (String key : foreignKey.getManyKey()) {
                         if (key.equals(col.getName())) {
-                            tblLnk.addTargetCol(col);
+                            foreignKey.addTargetCol(col);
                         }
                     }
                 }
 
-                if (tblLnk.getTargetCols().isEmpty()) {
-                    for (TableLink tblLink : tblLnk.getTargetTable().getForeignKeys()) {
+                if (foreignKey.getTargetCols().isEmpty()) {
+                    for (TableLink tblLink : foreignKey.getTargetTable().getForeignKeys()) {
                         if (tblLink.getTargetTable().equals(this) && tblLink.getManyKey() != null) {
-                            for (ColInfo col : tblLink.getStartCols()) {
+                            for (ColumnInfo col : tblLink.getStartCols()) {
                                 for (String key : tblLink.getManyKey()) {
                                     if (key.equals(col.getName())) {
-                                        tblLnk.addTargetCols(tblLink.getStartCols());
+                                        foreignKey.addTargetCols(tblLink.getStartCols());
                                     }
                                 }
                             }
@@ -255,11 +273,11 @@ public final class InfoFactory {
 
                 // needed when many key exists in a table but there is no reference specified
                 // in the target-table pointing back (test 2996)
-                if (tblLnk.getTargetCols().isEmpty()) {
-                    for (String key : tblLnk.getManyKey()) {
-                        ColInfo col = new ColInfo(key);
-                        tblLnk.getTargetTable().addColumn(col);
-                        tblLnk.addTargetCol(col);
+                if (foreignKey.getTargetCols().isEmpty()) {
+                    for (String key : foreignKey.getManyKey()) {
+                        ColumnInfo col = new ColumnInfo(key);
+                        foreignKey.getTargetTable().addColumn(col);
+                        foreignKey.addTargetCol(col);
                     }
                 }
             }

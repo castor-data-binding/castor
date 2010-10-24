@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Delete;
@@ -87,7 +87,7 @@ public final class SQLStatementDelete {
     private void buildStatement(final String mapTo) {
         // build condition for delete statement
         Condition condition = new AndCondition();
-        for (ColInfo col : _tableInfo.getPrimaryKey().getColumns()) {
+        for (ColumnInfo col : _tableInfo.getPrimaryKey().getColumns()) {
             String name = col.getName();
             condition.and(new Column(name).equal(new Parameter(name)));
         }
