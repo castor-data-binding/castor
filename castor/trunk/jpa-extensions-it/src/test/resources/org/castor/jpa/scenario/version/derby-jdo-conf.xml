@@ -9,7 +9,6 @@
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
-        <mapping href="mapping-empty.xml" />
     </database>
     <transaction-demarcation mode="local" />
 </jdo-conf>
