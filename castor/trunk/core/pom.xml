@@ -12,7 +12,7 @@
 
     <packaging>jar</packaging>
 
-    <name>Castor CORE - Core code/functioanlity</name>
+    <name>Castor CORE - Core code/functionality</name>
     <url>http://castor.org</url>
     <description>
         Core functionality - Required by all other modules
