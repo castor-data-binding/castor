@@ -42,120 +42,43 @@
  *
  * $Id$
  */
- 
+
 package org.exolab.castor.mapping;
 
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
 
 /**
- * An extended version of the FieldHandler interface which is
- * used for adding additional functionality while preserving
- * backward compatability.
- *
+ * An extended version of the FieldHandler interface which is used for adding
+ * additional functionality while preserving backward compatibility.
+ * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-08-03 15:11:51 -0600 (Wed, 03 Aug 2005) $
+ * @version $Revision$ $Date: 2005-08-03 15:11:51 -0600 (Wed, 03 Aug
+ *          2005) $
  * @see FieldDescriptor
  * @see FieldHandler
  */
 public abstract class ExtendedFieldHandler extends FieldHandlerFriend {
-    /**
-     * Returns the FieldDescriptor for the field that this 
-     * handler is reponsibile for, or null if no FieldDescriptor
-     * has been set. This method is useful for implementations
-     * of the FieldHandler interface that wish to obtain information
-     * about the field in order to make the FieldHandler more generic
-     * and reusable, or simply for validation purposes.
-     *
-     * @return the FieldDescriptor, or null if none exists.
-     */
-    protected abstract FieldDescriptor getFieldDescriptor();
-    
-    /**
-     * Sets the FieldDescriptor that this FieldHander is
-     * responsibile for. By setting the FieldDescriptor, it
-     * allows the implementation of the FieldHandler methods 
-     * to obtain information about the field itself. This allows
-     * a particular implementation to become more generic and
-     * reusable.
-     *
-     * @param fieldDesc the FieldDescriptor to set
-     */
-    public abstract void setFieldDescriptor(FieldDescriptor fieldDesc);
-    
-    //---------------------------------------/
-    //- Methods inherited from FieldHandler -/
-    //---------------------------------------/
-    
+
     /**
      * @deprecated No longer supported
      */
-    public void checkValidity( Object object )
-        throws ValidityException, IllegalStateException
-    {
-        //-- do nothing...deprecated method
-    } //-- checkValidity
-    
-    /**
-     * Returns the value of the field from the object.
-     *
-     * @param object The object
-     * @return The value of the field
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     */
-    public abstract Object getValue( Object object )
-        throws IllegalStateException;
-    
+    public void checkValidity(Object object) throws ValidityException,
+            IllegalStateException {
+        // -- do nothing...deprecated method
+    }
 
     /**
      * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
+     * 
+     * @param parent
+     *            The object for which the field is created
+     * @param args
+     *            the set of constructor arguments
      * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
+     * @throws IllegalStateException
+     *             This field is a simple type and cannot be instantiated
      */
-    public abstract Object newInstance( Object parent )
-        throws IllegalStateException;
+    public abstract Object newInstance(Object parent, Object[] args)
+            throws IllegalStateException;
 
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @param args the set of constructor arguments
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public abstract Object newInstance( Object parent, Object[] args )
-        throws IllegalStateException;
-        
-    /**
-     * Sets the value of the field to a default value.
-     * <p>
-     * Reference fields are set to null, primitive fields are set to
-     * their default value, collection fields are emptied of all
-     * elements.
-     *
-     * @param object The object
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     */
-    public abstract void resetValue( Object object )
-        throws IllegalStateException, IllegalArgumentException;
-        
-    /**
-     * Sets the value of the field on the object.
-     *
-     * @param object The object.
-     * @param value The new value.
-     * @throws IllegalStateException The Java object has changed and is no longer
-     *         supported by this handler, or the handler is not compatiable with the
-     *         Java object.
-     * @throws IllegalArgumentException The value passed is not of a supported type.
-     */
-    public abstract void setValue( Object object, Object value )
-        throws IllegalStateException, IllegalArgumentException;
-} //-- ExtendedFieldHandler
+}
