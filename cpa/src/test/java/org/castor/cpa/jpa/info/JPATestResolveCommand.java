@@ -1,10 +1,8 @@
-package org.castor.cpa.util.classresolution.command;
+package org.castor.cpa.jpa.info;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.info.InfoToDescriptorConverter;
@@ -22,18 +20,15 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @see InfoToDescriptorConverter
  * 
  * @author Peter Schmidt
- * @version 2009-05-05
+ * @version 20.02.2009
  * 
  */
-public class ClassResolutionByAnnotations extends BaseResolutionCommand {
-
-    /** The Logger instance to use. */
-    private static final Log LOG = LogFactory
-            .getLog(ClassResolutionByAnnotations.class);
+public class JPATestResolveCommand extends
+        org.castor.cpa.util.classresolution.command.BaseResolutionCommand {
 
     /**
      * Internal loop cache. contains all unfinished {@link ClassDescriptor}s.
-     * After conversion (fail or success) the descriptors are removed from the cache.
+     * After conversion (fail or success) the descriptors are removed.
      */
     private Map<Class<?>, ClassDescriptorImpl> _loopCache = 
         new LinkedHashMap<Class<?>, ClassDescriptorImpl>();
@@ -49,20 +44,9 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
      *         called recursively (as in bidirectional relations) a reference
      *         to an incomplete {@link ClassDescriptor} is returned, which will
      *         be finished when leaving the loop again.
-     * @see org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand#resolve(java.lang.Class)
+     * @see org.exolab.castor.xml.util.ClassDescriptorResolutionCommand#resolve(java.lang.Class)
      */
-    public ClassDescriptor resolve(final Class type) {
-
-        /*
-         * check if we've been there in a loop, if yes, return the unfinished descriptor reference.
-         */
-        if (_loopCache.containsKey(type)) {
-            return _loopCache.get(type);
-        }
-        
-        /*
-         * we have not been here before -> start building the descriptor.
-         */
+    public final ClassDescriptor resolve(final Class<?> type) {
         ClassInfo buildClassInfo = null;
         try {
             buildClassInfo = ClassInfoBuilder.buildClassInfo(type);
@@ -76,13 +60,19 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
             /*
              * JPA annotations error occurred.
              */
-            LOG.error(e1.getMessage());
+            e1.printStackTrace();
             return null;
         }
 
         /*
-         * generate new ClassDescriptor, add it the loopCache and start
-         * conversion
+         * check if we've been there in a loop
+         */
+        if (_loopCache.containsKey(type)) {
+            return _loopCache.get(type);
+        }
+
+        /*
+         * generate new ClassDescriptor, add it the loopCache and start conversion
          */
         ClassDescriptorImpl classDesc = new ClassDescriptorImpl();
         _loopCache.put(type, classDesc);
@@ -91,8 +81,7 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
                     .getClassDescriptorResolver(), classDesc);
 
             /*
-             * conversion successful => remove it from the loopCache and return
-             * it
+             * conversion successful => remove it from the loopCache and return it
              */
             _loopCache.remove(type);
             return classDesc;
@@ -100,8 +89,7 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
             /*
              * conversion failed => remove it from the loopCache and return null
              */
-
-            LOG.error(e.getMessage());
+            e.printStackTrace();
             _loopCache.remove(type);
             return null;
         }

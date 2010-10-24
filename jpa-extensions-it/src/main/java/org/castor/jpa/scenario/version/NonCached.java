@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
-import org.castor.jdo.jpa.annotations.Cache;
-import org.castor.jdo.jpa.annotations.CacheProperty;
+import org.castor.cpa.jpa.annotations.Cache;
+import org.castor.cpa.jpa.annotations.CacheProperty;
 
 @Entity(name="non_cached_version")
 @SequenceGenerator(name="nonCachedVersionGenerator", sequenceName="non_cached_version_sequence")
