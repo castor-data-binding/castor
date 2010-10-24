@@ -60,46 +60,27 @@ import java.util.Properties;
 public abstract class AbstractFieldHandler
 extends ExtendedFieldHandler
 implements ConfigurableFieldHandler {
-    /** The FieldDescriptor for the field that this handler is responsible for. */
-    private FieldDescriptor _descriptor = null;
-    
-    /** Configuration that can be used by subclasses when needed. */
-    protected Properties _properties;
     
     /** 
-     * Creates a new default AbstractFieldHandler. This method
-     * should be called by all extending classes so that any
-     * important initialization code will be executed.
+     * The FieldDescriptor for the field that this handler is responsible for. 
      */
-    protected AbstractFieldHandler() {
-        super();
-        //-- currently nothing to do, but initialization
-        //-- code may be needed in the future
-    }
+    private FieldDescriptor _descriptor = null;
     
-    /**
-     * Returns the FieldDescriptor for the field that this 
-     * handler is reponsibile for, or null if no FieldDescriptor
-     * has been set. This method is useful for implementations
-     * of the FieldHandler interface that wish to obtain information
-     * about the field in order to make the FieldHandler more generic
-     * and reusable, or simply for validation purposes.
-     *
-     * @return the FieldDescriptor, or null if none exists.
+    /** 
+     * Configuration that can be used by subclasses when needed. 
+     */
+    protected Properties _properties;
+
+    
+    /** 
+     * {@inheritDoc}
      */
     protected final FieldDescriptor getFieldDescriptor() {
         return _descriptor;
     }
     
-    /**
-     * Sets the FieldDescriptor that this FieldHander is
-     * responsibile for. By setting the FieldDescriptor, it
-     * allows the implementation of the FieldHandler methods 
-     * to obtain information about the field itself. This allows
-     * a particular implementation to become more generic and
-     * reusable.
-     *
-     * @param fieldDesc the FieldDescriptor to set
+    /** 
+     * {@inheritDoc}
      */
     public void setFieldDescriptor(FieldDescriptor fieldDesc) {
         _descriptor = fieldDesc;
@@ -112,11 +93,10 @@ implements ConfigurableFieldHandler {
      * By default this just checks for null. Normally this method
      * is needed for checking if a value has been set via a call
      * to the setValue method, or if the primitive value has
-     * been initialized by the JVM. 
+     * been initialised by the JVM. 
      * </p>
      * <p>
-     * This method should be overloaded for improved value
-     * checking.
+     * This method should be overloaded for improved value checking.
      * </p>
      *
      * @return true if the given object has a value for the handled field
@@ -125,77 +105,11 @@ implements ConfigurableFieldHandler {
         return (getValue(object) != null);
     }
     
-    //---------------------------------------/
-    //- Methods inherited from FieldHandler -/
-    //---------------------------------------/
-    
-    /**
-     * Returns the value of the field from the object.
-     *
-     * @param object The object
-     * @return The value of the field
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     */
-    public abstract Object getValue(Object object)
-    throws IllegalStateException;
-    
-
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public abstract Object newInstance(Object parent)
-    throws IllegalStateException;
-        
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @param args the set of constructor arguments
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public abstract Object newInstance(Object parent, Object[] args)
-    throws IllegalStateException;
-        
-    /**
-     * Sets the value of the field to a default value.
-     * <p>
-     * Reference fields are set to null, primitive fields are set to
-     * their default value, collection fields are emptied of all
-     * elements.
-     *
-     * @param object The object
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     */
-    public abstract void resetValue(Object object)
-    throws IllegalStateException, IllegalArgumentException;
-        
-    /**
-     * Sets the value of the field on the object.
-     *
-     * @param object The object.
-     * @param value The new value.
-     * @throws IllegalStateException The Java object has changed and is no longer
-     *         supported by this handler, or the handler is not compatiable with the
-     *         Java object.
-     * @throws IllegalArgumentException The value passed is not of a supported type.
-     */
-    public abstract void setValue(Object object, Object value)
-    throws IllegalStateException, IllegalArgumentException;
-    
     /**
      * Empty implementation of the {@link ConfigurableFieldHandler} interface, for convenience
      * purpose. Subclasses that want to use any configuration should override this method.
+     * 
+     * @param config The configuration as specified in the mapping file.
      */
     public void setConfiguration(final Properties config) throws ValidityException { }
 }
