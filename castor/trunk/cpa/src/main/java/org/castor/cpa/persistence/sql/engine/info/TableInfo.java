@@ -45,11 +45,11 @@ public final class TableInfo {
     /** List of tables that are extending this one. */
     private final List<TableInfo> _extendingTables = new ArrayList<TableInfo>();
 
+    /** List of columns. */
+    private final List<ColumnInfo> _columns = new ArrayList<ColumnInfo>();
+
     /** Primary key of the table. */
     private final PrimaryKeyInfo _primaryKey;
-
-    /** List of columns. */
-    private final List<ColInfo> _columns = new ArrayList<ColInfo>();
 
     /** List of foreign keys consisting of TableLinks. */
     private final List<TableLink> _foreignKeys = new ArrayList<TableLink>();
@@ -81,12 +81,8 @@ public final class TableInfo {
      * 
      * @param column Column to be added.
      */
-    protected void addColumn(final ColInfo column) {
+    protected void addColumn(final ColumnInfo column) {
         _columns.add(column);
-        
-        if (column.isPrimaryKey()) {
-            _primaryKey.addColumn(column);
-        }
     }
 
     protected void addForeignKey(final TableLink foreignKey) {
@@ -100,20 +96,67 @@ public final class TableInfo {
      * 
      * @return List of collected columns.
      */
-    public List<ColInfo> iterateAll() {
-        List<ColInfo> cols = new ArrayList<ColInfo>();
-        cols.addAll(_columns);
+    public List<ColumnInfo> iterateAll() {
+        List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
+        columns.addAll(_primaryKey.getColumns());
+        columns.addAll(_columns);
         
-        for (TableLink lnk : _foreignKeys) {
-            for (ColInfo col : lnk.getStartCols()) {
-                if (!cols.contains(col)) {
-                    cols.add(col);
+        for (TableLink foreignKey : _foreignKeys) {
+            for (ColumnInfo column : foreignKey.getStartCols()) {
+                if (!columns.contains(column)) {
+                    columns.add(column);
                 }
             }
         }
 
-        return cols;
+        return columns;
     }
+
+    //-----------------------------------------------------------------------------------    
+
+    /**
+     * Method returning name of this table.
+     * 
+     * @return Name of the table currently set.
+     */
+    public String getTableName() { return _tableName; }
+
+    /**
+     * Method returning extendedTable currently set.
+     * 
+     * @return ExtendedTable currently set.
+     */
+    public TableInfo getExtendedTable() { return _extendedTable; }
+
+    /**
+     * Method returning list of tables extending this one.
+     * 
+     * @return List of extending tables.
+     */
+    public List<TableInfo> getExtendingTables() { return _extendingTables; }
+
+    /**
+     * Method returning columns currently set.
+     * 
+     * @return List of columns currently set.
+     */
+    public List<ColumnInfo> getColumns() { return _columns; }
+
+    /**
+     * Get primary key of the table.
+     * 
+     * @return Primary key of the table.
+     */
+    public PrimaryKeyInfo getPrimaryKey() { return _primaryKey; }
+
+    /**
+     * Method returning list of foreign keys.
+     * 
+     * @return List of foreign keys.
+     */
+    public List<TableLink> getForeignKeys() { return _foreignKeys; }
+
+    //-----------------------------------------------------------------------------------    
 
     /**
      * Method appending values from passed identity to corresponding columns.
@@ -124,10 +167,10 @@ public final class TableInfo {
     public List<ColumnValue> toSQL(final Identity input) {
         List<ColumnValue> values = new ArrayList<ColumnValue>();
 
-        List<ColInfo> columns = getPrimaryKey().getColumns();
+        List<ColumnInfo> columns = getPrimaryKey().getColumns();
         for (int i = 0; i < columns.size(); i++) {
-        	ColInfo column = columns.get(i);
-            values.add(new ColumnValue(column, column.getFieldIndex(), input.get(i)));
+        	ColumnInfo column = columns.get(i);
+            values.add(new ColumnValue(column, column.getIndex(), input.get(i)));
         }
 
         return values;
@@ -142,16 +185,14 @@ public final class TableInfo {
     public List<ColumnValue> toSQL(final Object[] input) {
         List<ColumnValue> values = new ArrayList<ColumnValue>();
 
-        for (ColInfo column : _columns) {
-            if (!column.isPrimaryKey()) {
-                values.add(new ColumnValue(column, column.getFieldIndex(), null));
-            }
+        for (ColumnInfo column : getColumns()) {
+            values.add(new ColumnValue(column, column.getIndex(), null));
         }
 
         for (TableLink lnk : _foreignKeys) {
-            for (ColInfo column : lnk.getStartCols()) {
+            for (ColumnInfo column : lnk.getStartCols()) {
                 if (!values.contains(column)) {
-                	int index = column.getFieldIndex();
+                	int index = column.getIndex();
                     if (index == -1) {
                         // index of foreign key columns has to be taken from tableLink
                         // because the fields in this case have to use other fieldindexes
@@ -163,7 +204,7 @@ public final class TableInfo {
             }
         }
 
-        int size = _columns.size() + _foreignKeys.size() - _primaryKey.getColumns().size();
+        int size = _columns.size() + _foreignKeys.size();
         int counter = 0;
         for (int i = 0; i < size; ++i) {
             Object inpt = input[i];
@@ -203,50 +244,6 @@ public final class TableInfo {
 
         return values;
     }
-
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * Method returning name of this table.
-     * 
-     * @return Name of the table currently set.
-     */
-    public String getTableName() { return _tableName; }
-
-    /**
-     * Method returning extendedTable currently set.
-     * 
-     * @return ExtendedTable currently set.
-     */
-    public TableInfo getExtendedTable() { return _extendedTable; }
-
-    /**
-     * Method returning list of tables extending this one.
-     * 
-     * @return List of extending tables.
-     */
-    public List<TableInfo> getExtendingTables() { return _extendingTables; }
-
-    /**
-     * Get primary key of the table.
-     * 
-     * @return Primary key of the table.
-     */
-    public PrimaryKeyInfo getPrimaryKey() { return _primaryKey; }
-
-    /**
-     * Method returning columns currently set.
-     * 
-     * @return List of columns currently set.
-     */
-    public List<ColInfo> getColumns() { return _columns; }
-
-    /**
-     * Method returning list of foreign keys.
-     * 
-     * @return List of foreign keys.
-     */
-    public List<TableLink> getForeignKeys() { return _foreignKeys; }
 
     //-----------------------------------------------------------------------------------    
 }

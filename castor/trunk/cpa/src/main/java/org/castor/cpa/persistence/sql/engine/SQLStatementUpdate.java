@@ -20,7 +20,7 @@ package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.SQLException;
 
-import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.query.Update;
@@ -109,7 +109,7 @@ public final class SQLStatementUpdate {
 
         // add assignments to update statement
         int count = 0;
-        for (ColInfo col : _tableInfo.iterateAll()) {
+        for (ColumnInfo col : _tableInfo.iterateAll()) {
             if (col.isStore()) {
                 _update.addAssignment(new Column(col.getName()),
                         new Parameter(SET_PARAM_NAMESPACE + col.getName()));
@@ -149,7 +149,7 @@ public final class SQLStatementUpdate {
 
             // build condition for identities
             Condition condition = new AndCondition();
-            for (ColInfo col : _tableInfo.getPrimaryKey().getColumns()) {
+            for (ColumnInfo col : _tableInfo.getPrimaryKey().getColumns()) {
                 String name = col.getName();
                 condition.and(new Column(name).equal(new Parameter(name)));
             }

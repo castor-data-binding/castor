@@ -32,10 +32,10 @@ public final class PrimaryKeyInfo {
     //-----------------------------------------------------------------------------------
 
     /** Table the primary key belongs to. */
-    private TableInfo _table;
+    private final TableInfo _table;
 
     /** List of primary key columns. */
-    private final List<ColInfo> _columns = new ArrayList<ColInfo>();
+    private final List<ColumnInfo> _columns = new ArrayList<ColumnInfo>();
 
     //-----------------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ public final class PrimaryKeyInfo {
      * 
      * @param column Column that belongs to primary key.
      */
-    protected void addColumn(final ColInfo column) {
+    protected void addColumn(final ColumnInfo column) {
         _columns.add(column);
     }
     
@@ -73,7 +73,7 @@ public final class PrimaryKeyInfo {
      * 
      * @return List of primary key columns.
      */
-    public List<ColInfo> getColumns() { return _columns; }
+    public List<ColumnInfo> getColumns() { return _columns; }
 
     //-----------------------------------------------------------------------------------
 }

@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
-import org.castor.cpa.persistence.sql.engine.info.ColInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.persistence.sql.engine.info.TableLink;
@@ -175,7 +175,7 @@ public final class SQLStatementLoad {
 
             // construct where condition for the query
             Condition condition = new AndCondition();
-            for (ColInfo col : _mainTableInfo.getPrimaryKey().getColumns()) {
+            for (ColumnInfo col : _mainTableInfo.getPrimaryKey().getColumns()) {
                 String name = col.getName();
                 condition.and(mainTbl.column(name).equal(new Parameter(name)));
             }
@@ -220,11 +220,12 @@ public final class SQLStatementLoad {
             final Table mainTbl, final boolean addJoin) {
         Qualifier table = new Table(tblInfo.getTableName());
 
-        addAllColumns(table, tblInfo.getColumns());
+        addColumns(table, tblInfo.getPrimaryKey().getColumns());
+        addColumns(table, tblInfo.getColumns());
 
         // handle foreign keys: add their columns and joins if necessary
         for (TableLink tblLnk : tblInfo.getForeignKeys()) {
-            if (!(TableLink.SIMPLE == tblLnk.getRelationType())) {
+            if (!(TableLink.REFERS_TO == tblLnk.getRelationType())) {
                 TableInfo joinTableInfo = tblLnk.getTargetTable();
                 Qualifier joinTable = new Table(joinTableInfo.getTableName());
                 if (addJoin) {
@@ -241,14 +242,14 @@ public final class SQLStatementLoad {
                         joinTables.add(tblLnk.getTargetTable());
                     }
 
-                    if (TableLink.MANY_KEY == (tblLnk.getRelationType())) {
-                        addAllColumns(joinTable, joinTableInfo.getPrimaryKey().getColumns());
-                    } else if (TableLink.MANY_TABLE == (tblLnk.getRelationType())) {
-                        addSimpleColumns(joinTable, joinTableInfo.getColumns());
+                    if (TableLink.REFERED_BY == (tblLnk.getRelationType())) {
+                        addColumns(joinTable, joinTableInfo.getPrimaryKey().getColumns());
+                    } else if (TableLink.MANY_TO_MANY == (tblLnk.getRelationType())) {
+                        addColumns(joinTable, joinTableInfo.getColumns());
                     }
                 }
             } else {
-                addAllColumns(table, tblLnk.getStartCols());
+                addColumns(table, tblLnk.getStartCols());
             }
         }
     }
@@ -259,21 +260,12 @@ public final class SQLStatementLoad {
      * @param table Table to add columns from.
      * @param columns Columns to be added for given table.
      */
-    private void addAllColumns(final Qualifier table, final List<ColInfo> columns) {
-        for (ColInfo col : columns) {
+    private void addColumns(final Qualifier table, final List<ColumnInfo> columns) {
+        for (ColumnInfo col : columns) {
             _select.addSelect(table.column(col.getName()));
         }
     }
     
-    private void addSimpleColumns(final Qualifier table, final List<ColInfo> columns) {
-        for (ColInfo col : columns) {
-            if (!col.isPrimaryKey()) {
-                _select.addSelect(table.column(col.getName()));
-            }
-        }
-    }
-    
-
     /**
      * Method constructing condition for joins.
      * 
@@ -284,9 +276,9 @@ public final class SQLStatementLoad {
      * @param rightCols Columns of the right table to be used for the condition of the join.
      * @return AndCondition containing all conditions for the join.
      */
-    private AndCondition constructCondition(final Qualifier leftTbl, final List<ColInfo> leftCols,
+    private AndCondition constructCondition(final Qualifier leftTbl, final List<ColumnInfo> leftCols,
             final CompareOperator compareOp, final Qualifier rightTbl,
-            final List<ColInfo> rightCols) {
+            final List<ColumnInfo> rightCols) {
         if (leftCols.size() != rightCols.size()) {
             System.out.println("Error while constructing condition! Size of leftCols and rightCols"
                     + " is not equal!");
