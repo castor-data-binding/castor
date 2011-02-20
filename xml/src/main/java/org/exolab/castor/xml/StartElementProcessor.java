@@ -19,9 +19,9 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.core.util.StringUtil;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -227,7 +227,7 @@ public class StartElementProcessor {
             // -- Namespace patch, should be moved to XMLClassDescriptor, but
             // -- this is the least intrusive patch at the moment. kv - 20030423
             if ((descriptor != null) && (!descriptor.isContainer())) {
-                if (StringUtil.isNotEmpty(namespace)) {
+                if (StringUtils.isNotEmpty(namespace)) {
                     if (!MarshalFramework.namespaceEquals(namespace,
                             descriptor.getNameSpaceURI())) {
                         // -- if descriptor namespace is not null, then we must
@@ -298,7 +298,7 @@ public class StartElementProcessor {
                         tmpLocation.toString(), classDesc));
             } else if (descriptor != null) {
                 String tmpPath = descriptor.getLocationPath();
-                if (path.equals(StringUtil.defaultString(tmpPath)))
+                if (path.equals(StringUtils.defaultString(tmpPath)))
                     break; // -- found
                 descriptor = null; // -- not found, try again
             } else {

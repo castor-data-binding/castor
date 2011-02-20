@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.ContentHandler;
@@ -68,10 +69,11 @@ public class CharactersProcessor {
     }
 
     public void compute(char[] ch, int start, int length) throws SAXException {
+    	String string = new String(ch, start, length);
         if (LOG.isTraceEnabled()) {
             String trace = MessageFormat.format(resourceBundle
                     .getString("unmarshalHandler.log.trace.characters"),
-                    new Object[] { new String(ch, start, length) });
+                    new Object[] { string });
             LOG.trace(trace);
         }
 
@@ -95,64 +97,27 @@ public class CharactersProcessor {
         boolean removedTrailingWhitespace = false;
         boolean removedLeadingWhitespace = false;
         if (!state.isWhitespacePreserving()) {
-            // -- trim leading whitespace characters
-            while (length > 0) {
-                boolean whitespace = false;
-                switch (ch[start]) {
-                case ' ':
-                case '\r':
-                case '\n':
-                case '\t':
-                    whitespace = true;
-                    break;
-                default:
-                    break;
-                }
-                if (!whitespace)
-                    break;
-                removedLeadingWhitespace = true;
-                ++start;
-                --length;
-            }
-
-            if (length == 0) {
-                // -- we also need to mark trailing whitespace removed
-                // -- when we received only whitespace characters
-                removedTrailingWhitespace = removedLeadingWhitespace;
-            } else {
-                // -- trim trailing whitespace characters
-                while (length > 0) {
-                    boolean whitespace = false;
-                    switch (ch[start + length - 1]) {
-                    case ' ':
-                    case '\r':
-                    case '\n':
-                    case '\t':
-                        whitespace = true;
-                        break;
-                    default:
-                        break;
-                    }
-                    if (!whitespace)
-                        break;
-                    removedTrailingWhitespace = true;
-                    --length;
-                }
-            }
+        	removedTrailingWhitespace = Character.isWhitespace(ch[start+length-1]);
+        	removedLeadingWhitespace = Character.isWhitespace(ch[start]);
+        	string = string.trim();
         }
 
         if (state.getBuffer() == null) {
             state.setBuffer(new StringBuffer());
         } else {
-            // -- non-whitespace content exists, add a space
-            if ((!state.isWhitespacePreserving()) && (length > 0)) {
-                if (state.isTrailingWhitespaceRemoved()
-                        || removedLeadingWhitespace) {
-                    state.getBuffer().append(' ');
-                }
-            }
-        }
+        	if (state.isWhitespacePreserving()) {
+				state.setTrailingWhitespaceRemoved(false);
+				state.getBuffer().append(string);
+				return;
+			} else if (StringUtils.isEmpty(string)) {
+				state.setTrailingWhitespaceRemoved(removedTrailingWhitespace);
+				return;
+			} else if (state.isTrailingWhitespaceRemoved()
+					|| removedLeadingWhitespace) {
+				state.getBuffer().append(' ');
+			}
+		}
         state.setTrailingWhitespaceRemoved(removedTrailingWhitespace);
-        state.getBuffer().append(ch, start, length);
+        state.getBuffer().append(string);
     }
 }
