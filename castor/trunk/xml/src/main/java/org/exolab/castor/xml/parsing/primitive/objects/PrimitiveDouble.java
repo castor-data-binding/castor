@@ -30,10 +30,10 @@ class PrimitiveDouble extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new Double(0.0);
+            return Double.valueOf(0.0);
         }
 
-        return new Double(value);
+        return Double.valueOf(Double.parseDouble(value));
     }
 
 }

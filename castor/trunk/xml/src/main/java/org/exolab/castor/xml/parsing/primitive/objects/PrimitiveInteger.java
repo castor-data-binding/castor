@@ -30,10 +30,10 @@ class PrimitiveInteger extends PrimitiveObject {
 	@Override
 	public Object getObject() {
 		if (StringUtil.isEmpty(value)) {
-            return new Integer(0);
+            return Integer.valueOf(0);
         }
 
-		return new Integer(value);
+		return Integer.valueOf(Integer.parseInt(value));
 	};
 
 }
