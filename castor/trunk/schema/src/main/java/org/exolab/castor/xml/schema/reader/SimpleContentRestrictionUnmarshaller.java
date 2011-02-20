@@ -342,7 +342,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
             _complexType.addAnnotation(ann);
         }
         //-- <anyAttribute>
-        if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
+        else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
             Wildcard wildcard =
                  ((WildcardUnmarshaller)unmarshaller).getWildcard();
             try {
