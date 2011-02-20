@@ -615,10 +615,12 @@
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
                 <configuration>
                     <excludes>
                         <exclude>org/castor/tools/log4j/TestCastorAppender.java</exclude>
@@ -663,11 +665,13 @@
             <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-checkstyle-plugin</artifactId>
+                  <version>2.4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.5</version>
                 <configuration>
                     <targetJdk>1.5</targetJdk>
                     <rulesets>
@@ -683,6 +687,7 @@
 
             <plugin>
                 <artifactId>maven-changes-plugin</artifactId>
+                <version>2.3</version>
                 <reportSets>
                     <reportSet>
                         <reports>
