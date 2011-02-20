@@ -51,8 +51,6 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import org.apache.xerces.utils.regex.RegularExpression;
-//import org.apache.xerces.utils.regex.ParseException;
  
  /**
   * An implementation of the XercesRegExpEvaluator that uses the
@@ -77,7 +75,8 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
     private static final String BOL = "^";
     private static final String EOL = "$";
     
-    private static final String CLASS_NAME = "org.apache.xerces.utils.regex.RegularExpression";
+    private static final String CLASS_NAME = "org.apache.xerces.impl.xpath.regex.RegularExpression";
+    private static final String OLD_CLASS_NAME = "org.apache.xerces.utils.regex.RegularExpression";
     
     /**
      * The Regular expression
@@ -85,7 +84,12 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
     // RegularExpression _regexp = null;
     Object _regexp = null;
 
-    private Constructor _constructor;
+    private Constructor<?> _constructor;
+    
+    /**
+     * Name of the actual class used for regular expression matching.
+     */
+    private String className;
 
     /**
      * Creates a new XercesRegExpEvaluator
@@ -93,19 +97,32 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
     public XercesRegExpEvaluator() {
         super();
         
-        Class regexpClass;
+        Class<?> regexpClass = null;
         try {
             regexpClass = Class.forName(CLASS_NAME);
             _constructor = regexpClass.getConstructor( new Class[] { String.class } );
+            className = CLASS_NAME;
         } catch (ClassNotFoundException e) {
-            LOG.error("Problem loading class " + CLASS_NAME, e);
-            throw new IllegalAccessError("Problem loading class " + CLASS_NAME + ": " + e.getMessage());
+            try{
+              regexpClass = Class.forName(OLD_CLASS_NAME);
+              _constructor = regexpClass.getConstructor( new Class[] { String.class } );
+              className = OLD_CLASS_NAME;
+            } catch (ClassNotFoundException e2) {
+              LOG.error("Problem loading class " + this.className, e2);
+              throw new IllegalAccessError("Problem loading class " + this.className + ": " + e.getMessage());
+            } catch (SecurityException e2) {
+              LOG.error("Problem accessing constructor of class " + this.className, e2);
+              throw new IllegalAccessError("Problem accessing constructor of class " + this.className + ": " + e.getMessage());
+            } catch (NoSuchMethodException e2) {
+              LOG.error("Problem locating constructor of class " + this.className, e2);
+              throw new IllegalAccessError("class " + this.className + ": " + e.getMessage());
+            }
         } catch (SecurityException e) {
-            LOG.error("Problem accessing constructor of class " + CLASS_NAME, e);
-            throw new IllegalAccessError("Problem accessnig constructor of class " + CLASS_NAME + ": " + e.getMessage());
+            LOG.error("Problem accessing constructor of class " + this.className, e);
+            throw new IllegalAccessError("Problem accessing constructor of class " + this.className + ": " + e.getMessage());
         } catch (NoSuchMethodException e) {
-            LOG.error("Problem locating constructor of class " + CLASS_NAME, e);
-            throw new IllegalAccessError("class " + CLASS_NAME + ": " + e.getMessage());
+            LOG.error("Problem locating constructor of class " + this.className, e);
+            throw new IllegalAccessError("class " + this.className + ": " + e.getMessage());
         }
 
     } //-- XercesRegExpEvaluator
@@ -122,7 +139,7 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
             try {
                 _regexp = _constructor.newInstance(new Object[] { BOL + rexpr + EOL } );
             } catch (Exception e) {
-                LOG.error("Problem invoking constructor on " + CLASS_NAME, e);
+                LOG.error("Problem invoking constructor on " + this.className, e);
                 String err = "XercesRegExp Syntax error: "
                     + e.getMessage()
                     + " ; error occured with the following "
@@ -152,15 +169,15 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
                 method = _regexp.getClass().getMethod("matches", new Class[] { String.class } );
                 return ((Boolean) method.invoke(_regexp, new Object[] { value } )).booleanValue();
             } catch (SecurityException e) {
-                LOG.error("Security problem accessing matches(String) method of class " + CLASS_NAME, e);
+                LOG.error("Security problem accessing matches(String) method of class " + this.className, e);
             } catch (NoSuchMethodException e) {
-                LOG.error("Method matches(String) of class " + CLASS_NAME + " could not be found.", e);
+                LOG.error("Method matches(String) of class " + this.className + " could not be found.", e);
             } catch (IllegalArgumentException e) {
-                LOG.error("Invalid argument provided to method matches(String) of class " + CLASS_NAME, e);
+                LOG.error("Invalid argument provided to method matches(String) of class " + this.className, e);
             } catch (IllegalAccessException e) {
-                LOG.error("Illegal acces to method matches(String) of class " + CLASS_NAME, e);
+                LOG.error("Illegal acces to method matches(String) of class " + this.className, e);
             } catch (InvocationTargetException e) {
-                LOG.error("Invalid invocation of method matches(String) of class " + CLASS_NAME, e);
+                LOG.error("Invalid invocation of method matches(String) of class " + this.className, e);
             }
         }
         return true;
