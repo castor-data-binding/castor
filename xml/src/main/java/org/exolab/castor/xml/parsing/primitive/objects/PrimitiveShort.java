@@ -30,10 +30,10 @@ class PrimitiveShort extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new Short((short) 0);
+            return Short.valueOf((short) 0);
         }
 
-        return new Short(value);
+        return Short.valueOf(Short.parseShort(value));
     }
 
 }

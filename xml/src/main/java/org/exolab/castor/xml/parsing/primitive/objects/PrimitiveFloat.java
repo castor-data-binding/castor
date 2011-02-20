@@ -30,10 +30,10 @@ public class PrimitiveFloat extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new Float(0);
+            return Float.valueOf(0);
         }
 
-        return new Float(value);
+        return Float.valueOf(Float.parseFloat(value));
     }
 
 }

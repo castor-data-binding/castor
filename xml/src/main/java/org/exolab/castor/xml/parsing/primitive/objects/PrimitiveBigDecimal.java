@@ -30,7 +30,7 @@ class PrimitiveBigDecimal extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new java.math.BigDecimal(0);
+            return java.math.BigDecimal.valueOf(0);
         }
 
         return new java.math.BigDecimal(value);

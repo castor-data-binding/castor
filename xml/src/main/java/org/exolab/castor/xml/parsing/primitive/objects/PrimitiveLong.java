@@ -31,10 +31,10 @@ class PrimitiveLong extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new Long(0);
+            return Long.valueOf(0);
         }
             
-        return new Long(value);
+        return Long.valueOf(Long.parseLong(value));
     }
 
 }

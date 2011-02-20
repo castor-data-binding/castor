@@ -30,10 +30,10 @@ class PrimitiveByte extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isEmpty(value)) {
-            return new Byte((byte) 0);
+            return Byte.valueOf((byte) 0);
         }
 
-        return new Byte(value);
+        return Byte.valueOf(Byte.parseByte(value));
     }
 
 }

@@ -30,10 +30,10 @@ class PrimitiveChar extends PrimitiveObject {
     @Override
     public Object getObject() {
         if (StringUtil.isNotEmpty(value)) {
-            return new Character(value.charAt(0));
+            return Character.valueOf(value.charAt(0));
         }
 
-        return new Character('\0');
+        return Character.valueOf('\0');
     }
 
 }
