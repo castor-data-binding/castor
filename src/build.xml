@@ -770,7 +770,7 @@
            <fileset dir="${doc}" includes="license.txt,new-license.txt,document.dtd,*.pdf"/>
         </copy>
         <copy todir="${build}/doc">
-           <fileset dir="${java}/org/exolab/castor/mapping" includes="mapping.dtd,mapping.xsd"/>
+           <fileset dir="${main.resources}/org/exolab/castor/mapping" includes="mapping.dtd,mapping.xsd"/>
         </copy>
         <copy todir="${build}/doc">
            <fileset dir="codegen/src/main/resources/org/exolab/castor/builder/binding" 
