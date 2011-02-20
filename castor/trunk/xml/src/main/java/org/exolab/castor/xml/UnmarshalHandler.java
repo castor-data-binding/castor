@@ -62,6 +62,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
@@ -534,17 +535,17 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void endElement(String namespaceURI, String localName, String qName)
     throws org.xml.sax.SAXException {        
-        if (StringUtil.isEmpty(qName)) {
-            if (StringUtil.isEmpty(localName)) {
+        if (StringUtils.isEmpty(qName)) {
+            if (StringUtils.isEmpty(localName)) {
 				String error = resourceBundle
 						.getString("unmarshalHandler.error.localName.and.qName.null");
                 throw new SAXException(error);
             }
             qName = localName;
-            if (StringUtil.isNotEmpty(namespaceURI)) {
+            if (StringUtils.isNotEmpty(namespaceURI)) {
                 //-- rebuild qName, for now
                 String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
-                if (StringUtil.isEmpty(prefix))
+                if (StringUtils.isEmpty(prefix))
                     qName = prefix + ":" + localName;
             }
         }
@@ -645,7 +646,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     throws org.xml.sax.SAXException {
         if (LOG.isTraceEnabled()) {
         	String trace;
-            if (StringUtil.isNotEmpty(qName))
+            if (StringUtils.isNotEmpty(qName))
             	trace = MessageFormat
 				.format(
 						resourceBundle
@@ -682,8 +683,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- delegation
         String tmpQName = null;
         
-        if (StringUtil.isEmpty(localName)) {
-            if (StringUtil.isEmpty(qName)) {
+        if (StringUtils.isEmpty(localName)) {
+            if (StringUtils.isEmpty(qName)) {
                 String error = resourceBundle.getString("unmarshalHandler.error.localName.and.qName.null");
                 throw new SAXException(error);
             }
@@ -691,13 +692,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             tmpQName = qName;
         }
         else {
-            if (StringUtil.isEmpty(qName)) {
-                if (StringUtil.isEmpty(namespaceURI)) {
+            if (StringUtils.isEmpty(qName)) {
+                if (StringUtils.isEmpty(namespaceURI)) {
                 	tmpQName = localName;
                 }
                 else {
                     String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
-                    if (StringUtil.isNotEmpty(prefix)) {
+                    if (StringUtils.isNotEmpty(prefix)) {
                     	tmpQName = prefix + ":" + localName;
                     }
                 }
@@ -713,7 +714,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (idx >= 0) {
             String prefix = localName.substring(0, idx);
             localName = localName.substring(idx+1);
-            if (StringUtil.isEmpty(namespaceURI)) {
+            if (StringUtils.isEmpty(namespaceURI)) {
                 namespaceURI = _namespaceHandling.getNamespaceURI(prefix);
             }
         } else {
@@ -724,7 +725,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 namespaceURI = defaultNamespace;
             }
             //-- adjust empty namespace
-            if (StringUtil.isEmpty(namespaceURI))
+            if (StringUtils.isEmpty(namespaceURI))
                 namespaceURI = null;
         }
         
@@ -1246,7 +1247,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     return classDesc.getJavaClass().getName();
 
                 //-- try to use "current Package"
-                if (StringUtil.isNotEmpty(currentPackage)) {
+                if (StringUtils.isNotEmpty(currentPackage)) {
                 	adjClassName = currentPackage + '.' + className;
                 }
                 
@@ -1360,7 +1361,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String path = descriptor.getLocationPath();
             StringBuffer fullAttributePath = new StringBuffer();
             
-            if (StringUtil.isNotEmpty(path)) {
+            if (StringUtils.isNotEmpty(path)) {
                 fullAttributePath.append(path + "/"); 
             }
             
@@ -1462,7 +1463,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 
                     if (descriptor != null) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (path.equals(StringUtil.defaultString(tmpPath))) {
+                        if (path.equals(StringUtils.defaultString(tmpPath))) {
                             break; //-- found
                         }
                     }
@@ -1570,7 +1571,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     if (descriptor.matches(name)) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (path.equals(StringUtil.defaultString(tmpPath))) {
+                        if (path.equals(StringUtils.defaultString(tmpPath))) {
                             found = true;
                             break;
                         }
@@ -1711,7 +1712,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         Class<?> type = descriptor.getFieldType();
         String valueType = descriptor.getSchemaType();
         boolean isPrimative = isPrimitive(type);
-        boolean isQName = StringUtil.equals(valueType, QNAME_NAME);
+        boolean isQName = StringUtils.equals(valueType, QNAME_NAME);
         
         boolean isByteArray = false;
         if (type.isArray()) {
@@ -1866,7 +1867,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //check if the value is a QName that needs to
                 //be resolved (ns:value -> {URI}value)
                 String valueType = descriptor.getSchemaType();
-                if (StringUtil.equals(valueType, QNAME_NAME)) {
+                if (StringUtils.equals(valueType, QNAME_NAME)) {
                         value = _namespaceHandling.resolveNamespace(value);
                 }
                 args.setValue(argIndex, value);

@@ -15,7 +15,7 @@
  */
 package org.exolab.castor.xml.parsing.primitive.objects;
 
-import org.castor.core.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This class is part of the command pattern implementation to instantiate an
@@ -29,7 +29,7 @@ class PrimitiveBoolean extends PrimitiveObject {
 
     @Override
     public Object getObject() {
-        if (StringUtil.isEmpty(value)) {
+        if (StringUtils.isEmpty(value)) {
             return Boolean.FALSE;
         }
 

@@ -3,7 +3,7 @@ package org.exolab.castor.xml.parsing;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import org.castor.core.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.xml.Namespaces;
@@ -56,7 +56,7 @@ public class NamespaceHandling {
      *            the package name to map to.
      */
     public void addNamespaceToPackageMapping(String nsURI, String packageName) {
-        _namespaceToPackage.put(StringUtil.defaultString(nsURI), StringUtil
+        _namespaceToPackage.put(StringUtils.defaultString(nsURI), StringUtils
                 .defaultString(packageName));
 
     }
@@ -69,7 +69,7 @@ public class NamespaceHandling {
      * @return the package name or null.
      */
     public String getMappedPackage(final String namespace) {
-        return _namespaceToPackage.get(StringUtil.defaultString(namespace));
+        return _namespaceToPackage.get(StringUtils.defaultString(namespace));
     }
 
     /**
@@ -96,9 +96,9 @@ public class NamespaceHandling {
                 Enumeration<String> enumeration = _namespaces
                         .getLocalNamespacePrefixes();
                 while (enumeration.hasMoreElements()) {
-                    String nsPrefix = StringUtil.defaultString(enumeration
+                    String nsPrefix = StringUtils.defaultString(enumeration
                             .nextElement());
-                    String nsURI = StringUtil.defaultString(_namespaces
+                    String nsURI = StringUtils.defaultString(_namespaces
                             .getNamespaceURI(nsPrefix));
                     MapItem mapItem = new MapItem(nsPrefix, nsURI);
                     handler.setValue(object, mapItem);
@@ -136,7 +136,7 @@ public class NamespaceHandling {
             result = result.substring(idx + 1);
         }
         String namespace = getNamespaceURI(prefix);
-        if (StringUtil.isNotEmpty(namespace)) {
+        if (StringUtils.isNotEmpty(namespace)) {
             result = '{' + namespace + '}' + result;
             return result;
         } else if ((namespace == null) && (prefix != null)) {

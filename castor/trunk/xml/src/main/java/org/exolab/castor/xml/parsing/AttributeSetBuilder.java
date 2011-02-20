@@ -15,7 +15,7 @@
  */
 package org.exolab.castor.xml.parsing;
 
-import org.castor.core.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.xml.sax.AttributeList;
@@ -149,7 +149,7 @@ public class AttributeSetBuilder {
         // -- on the parser
         for (int i = 0; i < atts.getLength(); i++) {
             String attName = atts.getQName(i);
-            if (StringUtil.isNotEmpty(attName)) {
+            if (StringUtils.isNotEmpty(attName)) {
                 if (attName.equals(XMLNS)) {
                     _namespaceHandling.addDefaultNamespace(atts.getValue(i));
                 } else if (attName.startsWith(XMLNS_PREFIX)) {
@@ -183,7 +183,7 @@ public class AttributeSetBuilder {
         // -- if we found any qName-only atts, process those
         for (int i = 0; i < atts.getLength(); i++) {
             String attName = atts.getQName(i);
-            if (StringUtil.isNotEmpty(attName)) {
+            if (StringUtils.isNotEmpty(attName)) {
                 // -- process any non-namespace qName atts
                 if ((!attName.equals(XMLNS))
                         && (!attName.startsWith(XMLNS_PREFIX))) {
@@ -192,7 +192,7 @@ public class AttributeSetBuilder {
                         String prefix = attName.substring(0, idx);
                         attName = attName.substring(idx + 1);
                         String nsURI = atts.getURI(i);
-                        if (StringUtil.isEmpty(nsURI)) {
+                        if (StringUtils.isEmpty(nsURI)) {
                             nsURI = _namespaceHandling.getNamespaceURI(prefix);
                         }
                         setReusableAttribute(attName, atts.getValue(i), nsURI);

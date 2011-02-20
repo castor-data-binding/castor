@@ -15,6 +15,8 @@
  */
 package org.castor.core.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Common functionality relate to String processing.
  *
@@ -22,11 +24,6 @@ package org.castor.core.util;
  */
 public class StringUtil {
 	
-	/**
-	 * The empty String <code>""</code>.
-	 */
-	public static final String _emptyString = "";
-    
     /**
      * Replaces all occurences of a pattern within a String.
      * @param source The source string.
@@ -36,74 +33,21 @@ public class StringUtil {
      */
     public static String replaceAll(final String source, final String toReplace,
             final String replacement) {
-        if (source == null) {
-            return null;
-        }
-        String returnValue = source;
-        int idx = source.lastIndexOf(toReplace);
-        if (idx != -1) {
-            StringBuffer ret = new StringBuffer(source);
-            ret.replace(idx, idx + toReplace.length(), replacement);
-            while ((idx = source.lastIndexOf(toReplace, idx - 1)) != -1) {
-                ret.replace(idx, idx + toReplace.length(), replacement);
-            }
-            returnValue = ret.toString();
-        }
-        return returnValue;
+//        if (source == null) {
+//            return null;
+//        }
+//        String returnValue = source;
+//        int idx = source.lastIndexOf(toReplace);
+//        if (idx != -1) {
+//            StringBuffer ret = new StringBuffer(source);
+//            ret.replace(idx, idx + toReplace.length(), replacement);
+//            while ((idx = source.lastIndexOf(toReplace, idx - 1)) != -1) {
+//                ret.replace(idx, idx + toReplace.length(), replacement);
+//            }
+//            returnValue = ret.toString();
+//        }
+//        return returnValue;
+    	return StringUtils.replace(source, toReplace, replacement);
     }
-    
-	/**
-	 * Compares two Strings, returning true if they are equal.
-	 * 
-	 * @see org.apache.commons.lang.StringUtils
-	 * @param str1
-	 *            the first String, may be null
-	 * @param str2
-	 *            the second String, may be null
-	 * @return <code>true</code> if the Strings are equal, case sensitive, or
-	 *         both <code>null</code>
-	 */
-	public static boolean equals(String str1, String str2) {
-		return str1 == null ? str2 == null : str1.equals(str2);
-	}
 
-	/**
-	 * Checks if a String is empty ("") or null.
-	 * 
-	 * @see org.apache.commons.lang.StringUtils
-	 * @param str
-	 *            the String to check, may be null
-	 * @return <code>true</code> if the String is empty or null
-	 */
-	public static boolean isEmpty(String str) {
-		return str == null || str.length() == 0;
-	}
-
-	/**
-	 * <p>
-	 * Checks if a String is not empty ("") and not null.
-	 * </p>
-	 * 
-	 * @see org.apache.commons.lang.StringUtils
-	 * @param str
-	 *            the String to check, may be null
-	 * @return <code>true</code> if the String is not empty and not null
-	 */
-	public static boolean isNotEmpty(String str) {
-		return !StringUtil.isEmpty(str);
-	}
-
-	/**
-	 * Returns either the passed in String, or if the String is null, an empty
-	 * String ("").
-	 * 
-	 * @see org.apache.commons.lang.StringUtils
-	 * @param str
-	 *            the String to check, may be null
-	 * @return the passed in String, or the empty String if it was
-	 *         <code>null</code>
-	 */
-	public static String defaultString(String str) {
-		return str == null ? _emptyString : str;
-	}
 }
