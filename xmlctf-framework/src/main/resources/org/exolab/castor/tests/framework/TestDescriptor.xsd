@@ -42,6 +42,8 @@
                 <xsd:element ref="test:BugFix" minOccurs="0" maxOccurs="1"/>
                 <!-- Minimum Java version for this test-->
                 <xsd:element name="MinimumJavaVersion" type="xsd:float" minOccurs="0" maxOccurs="1"/>
+                <!-- Minimum Java version for this test-->
+                <xsd:element name="MaximumJavaVersion" type="xsd:float" minOccurs="0" maxOccurs="1"/>
                 <!-- Test for the SourceGenerator OR the Marshaling Framework-->
                 <xsd:choice>
                     <!-- Test case for the SourceGenerator -->
