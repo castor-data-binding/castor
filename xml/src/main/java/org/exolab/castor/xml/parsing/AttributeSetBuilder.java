@@ -56,11 +56,6 @@ public class AttributeSetBuilder {
     private final static int XMLNS_PREFIX_LENGTH = XMLNS_PREFIX.length();
 
     /**
-     * A "reusable" AttributeSet, for when using handling SAX 2 ContentHandler.
-     */
-    private static AttributeSetImpl _reusableAtts = null;
-
-    /**
      * Tool class to deal with XML name spaces.
      */
     private NamespaceHandling _namespaceHandling = null;
@@ -83,32 +78,11 @@ public class AttributeSetBuilder {
      *            Attributes to determine the length of the reusable attribute
      *            object, can be null
      */
-    private void prepareReusableAttributes(Attributes atts) {
-        if (_reusableAtts == null) {
+    private AttributeSetImpl prepareAttributeSetImpl(Attributes atts) {
             if (atts != null) {
-                _reusableAtts = new AttributeSetImpl(atts.getLength());
-            } else {
-                // -- we can't pass a null AttributeSet to the
-                // -- startElement
-                _reusableAtts = new AttributeSetImpl();
+                return new AttributeSetImpl(atts.getLength());
             }
-        } else {
-            _reusableAtts.clear();
-        }
-    }
-
-    /**
-     * Sets a reusable {@link AttributeSet} object instance.
-     * 
-     * @param attName
-     *            Name of the attribute.
-     * @param value
-     *            Value of the attribute.
-     * @param uri
-     *            Name space URI of the attribute.
-     */
-    private void setReusableAttribute(String attName, String value, String uri) {
-        _reusableAtts.setAttribute(attName, value, uri);
+            return new AttributeSetImpl();
     }
 
     /**
@@ -122,9 +96,8 @@ public class AttributeSetBuilder {
      *             resolved.
      */
     public AttributeSet getAttributeSet(Attributes atts) throws SAXException {
-        prepareReusableAttributes(atts);
-        processAttributes(atts);
-        return _reusableAtts;
+        AttributeSetImpl attributeSet = prepareAttributeSetImpl(atts);
+        return processAttributes(atts, attributeSet);
     }
 
     /**
@@ -136,11 +109,11 @@ public class AttributeSetBuilder {
      * @param atts
      *            the Attributes to process (can be null).
      **/
-    private void processAttributes(Attributes atts) {
+    private AttributeSet processAttributes(Attributes atts, AttributeSetImpl attributeSet) {
         // -- process attributes
 
         if (atts == null || atts.getLength() == 0) {
-            return;
+            return attributeSet;
         }
 
         boolean hasQNameAtts = false;
@@ -158,7 +131,7 @@ public class AttributeSetBuilder {
                 } else {
                     // -- check for prefix
                     if (attName.indexOf(':') < 0) {
-                        setReusableAttribute(attName, atts.getValue(i), atts
+                    	attributeSet.setAttribute(attName, atts.getValue(i), atts
                                 .getURI(i));
                     } else
                         hasQNameAtts = true;
@@ -170,7 +143,7 @@ public class AttributeSetBuilder {
                 if (XMLNS.equals(attName)) {
                     _namespaceHandling.addDefaultNamespace(atts.getValue(i));
                 } else {
-                    setReusableAttribute(attName, atts.getValue(i), atts
+                	attributeSet.setAttribute(attName, atts.getValue(i), atts
                             .getURI(i));
                 }
             }
@@ -178,7 +151,7 @@ public class AttributeSetBuilder {
 
         // return if there are no qualified name attributes
         if (!hasQNameAtts) {
-            return;
+            return attributeSet;
         }
         // -- if we found any qName-only atts, process those
         for (int i = 0; i < atts.getLength(); i++) {
@@ -195,12 +168,13 @@ public class AttributeSetBuilder {
                         if (StringUtils.isEmpty(nsURI)) {
                             nsURI = _namespaceHandling.getNamespaceURI(prefix);
                         }
-                        setReusableAttribute(attName, atts.getValue(i), nsURI);
+                        attributeSet.setAttribute(attName, atts.getValue(i), nsURI);
                     }
                 }
             }
             // -- else skip already processed in previous loop
         }
+        return attributeSet;
     }
 
     /**
@@ -215,9 +189,8 @@ public class AttributeSetBuilder {
      *             resolved.
      */
     public AttributeSet getAttributeSet(AttributeList atts) throws SAXException {
-        prepareReusableAttributes(atts);
-        processAttributeList(atts);
-        return _reusableAtts;
+    	AttributeSetImpl attributeSet = prepareAttributeSetImpl(atts);
+        return processAttributeList(atts, attributeSet);
     }
 
     /**
@@ -230,9 +203,9 @@ public class AttributeSetBuilder {
      * @param atts
      *            the {@link AttributeList} to process (can be null)
      **/
-    private void processAttributeList(AttributeList atts) throws SAXException {
+    private AttributeSet processAttributeList(AttributeList atts, AttributeSetImpl attributeSet) throws SAXException {
         if (atts == null || atts.getLength() == 0)
-            return;
+            return attributeSet;
 
         // -- process all namespaces first
         int attCount = 0;
@@ -270,8 +243,9 @@ public class AttributeSetBuilder {
                     }
                 }
             }
-            setReusableAttribute(attName, atts.getValue(i), namespace);
+            attributeSet.setAttribute(attName, atts.getValue(i), namespace);
         }
+        return attributeSet;
     }
 
     /**
@@ -282,15 +256,10 @@ public class AttributeSetBuilder {
      *            {@link Attributes} to determine the length of the reusable
      *            {@link AttributeSet} object (can be null).
      */
-    private void prepareReusableAttributes(AttributeList atts) {
-        if (_reusableAtts == null) {
-            if (atts == null) {
-                _reusableAtts = new AttributeSetImpl();
-            } else {
-                _reusableAtts = new AttributeSetImpl(atts.getLength());
-            }
-        } else {
-            _reusableAtts.clear();
-        }
+    private AttributeSetImpl prepareAttributeSetImpl(AttributeList atts) {
+    	if (atts == null) {
+    		return new AttributeSetImpl();
+    	}
+    	return new AttributeSetImpl(atts.getLength());
     }
 }
