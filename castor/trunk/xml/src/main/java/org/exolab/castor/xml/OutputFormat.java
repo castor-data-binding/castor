@@ -75,4 +75,12 @@ public interface OutputFormat {
      */
     void setEncoding(String encoding);
     
+    /**
+     * Defines the XML document version to be output.
+     * @param encoding The XML document version to be used.
+     * 
+     * @since 1.3.2 
+     */
+    void setVersion(String version);
+    
 }

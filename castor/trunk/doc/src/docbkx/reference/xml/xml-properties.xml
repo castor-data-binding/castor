@@ -476,6 +476,25 @@
                     </entry>
                 </row>
 
+                <row>
+                    <entry>org.exolab.castor.xml.version</entry>
+                    <entry>
+                        Specifies the XML document version number to be used 
+                        during marshalling; defaults to 1.0.
+                    </entry>
+                    <entry>
+                        <classname>1.0</classname>
+                        or
+                        <classname>1.1</classname>
+                    </entry>
+                    <entry>
+                        <classname>1.0</classname>
+                    </entry>
+                    <entry>
+                        <emphasis role="bold">1.3.2</emphasis>
+                    </entry>
+                </row>
+
 			</tbody>
             </tgroup>
 		</table>

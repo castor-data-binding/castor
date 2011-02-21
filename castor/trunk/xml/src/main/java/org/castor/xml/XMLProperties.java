@@ -469,5 +469,20 @@ public class XMLProperties extends AbstractProperties {
      * </pre>
      */
     public static final String LENIENT_INTEGER_VALIDATION = 
-        "org.exolab.castor.xml.lenient.integer.validation";    
+        "org.exolab.castor.xml.lenient.integer.validation";
+
+    /**
+     * Property that allows to specify the XML document version
+     * number to be used during marshalling; defaulta to 1.0.
+     * 
+     * Possible values:
+     * - 1.0  (default)
+     * - 1.1
+     * 
+     * <pre>
+     * org.exolab.castor.xml.version=1.0
+     * </pre>
+     */
+    public static final String XML_VERSION = 
+        "org.exolab.castor.xml.version";    
 }
