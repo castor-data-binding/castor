@@ -11,7 +11,7 @@
     <Category>basic capability</Category>
 
     <MinimumJavaVersion>5.0</MinimumJavaVersion>        
-    <!-- <MaximumJavaVersion>5.0</MaximumJavaVersion>  -->       
+    <MaximumJavaVersion>5.0</MaximumJavaVersion>       
     <MarshallingTest>
         <Root_Object>simple5.Root</Root_Object>
         <UnitTestCase>
