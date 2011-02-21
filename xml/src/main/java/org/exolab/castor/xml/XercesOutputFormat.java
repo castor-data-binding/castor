@@ -15,10 +15,6 @@
  */
 package org.exolab.castor.xml;
 
-import java.lang.reflect.Method;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 
 /**
@@ -27,156 +23,20 @@ import org.castor.core.util.Messages;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class XercesOutputFormat implements OutputFormat {
-	private static final Log LOG = LogFactory.getLog(XercesSerializer.class);
+public class XercesOutputFormat extends BaseXercesOutputFormat implements OutputFormat {
 
-    private Object _outputFormat;
-    
+    private static final String CLASS_NAME = "org.apache.xml.serialize.OutputFormat";
+
     /**
-     * Creates an instance of this class. 
+     * Creates an instance of this class.
      */
     public XercesOutputFormat() {
         try {
-            _outputFormat =  
-            Class.forName("org.apache.xml.serialize.OutputFormat").newInstance();
+            _outputFormat = Class.forName(CLASS_NAME).newInstance();
         } catch (Exception except) {
-            throw new RuntimeException(
-                    Messages.format("conf.failedInstantiateOutputFormat", 
-                            "org.apache.xml.serialize.XMLSerializer", except));
+            throw new RuntimeException(Messages.format(
+                    "conf.failedInstantiateOutputFormat", CLASS_NAME, except));
         }
     }
     
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setMethod(java.lang.String)
-     * {@inheritDoc}
-     */
-    public void setMethod(final String method) {
-    	Method aMethod;
-		try {
-			aMethod = _outputFormat.getClass().getMethod(
-                    "setMethod", new Class[] {String.class} );
-	    	aMethod.invoke(_outputFormat, new Object[] { method });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setMethod()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setMethod(method);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setIndenting(boolean)
-     * {@inheritDoc}
-     */
-    public void setIndenting(final boolean indent) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setIndenting", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(indent) });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setIndenting()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setIndenting(indent);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setPreserveSpace(boolean)
-     * {@inheritDoc}
-     */
-    public void setPreserveSpace(final boolean preserveSpace) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setPreserveSpace", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(preserveSpace) });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setPreserveSpace()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setPreserveSpace(preserveSpace);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#getFormat()
-     * {@inheritDoc}
-     */
-    public Object getFormat() {
-        return _outputFormat;
-    }
-    
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setDoctype(java.lang.String, java.lang.String)
-     * {@inheritDoc}
-     */
-    public void setDoctype(final String type1, final String type2) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setDoctype", new Class[] {String.class, String.class} );
-	    	method.invoke(_outputFormat, new Object[] { type1, type2});
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setDoctype()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setDoctype(type1, type2);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setOmitXMLDeclaration(boolean)
-     * {@inheritDoc}
-     */
-    public void setOmitXMLDeclaration(final boolean omitXMLDeclaration) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setOmitXMLDeclaration", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(omitXMLDeclaration) });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setOmitXMLDeclaration()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setOmitXMLDeclaration(omitXMLDeclaration);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setOmitDocumentType(boolean)
-     * {@inheritDoc}
-     */
-    public void setOmitDocumentType(final boolean omitDocumentType) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setOmitDocumentType", new Class[] {boolean.class} );
-	    	method.invoke(_outputFormat, new Object[] { Boolean.valueOf(omitDocumentType) });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setOmitDocumentType()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setOmitDocumentType(omitDocumentType);
-    }
-
-    /**
-     * @see org.exolab.castor.xml.OutputFormat#setEncoding(java.lang.String)
-     * {@inheritDoc}
-     */
-    public void setEncoding(final String encoding) {
-    	Method method;
-		try {
-			method = _outputFormat.getClass().getMethod(
-                    "setEncoding", new Class[] {String.class} );
-	    	method.invoke(_outputFormat, new Object[] { encoding });
-		} catch (Exception e) {
-            String msg = "Problem invoking OutputFormat.setEncoding()";
-			LOG.error(msg, e);
-			throw new RuntimeException(msg + e.getMessage()); 
-		}
-        // _outputFormat.setEncoding(encoding);
-    }
 }

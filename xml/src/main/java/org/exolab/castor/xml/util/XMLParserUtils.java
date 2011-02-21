@@ -233,10 +233,13 @@ public class XMLParserUtils {
     public static OutputFormat getOutputFormat(final AbstractProperties properties) {
 
         boolean indent = properties.getBoolean(XMLProperties.USE_INDENTATION, false);
+        
+        String version = properties.getString(XMLProperties.XML_VERSION, "1.0");
 
         OutputFormat format = getSerializerFactory(
                 properties.getString(XMLProperties.SERIALIZER_FACTORY)).getOutputFormat();
         format.setMethod(OutputFormat.XML);
+        format.setVersion(version);
         format.setIndenting(indent);
         
         // There is a bad interaction between the indentation and the
