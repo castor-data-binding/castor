@@ -10,6 +10,7 @@
 
     <Category>basic capability</Category>
 
+    <MinimumJavaVersion>6.0</MinimumJavaVersion>        
     <MarshallingTest>
         <Root_Object>Root</Root_Object>
         <UnitTestCase>

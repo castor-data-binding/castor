@@ -34,7 +34,7 @@
             <Name>TestMarshallComplexEnumWithoutToString</Name>
             <Input>input-complex-withouttostring.xml</Input>
             <GoldFile>input-complex-withouttostring.xml</GoldFile>
-            <Failure>true</Failure>
+            <Failure FailureStep="compare-to-reference">true</Failure>
         </UnitTestCase>
     </MarshallingTest>
 
