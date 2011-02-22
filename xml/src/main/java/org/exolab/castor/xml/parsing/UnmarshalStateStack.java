@@ -97,4 +97,9 @@ public class UnmarshalStateStack {
 		parentStateIndex--;
 		return _unmarshalStates.elementAt(tmpParentIndex);
 	}
+	
+	public void resetParentState() {
+	    this.parentStateIndex = null;
+	}
+
 }

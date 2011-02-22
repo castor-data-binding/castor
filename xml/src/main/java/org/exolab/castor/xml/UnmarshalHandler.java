@@ -1464,6 +1464,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     if (descriptor != null) {
                         String tmpPath = descriptor.getLocationPath();
                         if (path.equals(StringUtils.defaultString(tmpPath))) {
+                            _stateStack.resetParentState();
                             break; //-- found
                         }
                     }
@@ -1578,6 +1579,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                 }
                 if (found) {
+                    _stateStack.resetParentState();
                     break;
                 }
                         
