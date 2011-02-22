@@ -169,6 +169,9 @@ class TestWithReferenceDocument extends TestCase {
         try {
             refUnmarshal = getUnmarshaledReference();
         } catch (Exception e) {
+            if (_delegate._verbose) {
+                LOG.error("Problem unmarshalling input file from disk", e);
+            }
             if (!_delegate.checkExceptionWasExpected(e, FailureStepType.UNMARSHAL_REFERENCE)) {
                 fail("Exception Unmarshaling from disk " + e);
             }
