@@ -177,11 +177,9 @@ public class StartElementProcessor {
         // -- Find ClassDescriptor for Parent
         XMLClassDescriptor classDesc = parentState.getClassDescriptor();
         if (classDesc == null) {
-            classDesc = (XMLClassDescriptor) parentState.getFieldDescriptor()
-                    .getClassDescriptor();
+            classDesc = (XMLClassDescriptor) parentState.getFieldDescriptor().getClassDescriptor();
             if (classDesc == null)
-                classDesc = _unmarshalHandler
-                        .getClassDescriptor(parentState.getObject().getClass());
+                classDesc = _unmarshalHandler.getClassDescriptor(parentState.getObject().getClass());
         } else {
             // classDesc.resetElementCount();
         }
@@ -290,9 +288,10 @@ public class StartElementProcessor {
                 // isWrapper = (isWrapper || hasFieldsAtLocation(name,
                 // classDesc));
                 StringBuffer tmpLocation = new StringBuffer();
-                tmpLocation.append(name);
                 if (count > 0) {
                     tmpLocation.append(path + "/" + name);
+                } else {
+                    tmpLocation.append(name);
                 }
                 isWrapper = (isWrapper || MarshalFramework.hasFieldsAtLocation(
                         tmpLocation.toString(), classDesc));
