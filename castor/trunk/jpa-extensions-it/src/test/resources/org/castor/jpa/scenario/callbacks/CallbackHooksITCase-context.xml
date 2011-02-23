@@ -39,7 +39,7 @@
         <property name="callbackInterceptor" ref="jpaCallbackHandler" />
     </bean>
 
-    <bean id="jpaCallbackHandler" class="org.castor.jdo.jpa.info.JPACallbackHandler" />
+    <bean id="jpaCallbackHandler" class="org.castor.cpa.jpa.info.JPACallbackHandler" />
 
     <bean id="personDao" class="org.castor.jpa.scenario.callbacks.PersonCastorDao">
         <property name="JDOManager" ref="jdoManager" />
