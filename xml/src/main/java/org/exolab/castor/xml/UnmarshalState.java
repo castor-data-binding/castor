@@ -48,6 +48,8 @@ package org.exolab.castor.xml;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * The state information class for the UnmarshalHandler.
  * 
@@ -156,12 +158,16 @@ public class UnmarshalState {
     }
 
     void markAsNotUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { return; }
+        if (_markedList == null) { 
+            return; 
+         }
         _markedList.remove(descriptor);
     }
 
     boolean isUsed(XMLFieldDescriptor descriptor) {
-        if (_markedList == null) { return false; }
+        if (_markedList.isEmpty()) { 
+            return false; 
+        }
         return _markedList.contains(descriptor);
     }
 
@@ -316,4 +322,17 @@ public class UnmarshalState {
     UnmarshalHandler.Arguments getConstructorArguments() {
         return _args;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("UnmarshalState [" + _elementName + "("+ _type + ") ");
+        if (!StringUtils.isEmpty(_location)) {
+            buffer.append("rooted at location=" + _location + ", ]");
+        }
+        return buffer.toString();
+        
+    }
+    
+    
 }
