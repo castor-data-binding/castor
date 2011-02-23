@@ -207,7 +207,7 @@ public class NamespaceHandling {
      * @return namespaceURI The namespace URI bound to the default namespace.
      */
     public String getDefaultNamespaceURI() {
-        return _namespaces.getNamespacePrefix("");
+        return _namespaces.getNamespaceURI("");
     }
 
     /**
