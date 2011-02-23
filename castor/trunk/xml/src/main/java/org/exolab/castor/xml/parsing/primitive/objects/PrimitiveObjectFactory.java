@@ -77,7 +77,11 @@ public class PrimitiveObjectFactory {
         }
 
         handler.setType(type);
-        handler.setValue(trimNumericValues(value));
+        if (type == String.class) {
+            handler.setValue(value);
+        } else {
+            handler.setValue(trimNumericValues(value));
+        }
 
         return handler.getObject();
     }
