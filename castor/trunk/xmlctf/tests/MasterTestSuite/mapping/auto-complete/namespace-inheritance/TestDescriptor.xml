@@ -20,11 +20,20 @@
             <GoldFile/>
         </UnitTestCase>
         <UnitTestCase>
-            <Name>Test01</Name>
+            <Name>Test02</Name>
+            <Mapping_File>mapping-auto-complete.xml</Mapping_File>
+            <Input>input-auto-complete.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+
+<!-- if we were able to set a property somehow .... ????, i.e. naming=mixed 
+        <UnitTestCase>
+            <Name>Test03</Name>
             <Mapping_File>mapping-auto-complete.xml</Mapping_File>
             <Input>input.xml</Input>
             <GoldFile/>
         </UnitTestCase>
+-->        
     </MarshallingTest>
 
 </TestDescriptor>
