@@ -21,9 +21,9 @@
       <xsd:sequence>
         <xsd:element name="description"   type="xsd:string" minOccurs="0" maxOccurs="1" />
         <xsd:element ref="include"        minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
         <xsd:element ref="class"          minOccurs="0" maxOccurs="unbounded" />
         <xsd:element ref="key-generator"  minOccurs="0" maxOccurs="unbounded" />
-        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
