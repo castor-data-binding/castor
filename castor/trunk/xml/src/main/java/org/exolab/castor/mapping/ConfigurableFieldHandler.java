@@ -47,7 +47,7 @@ package org.exolab.castor.mapping;
 import java.util.Properties;
 
 /**
- * A FieldHandler that can be configured with any kind of data. It's the responsibility
+ * A {@link FieldHandler} that can be configured with any kind of data. It's the responsibility
  * of the implementing class to do something useful with the configuration data.
  *
  * @author Tom van den Berge
