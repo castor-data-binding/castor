@@ -66,6 +66,7 @@ import org.castor.xml.InternalContext;
 import org.castor.xml.AbstractInternalContext;
 import org.castor.core.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.ClonableFieldHandler;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.ConfigurableFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
@@ -612,7 +613,21 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         // is returned.
         FieldHandler handler = _fieldHandlers.get(fieldMap.getHandler());
         if (handler != null) {
-        	return handler;
+
+            if (!(handler instanceof ClonableFieldHandler)) {
+                return handler;
+            }
+            
+            FieldHandler clonedHandler = handler;
+            Class<?> classToClone = handler.getClass();
+            try {
+                Method method = classToClone.getMethod("copyInstance", new Class[] { FieldHandler.class });
+                clonedHandler = (FieldHandler) method.invoke(handler, handler);
+                return clonedHandler;
+            } catch (Exception ex) {
+                String err = "The class '" + classToClone.getName() + "' must implement ClonableFieldHandler.";
+                throw new MappingException(err);
+            }
         }
         
         Class<?> handlerClass = null;
