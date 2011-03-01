@@ -1,5 +1,6 @@
 package org.exolab.castor.builder.factory;
 
+import org.apache.commons.lang.StringUtils;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.SGTypes;
@@ -45,6 +46,15 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         JType jType = collectionInfo.getXSList().getJType();
         sourceCode.append(((JCollectionType) jType).getInstanceName());
         sourceCode.append("();");
+        
+        if (!StringUtils.isEmpty(fieldInfo.getDefaultValue())) {
+          StringBuffer buffer = new StringBuffer();
+          buffer.append(fieldInfo.getName());
+          buffer.append(".add(");
+          buffer.append(fieldInfo.getDefaultValue());
+          buffer.append(");");
+          sourceCode.add(buffer.toString());
+        }
     } // -- generateConstructorCode
 
     /**
