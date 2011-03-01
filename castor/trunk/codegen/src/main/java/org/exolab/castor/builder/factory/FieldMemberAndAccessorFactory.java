@@ -120,7 +120,9 @@ public class FieldMemberAndAccessorFactory {
 
         //-- set init String
         if (fieldInfo.getDefaultValue() != null) {
-            field.setInitString(fieldInfo.getDefaultValue());
+            if (!xmlNature.isMultivalued()) {
+                field.setInitString(fieldInfo.getDefaultValue());
+            } 
         }
 
         if (fieldInfo.getFixedValue() != null && !xmlNature.getSchemaType().isDateTime()) {
