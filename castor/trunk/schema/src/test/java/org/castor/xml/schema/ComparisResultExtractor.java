@@ -61,8 +61,7 @@ public class ComparisResultExtractor {
         swriter.write(schema);
 
         // 3. compare using org.castor.xmlctf.xmldiff.XMLDiff
-        XMLDiff diff = new XMLDiff(targetedOutput.getAbsolutePath(),
-                expected.getFile());
+        XMLDiff diff = new XMLDiff(targetedOutput.getAbsolutePath(), new File(expected.toURI()).getAbsolutePath());
         int result = diff.compare();
         ComparisonResult testResult = result == 0 ? ComparisonResult.IDENTICAL
                 : ComparisonResult.DIFFERENCE;
