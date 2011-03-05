@@ -64,6 +64,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Encoder;
@@ -1405,10 +1406,10 @@ public class Marshaller extends MarshalFramework {
                 if (!_suppressNamespaces) {
                     ns = _topLevelAtts.getNamespace(i);
                     String prefix = null;
-                    if ((ns != null) && (ns.length() > 0)) {
+                    if (StringUtils.isNotEmpty(ns)) {
                         prefix = _namespaces.getNonDefaultNamespacePrefix(ns);
                     }
-                    if ((prefix != null) && (prefix.length() > 0)) {
+                    if (StringUtils.isNotEmpty(prefix)) {
                         qName = prefix + ':' + qName;
                     }
                     if (ns == null) ns = "";
@@ -1439,7 +1440,7 @@ public class Marshaller extends MarshalFramework {
                 continue;
             }
             String path = attributeDescriptor.getLocationPath();
-            if ((path != null) && (path.length() > 0)) {
+            if (StringUtils.isNotEmpty(path)) {
                 //-- save for later processing
                 if (nestedAtts == null) {
                     nestedAtts = new XMLFieldDescriptor[descriptors.length - i];
@@ -1529,9 +1530,9 @@ public class Marshaller extends MarshalFramework {
                     //-- calculate proper prefix
                     String tns = classDesc.getNameSpaceURI();
                     String prefix = null;
-                    if ((tns != null) && (tns.length() > 0)) {
+                    if (StringUtils.isNotEmpty(tns)) {
                         prefix = _namespaces.getNamespacePrefix(tns);
-                        if ((prefix != null) && (prefix.length() > 0)) {
+                        if (StringUtils.isNotEmpty(prefix)) {
                             typeName = prefix + ':' + typeName;
                         }
                     }
@@ -1714,7 +1715,7 @@ public class Marshaller extends MarshalFramework {
                                     currentLoc = currentLoc + "/" + elemName;
 
                                 String elemQName = elemName;
-                                if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                                if (StringUtils.isNotEmpty(nsPrefix)) {
                                     elemQName = nsPrefix + ':' + elemName;
                                 }
                                 wrappers.push(new WrapperInfo(elemName, elemQName, currentLoc));
@@ -1754,7 +1755,7 @@ public class Marshaller extends MarshalFramework {
                     } else {
                         //-- all other types
                         String str = obj.toString();
-                        if ((str != null) && (str.length() > 0)) {
+                        if (StringUtils.isNotEmpty(str)) {
                             chars = str.toCharArray();
                         }
                     }
@@ -1927,7 +1928,7 @@ public class Marshaller extends MarshalFramework {
                             currentLoc = currentLoc + "/" + elemName;
 
                         String elemQName = elemName;
-                        if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                        if (StringUtils.isNotEmpty(nsPrefix)) {
                             elemQName = nsPrefix + ':' + elemName;
                         }
                         wrappers.push(new WrapperInfo(elemName, elemQName, currentLoc));
@@ -1971,7 +1972,7 @@ public class Marshaller extends MarshalFramework {
                 Object buffer = processXSListType(obj, elemDescriptor);
                 String elemName = elemDescriptor.getXMLName();
                 String elemQName = elemName;
-                if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                if (StringUtils.isNotEmpty(nsPrefix)) {
                     elemQName = nsPrefix + ':' + elemName;
                 }
                 char[] chars = buffer.toString().toCharArray();
@@ -2134,7 +2135,7 @@ public class Marshaller extends MarshalFramework {
                             currentLoc = currentLoc + "/" + elemName;
 
                         String elemQName = elemName;
-                        if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                        if (StringUtils.isNotEmpty(nsPrefix)) {
                             elemQName = nsPrefix + ':' + elemName;
                         }
                         wrappers.push(new WrapperInfo(elemName, elemQName, null));
@@ -2221,7 +2222,7 @@ public class Marshaller extends MarshalFramework {
                             currentLoc = currentLoc + "/" + elemName;
 
                         String elemQName = elemName;
-                        if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+                        if (StringUtils.isNotEmpty(nsPrefix)) {
                             elemQName = nsPrefix + ':' + elemName;
                         }
                         wrappers.push(new WrapperInfo(elemName, elemQName, null));
@@ -2553,7 +2554,7 @@ public class Marshaller extends MarshalFramework {
         String namespace = "";
         if (!_suppressNamespaces) {
             namespace = attDescriptor.getNameSpaceURI();
-            if ((namespace != null) && (namespace.length() > 0)) {
+            if (StringUtils.isNotEmpty(namespace)) {
                 String prefix = attDescriptor.getNameSpacePrefix();
                 if ((prefix == null) || (prefix.length() == 0))
                     prefix = _namespaces.getNonDefaultNamespacePrefix(namespace);
