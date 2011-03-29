@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="org.exolab.castor.jdo.engine.Employee">
+		<description>Entity</description>
+		<map-to table="employee" />
+		<field name="id" type="integer" identity="true">
+			<sql name="id" type="integer" />
+		</field>
+		<field name="address" type="org.exolab.castor.jdo.engine.Address">
+			<sql name="address_id" />
+		</field>
+	</class>
+</mapping>

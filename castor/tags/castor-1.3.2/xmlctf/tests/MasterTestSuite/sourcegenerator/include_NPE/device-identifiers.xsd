@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.ecma.ch/standards/ecma-323/csta"
+            xmlns:csta="http://www.ecma.ch/standards/ecma-323/csta"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:simpleType name="MediaClassAttribute">
+        <xsd:list itemType="csta:MediaClassComponents"/>
+    </xsd:simpleType>
+
+</xsd:schema>

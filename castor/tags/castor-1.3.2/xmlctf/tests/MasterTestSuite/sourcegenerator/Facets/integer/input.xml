@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<IntegerTest
+    xmlns="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/PrimitiveToWrapper"
+    intTestAtt="23" integerTestAtt="12">
+    <intTest>12</intTest>
+    <integerTest>325325</integerTest>
+</IntegerTest>

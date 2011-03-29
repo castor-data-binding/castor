@@ -1,0 +1,145 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+    <class name="org.castor.cpa.test.test88.LazyPerson" identity="firstName lastName">
+        <description>Table used for testing lazy loading</description>
+        <map-to table="test88_pks_person" />
+        <field name="firstName" type="string"  required="true">
+            <sql name="fname" type="varchar" />
+        </field>
+        <field name="lastName" type="string" required="true">
+            <sql name="lname" type="varchar" />
+        </field>
+        <field name="birthday" type="date"  >
+            <sql name="bday" type="date" />
+        </field>
+        <field name="address" type="org.castor.cpa.test.test88.LazyAddress" collection="collection" lazy="true" 
+               set-method="setAddress" get-method="getAddress"/>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyAddress" depends="org.castor.cpa.test.test88.LazyPerson" identity="id">
+        <description>Table used for testing lazy loading</description>
+        <map-to table="test88_pks_address" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer" />
+        </field>
+        <field name="street" type="string" >
+            <sql name="street" type="varchar"/>
+        </field>
+        <field name="city" type="string" >
+            <sql name="city" type="varchar" />
+        </field>
+        <field name="state" type="string" >
+            <sql name="state" type="varchar" />
+        </field>
+        <field name="zip" type="string" >
+            <sql name="zip" type="varchar" />
+        </field>
+        <field name="Person" type="org.castor.cpa.test.test88.LazyPerson">
+            <sql name="fname lname"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyEmployee" extends="org.castor.cpa.test.test88.LazyPerson">
+        <description>Table used for testing lazy loading for extends</description>
+        <map-to table="test88_pks_employee" />
+        <field name="startDate" type="date" >
+            <sql name="start_date" type="date" />
+        </field>
+        <field name="payRoll" type="org.castor.cpa.test.test88.LazyPayRoll" />
+        <field name="contract" type="org.castor.cpa.test.test88.LazyContract" />
+        <field name="projects" type="org.castor.cpa.test.test88.LazyProject" collection="collection" lazy="true"/>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyProject" identity="id">
+        <description>Table used for testing lazy loading</description>
+        <map-to table="test88_pks_project" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="owner" type="org.castor.cpa.test.test88.LazyEmployee">
+            <sql name="fname lname"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="varchar"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyContract" depends="org.castor.cpa.test.test88.LazyEmployee" identity="policyNo contractNo">
+        <description>Table used for testing multiple primary keys for extends</description>
+        <map-to table="test88_pks_contract" />
+        <field name="policyNo" type="integer" >
+            <sql name="policy_no" type="integer"/>
+        </field>
+        <field name="contractNo" type="integer">
+            <sql name="contract_no" type="integer"/>
+        </field>
+        <field name="comment" type="string">
+            <sql name="c_comment" type="varchar"/>
+        </field>
+        <field name="category" type="org.castor.cpa.test.test88.LazyContractCategory" collection="collection" >
+            <sql many-table="test88_pks_category_contract" many-key="policy_no contract_no" name="cate_id" />
+        </field>
+        <field name="employee" type="org.castor.cpa.test.test88.LazyEmployee" >
+            <sql name="fname lname" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyContractCategory" identity="id" >
+        <map-to table="test88_pks_category" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer" />
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar" />
+        </field>
+        <field name="contract" type="org.castor.cpa.test.test88.LazyContract" collection="collection" >
+            <sql many-table="test88_pks_category_contract" many-key="cate_id" name="policy_no contract_no" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyPayRoll" depends="org.castor.cpa.test.test88.LazyEmployee" identity="id">
+        <description>Table used for testing lazy loading</description>
+        <map-to table="test88_pks_payroll" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="holiday" type="integer" >
+            <sql name="holiday" type="integer" />
+        </field>
+        <field name="hourlyRate" type="integer" >
+            <sql name="hourly_rate" type="integer" />
+        </field>
+        <field name="employee" type="org.castor.cpa.test.test88.LazyEmployee" >
+            <sql name="fname lname" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test88.LazyNToNA" identity="idA">
+        <description>Source table used for testing lazy loading many-to-many</description>
+        <map-to table="test88_nton_a" />
+        <field name="idA" type="string"  required="true">
+            <sql name="id" type="varchar" />
+        </field>
+        <field name="statusA" type="integer" required="true">
+            <sql name="status" type="integer" />
+        </field>
+        <field name="refsToB" type="org.castor.cpa.test.test88.LazyNToNB" collection="collection" lazy="true" 
+               set-method="setRefs" get-method="getRefs"/>
+    </class>
+
+    <class name="org.castor.cpa.test.test88.LazyNToNB" identity="idB">
+        <description>Destination table used for testing lazy loading many-to-many</description>
+        <map-to table="test88_nton_b" />
+        <field name="idB" type="string"  required="true">
+            <sql name="id" type="varchar" />
+        </field>
+        <field name="statusB" type="integer" required="true">
+            <sql name="status" type="integer" />
+        </field>
+    </class>
+    
+</mapping>
+

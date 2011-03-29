@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="org.castor.cpa.test.test29.DependMaster" key-generator="MAX" identity="id">
+    <map-to table="test29_depend_master" />
+    <field name="id" type="integer">
+      <sql name="id" />
+    </field>
+    <field name="depend1" type="org.castor.cpa.test.test29.Depend1">
+      <sql name="depend1_id" />
+    </field>
+    <field name="depends2" collection="arraylist" type="org.castor.cpa.test.test29.Depend2">
+      <sql many-key="master_id" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test29.Depend1" key-generator="MAX" depends="org.castor.cpa.test.test29.DependMaster" identity="id">
+    <map-to table="test29_depend1" />
+    <field name="id" type="integer">
+      <sql name="id" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test29.Depend2" key-generator="MAX" depends="org.castor.cpa.test.test29.DependMaster" identity="id">
+    <map-to table="test29_depend2" />
+    <field name="id" type="integer">
+      <sql name="id" />
+    </field>
+    <field name="master" type="org.castor.cpa.test.test29.DependMaster">
+      <sql name="master_id" />
+    </field>
+  </class>
+
+</mapping>

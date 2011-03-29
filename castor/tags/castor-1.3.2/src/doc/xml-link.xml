@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/sourcegen.xml">
+
+  <properties>
+    <title>XML</title>
+    <abstract>
+       Describes how to use the XML marshalling and unmarshalling features, configuration and
+       options.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>XML</title>
+    
+    <section title="Note - Complete documentation moved">
+
+       <p>
+           Please note that the complete documentation for XML
+           marshalling and unmarshalling has been moved to the <font color="red">new</font>
+           <a href="reference-guide.xml">reference guide</a>.
+       </p>
+    
+    </section>
+    
+  </body>
+
+</document>

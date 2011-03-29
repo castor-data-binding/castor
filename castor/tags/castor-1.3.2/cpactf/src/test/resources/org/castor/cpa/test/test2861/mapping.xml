@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.codehaus.org/mapping.dtd">
+<mapping>
+    
+    <class name="org.castor.cpa.test.test2861.Person">
+        <description>Person</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2861_person"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="creator" type="org.castor.cpa.test.test2861.Person">
+            <sql name="creator"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2861.NaturalPerson"
+           extends="org.castor.cpa.test.test2861.Person">
+        <description>NaturalPerson</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2861_naturalperson"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="socialSecurityNumber" type="string">
+            <sql name="socialsecuritynumber" type="char"/>
+        </field>
+    </class>
+
+
+    <class name="org.castor.cpa.test.test2861.LegalPerson"
+           extends="org.castor.cpa.test.test2861.Person">
+        <description>LegalPerson</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2861_legalperson"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="federalTaxNumber" type="string">
+            <sql name="federaltaxnumber" type="char"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2861.Product">
+        <description>Product</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2861_product"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="eanCode" type="string">
+            <sql name="eancode" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2861.Motorcycle"
+           extends="org.castor.cpa.test.test2861.Product">
+        <description>Motorcycle</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2861_motorcycle"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="chassisNumber" type="string">
+            <sql name="chassisnumber" type="char"/>
+        </field>
+        <field name="holder" type="org.castor.cpa.test.test2861.Person">
+            <sql name="holder"/>
+        </field>
+        <field name="reseller" type="org.castor.cpa.test.test2861.Person">
+            <sql name="reseller"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2861.Invoice">
+        <description>Invoice</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2861_invoice"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="number" type="integer">
+            <sql name="nb" type="integer"/>
+        </field>
+        <field name="emitter" type="org.castor.cpa.test.test2861.Person">
+            <sql name="emitter"/>
+        </field>
+        <field name="billTo" type="org.castor.cpa.test.test2861.Person">
+            <sql name="billto"/>
+        </field>
+        <field name="invoiceItem" collection="vector"
+               type="org.castor.cpa.test.test2861.InvoiceItem">
+            <sql many-key="invoice"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2861.InvoiceItem" depends="org.castor.cpa.test.test2861.Invoice">
+        <description>org.castor.cpa.test.test2861.InvoiceItem</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2861_invoiceitem"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="invoice" type="org.castor.cpa.test.test2861.Invoice">
+            <sql name="invoice"/>
+        </field>
+        <field name="product" type="org.castor.cpa.test.test2861.Product">
+            <sql name="product"/>
+        </field>
+        <field name="quantity" type="integer">
+            <sql name="quantity" type="integer"/>
+        </field>
+        <field name="price" type="double">
+            <sql name="price" type="double"/>
+        </field>
+        <field name="total" type="double">
+            <sql name="total" type="double"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2861.Parameter">
+        <description>Invoice</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2861_parameter"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="idSys" type="string" identity="true">
+            <sql name="idsys" type="char"/>
+        </field>
+        <field name="intValue" type="integer">
+            <sql name="intvalue" type="integer"/>
+        </field>
+        <field name="person" type="org.castor.cpa.test.test2861.Person">
+            <sql name="person"/>
+        </field>
+        
+    </class>
+    
+</mapping>

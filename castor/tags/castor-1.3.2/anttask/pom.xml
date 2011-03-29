@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-anttasks</artifactId>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3.2</version>
+    </parent>
+
+	<packaging>jar</packaging>
+
+	<name>Castor XML - Ant tasks for XML code generator</name>
+	<url>http://www.castor.org</url>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.2/anttask</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.2/anttask</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.2/anttask</url>
+    </scm>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-codegen</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-ddlgen</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+            <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>
+
+

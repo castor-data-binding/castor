@@ -1,0 +1,56 @@
+
+<mapping>
+       
+       <class name="BaseClass">
+                <field name="attribute"
+                       type="string">
+                        <bind-xml name="Attribute" node="attribute"/>
+                </field>
+                <field name="element"
+                       type="string">
+                        <bind-xml name="Element"/>
+                </field>
+                <field name="numMods" type="integer">
+                  <bind-xml name="NumMods"/>
+                </field>
+               
+                <field name="child" type="BaseClass">
+                   <bind-xml auto-naming="deriveByClass"/>
+                </field>
+        </class>
+
+        <class name="C" extends="BaseClass">
+             <map-to xml="C"/>
+        </class>
+        
+        <class name="B" extends="BaseClass">
+            <map-to xml="B"/>
+        </class>
+        
+
+        <class name="A" extends="BaseClass">
+            <map-to xml="A"/>
+        </class>
+
+        <class name="LogEntry">
+          <map-to xml="Log"/>
+          <field name="entry" type="string">
+            <bind-xml name="Entry" node="attribute"/>
+          </field>
+        </class>
+
+        <class name="SimpleListener">
+          <map-to xml="SimpleListener"/>
+            <field name="calls" collection="vector" type="LogEntry">
+              <bind-xml name="Calls"/>
+            </field>
+        </class>
+
+        <class name="MutatingListener">
+          <map-to xml="MutatingListener"/>
+            <field name="calls" collection="vector" type="LogEntry">
+              <bind-xml name="Calls"/>
+            </field>
+        </class>
+
+</mapping>

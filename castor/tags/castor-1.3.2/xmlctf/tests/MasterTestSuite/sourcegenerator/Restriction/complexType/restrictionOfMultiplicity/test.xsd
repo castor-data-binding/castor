@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by Uma (CIBC) -->
+<xs:schema xmlns="http://castortest/sample/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   targetNamespace="http://castortest/sample/" elementFormDefault="qualified" attributeFormDefault="unqualified"
+   version="3.0">
+   <xs:element name="SampleRq">
+      <xs:annotation>
+         <xs:documentation>Updates contact information for the specified customer.  Including postal addresses, Phone Numbers, Email addresses and Web (URL) addresses can all be updated with this service.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Email" minOccurs="0">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="Create">
+                        <xs:complexType>
+                           <xs:complexContent>
+                              <xs:restriction base="EmailAddressType">
+                                 <xs:sequence>
+                                    <xs:element name="UsageContext" type="UsageContextType" />
+                                    <xs:element name="EmailAddress" type="xs:string"
+                                       nillable="true">
+                                       <xs:annotation>
+                                          <xs:documentation>Valid e-mail address structure.</xs:documentation>
+                                       </xs:annotation>
+                                    </xs:element>
+                                 </xs:sequence>
+                                 <xs:attribute name="EmailID" type="xs:string" use="prohibited" />
+                              </xs:restriction>
+                           </xs:complexContent>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name="reqID" type="xs:string" use="required" />
+      </xs:complexType>
+   </xs:element>
+   <xs:complexType name="EmailAddressType">
+      <xs:annotation>
+         <xs:documentation>Defines an email address.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="UsageContext" type="UsageContextType" minOccurs="0" />
+         <xs:element name="EmailAddress" type="xs:string" nillable="true" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Valid e-mail address structure.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="EmailID" type="xs:string" use="optional" />
+   </xs:complexType>
+   <xs:simpleType name="UsageContextType">
+      <xs:annotation>
+         <xs:documentation> Usage Context </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string" />
+   </xs:simpleType>
+</xs:schema>

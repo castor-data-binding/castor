@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test11.TypeLOB" access="db-locked" identity="id">
+    <description>Test type handling of CLOB and BLOB</description>
+    <map-to table="test11_lob" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="blob" type="bytes" >
+      <sql name="blob_val" type="blob" dirty="ignore" />
+    </field>
+    <field name="clob" type="string" >
+      <sql name="clob_val" type="clob" dirty="ignore" />
+    </field>
+    <field name="clob2" type="clob" >
+      <sql name="clob_val2" type="clob" dirty="ignore" />
+    </field>
+  </class>
+</mapping>

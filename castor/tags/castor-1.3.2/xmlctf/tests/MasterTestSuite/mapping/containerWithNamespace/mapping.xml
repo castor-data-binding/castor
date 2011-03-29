@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:g="http://www.globallink.com/v1/service"
+	xmlns="http://castor.exolab.org"
+	xsi:schemaLocation="http://castor.exolab.org/mapping.xsd">
+	<class name="ServiceResponse">
+		<map-to xml="ServiceResponse"
+			ns-uri="http://www.globallink.com/v1/service" ns-prefix="g"
+			element-definition="false" />
+		<field name="items" type="Item" container="false"
+			collection="array">
+			<bind-xml name="g:items" QName-prefix="g"/>
+		</field>
+	</class>
+	<class name="Item">
+		<map-to xml="item" ns-uri="http://www.globallink.com/v1/service"
+			ns-prefix="g" />
+		<field name="id" type="string">
+			<bind-xml name="g:id" />
+		</field>
+	</class>
+</mapping>

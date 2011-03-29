@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <children>
+      <child>
+        <key xsi:type="java:java.lang.String">key1</key>
+        <value xsi:type="java:java.lang.String">value1</value>
+      </child>
+      <child>
+        <key xsi:type="java:java.lang.String">key2</key>
+        <value xsi:type="java:java.lang.String">value2</value>
+      </child>
+   </children>
+</root>

@@ -1,0 +1,5 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:foo">
+   <simpleType name="TimeOrDateTimeType">
+      <union memberTypes="dateTime time" />
+   </simpleType>
+</schema>

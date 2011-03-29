@@ -1,0 +1,5 @@
+<expected>
+	<match method="regexp" index="0">drop table prod;</match>
+	<match method="regexp" index="0" engine="mysql">drop table if exists prod;</match>
+	<match method="regexp" index="0" engine="hsql">drop table if exists prod;</match>
+</expected>

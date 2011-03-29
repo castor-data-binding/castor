@@ -1,0 +1,173 @@
+<project name="Castor JDO - persistence framework" default="compile.cpa" basedir="."
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="target"               value="${basedir}/target"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="main.jjtree"          value="${source}/main/jjtree"/>
+    <property name="jjtree.target"        value="${target}/generated-sources/jjtree"/>
+    <property name="javacc.target"        value="${target}/generated-sources/javacc"/>
+    <property name="javacc.home"          value="${basedir}/../lib" />
+    <property name="build"                value="${basedir}/build"/>
+    <property name="castor.target"        value="${basedir}/target/generated-sources/castor"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-jdo"/>
+    <property name="gen.src"              value="${build}/generated-sources"/>
+
+	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
+	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+    </artifact:dependencies>	
+
+    <path id="build.classpath">
+    	<!-- inter-module dependencies -->
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../core/build/classes"/>
+        <pathelement location="${basedir}/../schema/build/classes"/>
+        <pathelement location="${basedir}/../anttask/build/classes"/>
+        <pathelement location="${basedir}/../codegen/build/classes"/>
+    	
+    	<!-- third-party libs -->
+<!--    	
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
+    	<pathelement location="${basedir}/../lib/jta1.0.1.jar"/>
+    	<pathelement location="${basedir}/../lib/cglib-full-2.0.2.jar"/>
+    	<pathelement location="${basedir}/../lib/log4j-1.2.13.jar"/>
+-->    	
+    </path>
+
+	<target name="derive.cpa.libs">
+		<mkdir dir="${basedir}/lib" />  	
+	    <copy todir="${basedir}/lib" verbose="true">
+	      <fileset refid="dependency.fileset"/>
+	      <mapper type="flatten"/>
+	    </copy>
+	</target>	
+
+    <target name="prepare.cpa" unless="prepare.cpa.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+    	<mkdir dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
+    	<mkdir dir="${javacc.target}/org/castor/cpa/query/castorql"/>
+    	<mkdir dir="${jjtree.target}/org/castor/cpa/query/ejbql"/>
+    	<mkdir dir="${javacc.target}/org/castor/cpa/query/ejbql"/>
+        <property name="prepare.cpa.executed" value="true"/>
+    </target>
+
+    <target name="clean.cpa" description="Removes JDO build directory">
+        <delete dir="${build}"/>
+        <delete failonerror="false">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql"/>
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/eqjql"/>
+        </delete>
+        <delete failonerror="false">
+            <fileset dir="${javacc.target}/org/castor/cpa/query/castorql"/>
+           <fileset dir="${javacc.target}/org/castor/cpa/queryejbql"/>
+        </delete>
+    </target>
+
+    <target name="gen.parser" depends="prepare.cpa" description="Creating and Compiling Parsers">
+        <jjtree target="${main.jjtree}/org/castor/cpa/query/castorql/CastorQL.jjt"
+                outputdirectory="${jjtree.target}/org/castor/cpa/query/castorql" 
+                javacchome="${javacc.home}"/>
+        <jjtree target="${main.jjtree}/org/castor/cpa/query/ejbql/EjbQL.jjt"
+                outputdirectory="${jjtree.target}/org/castor/cpa/query/ejbql" 
+                javacchome="${javacc.home}"/> 
+
+        <javacc target="${jjtree.target}/org/castor/cpa/query/castorql/CastorQL.jj" 
+                outputdirectory="${javacc.target}/org/castor/cpa/query/castorql" 
+                javacchome="${javacc.home}" />
+        <javacc target="${jjtree.target}/org/castor/cpa/query/ejbql/EjbQL.jj" 
+                outputdirectory="${javacc.target}/org/castor/cpa/query/ejbql" 
+                javacchome="${javacc.home}" />
+
+        <move todir="${javacc.target}/org/castor/cpa/query/castorql">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/castorql">
+                <include name="*.java"/>
+            </fileset>
+        </move>
+        <move todir="${javacc.target}/org/castor/cpa/query/ejbql">
+            <fileset dir="${jjtree.target}/org/castor/cpa/query/ejbql">
+                <include name="*.java"/>
+            </fileset>
+        </move>
+    </target>
+
+    <target name="compile.cpa" depends="gen.parser, derive.cpa.libs" description="Compile Castor JDO">
+        <javac srcdir="${javacc.target}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
+        </javac>
+        <javac srcdir="${castor.target}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
+        </javac>
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.cpa" depends="compile.cpa" description="Build JDO JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+    <target name="compile.bugs.cpa" depends="prepare.cpa,compile.cpa" description="Build the JDO tests packages">
+        <mkdir dir="${build}/test"/>
+        <javac srcdir="${source}/test/java" destdir="${build}/test"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        	<exclude name="org/castor/jdo/jpa/**/*.java" />
+        </javac>
+<!--
+        <copy todir="${build}/test">
+            <fileset dir="${source}/test/resources"/>
+        </copy>
+-->        
+    </target>
+	
+	
+    <target name="gen.conf.cpa" 
+        description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
+        <delete dir="${gen.src}/jdo-conf"/>
+        <mkdir dir="${gen.src}/jdo-conf"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
+                       todir="${gen.src}/jdo-conf"
+                       package="org.castor.jdo.conf"
+                       lineseparator="unix"
+                       types="j2"
+                       warnings="false"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+	
+</project>

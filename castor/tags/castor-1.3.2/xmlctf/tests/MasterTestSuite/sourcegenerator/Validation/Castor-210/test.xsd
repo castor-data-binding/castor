@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+<xsd:element name="Document-Package">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Document-Definition"/>
+    </xsd:sequence>
+    <xsd:attribute name="Version" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Document-Definition">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Document-Name"/>
+      <xsd:element ref="Document-Id"/>
+      <xsd:element ref="Finished-Item-Defintion"/>
+      <xsd:element ref="Pages"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Document-Name" type="xsd:string"/>
+<xsd:element name="Document-Id" type="xsd:string"/>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+//ALIGN
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Align">
+  <xsd:annotation>
+    <xsd:documentation>
+      Options are: left l 0 | middle m | center c 1 | right r 2 | justified j 3 | fulljustified f 4
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="left"/>
+      <xsd:enumeration value="center"/>
+      <xsd:enumeration value="right"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Vertical-Position">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="top"/>
+      <xsd:enumeration value="middle"/>
+      <xsd:enumeration value="bottom"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Text-Vertical-Position">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="top"/>
+      <xsd:enumeration value="middle"/>
+      <xsd:enumeration value="bottom"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Text-Align">
+  <xsd:annotation>
+    <xsd:documentation>
+      Options are: left l 0 | middle m | center c 1 | right r 2 | justified j 3 | fulljustified f 4
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="left"/>
+      <xsd:enumeration value="middle"/>
+      <xsd:enumeration value="center"/>
+      <xsd:enumeration value="right"/>
+      <xsd:enumeration value="justify"/>
+      <xsd:enumeration value="fulljustify"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+//BORDER
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Border">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Line-Weight"/>
+      <xsd:element ref="Color-Space"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+//COLOR SPACE
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Color-Space">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Color-Type"/>
+      <xsd:element ref="Spot-Tag" minOccurs="0"/>
+      <xsd:element ref="Spot-Screen" minOccurs="0"/>
+      <xsd:element ref="Color-C"/>
+      <xsd:element ref="Color-M"/>
+      <xsd:element ref="Color-Y"/>
+      <xsd:element ref="Color-K"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Color-Type">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="cmyk"/>
+      <xsd:enumeration value="spot"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Spot-Tag" type="xsd:string"/>
+<xsd:element name="Spot-Screen" type="xsd:float"/>
+
+<xsd:element name="Color-C">
+  <xsd:annotation>
+    <xsd:documentation>Value between 0 and 100</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Color-M">
+  <xsd:annotation>
+    <xsd:documentation>Value between 0 and 100</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Color-Y">
+  <xsd:annotation>
+    <xsd:documentation>Value between 0 and 100</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Color-K">
+  <xsd:annotation>
+    <xsd:documentation>Value between 0 and 100</xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:byte">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="100"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+// Elements
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Text-Element" minOccurs="0"/>
+      <xsd:element ref="Paragraph-Text-Element" minOccurs="0"/>
+      <xsd:element ref="Tiff-Element" minOccurs="0"/>
+      <xsd:element ref="PDF-Element" minOccurs="0"/>
+      <xsd:element ref="Line-Element" minOccurs="0"/>
+      <xsd:element ref="Rectangle-Element" minOccurs="0"/>
+      <xsd:element ref="Circle-Element" minOccurs="0"/>
+      <xsd:element ref="Path-Element" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Text-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Text-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Text-Element">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Align"/>
+      <xsd:element ref="Text-Position"/>
+      <xsd:element ref="Sub-Elements"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Paragraph-Text-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Paragraph-Text-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Paragraph-Text-Element">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Align"/>
+      <xsd:element ref="Vertical-Position"/>
+      <xsd:element ref="Text-Align"/>
+      <xsd:element ref="Text-Vertical-Position"/>
+      <xsd:element ref="Paragraph-Text-Position"/>
+      <xsd:element ref="Sub-Elements"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Sub-Elements">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Sub-Element" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Tiff-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Tiff-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Tiff-Element">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Align"/>
+      <xsd:element ref="Vertical-Position"/>
+      <xsd:element ref="Tiff-Position"/>
+      <xsd:element ref="Is-Variable"/>
+      <xsd:element ref="Data"/>
+      <xsd:element ref="Variable-Data"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Tiff-Sample-Data">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Width"/>
+      <xsd:element ref="Height"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="PDF-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="PDF-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="PDF-Element">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Align"/>
+      <xsd:element ref="Vertical-Position"/>
+      <xsd:element ref="PDF-Position"/>
+      <xsd:element ref="Is-Variable"/>
+      <xsd:element ref="Data"/>
+      <xsd:element ref="Variable-Data"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Line-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Line-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Line-Element">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Line-Position"/>
+      <xsd:element ref="Border"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Rectangle-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Rectangle-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Rectangle-Element">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Align"/>
+      <xsd:element ref="Vertical-Position"/>
+      <xsd:element ref="Stroke"/>
+      <xsd:element ref="Fill"/>
+      <xsd:element ref="Rectangle-Position"/>
+      <xsd:element ref="Border"/>
+      <xsd:element ref="Fill-Color"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Circle-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Circle-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Circle-Element">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Stroke"/>
+      <xsd:element ref="Fill"/>
+      <xsd:element ref="Circle-Position"/>
+      <xsd:element ref="Border"/>
+      <xsd:element ref="Fill-Color"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Path-Elements">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element ref="Path-Element"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Path-Element">
+  <xsd:complexType>
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element ref="Shell"/>
+      <xsd:element ref="Stroke"/>
+      <xsd:element ref="Fill"/>
+      <xsd:element ref="Path-Position"/>
+      <xsd:element ref="Points"/>
+      <xsd:element ref="Border"/>
+      <xsd:element ref="Fill-Color"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Points">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Point" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+// FONTS
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Font-Definition">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="Font-Face"/>
+      <xsd:element ref="Font-Size"/>
+      <xsd:element ref="Character-Spacing"/>
+      <xsd:element ref="Leading"/>
+      <xsd:element ref="Word-Spacing"/>
+      <xsd:element ref="Text-Rise"/>
+      <xsd:element ref="Horizontal-Scaling"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Font-Face" type="xsd:string"/>
+<xsd:element name="Font-Size" type="xsd:float"/>
+<xsd:element name="Character-Spacing" type="xsd:float"/>
+<xsd:element name="Leading" type="xsd:float"/>
+<xsd:element name="Word-Spacing" type="xsd:float"/>
+<xsd:element name="Text-Rise" type="xsd:float"/>
+<xsd:element name="Horizontal-Scaling" type="xsd:float"/>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+// FILL COLOR
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Fill-Color">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Color-Space"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+// UNIT OF MEASURE
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Unit-Of-Measure">
+  <xsd:annotation>
+    <xsd:documentation>
+      Options are | inches | picas | millimeters | centimeters | ciceros | points
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="inches"/>
+      <xsd:enumeration value="picas"/>
+      <xsd:enumeration value="millimeters"/>
+      <xsd:enumeration value="centimeters"/>
+      <xsd:enumeration value="ciceros"/>
+      <xsd:enumeration value="points"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Finished-Item-Defintion">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="Finished-Item-Width"/>
+      <xsd:element ref="Finished-Item-Height"/>
+      <xsd:element ref="Finished-Item-Gutter"/>
+      <xsd:element ref="Finished-Item-Bleed"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Font-Embedding">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="yes"/>
+      <xsd:enumeration value="on"/>
+      <xsd:enumeration value="y"/>
+      <xsd:enumeration value="false"/>
+      <xsd:enumeration value="no"/>
+      <xsd:enumeration value="off"/>
+      <xsd:enumeration value="n"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Font-Encoding">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="host"/>
+      <xsd:enumeration value="cp1250"/>
+      <xsd:enumeration value="cp1251"/>
+      <xsd:enumeration value="cp1252"/>
+      <xsd:enumeration value="cp1253"/>
+      <xsd:enumeration value="cp1254"/>
+      <xsd:enumeration value="cp1255"/>
+      <xsd:enumeration value="cp1256"/>
+      <xsd:enumeration value="cp1257"/>
+      <xsd:enumeration value="cp1258"/>
+      <xsd:enumeration value="iso8859-2"/>
+      <xsd:enumeration value="iso8859-3"/>
+      <xsd:enumeration value="iso8859-4"/>
+      <xsd:enumeration value="iso8859-5"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Data" type="xsd:string"/>
+<xsd:element name="File-Id" type="xsd:string"/>
+<xsd:element name="Finished-Item-Bleed" type="xsd:float"/>
+<xsd:element name="Finished-Item-Gutter" type="xsd:float"/>
+<xsd:element name="Finished-Item-Height" type="xsd:float"/>
+<xsd:element name="Finished-Item-Width" type="xsd:float"/>
+<xsd:element name="Image-Resolution" type="xsd:float"/>
+<xsd:element name="Layup-Page-Bottom-Margin" type="xsd:float"/>
+
+<xsd:element name="Layup-Page-Definition">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="Layup-Page-Height"/>
+      <xsd:element ref="Layup-Page-Width"/>
+      <xsd:element ref="Layup-Page-Top-Margin"/>
+      <xsd:element ref="Layup-Page-Left-Margin"/>
+      <xsd:element ref="Layup-Page-Right-Margin"/>
+      <xsd:element ref="Layup-Page-Bottom-Margin"/>
+      <xsd:element ref="Font-Embedding"/>
+      <xsd:element ref="Font-Encoding"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Layup-Page-Height" type="xsd:float"/>
+<xsd:element name="Layup-Page-Left-Margin" type="xsd:float"/>
+<xsd:element name="Layup-Page-Right-Margin" type="xsd:float"/>
+<xsd:element name="Layup-Page-Top-Margin" type="xsd:float"/>
+<xsd:element name="Layup-Page-Width" type="xsd:float"/>
+
+<xsd:element name="Line-Weight">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="Weight"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Page">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Text-Elements"/>
+      <xsd:element ref="Paragraph-Text-Elements"/>
+      <xsd:element ref="Tiff-Elements"/>
+      <xsd:element ref="PDF-Elements"/>
+      <xsd:element ref="Line-Elements"/>
+      <xsd:element ref="Rectangle-Elements"/>
+      <xsd:element ref="Circle-Elements"/>
+      <xsd:element ref="Path-Elements"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Page-Number" type="xsd:integer"/>
+
+<xsd:element name="Pages">
+  <xsd:complexType>
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+       <xsd:element ref="Page"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Point">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!--
+//////////////////////////////////////////////////////////////////////////////
+// POSITION
+//////////////////////////////////////////////////////////////////////////////
+-->
+
+<xsd:element name="Position-Type">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="absolute"/>
+      <xsd:enumeration value="relative"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="Text-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Z-Order"/>
+      <xsd:element name="Grow-Width" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Width" type="xsd:boolean"/>
+      <xsd:element name="Grow-Height" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Height" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Paragraph-Text-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Width"/>
+      <xsd:element ref="Height"/>
+      <xsd:element ref="Z-Order"/>
+      <xsd:element name="Grow-Width" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Width" type="xsd:boolean"/>
+      <xsd:element name="Grow-Height" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Height" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Tiff-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Z-Order"/>
+      <xsd:element name="Grow-Width" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Width" type="xsd:boolean"/>
+      <xsd:element name="Grow-Height" type="xsd:boolean"/>
+      <xsd:element name="Shrink-Height" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="PDF-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Z-Order"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Line-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="X1-Position"/>
+      <xsd:element ref="Y1-Position"/>
+      <xsd:element ref="Z-Order"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Rectangle-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Width"/>
+      <xsd:element ref="Height"/>
+      <xsd:element ref="Z-Order"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Circle-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="X-Position"/>
+      <xsd:element ref="Y-Position"/>
+      <xsd:element ref="Z-Order"/>
+      <xsd:element ref="Radius"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Path-Position">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Position-Type"/>
+      <xsd:element name="Corner-Stone" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="Shift-X-Plane" type="xsd:boolean"/>
+      <xsd:element name="Shift-Y-Plane" type="xsd:boolean"/>
+      <xsd:element ref="Unit-Of-Measure"/>
+      <xsd:element ref="Z-Order"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Radius" type="xsd:float"/>
+<xsd:element name="Sample-Data" type="xsd:string"/>
+<xsd:element name="Shell" type="xsd:boolean"/>
+<xsd:element name="Stroke" type="xsd:boolean"/>
+<xsd:element name="Fill" type="xsd:boolean"/>
+
+<xsd:element name="Sub-Element">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Font-Definition"/>
+      <xsd:element ref="Color-Space"/>
+      <xsd:element ref="Is-Variable"/>
+      <xsd:element ref="Data"/>
+      <xsd:element ref="Variable-Data"/>
+    </xsd:sequence>
+    <xsd:attribute name="Id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Vertical-Scaling" type="xsd:float"/>
+<xsd:element name="Weight" type="xsd:float"/>
+<xsd:element name="Width" type="xsd:float"/>
+<xsd:element name="Height" type="xsd:float"/>
+<xsd:element name="X-Position" type="xsd:float"/>
+<xsd:element name="X1-Position" type="xsd:float"/>
+<xsd:element name="Y-Position" type="xsd:float"/>
+<xsd:element name="Y1-Position" type="xsd:float"/>
+<xsd:element name="Z-Order" type="xsd:float"/>
+<xsd:element name="Is-Variable" type="xsd:boolean"/>
+<xsd:element name="Display-Text" type="xsd:boolean"/>
+<xsd:element name="Display-List" type="xsd:boolean"/>
+<xsd:element name="Display-Strings" type="xsd:string"/>
+<xsd:element name="Required" type="xsd:boolean"/>
+<xsd:element name="Editable" type="xsd:boolean"/>
+<xsd:element name="Class-Id" type="xsd:string"/>
+<xsd:element name="Attribute-Id" type="xsd:string"/>
+<xsd:element name="Static-Text" type="xsd:string"/>
+<xsd:element name="Class-Display-Name" type="xsd:string"/>
+<xsd:element name="Attribute-Display-Name" type="xsd:string"/>
+
+<xsd:element name="Variable-Data">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Class-Id"/>
+      <xsd:element ref="Attribute-Id"/>
+      <xsd:element ref="Class-Display-Name"/>
+      <xsd:element ref="Attribute-Display-Name"/>
+      <xsd:element ref="Required"/>
+      <xsd:element ref="Editable"/>
+      <xsd:element ref="Display-List"/>
+      <xsd:element ref="Display-Text"/>
+      <xsd:element ref="Display-Strings"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="Company-Name" type="xsd:string"/>
+<xsd:element name="Company-ID" type="xsd:integer"/>
+
+<xsd:element name="Company-Information">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="Company-ID"/>
+      <xsd:element ref="Company-Name"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

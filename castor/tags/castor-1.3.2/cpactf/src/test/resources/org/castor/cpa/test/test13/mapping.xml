@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test13.SerializableReferer" identity="id">
+    <description>test serializable field</description>
+    <map-to table="test13_serial" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="serializableObject" type="serializable">
+      <sql name="dep" type="blob" dirty="ignore"/>
+    </field>
+  </class>
+</mapping>
