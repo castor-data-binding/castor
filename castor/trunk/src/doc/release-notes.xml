@@ -27,9 +27,20 @@
                 </bug>
 
 -->
+<!--
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+	    </summary>
+	    <bugs>
+	    </bugs>
+	</release>
+-->
+        <release version="1.3.2">
+            <description>Maintenance release</description>
+            <date>March 29, 2011</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
                 <h2>Changes</h2>
