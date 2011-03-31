@@ -79,9 +79,6 @@ public class JPAJoinTableProcessor extends BaseJPAAnnotationProcessor {
             JoinTable joinTable = (JoinTable) annotation;
 
             jpaFieldNature.setJoinTableName(joinTable.name());
-            /*
-             * TODO: default f�r name
-             */
             jpaFieldNature.setJoinTableCatalog(joinTable.catalog());
             jpaFieldNature.setJoinTableSchema(joinTable.schema());
             jpaFieldNature.setJoinTableJoinColumns(joinTable.joinColumns());

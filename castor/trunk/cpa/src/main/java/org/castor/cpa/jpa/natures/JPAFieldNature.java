@@ -156,27 +156,27 @@ public class JPAFieldNature extends BaseNature {
     private static final String RELATION_OPTIONAL = "RELATION_OPTIONAL";
 
     /**
-     * Property Key for {@link javax.persistence.GeneratedValue#strategy()}
+     * Property Key for {@link javax.persistence.GeneratedValue#strategy()}.
      */
     private static final String GENERATEDVALUE_STRATEGY = "GENERATEDVALUE_STRATEGY";
 
     /**
-     * Property Key for {@link javax.persistence.GeneratedValue#generator()}
+     * Property Key for {@link javax.persistence.GeneratedValue#generator()}.
      */
     private static final String GENERATEDVALUE_GENERATOR = "GENERATEDVALUE_GENERATOR";
     
     /**
-     * Property Key for {@link javax.persistence.Temporal}
+     * Property Key for {@link javax.persistence.Temporal}.
      */
     public static final String TEMPORAL_TYPE = "TEMPORAL_TYPE";
 
     /**
-     * Property Key for {@link javax.persistence.Lob}
+     * Property Key for {@link javax.persistence.Lob}.
      */
     public static final String LOB = "LOB";
 
     /**
-     * Property Key for {@link javax.persistence.Enumerated}
+     * Property Key for {@link javax.persistence.Enumerated}.
      */
     public static final String STRING_ENUM_TYPE = "STRING_ENUM_TYPE";
 
@@ -972,39 +972,39 @@ public class JPAFieldNature extends BaseNature {
     }
 
     /**
-     * Set the {@link javax.persistence.GeneratedValue#strategy()}
+     * Set the {@link javax.persistence.GeneratedValue#strategy()}.
      * @see #GENERATEDVALUE_STRATEGY
      * @param strategy
      */
-    public void setGeneratedValueStrategy(GenerationType strategy) {
-    	super.setProperty(GENERATEDVALUE_STRATEGY, strategy);
+    public void setGeneratedValueStrategy(final GenerationType strategy) {
+        super.setProperty(GENERATEDVALUE_STRATEGY, strategy);
     }
     
     /**
-     * Get the {@link javax.persistence.GeneratedValue#strategy()}
+     * Get the {@link javax.persistence.GeneratedValue#strategy()}.
      * @see #GENERATEDVALUE_STRATEGY
      * @return strategy
      */
     public GenerationType getGeneratedValueStrategy() {
-    	return (GenerationType) super.getProperty(GENERATEDVALUE_STRATEGY);
+        return (GenerationType) super.getProperty(GENERATEDVALUE_STRATEGY);
     }
     
     /**
-     * Set the {@link javax.persistence.GeneratedValue#generator()}
+     * Set the {@link javax.persistence.GeneratedValue#generator()}.
      * @see #GENERATEDVALUE_STRATEGY
      * @param strategy
      */
-    public void setGeneratedValueGenerator(String generator) {
-    	super.setProperty(GENERATEDVALUE_GENERATOR, generator);
+    public void setGeneratedValueGenerator(final String generator) {
+        super.setProperty(GENERATEDVALUE_GENERATOR, generator);
     }
     
     /**
-     * Get the {@link javax.persistence.GeneratedValue#generator()}
+     * Get the {@link javax.persistence.GeneratedValue#generator()}.
      * @see #GENERATEDVALUE_STRATEGY
      * @return strategy
      */
     public String getGeneratedValueGenerator() {
-    	return (String) super.getProperty(GENERATEDVALUE_GENERATOR);
+        return (String) super.getProperty(GENERATEDVALUE_GENERATOR);
     }
     /**
      * @see #TEMPORAL_TYPE

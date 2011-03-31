@@ -23,6 +23,9 @@ package org.castor.cpa.jpa.info;
  */
 public class MultipleVersionFieldDefinitionException extends Exception {
 
+    /** Serial version UID. */
+    private static final long serialVersionUID = 1172019711964808828L;
+
     /**
      * Creates an instance of this class.
      */
@@ -35,7 +38,7 @@ public class MultipleVersionFieldDefinitionException extends Exception {
      * the underlying problem.
      * @param message The underlying problem.
      */
-    public MultipleVersionFieldDefinitionException(String message) {
+    public MultipleVersionFieldDefinitionException(final String message) {
         super(message);
     }    
     

@@ -44,7 +44,7 @@ public final class KeyGeneratorTypeHandlerShort implements
      */
     private final boolean _fail;
 
-    private Short allocationSize;
+    private Short _allocationSize;
 
     /**
      * Construct an type handler for Short values.
@@ -56,12 +56,13 @@ public final class KeyGeneratorTypeHandlerShort implements
      */
     public KeyGeneratorTypeHandlerShort(final boolean fail) {
         _fail = fail;
-        this.allocationSize = 1;
+        _allocationSize = 1;
     }
 
-    public KeyGeneratorTypeHandlerShort(final boolean fail, int allocationSize) {
+    public KeyGeneratorTypeHandlerShort(final boolean fail, final int allocationSize) {
         this(fail);
-        this.allocationSize = new Short((short) allocationSize);
+        
+        _allocationSize = new Short((short) allocationSize);
     }
 
     /**
@@ -91,7 +92,7 @@ public final class KeyGeneratorTypeHandlerShort implements
      * {@inheritDoc}
      */
     public Short increment(final Short value) {
-        return new Short((short) (value.shortValue() + allocationSize));
+        return new Short((short) (value.shortValue() + _allocationSize));
     }
 
     /**

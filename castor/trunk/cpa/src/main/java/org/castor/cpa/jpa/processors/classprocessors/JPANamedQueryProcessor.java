@@ -34,39 +34,39 @@ import java.util.Map;
  */
 public class JPANamedQueryProcessor extends BaseJPAAnnotationProcessor {
 
-	private final Log LOG = LogFactory.getLog(getClass());
+    private final Log _log = LogFactory.getLog(getClass());
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.castor.core.annotationprocessing.AnnotationProcessor#
-	 *      forAnnotationClass()
-	 */
-	public Class<? extends Annotation> forAnnotationClass() {
-		return NamedQuery.class;
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.castor.core.annotationprocessing.AnnotationProcessor#
+     *      forAnnotationClass()
+     */
+    public Class<? extends Annotation> forAnnotationClass() {
+        return NamedQuery.class;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.castor.core.annotationprocessing.TargetAwareAnnotationProcessor#
-	 *      processAnnotation(BaseNature, Annotation, AnnotatedElement)
-	 */
-	public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-			final I info, final A annotation, final AnnotatedElement target)
-			throws AnnotationTargetException {
-		if ((info instanceof JPAClassNature)
-				&& (annotation instanceof NamedQuery)
-				&& (target instanceof Class<?>)) {
-			LOG.debug("Processing class annotation " + annotation.toString());
-			final JPAClassNature jpaClassNature = (JPAClassNature) info;
-			final NamedQuery namedQuery = (NamedQuery) annotation;
-			final Map<String, String> namedQueryMap = new HashMap<String, String>();
-			namedQueryMap.put(namedQuery.name(), namedQuery.query());
-			jpaClassNature.setNamedQuery(namedQueryMap);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.castor.core.annotationprocessing.TargetAwareAnnotationProcessor#
+     *      processAnnotation(BaseNature, Annotation, AnnotatedElement)
+     */
+    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+            final I info, final A annotation, final AnnotatedElement target)
+            throws AnnotationTargetException {
+        if ((info instanceof JPAClassNature)
+                && (annotation instanceof NamedQuery)
+                && (target instanceof Class<?>)) {
+            _log.debug("Processing class annotation " + annotation.toString());
+            final JPAClassNature jpaClassNature = (JPAClassNature) info;
+            final NamedQuery namedQuery = (NamedQuery) annotation;
+            final Map<String, String> namedQueryMap = new HashMap<String, String>();
+            namedQueryMap.put(namedQuery.name(), namedQuery.query());
+            jpaClassNature.setNamedQuery(namedQueryMap);
+            return true;
+        }
+        return false;
+    }
 
 }

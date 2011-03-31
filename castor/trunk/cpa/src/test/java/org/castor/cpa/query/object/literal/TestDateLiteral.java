@@ -21,12 +21,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.object.expression.AbstractExpression;
-
-import junit.framework.TestCase;
 
 /**
  * Junit Test for testing DateLiteral class.

@@ -26,44 +26,46 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JPAVersionManager {
 
-    private Map<Class<?>, String> entityVersions = 
-        new ConcurrentHashMap<Class<?>, String>();
+    private Map<Class<?>, String> _entityVersions = new ConcurrentHashMap<Class<?>, String>();
 
     /**
      * Thread-safe singleton implementation based on the initialization on
      * demand holder idiom.
      */
-    private static class SingletonHolder {
+    private static final class SingletonHolder {
         private static final JPAVersionManager INSTANCE = new JPAVersionManager();
+        
+        private SingletonHolder() { }
     }
 
     public static JPAVersionManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public void add(Class<?> type, String versionField)
+    public void add(final Class<?> type, final String versionField)
             throws MultipleVersionFieldDefinitionException {
-        synchronized (entityVersions) {
-            if (entityVersions.containsKey(type)) {
+        synchronized (_entityVersions) {
+            if (_entityVersions.containsKey(type)) {
                 throw new MultipleVersionFieldDefinitionException();
             }
-            entityVersions.put(type, versionField);
+            _entityVersions.put(type, versionField);
         }
     }
 
-    public boolean contains(Class<?> type) {
-        return entityVersions.containsKey(type);
+    public boolean contains(final Class<?> type) {
+        return _entityVersions.containsKey(type);
     }
 
-    public String get(Class<?> type) {
-        return entityVersions.get(type);
+    public String get(final Class<?> type) {
+        return _entityVersions.get(type);
     }
 
     public void reset() {
-        entityVersions.clear();
+        _entityVersions.clear();
     }
 
     public boolean isEmpty() {
-        return entityVersions.isEmpty();
+        return _entityVersions.isEmpty();
     }
+    
 }

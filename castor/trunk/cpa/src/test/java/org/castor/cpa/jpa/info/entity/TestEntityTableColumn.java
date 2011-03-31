@@ -8,7 +8,7 @@ import org.junit.Ignore;
 
 @Entity
 @Ignore
-public class TestEntityTableColumn {
+public final class TestEntityTableColumn {
     private int _id;
     private String _data;
     
@@ -17,7 +17,7 @@ public class TestEntityTableColumn {
         return _id;
     }
     public void setId(final int id) {
-        this._id = id;
+        _id = id;
     }
     
     @Column
@@ -25,8 +25,6 @@ public class TestEntityTableColumn {
         return _data;
     }
     public void setData(final String data) {
-        this._data = data;
+        _data = data;
     }
-    
-    
 }

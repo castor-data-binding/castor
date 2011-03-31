@@ -61,7 +61,7 @@ public final class ColumnInfo implements Cloneable {
      * @param dirty Flag telling if this column was changed or not.
      */
     protected ColumnInfo (final String name, final int index, final int type,
-    		final TypeConvertor convertFrom, final boolean store, final boolean dirty) {
+            final TypeConvertor convertFrom, final boolean store, final boolean dirty) {
         _name = name;
         _index = index;
         _type = type;
@@ -76,7 +76,7 @@ public final class ColumnInfo implements Cloneable {
      * @param name Name to be set.
      */
     protected ColumnInfo(final String name) {
-    	_name = name; 
+        _name = name; 
         _index = 0;
         _type = 0;
         _convertFrom = null;

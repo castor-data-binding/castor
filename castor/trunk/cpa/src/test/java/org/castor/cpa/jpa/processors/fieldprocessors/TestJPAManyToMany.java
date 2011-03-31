@@ -7,10 +7,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Collection;
 import java.util.Arrays;
+import java.util.Collection;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
@@ -21,7 +25,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAManyToMany {
+public final class TestJPAManyToMany {
 
     @Before
     public void setUp() {
@@ -133,7 +137,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class SelfRelated {
+    public final class SelfRelated {
         private int _id;
         private Collection<SelfRelated> _friends;
 
@@ -159,7 +163,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Unidir1 {
+    public final class Unidir1 {
         private int _id;
         private Collection<Unidir2> _dependents;
 
@@ -184,7 +188,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Unidir2 {
+    public final class Unidir2 {
         private int _id;
 
         @Id
@@ -199,7 +203,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir1a {
+    public final class Bidir1a {
         private int _id;
         private Collection<Bidir1b> _dependents;
 
@@ -225,7 +229,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir1b {
+    public final class Bidir1b {
         private int _id;
         private Collection<Bidir1a> _owner;
 
@@ -240,7 +244,7 @@ public class TestJPAManyToMany {
 
         @ManyToMany(
                 mappedBy = "dependents",
-                cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+                cascade = { CascadeType.PERSIST, CascadeType.REMOVE }
         )
         public Collection<Bidir1a> getOwner() {
             return _owner;
@@ -253,7 +257,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir2WrongMappedByA {
+    public final class Bidir2WrongMappedByA {
         private int _id;
         private Collection<Bidir2WrongMappedByB> _dependents;
 
@@ -279,7 +283,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir2WrongMappedByB {
+    public final class Bidir2WrongMappedByB {
         private int _id;
         private Collection<Bidir2WrongMappedByA> _owner;
 
@@ -304,7 +308,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir2WrongMappedByC {
+    public final class Bidir2WrongMappedByC {
         private int _id;
         private Collection<Bidir2WrongMappedByA> _owner;
 
@@ -329,7 +333,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir2WrongMappedByD {
+    public final class Bidir2WrongMappedByD {
         private int _id;
         private Collection<Bidir2WrongMappedByE> _dependents;
 
@@ -355,7 +359,7 @@ public class TestJPAManyToMany {
 
     @Entity
     @Ignore
-    public class Bidir2WrongMappedByE {
+    public final class Bidir2WrongMappedByE {
         private int _id;
         private Collection<Bidir2WrongMappedByD> _others;
 
@@ -377,5 +381,4 @@ public class TestJPAManyToMany {
             _others = others;
         }
     }
-
 }

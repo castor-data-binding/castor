@@ -1,43 +1,45 @@
 package org.castor.cpa.jpa.processors.classprocessors;
 
-import org.mockito.MockitoAnnotations;
-import org.mockito.Mock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
+
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.natures.JPAClassNature;
-import org.castor.cpa.jpa.processors.classprocessors.JPAMappedSuperclassProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import javax.persistence.Entity;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import javax.persistence.MappedSuperclass;
-import static org.junit.Assert.*;
-
-public class JPAMappedSuperclassProcessorTest {
-
-    JPAMappedSuperclassProcessor processor;
-    JPAClassNature classNature;
+public final class JPAMappedSuperclassProcessorTest {
+    private JPAMappedSuperclassProcessor _processor;
+    private JPAClassNature _classNature;
     @Mock
-    MappedSuperclass annotation;
+    private MappedSuperclass _annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        processor = new JPAMappedSuperclassProcessor();
+        _processor = new JPAMappedSuperclassProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        classNature = new JPAClassNature(classInfo);
+        _classNature = new JPAClassNature(classInfo);
     }
 
     @Test
     public void processorIsForMappedSuperclassAnnotation() throws Exception {
-        assertEquals(MappedSuperclass.class, processor.forAnnotationClass());
+        assertEquals(MappedSuperclass.class, _processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForMappedSuperclassAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = processor.processAnnotation(classNature, annotation,
+        boolean result = _processor.processAnnotation(_classNature, _annotation,
                 MappedSuperclassAnnotatedClass.class);
         assertTrue(result);
     }
@@ -56,7 +58,7 @@ public class JPAMappedSuperclassProcessorTest {
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = processor.processAnnotation(classNature, annotation,
+        boolean result = _processor.processAnnotation(_classNature, _annotation,
                 NonAnnotatedClass.class);
         assertFalse(result);
     }
@@ -76,7 +78,7 @@ public class JPAMappedSuperclassProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = processor.processAnnotation(classNature, annotation,
+        boolean result = _processor.processAnnotation(_classNature, _annotation,
                 OtherwiseAnnotatedClass.class);
         assertFalse(result);
     }
@@ -84,24 +86,20 @@ public class JPAMappedSuperclassProcessorTest {
      @Test
     public void processorReturnsFalseForNonAbstractSubclass()
             throws Exception {
-        boolean result = processor.processAnnotation(classNature, annotation,
+        boolean result = _processor.processAnnotation(_classNature, _annotation,
                 NonAbstractSubclass.class);
         assertFalse(result);
     }
 
     //test classes
     @MappedSuperclass
-    private class MappedSuperclassAnnotatedClass {
-    }
+    private class MappedSuperclassAnnotatedClass { }
 
-    private class NonAnnotatedClass {
-    }
+    private class NonAnnotatedClass { }
 
     @Entity
-    private class OtherwiseAnnotatedClass {
-    }
+    private class OtherwiseAnnotatedClass { }
 
     @Entity
-    private class NonAbstractSubclass extends MappedSuperclassAnnotatedClass{
-    }
+    private class NonAbstractSubclass extends MappedSuperclassAnnotatedClass { }
 }

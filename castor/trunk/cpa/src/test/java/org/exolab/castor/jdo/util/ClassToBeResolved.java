@@ -24,6 +24,4 @@ package org.exolab.castor.jdo.util;
  * @author Sebastian Gabmeyer
  * @since 1.2.1
  */
-public class ClassToBeResolved {
-
-}
+public class ClassToBeResolved { }

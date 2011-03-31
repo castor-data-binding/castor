@@ -116,27 +116,19 @@ public final class InfoToDescriptorConverter {
      *             or the {@link ClassDescriptor} of a related class can not be
      *             found by the {@link ClassDescriptorManager}.
      */
-    public static void convert(final ClassInfo classInfo,
-            final ClassDescriptorResolver cdr,
+    public static void convert(final ClassInfo classInfo, final ClassDescriptorResolver cdr,
             final ClassDescriptorImpl descriptor) throws MappingException {
-
-        /*
-         * parameter checking
-         */
+        // parameter checking
         if (classInfo == null) {
             throw new IllegalArgumentException("ClassInfo must not be null!");
-
         }
 
         if (descriptor == null) {
-            throw new IllegalArgumentException(
-                    "ClassDescriptor must not be null!");
-
+            throw new IllegalArgumentException("ClassDescriptor must not be null!");
         }
 
         if (!classInfo.hasNature(JPAClassNature.class.getName())) {
-            throw new IllegalArgumentException(
-                    "ClassInfo must have JPAClassNature on it!");
+            throw new IllegalArgumentException("ClassInfo must have JPAClassNature on it!");
         }
 
         if (!Types.isConstructable(classInfo.getDescribedClass(), true)) {
@@ -147,12 +139,9 @@ public final class InfoToDescriptorConverter {
         JPAClassNature nature = new JPAClassNature(classInfo);
 
         descriptor.addNature(ClassDescriptorJDONature.class.getName());
-        ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(
-                descriptor);
+        ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(descriptor);
 
-        /*
-         * set classDescriptor infos
-         */
+        // set classDescriptor infos
         descriptor.setJavaClass(classInfo.getDescribedClass());
 
         descriptor.setExtends(null);
@@ -162,10 +151,9 @@ public final class InfoToDescriptorConverter {
             try {
                 extendedClassDescriptor = cdr.resolve(extendedClass);
                 if (extendedClassDescriptor == null) {
-                    throw new MappingException(
-                            "Unable to resolve extended class "
-                                    + extendedClass.getName() + " in "
-                                    + classInfo.getDescribedClass().getName());
+                    throw new MappingException("Unable to resolve extended class "
+                            + extendedClass.getName() + " in "
+                            + classInfo.getDescribedClass().getName());
                 }
             } catch (ResolverException e) {
                 throw new MappingException("Unable to resolve extended class "
@@ -183,22 +171,19 @@ public final class InfoToDescriptorConverter {
             } else {
                 descriptor.setExtends(extendedClassDescriptor);
                 if (extendedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
-                    ClassDescriptorJDONature jdoClassNature = new ClassDescriptorJDONature(extendedClassDescriptor);
+                    ClassDescriptorJDONature jdoClassNature =
+                        new ClassDescriptorJDONature(extendedClassDescriptor);
                     jdoClassNature.addExtended(descriptor);
                 }
             }
         }
 
-        /*
-         * TODO: NOT IMPLEMENTED
-         */
+        // TODO NOT IMPLEMENTED
         descriptor.setDepends(null);
 
         descriptor.setJavaClass(classInfo.getDescribedClass());
         
-        /*
-         * set ClassDescriptorJDONature infos
-         */
+        // set ClassDescriptorJDONature infos
 
         // Table name
         String tableName = nature.getTableName();
@@ -207,8 +192,7 @@ public final class InfoToDescriptorConverter {
         }
         jdoNature.setTableName(tableName);
 
-        jdoNature
-                .addCacheParam("name", classInfo.getDescribedClass().getName());
+        jdoNature.addCacheParam("name", classInfo.getDescribedClass().getName());
         Properties cacheProperties = nature.getCacheProperties();
         if (cacheProperties != null) {
             for (Object propertyKey : cacheProperties.keySet()) {
@@ -217,9 +201,7 @@ public final class InfoToDescriptorConverter {
             }
         }
 
-        /*
-         * TODO: NOT IMPLEMENTED
-         */
+        // TODO NOT IMPLEMENTED
         jdoNature.setAccessMode(null);
 
         // Set abstract if present
@@ -229,14 +211,14 @@ public final class InfoToDescriptorConverter {
         final Map<String, String> namedQuery = nature.getNamedQuery();
         if (namedQuery != null && namedQuery.size() > 0) {
             for (Map.Entry<String, String> entry : namedQuery.entrySet()) {
-        	    jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
+                jdoNature.addNamedQuery(entry.getKey(), entry.getValue());
             }
         }
 
         // Add named native queries if present.
         final Map<String, String> namedNativeQueryMap = nature.getNamedNativeQuery();
         if (namedNativeQueryMap != null && namedNativeQueryMap.size() > 0) {
-            for (Map.Entry<String,String> entry: namedNativeQueryMap.entrySet()){
+            for (Map.Entry<String, String> entry : namedNativeQueryMap.entrySet()) {
                 org.exolab.castor.mapping.xml.NamedNativeQuery namedNativeQuery = 
                     new org.exolab.castor.mapping.xml.NamedNativeQuery();
                 namedNativeQuery.setName(entry.getKey());
@@ -246,30 +228,25 @@ public final class InfoToDescriptorConverter {
             }
         }
 
-        /*
-         * generate and set FieldDescriptors for identities
-         */
+        // generate and set FieldDescriptors for identities
         FieldDescriptor[] keys = new FieldDescriptor[classInfo
                 .getKeyFieldCount()];
         int i = 0;
         for (FieldInfo fieldInfo : classInfo.getKeyFieldInfos()) {
-        	JPAFieldNature jpaKeyInfo = new JPAFieldNature(fieldInfo);
-        	if (jpaKeyInfo.getGeneratedValueStrategy() != null) {
-        		KeyGeneratorDescriptor generatorDescriptor;
+            JPAFieldNature jpaKeyInfo = new JPAFieldNature(fieldInfo);
+            if (jpaKeyInfo.getGeneratedValueStrategy() != null) {
+                KeyGeneratorDescriptor generatorDescriptor;
                 generatorDescriptor = describeKeyGenerator(fieldInfo, jpaKeyInfo);
-        		jdoNature.setKeyGeneratorDescriptor(generatorDescriptor);
-        	}
+                jdoNature.setKeyGeneratorDescriptor(generatorDescriptor);
+            }
             keys[i] = convert(descriptor, fieldInfo, cdr);
             i++;
         }
 
         descriptor.setIdentities(keys);
 
-        /*
-         * generate and set FieldDescriptors for fields
-         */
-        FieldDescriptor[] fields = new FieldDescriptor[classInfo
-                .getFieldCount()];
+        // generate and set FieldDescriptors for fields
+        FieldDescriptor[] fields = new FieldDescriptor[classInfo.getFieldCount()];
         i = 0;
         for (FieldInfo fieldInfo : classInfo.getFieldInfos()) {
             fields[i] = convert(descriptor, fieldInfo, cdr);
@@ -282,7 +259,7 @@ public final class InfoToDescriptorConverter {
     }
 
     private static void defineVersionField(final ClassInfo classInfo,
-            ClassDescriptorJDONature jdoNature) {
+            final ClassDescriptorJDONature jdoNature) {
         JPAVersionManager manager = JPAVersionManager.getInstance();
         String versionField = manager.get(classInfo.getDescribedClass());
         if (versionField != null) {
@@ -291,7 +268,7 @@ public final class InfoToDescriptorConverter {
     }
     
     private static KeyGeneratorDescriptor describeKeyGenerator(
-            FieldInfo fieldInfo, JPAFieldNature jpaKeyInfo) {
+            final FieldInfo fieldInfo, final JPAFieldNature jpaKeyInfo) {
         GenerationType strategy = jpaKeyInfo.getGeneratedValueStrategy();
         String strategyName = strategy.toString();
         Properties generatorParameters = new Properties();
@@ -300,39 +277,37 @@ public final class InfoToDescriptorConverter {
         KeyGeneratorDescriptor generatorDescriptor;
         switch (strategy) {
         case SEQUENCE:
-        	generatorName = jpaKeyInfo.getGeneratedValueGenerator();
-        	JPASequenceGeneratorDescriptor sequenceGeneratorDescriptor = 
-        		(JPASequenceGeneratorDescriptor)manager.get(generatorName);
-        	String sequenceName = sequenceGeneratorDescriptor.getSequenceName();
-        	if (!"".equals(sequenceName)) {
-        		generatorParameters.put("sequence", sequenceName);
-        	}
-        	break;
+            generatorName = jpaKeyInfo.getGeneratedValueGenerator();
+            JPASequenceGeneratorDescriptor sequenceGeneratorDescriptor = 
+                (JPASequenceGeneratorDescriptor) manager.get(generatorName);
+            String sequenceName = sequenceGeneratorDescriptor.getSequenceName();
+            if (!"".equals(sequenceName)) {
+                generatorParameters.put("sequence", sequenceName);
+            }
+            break;
         case AUTO:
             strategyName = GenerationType.TABLE.toString();
             JPATableGeneratorDescriptor autoGeneratorDescriptor = 
-                (JPATableGeneratorDescriptor)manager.getAuto();
+                (JPATableGeneratorDescriptor) manager.getAuto();
             autoGeneratorDescriptor.setPrimaryKeyType(fieldInfo.getFieldType());
             generatorParameters.put(TableKeyGenerator.DESCRIPTOR_KEY, autoGeneratorDescriptor);
             break;
         case TABLE:
-        	generatorName = jpaKeyInfo.getGeneratedValueGenerator();       			
-        	JPATableGeneratorDescriptor tableGeneratorDescriptor = 
-        		(JPATableGeneratorDescriptor)manager.get(generatorName);
-        	tableGeneratorDescriptor.setPrimaryKeyType(fieldInfo.getFieldType());
-        	generatorParameters.put(TableKeyGenerator.DESCRIPTOR_KEY, tableGeneratorDescriptor);
-        	break;
+            generatorName = jpaKeyInfo.getGeneratedValueGenerator();                
+            JPATableGeneratorDescriptor tableGeneratorDescriptor = 
+                (JPATableGeneratorDescriptor) manager.get(generatorName);
+            tableGeneratorDescriptor.setPrimaryKeyType(fieldInfo.getFieldType());
+            generatorParameters.put(TableKeyGenerator.DESCRIPTOR_KEY, tableGeneratorDescriptor);
+            break;
         case IDENTITY:
             strategyName = strategy.toString().toUpperCase();
             break;
         default:
-        	break;
+            break;
         }
         
         generatorDescriptor = 
-        	new KeyGeneratorDescriptor(strategyName, 
-        			strategyName, 
-        			generatorParameters);
+            new KeyGeneratorDescriptor(strategyName, strategyName, generatorParameters);
         return generatorDescriptor;
     }
 
@@ -388,13 +363,9 @@ public final class InfoToDescriptorConverter {
     private static FieldDescriptorImpl convert(
             final ClassDescriptorImpl parent, final FieldInfo fieldInfo,
             final ClassDescriptorResolver cdr) throws MappingException {
-
-        /*
-         * Instantiate Fielddescriptor, nature, etc.
-         */
+        // Instantiate Fielddescriptor, nature, etc.
         if (!fieldInfo.hasNature(JPAFieldNature.class.getName())) {
-            throw new IllegalArgumentException(
-                    "FieldInfo must have JPAFieldNature on it!");
+            throw new IllegalArgumentException("FieldInfo must have JPAFieldNature on it!");
         }
 
         JPAFieldNature jpaNature = new JPAFieldNature(fieldInfo);
@@ -410,12 +381,9 @@ public final class InfoToDescriptorConverter {
                 fieldName, typeInfo, handler, isTransient);
 
         fieldDescriptor.addNature(FieldDescriptorJDONature.class.getName());
-        FieldDescriptorJDONature jdoNature = new FieldDescriptorJDONature(
-                fieldDescriptor);
+        FieldDescriptorJDONature jdoNature = new FieldDescriptorJDONature(fieldDescriptor);
 
-        /*
-         * Generate values and prerequisites
-         */
+        // Generate values and prerequisites
 
         // Field type
         Class<?> javaType = org.exolab.castor.mapping.loader.Types
@@ -423,11 +391,11 @@ public final class InfoToDescriptorConverter {
         int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
 
         if (fieldInfo.getFieldType().isEnum()) { // Serializing enum types.
-            sqlType = jpaNature.isStringEnumType() ? java.sql.Types.VARCHAR :
-                    java.sql.Types.INTEGER;
+            sqlType = jpaNature.isStringEnumType()
+                    ? java.sql.Types.VARCHAR : java.sql.Types.INTEGER;
         } else if (jpaNature.isLob()) {
-            sqlType =  typeInfo.getFieldType() == String.class ?
-                    java.sql.Types.CLOB : java.sql.Types.BLOB;
+            sqlType =  typeInfo.getFieldType() == String.class
+                    ? java.sql.Types.CLOB : java.sql.Types.BLOB;
         } else {
             final TemporalType temporalType = jpaNature.getTemporalType();
             if (temporalType != null) {
@@ -452,27 +420,20 @@ public final class InfoToDescriptorConverter {
         // support mapping defaults and the ClassInfoBuilder already checks for
         // complete definition.
         if (jpaNature.isManyToManyInverseCopy()) {
-            ClassInfo relatedClass = ClassInfoBuilder.buildClassInfo(jpaNature
-                    .getRelationTargetEntity());
+            ClassInfo relatedClass = ClassInfoBuilder.buildClassInfo(
+                    jpaNature.getRelationTargetEntity());
             String relatedFieldName = jpaNature.getRelationMappedBy();
-            FieldInfo relatedField = relatedClass
-                    .getFieldInfoByName(relatedFieldName);
+            FieldInfo relatedField = relatedClass.getFieldInfoByName(relatedFieldName);
             JPAFieldNature relatedFieldNature = new JPAFieldNature(relatedField);
 
-            jpaNature.setJoinTableCatalog(relatedFieldNature
-                    .getJoinTableCatalog());
+            jpaNature.setJoinTableCatalog(relatedFieldNature.getJoinTableCatalog());
             jpaNature.setJoinTableName(relatedFieldNature.getJoinTableName());
-            jpaNature.setJoinTableSchema(relatedFieldNature
-                    .getJoinTableSchema());
-            jpaNature.setJoinTableInverseJoinColumns(relatedFieldNature
-                    .getJoinTableJoinColumns());
-            jpaNature.setJoinTableJoinColumns(relatedFieldNature
-                    .getJoinTableInverseJoinColumns());
+            jpaNature.setJoinTableSchema(relatedFieldNature.getJoinTableSchema());
+            jpaNature.setJoinTableInverseJoinColumns(relatedFieldNature.getJoinTableJoinColumns());
+            jpaNature.setJoinTableJoinColumns(relatedFieldNature.getJoinTableInverseJoinColumns());
         }
 
-        /*
-         * FieldDescriptor value setting
-         */
+        // FieldDescriptor value setting
         fieldDescriptor.setContainingClassDescriptor(parent);
         fieldDescriptor.setFieldType(typeInfo.getFieldType());
         fieldDescriptor.setIdentity(jpaNature.isId());
@@ -480,8 +441,7 @@ public final class InfoToDescriptorConverter {
         if (hasFieldRelation(jpaNature)) {
             if (jpaNature.getCascadeTypes() != null) {
                 final StringBuilder cascading = new StringBuilder();
-                final List<CascadeType> cascadeTypes = Arrays.asList(
-                        jpaNature.getCascadeTypes());
+                final List<CascadeType> cascadeTypes = Arrays.asList(jpaNature.getCascadeTypes());
                 if (cascadeTypes.contains(CascadeType.ALL)) {
                     cascading.append(CascadingType.CREATE.name());
                     cascading.append(" ");
@@ -499,16 +459,13 @@ public final class InfoToDescriptorConverter {
             }
             // descriptor.setClassDescriptor
             try {
-                fieldDescriptor.setClassDescriptor(cdr.resolve(jpaNature
-                        .getRelationTargetEntity()));
+                fieldDescriptor.setClassDescriptor(cdr.resolve(
+                        jpaNature.getRelationTargetEntity()));
             } catch (ResolverException e) {
-                throw new MappingException(
-                        "Can not resolve ClassDescriptor for Class "
-                                + jpaNature.getRelationTargetEntity().getName()
-                                + " needed by "
-                                + fieldInfo.getDeclaringClassInfo()
-                                        .getDescribedClass().getName() + "#"
-                                + fieldName);
+                throw new MappingException("Can not resolve ClassDescriptor for Class "
+                        + jpaNature.getRelationTargetEntity().getName() + " needed by "
+                        + fieldInfo.getDeclaringClassInfo().getDescribedClass().getName()
+                        + "#" + fieldName);
             }
         }
 
@@ -521,16 +478,12 @@ public final class InfoToDescriptorConverter {
             fieldDescriptor.setMultivalued(true);
         }
 
-        /*
-         * TODO: NOT IMPLEMENTED
-         */
+        // TODO NOT IMPLEMENTED
         fieldDescriptor.setImmutable(false);
 
-        /*
-         * FieldDescriptorJDONature value setting
-         */
+        // FieldDescriptorJDONature value setting
 
-        jdoNature.setSQLType(new int[] { sqlType });
+        jdoNature.setSQLType(new int[] {sqlType});
         jdoNature.setSQLName(createSQLName(fieldName, jpaNature,
                 fieldDescriptor.getClassDescriptor()));
         jdoNature.setManyKey(createManyKey(fieldName, jpaNature,
@@ -541,17 +494,11 @@ public final class InfoToDescriptorConverter {
             jdoNature.setManyTable(jpaNature.getJoinTableName());
         }
 
-        /*
-         * TODO: NOT IMPLEMENTED
-         */
+        // TODO NOT IMPLEMENTED
         jdoNature.setTypeConvertor(null);
         jdoNature.setReadOnly(false);
-        /*
-         * TODO: how to set this to false? How should JPA tell Castor to use or
-         * not use dirtyCheck
-         */
+        // TODO how to set this to false? How should JPA tell Castor to use or not use dirtyCheck
         jdoNature.setDirtyCheck(true);
-
 
         fieldDescriptor.setFieldName(fieldName);
         
@@ -559,7 +506,6 @@ public final class InfoToDescriptorConverter {
         
         fieldDescriptor.setLazy(createFMLazy(jpaNature));
         fieldDescriptor.setDirect(false); // field access => not supported
-        
         fieldDescriptor.setGetMethod(fieldInfo.getGetterMethod().getName());
         fieldDescriptor.setSetMethod(fieldInfo.getSetterMethod().getName());
         fieldDescriptor.setCollection(createColletionType(jpaNature));
@@ -620,16 +566,17 @@ public final class InfoToDescriptorConverter {
             try { // Apply custom enum type conversion.
                 final EnumTypeConversionHelper enumTypeConversionHelper =
                         new EnumTypeConversionHelper(fieldType);
-                final Method method = jpaNature.isStringEnumType() ?
-                        fieldType.getMethod("valueOf", String.class) :
-                        enumTypeConversionHelper.getClass().getMethod(
-                                "getEnumConstantValueByOrdinal", int.class);
+                final Method method = jpaNature.isStringEnumType()
+                                    ? fieldType.getMethod("valueOf", String.class)
+                                    : enumTypeConversionHelper.getClass().getMethod(
+                                            "getEnumConstantValueByOrdinal", int.class);
                 final EnumTypeConvertor typeConvertor = new EnumTypeConvertor(
                         jpaNature.isStringEnumType() ? String.class : int.class,
                         fieldType, method);
                 final TypeInfo typeInfo = new TypeInfo(fieldType, typeConvertor,
-                        jpaNature.isStringEnumType() ? new ObjectToString() :
-                                new EnumToOrdinal(), createRequired(jpaNature),
+                        jpaNature.isStringEnumType()
+                        ? new ObjectToString()
+                        : new EnumToOrdinal(), createRequired(jpaNature),
                         null, null);
                 Types.addEnumType(fieldType); // Register type accordingly.
                 Types.addConvertibleType(fieldType);
@@ -739,7 +686,7 @@ public final class InfoToDescriptorConverter {
                 //            }
                 nature.setSQLName(sqlNames);
                 //            fieldSql.setType(SQLTypeInfos.sqlTypeNum2sqlTypeName(sqlType));
-                nature.setSQLType(new int[] { sqlType });
+                nature.setSQLType(new int[] {sqlType});
 
             } else if (isXToOne(jpaNature)) {
                 // for 1:1 or N:1 (owning side)
@@ -829,7 +776,7 @@ public final class InfoToDescriptorConverter {
                                     .getFieldName();
                 }
 
-                // TODO: unidirectional Mapping (jointable, etc.)
+                // TODO unidirectional Mapping (jointable, etc.)
             }
 
             return sqlManyKey;
@@ -839,7 +786,7 @@ public final class InfoToDescriptorConverter {
             String[] sqlManyKey = new String[1];
             // Column name if defined
             sqlManyKey[0] = jpaNature.getJoinTableJoinColumns()[0].name();
-            // TODO: maybe this should be referencedColumnName() instead...
+            // TODO maybe this should be referencedColumnName() instead...
             // needs testing!
 
             // If this is not defined, defaults are applying

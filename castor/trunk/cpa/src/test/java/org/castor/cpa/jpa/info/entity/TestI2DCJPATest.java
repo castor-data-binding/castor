@@ -47,11 +47,11 @@ public class TestI2DCJPATest {
     
     private int _default;
 
-    public int getDefault() {
+    public final int getDefault() {
         return _default;
     }
 
-    public void setDefault(final int default1) {
+    public final void setDefault(final int default1) {
         _default = default1;
     }
 
@@ -84,11 +84,11 @@ public class TestI2DCJPATest {
             length = 10, 
             precision = 100, 
             scale = 1000)
-    public String getBla() {
+    public final String getBla() {
         return _bla;
     }
 
-    public void setBla(final String bla) {
+    public final void setBla(final String bla) {
         _bla = bla;
     }
 
@@ -102,11 +102,11 @@ public class TestI2DCJPATest {
             length = 2000, 
             precision = 200, 
             scale = 20)
-    public String getBlob() {
+    public final String getBlob() {
         return _blob;
     }
 
-    public void setBlob(final String blob) {
+    public final void setBlob(final String blob) {
         _blob = blob;
     }
 }

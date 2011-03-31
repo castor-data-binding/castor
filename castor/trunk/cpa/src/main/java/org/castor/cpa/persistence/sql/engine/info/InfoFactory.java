@@ -17,11 +17,11 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 public final class InfoFactory {
     //-----------------------------------------------------------------------------------    
 
-	private final Map<String, TableInfo> _entityMap = new HashMap<String, TableInfo>();
+    private final Map<String, TableInfo> _entityMap = new HashMap<String, TableInfo>();
     
     //-----------------------------------------------------------------------------------    
 
-	/**
+    /**
      * Method checks if table for given class descriptor exists. If there is one it will be
      * returned otherwise a new table will be constructed for this class descriptor.
      * 
@@ -31,7 +31,7 @@ public final class InfoFactory {
      */
     public TableInfo createTableInfo(final ClassDescriptor classDescriptor)
     throws MappingException {
-    	String name = classDescriptor.getJavaClass().getName();
+        String name = classDescriptor.getJavaClass().getName();
         TableInfo table = _entityMap.get(name);
         if (table == null) {
             if (!classDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
@@ -64,7 +64,7 @@ public final class InfoFactory {
     
     private void resolvePrimaryKeys(final ClassDescriptor classDescriptor, final TableInfo table)
     throws MappingException {
-    	for (FieldDescriptor selfFD: ((ClassDescriptorImpl) classDescriptor).getIdentities()) {
+        for (FieldDescriptor selfFD : ((ClassDescriptorImpl) classDescriptor).getIdentities()) {
             if (!selfFD.hasNature(FieldDescriptorJDONature.class.getName())) {
                 throw new MappingException("Excepted JDOFieldDescriptor");
             }
@@ -75,7 +75,7 @@ public final class InfoFactory {
 
             ColumnInfo column = new ColumnInfo(sqlName, -1, selfType, convFrom, false, false);
             table.getPrimaryKey().addColumn(column);
-    	}
+        }
     }
     
     private void resolveColumns(final ClassDescriptor selfCD, final TableInfo table)
@@ -83,8 +83,8 @@ public final class InfoFactory {
         FieldDescriptor[] selfFDs = selfCD.getFields();
         int persIndex = 0;
         for (int fieldIndex = 0; fieldIndex < selfFDs.length; fieldIndex++) {
-        	FieldDescriptor selfFD = selfFDs[fieldIndex];
-        	
+            FieldDescriptor selfFD = selfFDs[fieldIndex];
+            
             // field is persistent if it is not transient
             if (selfFD.isTransient()) { continue; }
             
@@ -109,11 +109,11 @@ public final class InfoFactory {
                     FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
 
                     if (selfFN.getManyTable() != null) {
-                    	mode = TableLink.MANY_TO_MANY;
+                        mode = TableLink.MANY_TO_MANY;
                     } else if (selfFN.getSQLName() != null) {
-                    	mode = TableLink.REFERS_TO;
+                        mode = TableLink.REFERS_TO;
                     } else {
-                    	mode = TableLink.REFERED_BY;
+                        mode = TableLink.REFERED_BY;
                     }
                     
                     backCols = selfFN.getManyKey();
@@ -125,7 +125,7 @@ public final class InfoFactory {
 
                 FieldDescriptor[] selfIDs = ((ClassDescriptorImpl) selfCD).getIdentities();
                 if (backCols == null) {
-                	backCols = getSQLNames(selfIDs);
+                    backCols = getSQLNames(selfIDs);
                 } else {
                     if (backCols.length != selfIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
@@ -135,7 +135,7 @@ public final class InfoFactory {
 
                 FieldDescriptor[] referedIDs = ((ClassDescriptorImpl) referedCD).getIdentities();
                 if (referedCols == null) {
-                	referedCols = getSQLNames(referedIDs);
+                    referedCols = getSQLNames(referedIDs);
                 } else {
                     if (referedCols.length != referedIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
@@ -144,7 +144,7 @@ public final class InfoFactory {
                 }
 
                 if (mode == TableLink.MANY_TO_MANY) {
-              	    // many to many relation
+                    // many to many relation
                     TableInfo manyTable = new TableInfo(manyTableName);
                     TableLink foreignKey = new TableLink(manyTable, mode,
                             manyTable.getTableName() + "_f" + fieldIndex,
@@ -182,7 +182,7 @@ public final class InfoFactory {
                     table.addForeignKey(foreignKey);
                     foreignKey.addTargetCols(relatedTable.getPrimaryKey().getColumns());
                 } else {
-                	// refered by one or many 
+                    // refered by one or many 
                     TableInfo relatedTable = createTableInfo(referedCD);
                     TableLink foreignKey = new TableLink(relatedTable, mode,
                             relatedTable.getTableName() + "_f" + fieldIndex,
@@ -191,7 +191,7 @@ public final class InfoFactory {
                     foreignKey.setManyKey(Arrays.asList(backCols));
                 }
             } else {
-            	// simple field
+                // simple field
                 FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
 
                 String sqlName = selfFD.getFieldName();
@@ -205,7 +205,7 @@ public final class InfoFactory {
                 boolean isDirtyCheck = selfFN.isDirtyCheck();
 
                 ColumnInfo column = new ColumnInfo(sqlName, persIndex, selfType, convFrom,
-                		isStore, isDirtyCheck);
+                        isStore, isDirtyCheck);
                 table.addColumn(column);
             }
             

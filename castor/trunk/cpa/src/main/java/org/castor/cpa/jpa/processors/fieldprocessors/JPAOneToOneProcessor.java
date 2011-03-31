@@ -110,9 +110,8 @@ public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
              * @OneToOne.optional
              */
             if (!oneToOne.optional()) {
-                _log
-                        .warn("Checking of null values is not supported by Castor - "
-                                + "the database has to check for null values!");
+                _log.warn("Checking of null values is not supported by Castor - "
+                        + "the database has to check for null values!");
             }
             jpaFieldNature.setRelationOptional(oneToOne.optional());
 
@@ -120,11 +119,8 @@ public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
              * @OneToOne.mappedBy
              */
             if (oneToOne.mappedBy().length() != 0) {
-                _log
-                        .error("Castor does not support inverse OneToOne relations!");
-                /*
-                 * TODO: Shall we ignore this error or throw an Exception?
-                 */
+                _log.error("Castor does not support inverse OneToOne relations!");
+                // TODO Shall we ignore this error or throw an Exception?
             }
 
             return true;

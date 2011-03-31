@@ -19,26 +19,24 @@ import javax.persistence.SequenceGenerator;
 
 public class JPASequenceGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
 
-	private String sequenceName;
+    private String _sequenceName;
 
-	public String getSequenceName() {
-		return sequenceName;
-	}
+    public String getSequenceName() {
+        return _sequenceName;
+    }
 
-	public void setSequenceName(String sequenceName) {
-		this.sequenceName = sequenceName;
-	}
+    public void setSequenceName(final String sequenceName) {
+        _sequenceName = sequenceName;
+    }
 
-	public static JPASequenceGeneratorDescriptor extract(SequenceGenerator sequenceGenerator) {
-		JPASequenceGeneratorDescriptor descriptor = new JPASequenceGeneratorDescriptor();
-		descriptor.setName(sequenceGenerator.name());
-		descriptor.setAllocationSize(sequenceGenerator.allocationSize());
-		descriptor.setInitialValue(sequenceGenerator.initialValue());
-		descriptor.setSequenceName(sequenceGenerator.sequenceName());
-		
-		return descriptor;
-	}
-
-
-	
+    public static JPASequenceGeneratorDescriptor extract(
+            final SequenceGenerator sequenceGenerator) {
+        JPASequenceGeneratorDescriptor descriptor = new JPASequenceGeneratorDescriptor();
+        descriptor.setName(sequenceGenerator.name());
+        descriptor.setAllocationSize(sequenceGenerator.allocationSize());
+        descriptor.setInitialValue(sequenceGenerator.initialValue());
+        descriptor.setSequenceName(sequenceGenerator.sequenceName());
+        
+        return descriptor;
+    }
 }

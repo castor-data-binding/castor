@@ -15,11 +15,11 @@
  */
 package org.castor.cpa.query.object.expression;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.object.literal.StringLiteral;
-
-import junit.framework.TestCase;
 
 /**
  * Junit Test for testing concat arithmetic expression of query objects.

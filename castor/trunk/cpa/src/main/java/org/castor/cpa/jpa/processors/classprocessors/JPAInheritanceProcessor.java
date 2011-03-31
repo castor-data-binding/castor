@@ -69,7 +69,7 @@ public class JPAInheritanceProcessor extends BaseJPAAnnotationProcessor {
             Inheritance inheritance = (Inheritance) annotation;
             InheritanceType strategy = inheritance.strategy();
             
-            if(strategy != InheritanceType.JOINED) {
+            if (strategy != InheritanceType.JOINED) {
                 throw new AnnotationTargetException(
                         "InheritanceType not supported: "
                                 + strategy.toString());

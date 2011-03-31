@@ -17,10 +17,10 @@ package org.castor.cpa.query.object.expression;
 
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.QueryObject;
-
-import junit.framework.TestCase;
 
 /**
  * Junit Test for testing abstract compound expression class.

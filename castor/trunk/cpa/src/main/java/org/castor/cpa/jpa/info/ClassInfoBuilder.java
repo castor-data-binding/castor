@@ -258,8 +258,8 @@ public final class ClassInfoBuilder {
                 || Class.class.equals(type)) {
             return false;
         }
-        if (type.getAnnotation(Entity.class) == null &&
-              type.getAnnotation(MappedSuperclass.class) == null  ) {
+        if ((type.getAnnotation(Entity.class) == null)
+                && (type.getAnnotation(MappedSuperclass.class) == null)) {
             return false;
         }
         return true;

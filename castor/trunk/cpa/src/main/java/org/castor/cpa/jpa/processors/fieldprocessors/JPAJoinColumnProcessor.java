@@ -82,10 +82,8 @@ public class JPAJoinColumnProcessor extends BaseJPAAnnotationProcessor {
                 targetValid = true;
             }
             if (!targetValid) {
-                _log
-                        .error("JoinTable annotation on "
-                                + ((Member) target).getName()
-                                + " is not valid! Needs a relationship annotation! Ignoring @JoinTable!");
+                _log.error("JoinTable annotation on " + ((Member) target).getName()
+                        + " is not valid! Needs a relationship annotation! Ignoring @JoinTable!");
                 return false;
             }
 

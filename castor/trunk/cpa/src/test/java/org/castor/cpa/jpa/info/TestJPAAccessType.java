@@ -25,16 +25,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.castor.cpa.jpa.info.ClassInfo;
-import org.castor.cpa.jpa.info.ClassInfoBuilder;
-import org.castor.cpa.jpa.info.FieldInfo;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.exolab.castor.mapping.MappingException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAAccessType {
-
+public final class TestJPAAccessType {
     @Test
     public void testFieldAccessed() {
 

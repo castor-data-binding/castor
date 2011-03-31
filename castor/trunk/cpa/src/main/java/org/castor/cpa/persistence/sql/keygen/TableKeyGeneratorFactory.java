@@ -29,25 +29,17 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @since 1.3.2
  */
 public class TableKeyGeneratorFactory implements KeyGeneratorFactory {
+    /**
+     * Short name of this key generator factory. 
+     */
+    public static final String NAME = "TABLE";
+    
+    public String getKeyGeneratorName() {
+        return NAME;
+    }
 
-	/**
-	 * Short name of this key generator factory. 
-	 */
-	public static String NAME = "TABLE";
-	
-	/* (non-Javadoc)
-	 * @see org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactory#getKeyGeneratorName()
-	 */
-	public String getKeyGeneratorName() {
-		return NAME;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactory#getKeyGenerator(org.exolab.castor.persist.spi.PersistenceFactory, java.util.Properties, int)
-	 */
-	public KeyGenerator getKeyGenerator(PersistenceFactory factory,
-			Properties params, int sqlType) throws MappingException {
-		return new TableKeyGenerator(factory, params, sqlType);
-	}
-
+    public KeyGenerator getKeyGenerator(final PersistenceFactory factory,
+            final Properties params, final int sqlType) throws MappingException {
+        return new TableKeyGenerator(factory, params, sqlType);
+    }
 }

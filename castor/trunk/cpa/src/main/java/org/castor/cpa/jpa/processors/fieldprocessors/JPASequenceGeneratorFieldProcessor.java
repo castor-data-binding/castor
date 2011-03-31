@@ -28,7 +28,6 @@ import org.castor.core.nature.BaseNature;
 import org.castor.cpa.jpa.info.GeneratorNameAlreadyUsedException;
 import org.castor.cpa.jpa.info.JPAKeyGeneratorManager;
 import org.castor.cpa.jpa.info.JPASequenceGeneratorDescriptor;
-import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
 /**
@@ -38,64 +37,62 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @since 1.3.2
  */
-public class JPASequenceGeneratorFieldProcessor extends
-		BaseJPAAnnotationProcessor {
+public class JPASequenceGeneratorFieldProcessor extends BaseJPAAnnotationProcessor {
 
-	private static final Log LOG = LogFactory
-			.getLog(JPASequenceGeneratorFieldProcessor.class);
+    private static final Log LOG = LogFactory.getLog(JPASequenceGeneratorFieldProcessor.class);
 
-	public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-			I info, A annotation, AnnotatedElement target)
-			throws AnnotationTargetException {
+    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+            final I info, final A annotation, final AnnotatedElement target)
+    throws AnnotationTargetException {
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Processing annotation " + annotation.toString());
-		}
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Processing annotation " + annotation.toString());
+        }
 
-		if (!verifyArguments(annotation, target)) {
-			return false;
-		}
+        if (!verifyArguments(annotation, target)) {
+            return false;
+        }
 
-		return processGeneratorDefinition(annotation);
-	}
+        return processGeneratorDefinition(annotation);
+    }
 
-	/**
-	 * Checks whether all required annotations (as per specification) are present.
-	 * 
-	 * @param <A> 
-	 * @param annotation The actual annotation.
-	 * @param target The target of the given annotation.
-	 * @return True if all requirements are satisfied.
-	 */
-	private <A> boolean verifyArguments(A annotation,
-			AnnotatedElement target) {
-		if (!(annotation instanceof SequenceGenerator)
-				|| (!target.isAnnotationPresent(SequenceGenerator.class))
-				|| (!target.isAnnotationPresent(Id.class))) {
-			return false;
-		}
-		return true;
-	}
+    /**
+     * Checks whether all required annotations (as per specification) are present.
+     * 
+     * @param <A> 
+     * @param annotation The actual annotation.
+     * @param target The target of the given annotation.
+     * @return True if all requirements are satisfied.
+     */
+    private <A> boolean verifyArguments(final A annotation, final AnnotatedElement target) {
+        if (!(annotation instanceof SequenceGenerator)
+                || (!target.isAnnotationPresent(SequenceGenerator.class))
+                || (!target.isAnnotationPresent(Id.class))) {
+            return false;
+        }
+        return true;
+    }
 
-	private <A> boolean processGeneratorDefinition(A annotation) {
-		SequenceGenerator sequenceGenerator = (SequenceGenerator) annotation;
-		
-		JPAKeyGeneratorManager manager = JPAKeyGeneratorManager
-				.getInstance();
+    private <A> boolean processGeneratorDefinition(final A annotation) {
+        SequenceGenerator sequenceGenerator = (SequenceGenerator) annotation;
+        
+        JPAKeyGeneratorManager manager = JPAKeyGeneratorManager
+                .getInstance();
 
-		JPASequenceGeneratorDescriptor descriptor = JPASequenceGeneratorDescriptor.extract(sequenceGenerator);
-		
-		try {
-			manager.add(sequenceGenerator.name(), descriptor);
-		} catch (GeneratorNameAlreadyUsedException e) {
-			return false;
-		}
-		
-		return true;
-	}
+        JPASequenceGeneratorDescriptor descriptor =
+            JPASequenceGeneratorDescriptor.extract(sequenceGenerator);
+        
+        try {
+            manager.add(sequenceGenerator.name(), descriptor);
+        } catch (GeneratorNameAlreadyUsedException e) {
+            return false;
+        }
+        
+        return true;
+    }
 
-	public Class<? extends Annotation> forAnnotationClass() {
-		return SequenceGenerator.class;
-	}
+    public Class<? extends Annotation> forAnnotationClass() {
+        return SequenceGenerator.class;
+    }
 
 }

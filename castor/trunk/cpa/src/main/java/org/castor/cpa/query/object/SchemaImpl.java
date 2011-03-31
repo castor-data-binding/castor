@@ -35,7 +35,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
     private String _typeName;
     
     /** The type represented by the Schema. */
-    private Class _type;
+    private Class<?> _type;
  
     /** The identifier of the schema. */
     private final String _identifier;
@@ -63,7 +63,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * @param type The type represented by the Schema.
      * @param identifier The identifier of the schema.
      */
-    public SchemaImpl(final Class < ? > type, final String identifier) {
+    public SchemaImpl(final Class<?> type, final String identifier) {
         if (identifier == null) { throw new NullPointerException(); }
         _abstractName = null;
         _typeName = type.getName();
@@ -96,7 +96,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * 
      * @return The type represented by the Schema.
      */
-    public Class getType() {
+    public Class<?> getType() {
         return _type;
     }
 

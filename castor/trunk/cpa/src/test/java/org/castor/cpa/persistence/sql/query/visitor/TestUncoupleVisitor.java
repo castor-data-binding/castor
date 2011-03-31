@@ -18,13 +18,15 @@
 
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test if ParameterVisitor works as expected.
