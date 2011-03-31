@@ -15,14 +15,14 @@
  */
 package org.castor.cpa.query.object;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Field;
 import org.castor.cpa.query.Foo;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.object.expression.AbstractExpression;
-
-import junit.framework.TestCase;
 
 /**
  * Junit test for testing schema implementation.

@@ -23,10 +23,10 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.castor.cpa.query.TemporalType;
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.TemporalType;
 import org.castor.cpa.query.object.expression.AbstractExpression;
 
 /**

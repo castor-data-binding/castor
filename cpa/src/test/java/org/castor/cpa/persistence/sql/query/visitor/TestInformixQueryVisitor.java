@@ -18,11 +18,11 @@
 
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import static org.junit.Assert.assertEquals;
+
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test if InformixQueryVisitor works as expected.
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class TestInformixQueryVisitor extends TestDefaultQueryVisitor {
+public final class TestInformixQueryVisitor extends TestDefaultQueryVisitor {
     //---------------------------SELECT--------------------------------------------------------
 
     @Test

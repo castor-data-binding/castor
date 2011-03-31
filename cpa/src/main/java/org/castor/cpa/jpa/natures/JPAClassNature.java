@@ -182,14 +182,14 @@ public class JPAClassNature extends BaseNature {
      * @see #NAMED_QUERY
      */
     @SuppressWarnings("unchecked")
-	public Map<String, String> getNamedQuery() {
+    public Map<String, String> getNamedQuery() {
         return super.getPropertyAsMap (NAMED_QUERY);
     }
 
      /**
      * Set class to have a mapped super class.
      *
-     * @param abstract Boolean True if the given class has a mapped super class.
+     * @param hasMappedSuperclass Boolean True if the given class has a mapped super class.
      */
     public void setMappedSuperclass(final Boolean hasMappedSuperclass) {
         setProperty(MAPPED_SUPERCLASS, hasMappedSuperclass);
@@ -231,8 +231,7 @@ public class JPAClassNature extends BaseNature {
   
     /**
      * @see #CACHE_PROPERTIES
-     * @param schema
-     *            The value of {@link org.castor.cpa.jpa.annotations.Cache}
+     * @param cacheProperties The value of {@link org.castor.cpa.jpa.annotations.Cache}
      */
     public void setCacheProperties(final Properties cacheProperties) {
         super.setProperty (CACHE_PROPERTIES, cacheProperties);

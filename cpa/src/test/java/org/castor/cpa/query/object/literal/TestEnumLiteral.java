@@ -15,12 +15,12 @@
  */
 package org.castor.cpa.query.object.literal;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Literal;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.object.expression.AbstractExpression;
-
-import junit.framework.TestCase;
 
 /**
  * Junit Test for testing EnumLiteral class.

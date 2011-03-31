@@ -20,84 +20,83 @@ import javax.persistence.UniqueConstraint;
 
 public class JPATableGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
 
-	private String pkColumnName;
-	private String pkColumnValue;
-	private String schema;
-	private String table;
-	private JPAUniqueConstraint[] uniqueConstraints;
-	private String valueColumnName;
-	private Class<?> primaryKeyType;
-	
-	public static JPATableGeneratorDescriptor extract(TableGenerator tableGenerator) {
-		JPATableGeneratorDescriptor descriptor = new JPATableGeneratorDescriptor();
-		
-		descriptor.setAllocationSize(tableGenerator.allocationSize());
-		descriptor.setInitialValue(tableGenerator.initialValue());
-		descriptor.setName(tableGenerator.name());
-		descriptor.setPkColumnName(tableGenerator.pkColumnName());
-		descriptor.setPkColumnValue(tableGenerator.pkColumnValue());
-		descriptor.setSchema(tableGenerator.schema());
-		descriptor.setTable(tableGenerator.table());
-		JPAUniqueConstraint[] constraints = extractConstraints(tableGenerator);
-		descriptor.setUniqueConstraints(constraints);
-		descriptor.setValueColumnName(tableGenerator.valueColumnName());
-		
-		return descriptor;
-	}
-
-	private static JPAUniqueConstraint[] extractConstraints(
-			TableGenerator tableGenerator) {
-		JPAUniqueConstraint[] constraints = new JPAUniqueConstraint[]{};
-		int i = 0;
-		for (UniqueConstraint uniqueConstraint : tableGenerator.uniqueConstraints()) {
-			constraints[i++] = JPAUniqueConstraint.extract(uniqueConstraint);
-		}
-		return constraints;
-	}
-	
-	
-	public String getPkColumnName() {
-		return pkColumnName;
-	}
-	public void setPkColumnName(String pkColumnName) {
-		this.pkColumnName = pkColumnName;
-	}
-	public String getPkColumnValue() {
-		return pkColumnValue;
-	}
-	public void setPkColumnValue(String pkColumnValue) {
-		this.pkColumnValue = pkColumnValue;
-	}
-	public String getSchema() {
-		return schema;
-	}
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
-	public String getTable() {
-		return table;
-	}
-	public void setTable(String table) {
-		this.table = table;
-	}
-	public JPAUniqueConstraint[] getUniqueConstraints() {
-		return uniqueConstraints;
-	}
-	public void setUniqueConstraints(JPAUniqueConstraint[] uniqueConstraints) {
-		this.uniqueConstraints = uniqueConstraints;
-	}
-	public String getValueColumnName() {
-		return valueColumnName;
-	}
-	public void setValueColumnName(String valueColumnName) {
-		this.valueColumnName = valueColumnName;
-	}
-
-    public Class<?> getPrimaryKeyType() {
-        return primaryKeyType;
+    private String _pkColumnName;
+    private String _pkColumnValue;
+    private String _schema;
+    private String _table;
+    private JPAUniqueConstraint[] _uniqueConstraints;
+    private String _valueColumnName;
+    private Class<?> _primaryKeyType;
+    
+    public static JPATableGeneratorDescriptor extract(final TableGenerator tableGenerator) {
+        JPATableGeneratorDescriptor descriptor = new JPATableGeneratorDescriptor();
+        
+        descriptor.setAllocationSize(tableGenerator.allocationSize());
+        descriptor.setInitialValue(tableGenerator.initialValue());
+        descriptor.setName(tableGenerator.name());
+        descriptor.setPkColumnName(tableGenerator.pkColumnName());
+        descriptor.setPkColumnValue(tableGenerator.pkColumnValue());
+        descriptor.setSchema(tableGenerator.schema());
+        descriptor.setTable(tableGenerator.table());
+        JPAUniqueConstraint[] constraints = extractConstraints(tableGenerator);
+        descriptor.setUniqueConstraints(constraints);
+        descriptor.setValueColumnName(tableGenerator.valueColumnName());
+        
+        return descriptor;
     }
 
-    public void setPrimaryKeyType(Class<?> primaryKeyType) {
-        this.primaryKeyType = primaryKeyType;
-    }	
+    private static JPAUniqueConstraint[] extractConstraints(final TableGenerator tableGenerator) {
+        JPAUniqueConstraint[] constraints = new JPAUniqueConstraint[]{};
+        int i = 0;
+        for (UniqueConstraint uniqueConstraint : tableGenerator.uniqueConstraints()) {
+            constraints[i++] = JPAUniqueConstraint.extract(uniqueConstraint);
+        }
+        return constraints;
+    }
+    
+    
+    public String getPkColumnName() {
+        return _pkColumnName;
+    }
+    public void setPkColumnName(final String pkColumnName) {
+        this._pkColumnName = pkColumnName;
+    }
+    public String getPkColumnValue() {
+        return _pkColumnValue;
+    }
+    public void setPkColumnValue(final String pkColumnValue) {
+        this._pkColumnValue = pkColumnValue;
+    }
+    public String getSchema() {
+        return _schema;
+    }
+    public void setSchema(final String schema) {
+        this._schema = schema;
+    }
+    public String getTable() {
+        return _table;
+    }
+    public void setTable(final String table) {
+        this._table = table;
+    }
+    public JPAUniqueConstraint[] getUniqueConstraints() {
+        return _uniqueConstraints;
+    }
+    public void setUniqueConstraints(final JPAUniqueConstraint[] uniqueConstraints) {
+        this._uniqueConstraints = uniqueConstraints;
+    }
+    public String getValueColumnName() {
+        return _valueColumnName;
+    }
+    public void setValueColumnName(final String valueColumnName) {
+        this._valueColumnName = valueColumnName;
+    }
+
+    public Class<?> getPrimaryKeyType() {
+        return _primaryKeyType;
+    }
+
+    public void setPrimaryKeyType(final Class<?> primaryKeyType) {
+        this._primaryKeyType = primaryKeyType;
+    }   
 }

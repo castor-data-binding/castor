@@ -18,8 +18,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAJoinColumnProcessor {
-
+public final class TestJPAJoinColumnProcessor {
     @Before
     public void setUp() {
     }
@@ -163,9 +162,9 @@ public class TestJPAJoinColumnProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        public String _bla;
+        private String _bla;
 
-        public String _blob;
+        private String _blob;
 
         @OneToOne
         @JoinColumn(
@@ -210,7 +209,7 @@ public class TestJPAJoinColumnProcessor {
     @Entity
     @Ignore
     private class JPADefault {
-        public String _name;
+        private String _name;
 
         @OneToOne
         @JoinColumn
@@ -227,7 +226,7 @@ public class TestJPAJoinColumnProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        public String _name;
+        private String _name;
 
         public String getName() {
             return _name;
@@ -241,7 +240,7 @@ public class TestJPAJoinColumnProcessor {
     @Entity
     @Ignore
     private class JPAWrongTarget {
-        public String _name;
+        private String _name;
 
         @JoinColumn
         public String getName() {

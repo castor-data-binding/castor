@@ -20,8 +20,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAOneToOneProcessor {
-
+public final class TestJPAOneToOneProcessor {
     @Before
     public void setUp() {
     }
@@ -122,9 +121,9 @@ public class TestJPAOneToOneProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        public String _bla;
+        private String _bla;
 
-        public String _blob;
+        private String _blob;
 
         @OneToOne(
                 cascade = CascadeType.ALL, 
@@ -155,7 +154,7 @@ public class TestJPAOneToOneProcessor {
     @Entity
     @Ignore
     private class JPADefault {
-        public String _name;
+        private String _name;
 
         @OneToOne
         public String getName() {
@@ -171,7 +170,7 @@ public class TestJPAOneToOneProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        public String _name;
+        private String _name;
 
         public String getName() {
             return _name;

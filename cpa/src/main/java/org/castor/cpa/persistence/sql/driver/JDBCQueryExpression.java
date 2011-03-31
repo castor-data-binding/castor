@@ -119,12 +119,13 @@ public class JDBCQueryExpression implements QueryExpression {
         _tables.put(tableAlias, tableName);
     }
 
-    public final void addParameter(final String tableName, final String columnName, final String condOp) {
+    public final void addParameter(final String tableName, final String columnName,
+            final String condOp) {
         addCondition(tableName, columnName, condOp, JDBCSyntax.PARAMETER);
     }
 
-    public final void addCondition(final String tableName, final String columnName, final String condOp,
-            final String value) {
+    public final void addCondition(final String tableName, final String columnName,
+            final String condOp, final String value) {
         _tables.put(tableName, tableName);
         _conds.addElement(_factory.quoteName(
                 tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName) + condOp + value);

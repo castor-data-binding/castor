@@ -44,9 +44,9 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
     public static final String DEFAULT_VALUE_COLUMN_NAME = "ID_VALUE";
     public static final String DEFAULT_PK_COLUMN_VALUE = "ID_GEN";
 
-    private PersistenceFactory factory;
-    private JPATableGeneratorDescriptor descriptor;
-    private int sqlType;
+    private PersistenceFactory _factory;
+    private JPATableGeneratorDescriptor _descriptor;
+    private int _sqlType;
 
     /**
      * Creates an instance of this key generator.
@@ -56,19 +56,19 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
      * @param sqlType The SQL type of the identity field.
      * @throws MappingException
      */
-    public TableKeyGenerator(PersistenceFactory factory, Properties params,
-            int sqlType) throws MappingException {
+    public TableKeyGenerator(final PersistenceFactory factory, final Properties params,
+            final int sqlType) throws MappingException {
         super(factory);
-        this.factory = factory;
-        this.sqlType = sqlType;
-        this.descriptor = (JPATableGeneratorDescriptor) params.get(DESCRIPTOR_KEY);
+        _factory = factory;
+        _sqlType = sqlType;
+        _descriptor = (JPATableGeneratorDescriptor) params.get(DESCRIPTOR_KEY);
 
         initializeDescriptor();
 
         assertNumericSqlType(sqlType);
     }
 
-    private void assertNumericSqlType(int sqlType) throws MappingException {
+    private void assertNumericSqlType(final int sqlType) throws MappingException {
         switch (sqlType) {
         case Types.BIGINT:
         case Types.SMALLINT:
@@ -84,54 +84,54 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
     }
 
     private void initializeDescriptor() {
-        if (descriptor == null) {
-            descriptor = new JPATableGeneratorDescriptor();
+        if (_descriptor == null) {
+            _descriptor = new JPATableGeneratorDescriptor();
         }
-        if ((descriptor.getTable() == null) || ("".equals(descriptor.getTable()))) {
-            descriptor.setTable(DEFAULT_TABLE_NAME);
+        if ((_descriptor.getTable() == null) || ("".equals(_descriptor.getTable()))) {
+            _descriptor.setTable(DEFAULT_TABLE_NAME);
         }
-        if (descriptor.getAllocationSize() < 1) {
-            descriptor.setAllocationSize(DEFAULT_ALLOCATION_SIZE);
+        if (_descriptor.getAllocationSize() < 1) {
+            _descriptor.setAllocationSize(DEFAULT_ALLOCATION_SIZE);
         }
-        if (descriptor.getInitialValue() < 0) {
-            descriptor.setInitialValue(DEFAULT_INITIAL_VALUE);
+        if (_descriptor.getInitialValue() < 0) {
+            _descriptor.setInitialValue(DEFAULT_INITIAL_VALUE);
         }
-        if ((descriptor.getPkColumnName() == null)
-                || ("".equals(descriptor.getPkColumnName()))) {
-            descriptor.setPkColumnName(DEFAULT_PK_COLUMN_NAME);
+        if ((_descriptor.getPkColumnName() == null)
+                || ("".equals(_descriptor.getPkColumnName()))) {
+            _descriptor.setPkColumnName(DEFAULT_PK_COLUMN_NAME);
         }
-        if ((descriptor.getValueColumnName() == null)
-                || ("".equals(descriptor.getValueColumnName()))) {
-            descriptor.setValueColumnName(DEFAULT_VALUE_COLUMN_NAME);
+        if ((_descriptor.getValueColumnName() == null)
+                || ("".equals(_descriptor.getValueColumnName()))) {
+            _descriptor.setValueColumnName(DEFAULT_VALUE_COLUMN_NAME);
         }
-        if ((descriptor.getPkColumnValue() == null)
-                || ("".equals(descriptor.getPkColumnValue()))) {
-            descriptor.setPkColumnValue(DEFAULT_PK_COLUMN_VALUE);
+        if ((_descriptor.getPkColumnValue() == null)
+                || ("".equals(_descriptor.getPkColumnValue()))) {
+            _descriptor.setPkColumnValue(DEFAULT_PK_COLUMN_VALUE);
         }
     }
 
-    public Object generateKey(Connection connection, String tableName,
-            String primKeyName) throws PersistenceException {
+    public Object generateKey(final Connection connection, final String tableName,
+            final String primKeyName) throws PersistenceException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Generating table-based primary key " + primKeyName
                     + " for table " + tableName);
         }
-        String sql = "SELECT " + descriptor.getValueColumnName() + " FROM "
-                + descriptor.getTable() + " WHERE "
-                + descriptor.getPkColumnName() + "='"
-                + descriptor.getPkColumnValue() + "'";
+        String sql = "SELECT " + _descriptor.getValueColumnName() + " FROM "
+                + _descriptor.getTable() + " WHERE "
+                + _descriptor.getPkColumnName() + "='"
+                + _descriptor.getPkColumnValue() + "'";
         Object key;
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet result = statement.executeQuery();
             KeyGeneratorTypeHandler<?> handler = KeyGeneratorTypeHandlerFactory
-                    .getTypeHandler(sqlType, descriptor.getAllocationSize());
+                    .getTypeHandler(_sqlType, _descriptor.getAllocationSize());
             key = handler.getNextValue(result);
-            sql = "UPDATE " + descriptor.getTable() + " SET "
-                    + descriptor.getValueColumnName() + "="
+            sql = "UPDATE " + _descriptor.getTable() + " SET "
+                    + _descriptor.getValueColumnName() + "="
                     + key + " WHERE "
-                    + descriptor.getPkColumnName() + "='"
-                    + descriptor.getPkColumnValue() + "'";
+                    + _descriptor.getPkColumnName() + "='"
+                    + _descriptor.getPkColumnValue() + "'";
             statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -148,11 +148,11 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
     }
 
     public PersistenceFactory getFactory() {
-        return factory;
+        return _factory;
     }
 
     public JPATableGeneratorDescriptor getDescriptor() {
-        return descriptor;
+        return _descriptor;
     }
 
 }

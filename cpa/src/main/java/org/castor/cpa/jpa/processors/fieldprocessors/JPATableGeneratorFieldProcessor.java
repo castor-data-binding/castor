@@ -28,7 +28,6 @@ import org.castor.core.nature.BaseNature;
 import org.castor.cpa.jpa.info.GeneratorNameAlreadyUsedException;
 import org.castor.cpa.jpa.info.JPAKeyGeneratorManager;
 import org.castor.cpa.jpa.info.JPATableGeneratorDescriptor;
-import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
 /**
@@ -40,53 +39,54 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  */
 public class JPATableGeneratorFieldProcessor extends BaseJPAAnnotationProcessor {
 
-	private static final Log LOG = LogFactory
-			.getLog(JPATableGeneratorFieldProcessor.class);
+    private static final Log LOG = LogFactory.getLog(JPATableGeneratorFieldProcessor.class);
 
-	public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-			I info, A annotation, AnnotatedElement target)
-			throws AnnotationTargetException {
+    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+            final I info, final A annotation, final AnnotatedElement target)
+            throws AnnotationTargetException {
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Processing annotation " + annotation.toString());
-		}
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Processing annotation " + annotation.toString());
+        }
 
-		if (!verifyArguments(annotation, target)) {
-			return false;
-		}
+        if (!verifyArguments(annotation, target)) {
+            return false;
+        }
 
-		return processGeneratorDefinition(annotation, target);
-	}
+        return processGeneratorDefinition(annotation, target);
+    }
 
-	private <A> boolean verifyArguments(A annotation, AnnotatedElement target) {
-		if (!(annotation instanceof TableGenerator)
-				|| (!target.isAnnotationPresent(TableGenerator.class))
-				|| (!target.isAnnotationPresent(Id.class))) {
+    private <A> boolean verifyArguments(final A annotation, final AnnotatedElement target) {
+        if (!(annotation instanceof TableGenerator)
+                || (!target.isAnnotationPresent(TableGenerator.class))
+                || (!target.isAnnotationPresent(Id.class))) {
 
-			return false;
-		}
-		return true;
+            return false;
+        }
+        return true;
 
-	}
+    }
 
-	private <A> boolean processGeneratorDefinition(A annotation, AnnotatedElement target) {
-		TableGenerator tableGenerator = (TableGenerator) annotation;
-		
-		JPAKeyGeneratorManager manager = JPAKeyGeneratorManager.getInstance();
-		
-		JPATableGeneratorDescriptor descriptor = JPATableGeneratorDescriptor.extract(tableGenerator);
-				
-		try {
-			manager.add(tableGenerator.name(), descriptor);
-		} catch (GeneratorNameAlreadyUsedException e) {
-			return false;
-		}
-		
-		return true;
-	}
+    private <A> boolean processGeneratorDefinition(final A annotation,
+            final AnnotatedElement target) {
+        TableGenerator tableGenerator = (TableGenerator) annotation;
+        
+        JPAKeyGeneratorManager manager = JPAKeyGeneratorManager.getInstance();
+        
+        JPATableGeneratorDescriptor descriptor =
+            JPATableGeneratorDescriptor.extract(tableGenerator);
+                
+        try {
+            manager.add(tableGenerator.name(), descriptor);
+        } catch (GeneratorNameAlreadyUsedException e) {
+            return false;
+        }
+        
+        return true;
+    }
 
-	public Class<? extends Annotation> forAnnotationClass() {
-		return TableGenerator.class;
-	}
+    public Class<? extends Annotation> forAnnotationClass() {
+        return TableGenerator.class;
+    }
 
 }

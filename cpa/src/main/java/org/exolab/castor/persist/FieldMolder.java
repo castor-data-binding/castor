@@ -62,7 +62,6 @@ import org.castor.persist.CascadingType;
 import org.exolab.castor.jdo.DataObjectAccessException;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
@@ -492,7 +491,6 @@ public class FieldMolder {
      * extend this class to create a more suitable descriptor.
      *
      * @param eMold The ClassMolder to which the field belongs
-     * @param fieldMapping The field mapping information
      * @throws MappingException The field or its accessor methods are not
      *  found, not accessible, not of the specified type, etc
      */
@@ -760,7 +758,7 @@ public class FieldMolder {
      */
     private void establishCollectionDefinition(
             final DatingService datingService, final FieldMappingCollectionType collectionType,
-            String fieldType) throws MappingException {
+            final String fieldType) throws MappingException {
         if (collectionType != null) {
             _multi = true;
             // simple arrays support
@@ -790,8 +788,8 @@ public class FieldMolder {
      * @param enclosingClass The class type of the enclosing class.
      * @throws MappingException If no such field is present on the class in question.
      */
-    private void establishDirectFieldAccess(String fieldName,
-            Class<?> enclosingClass) throws MappingException {
+    private void establishDirectFieldAccess(final String fieldName,
+            final Class<?> enclosingClass) throws MappingException {
         Class<?>  fieldClass = (_collectionClass != null) ? _collectionClass : null;
         _defaultReflectService.setField(findField(enclosingClass, fieldName, fieldClass));
         if (_defaultReflectService.getField() == null) {
@@ -817,8 +815,8 @@ public class FieldMolder {
      * @throws MappingException If the given method is not present on the enclosing class.
      */
     private void establishSetAndAddMethod(final boolean isLazy,
-            Class<?> enclosingClass, Class<?> declaredClass, String setMethod,
-            Class<?> fieldClassType) throws MappingException {
+            final Class<?> enclosingClass, final Class<?> declaredClass, final String setMethod,
+            final Class<?> fieldClassType) throws MappingException {
         if (setMethod != null) {
 
             if (_collectionClass != null) {
@@ -863,8 +861,8 @@ public class FieldMolder {
      * @param fieldClassType The Class type of the field.
      * @throws MappingException If the method defined is not present on the given enclosing class.
      */
-    private void establishGetMethod(Class<?> enclosingClass, String getMethod,
-            Class<?> fieldClassType) throws MappingException {
+    private void establishGetMethod(final Class<?> enclosingClass, final String getMethod,
+            final Class<?> fieldClassType) throws MappingException {
         if (getMethod != null) {
             if (_collectionClass != null) {
                 _defaultReflectService.setGetMethod(findAccessor(
@@ -895,8 +893,7 @@ public class FieldMolder {
      * @param fieldName Name of the field.
      * @param javaClass Class type of the field.
      */
-    private void establishHasAndDeleteMethods(String fieldName,
-            Class<?> javaClass) {
+    private void establishHasAndDeleteMethods(final String fieldName, final Class<?> javaClass) {
         if (fieldName != null) {
             Method hasMethod = null;
             Method deleteMethod = null;
@@ -933,8 +930,8 @@ public class FieldMolder {
      * @param javaClass Class type.
      * @throws MappingException If the specified method is not present on the given class type.
      */
-    private void establishCreateMethod(String createMethod, String fieldName,
-            Class<?> javaClass) throws MappingException {
+    private void establishCreateMethod(final String createMethod, final String fieldName,
+            final Class<?> javaClass) throws MappingException {
         // If there is a create method, add it to the field handler
         // Note: create method is used for enclosing object of this field to
         // determine
@@ -962,7 +959,7 @@ public class FieldMolder {
         }
     }
 
-    private void dealWithSqlMapping(FieldDescriptor fieldDescriptor) throws MappingException {
+    private void dealWithSqlMapping(final FieldDescriptor fieldDescriptor) throws MappingException {
         if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
             FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
             if (nature.isDirtyCheck()) {
@@ -981,11 +978,11 @@ public class FieldMolder {
    
             _cascading = EnumSet.noneOf(CascadingType.class);
 
-            // TODO: in the schema, cascading is still simply a string.
+            // TODO in the schema, cascading is still simply a string.
             //       when this is finally made into a proper list (enumeration and all)
             //       this will probably have to be changed
-            // TODO: also, we should probably use constants
-            // NOTE: we assume here that the types are delimited by whitespace
+            // TODO also, we should probably use constants
+            // NOTE we assume here that the types are delimited by whitespace
             if (nature.getCascading() != null) {
                 String[] temp = nature.getCascading().toLowerCase().trim().split("\\s+");
                 List<String> cascadingTypes = java.util.Arrays.asList(temp);
@@ -993,13 +990,13 @@ public class FieldMolder {
                     _cascading = EnumSet.allOf(CascadingType.class);
                 } else {
                     if (cascadingTypes.contains("create")) {
-                	_cascading.add(CascadingType.CREATE);
+                        _cascading.add(CascadingType.CREATE);
                     }
                     if (cascadingTypes.contains("delete")) {
-                	_cascading.add(CascadingType.DELETE);
+                        _cascading.add(CascadingType.DELETE);
                     }
                     if (cascadingTypes.contains("update")) {
-                	_cascading.add(CascadingType.UPDATE);
+                        _cascading.add(CascadingType.UPDATE);
                     }
                 }
             }
@@ -1214,7 +1211,7 @@ public class FieldMolder {
     }
 
 
-    private void setFieldTypeName(String fieldType) {
+    private void setFieldTypeName(final String fieldType) {
         _fieldType = fieldType;
     }
 
@@ -1259,7 +1256,7 @@ public class FieldMolder {
 
         private ClassLoader _loader;
 
-        private Class<?> fieldType;
+        private Class<?> _innerFieldType;
 
         private Field _field;
         private Method[] _getSequence;
@@ -1359,7 +1356,7 @@ public class FieldMolder {
             return resultClass;
         }
 
-        private void setCreateMethod(Method createMethod) {
+        private void setCreateMethod(final Method createMethod) {
             _createMethod = createMethod;
         }
 
@@ -1367,7 +1364,7 @@ public class FieldMolder {
             return _createMethod;
         }
 
-        private void setField(Field field) {
+        private void setField(final Field field) {
             _field = field;
         }
 
@@ -1375,15 +1372,15 @@ public class FieldMolder {
             return _field;
         }
 
-        private void setFieldType(Class<?> fieldType) {
-            this.fieldType = fieldType;
+        private void setFieldType(final Class<?> fieldType) {
+            this._innerFieldType = fieldType;
         }
 
         private Class<?> getFieldType() {
-            return fieldType;
+            return _innerFieldType;
         }
 
-        private void setGetMethod(Method getMethod) {
+        private void setGetMethod(final Method getMethod) {
             _getMethod = getMethod;
         }
 
@@ -1391,7 +1388,7 @@ public class FieldMolder {
             return _getMethod;
         }
 
-        private void setSetMethod(Method setMethod) {
+        private void setSetMethod(final Method setMethod) {
             _setMethod = setMethod;
         }
 
@@ -1399,7 +1396,7 @@ public class FieldMolder {
             return _setMethod;
         }
 
-        private void setAddMethod(Method addMethod) {
+        private void setAddMethod(final Method addMethod) {
             _addMethod = addMethod;
         }
 

@@ -35,50 +35,47 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @since 1.3.2
  */
-public class JPAGeneratedValueProcessor extends
-		BaseJPAAnnotationProcessor {
+public class JPAGeneratedValueProcessor extends BaseJPAAnnotationProcessor {
 
-	private static final Log LOG = LogFactory
-			.getLog(JPAGeneratedValueProcessor.class);
+    private static final Log LOG = LogFactory.getLog(JPAGeneratedValueProcessor.class);
 
-	public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-			I info, A annotation, AnnotatedElement target)
-			throws AnnotationTargetException {
+    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+            final I info, final A annotation, final AnnotatedElement target)
+            throws AnnotationTargetException {
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Processing annotation " + annotation.toString());
-		}
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Processing annotation " + annotation.toString());
+        }
 
-		if (!verifyArguments(info, annotation, target)) {
-			return false;
-		}
+        if (!verifyArguments(info, annotation, target)) {
+            return false;
+        }
 
-		processGeneratorDefinition(info, annotation);
+        processGeneratorDefinition(info, annotation);
 
-		return true;
-	}
+        return true;
+    }
 
-	private <I, A> boolean verifyArguments(I info, A annotation,
-			AnnotatedElement target) {
-		if (!(annotation instanceof GeneratedValue)
-				|| (!target.isAnnotationPresent(GeneratedValue.class))
-				|| (!target.isAnnotationPresent(Id.class))
-				|| !(info instanceof JPAFieldNature)) {
-			return false;
-		}
-		return true;
-	}
+    private <I, A> boolean verifyArguments(final I info, final A annotation,
+            final AnnotatedElement target) {
+        if (!(annotation instanceof GeneratedValue)
+                || (!target.isAnnotationPresent(GeneratedValue.class))
+                || (!target.isAnnotationPresent(Id.class))
+                || !(info instanceof JPAFieldNature)) {
+            return false;
+        }
+        return true;
+    }
 
-	private <I, A> void processGeneratorDefinition(I nature, A annotation) {
-		GeneratedValue generatedValue = (GeneratedValue) annotation;
+    private <I, A> void processGeneratorDefinition(final I nature, final A annotation) {
+        GeneratedValue generatedValue = (GeneratedValue) annotation;
 
-		((JPAFieldNature) nature).setGeneratedValueStrategy(generatedValue.strategy());
-		((JPAFieldNature) nature).setGeneratedValueGenerator(generatedValue.generator());
+        ((JPAFieldNature) nature).setGeneratedValueStrategy(generatedValue.strategy());
+        ((JPAFieldNature) nature).setGeneratedValueGenerator(generatedValue.generator());
 
-	}
+    }
 
-	public Class<? extends Annotation> forAnnotationClass() {
-		return GeneratedValue.class;
-	}
-
+    public Class<? extends Annotation> forAnnotationClass() {
+        return GeneratedValue.class;
+    }
 }

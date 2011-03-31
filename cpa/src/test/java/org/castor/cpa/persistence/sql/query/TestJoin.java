@@ -15,12 +15,13 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.castor.cpa.persistence.sql.query.condition.Compare;
 import org.castor.cpa.persistence.sql.query.condition.CompareOperator;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test if Join works as expected.

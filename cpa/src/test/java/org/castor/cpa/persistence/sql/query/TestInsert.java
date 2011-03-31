@@ -15,10 +15,10 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
+import junit.framework.TestCase;
+
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
-
-import junit.framework.TestCase;
 
 /**
  * Test if Insert works as expected.

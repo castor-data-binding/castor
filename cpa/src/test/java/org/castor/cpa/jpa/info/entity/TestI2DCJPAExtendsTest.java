@@ -26,12 +26,11 @@ import org.junit.Ignore;
  */
 @Entity
 @Ignore
-public class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
-    
+public final class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
     /**
      * Show that the primary_key is the ID of this entity.
      */
-    public String _primaryKey;
+    private String _primaryKey;
 
     @Id
     public String getPrimaryKey() {
@@ -41,5 +40,4 @@ public class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
     public void setPrimaryKey(final String primaryKey) {
         _primaryKey = primaryKey;
     }
-
 }

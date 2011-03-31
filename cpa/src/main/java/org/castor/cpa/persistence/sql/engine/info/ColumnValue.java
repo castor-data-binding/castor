@@ -27,7 +27,7 @@ package org.castor.cpa.persistence.sql.engine.info;
 public final class ColumnValue {
     //-----------------------------------------------------------------------------------    
 
-	private final ColumnInfo _info;
+    private final ColumnInfo _info;
     private final int _index;
     private Object _value;
     

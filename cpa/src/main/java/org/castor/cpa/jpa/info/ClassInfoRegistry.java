@@ -3,12 +3,12 @@ package org.castor.cpa.jpa.info;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassInfoRegistry {
+public final class ClassInfoRegistry {
 
     /**
-     * Map for ClassInfo storage
+     * Map for ClassInfo storage.
      */
-    private static final Map<Class, ClassInfo> classInfos = new HashMap<Class, ClassInfo>();
+    private static final Map<Class, ClassInfo> CLASS_INFOS = new HashMap<Class, ClassInfo>();
 
     /**
      * Returns the {@link ClassInfo} instance registered for the given Class type.
@@ -16,7 +16,7 @@ public class ClassInfoRegistry {
      * @return The {@link ClassInfo} registered for the given {@link Class} type.
      */
     public static ClassInfo getClassInfo(final Class<?> type) {
-        return classInfos.get(type);
+        return CLASS_INFOS.get(type);
     }
 
     /**
@@ -24,8 +24,12 @@ public class ClassInfoRegistry {
      * @param type A given {@link Class} type.
      * @param classInfo The {@link ClassInfo} instance to register.
      */
-    public static void registerClassInfo(final Class<?> type, ClassInfo classInfo) {
-        classInfos.put(type, classInfo);
+    public static void registerClassInfo(final Class<?> type, final ClassInfo classInfo) {
+        CLASS_INFOS.put(type, classInfo);
     }
 
+    /**
+     * Hide constructor of utility class.
+     */
+    private ClassInfoRegistry() { }
 }

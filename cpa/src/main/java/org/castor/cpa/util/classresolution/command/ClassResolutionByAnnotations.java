@@ -42,14 +42,12 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
      * Try to resolve/generate a {@link ClassDescriptor} for the given (JPA
      * annotated) type.
      * 
-     * @param type
-     *            The Java class that needs a descriptor
+     * @param type The Java class that needs a descriptor
      * @return Usually a {@link ClassDescriptor} representing the given Class or
      *         null if the given type can not be resolved. When this method is
      *         called recursively (as in bidirectional relations) a reference
      *         to an incomplete {@link ClassDescriptor} is returned, which will
      *         be finished when leaving the loop again.
-     * @see org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand#resolve(java.lang.Class)
      */
     public ClassDescriptor resolve(final Class type) {
 

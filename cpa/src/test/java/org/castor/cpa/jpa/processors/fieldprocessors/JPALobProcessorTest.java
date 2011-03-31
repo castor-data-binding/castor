@@ -1,54 +1,55 @@
 package org.castor.cpa.jpa.processors.fieldprocessors;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.info.FieldInfo;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
-import org.castor.cpa.jpa.processors.fieldprocessors.JPALobProcessor;
-
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-
-public class JPALobProcessorTest {
-
-    JPALobProcessor processor;
-    JPAFieldNature fieldNature;
+public final class JPALobProcessorTest {
+    private JPALobProcessor _processor;
+    private JPAFieldNature _fieldNature;
     @Mock
-    Lob annotation;
+    private Lob _annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        processor = new JPALobProcessor();
+        _processor = new JPALobProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAFieldNature.class.getCanonicalName());
-        fieldNature = new JPAFieldNature(classInfo);
+        _fieldNature = new JPAFieldNature(classInfo);
     }
 
     @Test
     public void processorIsForLobAnnotation() throws Exception {
-        assertEquals(Lob.class, processor.forAnnotationClass());
+        assertEquals(Lob.class, _processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForLobAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 LobAnnotatedClass.class.getDeclaredMethod("getLob"));
         assertTrue(result);
     }
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 NonAnnotatedClass.class.getDeclaredMethod("getLob"));
         assertFalse(result);
     }
@@ -56,7 +57,7 @@ public class JPALobProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 OtherwiseAnnotatedClass.class.getDeclaredMethod("getLob"));
         assertFalse(result);
     }
@@ -77,43 +78,42 @@ public class JPALobProcessorTest {
     @Ignore
     @Entity
     private class LobAnnotatedClass {
-        private String lob;
+        private String _lob;
 
         @Lob
         public String getLob() {
-            return lob;
+            return _lob;
         }
 
         public void setLob(final String lob) {
-            this.lob = lob;
+            _lob = lob;
         }
     }
 
     @Ignore
     private class NonAnnotatedClass {
-        private String lob;
+        private String _lob;
 
         public String getLob() {
-            return lob;
+            return _lob;
         }
 
         public void setLob(final String lob) {
-            this.lob = lob;
+            _lob = lob;
         }
     }
 
     @Ignore
     private class OtherwiseAnnotatedClass {
-        private String lob;
+        private String _lob;
 
         @Column
         public String getLob() {
-            return lob;
+            return _lob;
         }
 
         public void setLob(final String lob) {
-            this.lob = lob;
+            _lob = lob;
         }
     }
-
 }

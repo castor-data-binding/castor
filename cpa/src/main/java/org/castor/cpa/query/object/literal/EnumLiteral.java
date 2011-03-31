@@ -44,7 +44,7 @@ public final class EnumLiteral extends AbstractLiteral {
         int dot = value.lastIndexOf('.');
         if (dot < 0) { throw new IllegalArgumentException(); }
         
-        Class type = null;
+        Class<?> type = null;
         try {
             String typename = value.substring(0, dot);
             type = Class.forName(typename);
@@ -56,10 +56,10 @@ public final class EnumLiteral extends AbstractLiteral {
         Object[] enumvalues = type.getEnumConstants();
         
         String enumname = value.substring(dot + 1);
-        Enum < ? > enumvalue = null;
+        Enum<?> enumvalue = null;
         for (int i = 0; i < enumvalues.length; i++) {
             if (enumname.equals(enumvalues[i].toString())) {
-                enumvalue = (Enum) enumvalues[i];
+                enumvalue = (Enum<?>) enumvalues[i];
             }
         }
         if (enumvalue == null) { throw new IllegalArgumentException(); }

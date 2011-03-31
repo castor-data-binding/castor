@@ -32,8 +32,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAColumnProcessor {
-
+public final class TestJPAColumnProcessor {
     @Before
     public void setUp() {
     }
@@ -151,9 +150,9 @@ public class TestJPAColumnProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        public String _bla;
+        private String _bla;
 
-        public String _blob;
+        private String _blob;
 
         @Column(
                 name = "JPAcolumnTESTbla", 
@@ -200,7 +199,7 @@ public class TestJPAColumnProcessor {
     @Entity
     @Ignore
     private class JPADefault {
-        public String _name;
+        private String _name;
 
         @Column
         public String getName() {
@@ -216,7 +215,7 @@ public class TestJPAColumnProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        public String _name;
+        private String _name;
 
         public String getName() {
             return _name;
@@ -226,5 +225,4 @@ public class TestJPAColumnProcessor {
             _name = name;
         }
     }
-
 }

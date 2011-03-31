@@ -16,45 +16,43 @@ import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.info.FieldInfo;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
-import org.castor.cpa.jpa.processors.fieldprocessors.JPATemporalProcessor;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class JPATemporalProcessorTest {
-
-    JPATemporalProcessor processor;
-    JPAFieldNature fieldNature;
+public final class JPATemporalProcessorTest {
+    private JPATemporalProcessor _processor;
+    private JPAFieldNature _fieldNature;
     @Mock
-    Temporal annotation;
+    private Temporal _annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        processor = new JPATemporalProcessor();
+        _processor = new JPATemporalProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAFieldNature.class.getCanonicalName());
-        fieldNature = new JPAFieldNature(classInfo);
+        _fieldNature = new JPAFieldNature(classInfo);
     }
 
     @Test
     public void processorIsForTemporalAnnotation() throws Exception {
-        assertEquals(Temporal.class, processor.forAnnotationClass());
+        assertEquals(Temporal.class, _processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForTemporalAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 TemporalAnnotatedClass.class.getDeclaredMethod("getDate"));
         assertTrue(result);
     }
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 NonAnnotatedClass.class.getDeclaredMethod("getDate"));
         assertFalse(result);
     }
@@ -62,7 +60,7 @@ public class JPATemporalProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 OtherwiseAnnotatedClass.class.getDeclaredMethod("getDate"));
         assertFalse(result);
     }
@@ -83,43 +81,42 @@ public class JPATemporalProcessorTest {
     @Ignore
     @Entity
     private class TemporalAnnotatedClass {
-        private Date date;
+        private Date _date;
 
         @Temporal(TIMESTAMP)
         public Date getDate() {
-            return date;
+            return _date;
         }
 
         public void setDate(final Date date) {
-            this.date = date;
+            _date = date;
         }
     }
 
     @Ignore
     private class NonAnnotatedClass {
-        private Date date;
+        private Date _date;
 
         public Date getDate() {
-            return date;
+            return _date;
         }
 
         public void setDate(final Date date) {
-            this.date = date;
+            _date = date;
         }
     }
 
     @Ignore
     private class OtherwiseAnnotatedClass {
-        private Date date;
+        private Date _date;
 
         @Column
         public Date getDate() {
-            return date;
+            return _date;
         }
 
         public void setDate(final Date date) {
-            this.date = date;
+            _date = date;
         }
     }
-
 }

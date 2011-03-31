@@ -16,7 +16,23 @@
 package org.castor.cpa.jpa.info;
 
 import org.castor.core.annotationprocessing.BaseTargetAwareAnnotationProcessingService;
-import org.castor.cpa.jpa.processors.fieldprocessors.*;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPABasicProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAColumnProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAEnumeratedProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAGeneratedValueProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAIdProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAJoinColumnProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAJoinTableProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPALobProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAManyToManyProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAManyToOneProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAOneToManyProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAOneToOneProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPASequenceGeneratorFieldProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPATableGeneratorFieldProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPATemporalProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPATransientProcessor;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAVersionProcessor;
 
 /**
  * This is a standard {@link BaseTargetAwareAnnotationProcessingService}

@@ -31,8 +31,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPATransientProcessor {
-
+public final class TestJPATransientProcessor {
     @Test
     public void testJPAFull() throws MappingException {
 
@@ -79,7 +78,7 @@ public class TestJPATransientProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        public String _name;
+        private String _name;
 
         @Transient
         public String getName() {
@@ -94,7 +93,7 @@ public class TestJPATransientProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        public String _name;
+        private String _name;
 
         public String getName() {
             return _name;

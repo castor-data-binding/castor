@@ -18,6 +18,10 @@
 
 package org.castor.cpa.persistence.sql.query.visitor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Iterator;
 
 import org.castor.cpa.persistence.sql.query.Assignment;
@@ -41,7 +45,6 @@ import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.NextVal;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test if OracleQueryVisitor works as expected.

@@ -21,7 +21,6 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 
-import javax.persistence.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,6 +28,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.ExcludeDefaultListeners;
+import javax.persistence.ExcludeSuperclassListeners;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 
 /**
  * Handles JPA annotation-driven callback hooks.
@@ -40,17 +51,17 @@ public class JPACallbackHandler implements CallbackInterceptor {
     /**
      * Objects for which callbacks need to be invoked.
      */
-    private final List<Object> objectsToInvokeCallbacksOn = new ArrayList<Object>();
+    private final List<Object> _objectsToInvokeCallbacksOn = new ArrayList<Object>();
 
     /**
      * Memorises overridden callbacks.
      */
-    private final Map<String, Object> overriddenCallbacks = new HashMap<String, Object>();
+    private final Map<String, Object> _overriddenCallbacks = new HashMap<String, Object>();
 
     /**
      * Memorises if superclass listeners are to be excluded.
      */
-    private boolean excludeSuperclassListeners = false;
+    private boolean _excludeSuperclassListeners = false;
 
     public Class<?> loaded(final Object object, final AccessMode accessMode)
             throws Exception {
@@ -111,21 +122,21 @@ public class JPACallbackHandler implements CallbackInterceptor {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `releasing`.");
         }
-        // TODO: impl.?
+        // TODO impl.?
     }
 
     public void using(final Object object, final Database db) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `using`.");
         }
-        // TODO: impl.?
+        // TODO impl.?
     }
 
     public void updated(final Object object) throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Calling `updated`.");
         }
-        // TODO: impl.?
+        // TODO impl.?
     }
 
     /**
@@ -150,19 +161,19 @@ public class JPACallbackHandler implements CallbackInterceptor {
             final Class<A> annotationClass, final Object object)
             throws InvocationTargetException, IllegalAccessException,
             InstantiationException, NoSuchMethodException {
-        objectsToInvokeCallbacksOn.clear();
-        overriddenCallbacks.clear();
-        excludeSuperclassListeners = false;
+        _objectsToInvokeCallbacksOn.clear();
+        _overriddenCallbacks.clear();
+        _excludeSuperclassListeners = false;
         walkCallbacksHierarchyFor(annotationClass, object);
-        if (objectsToInvokeCallbacksOn.size() > 1) {
+        if (_objectsToInvokeCallbacksOn.size() > 1) {
             handleOverriddenCallbacksFor(annotationClass,
-                    objectsToInvokeCallbacksOn.get(objectsToInvokeCallbacksOn
+                    _objectsToInvokeCallbacksOn.get(_objectsToInvokeCallbacksOn
                             .size() - 1));
         }
-        for (Object obj : objectsToInvokeCallbacksOn) {
+        for (Object obj : _objectsToInvokeCallbacksOn) {
             invokeCallbacksFor(annotationClass, obj);
         }
-        for (Map.Entry<String, Object> entry : overriddenCallbacks.entrySet()) {
+        for (Map.Entry<String, Object> entry : _overriddenCallbacks.entrySet()) {
             invokeCallback(entry.getValue().getClass().getDeclaredMethod(
                     entry.getKey()), entry.getValue());
         }
@@ -195,13 +206,13 @@ public class JPACallbackHandler implements CallbackInterceptor {
                 walkCallbacksHierarchyFor(annotationClass, superclass
                         .newInstance());
             }
-            if (!excludeSuperclassListeners) {
+            if (!_excludeSuperclassListeners) {
                 invokeListenerCallbacksFor(annotationClass, klass);
             }
             if (klass.isAnnotationPresent(ExcludeSuperclassListeners.class)) {
-                excludeSuperclassListeners = true;
+                _excludeSuperclassListeners = true;
             }
-            objectsToInvokeCallbacksOn.add(object);
+            _objectsToInvokeCallbacksOn.add(object);
         }
     }
 
@@ -262,7 +273,7 @@ public class JPACallbackHandler implements CallbackInterceptor {
                         final Method overridden = superclass
                                 .getDeclaredMethod(methodName);
                         if (overridden.isAnnotationPresent(annotationClass)) {
-                            overriddenCallbacks.put(methodName, object);
+                            _overriddenCallbacks.put(methodName, object);
                         }
                     } catch (NoSuchMethodException e) {
                         if (LOG.isDebugEnabled()) {
@@ -301,7 +312,7 @@ public class JPACallbackHandler implements CallbackInterceptor {
         final Method[] declaredMethods = klass.getDeclaredMethods();
         for (Method method : declaredMethods) {
             if (method.isAnnotationPresent(annotationClass)) {
-                if (!overriddenCallbacks.containsKey(method.getName())) {
+                if (!_overriddenCallbacks.containsKey(method.getName())) {
                     invokeCallback(method, object);
                 }
             }

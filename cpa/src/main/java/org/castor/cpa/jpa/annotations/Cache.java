@@ -27,11 +27,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Specifies an array of cache properties.
  */
 @Documented
-@Target(value=TYPE)
-@Retention(value=RUNTIME)
+@Target(value = TYPE)
+@Retention(value = RUNTIME)
 public @interface Cache {
-	/**
-	 * An array of cache properties.
-	 */
-	public abstract CacheProperty[] value();
+    /**
+     * An array of cache properties.
+     */
+    CacheProperty[] value();
 }

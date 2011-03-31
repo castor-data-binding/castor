@@ -49,7 +49,7 @@ public class JPANamedNativeQueryProcessor extends BaseJPAAnnotationProcessor {
 
             final JPAClassNature jpaClassNature = (JPAClassNature) info;
             final NamedNativeQuery namedNativeQuery = (NamedNativeQuery) annotation;
-            final Map<String, String> namedNativeQueryMap = new HashMap<String,String>();
+            final Map<String, String> namedNativeQueryMap = new HashMap<String, String>();
             namedNativeQueryMap.put(namedNativeQuery.name(), namedNativeQuery.query());
             jpaClassNature.setNamedNativeQuery(namedNativeQueryMap);
             return true;

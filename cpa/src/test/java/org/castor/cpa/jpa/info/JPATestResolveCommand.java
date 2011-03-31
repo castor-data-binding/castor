@@ -3,9 +3,6 @@ package org.castor.cpa.jpa.info;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.castor.cpa.jpa.info.ClassInfo;
-import org.castor.cpa.jpa.info.ClassInfoBuilder;
-import org.castor.cpa.jpa.info.InfoToDescriptorConverter;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;

@@ -1,55 +1,56 @@
 package org.castor.cpa.jpa.processors.fieldprocessors;
 
-import org.castor.cpa.jpa.info.ClassInfo;
-import org.castor.cpa.jpa.info.ClassInfoBuilder;
-import org.castor.cpa.jpa.info.FieldInfo;
-import org.castor.cpa.jpa.natures.JPAFieldNature;
-import org.castor.cpa.jpa.processors.fieldprocessors.JPAEnumeratedProcessor;
-
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-public class JPAEnumeratedProcessorTest {
+import org.castor.cpa.jpa.info.ClassInfo;
+import org.castor.cpa.jpa.info.ClassInfoBuilder;
+import org.castor.cpa.jpa.info.FieldInfo;
+import org.castor.cpa.jpa.natures.JPAFieldNature;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-    JPAEnumeratedProcessor processor;
-    JPAFieldNature fieldNature;
+public final class JPAEnumeratedProcessorTest {
+    private JPAEnumeratedProcessor _processor;
+    private JPAFieldNature _fieldNature;
     @Mock
-    Enumerated annotation;
+    private Enumerated _annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        processor = new JPAEnumeratedProcessor();
+        _processor = new JPAEnumeratedProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAFieldNature.class.getCanonicalName());
-        fieldNature = new JPAFieldNature(classInfo);
+        _fieldNature = new JPAFieldNature(classInfo);
     }
 
     @Test
     public void processorIsForEnumeratedAnnotation() throws Exception {
-        assertEquals(Enumerated.class, processor.forAnnotationClass());
+        assertEquals(Enumerated.class, _processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForEnumeratedAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 EnumeratedAnnotatedClass.class.getDeclaredMethod("getEnumerated"));
         assertTrue(result);
     }
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 NonAnnotatedClass.class.getDeclaredMethod("getEnumerated"));
         assertFalse(result);
     }
@@ -57,7 +58,7 @@ public class JPAEnumeratedProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = processor.processAnnotation(fieldNature, annotation,
+        boolean result = _processor.processAnnotation(_fieldNature, _annotation,
                 OtherwiseAnnotatedClass.class.getDeclaredMethod("getEnumerated"));
         assertFalse(result);
     }
@@ -83,42 +84,42 @@ public class JPAEnumeratedProcessorTest {
     @Ignore
     @Entity
     private class EnumeratedAnnotatedClass {
-        private EnumeratedType enumerated;
+        private EnumeratedType _enumerated;
 
         @Enumerated(EnumType.STRING)
         public EnumeratedType getEnumerated() {
-            return enumerated;
+            return _enumerated;
         }
 
         public void setEnumerated(final EnumeratedType enumerated) {
-            this.enumerated = enumerated;
+            _enumerated = enumerated;
         }
     }
 
     @Ignore
     private class NonAnnotatedClass {
-        private EnumeratedType enumerated;
+        private EnumeratedType _enumerated;
 
         public EnumeratedType getEnumerated() {
-            return enumerated;
+            return _enumerated;
         }
 
         public void setEnumerated(final EnumeratedType enumerated) {
-            this.enumerated = enumerated;
+            _enumerated = enumerated;
         }
     }
 
     @Ignore
     private class OtherwiseAnnotatedClass {
-        private EnumeratedType enumerated;
+        private EnumeratedType _enumerated;
 
         @Column
         public EnumeratedType getEnumerated() {
-            return enumerated;
+            return _enumerated;
         }
 
         public void setEnumerated(final EnumeratedType enumerated) {
-            this.enumerated = enumerated;
+            _enumerated = enumerated;
         }
     }
 

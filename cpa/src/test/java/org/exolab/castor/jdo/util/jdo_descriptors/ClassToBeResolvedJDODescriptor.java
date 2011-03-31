@@ -27,7 +27,6 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @since 1.2.1
  */
 public class ClassToBeResolvedJDODescriptor extends ClassDescriptorImpl {
-    
     public ClassToBeResolvedJDODescriptor() {
         super();
     }

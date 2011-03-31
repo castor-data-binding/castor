@@ -30,8 +30,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPATableProcessor {
-
+public final class TestJPATableProcessor {
     @Test
     public void testJPAFull() throws MappingException {
 

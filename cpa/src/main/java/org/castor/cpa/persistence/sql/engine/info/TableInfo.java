@@ -169,7 +169,7 @@ public final class TableInfo {
 
         List<ColumnInfo> columns = getPrimaryKey().getColumns();
         for (int i = 0; i < columns.size(); i++) {
-        	ColumnInfo column = columns.get(i);
+            ColumnInfo column = columns.get(i);
             values.add(new ColumnValue(column, column.getIndex(), input.get(i)));
         }
 
@@ -192,7 +192,7 @@ public final class TableInfo {
         for (TableLink lnk : _foreignKeys) {
             for (ColumnInfo column : lnk.getStartCols()) {
                 if (!values.contains(column)) {
-                	int index = column.getIndex();
+                    int index = column.getIndex();
                     if (index == -1) {
                         // index of foreign key columns has to be taken from tableLink
                         // because the fields in this case have to use other fieldindexes

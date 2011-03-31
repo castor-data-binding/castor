@@ -25,17 +25,17 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @since 1.3.2
  */
-public class KeyGeneratorTypeHandlerFactory {
-
+public final class KeyGeneratorTypeHandlerFactory {
     /**
      * Returns an {@link KeyGeneratorTypeHandler} instance.
+     * 
      * @param sqlType The SQL type of the underlying identity field. 
      * @param allocationSize Allocation size.
      * @return A {@link KeyGeneratorTypeHandler} instance.
      * @throws MappingException If an invalid SQL tyope is given.
      */
-    public static KeyGeneratorTypeHandler<?> getTypeHandler(int sqlType,
-            int allocationSize) throws MappingException {
+    public static KeyGeneratorTypeHandler<?> getTypeHandler(final int sqlType,
+            final int allocationSize) throws MappingException {
         switch (sqlType) {
         case Types.BIGINT:
             return new KeyGeneratorTypeHandlerLong(true, allocationSize);
@@ -50,4 +50,9 @@ public class KeyGeneratorTypeHandlerFactory {
             throw new MappingException("Invalid SQL type " + sqlType);
         }
     }
+    
+    /**
+     * Hide constructor of utility class.
+     */
+    private KeyGeneratorTypeHandlerFactory() { }
 }

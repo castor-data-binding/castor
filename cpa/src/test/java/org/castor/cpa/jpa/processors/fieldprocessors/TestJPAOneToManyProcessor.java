@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestJPAOneToManyProcessor {
+public final class TestJPAOneToManyProcessor {
 
     @Before
     public void setUp() {
@@ -149,9 +149,9 @@ public class TestJPAOneToManyProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        public Collection<JPADefault> _bla;
+        private Collection<JPADefault> _bla;
 
-        public List<JPANull> _blob;
+        private List<JPANull> _blob;
 
         @SuppressWarnings("unchecked")
         @OneToMany(
@@ -182,7 +182,7 @@ public class TestJPAOneToManyProcessor {
     @Entity
     @Ignore
     private class JPADefault {
-        public Set<JPANull> _name;
+        private Set<JPANull> _name;
 
         @OneToMany
         public Set<JPANull> getName() {
@@ -198,7 +198,7 @@ public class TestJPAOneToManyProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        public String _name;
+        private String _name;
 
         public String getName() {
             return _name;
@@ -212,7 +212,7 @@ public class TestJPAOneToManyProcessor {
     @Entity
     @Ignore
     private class JPAWrongTarget1 {
-        public Vector<String> _name;
+        private Vector<String> _name;
 
         @OneToMany
         public Vector<String> getName() {
@@ -228,7 +228,7 @@ public class TestJPAOneToManyProcessor {
     @Entity
     @Ignore
     private class JPAWrongTarget2 {
-        public Collection _name;
+        private Collection _name;
 
         @OneToMany
         public Collection getName() {

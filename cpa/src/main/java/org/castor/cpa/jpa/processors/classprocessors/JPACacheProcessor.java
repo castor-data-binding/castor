@@ -34,7 +34,7 @@ public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
             JPACacheProcessor.class);
 
     public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-            I info, A annotation, AnnotatedElement target)
+            final I info, final A annotation, final AnnotatedElement target)
             throws AnnotationTargetException {
 
         if ((info instanceof JPAClassNature) && (annotation instanceof Cache)

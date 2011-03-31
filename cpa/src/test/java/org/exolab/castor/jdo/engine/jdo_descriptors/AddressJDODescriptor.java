@@ -6,6 +6,9 @@ package org.exolab.castor.jdo.engine.jdo_descriptors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
+import org.exolab.castor.jdo.engine.Address;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
@@ -20,9 +23,6 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.ClassMappingAccessType;
-import org.exolab.castor.jdo.engine.Address;
-import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 
 
 /**

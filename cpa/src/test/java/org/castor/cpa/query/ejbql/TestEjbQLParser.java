@@ -15,11 +15,11 @@
  */
 package org.castor.cpa.query.ejbql;
 
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import junit.framework.TestCase;
 
 /**
  * Junit test for analyzing the performance of CastorQL Parser created by JavaCC

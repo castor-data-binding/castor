@@ -20,11 +20,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import org.castor.cpa.query.ParseException;
-import org.castor.cpa.query.TokenManagerError;
-import org.castor.cpa.query.QueryObject;
-
 import junit.framework.TestCase;
+
+import org.castor.cpa.query.ParseException;
+import org.castor.cpa.query.QueryObject;
+import org.castor.cpa.query.TokenManagerError;
 
 /**
  * Junit test for testing CastorQL Tree Walker.

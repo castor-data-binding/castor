@@ -19,25 +19,26 @@ import javax.persistence.UniqueConstraint;
 
 public class JPAUniqueConstraint {
     
-	private String[] columnNames;
-	
-	public static JPAUniqueConstraint extract(UniqueConstraint uniqueConstraint) {
-		JPAUniqueConstraint constraint = new JPAUniqueConstraint();
-		
-		String[] colNames = new String[]{};
-		int i = 0;
-		for (String columnName : uniqueConstraint.columnNames()) {
-			colNames[i++] = columnName;
-		}
-		
-		return constraint;
-	}
-	
-	public String[] getColumnNames() {
-		return columnNames;
-	}
-	public void setColumnNames(String[] columnNames) {
-		this.columnNames = columnNames;
-	}
-	
+    private String[] _columnNames;
+    
+    public static JPAUniqueConstraint extract(final UniqueConstraint uniqueConstraint) {
+        JPAUniqueConstraint constraint = new JPAUniqueConstraint();
+        
+        String[] colNames = new String[]{};
+        int i = 0;
+        for (String columnName : uniqueConstraint.columnNames()) {
+            colNames[i++] = columnName;
+        }
+        
+        return constraint;
+    }
+    
+    public String[] getColumnNames() {
+        return _columnNames;
+    }
+    
+    public void setColumnNames(final String[] columnNames) {
+        _columnNames = columnNames;
+    }
+    
 }
