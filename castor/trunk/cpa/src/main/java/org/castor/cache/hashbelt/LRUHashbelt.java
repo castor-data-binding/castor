@@ -55,7 +55,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -66,7 +66,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
         
         return result;
@@ -85,7 +85,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -95,7 +95,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
         
         return result;
@@ -110,7 +110,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -120,7 +120,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
         
         return result;
@@ -141,7 +141,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         Entry<? extends Object, ? extends Object> entry;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return;
         }
@@ -154,7 +154,7 @@ public final class LRUHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
     }
 

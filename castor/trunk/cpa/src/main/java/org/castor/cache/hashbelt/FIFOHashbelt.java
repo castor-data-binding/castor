@@ -52,7 +52,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().readLock().acquire();
+            lock().readLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -62,7 +62,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().readLock().release();
+            lock().readLock().unlock();
         }
 
         return result;
@@ -81,7 +81,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -91,7 +91,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
         
         return result;
@@ -106,7 +106,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         Object result = null;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return null;
         }
@@ -116,7 +116,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
 
         return result;
@@ -137,7 +137,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         Entry<? extends Object, ? extends Object> entry;
 
         try {
-            lock().writeLock().acquire();
+            lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
             return;
         }
@@ -150,7 +150,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            lock().writeLock().release();
+            lock().writeLock().unlock();
         }
     }
 
