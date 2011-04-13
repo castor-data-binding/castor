@@ -59,6 +59,25 @@
     </field>
   </class>
 
+  <class name="org.castor.cpa.test.test20.HighLowObjectGlobal" identity="id" key-generator="HLG">
+    <description>Table used for HIGH-LOW key generator testing with global=true</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowExtendsGlobal" extends="org.castor.cpa.test.test20.HighLowObjectGlobal">
+    <description>Table used for HIGH-LOW key generator testing with global=true</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
   <class name="org.castor.cpa.test.test20.SequenceObjectString" identity="id" key-generator="SEQUENCE">
     <description>Table used for SEQUENCE key generator testing with Strings</description>
     <map-to table="test20_keygen_string" />
@@ -186,6 +205,15 @@
     <param name="value-column" value="max_id"/>
     <param name="grab-size" value="1000"/>
     <param name="same-connection" value="true"/>
+  </key-generator>
+
+  <key-generator name="HIGH-LOW" alias="HLG">
+    <param name="table" value="test20_seqtable"/>
+    <param name="key-column" value="table_name"/>
+    <param name="value-column" value="max_id"/>
+    <param name="grab-size" value="1000"/>
+    <param name="global" value="true"/>
+    <param name="global-key" value="KEY"/>
   </key-generator>
 
   <key-generator name="SEQUENCE" alias="RETURNING">
