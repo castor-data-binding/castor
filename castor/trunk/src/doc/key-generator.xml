@@ -171,17 +171,25 @@ table, values:
            <tr><td>global</td><td>To generate globally unique keys, values:
                                 "true"/"false".</td>
                    <td>Optional, default="false"</td></tr>
-      </table>
+           <tr>
+             <td>global-key</td>
+             <td>The name of key, which is used when globally unique keys are generated.</td>
+             <td>Optional, default=<![CDATA["<GLOBAL>"]]></td>
+           </tr>      
+         </table>
       
       <p>
-         If the parameter "global" is set to "true", the sequence table contains only one row with
-         <![CDATA["<GLOBAL>"]]> instead of the table name. This row serves for all tables.
+         If the parameter <tt>global</tt> is set to <tt>true</tt>, the sequence table contains only one row with
+         the value set in parameter <tt>global-key</tt> (or <![CDATA["<GLOBAL>"]]> if "global-key was not set") 
+         instead of the table name. This row serves for all tables.
       </p>
+      
       <p>
          Don't forget to set same-connection="true" if you are working in EJB environment!
       </p>
+      
       <p>
-         Note, that the class HighLowKeyGenerator is not final, so you can
+         Note, that the class <tt>HighLowKeyGenerator</tt> is not final, so you can
          extend it in order to implement other variants of HIGH-LOW
          algorithm (for example, HIGH/MID/LOW or char key values).
       </p>
