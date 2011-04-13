@@ -53,12 +53,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -68,7 +68,7 @@
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-compiler-plugin</artifactId>
-                   <version>2.1</version>
+                   <version>2.3.2</version>
                    <configuration>
                        <source>1.5</source>
                        <target>1.5</target>
@@ -82,22 +82,22 @@
                 <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-clean-plugin</artifactId>
-                  <version>2.3</version>
+                  <version>2.4.1</version>
                 </plugin>
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-jar-plugin</artifactId>
-                   <version>2.3</version>
+                   <version>2.3.1</version>
                 </plugin>
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-source-plugin</artifactId>
-                   <version>2.1.1</version>
+                   <version>2.1.2</version>
                 </plugin>
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-surefire-plugin</artifactId>
-                   <version>2.4.3</version>
+                   <version>2.8</version>
                    <configuration>
                     <printSummary>${surefire.print.summary}</printSummary>
                    </configuration>
@@ -105,7 +105,7 @@
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-resources-plugin</artifactId>
-                   <version>2.4.1</version>
+                   <version>2.5</version>
                    <configuration>
                       <encoding>UTF-8</encoding>
                    </configuration>
@@ -118,7 +118,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.6</version>
 	            </plugin>
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
@@ -128,12 +128,12 @@
                 <plugin>
                    <groupId>org.apache.maven.plugins</groupId>
                    <artifactId>maven-javadoc-plugin</artifactId>
-                   <version>2.6.1</version>
+                   <version>2.7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>2.8</version>
                     <configuration>
                         <printSummary>${surefire.print.summary}</printSummary>
                     </configuration>
@@ -158,12 +158,12 @@
                     <artifactId>javacc-maven-plugin</artifactId>
                     <version>2.6</version>
                 </plugin>
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-plugin-plugin</artifactId>
+                  <version>2.7</version>
+                </plugin>
 <!--     	       
-	           <plugin>
-	               <groupId>org.apache.maven.plugins</groupId>
-	               <artifactId>maven-plugin-plugin</artifactId>
-	               <version>2.5.1</version>
-    	       </plugin>
 			   <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-dependency-plugin</artifactId>
@@ -558,6 +558,19 @@
                 <version>2.2.3</version>
             </dependency>
 
+            <!-- Maven project dependencies -->
+            <dependency>
+               <groupId>org.apache.maven</groupId>
+               <artifactId>maven-plugin-api</artifactId>
+               <version>2.0</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.maven</groupId>
+               <artifactId>maven-project</artifactId>
+               <version>2.0.1</version>
+            </dependency>
+            
+            
             <!--  module dependencies -->            
             <dependency>
                 <groupId>org.codehaus.castor</groupId>
@@ -847,7 +860,7 @@
     </profiles>
 
     <properties>
-        <spring.version>3.0.4.RELEASE</spring.version>
+        <spring.version>3.0.5.RELEASE</spring.version>
         <derby.version>10.6.2.1</derby.version>
         <surefire.print.summary>false</surefire.print.summary>
     </properties>    
