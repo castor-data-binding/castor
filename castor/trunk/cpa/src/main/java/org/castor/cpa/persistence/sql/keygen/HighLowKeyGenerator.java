@@ -71,6 +71,9 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /** String constant for global. */
     private static final String GLOBAL = "global";
 
+    /** String constant for global key. */
+    private static final String GLOBAL_KEY = "global-key";
+
     /** Int constant. */
     private static final int UPDATE_PARAM_MAX = 1;
 
@@ -120,6 +123,8 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /** Shell globally unique identities be generated? */
     private boolean _global;
 
+    /** If globally unique identities are generated, then which key needs to be used? */
+    private String _globalKey;
     //-----------------------------------------------------------------------------------
 
     /**
@@ -185,6 +190,11 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
 
         _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
         _global = "true".equals(params.getProperty(GLOBAL));
+
+        _globalKey = params.getProperty(GLOBAL_KEY);
+        if (_globalKey == null) {
+            _globalKey = "<GLOBAL>";
+        }
     }
 
     //-----------------------------------------------------------------------------------
@@ -195,7 +205,9 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     public synchronized Object generateKey(final Connection conn, final String tableName,
             final String primKeyName) throws PersistenceException {
         String intTableName = tableName;
-        if (_global) { intTableName = "<GLOBAL>"; }
+        if (_global) { 
+        	intTableName = _globalKey; 
+        }
         
         HighLowValueHandler<? extends Object> handler = _handlers.get(intTableName);
         if (handler == null) {
