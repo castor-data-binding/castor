@@ -183,7 +183,29 @@
         &lt;/property&gt;
     &lt;/bean&gt;
         </programlisting>
-        
+
+
     </section>
-   
+
+    <section>
+        <title>JPA Callbacks</title>
+
+        <para>
+            In order to enable JPA callbacks handling via Spring ORM following
+            exemplary config snippet is required:
+        </para>
+
+        <programlisting lang="xml">
+&lt;bean id="jdoManager" class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+    &lt;property name="databaseName" value="testSimple" /&gt;
+    &lt;property name="configLocation"
+        value="classpath:org/castor/jpa/scenario/callbacks/derby-jdo-conf.xml" /&gt;
+    &lt;property name="classDescriptorResolver" ref="classDescriptorResolver" /&gt;
+    &lt;property name="callbackInterceptor" ref="jpaCallbackHandler" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="jpaCallbackHandler" class="org.castor.jdo.jpa.info.JPACallbackHandler" /&gt;
+        </programlisting>
+    </section>
+
 </section>
