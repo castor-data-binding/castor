@@ -533,4 +533,340 @@ db.commit();
 
 </section>
 
+<section>
+    <title>HOW-TO use persistence callbacks</title>
+
+    <para>
+        The following annotations can be used for handling persistence callbacks via JPA:
+        <itemizedlist>
+            <listitem>PostLoad</listitem>
+            <listitem>PrePersist</listitem>
+            <listitem>PostPersist</listitem>
+            <listitem>PreUpdate</listitem>
+            <listitem>PostUpdate</listitem>
+            <listitem>PreRemove</listitem>
+            <listitem>PostRemove</listitem>
+        </itemizedlist>
+    </para>
+
+    <para>
+        Additionally, there are the following listener-related annotations:
+        <itemizedlist>
+            <listitem>EntityListeners</listitem>
+            <listitem>ExcludeDefaultListeners</listitem>
+            <listitem>ExcludeSuperclassListeners</listitem>
+        </itemizedlist>
+    </para>
+
+    <para>
+        So, here's a basic usage example:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class Person {
+
+    private final Log log = LogFactory.getLog(this.getClass());
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    @PostLoad
+    protected void testPostLoadCallbackHooking() {
+        log.debug(String.format("Hello from `PostLoad`. My name is %s.",
+                this.name));
+    }
+
+    @PrePersist
+    protected void validateCreation() {
+        if (this.name.equals("Max Mustermann")) {
+            throw new PersistenceException(String.format(
+                    "Person mustn't be called %s.", this.name));
+        }
+    }
+
+    @PostPersist
+    protected void validatePersistence() {
+        if (this.name.equals("Manfred Mustermann")) {
+            throw new PersistenceException(String.format(
+                    "Person shouldn't be called %s either.", this.name));
+        }
+    }
+
+    @PreRemove
+    protected void validateRemoval() {
+        if (this.name.equals("Max Musterfrau")) {
+            throw new PersistenceException(this.name + " mustn't be removed.");
+        }
+    }
+
+    @PostRemove
+    protected void validateDeletion() {
+        if (this.name.equals("Manfred Musterfrau")) {
+            throw new PersistenceException(this.name
+                    + " shouldn't be removed either.");
+        }
+    }
+
+    @PreUpdate
+    protected void validateModification() {
+        if (this.name.equals("Max Musterfrau")) {
+            throw new PersistenceException(String.format(
+                    "Person mustn't be renamed to %s.", this.name));
+        }
+    }
+
+    @PostUpdate
+    protected void validateUpdating() {
+        if (this.name.equals("Hans Wurst")) {
+            throw new PersistenceException(String.format(
+                    "Person shouldn't be renamed to %s either.", this.name));
+        }
+    }
+
+}
+    </programlisting>
+
+    <para>
+        As one can see from this example, such callbacks can e.g. be used for
+        handling validation based on CRUD (create, retrieve, update, delete)
+        operation events.
+    </para>
+
+    <para>
+        Furthermore, there are possibilites to define listeners which allow for
+        decoupling callback handling from entities.
+    </para>
+
+    <para>
+        Here's an example for that:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+@EntityListeners(DogListener.class)
+public class Dog extends Animal {
+
+    private long id;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+}
+
+// Corresponding listener.
+public class DogListener {
+
+    @PostPersist
+    protected void postPersistDogListener() {
+        // Do something.
+    }
+
+}
+    </programlisting>
+
+    <para>
+        Apart from that, <literal>ExcludeDefaultListeners</literal> and
+        <literal>ExcludeSuperclassListeners</literal> enable specifying
+        exclusion of listeners within an inheritance chain of entities.
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Enumerated</title>
+
+    <para>
+        <literal>Enumerated</literal> can be used to persist
+        <literal>Enum</literal> types.
+    </para>
+
+    <para>
+        Here's an example:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class EnumEntity {
+
+    private long id;
+    private StringEnum stringEnum;
+    private OrdinalEnum ordinalEnum;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Enumerated(STRING)
+    public StringEnum getStringEnum() {
+        return stringEnum;
+    }
+
+    public void setStringEnum(final StringEnum stringEnum) {
+        this.stringEnum = stringEnum;
+    }
+
+    public OrdinalEnum getOrdinalEnum() {
+        return ordinalEnum;
+    }
+
+    public void setOrdinalEnum(final OrdinalEnum ordinalEnum) {
+        this.ordinalEnum = ordinalEnum;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        So, by default enums are serialized to their corresponding ordinal
+        value representations for persistence. In this case, it's also
+        sufficient to skip explicitly defining so via
+        <literal>Enumerated</literal>. If serialization to respective string
+        name representations is preferred annotating accordingly is required.
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Temporal</title>
+
+    <para>
+        This annotation can be used to specify properties mapped to temporal
+        data structures.
+    </para>
+
+    <para>Example:</para>
+
+    <programlisting lang="java">
+@Entity
+public class Person {
+
+    private long id;
+    private Date birthDate;
+    private Date anotherDate;
+    private Date yetAnotherDate;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Temporal(TIMESTAMP)
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(final Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    @Temporal(TIME)
+    public Date getAnotherDate() {
+        return anotherDate;
+    }
+
+    public void setAnotherDate(final Date anotherDate) {
+        this.anotherDate = anotherDate;
+    }
+
+    @Temporal(DATE)
+    public Date getYetAnotherDate() {
+        return yetAnotherDate;
+    }
+
+    public void setYetAnotherDate(final Date yetAnotherDate) {
+        this.yetAnotherDate = yetAnotherDate;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        So, it's possible to say which underlying DB-based field data structure
+        to use (datetime, date or time).
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Lob</title>
+
+    <para>
+        Here's an example for that:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class LobEntity {
+
+    private long id;
+    private String clob;
+    private byte[] blob;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Lob
+    public String getClob() {
+        return clob;
+    }
+
+    public void setClob(final String clob) {
+        this.clob = clob;
+    }
+
+    @Lob
+    public byte[] getBlob() {
+        return blob;
+    }
+
+    public void setBlob(final byte[] blob) {
+        this.blob = blob;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        Consequently, default behavior here is to serialize to
+        <literal>CLOB</literal> for character-based data and to
+        <literal>BLOB</literal> for data based on byte arrays (i.e., files).
+    </para>
+</section>
+
 </section>

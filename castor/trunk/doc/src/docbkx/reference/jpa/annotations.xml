@@ -124,8 +124,8 @@
 				</row>
 				<row>
 					<entry>EntityListeners</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
@@ -138,22 +138,22 @@
 				</row>
 				<row>
 					<entry>Enumerated</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>ExcludeDefaultListeners</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>ExcludeSuperclassListeners</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
@@ -220,8 +220,8 @@
 				</row>
 				<row>
 					<entry>Lob</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
@@ -237,7 +237,7 @@
 					<entry><?dbhtml bgcolor="#F7FE2E"?>
 						PS
 					</entry>
-					<entry>Supported: targetEntity, fetch, optional -
+					<entry>Supported: targetEntity, fetch, optional, cascade -
 						Relations MUST BE optional! Required relations are not supported.
 					</entry>
 				</row>
@@ -260,7 +260,7 @@
 					<entry><?dbhtml bgcolor="#2EFE2E" ?>
 						S
 					</entry>
-					<entry>This annotation used to specify a named query in OQL.</entry>
+					<entry>This annotation is used to specify a named query in OQL.</entry>
 				</row>
 				<row>
 					<entry>NamedQueries</entry>
@@ -288,14 +288,14 @@
 					<entry><?dbhtml bgcolor="#F7FE2E"?>
 						PS
 					</entry>
-					<entry>Supported: targetEntity, fetch, mappedBy</entry>
+					<entry>Supported: targetEntity, fetch, mappedBy, cascade</entry>
 				</row>
 				<row>
 					<entry>OneToOne</entry>
 					<entry><?dbhtml bgcolor="#F7FE2E"?>
 						PS
 					</entry>
-					<entry>Supported: targetEntity, fetch, optional -
+					<entry>Supported: targetEntity, fetch, optional, cascade -
 						Relations MUST BE optional! Required relations are not supported.
 					</entry>
 				</row>
@@ -343,50 +343,50 @@
 				</row>
 				<row>
 					<entry>PostLoad</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PostPersist</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PostRemove</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PostUpdate</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PrePersist</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PreRemove</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
 				<row>
 					<entry>PreUpdate</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
@@ -462,8 +462,8 @@
 				</row>
 				<row>
 					<entry>Temporal</entry>
-					<entry><?dbhtml bgcolor="#FE2E2E" ?>
-						NS
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
 					</entry>
 					<entry />
 				</row>
