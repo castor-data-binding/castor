@@ -652,7 +652,8 @@
                        org/exolab/castor/types/**,
                        org/exolab/castor/util/**,
                        org/exolab/castor/xml/**,
-                       org/exolab/javasource/**"/>
+                       org/exolab/javasource/**,
+                       *.properties"/>
 
         <!-- copy and filter MANIFEST file for Castor COMMONS -->
         <delete file="${classes}/MANIFEST.MF" />
