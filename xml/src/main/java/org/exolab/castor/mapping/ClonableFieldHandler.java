@@ -26,10 +26,9 @@ package org.exolab.castor.mapping;
 public interface ClonableFieldHandler extends FieldHandler {
 
     /**
-     * Entry point for shallow/deep 'cloning' of FieldHandler instances.
-     * @param fieldHandler the {@link FieldHandler} to 'clone'.
+     * Entry point for shallow/deep 'cloning' of {@link FieldHandler} instances.
      * @return the 'cloned' {@link FieldHandler} instance.
      */
-    public FieldHandler copyInstance(FieldHandler fieldHandler);
+    public FieldHandler copyInstance();
     
 }
