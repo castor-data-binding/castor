@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test java5style enums with default value where the input XML document does not have a value set</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+       Tests the generation and unmarshalling of java5 enums with a default value where - in the input XML document - no value has been set.
+    </Comment>
+    <Category>basic capability</Category>
+    <MinimumJavaVersion>1.5</MinimumJavaVersion>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Property_File>builder.properties</Property_File>
+        <Root_Object random="false" dump="true">FooElement</Root_Object>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>
