@@ -48,7 +48,7 @@ import org.exolab.castor.core.exceptions.CastorException;
 import org.exolab.castor.xml.location.Location;
 
 /**
- * An exception that is used to signal an error that has occured during
+ * An exception that is used to signal an error that has occurred during
  * marshaling or unmarshaling.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
