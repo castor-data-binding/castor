@@ -16,5 +16,15 @@
             <Input>input.xml</Input>
             <GoldFile>output.xml</GoldFile>
         </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Input>input-bar.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Input>input-foo.xml</Input>
+            <GoldFile>output-foo.xml</GoldFile>
+        </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>
