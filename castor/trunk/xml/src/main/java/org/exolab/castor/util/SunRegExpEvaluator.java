@@ -50,9 +50,7 @@ public class SunRegExpEvaluator implements RegExpEvaluator {
                 err += " ; error occured with the following "
                         + "regular expression: " + rexpr;
 
-                IllegalArgumentException iae = new IllegalArgumentException(err);
-                iae.initCause(ex);
-                throw iae;
+                throw new IllegalArgumentException(err, ex);
             }
         }
     }
