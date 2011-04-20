@@ -88,10 +88,7 @@ public class JakartaRegExpEvaluator implements RegExpEvaluator {
                 _regexp = new RE(BOL + rexpr + EOL);
             } catch (RESyntaxException ex) {
                 String message = Messages.format("regexp.eval.error", rexpr);
-                IllegalArgumentException iae = new IllegalArgumentException(
-                        message);
-                iae.initCause(ex);
-                throw iae;
+                throw new IllegalArgumentException(message, ex);
             }
         } else {
             _regexp = null;
