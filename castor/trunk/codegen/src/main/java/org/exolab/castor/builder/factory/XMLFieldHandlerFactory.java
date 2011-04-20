@@ -15,16 +15,14 @@
  */
 package org.exolab.castor.builder.factory;
 
-import org.castor.xml.JavaNaming;
-import org.castor.xml.JavaNamingImpl;
+import org.apache.commons.lang.StringUtils;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.NodeType;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
-import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
+import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JSourceCode;
@@ -196,7 +194,15 @@ public final class XMLFieldHandlerFactory {
                 jsc.add("");
             }
         } // if primitive
-
+        
+        if (xsType.isEnumerated() && StringUtils.isNotEmpty(member.getDefaultValue())) {
+            jsc.add("// default value supplied; as such, do not inject null values");
+            jsc.add("if (value == null) {");
+            jsc.addIndented("return;");
+            jsc.add("}");
+            jsc.add("");
+            
+        }
         jsc.add("target.");
         jsc.append(member.getWriteMethodName());
         jsc.append("( ");
