@@ -72,6 +72,18 @@ import $import;
 #end
 #end
 
+## CONSTANDS *#
+#if( $jClass.getConstantCount() > 0 )
+#foreach( $constant in $jClass.getConstants() )
+#javadoc( $constant.getComment() "    " )
+#foreach( $annotation in $constant.getAnnotations() )
+#annotation( $annotation "    ")
+#end
+#member( $constant "    " )
+
+#end
+#end
+
 ## STATIC INITIALIZERS *#
 #staticInitializationCode($jClass "    ")
 

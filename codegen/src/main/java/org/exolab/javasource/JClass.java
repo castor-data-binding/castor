@@ -99,7 +99,7 @@ public class JClass extends AbstractJClass {
      * {@inheritDoc}
      */
     public void addMember(final JMember jMember) {
-        if (jMember instanceof AbstractJField) {
+        if (jMember instanceof JField) {
             addField((JField) jMember);
         } else if (jMember instanceof JConstant) {
             addConstant(((JConstant) jMember));
