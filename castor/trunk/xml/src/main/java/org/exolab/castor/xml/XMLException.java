@@ -58,26 +58,31 @@ public class XMLException extends CastorException {
     /** SerialVersionUID */
     private static final long serialVersionUID = 7512918645754995146L;
 
-    /** The location for this Exception. */
+    /** 
+     * The location for this Exception. 
+     */
     private Location  _location   = null;
-    /** The error code for this Exception. */
+    
+    /** 
+     * The error code for this exception. 
+     */
     private int errorCode = -1;
 
     /**
-     * Creates a new XMLException with no message or nested Exception.
+     * Creates a new instance of this class with no message or nested exception.
      */
     public XMLException() {
         super();
-    } //-- XMLException
+    }
 
     /**
-     * Creates a new XMLException with the given message.
+     * Creates a new {@link XMLException} instance with the given message.
      *
      * @param message the message for this Exception
      */
     public XMLException(final String message) {
         super(message);
-    } //-- XMLException(String)
+    }
 
     /**
      * Creates a new XMLException with the given nested Exception.
@@ -86,18 +91,20 @@ public class XMLException extends CastorException {
      */
     public XMLException(final Throwable exception) {
         super(exception);
-    } //-- XMLException(Exception)
+    }
 
     /**
      * Creates a new XMLException with the given message and error code.
      *
      * @param message the message for this Exception
      * @param errorCode the errorCode for this Exception
+     * 
+     * @deprecated
      */
     public XMLException(final String message, final int errorCode) {
         super(message);
         this.errorCode = errorCode;
-    } //-- XMLException(String)
+    }
 
     /**
      * Creates a new XMLException with the given message and nested Exception.
@@ -107,7 +114,7 @@ public class XMLException extends CastorException {
      */
     public XMLException(final String message, final Throwable exception) {
         super(message, exception);
-    } //-- XMLException(String, Exception)
+    }
 
     /**
      * Creates a new XMLException with the given message, nested Exception, and
@@ -116,11 +123,13 @@ public class XMLException extends CastorException {
      * @param message the detail message for this exception
      * @param exception the nested exception
      * @param errorCode the errorCode for this Exception
+     * 
+     * @deprecated
      */
     public XMLException(final String message, final Throwable exception, final int errorCode) {
         super(message, exception);
         this.errorCode = errorCode;
-    } //-- XMLException(String, Exception, int)
+    }
 
     /**
      * Sets the location information for this Exception.
@@ -129,7 +138,7 @@ public class XMLException extends CastorException {
      */
     public void setLocation(final Location location) {
         _location = location;
-    } //-- setLocation
+    }
 
     /**
      * Returns the String representation of this Exception.
@@ -150,7 +159,7 @@ public class XMLException extends CastorException {
         }
         
         return buff.toString();
-    } //-- toString
+    }
 
     /**
      * Returns the error code for this Exception, or -1 if no error code exists.
@@ -170,4 +179,4 @@ public class XMLException extends CastorException {
         this.errorCode = errorCode;
     }
 
-} //-- XMLException
+}

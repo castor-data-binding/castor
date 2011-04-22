@@ -61,10 +61,6 @@ public class MarshalException extends XMLException {
     /** SerialVersionUID */
     private static final long serialVersionUID = -1648679783713336948L;
 
-    //------------------/
-    //- error messages -/
-    //------------------/
-    
     public static final String BASE_CLASS_OR_VOID_ERR
         = "The marshaller cannot marshal/unmarshal types of Void.class, " +
           "Class.class or Object.class";
@@ -72,47 +68,48 @@ public class MarshalException extends XMLException {
     public static final String NON_SERIALIZABLE_ERR
         = "The marshaller cannot unmarshal non primitive types that " +
           "do not implement java.io.Serializable";
-          
     
     /**
-     * Creates a new MarshalException with no message
-     * or nested Exception.
+     * Creates a new {@link MarshalException} with no message
+     * or nested exception.
     **/
     public MarshalException() {
         super();
-    } //-- MarshalException
+    }
     
     /**
-     * Creates a new MarshalException with the given message.
+     * Creates a new {@link MarshalException} with the given message.
      *
-     * @param message the message for this Exception
+     * @param message the message for this exception
     **/
     public MarshalException(String message) {
         super(message);
-    } //-- MarshalException(String)
+    }
 
     /**
-     * Creates a new MarshalException with the given message.
+     * Creates a new {@link MarshalException} with the given message and an error code.
      *
-     * @param message the message for this Exception
-     * @param errorCode the errorCode for this Exception
+     * @param message the message for this exception
+     * @param errorCode the error code for this exception
+     * 
+     * @deprecated
     **/
     public MarshalException(String message, int errorCode) {
         super(message, errorCode);
-    } //-- MarshalException(String)
+    }
     
     /**
-     * Creates a new MarshalException with the given nested
+     * Creates a new {@link MarshalException} with the given nested
      * exception.
      *
      * @param exception the nested exception
     **/
     public MarshalException(Throwable exception) {
         super(exception);
-    } //-- MarshalException(Exception)
+    }
 
     /**
-     * Creates a new MarshalException with the given message
+     * Creates a new {@link MarshalException} with the given message
      * and nested exception.
      *
      * @param message the detail message for this exception
@@ -120,20 +117,20 @@ public class MarshalException extends XMLException {
     **/
     public MarshalException(String message, Throwable exception) {
         super(message, exception);
-    } //-- MarshalException(String, Exception)
+    }
 
     /**
-     * Creates a new MarshalException with the given message,
-     * nested exception, and errorCode.
+     * Creates a new {@link MarshalException} with the given message,
+     * nested exception, and error code.
      *
      * @param message the detail message for this exception
      * @param exception the nested exception
-     * @param errorCode the errorCode for this Exception
+     * @param errorCode the error code for this Exception
+     * 
+     * @deprecated
     **/
-    public MarshalException
-        (String message, Throwable exception, int errorCode) 
-    {
+    public MarshalException (String message, Throwable exception, int errorCode) {
         super(message, exception, errorCode);
-    } //-- MarshalException(String, Exception, int)
+    }
     
-} //-- MarshalException
+}
