@@ -57,23 +57,23 @@ public class ResolverException extends XMLException {
     private static final long serialVersionUID = -8800218775708296399L;
 
     /**
-     * Creates a new ResolverException with no message or nested Exception.
+     * Creates a new {@link ResolverException} with no message or nested exception.
      */
     public ResolverException() {
         super();
     }
 
     /**
-     * Creates a new ResolverException with the given message.
+     * Creates a new {@link ResolverException} with the given message.
      *
-     * @param message the message for this Exception.
+     * @param message the message for this exception.
      */
     public ResolverException(final String message) {
         super(message);
     }
 
     /**
-     * Creates a new ResolverException with the given nested exception.
+     * Creates a new {@link ResolverException} with the given nested exception.
      *
      * @param exception the nested exception
      */
@@ -82,33 +82,37 @@ public class ResolverException extends XMLException {
     }
 
     /**
-     * Creates a new ResolverException with the given message and error code.
+     * Creates a new {@link ResolverException} with the given message and error code.
      *
-     * @param message the message for this Exception.
-     * @param errorCode the error code for this Exception.
+     * @param message the message for this exception.
+     * @param errorCode the error code for this exception.
+     * 
+     * @deprecated
      */
     public ResolverException(final String message, final int errorCode) {
         super(message, errorCode);
     }
 
     /**
-     * Creates a new ResolverException with the given message and nested
-     * Exception.
+     * Creates a new {@link ResolverException} with the given message and nested
+     * exception.
      *
-     * @param message the message for this Exception.
-     * @param exception the nested Exception.
+     * @param message the message for this exception.
+     * @param exception the nested exception.
      */
     public ResolverException(final String message, final Throwable exception) {
         super(message, exception);
     }
 
     /**
-     * Creates a new ResolverException with the given message, nested Exception,
-     * and errorCode.
+     * Creates a new {@link ResolverException} with the given message, nested exception,
+     * and error code.
      *
-     * @param message the message for this Exception.
-     * @param exception the nested Exception.
-     * @param errorCode the error code for this Exception.
+     * @param message the message for this exception.
+     * @param exception the nested exception.
+     * @param errorCode the error code for this exception.
+     * 
+     * @deprecated
      */
     public ResolverException(final String message, final Throwable exception, final int errorCode) {
         super(message, exception, errorCode);

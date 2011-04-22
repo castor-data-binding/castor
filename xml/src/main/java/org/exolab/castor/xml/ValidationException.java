@@ -56,35 +56,37 @@ public class ValidationException extends XMLException {
     private static final long serialVersionUID = 2220902174700444631L;
 
     /** 
-     * The location for this Exception. 
+     * The location for this exception. 
      */
     private Location _location   = null;
     
     /** 
      * The next Exception in the list, allowing the reporting of several
-     * validation Exceptions.
+     * validation exceptions.
      */
     private ValidationException _next = null;
 
     /**
-     * Creates a new ValidationException with no message or nested Exception.
+     * Creates a new {@link ValidationException} with no message or nested exception.
      */
     public ValidationException() {
         super();
     }
 
     /**
-     * Creates a new ValidationException with the given message.
-     * @param message the message for this Exception
+     * Creates a new {@link ValidationException} with the given message.
+     * @param message the message for this exception
      */
     public ValidationException(final String message) {
         super(message);
     }
 
     /**
-     * Creates a new ValidationException with the given message.
-     * @param message the message for this Exception
-     * @param errorCode the errorCode for this Exception
+     * Creates a new {@link ValidationException} with the given message.
+     * @param message the message for this exception
+     * @param errorCode the errorCode for this exception
+     * 
+     * @deprecated
      */
     public ValidationException(final String message, final int errorCode) {
         super(message, errorCode);
@@ -99,23 +101,25 @@ public class ValidationException extends XMLException {
     }
 
     /**
-     * Creates a new ValidationException with the given message and nested
-     * Exception.
+     * Creates a new {@link ValidationException} with the given message and nested
+     * exception.
      *
-     * @param message the detail message for this Exception
-     * @param exception the nested Exception
+     * @param message the detail message for this exception
+     * @param exception the nested exception
      */
     public ValidationException(final String message, final Throwable exception) {
         super(message, exception);
     }
 
     /**
-     * Creates a new ValidationException with the given message, nested
-     * Exception, and errorCode.
+     * Creates a new {@link ValidationException} with the given message, nested
+     * exception, and error code.
      *
-     * @param message the detail message for this Exception
-     * @param exception the nested Exception
-     * @param errorCode the errorCode for this Exception
+     * @param message the detail message for this exception
+     * @param exception the nested exception
+     * @param errorCode the error code for this exception
+     * 
+     * @deprecated
      */
     public ValidationException(final String message, final Exception exception,
                                final int errorCode) {
