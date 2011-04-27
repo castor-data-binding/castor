@@ -46,6 +46,8 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Types;
 
+import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.visitor.OracleQueryVisitor;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -67,6 +69,13 @@ public final class OracleFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public Visitor createQueryVisitor() {
+        return new OracleQueryVisitor();
+    }
+    
     /**
      * @inheritDoc
      */
@@ -128,11 +137,6 @@ public final class OracleFactory extends GenericFactory {
         if (type == Types.VARCHAR) { return true; }
 
         return false;
-    }
-    
-    @Override
-    public String getSequenceNextValString(final String seqName) {
-        return seqName + ".nextval";
     }
     
     @Override

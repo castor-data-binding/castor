@@ -45,6 +45,7 @@
 package org.exolab.castor.persist.spi;
 
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
+import org.castor.cpa.persistence.sql.query.Visitor;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 
@@ -70,6 +71,14 @@ public interface PersistenceFactory {
      * @return The name of this factory
      */
     String getFactoryName();
+
+    /**
+     * Method to create an instance of database specific visitor to be used to
+     * construct statement.
+     * 
+     * @return Database specific visitor instance to be used.
+     */
+    Visitor createQueryVisitor();
 
     /**
      * Returns a key generator as specified in the given class descriptor.
@@ -181,14 +190,6 @@ public interface PersistenceFactory {
      *         given SQL type with sequence key generator, <code>false</code> otherwise.
      */
     boolean isKeyGeneratorSequenceTypeSupported(int type);
-
-    /**
-     * Returns the database engine specific string to fetch sequence next value.
-     * 
-     * @param seqName Name of the sequence.
-     * @return String to fetch sequence next value.
-     */
-    String getSequenceNextValString(String seqName);
 
     /**
      * Returns the database specific SELECT query string 

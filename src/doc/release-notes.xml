@@ -45,6 +45,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3062" tool="jira">
+                    <description>
+                        Create SQL query visitors through PersistenceFactory.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110427</date>
+                </bug>
                 <bug id="3050" tool="jira">
                     <description>
                         Replace EDU.oswego.cs.dl.util.concurrent by

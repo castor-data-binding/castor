@@ -341,7 +341,7 @@ public final class SQLEngine implements Persistence {
     public Identity create(final Database database, final Object conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
-        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         return (Identity) _createStatement.executeStatement(
                 database, castorConn, identity, entity);
     }
@@ -355,7 +355,7 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
     }
 
@@ -366,7 +366,7 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         _removeStatement.executeStatement(castorConn, identity);
     }
 
@@ -392,7 +392,7 @@ public final class SQLEngine implements Persistence {
         	throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         _loadStatement.executeStatement(castorConn, identity, entity, accessMode);
     }
     
