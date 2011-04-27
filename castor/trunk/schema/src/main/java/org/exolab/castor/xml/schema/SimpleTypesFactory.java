@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
@@ -146,18 +147,27 @@ public class SimpleTypesFactory {
     /** The resource for the Simple types. */
     static final String TYPE_DEFINITIONS = RESOURCE_LOCATION + "SimpleTypes.properties";
     
-    /** Holds simpletypesfactory.Type instances that record information about
-     *  xml schema built in types. */
-    private static Hashtable _typesByName;
+    /** 
+     * Holds simpletypesfactory.Type instances that record information about
+     * XML schema built in types. 
+     */
+    private static Map<String, Type> _typesByName = new Hashtable<String, Type>();
 
-    /** Cross index for _typesByName to quickly get type information from its code. */
-    private static Hashtable _typesByCode;
-
-    /** Log writer to report progress/errors. May be null. */
-    private static PrintWriter _logWriter = new PrintWriter(System.out);
+    /** 
+     * Cross index for _typesByName to quickly get type information from its code. 
+     */
+    private static Map<Integer, Type> _typesByCode = new Hashtable<Integer, Type>();
 
     /** The built-in schema, hopefully only temporary. */
     private static final Schema BUILD_IN_SCHEMA = new Schema();
+    
+    /**
+     * Creates an instance of {@link SimpleTypesFactory}, loading type
+     * definition information from the relevant files.
+     */
+    public SimpleTypesFactory() {
+        loadTypesDefinitions();
+    }
 
     /**
      * Indicates if a type code corresponds to an xml schema built in type.
@@ -219,7 +229,9 @@ public class SimpleTypesFactory {
      */
     public String getBuiltInTypeName(final int builtInTypeCode) {
         Type type = getType(builtInTypeCode);
-        if (type == null) { return null; }
+        if (type == null) {
+            return null;
+        }
         return type.getName();
     }
 
@@ -248,7 +260,7 @@ public class SimpleTypesFactory {
             final boolean createDeferredSimpleType) {
         if ((baseName == null) || (baseName.length() == 0)) {
             //We need a base type name...
-            sendToLog(Messages.format("schema.noBaseType", name));
+            LOG.warn(Messages.format("schema.noBaseType", name));
             return null;
         }
 
@@ -297,7 +309,7 @@ public class SimpleTypesFactory {
 
         if (baseType == null) {
             //We need a base type
-            sendToLog(Messages.format("schema.noBaseType", internalName));
+            LOG.warn(Messages.format("schema.noBaseType", internalName));
             return null;
         }
 
@@ -318,7 +330,7 @@ public class SimpleTypesFactory {
             try {
                 result = new ListType(schema);
             } catch (SchemaException sx) {
-                sendToLog(Messages.format("schema.deriveByListError",
+                LOG.warn(Messages.format("schema.deriveByListError",
                         internalName, baseType.getName()));
                 return null;
             }
@@ -333,7 +345,7 @@ public class SimpleTypesFactory {
                     result = new Union(schema);
                 } catch (SchemaException sx) {
                     //Hmmm... error message is not perfect, but at least is something :)
-                    sendToLog(Messages.format("schema.deriveByListError",
+                    LOG.warn(Messages.format("schema.deriveByListError",
                             internalName, baseType.getName()));
                     return null;
                 }
@@ -341,7 +353,7 @@ public class SimpleTypesFactory {
                 //Find the built in ancestor type
                 SimpleType builtInBase = baseType.getBuiltInBaseType();
                 if (builtInBase == null) {
-                   sendToLog(Messages.format("schema.noBuiltInParent", internalName));
+                   LOG.warn(Messages.format("schema.noBuiltInParent", internalName));
                    return null;
                 }
                 //creates the instance of a class derived from SimpleType representing the new type.
@@ -362,33 +374,12 @@ public class SimpleTypesFactory {
     } //-- createUserSimpleType
 
     /**
-     * Returns the log writer.
-     */
-    private PrintWriter getLogWriter() {
-        return _logWriter;
-    }
-
-    /**
-     * Sends a message to the log through the logWriter (if its not null).
-     */
-    private void sendToLog(final String message) {
-        PrintWriter logger = getLogWriter();
-        if (logger != null) {
-            logger.println(message);
-            logger.flush();
-        }
-    }
-
-    /**
      * Gets the informations about the built in type which name is provided
      * as input parameter.
      * Loads the types definitions if they were not yet loaded
      */
     private Type getType(final String typeName) {
-        if (_typesByName == null) {
-            loadTypesDefinitions();
-        }
-        return (Type) _typesByName.get(typeName);
+        return _typesByName.get(typeName);
     }
 
     /**
@@ -397,10 +388,7 @@ public class SimpleTypesFactory {
      * Loads the types definitions if they were not yet loaded
      */
     private Type getType(final int typeCode) {
-        if (_typesByCode == null) {
-            loadTypesDefinitions();
-        }
-        return (Type) _typesByCode.get(new Integer(typeCode));
+        return _typesByCode.get(new Integer(typeCode));
     }
 
     /**
@@ -408,54 +396,43 @@ public class SimpleTypesFactory {
      * into the static fields typesByName and typeByCode. Loading is done only once.
      */
     private synchronized void loadTypesDefinitions() {
-        if ((_typesByName == null) && (_typesByCode == null)) {
             InputStream is = null;
 
-            try {  //Load the mapping file
-                Mapping mapping = new Mapping(getClass().getClassLoader());
+        try {  //Load the mapping file
+            Mapping mapping = new Mapping(getClass().getClassLoader());
 
-                is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
-                mapping.loadMapping(new InputSource(is));
+            is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
+            mapping.loadMapping(new InputSource(is));
 
-                //unmarshall the list of built in simple types
-                Unmarshaller unmarshaller = new Unmarshaller(TypeList.class);
-                unmarshaller.setMapping(mapping);
-                //-- turn off validation
-                unmarshaller.setValidation(false);
+            //unmarshall the list of built in simple types
+            Unmarshaller unmarshaller = new Unmarshaller(TypeList.class);
+            unmarshaller.setMapping(mapping);
+            //-- turn off validation
+            unmarshaller.setValidation(false);
 
-                is = this.getClass().getResourceAsStream(TYPE_DEFINITIONS);
-                TypeList typeList = (TypeList) unmarshaller.unmarshal(
-                        new org.xml.sax.InputSource(is));
+            is = this.getClass().getResourceAsStream(TYPE_DEFINITIONS);
+            TypeList typeList = (TypeList) unmarshaller.unmarshal(
+                    new org.xml.sax.InputSource(is));
 
-                // print what we just read (only in debug mode and if we have a logWriter)
-                // TODO Joachim 2007-09-04 remove me
-                // LocalConfiguration config = LocalConfiguration.getInstance();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(typeList.toString());
-                }
-                //if (config.debug() && getLogWriter()!= null) {
-                //    typeList.Print(getLogWriter());
-                //}
-
-                //Store the types by name in the typesByName and typesByCode hashtables
-                //and create for each its associated SimpleType instance.
-                Vector types = typeList.getTypes();
-                _typesByName = new Hashtable();
-                _typesByCode = new Hashtable();
-                for (int index = 0; index < types.size(); index++) {
-                    Type type = (Type) types.elementAt(index);
-                    _typesByName.put(type.getName(), type);
-                    type.setSimpleType(createSimpleType(BUILD_IN_SCHEMA, type));
-                    _typesByCode.put(new Integer(type.getSimpleType().getTypeCode()), type);
-                }
-            } catch (Exception except) {
-                //Of course, this should not happen if the config files are there.
-                String err = Messages.message("schema.cantLoadBuiltInTypes") + "; " + except;
-
-                throw new SimpleTypesFactoryException(except, err);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(typeList.toString());
             }
+
+            //Store the types by name in the typesByName and typesByCode hashtables
+            //and create for each its associated SimpleType instance.
+            Vector<Type> types = typeList.getTypes();
+            for (int index = 0; index < types.size(); index++) {
+                Type type = types.elementAt(index);
+                _typesByName.put(type.getName(), type);
+                type.setSimpleType(createSimpleType(BUILD_IN_SCHEMA, type));
+                _typesByCode.put(new Integer(type.getSimpleType().getTypeCode()), type);
+            }
+        } catch (Exception except) {
+            // Of course, this should not happen if the config files are there.
+            String err = Messages.message("schema.cantLoadBuiltInTypes") + "; " + except;
+            throw new SimpleTypesFactoryException(except, err);
         }
-    } //-- loadTypeDefinitions
+    }
 
 
     /**
@@ -491,10 +468,10 @@ public class SimpleTypesFactory {
         }
 
         //Adds the facets to the result
-        Vector facets = type.getFacet();
+        Vector<TypeProperty> facets = type.getFacet();
         FacetFactory facetFactory = FacetFactory.getInstance();
         for (int index = 0; index < facets.size(); index++) {
-            TypeProperty prop = (TypeProperty) facets.elementAt(index);
+            TypeProperty prop = facets.elementAt(index);
             if (!prop.getPseudo()) {
                 //adds a "real" facet (defined in the xml specs)
                 Facet facet = facetFactory.createFacet(prop.getName(), prop.getValue());
