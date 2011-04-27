@@ -1846,7 +1846,7 @@ public final class SourceFactory extends BaseFactory {
                          // TODO: Uncomment next line as soon as Annotation Classes have been updated!
 //                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
                             PrimaryKey pk = table.getPrimaryKey();
-                            Iterator<String> pIt = pk.iterateKey();
+                            Iterator<? extends String> pIt = pk.iterateKey();
                             while (pIt.hasNext()) {
                                 cNature.addPrimaryKey(pIt.next());
                             }
@@ -2368,8 +2368,8 @@ public final class SourceFactory extends BaseFactory {
                         FieldInfo inheritedFieldInfo = base.getElementField(baseNodeName);
                         
                         if (inheritedFieldInfo != null) {
-                            if (xmlNature.getNamespaceURI()
-                                    .equals(new XMLInfoNature(inheritedFieldInfo).getNamespaceURI())) {
+                            String namespaceURI = xmlNature.getNamespaceURI();
+                            if (namespaceURI != null && namespaceURI.equals(new XMLInfoNature(inheritedFieldInfo).getNamespaceURI())) {
                                 present = true;
                             }
                         }
