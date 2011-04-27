@@ -46,7 +46,7 @@ import org.xml.sax.XMLReader;
  * @author <a href="mailto:jgrueneis At gmail DOT com">Joachim Grueneis</a>
  * @since 1.1.2
  */
-public interface InternalContext {
+public interface InternalContext extends PropertyChangeProvider {
 
     /**
      * Instructs Castor to load class descriptors from the mapping given.

@@ -15,6 +15,8 @@
  */
 package org.castor.xml;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -60,7 +62,10 @@ import org.xml.sax.XMLReader;
  * @since 1.1.2
  */
 public abstract class AbstractInternalContext implements InternalContext {
-    /** Logger to be used. */
+    
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    
+	/** Logger to be used. */
     private static final Log LOG = LogFactory.getFactory().getInstance(AbstractInternalContext.class);
 
     /** The properties to use internally to provide parser, serializer, ... */
@@ -202,8 +207,9 @@ public abstract class AbstractInternalContext implements InternalContext {
         }
         _primitiveNodeType = null;
         _regExpEvaluator = null;
+        
         // now writing the new property
-        _properties.put(propertyName, value);
+        this.setPropertyInternal(propertyName, value);
     }
 
     /**
@@ -524,9 +530,26 @@ public abstract class AbstractInternalContext implements InternalContext {
      * @see org.castor.xml.InternalContext#setProperty(java.lang.String, boolean)
      */
     public void setProperty(final String propertyName, final boolean value) {
-        _properties.put(propertyName, Boolean.valueOf(value));
+    	this.setPropertyInternal(propertyName, Boolean.valueOf(value));
     }
     
+    private void setPropertyInternal(final String propertyName, final Object value) {
+        Object oldValue = this._properties.getObject(propertyName);
+
+        if (oldValue == null) {
+            if (value != null) {
+                this._properties.put(propertyName, value);
+                this.propertyChangeSupport.firePropertyChange(propertyName, oldValue, value);
+            }
+        } else {
+            if (!oldValue.equals(value)) {
+                this._properties.put(propertyName, value);
+                this.propertyChangeSupport.firePropertyChange(propertyName, oldValue, value);
+            }
+        }
+    }
+    
+
     /**
      * @see org.castor.xml.InternalContext#getBooleanProperty(java.lang.String)
      */
@@ -657,4 +680,23 @@ public abstract class AbstractInternalContext implements InternalContext {
         return strictElements.booleanValue();
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void addPropertyChangeListener(String propertyName,
+            PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(propertyName,
+                listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(String propertyName,
+            PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(propertyName,
+                listener);
+    }
 }

@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.xml;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -85,7 +87,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
-public final class Introspector {
+public final class Introspector implements PropertyChangeListener {
 
     /** The default FieldHandlerFactory. */
     private static final FieldHandlerFactory DEFAULT_HANDLER_FACTORY =
@@ -219,6 +221,19 @@ public final class Introspector {
     } //-- init
 
     public void setInternalContext(InternalContext internalContext) {
+        if (internalContext == null) {
+            if (this._internalContext != null) {
+                this._internalContext.removePropertyChangeListener(this);
+            }
+        } else {
+            if (this._internalContext != internalContext) {
+                if (this._internalContext != null) {
+                    this._internalContext.removePropertyChangeListener(this);
+                }
+                internalContext.addPropertyChangeListener(this);
+            }
+        }
+
         _internalContext = internalContext;
         init();
     }
@@ -1293,6 +1308,18 @@ public final class Introspector {
     } //-- loadCollections
 
 
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(XMLProperties.PRIMITIVE_NODE_TYPE)) {
+            if (event.getNewValue() instanceof String) {
+                this.setPrimitiveNodeType(NodeType.getNodeType((String) event.getNewValue()));
+            } else {
+                throw new IllegalArgumentException("The value for '" + XMLProperties.PRIMITIVE_NODE_TYPE
+                        + "' must be of type String");
+            }
+        }
+    }
+
+
     /**
      * A special TypeConvertor that simply returns the object
      * given. This is used for preventing the FieldHandlerImpl
@@ -1328,9 +1355,6 @@ public final class Introspector {
             this._fieldName = fieldName;
         }
     } //-- inner class: MethodSet
-
-
-
 
 } //-- Introspector
 
