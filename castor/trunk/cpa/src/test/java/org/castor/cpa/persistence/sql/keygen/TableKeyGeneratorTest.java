@@ -15,7 +15,6 @@ import java.sql.Types;
 import java.util.Properties;
 
 import org.castor.cpa.jpa.info.JPATableGeneratorDescriptor;
-import org.castor.cpa.persistence.sql.query.PersistenceFactoryMock;
 import org.exolab.castor.mapping.MappingException;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,6 @@ import org.mockito.MockitoAnnotations;
 
 public final class TableKeyGeneratorTest {
     private TableKeyGenerator _generator;
-    private PersistenceFactoryMock _mockFactory;
     private int _sqlType;
     @Mock
     private Connection _connection;
@@ -36,13 +34,12 @@ public final class TableKeyGeneratorTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        _mockFactory = new PersistenceFactoryMock();
         Properties params = new Properties();
         JPATableGeneratorDescriptor descriptor = new JPATableGeneratorDescriptor();
         descriptor.setPrimaryKeyType(Long.class);
         params.put(TableKeyGenerator.DESCRIPTOR_KEY, descriptor);
         _sqlType = Types.INTEGER;
-        _generator = new TableKeyGenerator(_mockFactory, params, _sqlType);
+        _generator = new TableKeyGenerator(null, params, _sqlType);
     }
 
     @SuppressWarnings("cast")
@@ -59,7 +56,7 @@ public final class TableKeyGeneratorTest {
     @Test
     public void nullDescriptorResultsInDefaultValues() throws Exception {
         Properties params = new Properties();
-        _generator = new TableKeyGenerator(_mockFactory, params, _sqlType);
+        _generator = new TableKeyGenerator(null, params, _sqlType);
         assertNotNull(_generator.getDescriptor());
         assertEquals(TableKeyGenerator.DEFAULT_TABLE_NAME, _generator
                 .getDescriptor().getTable());
@@ -125,6 +122,6 @@ public final class TableKeyGeneratorTest {
     
     @Test(expected = MappingException.class)
     public void nonNumericSqlTypeCausesMappingException() throws Exception {
-        new TableKeyGenerator(_mockFactory, new Properties(), Types.CHAR);
+        new TableKeyGenerator(null, new Properties(), Types.CHAR);
     }
 }

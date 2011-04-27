@@ -46,6 +46,8 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.util.StringTokenizer;
 
+import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.visitor.DefaultQueryVisitor;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -60,6 +62,13 @@ public class GenericFactory extends BaseFactory {
         return "generic";
     }
 
+    /**
+     * @inheritDoc
+     */
+    public Visitor createQueryVisitor() {
+        return new DefaultQueryVisitor();
+    }
+    
     public QueryExpression getQueryExpression() {
         return new JDBCQueryExpression(this);
     }
@@ -128,13 +137,6 @@ public class GenericFactory extends BaseFactory {
      */
     public boolean isKeyGeneratorSequenceTypeSupported(final int type) {
         return false;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String getSequenceNextValString(final String seqName) {
-        return null;
     }
     
     /**

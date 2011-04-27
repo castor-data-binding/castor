@@ -58,7 +58,7 @@ import org.exolab.castor.jdo.oql.SyntaxNotSupportedException;
  * query, populated with the query parameters and the
  * SQL statement is obtained from it at the proper time.
  * <p>
- * A query expression is generated from {@link PersistenceFactory},
+ * A query expression is generated from an instance of PersistenceFactory,
  * see this interface for information on how to configure
  * it. The operators defined in this interface are part of
  * SQL 92 and the supported OQL syntax and are expected to

@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
+import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.visitor.ProgressQueryVisitor;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -36,6 +38,13 @@ public final class ProgressFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public Visitor createQueryVisitor() {
+        return new ProgressQueryVisitor();
+    }
+    
     /**
      * @inheritDoc
      */

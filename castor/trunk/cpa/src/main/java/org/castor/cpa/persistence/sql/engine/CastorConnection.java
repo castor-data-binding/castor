@@ -32,24 +32,26 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 public final class CastorConnection {
     //-----------------------------------------------------------------------------------    
 
-    /** Variable to store connection. */
-    private Connection _connection;
-
     /** Variable to store the PersistenceFactory. */
     private final PersistenceFactory _factory;
+
+    /** Variable to store connection. */
+    private Connection _connection;
 
     //-----------------------------------------------------------------------------------    
 
     /**
      * Constructor.
      * 
-     * @param connection Instance of the connection to be used to create CastorStatements.
      * @param factory Instance of PersistenceFactory to be used to create CastorStatements.
+     * @param connection Instance of the connection to be used to create CastorStatements.
      */
-    public CastorConnection(final Connection connection, final PersistenceFactory factory) {
+    public CastorConnection(final PersistenceFactory factory, final Connection connection) {
         _connection = connection;
         _factory = factory;
     }
+
+    //-----------------------------------------------------------------------------------    
 
     /**
      * Method to create new CastorStatement using local instances of
