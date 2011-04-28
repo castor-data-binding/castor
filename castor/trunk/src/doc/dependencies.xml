@@ -55,7 +55,7 @@
 					<crow>
 						<td>Apache Commons Project - <br/>Logging</td>
 						<td>1.1.1</td>
-						<td><a href="http://apache.4any.org/commons/logging/binaries/commons-logging-1.1.tar.gz">Download</a></td>
+						<td><a href="http://commons.apache.org/logging/download_logging.cgi">Download</a></td>
 						<td>Required</td>
 					</crow>
                     <crow>
