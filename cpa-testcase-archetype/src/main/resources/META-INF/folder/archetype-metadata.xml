@@ -1,4 +1,4 @@
-<archetype-descriptor name="cpa">
+<archetype-descriptor name="castor-archetype-cpa-testcase">
    <fileSets>
       <fileSet packaged="true">
          <directory>src/test/java</directory>

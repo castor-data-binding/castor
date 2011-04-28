@@ -1,0 +1,18 @@
+<archetype-descriptor name="castor-archetype-cpa-testcase">
+   <fileSets>
+      <fileSet packaged="true">
+         <directory>src/test/java</directory>
+         <includes>
+            <include>org/castor/xml/builder/test/TestSourceGenerator.java</include>
+         </includes>
+      </fileSet>
+      <fileSet packaged="true">
+         <directory>src/test/resources</directory>
+         <includes>
+            <resource>org/castor/xml/builder/test/builder.properties</resource>
+            <resource>org/castor/xml/builder/test/test.xsd</resource>
+            <resource>org/castor/xml/builder/test/binding.xml</resource>
+         </includes>
+      </fileSet>
+   </fileSets>
+</archetype-descriptor>

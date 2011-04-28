@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <archetype>
-	<id>cpa-archetype</id>
+	<id>castor-archetype-cpa-testcase</id>
 	<testSources>
 		<source>src/test/java/org/castor/cpa/test/TestJDOManager.java</source>
         <source>src/test/java/org/castor/cpa/test/entity/Entity.java</source>
