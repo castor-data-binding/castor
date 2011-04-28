@@ -26,8 +26,8 @@
         
         <module>maven-plugins</module>
         
-        <!-- <module>cpa-testcase-archetype</module> -->
-        <!-- <module>codegen-testcase-archetype</module> -->
+        <module>cpa-testcase-archetype</module>
+        <module>codegen-testcase-archetype</module>
 
 		<!-- integration test suites -->
         <module>cpactf</module>
