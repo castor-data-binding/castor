@@ -1142,26 +1142,10 @@ public class ClassMolder {
         }
 
         // Must delete record of extend path from extending to root class
-        // In addition we remember the extend path to delete everything off the path ourself
-        Vector<ClassMolder> extendPath = new Vector<ClassMolder>();
         ClassMolder molder = this;
         while (molder != null) {
             molder._persistence.delete(conn, ids);
-            extendPath.add(molder);
             molder = molder._extends;
-        }
-        
-        ClassMolder base = _depends;
-        while (base != null) {
-            if (base._extendent != null) {
-                for (int i = 0; i < base._extendent.size(); i++) {
-                    if (extendPath.contains(base._extendent.get(i))) {
-                        // NB: further INVESTIGATION
-                    }
-                }
-            }
-
-            base = base._extends;
         }
     }
 
