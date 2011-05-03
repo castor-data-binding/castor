@@ -49,8 +49,8 @@ public final class TestDirtyIgnore extends CPATestCase {
         // Delete all records to avoid problems with previous runs
         Connection conn = jdo.getConnectionFactory().createConnection();
         conn.setAutoCommit(true);
-        conn.createStatement().execute("DELETE FROM TEST1206_STATE");
-        conn.createStatement().execute("DELETE FROM TEST1206_COUNTRY");
+        conn.createStatement().execute("DELETE FROM test1206_state");
+        conn.createStatement().execute("DELETE FROM test1206_country");
         conn.close();
     }
     
@@ -127,7 +127,7 @@ public final class TestDirtyIgnore extends CPATestCase {
         Connection conn = jdo.getConnectionFactory().createConnection();
         conn.setAutoCommit(true);
         ResultSet rs = conn.createStatement().executeQuery(
-                "SELECT * FROM TEST1206_STATE WHERE oid = '" + state.getOid() + "'");
+                "SELECT * FROM test1206_state WHERE oid = '" + state.getOid() + "'");
         if (rs.next()) {
             String persCountry = rs.getString("COUNTRY");
             String cacheCountry = state.getCountry().getOid();

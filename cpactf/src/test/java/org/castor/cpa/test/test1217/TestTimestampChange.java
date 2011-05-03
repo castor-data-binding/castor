@@ -50,10 +50,10 @@ public final class TestTimestampChange extends CPATestCase {
         // Delete all records to avoid problems with previous runs
         Connection conn = jdo.getConnectionFactory().createConnection();
         conn.setAutoCommit(true);
-        conn.createStatement().execute("DELETE FROM TEST1217_PRODUCT");
-        conn.createStatement().execute("DELETE FROM TEST1217_EXTENDED");
-        conn.createStatement().execute("DELETE FROM TEST1217_BASE");
-        conn.createStatement().execute("DELETE FROM TEST1217_PERSON");
+        conn.createStatement().execute("DELETE FROM test1217_product");
+        conn.createStatement().execute("DELETE FROM test1217_extended");
+        conn.createStatement().execute("DELETE FROM test1217_base");
+        conn.createStatement().execute("DELETE FROM test1217_person");
         conn.close();
     }
 
