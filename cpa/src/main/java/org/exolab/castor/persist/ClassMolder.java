@@ -901,26 +901,7 @@ public class ClassMolder {
         // Gets connection reference
         Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
 
-        // Current molder is leaf of extends hierarchy and therefore extending table is null
-        String extendingTableName = null;
-
-        // Start with current molder
-        ClassMolder molder = this;
-        
-        // Loop over all extended molders and store all values of extends hierarchy
-        while (molder != null) {
-            // Gets name of current table
-            String tableName = new ClassDescriptorJDONature(
-                    molder.getClassDescriptor()).getTableName();
-            
-            // Only need to persist values if current table name is different than extending one
-            if (!tableName.equals(extendingTableName)) {
-                molder._persistence.store(conn, oid.getIdentity(), newentity, oldentity);
-            }
-         
-            extendingTableName = tableName;
-            molder = molder._extends;
-        }        
+        _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
     }
 
     /**
@@ -1141,12 +1122,7 @@ public class ClassMolder {
             }
         }
 
-        // Must delete record of extend path from extending to root class
-        ClassMolder molder = this;
-        while (molder != null) {
-            molder._persistence.delete(conn, ids);
-            molder = molder._extends;
-        }
+        _persistence.delete(conn, ids);
     }
 
     /**

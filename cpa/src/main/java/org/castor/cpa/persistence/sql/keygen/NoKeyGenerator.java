@@ -103,7 +103,7 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public KeyGenerator buildStatement(final SQLEngine engine) {
+    public void buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
@@ -126,8 +126,6 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
                 }
             }
         }
-
-        return this;
     }
     
     /**
@@ -135,32 +133,17 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
      */
     public Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
-        SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
-        Identity internalIdentity = identity;
-        SQLEngine extended = _engine.getExtends();
-        
-        if ((extended == null) && (internalIdentity == null)) {
-            throw new PersistenceException(Messages.format("persist.noIdentity", _engineType));
-        }
-
         CastorStatement stmt = conn.createStatement();
         try {
-            // must create record in the parent table first. all other dependents
-            // are created afterwards. quick and very dirty hack to try to make
-            // multiple class on the same table work.
-            if (extended != null) {
-                ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
-                    internalIdentity = extended.create(database, conn.getConnection(), entity,
-                            internalIdentity);
-                }
+            if (identity == null) {
+                throw new PersistenceException(Messages.format("persist.noIdentity", _engineType));
             }
-            
+
             // we only need to care on JDBC 3.0 at after INSERT.
             stmt.prepareStatement(_insert);
             
             //bind Identities
-            bindIdentity(internalIdentity, stmt);
+            bindIdentity(identity, stmt);
 
             //bind  Fields
             bindFields(entity, stmt);
@@ -171,23 +154,24 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
 
             stmt.executeUpdate();
 
-            stmt.close();
-
-            return internalIdentity;
+            return identity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, stmt.toString()), except);
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
+            SQLStatementInsertCheck lookupStatement =
+                new SQLStatementInsertCheck(_engine, _factory);
+            lookupStatement.insertDuplicateKeyCheck(conn, identity);
 
-            try {
-                if (stmt != null) { stmt.close(); }
-            } catch (SQLException except2) {
-                LOG.warn("Problem closing JDBC statement", except2);
-            }
-            
             throw new PersistenceException(Messages.format("persist.nested", except), except);
+        } finally {
+            //close statement
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
     

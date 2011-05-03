@@ -88,7 +88,6 @@ public interface KeyGenerator {
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
-     * @return KeyGenerator 
      */
-    KeyGenerator buildStatement(final SQLEngine engine);
+    void buildStatement(final SQLEngine engine);
 }

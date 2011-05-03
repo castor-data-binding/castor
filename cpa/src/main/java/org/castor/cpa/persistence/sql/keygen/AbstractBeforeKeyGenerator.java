@@ -88,7 +88,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public KeyGenerator buildStatement(final SQLEngine engine) {
+    public final void buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
@@ -111,33 +111,17 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
                 }
             }
         }
-
-        return this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final Database database, final CastorConnection conn, 
+    public final Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
-        SQLStatementInsertCheck lookupStatement = 
-            new SQLStatementInsertCheck(_engine, _factory);    
         Identity internalIdentity = identity;
-        SQLEngine extended = _engine.getExtends();
+        
         CastorStatement stmt = conn.createStatement();
-
         try {
-            // must create record in the parent table first. all other dependents
-            // are created afterwards. quick and very dirty hack to try to make
-            // multiple class on the same table work.
-            if (extended != null) {
-                ClassDescriptor extDesc = extended.getDescriptor();
-                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
-                    internalIdentity = extended.create(database, conn.getConnection(),
-                            entity, internalIdentity);
-                }
-            }
-
             // generate key before INSERT.
             internalIdentity = generateKey(database, conn);
 
@@ -156,23 +140,24 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
 
             stmt.executeUpdate();
 
-            stmt.close();
-
             return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, stmt.toString()), except);
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
+            SQLStatementInsertCheck lookupStatement = 
+                new SQLStatementInsertCheck(_engine, _factory);    
             lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
-            try {
-                if (stmt != null) { stmt.close(); }
-            } catch (SQLException except2) {
-                LOG.warn("Problem closing JDBC statement", except2);
-            }
-
             throw new PersistenceException(Messages.format("persist.nested", except), except);
+        } finally {
+            //close statement
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 
@@ -184,7 +169,7 @@ public abstract class AbstractBeforeKeyGenerator extends AbstractKeyGenerator {
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    public void bindIdentity(final Identity internalIdentity, final CastorStatement stmt) 
+    private void bindIdentity(final Identity internalIdentity, final CastorStatement stmt) 
     throws SQLException, PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         if (internalIdentity.size() != ids.length) {
