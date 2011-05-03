@@ -18,7 +18,6 @@
 package org.exolab.castor.jdo.engine;
 
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -239,8 +238,6 @@ public final class SQLEngine implements Persistence {
         _extends = engine;
     }
     
-    public SQLEngine getExtends() { return _extends; }
-
     /**
      * Used by {@link org.exolab.castor.jdo.OQLQuery} to retrieve the class descriptor.
      * @return the JDO class descriptor.
@@ -341,9 +338,22 @@ public final class SQLEngine implements Persistence {
     public Identity create(final Database database, final Object conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
+        Identity internalIdentity = identity;
+        
+        // must create record in the parent table first. all other dependents
+        // are created afterwards. quick and very dirty hack to try to make
+        // multiple class on the same table work.
+        if (_extends != null) {
+            String thisTable = new ClassDescriptorJDONature(_clsDesc).getTableName();
+            String extTable = new ClassDescriptorJDONature(_extends._clsDesc).getTableName();
+            if (!extTable.equals(thisTable)) {
+                internalIdentity = _extends.create(database, conn, entity, internalIdentity);
+            }
+        }
+        
         CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         return (Identity) _createStatement.executeStatement(
-                database, castorConn, identity, entity);
+                database, castorConn, internalIdentity, entity);
     }
 
     public void store(final Object conn, final Identity identity,
@@ -357,6 +367,11 @@ public final class SQLEngine implements Persistence {
 
         CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
+        
+        // Must store values of whole extends hierarchy
+        if (_extends != null) {
+            _extends.store(conn, identity, newentity, oldentity);
+        }
     }
 
     public void delete(final Object conn, final Identity identity)
@@ -368,6 +383,11 @@ public final class SQLEngine implements Persistence {
 
         CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
         _removeStatement.executeStatement(castorConn, identity);
+        
+        // Must also delete record of extend path from extending to root class
+        if (_extends != null) {
+            _extends.delete(conn, identity);
+        }
     }
 
     /**

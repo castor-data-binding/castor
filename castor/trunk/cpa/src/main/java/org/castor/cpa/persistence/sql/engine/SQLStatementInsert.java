@@ -42,7 +42,7 @@ public class SQLStatementInsert {
     private final SQLEngine _engine;
 
     /** A particular KeyGenerator instance from the list of key generators supported. */
-    private KeyGenerator _keyGen;
+    private final KeyGenerator _keyGen;
 
     //-----------------------------------------------------------------------------------    
 
@@ -68,7 +68,7 @@ public class SQLStatementInsert {
      * Builds the SQL statement using KeyGenerators.
      */
     private void buildStatement() {
-        _keyGen = _keyGen.buildStatement(_engine);
+        _keyGen.buildStatement(_engine);
     }
 
     /**
