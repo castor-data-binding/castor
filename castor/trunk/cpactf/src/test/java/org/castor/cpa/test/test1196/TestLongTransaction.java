@@ -57,8 +57,8 @@ public final class TestLongTransaction extends CPATestCase {
         
         // Delete all records to avoid problems with previous runs
         Connection conn = jdo.getConnectionFactory().createConnection();
-        conn.createStatement().execute("DELETE FROM TEST1196_STATE");
-        conn.createStatement().execute("DELETE FROM TEST1196_COUNTRY");
+        conn.createStatement().execute("DELETE FROM test1196_state");
+        conn.createStatement().execute("DELETE FROM test1196_country");
         conn.close();
     }
 
@@ -187,10 +187,10 @@ public final class TestLongTransaction extends CPATestCase {
         
         // Delete all records to avoid problems with previous runs
         Connection conn = jdo.getConnectionFactory().createConnection();
-        conn.createStatement().execute("UPDATE TEST1196_CAR SET DRIVER=null");
-        conn.createStatement().execute("UPDATE TEST1196_DRIVER SET CAR=null");
-        conn.createStatement().execute("DELETE FROM TEST1196_CAR");
-        conn.createStatement().execute("DELETE FROM TEST1196_DRIVER");
+        conn.createStatement().execute("UPDATE test1196_car SET DRIVER=null");
+        conn.createStatement().execute("UPDATE test1196_driver SET CAR=null");
+        conn.createStatement().execute("DELETE FROM test1196_car");
+        conn.createStatement().execute("DELETE FROM test1196_driver");
         conn.close();
     }
 
@@ -315,10 +315,10 @@ public final class TestLongTransaction extends CPATestCase {
         
         // Delete all records to avoid problems with previous runs
         Connection conn = jdo.getConnectionFactory().createConnection();
-        conn.createStatement().execute("DELETE FROM TEST1196_COMPUTER");
-        conn.createStatement().execute("DELETE FROM TEST1196_ORDERITEM");
-        conn.createStatement().execute("DELETE FROM TEST1196_PRODUCT");
-        conn.createStatement().execute("DELETE FROM TEST1196_ORDER");
+        conn.createStatement().execute("DELETE FROM test1196_computer");
+        conn.createStatement().execute("DELETE FROM test1196_orderitem");
+        conn.createStatement().execute("DELETE FROM test1196_product");
+        conn.createStatement().execute("DELETE FROM test1196_order");
         conn.close();
     }
 
