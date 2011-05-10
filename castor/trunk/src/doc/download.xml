@@ -95,11 +95,15 @@
               <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples.zip</url>
               <br/>&#xA0;
             </li>
+            
+<!-- Commented out because the Ant build is broken for this artefact
             <li>
-              Castor examples -- sources (incl. XML, JDO, source generator)<br/>
+              Castor examples - sources (incl. XML, JDO, source generator)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples-sources.jar</url>
               <br/>&#xA0;
             </li>
+-->
+
           </ul>
         </section>
         
@@ -174,7 +178,7 @@
 
          <p>
            <small>The example JAR includes fully functional samples that
-           demonstrate the use of various features of Castor -- including
+           demonstrate the use of various features of Castor - including
            marshaling and unmarshaling to and from XML, data persistence using
            JDO, and source code generation from an XML Schema instance.</small>
          </p>
@@ -190,6 +194,7 @@
 
       </section>
 
+<!--
       <section title="Latest Milestone Release">
 
           <ul>
@@ -198,9 +203,10 @@
 
             <li><a href="release-notes.xml">What changed?</a></li>
           </ul>
+-->
 
+<!--
         <section title="Binaries">
-
           <ul>
             <li>
               The Castor JAR (XML, DAX; <b>without</b> XML code generator and JDO)<br/>
@@ -243,11 +249,11 @@
               <br/>&#xA0;
             </li>
           </ul>
-
         </section>
+-->
 
+<!--
         <section title="Download sets">
-
           <ul>
             <li>
               The Castor JARs, docs, DTDs, command line tools, and examples<br/>
@@ -268,9 +274,10 @@
               <br/>&#xA0;
             </li>
           </ul>
-
         </section>
+-->
 
+<!--
         <section title="Samples">
           <ul>
             <li>
@@ -279,15 +286,16 @@
               <br/>&#xA0;
             </li>
             <li>
-              Castor examples -- sources (incl. XML, JDO, source generator)<br/>
+              Castor examples - sources (incl. XML, JDO, source generator)<br/>
               <url>http://dist.codehaus.org/castor/1.3rc1/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
               <br/>&#xA0;
             </li>
           </ul>
         </section>
+-->
 
+<!--
         <section title="Castor XML Spring factory beans">
-
           <ul>
             <li>
               Spring factory beans for Castor XML<br/>
@@ -328,18 +336,11 @@
     <name>Maven Codehaus Snapshots</name>
     <url>http://snapshots.maven.codehaus.org/maven2/</url>
 </repository>]]></source>
+        </section>
+-->
 
 <!--
-<repository>
-    <id>codehaus-snashots</id>
-    <name>Maven Codehaus Snapshots</name>
-    <url>http://snapshots.maven.codehaus.org/maven2/</url>
-</repository>
--->
-        </section>
-
         <section title="Spring ORM for Castor JDO">
-
           <ul>
             <li>
               Spring ORM implementation for Castor JDO<br/>
@@ -382,11 +383,11 @@
 </repository>]]></source>
 
         </section>
+-->
 
+<!--
         <section title="Commons">
-
           <ul>
-
             <li>
               The Castor Commons JAR<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
@@ -404,10 +405,9 @@
               that are commonly needed by applications even if they do not need
               Castor's XML and/or JDO part.
             </li>
-
           </ul>
-
         </section>
+-->
 
 <!--
         <ul>
@@ -432,7 +432,10 @@
           </crow>
         </ctable>
 -->
+
+<!--
       </section>
+-->
 
       <section title="Past Releases">
          <p>You may be able to find some past releases on the HTTP Server:</p>
