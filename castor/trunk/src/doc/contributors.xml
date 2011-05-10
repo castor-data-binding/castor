@@ -136,6 +136,19 @@
     </since>
   </contributor>
 
+  <contributor type="Committer">
+    <name surname="Butterstein" given="Dennis" />
+    <email>madsheepscarer@googlemail.com</email>
+    <project>JDO</project>
+    <description>
+      GSoC student 2010 and GSoC mentor 2011.
+    </description>
+    <status>active</status>
+    <since>
+      <date>Mar. 2011</date>
+    </since>
+  </contributor>
+
 
   <!-- ********** -->
   <!-- Google Summe of Code student -->
