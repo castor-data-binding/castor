@@ -1311,7 +1311,9 @@ public final class LockEngine {
                                     cachedEntry.getEntry(), cachedEntry.getTimeStamp());
                             
                             entry.setOID(oid);
-                        } else if (oid.getTopClassName().equals(cacheOid.getName())) {
+                        } else if (oid.getSuperClassNames() != null
+                            && oid.getSuperClassNames().contains(
+                                cacheOid.getName())) {
                             // found a base class in cache
                             entry = new ObjectLock(oid);
                         } else {
