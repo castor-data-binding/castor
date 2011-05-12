@@ -80,7 +80,7 @@ public final class Test954 extends CPATestCase {
             factory = new JNDIConnectionFactory(choice.getJndi(), true);
         }
         
-        factory.initializeFactory();
+        factory.initializeFactory(null);
         
         _connection = factory.createConnection();
     }
