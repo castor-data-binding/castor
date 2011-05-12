@@ -1607,4 +1607,10 @@ public final class LockEngine {
         TypeInfo typeInfo = _typeInfo.get(cls.getName());
         return typeInfo.isLocked (oid);
     }
+
+    /**
+     * 
+     * @return PersistenceFactory instance currently set.
+     */
+    public PersistenceFactory getPersistenceFactory() { return _persistenceFactory; }
 }

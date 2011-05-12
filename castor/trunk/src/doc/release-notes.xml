@@ -45,6 +45,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3083" tool="jira">
+                    <description>
+                        Include CastorConnection in TransactionContext
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110512</date>
+                </bug>
                 <bug id="3082" tool="jira">
                     <description>
                         Introduce CastorConnection in ConnectionFactory-Interface (implement Methods in extending classes).

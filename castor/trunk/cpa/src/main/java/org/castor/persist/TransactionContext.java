@@ -3,6 +3,7 @@ package org.castor.persist;
 import java.sql.Connection;
 import java.util.Iterator;
 
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.PersistenceException;
@@ -166,8 +167,19 @@ public interface TransactionContext {
      * @param engine The persistence engine.
      * @return An open connection.
      * @throws PersistenceException An error occured talking to the persistence engine.
+     * @deprecated since 2011-05-12
      */
     Connection getConnection(final LockEngine engine) throws PersistenceException;
+
+    /**
+     * Return a CastorConnection for the specified engine. Only one connection should
+     * be created for a given engine in the same transaction.
+     * 
+     * @param engine The persistence engine.
+     * @return An open connection.
+     * @throws PersistenceException An error occured talking to the persistence engine.
+     */
+    CastorConnection getCastorConnection(final LockEngine engine) throws PersistenceException;
 
     /**
      * Returns meta-data related to the RDBMS used.

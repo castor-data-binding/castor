@@ -26,6 +26,7 @@ import javax.transaction.Status;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
@@ -288,8 +289,34 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         }
         return conn;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final CastorConnection getCastorConnection(final LockEngine engine)
+        throws ConnectionFailedException {
+        Connection conn = _conns.get(engine);
+        if (conn == null) {
+            conn = createConnection(engine);
+            _conns.put(engine, conn);
+        }
+        return new CastorConnection(engine.getPersistenceFactory(), conn);
+    }
     
+    /**
+     * @deprecated since 2011
+     */
     protected abstract Connection createConnection(final LockEngine engine)
+    throws ConnectionFailedException;
+
+    /**
+     * Method creating a new CastorConnection and returning it.
+     * 
+     * @param engine Engine to get connection from.
+     * @return New CastorConnection.
+     * @throws ConnectionFailedException If creation of connection failed.
+     */
+    protected abstract CastorConnection createCastorConnection(final LockEngine engine)
     throws ConnectionFailedException;
         
     protected final Iterator<Connection> connectionsIterator() {
