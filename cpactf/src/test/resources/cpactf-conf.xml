@@ -115,10 +115,10 @@
     <database name="postgresql-ds" engine="postgresql">
         <description>Database configuration for PostgreSQL</description>
         <data-source class-name="org.postgresql.ds.PGSimpleDataSource">
-            <param name="serverName" value="localhost"/>
+            <param name="serverName" value="192.168.1.223"/>
             <param name="portNumber" value="5432"/>
-            <param name="databaseName" value="cpactf"/>
-            <param name="user" value="test"/>
+            <param name="databaseName" value="castor"/>
+            <param name="user" value="castoradmin"/>
             <param name="password" value="test"/>
         </data-source>
     </database>

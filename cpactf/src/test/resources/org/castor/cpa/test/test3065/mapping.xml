@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test3065.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test3065_object"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="description" type="varchar"/>
+        </field>
+        <field name="saved" type="boolean">
+          <sql name="saved" type="char[01]"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test3065.ExtendedObject"
+           extends="org.castor.cpa.test.test3065.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test3065_extended"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description2" type="string">
+            <sql name="description2" type="varchar"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test3065.ExtendedExtendedObject"
+           extends="org.castor.cpa.test.test3065.ExtendedObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test3065_extendedextended"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description3" type="string">
+            <sql name="description3" type="varchar"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test3065.ExtendedObject2"
+           extends="org.castor.cpa.test.test3065.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="test3065_extended2"/>
+        <field name="id" type="integer" identity="true">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description2" type="string">
+            <sql name="description2" type="varchar"/>
+        </field>
+    </class>
+</mapping>
