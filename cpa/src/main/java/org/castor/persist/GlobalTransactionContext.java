@@ -22,6 +22,7 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.TransactionAbortedException;
@@ -73,13 +74,26 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
+     */
+    @Override
+    protected CastorConnection createCastorConnection(final LockEngine engine)
+    throws ConnectionFailedException {
+        try {
+            return engine.getDatabaseContext().getConnectionFactory().createCastorConnection();
+        } catch (SQLException ex) {
+            throw new ConnectionFailedException(Messages.format("persist.nested", ex), ex);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.castor.persist.AbstractTransactionContext#commitConnections()
      */
     protected void commitConnections() throws TransactionAbortedException {
-        Iterator iter = connectionsIterator();
+        Iterator<Connection> iter = connectionsIterator();
         while (iter.hasNext()) {
             try {
-                ((Connection) iter.next()).close();
+                iter.next().close();
             }  catch (SQLException ex) { 
                 LOG.warn("SQLException at close JDBC Connection instance.", ex);
             } 
@@ -94,10 +108,10 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
     protected void rollbackConnections() {
         // Go through all the connections opened in this transaction, rollback and
         // close them one by one. Ignore errors.
-        Iterator iter = connectionsIterator();
+        Iterator<Connection> iter = connectionsIterator();
         while (iter.hasNext()) {
             try {
-                ((Connection) iter.next()).close();
+                iter.next().close();
                 LOG.debug("Connection closed");
             } catch (SQLException ex) {
                 LOG.warn("SQLException at close JDBC Connection instance.", ex);
@@ -115,10 +129,10 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
         // one by one. Close all that can be closed, after that report error if any.
         Exception error = null;
 
-        Iterator iter = connectionsIterator();
+        Iterator<Connection> iter = connectionsIterator();
         while (iter.hasNext()) {
             try {
-                ((Connection) iter.next()).close();
+                iter.next().close();
             } catch (SQLException ex) {
                 error = ex;
             }
@@ -130,4 +144,5 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
                     Messages.format("persist.nested", error), error);
         }
     }
+
 }

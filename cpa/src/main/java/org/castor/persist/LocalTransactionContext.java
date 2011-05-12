@@ -22,6 +22,7 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.TransactionAbortedException;
@@ -75,26 +76,44 @@ public final class LocalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
+     */
+    protected CastorConnection createCastorConnection(final LockEngine engine)
+    throws ConnectionFailedException {
+        // Get a new connection from the engine. Since the engine has no
+        // transaction association, we must do this sort of round trip. An attempt
+        // to have the transaction association in the engine inflates the code size
+        // in other places.
+        try {
+            Connection conn = engine.getDatabaseContext().getConnectionFactory().createConnection();
+            conn.setAutoCommit(false);
+            return new CastorConnection(engine.getPersistenceFactory(), conn);
+        } catch (SQLException ex) {
+            throw new ConnectionFailedException(Messages.format("persist.nested", ex), ex);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.castor.persist.AbstractTransactionContext#commitConnections()
      */
     protected void commitConnections() throws TransactionAbortedException {
         try {
             // Go through all the connections opened in this transaction, commit and
             // close them one by one.
-            Iterator iter = connectionsIterator();
+            Iterator<Connection> iter = connectionsIterator();
             while (iter.hasNext()) {
                 // Checkpoint can only be done if transaction is not running under
                 // transaction monitor
-                ((Connection) iter.next()).commit();
+                iter.next().commit();
             }
         } catch (SQLException ex) {
             throw new TransactionAbortedException(
                     Messages.format("persist.nested", ex), ex);
         } finally {
-            Iterator iter = connectionsIterator();
+            Iterator<Connection> iter = connectionsIterator();
             while (iter.hasNext()) {
                 try {
-                    ((Connection) iter.next()).close();
+                    iter.next().close();
                 } catch (SQLException ex) {
                     LOG.warn("SQLException at close JDBC Connection instance.", ex);
                 }
@@ -110,9 +129,9 @@ public final class LocalTransactionContext extends AbstractTransactionContext {
     protected void rollbackConnections() {
         // Go through all the connections opened in this transaction, rollback and
         // close them one by one. Ignore errors.
-        Iterator iter = connectionsIterator();
+        Iterator<Connection> iter = connectionsIterator();
         while (iter.hasNext()) {
-            Connection conn = (Connection) iter.next();
+            Connection conn = iter.next();
             try {
                 conn.rollback();
                 LOG.debug("Connection rolled back");
