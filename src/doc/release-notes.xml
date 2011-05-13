@@ -45,6 +45,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3076" tool="jira">
+                    <description>
+                        Move LockEngine.TypeInfo from an inner to a normal class.
+                    </description>
+                    <contributor>
+                        <name>Wensheng Dou</name>
+                        <email>wsdou55@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Wensheng Dou</name>
+                        <email>wsdou55@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110513</date>
+                </bug>
                 <bug id="3065" tool="jira">
                     <description>
                         ArrayIndexOutOfBoundsException occurs when loading an extended object.
