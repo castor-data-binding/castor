@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.persist.spi;
 
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
@@ -93,13 +94,13 @@ public interface PersistenceQuery {
      * query parameters will be reset. A new query may be issued by
      * providing new query parameters and calling {@link #execute(Object, AccessMode, boolean)}.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param accessMode The access mode (null equals shared)
      * @param scrollable The db cursor mode.
      * @throws PersistenceException An invalid query or an error reported
      *         by the persistence engine.
      */
-    void execute(Object conn, AccessMode accessMode, boolean scrollable)
+    void execute(CastorConnection conn, AccessMode accessMode, boolean scrollable)
     throws PersistenceException;
 
     /**

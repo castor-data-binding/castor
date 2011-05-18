@@ -335,11 +335,11 @@ public final class SQLEngine implements Persistence {
         return col.getConvertTo().convert(object);
     }
 
-    public Identity create(final Database database, final Object conn,
+    public Identity create(final Database database, final CastorConnection conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
         Identity internalIdentity = identity;
-        
+
         // must create record in the parent table first. all other dependents
         // are created afterwards. quick and very dirty hack to try to make
         // multiple class on the same table work.
@@ -350,13 +350,12 @@ public final class SQLEngine implements Persistence {
                 internalIdentity = _extends.create(database, conn, entity, internalIdentity);
             }
         }
-        
-        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
+
         return (Identity) _createStatement.executeStatement(
-                database, castorConn, internalIdentity, entity);
+                database, conn, internalIdentity, entity);
     }
 
-    public void store(final Object conn, final Identity identity,
+    public void store(final CastorConnection conn, final Identity identity,
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
@@ -365,24 +364,22 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
-        _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
-        
+        _storeStatement.executeStatement(conn, identity, newentity, oldentity);
+
         // Must store values of whole extends hierarchy
         if (_extends != null) {
             _extends.store(conn, identity, newentity, oldentity);
         }
     }
 
-    public void delete(final Object conn, final Identity identity)
+    public void delete(final CastorConnection conn, final Identity identity)
     throws PersistenceException {
         // check size of identity columns
         if (identity.size() != _ids.length) {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
-        _removeStatement.executeStatement(castorConn, identity);
+        _removeStatement.executeStatement(conn, identity);
         
         // Must also delete record of extend path from extending to root class
         if (_extends != null) {
@@ -399,21 +396,20 @@ public final class SQLEngine implements Persistence {
      * #store}). If <tt>lock</tt> is true the object must be
      * locked in persistence storage to prevent concurrent updates.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param entity An Object[] to load field values into
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
      * @throws PersistenceException A persistence error occured
      */
-    public void load(final Object conn, final ProposedEntity entity,
+    public void load(final CastorConnection conn, final ProposedEntity entity,
                        final Identity identity, final AccessMode accessMode)
     throws PersistenceException {
         if (identity.size() != _ids.length) {
         	throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        CastorConnection castorConn = new CastorConnection(_factory, (Connection) conn);
-        _loadStatement.executeStatement(castorConn, identity, entity, accessMode);
+        _loadStatement.executeStatement(conn, identity, entity, accessMode);
     }
     
     public String toString() { return _clsDesc.toString(); }

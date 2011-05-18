@@ -53,6 +53,7 @@ import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.Database;
@@ -516,7 +517,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 case ParseTreeWalker.FUNCTION:
                     try {
                         TransactionContext tx = ((AbstractDatabaseImpl) _database).getTransaction();
-                        java.sql.Connection conn = tx.getConnection(_dbEngine);
+                        CastorConnection conn = tx.getCastorConnection(_dbEngine);
                         SimpleQueryExecutor sqe = new SimpleQueryExecutor(_database);
                         _results =  sqe.execute(conn, _expr, _bindValues);
                     } catch (QueryException except) {

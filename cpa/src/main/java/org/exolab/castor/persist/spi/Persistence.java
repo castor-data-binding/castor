@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.persist.spi;
 
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -95,7 +96,7 @@ public interface Persistence {
      * If the identity is null, an identity might be created and returned
      * by this method.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param entity The fields to store
      * @param identity The object's identity
      * @return The object's identity
@@ -103,8 +104,8 @@ public interface Persistence {
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    Identity create(Database database, Object conn, ProposedEntity entity, Identity identity)
-    throws PersistenceException;
+    Identity create(Database database, CastorConnection conn, ProposedEntity entity,
+            Identity identity) throws PersistenceException;
 
     /**
      * Loads the object from persistence storage. This method will load
@@ -115,14 +116,14 @@ public interface Persistence {
      * #store}). If <tt>lock</tt> is true the object must be
      * locked in persistence storage to prevent concurrent updates.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param proposedObject The fields to load into
      * @param identity object's identity
      * @param accessMode The access mode (null equals shared)
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    void load(Object conn, ProposedEntity proposedObject, Identity identity,
+    void load(CastorConnection conn, ProposedEntity proposedObject, Identity identity,
             AccessMode accessMode) throws PersistenceException;
 
     /**
@@ -143,7 +144,7 @@ public interface Persistence {
      * call to {@link #load}. These arguments are null for objects
      * retrieved with an exclusive lock.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param newentity The fields to store
      * @param identity The object's identity
      * @param oldentity The original fields, or null
@@ -152,8 +153,8 @@ public interface Persistence {
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    void store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
-    throws PersistenceException;
+    void store(CastorConnection conn, Identity identity, ProposedEntity newentity,
+            ProposedEntity oldentity) throws PersistenceException;
 
     /**
      * Deletes the object from persistent storage, given the object'
@@ -162,12 +163,11 @@ public interface Persistence {
      * locks on the object must be retained until the transaction has
      * completed.
      *
-     * @param conn An open connection
+     * @param conn A CastorConnection object holding an open connection
      * @param identity The object's identity
      * @throws PersistenceException A persistence error occured
      */
-    void delete(Object conn, Identity identity)
-    throws PersistenceException;
+    void delete(CastorConnection conn, Identity identity) throws PersistenceException;
 
     /**
      * Creates and returns a new query object. The query object is

@@ -44,10 +44,10 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.AbstractCallQuery;
@@ -73,11 +73,11 @@ final class MultiRSCallQuery extends AbstractCallQuery {
         super(call, types, javaClass, sqlTypes);
     }
 
-    protected void execute(final Object conn, final AccessMode accessMode)
+    protected void execute(final CastorConnection conn, final AccessMode accessMode)
     throws PersistenceException {
         _lastIdentity = null;
         try {
-            _stmt = ((Connection) conn).prepareCall(_call);
+            _stmt = conn.getConnection().prepareCall(_call);
             for (int i = 0; i < _values.length; ++i) {
                 _stmt.setObject(i + 1, _values[i]);
                 _values[i] = null;
