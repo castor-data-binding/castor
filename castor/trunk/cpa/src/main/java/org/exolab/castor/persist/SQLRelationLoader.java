@@ -49,6 +49,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.util.JDOUtils;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.TypeConvertor;
@@ -213,7 +214,7 @@ public class SQLRelationLoader {
         return _rightFrom[index].convert(object);
     }
 
-    public void createRelation(final Connection conn, final Identity left, final Identity right)
+    public void createRelation(final CastorConnection conn, final Identity left, final Identity right)
     throws PersistenceException {
         ResultSet rset = null;
         PreparedStatement selectStatement = null;
@@ -221,7 +222,7 @@ public class SQLRelationLoader {
 
         try {
             int count = 1;
-            selectStatement = conn.prepareStatement(_select);
+            selectStatement = conn.getConnection().prepareStatement(_select);
             for (int i = 0; i < left.size(); i++) {
                 selectStatement.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
                 count++;
@@ -233,7 +234,7 @@ public class SQLRelationLoader {
             rset = selectStatement.executeQuery();
 
             count = 1;
-            insertStatement = conn.prepareStatement(_insert);
+            insertStatement = conn.getConnection().prepareStatement(_insert);
             if (!rset.next()) {
                 for (int i = 0; i < left.size(); i++) {
                     insertStatement.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
@@ -255,12 +256,12 @@ public class SQLRelationLoader {
         }
     }
 
-    public void deleteRelation(final Connection conn, final Identity left)
+    public void deleteRelation(final CastorConnection conn, final Identity left)
     throws PersistenceException {
         PreparedStatement stmt = null;
         try {
             int count = 1;
-            stmt = conn.prepareStatement(_deleteAll);
+            stmt = conn.getConnection().prepareStatement(_deleteAll);
             for (int i = 0; i < left.size(); i++) {
                 stmt.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
                 count++;
@@ -274,12 +275,12 @@ public class SQLRelationLoader {
         }
     }
 
-    public void deleteRelation(final Connection conn, final Identity left, final Identity right)
+    public void deleteRelation(final CastorConnection conn, final Identity left, final Identity right)
     throws PersistenceException {
         PreparedStatement stmt = null;
         try {
             int count = 1;
-            stmt = conn.prepareStatement(_delete);
+            stmt = conn.getConnection().prepareStatement(_delete);
             for (int i = 0; i < left.size(); i++) {
                 stmt.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
                 count++;

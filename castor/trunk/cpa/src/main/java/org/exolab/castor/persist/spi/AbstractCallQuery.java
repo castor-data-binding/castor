@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.PersistenceException;
@@ -111,12 +112,12 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
         return _javaClass;
     }
 
-    public void execute(final Object conn, final AccessMode accessMode, final boolean scrollable)
-    throws PersistenceException {
+    public void execute(final CastorConnection conn, final AccessMode accessMode,
+            final boolean scrollable) throws PersistenceException {
         execute(conn, accessMode);
     }
 
-    protected abstract void execute(final Object conn, final AccessMode accessMode)
+    protected abstract void execute(final CastorConnection conn, final AccessMode accessMode)
     throws PersistenceException;
 
     public Identity nextIdentity(final Identity identity) throws PersistenceException {

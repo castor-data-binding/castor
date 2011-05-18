@@ -45,6 +45,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3084" tool="jira">
+                    <description>
+                        Use introduced CastorConnection instead of java.sql.connection and adapt
+                        Persistence-Interface to take CastorConnection instead of objects
+                    </description>
+                    <contributor>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110518</date>
+                </bug>
                 <bug id="3076" tool="jira">
                     <description>
                         Move LockEngine.TypeInfo from an inner to a normal class.

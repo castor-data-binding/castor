@@ -44,7 +44,6 @@
  */
 package org.exolab.castor.jdo.engine;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,6 +51,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
@@ -99,7 +99,7 @@ public class SimpleQueryExecutor {
      * @return the results of the query.
      * 
      */
-    public QueryResults execute(final Connection conn, final QueryExpression expr,
+    public QueryResults execute(final CastorConnection conn, final QueryExpression expr,
             final Object[] bindValues) throws QueryException {
         
         try {
@@ -109,7 +109,7 @@ public class SimpleQueryExecutor {
             // create SQL statement from pre_sql, replacing bind expressions like "?1" by "?"
             String sql = SqlBindParser.getJdbcSql(preSQL);
             
-            _stmt = conn.prepareStatement(sql);
+            _stmt = conn.getConnection().prepareStatement(sql);
             
             if (bindValues != null) {
                 SqlBindParser.bindJdbcValues(_stmt, preSQL, bindValues);

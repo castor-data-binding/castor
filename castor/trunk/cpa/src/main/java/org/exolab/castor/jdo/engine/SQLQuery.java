@@ -17,7 +17,6 @@
  */
 package org.exolab.castor.jdo.engine;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -28,6 +27,7 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.engine.CounterRef;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
@@ -175,7 +175,7 @@ public final class SQLQuery implements PersistenceQuery {
         return retval;
     }
 
-    public void execute(final Object conn, final AccessMode accessMode,
+    public void execute(final CastorConnection conn, final AccessMode accessMode,
                         final boolean scrollable)
     throws PersistenceException {
         // create SQL statement from _sql, replacing bind expressions like "?1" by "?"
@@ -185,11 +185,11 @@ public final class SQLQuery implements PersistenceQuery {
 
         try {
             if (scrollable) {
-                _stmt = ((Connection) conn).prepareStatement(
+                _stmt = conn.getConnection().prepareStatement(
                         sql, java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE,
                         java.sql.ResultSet.CONCUR_READ_ONLY);
             } else {
-                _stmt = ((Connection) conn).prepareStatement(sql);
+                _stmt = conn.getConnection().prepareStatement(sql);
             }
 
             // bind variable values on _values to the JDBC statement _stmt using the bind

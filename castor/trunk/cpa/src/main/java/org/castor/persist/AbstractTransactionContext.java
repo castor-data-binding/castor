@@ -657,7 +657,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     throws PersistenceException {
         // Need to execute query at this point. This will result in a
         // new result set from the query, or an exception.
-        query.execute(getConnection(engine), accessMode, scrollable);
+        query.execute(getCastorConnection(engine), accessMode, scrollable);
         return new QueryResults(this, engine, query, accessMode, _db);
     }
 

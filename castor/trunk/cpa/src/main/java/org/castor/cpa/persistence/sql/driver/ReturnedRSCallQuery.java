@@ -45,13 +45,13 @@
 package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.spi.AbstractCallQuery;
@@ -83,11 +83,11 @@ final class ReturnedRSCallQuery extends AbstractCallQuery {
         super (call, types, javaClass, sqlTypes);
     }
 
-    protected void execute(final Object conn, final AccessMode accessMode)
+    protected void execute(final CastorConnection conn, final AccessMode accessMode)
     throws PersistenceException {
         _lastIdentity = null;
         try {
-            _stmt = ((Connection) conn).prepareCall(_call);
+            _stmt = conn.getConnection().prepareCall(_call);
             ((CallableStatement) _stmt).registerOutParameter(1, ORACLE_CURSOR_TYPE);
             for (int i = 0; i < _values.length; ++i) {
                 _stmt.setObject(i + 2, _values[i]);
