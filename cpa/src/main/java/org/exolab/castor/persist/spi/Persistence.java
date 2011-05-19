@@ -50,8 +50,11 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.SQLRelationLoader;
+import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -185,10 +188,22 @@ public interface Persistence {
     PersistenceQuery createQuery(QueryExpression query, Class<?>[] types, AccessMode accessMode)
     throws QueryException;
 
-    SQLRelationLoader createSQLRelationLoader(String manyTable,
-            String[] idSQL, int[] idType,
-            TypeConvertor[] idTo, TypeConvertor[] idFrom,
-            String[] relatedIdSQL, int[] relatedIdType,
-            TypeConvertor[] ridTo, TypeConvertor[] ridFrom);
+    /**
+     * Creates an instance of SQLRelationLoader for creating and removing
+     * relation from a many-to-many relation database.
+     * 
+     * @param classDescriptorResolver {@link ClassDescriptorResolver} instance
+     * @param classDescriptor the classDescriptor for the base class.
+     * @param identityDescriptors the {@link FieldDescriptor}s that describe the identities 
+     *        as defined for this class.
+     * @param fieldDescriptor the {@link FieldDescriptor} for non-identity fields, 
+     *        including all the fields in base classes.
+     * @throws MappingException if an error occurred with analyzing the mapping information.
+     * @return SQLRelationLoader, for creating and removing relation from a 
+     *         many-to-many relation database.
+     */
+    SQLRelationLoader createSQLRelationLoader(ClassDescriptorResolver classDescriptorResolver, 
+            ClassDescriptor classDescriptor, FieldDescriptor[] identityDescriptors, 
+            FieldDescriptor fieldDescriptor) throws MappingException;
 }
 
