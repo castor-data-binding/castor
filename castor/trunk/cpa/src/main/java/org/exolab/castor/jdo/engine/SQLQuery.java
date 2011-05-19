@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.jdo.engine.CounterRef;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
@@ -94,7 +95,7 @@ public final class SQLQuery implements PersistenceQuery {
      * @param types Types of the class used.
      * @param isCallSql true if the SQL is issued as part of a CALL SQL statement.
      */
-    SQLQuery(final SQLEngine engine, final PersistenceFactory factory, final String sql,
+    public SQLQuery(final SQLEngine engine, final PersistenceFactory factory, final String sql,
              final Class[] types, final boolean isCallSql) {
         
         _engine = engine;

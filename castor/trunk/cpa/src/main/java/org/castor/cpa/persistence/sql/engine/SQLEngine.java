@@ -15,7 +15,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.jdo.engine;
+package org.castor.cpa.persistence.sql.engine;
 
 import java.util.Stack;
 import java.util.Vector;
@@ -23,10 +23,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
-import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
-import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.cpa.persistence.sql.engine.info.InfoFactory;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.util.JDOClassDescriptorResolver;
@@ -34,6 +30,11 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLFieldInfo;
+import org.exolab.castor.jdo.engine.SQLQuery;
+import org.exolab.castor.jdo.engine.SQLStatementLoad;
+import org.exolab.castor.jdo.engine.SQLStatementQuery;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;

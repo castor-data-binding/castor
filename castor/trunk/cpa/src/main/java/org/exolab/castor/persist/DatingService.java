@@ -48,7 +48,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import org.exolab.castor.jdo.engine.SQLEngine;
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.Types;
 
