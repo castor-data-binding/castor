@@ -426,21 +426,6 @@ public final class SQLEngine implements Persistence {
 
     public TableInfo getTableInfo() { return _tableInfo; }
 
-    protected Object idToJava(final int index, final Object object) {
-        if ((object == null) || (_ids[index].getConvertTo() == null)) {
-            return object;
-        }
-        return _ids[index].getConvertTo().convert(object);
-    }
-
-    protected Object toJava(final int field, final int column, final Object object) {
-        SQLColumnInfo col = _fields[field].getColumnInfo()[column];
-        if ((object == null) || (col.getConvertTo() == null)) {
-            return object;
-        }
-        return col.getConvertTo().convert(object);
-    }
-
     public Identity create(final Database database, final CastorConnection conn,
                          final ProposedEntity entity, final Identity identity)
     throws PersistenceException {
