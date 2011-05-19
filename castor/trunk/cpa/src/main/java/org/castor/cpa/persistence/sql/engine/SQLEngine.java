@@ -33,7 +33,6 @@ import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.SQLQuery;
-import org.exolab.castor.jdo.engine.SQLStatementLoad;
 import org.exolab.castor.jdo.engine.SQLStatementQuery;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
