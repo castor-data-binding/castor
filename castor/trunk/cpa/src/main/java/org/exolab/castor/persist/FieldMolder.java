@@ -57,6 +57,7 @@ import java.util.SortedSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.SQLRelationLoader;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.CascadingType;
 import org.exolab.castor.jdo.DataObjectAccessException;
