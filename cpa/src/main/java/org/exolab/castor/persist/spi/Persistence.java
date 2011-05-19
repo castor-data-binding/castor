@@ -45,6 +45,7 @@
 package org.exolab.castor.persist.spi;
 
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.SQLRelationLoader;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -53,7 +54,6 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.SQLRelationLoader;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
