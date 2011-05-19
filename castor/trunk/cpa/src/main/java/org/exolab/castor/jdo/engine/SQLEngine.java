@@ -218,7 +218,7 @@ public final class SQLEngine implements Persistence {
             final String[] relatedIdSQL, final int[] relatedIdType,
             final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
         return new SQLRelationLoader(manyTable, idSQL, idType, idTo, idFrom,
-                relatedIdSQL, relatedIdType, ridTo, ridFrom, _factory);
+                relatedIdSQL, relatedIdType, ridTo, ridFrom);
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {

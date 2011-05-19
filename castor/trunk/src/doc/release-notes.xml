@@ -45,6 +45,29 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3086" tool="jira">
+                    <description>
+                        Refactoring of SQLRelationLoader:
+                        Use of persistence.sql.query classes to represent constructed queries.
+                        Introduce CastorStatement and CastorConnection classes to handle query construction (query visitors)
+                        Remove argument PersistenceFactory.
+                    </description>
+                    <contributor>
+                        <name>Johannes Venzke</name>
+                        <email>johannes.venzke@revival.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Dennis Butterstein</name>
+                        <email>madsheepscarer@googlemail.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Johannes Venzke</name>
+                        <email>johannes.venzke@revival.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110518</date>
+                </bug>
                 <bug id="3084" tool="jira">
                     <description>
                         Use introduced CastorConnection instead of java.sql.connection and adapt
