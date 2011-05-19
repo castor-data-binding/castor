@@ -35,7 +35,6 @@ import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 

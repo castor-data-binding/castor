@@ -21,9 +21,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLHelper;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;

@@ -34,7 +34,6 @@ import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
-import org.exolab.castor.jdo.engine.SQLEngine;
 
  /**
   * SQLStatementInsertCheck class to check duplicate primary key problem. If that

@@ -26,7 +26,6 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.persist.spi.Identity;
 
 import java.sql.PreparedStatement;
@@ -44,6 +43,7 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.NextVal;

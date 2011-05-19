@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;

@@ -18,10 +18,10 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
