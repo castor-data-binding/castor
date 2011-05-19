@@ -44,17 +44,26 @@
  */
 package org.exolab.castor.persist;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.CastorStatement;
+import org.castor.cpa.persistence.sql.query.Delete;
+import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.Select;
+import org.castor.cpa.persistence.sql.query.Table;
+import org.castor.cpa.persistence.sql.query.condition.AndCondition;
+import org.castor.cpa.persistence.sql.query.expression.Column;
+import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.jdo.util.JDOUtils;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * SQLRelationLoader is a quick hack for creating and removing
@@ -66,235 +75,235 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  */
 public class SQLRelationLoader {
 
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(SQLRelationLoader.class);
+
+    //-----------------------------------------------------------------------------------    
+
+    /** The name of the relation table */
     private String _tableName;
+    
+    private SQLColumnInfo[] _left;
 
-    private int[] _leftType;
-
-    private TypeConvertor[] _leftFrom;
-
-    private TypeConvertor[] _rightFrom;
-
-    private int[] _rightType;
-
-    private String[] _left;
-
-    private String[] _right;
+    private SQLColumnInfo[] _right;
 
     /** The SQL statement for selecting the relation from the relation table. */
-    private String _select;
+    private Select _select;
 
     /** The SQL statement to insert the a new relation into the relation table. */
-    private String _insert;
+    private Insert _insert;
 
     /** The SQL statement to delete an relation from the relation table. */
-    private String _delete;
+    private Delete _delete;
 
-    /** The SQL statement to delete all the relation assoicate with the left side type. */
-    private String _deleteAll;
+    /** The SQL statement to delete all the relation associate with the left side type. */
+    private Delete _deleteAll;
 
     public SQLRelationLoader(final String table, final String[] key, final int[] keyType,
             final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
             final String[] otherKey, final int[] otherKeyType,
-            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom,
-            final PersistenceFactory factory) {
-        _leftFrom = idFrom;
-        _rightFrom = ridFrom;
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
+        
+      _left = new SQLColumnInfo[key.length];
+      for (int i = 0; i < key.length; i++) {
+          _left[i] = new SQLColumnInfo(key[i], keyType[i], idTo[i], idFrom[i]);
+      }
+      
+      _right = new SQLColumnInfo[otherKey.length];
+      for (int i = 0; i < otherKey.length; i++) {
+          _right[i] = new SQLColumnInfo(otherKey[i], otherKeyType[i], ridTo[i], ridFrom[i]);
+      }
 
         _tableName = table;
-        _left = key;
-        _right = otherKey;
-        _leftType = keyType;
-        _rightType = otherKeyType;
-
+        
         // construct select statement
-        StringBuffer sb = new StringBuffer();
-        int count = 0;
-        sb.append("SELECT ");
-        for (int i = 0; i < _left.length; i++) {
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(factory.quoteName(_left[i]));
-            count++;
+        Table qualifier = new Table(_tableName);
+        _select = new Select(qualifier);
+        for (SQLColumnInfo colInfo : _left) {
+            _select.addSelect(new Column(colInfo.getName()));
         }
-        for (int i = 0; i < _right.length; i++) {
-            sb.append(",");
-            sb.append(factory.quoteName(_right[i]));
-            count++;
+        for (SQLColumnInfo colInfo : _right) {
+            _select.addSelect(new Column(colInfo.getName()));
         }
-        sb.append(" FROM ");
-        sb.append(factory.quoteName(_tableName));
-        sb.append(" WHERE ");
-        for (int i = 0; i < _left.length; i++) {
-            if (i > 0) {
-                sb.append(" AND ");
-            }
-            sb.append(factory.quoteName(_left[i]));
-            sb.append("=?");
+        
+        AndCondition conditionSelect = new AndCondition();
+        for (SQLColumnInfo colInfo : _left) {
+            conditionSelect.and(new Column(colInfo.getName()).equal(
+                    new Parameter(colInfo.getName())));
         }
-        for (int i = 0; i < _right.length; i++) {
-            sb.append(" AND ");
-            sb.append(factory.quoteName(_right[i]));
-            sb.append("=?");
+        for (SQLColumnInfo colInfo : _right) {
+            conditionSelect.and(new Column(colInfo.getName()).equal(
+                    new Parameter(colInfo.getName())));
         }
-        _select = sb.toString();
+        _select.setCondition(conditionSelect);
+        
 
         // construct insert statement
-        sb = new StringBuffer();
-        count = 0;
-        sb.append("INSERT INTO ");
-        sb.append(factory.quoteName(_tableName));
-        sb.append(" (");
-        for (int i = 0; i < _left.length; i++) {
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(factory.quoteName(_left[i]));
-            count++;
+        _insert = new Insert(_tableName);
+        for (SQLColumnInfo colInfo : _left) {
+            _insert.addAssignment(new Column(colInfo.getName()), 
+                    new Parameter(colInfo.getName()));
         }
-        for (int i = 0; i < _right.length; i++) {
-            sb.append(",");
-            sb.append(factory.quoteName(_right[i]));
-            count++;
+        for (SQLColumnInfo colInfo : _right) {
+            _insert.addAssignment(new Column(colInfo.getName()), 
+                    new Parameter(colInfo.getName()));
         }
-        sb.append(") VALUES (");
-        for (int i = 0; i < count; i++) {
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append("?");
-        }
-        sb.append(")");
-        _insert = sb.toString();
 
         // construct delete statement
-        sb = new StringBuffer();
-        count = 0;
-        sb.append("DELETE FROM ");
-        sb.append(factory.quoteName(_tableName));
-        sb.append(" WHERE ");
-        for (int i = 0; i < _left.length; i++) {
-            if (i > 0) {
-                sb.append(" AND ");
-            }
-            sb.append(factory.quoteName(_left[i]));
-            sb.append("=?");
+        _delete = new Delete(_tableName);
+        AndCondition conditionDelete = new AndCondition();
+        for (SQLColumnInfo colInfo : _left) {
+            conditionDelete.and(new Column(colInfo.getName()).equal(
+                    new Parameter(colInfo.getName())));
         }
-        for (int i = 0; i < _right.length; i++) {
-            sb.append(" AND ");
-            sb.append(factory.quoteName(_right[i]));
-            sb.append("=?");
+        for (SQLColumnInfo colInfo : _right) {
+            conditionDelete.and(new Column(colInfo.getName()).equal(
+                    new Parameter(colInfo.getName())));
         }
-        _delete = sb.toString();
+        _delete.setCondition(conditionDelete);
 
         // construct delete statement for the left side only
-        sb = new StringBuffer();
-        count = 0;
-        sb.append("DELETE FROM ");
-        sb.append(factory.quoteName(_tableName));
-        sb.append(" WHERE ");
-        for (int i = 0; i < _left.length; i++) {
-            if (i > 0) {
-                sb.append(" AND ");
-            }
-            sb.append(factory.quoteName(_left[i]));
-            sb.append("=?");
+        _deleteAll = new Delete(_tableName);
+        AndCondition conditionDeleteAll = new AndCondition();
+        for (SQLColumnInfo colInfo : _left) {
+            conditionDeleteAll.and(new Column(colInfo.getName()).equal(
+                    new Parameter(colInfo.getName())));
         }
-        _deleteAll = sb.toString();
-
+        _deleteAll.setCondition(conditionDeleteAll);
     }
 
     private Object idToSQL(final int index, final Object object) {
-        if ((object == null) || (_leftFrom[index] == null)) { return object; }
-        return _leftFrom[index].convert(object);
+        if ((object == null) || (_left[index].getConvertFrom() == null)) { return object; }
+        return _left[index].getConvertFrom().convert(object);
     }
 
     private Object ridToSQL(final int index, final Object object) {
-        if ((object == null) || (_rightFrom[index] == null)) { return object; }
-        return _rightFrom[index].convert(object);
+        if ((object == null) || (_right[index].getConvertFrom() == null)) { return object; }
+        return _right[index].getConvertFrom().convert(object);
     }
 
     public void createRelation(final CastorConnection conn, final Identity left, final Identity right)
     throws PersistenceException {
+        CastorStatement selectStatement = conn.createStatement();
+        CastorStatement insertStatement = conn.createStatement();
+        
         ResultSet rset = null;
-        PreparedStatement selectStatement = null;
-        PreparedStatement insertStatement = null;
 
         try {
-            int count = 1;
-            selectStatement = conn.getConnection().prepareStatement(_select);
+            selectStatement.prepareStatement(_select);
             for (int i = 0; i < left.size(); i++) {
-                selectStatement.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
-                count++;
+                String name = _left[i].getName();
+                Object value = idToSQL(i, left.get(i));
+                int type = _left[i].getSqlType();
+                
+                selectStatement.bindParameter(name, value, type);
             }
             for (int i = 0; i < right.size(); i++) {
-                selectStatement.setObject(count, ridToSQL(i, right.get(i)), _rightType[i]);
-                count++;
+                String name = _right[i].getName();
+                Object value = ridToSQL(i, right.get(i));
+                int type = _right[i].getSqlType();
+                
+                selectStatement.bindParameter(name, value, type);
             }
             rset = selectStatement.executeQuery();
 
-            count = 1;
-            insertStatement = conn.getConnection().prepareStatement(_insert);
+            insertStatement.prepareStatement(_insert);
             if (!rset.next()) {
                 for (int i = 0; i < left.size(); i++) {
-                    insertStatement.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
-                    count++;
+                    String name = _left[i].getName();
+                    Object value = idToSQL(i, left.get(i));
+                    int type = _left[i].getSqlType();
+                    
+                    insertStatement.bindParameter(name, value, type);
                 }
                 for (int i = 0; i < right.size(); i++) {
-                    insertStatement.setObject(count, ridToSQL(i, right.get(i)), _rightType[i]);
-                    count++;
+                    String name = _right[i].getName();
+                    Object value = ridToSQL(i, right.get(i));
+                    int type = _right[i].getSqlType();
+                    
+                    insertStatement.bindParameter(name, value, type);
                 }
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(Messages.format("jdo.inserting", insertStatement.toString()));
+                }
+                
                 insertStatement.executeUpdate();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenceException(e.toString());
+        } catch (SQLException ex) {
+            LOG.fatal(selectStatement.toString() + "\n" + insertStatement.toString(), ex);
+            throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
-            JDOUtils.closeResultSet(rset);
-            JDOUtils.closeStatement(selectStatement);
-            JDOUtils.closeStatement(insertStatement);
+            // close statement
+            try {
+                JDOUtils.closeResultSet(rset);
+                selectStatement.close();
+                insertStatement.close();
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 
     public void deleteRelation(final CastorConnection conn, final Identity left)
     throws PersistenceException {
-        PreparedStatement stmt = null;
+        CastorStatement stmt = conn.createStatement();
         try {
-            int count = 1;
-            stmt = conn.getConnection().prepareStatement(_deleteAll);
+            stmt.prepareStatement(_deleteAll);
             for (int i = 0; i < left.size(); i++) {
-                stmt.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
-                count++;
+                Object value = idToSQL(i, left.get(i));
+                
+                stmt.bindParameter(_left[i].getName(), value, _left[i].getSqlType());
             }
+            
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.removing", stmt.toString()));
+            }
+            
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenceException(e.toString());
+        } catch (SQLException ex) {
+            LOG.fatal(stmt.toString(), ex);
+            throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
-            JDOUtils.closeStatement(stmt);
+            // close statement
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 
     public void deleteRelation(final CastorConnection conn, final Identity left, final Identity right)
     throws PersistenceException {
-        PreparedStatement stmt = null;
+        CastorStatement stmt = conn.createStatement();
         try {
-            int count = 1;
-            stmt = conn.getConnection().prepareStatement(_delete);
+            stmt.prepareStatement(_delete);
             for (int i = 0; i < left.size(); i++) {
-                stmt.setObject(count, idToSQL(i, left.get(i)), _leftType[i]);
-                count++;
+                Object value = idToSQL(i, left.get(i));
+                
+                stmt.bindParameter(_left[i].getName(), value, _left[i].getSqlType());
             }
             for (int i = 0; i < right.size(); i++) {
-                stmt.setObject(count, ridToSQL(i, right.get(i)), _rightType[i]);
-                count++;
+                Object value = ridToSQL(i, right.get(i));
+                
+                stmt.bindParameter(_right[i].getName(), value, _right[i].getSqlType());
             }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(Messages.format("jdo.removing", stmt.toString()));
+            }
+            
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new PersistenceException(e.toString());
+        } catch (SQLException ex) {
+            LOG.fatal(stmt.toString(), ex);
+            throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
-            JDOUtils.closeStatement(stmt);
+            // close statement
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                LOG.warn("Problem closing JDBC statement", e);
+            }
         }
     }
 }

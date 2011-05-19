@@ -37,7 +37,7 @@ public final class Assignment implements QueryObject {
     //-----------------------------------------------------------------------------------
     
     /**
-     * Constructor that assigns the given rigth hand operand cto the left hand one. 
+     * Constructor that assigns the given right hand operand to the left hand one. 
      * 
      * @param left Left operand of the assignment.
      * @param right Right operand of the assignment. 
