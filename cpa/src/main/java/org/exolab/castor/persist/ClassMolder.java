@@ -433,7 +433,7 @@ public class ClassMolder {
         if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
             proposedObject.initializeFields(_fhs.length);
 
-            CastorConnection conn = tx.getCastorConnection(oid.getMolder().getLockEngine());
+            CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
             _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
 
             oid.setDbLock(accessMode == AccessMode.DbLocked);
@@ -469,7 +469,7 @@ public class ClassMolder {
         if (results != null) {
             results.getQuery().fetch(proposedObject);
         } else {
-            CastorConnection conn = tx.getCastorConnection(oid.getMolder().getLockEngine());
+            CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
             _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
         }
 
@@ -615,7 +615,7 @@ public class ClassMolder {
         
         // ask Persistent to create the object into the persistence storage
         Identity createdId = _persistence.create(tx.getDatabase(),
-                tx.getCastorConnection(oid.getMolder().getLockEngine()), entity, ids);
+                tx.getConnection(oid.getMolder().getLockEngine()), entity, ids);
 
         if (createdId == null) {
             throw new PersistenceException("Identity can't be created!");
@@ -795,7 +795,7 @@ public class ClassMolder {
         }
         
         // Gets connection reference
-        CastorConnection conn = tx.getCastorConnection(oid.getMolder().getLockEngine());
+        CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
 
         _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
     }
@@ -867,7 +867,7 @@ public class ClassMolder {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
                 CastorConnection conn =
-                        tx.getCastorConnection(oid.getMolder().getLockEngine());
+                        tx.getConnection(oid.getMolder().getLockEngine());
 
                 ProposedEntity proposedObject = new ProposedEntity(this);
                 proposedObject.setProposedEntityClass(object.getClass());
@@ -1009,7 +1009,7 @@ public class ClassMolder {
      * @param oid - the object identity of the target object
      */
     public void delete(final TransactionContext tx, final OID oid) throws PersistenceException {
-        CastorConnection conn = tx.getCastorConnection(oid.getMolder().getLockEngine());
+        CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
         Identity ids = oid.getIdentity();
 
         for (int i = 0; i < _fhs.length; i++) {

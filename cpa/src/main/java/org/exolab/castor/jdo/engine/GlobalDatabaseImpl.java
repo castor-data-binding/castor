@@ -237,7 +237,7 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
      * @inheritDoc
      */
     public Connection getJdbcConnection() throws PersistenceException {
-        return _ctx.getConnection(_scope.getLockEngine());
+        return _ctx.getConnection(_scope.getLockEngine()).getConnection();
     }
 }  
                                 
