@@ -45,6 +45,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="3088" tool="jira">
+                    <description>
+                        Cleanup connection handling in TransactionContext.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon.eu</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20110520</date>
+                </bug>
                 <bug id="3087" tool="jira">
                     <description>
                         Move creation of SQLRelationLoader instances from ClassMolder to SQLEngine

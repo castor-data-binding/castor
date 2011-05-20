@@ -183,7 +183,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                         tx.writeLock(removedEntity, 0);
 
                         _fieldMolder.getRelationLoader().deleteRelation(
-                                tx.getCastorConnection(oid.getMolder().getLockEngine()),
+                                tx.getConnection(oid.getMolder().getLockEngine()),
                                 oid.getIdentity(), removedId);
 
                         fieldClassMolder.removeRelation(tx, removedEntity, _classMolder, object);
@@ -204,7 +204,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
 
                 if (tx.isPersistent(addedEntity)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getCastorConnection(oid.getMolder().getLockEngine()),
+                            tx.getConnection(oid.getMolder().getLockEngine()),
                             oid.getIdentity(),
                             fieldClassMolder.getIdentity(tx, addedEntity));
                 } else {
@@ -286,7 +286,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 //	   created due to another relation they occur in!
                 if (tx.isPersistent(oo)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getCastorConnection(oid.getMolder().getLockEngine()), createdId,
+                            tx.getConnection(oid.getMolder().getLockEngine()), createdId,
                             fieldClassMolder.getIdentity(tx, oo));
                 }
             }

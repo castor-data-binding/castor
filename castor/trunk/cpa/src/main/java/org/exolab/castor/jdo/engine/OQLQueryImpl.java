@@ -518,7 +518,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 case ParseTreeWalker.FUNCTION:
                     try {
                         TransactionContext tx = ((AbstractDatabaseImpl) _database).getTransaction();
-                        CastorConnection conn = tx.getCastorConnection(_dbEngine);
+                        CastorConnection conn = tx.getConnection(_dbEngine);
                         SimpleQueryExecutor sqe = new SimpleQueryExecutor(_database);
                         _results =  sqe.execute(conn, _expr, _bindValues);
                     } catch (QueryException except) {

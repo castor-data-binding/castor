@@ -15,7 +15,6 @@
  */
 package org.castor.persist;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
 
@@ -56,27 +55,9 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.persist.AbstractTransactionContext
-     *      #createConnection(org.exolab.castor.persist.LockEngine)
-     */
-    protected Connection createConnection(final LockEngine engine)
-    throws ConnectionFailedException {
-        // Get a new connection from the engine. Since the engine has no
-        // transaction association, we must do this sort of round trip. An attempt
-        // to have the transaction association in the engine inflates the code size
-        // in other places.
-        try {
-            return engine.getDatabaseContext().getConnectionFactory().createConnection();
-        } catch (SQLException ex) {
-            throw new ConnectionFailedException(Messages.format("persist.nested", ex), ex);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
      */
     @Override
-    protected CastorConnection createCastorConnection(final LockEngine engine)
+    protected CastorConnection createConnection(final LockEngine engine)
     throws ConnectionFailedException {
         try {
             return engine.getDatabaseContext().getConnectionFactory().createCastorConnection();
@@ -87,11 +68,9 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.persist.AbstractTransactionContext#commitConnections()
      */
     protected void commitConnections() throws TransactionAbortedException {
-        Iterator<Connection> iter = connectionsIterator();
-        while (iter.hasNext()) {
+        for (Iterator<CastorConnection> iter = connectionsIterator(); iter.hasNext(); ) {
             try {
                 iter.next().close();
             }  catch (SQLException ex) { 
@@ -103,13 +82,11 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.persist.AbstractTransactionContext#rollbackConnections()
      */
     protected void rollbackConnections() {
         // Go through all the connections opened in this transaction, rollback and
         // close them one by one. Ignore errors.
-        Iterator<Connection> iter = connectionsIterator();
-        while (iter.hasNext()) {
+        for (Iterator<CastorConnection> iter = connectionsIterator(); iter.hasNext(); ) {
             try {
                 iter.next().close();
                 LOG.debug("Connection closed");
@@ -122,15 +99,13 @@ public final class GlobalTransactionContext extends AbstractTransactionContext {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.persist.AbstractTransactionContext#closeConnections()
      */
     protected void closeConnections() throws TransactionAbortedException {
         // Go through all the connections opened in this transaction and close them
         // one by one. Close all that can be closed, after that report error if any.
         Exception error = null;
 
-        Iterator<Connection> iter = connectionsIterator();
-        while (iter.hasNext()) {
+        for (Iterator<CastorConnection> iter = connectionsIterator(); iter.hasNext(); ) {
             try {
                 iter.next().close();
             } catch (SQLException ex) {

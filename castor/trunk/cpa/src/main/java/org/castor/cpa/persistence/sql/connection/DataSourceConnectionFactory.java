@@ -236,7 +236,7 @@ public final class DataSourceConnectionFactory implements ConnectionFactory {
      * {@inheritDoc}
      */
     public CastorConnection createCastorConnection() throws SQLException {
-        return new CastorConnection(_factory, _sqlDataSource.getConnection());
+        return new CastorConnection(_factory, createConnection());
     }
 
     //--------------------------------------------------------------------------

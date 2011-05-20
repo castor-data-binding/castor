@@ -134,7 +134,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /** Lists all the connections opened for particular database engines
      *  used in the lifetime of this transaction. The database engine
      *  is used as the key to an open/transactional connection. */
-    private Hashtable<LockEngine, Connection> _conns = new Hashtable<LockEngine, Connection>();
+    private Hashtable<LockEngine, CastorConnection> _conns =
+        new Hashtable<LockEngine, CastorConnection>();
 
     /** Meta-data related to the RDBMS used. */
     private DbMetaInfo _dbInfo;
@@ -277,38 +278,17 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
     /**
      * {@inheritDoc}
-     * @see org.castor.persist.TransactionContext#getConnection(
-     *      org.exolab.castor.persist.LockEngine)
      */
-    public final Connection getConnection(final LockEngine engine)
-    throws ConnectionFailedException {
-        Connection conn = _conns.get(engine);
+    public final CastorConnection getConnection(final LockEngine engine)
+        throws ConnectionFailedException {
+        CastorConnection conn = _conns.get(engine);
         if (conn == null) {
             conn = createConnection(engine);
             _conns.put(engine, conn);
         }
         return conn;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final CastorConnection getCastorConnection(final LockEngine engine)
-        throws ConnectionFailedException {
-        Connection conn = _conns.get(engine);
-        if (conn == null) {
-            conn = createConnection(engine);
-            _conns.put(engine, conn);
-        }
-        return new CastorConnection(engine.getPersistenceFactory(), conn);
-    }
     
-    /**
-     * @deprecated since 2011
-     */
-    protected abstract Connection createConnection(final LockEngine engine)
-    throws ConnectionFailedException;
-
     /**
      * Method creating a new CastorConnection and returning it.
      * 
@@ -316,10 +296,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      * @return New CastorConnection.
      * @throws ConnectionFailedException If creation of connection failed.
      */
-    protected abstract CastorConnection createCastorConnection(final LockEngine engine)
+    protected abstract CastorConnection createConnection(final LockEngine engine)
     throws ConnectionFailedException;
         
-    protected final Iterator<Connection> connectionsIterator() {
+    protected final Iterator<CastorConnection> connectionsIterator() {
         return _conns.values().iterator();
     }
     
@@ -362,9 +342,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final DbMetaInfo getConnectionInfo(final LockEngine engine)
     throws PersistenceException {
-        Connection conn = getConnection(engine);
         if (_dbInfo == null) {
-            _dbInfo = new DbMetaInfo(conn);
+            _dbInfo = new DbMetaInfo(getConnection(engine).getConnection());
         }
         return _dbInfo;
     }
@@ -657,7 +636,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     throws PersistenceException {
         // Need to execute query at this point. This will result in a
         // new result set from the query, or an exception.
-        query.execute(getCastorConnection(engine), accessMode, scrollable);
+        query.execute(getConnection(engine), accessMode, scrollable);
         return new QueryResults(this, engine, query, accessMode, _db);
     }
 
