@@ -7,17 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.TableGenerator;
 
 @Entity
-public final class TableGeneratedValueTestClass {
-    private Long _id;
-    
-    public void setId(final Long id) {
-        _id = id;
-    }
-    
-    @Id
-    @TableGenerator(name = "tableGenerator", table = "generatorTable")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "tableGenerator")
-    public Long getId() {
-        return _id;
-    }
+public class TableGeneratedValueTestClass {
+
+	private Long id;
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	@Id
+	@TableGenerator(name="tableGenerator", table="generatorTable")
+	@GeneratedValue(strategy=GenerationType.TABLE, generator="tableGenerator")
+	public Long getId() {
+		return id;
+	}
 }

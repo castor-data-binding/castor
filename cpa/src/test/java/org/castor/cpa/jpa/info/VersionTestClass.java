@@ -5,34 +5,34 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 
 @Entity
-public final class VersionTestClass {
-    private long _id;
-    private String _name;
-    private long _version;
+public class VersionTestClass {
+
+    private long id;
+    private String name;
+    private long version;
     
     @Id
     public long getId() {
-        return _id;
+        return id;
     }
-    
-    public void setId(final long id) {
-        _id = id;
+    public void setId(long id) {
+        this.id = id;
     }
     
     public String getName() {
-        return _name;
+        return name;
     }
-    
-    public void setName(final String name) {
-        _name = name;
+    public void setName(String name) {
+        this.name = name;
     }
     
     @Version
     public long getVersion() {
-        return _version;
+        return version;
+    }
+    public void setVersion(long version) {
+        this.version = version;
     }
     
-    public void setVersion(final long version) {
-        _version = version;
-    }
+    
 }

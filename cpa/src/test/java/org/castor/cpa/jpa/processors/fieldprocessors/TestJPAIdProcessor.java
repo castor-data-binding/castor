@@ -34,7 +34,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class TestJPAIdProcessor {
+public class TestJPAIdProcessor {
+
     @Before
     public void setUp() {
     }
@@ -109,11 +110,11 @@ public final class TestJPAIdProcessor {
     @Entity
     @Ignore
     private class JPADouble {
-        private String _primaryKey;
+        public String _primaryKey;
 
-        private String _primaryKey2;
+        public String _primaryKey2;
 
-        private String _blob;
+        public String _blob;
 
         @Id
         public String getPrimaryKey() {
@@ -146,9 +147,10 @@ public final class TestJPAIdProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        private String _primaryKey;
+        public String _primaryKey;
 
-        private String _blob;
+
+        public String _blob;
 
         @Id
         public String getPrimaryKey() {
@@ -172,7 +174,7 @@ public final class TestJPAIdProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        private String _name;
+        public String _name;
 
         public String getName() {
             return _name;

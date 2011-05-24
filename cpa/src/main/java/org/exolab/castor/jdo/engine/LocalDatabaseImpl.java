@@ -200,7 +200,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
             String message = Messages.message("jdo.dbTxNotInProgress.jdbc");
             throw new PersistenceException (message);
         }
-        return _ctx.getConnection(_scope.getLockEngine()).getConnection();
+        return _ctx.getConnection(_scope.getLockEngine());
     }
 }  
                                 

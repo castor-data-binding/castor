@@ -1,45 +1,43 @@
 package org.castor.cpa.jpa.processors.classprocessors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
-
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.natures.JPAClassNature;
+import org.castor.cpa.jpa.processors.classprocessors.JPAMappedSuperclassProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import javax.persistence.Entity;
 
-public final class JPAMappedSuperclassProcessorTest {
-    private JPAMappedSuperclassProcessor _processor;
-    private JPAClassNature _classNature;
+import javax.persistence.MappedSuperclass;
+import static org.junit.Assert.*;
+
+public class JPAMappedSuperclassProcessorTest {
+
+    JPAMappedSuperclassProcessor processor;
+    JPAClassNature classNature;
     @Mock
-    private MappedSuperclass _annotation;
+    MappedSuperclass annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        _processor = new JPAMappedSuperclassProcessor();
+        processor = new JPAMappedSuperclassProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        _classNature = new JPAClassNature(classInfo);
+        classNature = new JPAClassNature(classInfo);
     }
 
     @Test
     public void processorIsForMappedSuperclassAnnotation() throws Exception {
-        assertEquals(MappedSuperclass.class, _processor.forAnnotationClass());
+        assertEquals(MappedSuperclass.class, processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForMappedSuperclassAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 MappedSuperclassAnnotatedClass.class);
         assertTrue(result);
     }
@@ -58,7 +56,7 @@ public final class JPAMappedSuperclassProcessorTest {
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NonAnnotatedClass.class);
         assertFalse(result);
     }
@@ -78,7 +76,7 @@ public final class JPAMappedSuperclassProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 OtherwiseAnnotatedClass.class);
         assertFalse(result);
     }
@@ -86,20 +84,24 @@ public final class JPAMappedSuperclassProcessorTest {
      @Test
     public void processorReturnsFalseForNonAbstractSubclass()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NonAbstractSubclass.class);
         assertFalse(result);
     }
 
     //test classes
     @MappedSuperclass
-    private class MappedSuperclassAnnotatedClass { }
+    private class MappedSuperclassAnnotatedClass {
+    }
 
-    private class NonAnnotatedClass { }
+    private class NonAnnotatedClass {
+    }
 
     @Entity
-    private class OtherwiseAnnotatedClass { }
+    private class OtherwiseAnnotatedClass {
+    }
 
     @Entity
-    private class NonAbstractSubclass extends MappedSuperclassAnnotatedClass { }
+    private class NonAbstractSubclass extends MappedSuperclassAnnotatedClass{
+    }
 }

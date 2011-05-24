@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.engine.SQLStatementInsertCheck;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.expression.Column;
@@ -32,6 +31,7 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -103,7 +103,7 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public void buildStatement(final SQLEngine engine) {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
@@ -126,6 +126,8 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
                 }
             }
         }
+
+        return this;
     }
     
     /**
@@ -133,17 +135,32 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
      */
     public Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
+        SQLStatementInsertCheck lookupStatement = new SQLStatementInsertCheck(_engine, _factory);
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+        
+        if ((extended == null) && (internalIdentity == null)) {
+            throw new PersistenceException(Messages.format("persist.noIdentity", _engineType));
+        }
+
         CastorStatement stmt = conn.createStatement();
         try {
-            if (identity == null) {
-                throw new PersistenceException(Messages.format("persist.noIdentity", _engineType));
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn.getConnection(), entity,
+                            internalIdentity);
+                }
             }
-
+            
             // we only need to care on JDBC 3.0 at after INSERT.
             stmt.prepareStatement(_insert);
             
             //bind Identities
-            bindIdentity(identity, stmt);
+            bindIdentity(internalIdentity, stmt);
 
             //bind  Fields
             bindFields(entity, stmt);
@@ -154,24 +171,23 @@ public final class NoKeyGenerator extends AbstractKeyGenerator {
 
             stmt.executeUpdate();
 
-            return identity;
+            stmt.close();
+
+            return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType, stmt.toString()), except);
 
             // check for duplicate key the old fashioned way, after the INSERT
             // failed to prevent race conditions and optimize INSERT times.
-            SQLStatementInsertCheck lookupStatement =
-                new SQLStatementInsertCheck(_engine, _factory);
-            lookupStatement.insertDuplicateKeyCheck(conn, identity);
+            lookupStatement.insertDuplicateKeyCheck(conn, internalIdentity);
 
-            throw new PersistenceException(Messages.format("persist.nested", except), except);
-        } finally {
-            //close statement
             try {
-                stmt.close();
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
             }
+            
+            throw new PersistenceException(Messages.format("persist.nested", except), except);
         }
     }
     

@@ -45,8 +45,7 @@
 
     <target name="compile.ddlgen" depends="prepare.ddlgen" description="Compile DDLGen">
         <javac srcdir="${main.java}" destdir="${classes}" 
-               debug="on" encoding="ISO-8859-1" deprecation="false"
-        	   source="1.5" target="1.5">
+               debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
         	<classpath>
         		<fileset dir="${basedir}/lib"/>

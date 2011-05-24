@@ -18,10 +18,10 @@ package org.castor.cpa.persistence.sql.keygen;
 import java.sql.Connection;
 
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -88,6 +88,7 @@ public interface KeyGenerator {
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
+     * @return KeyGenerator 
      */
-    void buildStatement(final SQLEngine engine);
+    KeyGenerator buildStatement(final SQLEngine engine);
 }

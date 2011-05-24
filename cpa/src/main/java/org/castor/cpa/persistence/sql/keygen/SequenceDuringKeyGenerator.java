@@ -29,11 +29,11 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.NextVal;
@@ -123,7 +123,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public void buildStatement(final SQLEngine engine) {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
@@ -152,6 +152,8 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             _insert.addAssignment(new Column(ids[0].getName()),
                     new NextVal(getSeqName(_mapTo, ids[0].getName())));
         }
+
+        return this;
     }
 
     /**
@@ -170,9 +172,22 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
      */
     public Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
         CastorStatement stmt = conn.createStatement();
-        CallableStatement cstmt = null;
         try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn.getConnection(), entity,
+                            internalIdentity);
+                }
+            }
+            
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             stmt.prepareStatement(_insert);
             String statement = stmt.toString();
@@ -195,7 +210,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             }
 
             // generate key during INSERT.
-            cstmt = (CallableStatement) stmt.getStatement();
+            CallableStatement cstmt = (CallableStatement) stmt.getStatement();
 
             int sqlType = ids[0].getSqlType();
             cstmt.registerOutParameter(stmt.getParameterSize() + 1, sqlType);
@@ -220,22 +235,22 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             } else {
                 temp = cstmt.getObject(stmt.getParameterSize() + 1);
             }
-            return new Identity(ids[0].toJava(temp));
+            internalIdentity = new Identity(ids[0].toJava(temp));
+            
+            cstmt.close();
+            stmt.close();
+
+            return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  stmt.toString()), except);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
             throw new PersistenceException(Messages.format("persist.nested", except), except);
-        } finally {
-            //close statement
-            try {
-                if (cstmt != null) { cstmt.close(); }
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
         }
     }
     

@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class JPANamedQueriesProcessor extends BaseJPAAnnotationProcessor {
 
-    private final Log _log = LogFactory.getLog(getClass());
+    private final Log LOG = LogFactory.getLog(getClass());
 
     /**
      * {@inheritDoc}
@@ -61,16 +61,15 @@ public class JPANamedQueriesProcessor extends BaseJPAAnnotationProcessor {
                 && (annotation instanceof NamedQueries)
                 && (target instanceof Class<?>)
                 && (target.isAnnotationPresent(NamedQueries.class))) {
-            _log.debug("Processing class annotation " + annotation.toString());
+            LOG.debug("Processing class annotation " + annotation.toString());
             final JPAClassNature jpaClassNature = (JPAClassNature) info;
             final NamedQueries namedQueries = (NamedQueries) annotation;
             final Map<String, String> namedQueryMap = new HashMap<String, String>();
             NamedQuery[] namedQueriesValues = namedQueries.value();
-            if (namedQueriesValues != null && namedQueriesValues.length > 0) {
+            if (namedQueriesValues != null && namedQueriesValues.length > 0)
                 for (NamedQuery namedQuery : namedQueriesValues) {
                     namedQueryMap.put(namedQuery.name(), namedQuery.query());
                 }
-            }
             jpaClassNature.setNamedQuery(namedQueryMap);
             return true;
         }

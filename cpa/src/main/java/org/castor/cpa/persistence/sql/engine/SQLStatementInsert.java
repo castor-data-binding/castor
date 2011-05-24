@@ -21,6 +21,7 @@ import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -41,7 +42,7 @@ public class SQLStatementInsert {
     private final SQLEngine _engine;
 
     /** A particular KeyGenerator instance from the list of key generators supported. */
-    private final KeyGenerator _keyGen;
+    private KeyGenerator _keyGen;
 
     //-----------------------------------------------------------------------------------    
 
@@ -67,7 +68,7 @@ public class SQLStatementInsert {
      * Builds the SQL statement using KeyGenerators.
      */
     private void buildStatement() {
-        _keyGen.buildStatement(_engine);
+        _keyGen = _keyGen.buildStatement(_engine);
     }
 
     /**

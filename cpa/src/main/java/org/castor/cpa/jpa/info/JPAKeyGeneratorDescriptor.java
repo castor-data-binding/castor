@@ -16,31 +16,33 @@
 package org.castor.cpa.jpa.info;
 
 public abstract class JPAKeyGeneratorDescriptor {
-    private String _name;
-    private int _allocationSize;
-    private int _initialValue;
-    
-    public final String getName() {
-        return _name;
-    }
 
-    public final void setName(final String name) {
-        _name = name;
-    }
+	protected String name;
+	protected int allocationSize;
+	protected int initialValue;
+	
+	public String getName() {
+		return name;
+	}
 
-    public final int getAllocationSize() {
-        return _allocationSize;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public final void setAllocationSize(final int allocationSize) {
-        _allocationSize = allocationSize;
-    }
+	public int getAllocationSize() {
+		return allocationSize;
+	}
 
-    public final int getInitialValue() {
-        return _initialValue;
-    }
+	public void setAllocationSize(int allocationSize) {
+		this.allocationSize = allocationSize;
+	}
 
-    public final void setInitialValue(final int initialValue) {
-        _initialValue = initialValue;
-    }
+	public int getInitialValue() {
+		return initialValue;
+	}
+
+	public void setInitialValue(int initialValue) {
+		this.initialValue = initialValue;
+	}
+	
 }

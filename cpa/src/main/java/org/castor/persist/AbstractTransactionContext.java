@@ -26,7 +26,6 @@ import javax.transaction.Status;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.Database;
@@ -134,8 +133,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /** Lists all the connections opened for particular database engines
      *  used in the lifetime of this transaction. The database engine
      *  is used as the key to an open/transactional connection. */
-    private Hashtable<LockEngine, CastorConnection> _conns =
-        new Hashtable<LockEngine, CastorConnection>();
+    private Hashtable<LockEngine, Connection> _conns = new Hashtable<LockEngine, Connection>();
 
     /** Meta-data related to the RDBMS used. */
     private DbMetaInfo _dbInfo;
@@ -278,10 +276,12 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
     /**
      * {@inheritDoc}
+     * @see org.castor.persist.TransactionContext#getConnection(
+     *      org.exolab.castor.persist.LockEngine)
      */
-    public final CastorConnection getConnection(final LockEngine engine)
-        throws ConnectionFailedException {
-        CastorConnection conn = _conns.get(engine);
+    public final Connection getConnection(final LockEngine engine)
+    throws ConnectionFailedException {
+        Connection conn = _conns.get(engine);
         if (conn == null) {
             conn = createConnection(engine);
             _conns.put(engine, conn);
@@ -289,17 +289,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         return conn;
     }
     
-    /**
-     * Method creating a new CastorConnection and returning it.
-     * 
-     * @param engine Engine to get connection from.
-     * @return New CastorConnection.
-     * @throws ConnectionFailedException If creation of connection failed.
-     */
-    protected abstract CastorConnection createConnection(final LockEngine engine)
+    protected abstract Connection createConnection(final LockEngine engine)
     throws ConnectionFailedException;
         
-    protected final Iterator<CastorConnection> connectionsIterator() {
+    protected final Iterator<Connection> connectionsIterator() {
         return _conns.values().iterator();
     }
     
@@ -342,8 +335,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final DbMetaInfo getConnectionInfo(final LockEngine engine)
     throws PersistenceException {
+        Connection conn = getConnection(engine);
         if (_dbInfo == null) {
-            _dbInfo = new DbMetaInfo(getConnection(engine).getConnection());
+            _dbInfo = new DbMetaInfo(conn);
         }
         return _dbInfo;
     }

@@ -43,7 +43,7 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
-    private BigDecimal _allocationSize;
+    private BigDecimal allocationSize;
     
     /**
      * Construct an type handler for big decimal values.
@@ -53,13 +53,12 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      */
     public KeyGeneratorTypeHandlerBigDecimal(final boolean fail) {
         _fail = fail;
-        _allocationSize = ONE;
+        this.allocationSize = ONE;
     }
     
-    public KeyGeneratorTypeHandlerBigDecimal(final boolean fail, final int allocationSize) {
+    public KeyGeneratorTypeHandlerBigDecimal(final boolean fail, int allocationSize) {
         this(fail);
-        
-        _allocationSize = new BigDecimal(allocationSize);
+        this.allocationSize = new BigDecimal(allocationSize);
     }
 
     /**
@@ -89,7 +88,7 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
      * {@inheritDoc}
      */
     public BigDecimal increment(final BigDecimal value) {
-        return value.add(_allocationSize);
+        return value.add(allocationSize);
     }
 
     /**

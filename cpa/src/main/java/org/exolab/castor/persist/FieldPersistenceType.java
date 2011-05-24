@@ -34,15 +34,14 @@ public enum FieldPersistenceType {
     /**
      * Field value.
      */
-    private final int _value;
+    private final int value;
 
     /**
      * Creates an instance of this enum instance.
-     * 
      * @param value The numeric value.
      */
     private FieldPersistenceType(final int value) {
-        _value = value;
+        this.value = value;
     }
 
     /**
@@ -72,7 +71,7 @@ public enum FieldPersistenceType {
     /**
      * Method fromValue.
      * 
-     * @param value The actual value.
+     * @param The actual value.
      * @return the constant for this value.
      */
     public static FieldPersistenceType fromValue(final short value) {
@@ -85,7 +84,7 @@ public enum FieldPersistenceType {
      * @return the value of this constant.
      */
     public short value() {
-        return (short) this._value;
+        return (short) this.value;
     }
 
 }

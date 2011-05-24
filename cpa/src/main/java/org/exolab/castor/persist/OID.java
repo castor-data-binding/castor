@@ -47,7 +47,6 @@ package org.exolab.castor.persist;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.exolab.castor.persist.spi.Identity;
 
@@ -92,7 +91,7 @@ public final class OID implements Serializable {
 
     /** The full qualified names of all superclasses, used for equating OIDs
      *  based on commong parent. */
-    private List<String> _superClassNames;
+    private String[] _superClassNames;
 
     /**
      * Private default constructor invoced through reflection for testing only.
@@ -117,6 +116,7 @@ public final class OID implements Serializable {
      */
     public OID(final ClassMolder molder, final OID depends, final Identity identity) {
         ClassMolder internalMolder = molder;
+        ArrayList<String> superClassNames = null;
 
         if (internalMolder == null) {
             throw new IllegalArgumentException("molder can't be null");
@@ -128,13 +128,17 @@ public final class OID implements Serializable {
         // OID must be unique across the engine: always use the parent
         // most class of an object, getting it from the descriptor
         while (internalMolder.getExtends() != null) {
-            if (_superClassNames == null) {
-                _superClassNames = new ArrayList<String>();
+            if (superClassNames == null) {
+                superClassNames = new ArrayList<String>();
             }
             internalMolder = internalMolder.getExtends();
-            _superClassNames.add(internalMolder.getName());
+            superClassNames.add(internalMolder.getName());
         }
         _topClassName = internalMolder.getName();
+        if (superClassNames != null) {
+            _superClassNames = new String[superClassNames.size()];
+            superClassNames.toArray(_superClassNames);
+        }
 
         // calculate hashCode
         _hashCode = _topClassName.hashCode()
@@ -220,7 +224,7 @@ public final class OID implements Serializable {
      * 
      * @return The object's type's superclasses full name
      */
-    List<String> getSuperClassNames() {
+    String[] getSuperClassNames() {
         return _superClassNames;
     }
 

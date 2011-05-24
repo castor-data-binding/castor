@@ -17,10 +17,9 @@ package org.castor.cpa.query.object.condition;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.QueryObject;
+import junit.framework.TestCase;
 
 /**
  * Junit Test for testing abstract condition class.

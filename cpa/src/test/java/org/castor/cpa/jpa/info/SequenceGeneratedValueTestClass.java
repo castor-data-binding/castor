@@ -7,17 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public final class SequenceGeneratedValueTestClass {
-    private Long _id;
-    
-    public void setId(final Long id) {
-        _id = id;
-    }
-    
-    @Id
-    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "test_sequence")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    public Long getId() {
-        return _id;
-    }
+public class SequenceGeneratedValueTestClass {
+
+	private Long id;
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	@Id
+	@SequenceGenerator(name="sequenceGenerator", sequenceName="test_sequence")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sequenceGenerator")
+	public Long getId() {
+		return id;
+	}
 }

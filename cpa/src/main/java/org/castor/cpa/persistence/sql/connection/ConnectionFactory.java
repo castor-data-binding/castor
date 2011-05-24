@@ -18,9 +18,7 @@ package org.castor.cpa.persistence.sql.connection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * Interface for creation of new JDBC Connection instances.
@@ -36,11 +34,10 @@ public interface ConnectionFactory {
     /**
      * Initialize the concrete factory.
      * 
-     * @param factory PersistenceFactory needed to construct CastorConnection.
      * @throws MappingException If concrete factory could not be initialized.
      */
-    void initializeFactory(final PersistenceFactory factory) throws MappingException;
-
+    void initializeFactory() throws MappingException;
+    
     /**
      * Creates a new JDBC Connection instance.
      * 
@@ -48,14 +45,6 @@ public interface ConnectionFactory {
      * @throws SQLException If the JDBC connection cannot be created.
      */
     Connection createConnection () throws SQLException;
-
-    /**
-     * Creates a new CastorConnection instance.
-     * 
-     * @return A CastorConnection instance.
-     * @throws SQLException If the CastorConnection cannot be created.
-     */
-    CastorConnection createCastorConnection() throws SQLException;
 
     //--------------------------------------------------------------------------
 }

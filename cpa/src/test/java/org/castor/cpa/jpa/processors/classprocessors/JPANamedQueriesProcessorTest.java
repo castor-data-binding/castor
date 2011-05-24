@@ -1,54 +1,50 @@
 package org.castor.cpa.jpa.processors.classprocessors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Map;
-
-import javax.persistence.Entity;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.natures.JPAClassNature;
+import org.castor.cpa.jpa.processors.classprocessors.JPANamedQueriesProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.Entity;
 
-public final class JPANamedQueriesProcessorTest {
-    static final String NAME = "name";
-    static final String QUERY = "query";
-    static final String NAME2 = "name2";
-    static final String QUERY2 = "query2";
-    
-    private JPANamedQueriesProcessor _processor;
-    private JPAClassNature _classNature;
+import javax.persistence.NamedNativeQuery;
+import static org.junit.Assert.*;
+
+public class JPANamedQueriesProcessorTest {
+
+    final static String NAME = "name";
+    final static String QUERY = "query";
+    final static String NAME2 = "name2";
+    final static String QUERY2 = "query2";
+    JPANamedQueriesProcessor processor;
+    JPAClassNature classNature;
     @Mock
-    private NamedQueries _annotation;
+    NamedQueries annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        _processor = new JPANamedQueriesProcessor();
+        processor = new JPANamedQueriesProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        _classNature = new JPAClassNature(classInfo);
+        classNature = new JPAClassNature(classInfo);
     }
 
     @Test
     public void processorIsForNamedQueriesAnnotation() throws Exception {
-        assertEquals(NamedQueries.class, _processor.forAnnotationClass());
+        assertEquals(NamedQueries.class, processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForNamedQueriesAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NamedQueriesAnnotatedClass.class);
         assertTrue(result);
     }
@@ -62,7 +58,7 @@ public final class JPANamedQueriesProcessorTest {
         assertTrue(classInfo.hasNature(JPAClassNature.class.getName()));
         JPAClassNature jpaClassNature = new JPAClassNature(classInfo);
 
-        final Map<String, String> namedQueryMap = jpaClassNature.getNamedQuery();
+        final Map namedQueryMap = jpaClassNature.getNamedQuery();
         assertNotNull(namedQueryMap);
         assertTrue(namedQueryMap.keySet().contains(NAME));
         assertTrue(namedQueryMap.keySet().contains(NAME2));
@@ -72,7 +68,7 @@ public final class JPANamedQueriesProcessorTest {
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NonAnnotatedClass.class);
         assertFalse(result);
     }
@@ -80,7 +76,7 @@ public final class JPANamedQueriesProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 OtherwiseAnnotatedClass.class);
         assertFalse(result);
     }

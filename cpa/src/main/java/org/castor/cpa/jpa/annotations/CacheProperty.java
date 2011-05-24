@@ -33,10 +33,10 @@ public @interface CacheProperty {
     /**
      * The key of the cache engine property.
      */
-    String key();
+	public String key();
 
-    /**
-     * The value of the key of the cache engine property.
-     */
-    String value();
+	/**
+	 * The value of the key of the cache engine property.
+	 */
+    public String value();
 }

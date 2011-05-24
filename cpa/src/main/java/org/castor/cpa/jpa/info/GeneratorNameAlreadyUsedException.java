@@ -23,22 +23,21 @@ package org.castor.cpa.jpa.info;
  */
 public class GeneratorNameAlreadyUsedException extends Exception {
 
-    /** Serial version UID. */
-    private static final long serialVersionUID = 1721448018301715685L;
+	private static final long serialVersionUID = 1721448018301715685L;
 
-    /**
-     * Creates an instance of this exception.
-     */
-    public GeneratorNameAlreadyUsedException() {
-        super();
-    }
-    
-    /**
-     * Creates an instance of this exception.
-     * 
-     * @param message The actual error message.
-     */
-    public GeneratorNameAlreadyUsedException(final String message) {
-        super(message);
-    }
+	/**
+	 * Creates an instance of this exception.
+	 */
+	public GeneratorNameAlreadyUsedException() {
+		super();
+	}
+	
+	/**
+	 * Creates an instance of this exception.
+	 * 
+	 * @param message The actual error message.
+	 */
+	public GeneratorNameAlreadyUsedException(String message) {
+		super(message);
+	}
 }

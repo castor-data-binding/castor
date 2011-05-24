@@ -79,9 +79,6 @@ public final class DatabaseContext {
     /** The LockEngine only available after initialization. */
     private LockEngine          _engine = null;
 
-    /** PersistenceFactory needed to initialize ConnectionFactory. */
-    private PersistenceFactory _persistenceFactory = null;
-
     /**
      * A {@link ClassDescriptorResolver} instance to be used for class to 
      * class descriptor resolution.
@@ -231,13 +228,14 @@ public final class DatabaseContext {
     private void initializeEngine(final String engine) throws MappingException {
         // Complain if no database engine was specified, otherwise get
         // a persistence factory for that database engine.
+        PersistenceFactory factory;
         if (engine == null) {
-            _persistenceFactory = PersistenceFactoryRegistry.getPersistenceFactory(GENERIC_ENGINE);
+            factory = PersistenceFactoryRegistry.getPersistenceFactory(GENERIC_ENGINE);
         } else {
-            _persistenceFactory = PersistenceFactoryRegistry.getPersistenceFactory(engine);
+            factory = PersistenceFactoryRegistry.getPersistenceFactory(engine);
         }
         
-        if (_persistenceFactory == null) {
+        if (factory == null) {
             String msg = Messages.format("jdo.noSuchEngine", engine);
             LOG.error(msg);
             throw new MappingException(msg);
@@ -245,21 +243,16 @@ public final class DatabaseContext {
         
         MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
         MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(
-                _mapping, BindingType.JDO, _persistenceFactory);
+                _mapping, BindingType.JDO, factory);
         
         _classDescriptorResolver.setMappingLoader(mappingLoader);
         
         _engine = new PersistenceEngineFactory().createEngine(
-                this, _classDescriptorResolver, _persistenceFactory);
+                this, _classDescriptorResolver, factory);
     }
-
-    /**
-     * Method initializing ConnectionFactory.
-     * 
-     * @throws MappingException If concrete factory could not be initialized.
-     */
+    
     public void initializeFactory() throws MappingException {
-        _factory.initializeFactory(_persistenceFactory);
+        _factory.initializeFactory();
     }
 
     public ConnectionFactory getConnectionFactory() {

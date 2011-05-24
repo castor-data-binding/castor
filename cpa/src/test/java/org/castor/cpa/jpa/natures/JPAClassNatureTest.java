@@ -1,25 +1,27 @@
 package org.castor.cpa.jpa.natures;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
+import static org.junit.Assert.*;
+
 import java.util.Properties;
 
 import javax.persistence.InheritanceType;
-
 import org.castor.core.nature.PropertyHolder;
+import org.castor.cpa.jpa.natures.JPAClassNature;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
 
-public final class JPAClassNatureTest {
-    private JPAClassNature _nature;
+public class JPAClassNatureTest {
+
+    JPAClassNature nature;
     @Mock
-    private PropertyHolder _holder;
-    private static final String CANONICAL_NAME = JPAClassNature.class.getCanonicalName();
+    PropertyHolder holder;
+    private static final String canonicalName = JPAClassNature.class
+            .getCanonicalName();
 
     @Before
     public void setUp() throws Exception {
@@ -30,26 +32,26 @@ public final class JPAClassNatureTest {
     public void setCachePropertiesSetsRelatedProperty() throws Exception {
         Properties cacheProperties = new Properties();
         cacheProperties.setProperty("type", "none");
-        when(_holder.hasNature(CANONICAL_NAME)).thenReturn(true);
+        when(holder.hasNature(canonicalName)).thenReturn(true);
         when(
-                _holder.getProperty(CANONICAL_NAME
+                holder.getProperty(canonicalName
                         + JPAClassNature.CACHE_PROPERTIES)).thenReturn(
                 cacheProperties);
-        _nature = new JPAClassNature(_holder);
-        _nature.setCacheProperties(cacheProperties);
-        assertEquals(cacheProperties, _nature.getCacheProperties());
+        nature = new JPAClassNature(holder);
+        nature.setCacheProperties(cacheProperties);
+        assertEquals(cacheProperties, nature.getCacheProperties());
     }
 
     @Test
     public void setInheritanceRelatedProperty() throws Exception {
         InheritanceType strategy = InheritanceType.JOINED;
 
-        when(_holder.hasNature(CANONICAL_NAME)).thenReturn(true);
-        when(_holder.getProperty(CANONICAL_NAME
+        when(holder.hasNature(canonicalName)).thenReturn(true);
+        when(holder.getProperty(canonicalName
                 + JPAClassNature.INHERITANCE_STRATEGY)).thenReturn(strategy);
-        _nature = new JPAClassNature(_holder);
-        _nature.setInheritanceStrategy(strategy);
-        assertEquals(strategy, _nature.getInheritanceStrategy());
+        nature = new JPAClassNature(holder);
+        nature.setInheritanceStrategy(strategy);
+        assertEquals(strategy, nature.getInheritanceStrategy());
     }
 
     @Test
@@ -63,25 +65,25 @@ public final class JPAClassNatureTest {
         namedQueryMap.put(name, query);
         namedQueryMap.put(name2, query2);
 
-        when(_holder.hasNature(CANONICAL_NAME)).thenReturn(true);
-        when(_holder.getProperty(CANONICAL_NAME + JPAClassNature.NAMED_QUERY))
+        when(holder.hasNature(canonicalName)).thenReturn(true);
+        when(holder.getProperty(canonicalName + JPAClassNature.NAMED_QUERY))
                 .thenReturn(namedQueryMap);
-        _nature = new JPAClassNature(_holder);
-        _nature.setNamedQuery(namedQueryMap);
-        assertEquals(namedQueryMap, _nature.getNamedQuery());
+        nature = new JPAClassNature(holder);
+        nature.setNamedQuery(namedQueryMap);
+        assertEquals(namedQueryMap, nature.getNamedQuery());
     }
 
     @Test
     public void setAbstractSetsRelatedProperty() throws Exception {
         final boolean hasMappedSuperclass = Boolean.TRUE;
-        when(_holder.hasNature(CANONICAL_NAME)).thenReturn(true);
+        when(holder.hasNature(canonicalName)).thenReturn(true);
         when(
-                _holder.getProperty(CANONICAL_NAME
+                holder.getProperty(canonicalName
                         + JPAClassNature.MAPPED_SUPERCLASS)).thenReturn(
                 hasMappedSuperclass);
-        _nature = new JPAClassNature(_holder);
-        _nature.setMappedSuperclass(hasMappedSuperclass);
-        assertEquals(hasMappedSuperclass, _nature.hasMappedSuperclass());
+        nature = new JPAClassNature(holder);
+        nature.setMappedSuperclass(hasMappedSuperclass);
+        assertEquals(hasMappedSuperclass, nature.hasMappedSuperclass());
     }
 
     @Test
@@ -92,13 +94,13 @@ public final class JPAClassNatureTest {
         Map<String, String> namedNativeQueryMap = new HashMap<String, String>();
         namedNativeQueryMap.put(name, query);
 
-        when(_holder.hasNature(CANONICAL_NAME)).thenReturn(true);
+        when(holder.hasNature(canonicalName)).thenReturn(true);
         when(
-                _holder.getProperty(CANONICAL_NAME
+                holder.getProperty(canonicalName
                         + JPAClassNature.NAMED_NATIVE_QUERY)).thenReturn(
                 namedNativeQueryMap);
-        _nature = new JPAClassNature(_holder);
-        _nature.setNamedNativeQuery(namedNativeQueryMap);
-        assertEquals(namedNativeQueryMap, _nature.getNamedNativeQuery());
+        nature = new JPAClassNature(holder);
+        nature.setNamedNativeQuery(namedNativeQueryMap);
+        assertEquals(namedNativeQueryMap, nature.getNamedNativeQuery());
     }
 }

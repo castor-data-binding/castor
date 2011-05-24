@@ -18,6 +18,10 @@ package org.castor.cpa.jpa.info;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.castor.cpa.jpa.info.ClassInfo;
+import org.castor.cpa.jpa.info.ClassInfoBuilder;
+import org.castor.cpa.jpa.info.InfoToDescriptorConverter;
 import org.castor.cpa.jpa.info.entity.TestI2DCJPAExtendsTest;
 import org.castor.cpa.jpa.info.entity.TestI2DCJPATest;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -25,7 +29,6 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

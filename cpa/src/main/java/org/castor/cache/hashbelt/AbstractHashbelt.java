@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +33,8 @@ import org.castor.cache.hashbelt.container.Container;
 import org.castor.cache.hashbelt.container.MapContainer;
 import org.castor.cache.hashbelt.reaper.AbstractReaper;
 import org.castor.cache.hashbelt.reaper.NullReaper;
+import org.castor.core.util.concurrent.ReadWriteLock;
+import org.castor.core.util.concurrent.WriterPreferenceReadWriteLock;
 
 /**
  * An abstract, core implementation of the hashbelt functionality; individual
@@ -156,7 +157,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     //--------------------------------------------------------------------------
     
     /** ReadWriteLock to synchronize access to cache. */
-    private final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();
+    private final ReadWriteLock _lock = new WriterPreferenceReadWriteLock();
     
     /** The internal array of containers building the cache. */
     private Container[] _cache = new Container[0];
@@ -350,9 +351,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     public final int size() {
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
             int size = _cacheSize;
-            _lock.readLock().unlock();
+            _lock.readLock().release();
             return size;
         } catch (InterruptedException ex) {
             return 0;
@@ -373,7 +374,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         boolean found = false;
         
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
         } catch (InterruptedException ex) {
             return false;
         }
@@ -385,7 +386,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.readLock().unlock();
+            _lock.readLock().release();
         }
         
         return found;
@@ -400,7 +401,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         boolean found = false;
 
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
         } catch (InterruptedException ex) {
             return false;
         }
@@ -412,7 +413,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.readLock().unlock();
+            _lock.readLock().release();
         }
         return found;
     }
@@ -422,7 +423,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     public final void clear() {
         try {
-            _lock.writeLock().lockInterruptibly();
+            _lock.writeLock().acquire();
         } catch (InterruptedException ex) {
             return;
         }
@@ -433,7 +434,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.writeLock().unlock();
+            _lock.writeLock().release();
         }
     }
 
@@ -447,7 +448,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         Set<Object> set = new HashSet<Object>(size());
         
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
         } catch (InterruptedException ex) {
             return set;
         }
@@ -459,7 +460,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.readLock().unlock();
+            _lock.readLock().release();
         }
         
         return set;
@@ -472,7 +473,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         Collection<Object> col = new ArrayList<Object>(size());
         
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
         } catch (InterruptedException ex) {
             return col;
         }
@@ -484,7 +485,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.readLock().unlock();
+            _lock.readLock().release();
         }
 
         return col;
@@ -497,7 +498,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         Map<Object, Object> map = new Hashtable<Object, Object>(size());
         
         try {
-            _lock.readLock().lockInterruptibly();
+            _lock.readLock().acquire();
         } catch (InterruptedException ex) {
             return map.entrySet();
         }
@@ -509,7 +510,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         } catch (RuntimeException ex) {
             throw ex;
         } finally {
-            _lock.readLock().unlock();
+            _lock.readLock().release();
         }
         
         return map.entrySet();
@@ -523,7 +524,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * 
      * @return ReadWriteLock to synchronize access to cache.
      */
-    protected final ReentrantReadWriteLock lock() { return _lock; }
+    protected final ReadWriteLock lock() { return _lock; }
     
     /**
      * Get object currently associated with given key from cache. Take care to acquire a
@@ -701,7 +702,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
          */
         public void run() {
             try {
-                _owner._lock.writeLock().lockInterruptibly();
+                _owner._lock.writeLock().acquire();
                 
                 _owner.timeoutCacheContainers();
                 _owner.addCacheContainer();
@@ -713,7 +714,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
                 LOG.error("Caught exception during expiration: " + _owner.getName(), t);
                 if (t instanceof VirtualMachineError) { throw (VirtualMachineError) t; }
             } finally {
-                _owner._lock.writeLock().unlock();
+                _owner._lock.writeLock().release();
             }
         }
     }
@@ -739,7 +740,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
          */
         public void run() {
             try {
-                _owner._lock.readLock().lockInterruptibly();
+                _owner._lock.readLock().acquire();
                 
                 LOG.info("Cache '" + _owner.getName() + "' "
                        + "currently holds " + _owner._containerCount + " containers "
@@ -751,7 +752,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
                 LOG.error("Caught exception during monitoring: " + _owner.getName(), t);
                 if (t instanceof VirtualMachineError) { throw (VirtualMachineError) t; }
             } finally {
-                _owner._lock.readLock().unlock();
+                _owner._lock.readLock().release();
             }
         }
     }

@@ -39,7 +39,7 @@ implements KeyGeneratorTypeHandler <Long> {
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
-    private Long _allocationSize;
+    private Long allocationSize;
     
     /**
      * Construct an type handler for long values.
@@ -49,12 +49,12 @@ implements KeyGeneratorTypeHandler <Long> {
      */
     public KeyGeneratorTypeHandlerLong(final boolean fail) {
         _fail = fail;
-        _allocationSize = 1L;
+        this.allocationSize = 1l;
     }
 
-    public KeyGeneratorTypeHandlerLong(final boolean fail, final int allocationSize) {
+    public KeyGeneratorTypeHandlerLong(final boolean fail, int allocationSize) {
         this(fail);
-        _allocationSize = new Long(allocationSize);
+        this.allocationSize = new Long(allocationSize);
     }
     
     /**
@@ -82,7 +82,7 @@ implements KeyGeneratorTypeHandler <Long> {
      * {@inheritDoc}
      */
     public Long increment(final Long value) {
-        return new Long(value.longValue() + _allocationSize);
+        return new Long(value.longValue() + allocationSize);
     }
 
     /**

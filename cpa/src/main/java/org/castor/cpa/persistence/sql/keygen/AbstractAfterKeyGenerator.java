@@ -26,6 +26,7 @@ import org.castor.persist.ProposedEntity;
 import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.persist.spi.Identity;
 
 import java.sql.PreparedStatement;
@@ -43,7 +44,6 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.CastorStatement;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.NextVal;
@@ -111,7 +111,7 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public final void buildStatement(final SQLEngine engine) {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
@@ -138,17 +138,31 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
         if (_seqName != null && !_triggerPresent) {
             _insert.addAssignment(new Column(ids[0].getName()), new NextVal(_seqName));
         }
+
+        return this;
     }
     
     /**
      * {@inheritDoc}
      */
-    public final Object executeStatement(final Database database, final CastorConnection conn, 
+    public Object executeStatement(final Database database, final CastorConnection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
         Identity internalIdentity = identity;
-        
+        SQLEngine extended = _engine.getExtends();
         CastorStatement stmt = conn.createStatement();
+        
         try {
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn.getConnection(), entity,
+                            internalIdentity);
+                }
+            }
+            
             if ((internalIdentity == null) && _useJDBC30) {
                 Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
 
@@ -206,15 +220,26 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
                         i++;
                     }
                     internalIdentity = new Identity(keys.toArray());
+
+                    stmt.close();
                 } else {
                     // generate key after INSERT.
                     internalIdentity = generateKey(database, conn);
+
+                    stmt.close();
                 }
             }
 
             return internalIdentity;
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  stmt.toString()), except);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         } catch (NoSuchMethodException ex) {
             throw new CastorIllegalStateException(ex);
@@ -224,13 +249,6 @@ public abstract class AbstractAfterKeyGenerator extends AbstractKeyGenerator {
             throw new CastorIllegalStateException(ex);
         } catch (InvocationTargetException ex) {
             throw new CastorIllegalStateException(ex);
-        } finally {
-            //close statement
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
         }
     }
     

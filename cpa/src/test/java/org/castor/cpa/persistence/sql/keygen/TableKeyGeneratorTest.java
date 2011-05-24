@@ -1,13 +1,5 @@
 package org.castor.cpa.persistence.sql.keygen;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.contains;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,90 +7,97 @@ import java.sql.Types;
 import java.util.Properties;
 
 import org.castor.cpa.jpa.info.JPATableGeneratorDescriptor;
+import org.castor.cpa.persistence.sql.query.PersistenceFactoryMock;
 import org.exolab.castor.mapping.MappingException;
+
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
 import org.mockito.Mock;
+import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
-public final class TableKeyGeneratorTest {
-    private TableKeyGenerator _generator;
-    private int _sqlType;
+public class TableKeyGeneratorTest {
+
+    TableKeyGenerator generator;
+    PersistenceFactoryMock mockFactory;
+    int sqlType;
     @Mock
-    private Connection _connection;
+    Connection connection;
     @Mock
-    private ResultSet _result;
+    ResultSet result;
     @Mock
-    private PreparedStatement _statement;
+    PreparedStatement statement;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        mockFactory = new PersistenceFactoryMock();
         Properties params = new Properties();
         JPATableGeneratorDescriptor descriptor = new JPATableGeneratorDescriptor();
         descriptor.setPrimaryKeyType(Long.class);
         params.put(TableKeyGenerator.DESCRIPTOR_KEY, descriptor);
-        _sqlType = Types.INTEGER;
-        _generator = new TableKeyGenerator(null, params, _sqlType);
+        sqlType = Types.INTEGER;
+        generator = new TableKeyGenerator(mockFactory, params, sqlType);
     }
 
     @SuppressWarnings("cast")
     @Test
     public void isKeyGenerator() throws Exception {
-        assertTrue(_generator instanceof KeyGenerator);
+        assertTrue(generator instanceof KeyGenerator);
     }
 
     @Test
     public void descriptorWillBeRetrievedFromProperties() throws Exception {
-        assertNotNull(_generator.getDescriptor());
+        assertNotNull(generator.getDescriptor());
     }
 
     @Test
     public void nullDescriptorResultsInDefaultValues() throws Exception {
         Properties params = new Properties();
-        _generator = new TableKeyGenerator(null, params, _sqlType);
-        assertNotNull(_generator.getDescriptor());
-        assertEquals(TableKeyGenerator.DEFAULT_TABLE_NAME, _generator
+        generator = new TableKeyGenerator(mockFactory, params, sqlType);
+        assertNotNull(generator.getDescriptor());
+        assertEquals(TableKeyGenerator.DEFAULT_TABLE_NAME, generator
                 .getDescriptor().getTable());
-        assertEquals(TableKeyGenerator.DEFAULT_ALLOCATION_SIZE, _generator
+        assertEquals(TableKeyGenerator.DEFAULT_ALLOCATION_SIZE, generator
                 .getDescriptor().getAllocationSize());
-        assertEquals(TableKeyGenerator.DEFAULT_INITIAL_VALUE, _generator
+        assertEquals(TableKeyGenerator.DEFAULT_INITIAL_VALUE, generator
                 .getDescriptor().getInitialValue());
-        assertEquals(TableKeyGenerator.DEFAULT_PK_COLUMN_NAME, _generator
+        assertEquals(TableKeyGenerator.DEFAULT_PK_COLUMN_NAME, generator
                 .getDescriptor().getPkColumnName());
-        assertEquals(TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME, _generator
+        assertEquals(TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME, generator
                 .getDescriptor().getValueColumnName());
-        assertEquals(TableKeyGenerator.DEFAULT_PK_COLUMN_VALUE, _generator
+        assertEquals(TableKeyGenerator.DEFAULT_PK_COLUMN_VALUE, generator
                 .getDescriptor().getPkColumnValue());
     }
     
     @Test
     public void idWillBeGeneratedFromDefaultValues() throws Exception {
-        when(_result.next()).thenReturn(true);
-        when(_result.getObject(1)).thenReturn(2L);
-        when(_statement.executeQuery()).thenReturn(_result);
-        when(_connection.prepareStatement(anyString())).thenReturn(_statement);
-        assertEquals(50, _generator.generateKey(_connection, "tableName", "primKeyName"));
+        when(result.next()).thenReturn(true);
+        when(result.getObject(1)).thenReturn(2l);
+        when(statement.executeQuery()).thenReturn(result);
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        assertEquals(50, generator.generateKey(connection, "tableName", "primKeyName"));
     }
 
     @Test
     public void nullRetrievedValueWillBeSetToDefaultInitialSize() throws Exception {
-        when(_result.next()).thenReturn(true);
-        when(_result.getObject(1)).thenReturn(null);
-        when(_statement.executeQuery()).thenReturn(_result);
-        when(_connection.prepareStatement(anyString())).thenReturn(_statement);
-        assertEquals(50, _generator.generateKey(_connection, "tableName", "primKeyName"));
+        when(result.next()).thenReturn(true);
+        when(result.getObject(1)).thenReturn(null);
+        when(statement.executeQuery()).thenReturn(result);
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        assertEquals(50, generator.generateKey(connection, "tableName", "primKeyName"));
     }
     
     @Test
     public void correctQueryWillBeExecuted() throws Exception {
-        when(_result.next()).thenReturn(true);
-        when(_result.getObject(1)).thenReturn(null);
-        when(_statement.executeQuery()).thenReturn(_result);
-        when(_connection.prepareStatement(anyString())).thenReturn(_statement);
-        _generator.generateKey(_connection, "tableName", "primKeyName");
-        verify(_connection).prepareStatement(
-                "SELECT " + TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME + " FROM "
+        when(result.next()).thenReturn(true);
+        when(result.getObject(1)).thenReturn(null);
+        when(statement.executeQuery()).thenReturn(result);
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        generator.generateKey(connection, "tableName", "primKeyName");
+        verify(connection).prepareStatement("SELECT " + TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME + " FROM "
                 + TableKeyGenerator.DEFAULT_TABLE_NAME + " WHERE "
                 + TableKeyGenerator.DEFAULT_PK_COLUMN_NAME + "='"
                 + TableKeyGenerator.DEFAULT_PK_COLUMN_VALUE + "'");
@@ -106,22 +105,20 @@ public final class TableKeyGeneratorTest {
     
     @Test
     public void updateWillBeExecutedUponSelect() throws Exception {
-        when(_result.next()).thenReturn(true);
-        when(_result.getObject(1)).thenReturn(null);
-        when(_statement.executeQuery()).thenReturn(_result);
-        when(_connection.prepareStatement(anyString())).thenReturn(_statement);
-        _generator.generateKey(_connection, "tableName", "primKeyName");
-        verify(_connection).prepareStatement(contains("SELECT"));
-        verify(_connection).prepareStatement(
-                "UPDATE " + TableKeyGenerator.DEFAULT_TABLE_NAME + " SET "
-                + TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME + "="
-                + TableKeyGenerator.DEFAULT_ALLOCATION_SIZE + " WHERE "
+        when(result.next()).thenReturn(true);
+        when(result.getObject(1)).thenReturn(null);
+        when(statement.executeQuery()).thenReturn(result);
+        when(connection.prepareStatement(anyString())).thenReturn(statement);
+        generator.generateKey(connection, "tableName", "primKeyName");
+        verify(connection).prepareStatement(contains("SELECT"));
+        verify(connection).prepareStatement("UPDATE " + TableKeyGenerator.DEFAULT_TABLE_NAME + " SET "
+                + TableKeyGenerator.DEFAULT_VALUE_COLUMN_NAME + "=" + TableKeyGenerator.DEFAULT_ALLOCATION_SIZE + " WHERE "
                 + TableKeyGenerator.DEFAULT_PK_COLUMN_NAME + "='"
                 + TableKeyGenerator.DEFAULT_PK_COLUMN_VALUE + "'");
     }
     
-    @Test(expected = MappingException.class)
+    @Test(expected=MappingException.class)
     public void nonNumericSqlTypeCausesMappingException() throws Exception {
-        new TableKeyGenerator(null, new Properties(), Types.CHAR);
+        new TableKeyGenerator(mockFactory, new Properties(), Types.CHAR);
     }
 }

@@ -27,6 +27,7 @@ import org.castor.core.annotationprocessing.AnnotationTargetException;
 import org.castor.core.nature.BaseNature;
 import org.castor.cpa.jpa.info.JPAVersionManager;
 import org.castor.cpa.jpa.info.MultipleVersionFieldDefinitionException;
+import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 import org.castor.cpa.jpa.processors.ReflectionsHelper;
 
@@ -42,7 +43,7 @@ public class JPAVersionProcessor extends BaseJPAAnnotationProcessor {
     private static final Log LOG = LogFactory.getLog(JPAVersionProcessor.class);
 
     public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
-            final I info, final A annotation, final AnnotatedElement target)
+            I info, A annotation, AnnotatedElement target)
             throws AnnotationTargetException {
 
         if (LOG.isDebugEnabled()) {
@@ -56,7 +57,7 @@ public class JPAVersionProcessor extends BaseJPAAnnotationProcessor {
         return processGeneratorDefinition(annotation, target);
     }
 
-    private <A> boolean verifyArguments(final A annotation, final AnnotatedElement target) {
+    private <A> boolean verifyArguments(A annotation, AnnotatedElement target) {
         if (!(annotation instanceof Version)
                 || (!target.isAnnotationPresent(Version.class))) {
 
@@ -66,8 +67,8 @@ public class JPAVersionProcessor extends BaseJPAAnnotationProcessor {
 
     }
 
-    private <A> boolean processGeneratorDefinition(final A annotation,
-            final AnnotatedElement target) {
+    private <A> boolean processGeneratorDefinition(A annotation,
+            AnnotatedElement target) {
 
         Method method = ((Method) target);
         Class<?> declaringClass = method.getDeclaringClass();

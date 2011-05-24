@@ -1,10 +1,7 @@
 package org.castor.cpa.jpa.processors.fieldprocessors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 import javax.persistence.Id;
@@ -13,23 +10,33 @@ import javax.persistence.Version;
 import org.castor.core.nature.PropertyHolder;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.FieldInfo;
+import org.castor.cpa.jpa.info.JPAKeyGeneratorManager;
 import org.castor.cpa.jpa.info.JPAVersionManager;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
+import org.castor.cpa.jpa.processors.fieldprocessors.JPAVersionProcessor;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public final class JPAVersionProcessorTest {
-    private JPAVersionProcessor _processor;
-    private JPAFieldNature _nature;
-    private Version _annotation;
+import static org.junit.Assert.*;
+
+public class JPAVersionProcessorTest {
+
+    JPAVersionProcessor processor;
+    JPAFieldNature nature;
+    Version annotation;
+    @Mock
+    AnnotatedElement target;
+    JPAKeyGeneratorManager manager = JPAKeyGeneratorManager.getInstance();
 
     @Before
     public void setUp() throws Exception {
-        _processor = new JPAVersionProcessor();
+        processor = new JPAVersionProcessor();
         MockitoAnnotations.initMocks(this);
         initNature();
-        _annotation = new Version() {
+        annotation = new Version() {
 
 //            @Override
             public Class<? extends Annotation> annotationType() {
@@ -46,17 +53,19 @@ public final class JPAVersionProcessorTest {
         PropertyHolder holder = new FieldInfo(classInfo, Long.class, "id",
                 getter, setter);
         holder.addNature(JPAFieldNature.class.getCanonicalName());
-        _nature = new JPAFieldNature(holder);
+        nature = new JPAFieldNature(holder);
     }
 
     @Test
     public void processorIsForVersionGeneratorAnnotation() throws Exception {
-        assertEquals(Version.class, _processor.forAnnotationClass());
+        assertEquals(Version.class, processor.forAnnotationClass());
     }
 
-    private boolean processAnnotationOnMethod(final String methodName) throws Exception {
+    private boolean processAnnotationOnMethod(String methodName)
+            throws Exception {
         Method method = this.getClass().getDeclaredMethod(methodName);
-        boolean result = _processor.processAnnotation(_nature, _annotation, method);
+        boolean result = processor
+                .processAnnotation(nature, annotation, method);
 
         return result;
     }
@@ -88,25 +97,27 @@ public final class JPAVersionProcessorTest {
     }
 
     @SuppressWarnings("unused")
-    private Long _id;
+    private Long id;
 
     @SuppressWarnings("unused")
-    private void setter(final Long value) { }
+    private void setter(Long value) {
+
+    }
 
     @Version
     @SuppressWarnings("unused")
     private Long getVersion() {
-        return 0L;
+        return 0l;
     }
 
     @SuppressWarnings("unused")
     private Long nonAnnotatedGetter() {
-        return 0L;
+        return 0l;
     }
 
     @Id
     @SuppressWarnings("unused")
     private Long otherwiseAnnotatedGetter() {
-        return 0L;
+        return 0l;
     }
 }

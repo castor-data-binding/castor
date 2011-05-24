@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class JPAKeyGeneratorManager {
 
-    private Map<String, JPAKeyGeneratorDescriptor> _generators =
+    private Map<String, JPAKeyGeneratorDescriptor> generators =
         new ConcurrentHashMap<String, JPAKeyGeneratorDescriptor>();
 
     public static final String AUTO_GENERATOR_NAME = "AUTO";
@@ -29,44 +29,42 @@ public class JPAKeyGeneratorManager {
      * Thread-safe singleton implementation based on the initialization on
      * demand holder idiom.
      */
-    private static final class SingletonHolder {
+    private static class SingletonHolder {
         private static final JPAKeyGeneratorManager INSTANCE = new JPAKeyGeneratorManager();
-        
-        private SingletonHolder() { }
     }
 
     public static JPAKeyGeneratorManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public void add(final String name, final JPAKeyGeneratorDescriptor descriptor)
+    public void add(String name, JPAKeyGeneratorDescriptor descriptor)
             throws GeneratorNameAlreadyUsedException {
-        if (_generators.containsKey(name)) {
+        if (generators.containsKey(name)) {
             throw new GeneratorNameAlreadyUsedException();
         }
-        _generators.put(name, descriptor);
+        generators.put(name, descriptor);
     }
 
-    public boolean contains(final String name) {
-        return _generators.containsKey(name);
+    public boolean contains(String name) {
+        return generators.containsKey(name);
     }
 
-    public JPAKeyGeneratorDescriptor get(final String name) {
-        return _generators.get(name);
+    public JPAKeyGeneratorDescriptor get(String name) {
+        return generators.get(name);
     }
 
     public void reset() {
-        _generators.clear();
+        generators.clear();
     }
 
     public boolean isEmpty() {
-        return _generators.isEmpty();
+        return generators.isEmpty();
     }
 
     public JPAKeyGeneratorDescriptor getAuto() {
         
         if (!contains(AUTO_GENERATOR_NAME)) {
-            synchronized (_generators) {
+            synchronized (generators) {
                 JPAKeyGeneratorDescriptor autoDescriptor = new JPATableGeneratorDescriptor();
                 try {
                     add(AUTO_GENERATOR_NAME, autoDescriptor);

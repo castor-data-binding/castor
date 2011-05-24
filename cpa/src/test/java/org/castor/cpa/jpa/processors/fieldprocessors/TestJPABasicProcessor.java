@@ -33,7 +33,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class TestJPABasicProcessor {
+public class TestJPABasicProcessor {
+
     @Before
     public void setUp() {
     }
@@ -118,7 +119,7 @@ public final class TestJPABasicProcessor {
     @Entity
     @Ignore
     private class JPAFull {
-        private String _name;
+        public String _name;
 
         @Basic(fetch = javax.persistence.FetchType.LAZY, optional = false)
         public String getName() {
@@ -133,7 +134,7 @@ public final class TestJPABasicProcessor {
     @Entity
     @Ignore
     private class JPADefault {
-        private String _name;
+        public String _name;
 
         @Basic
         public String getName() {
@@ -148,7 +149,7 @@ public final class TestJPABasicProcessor {
     @Entity
     @Ignore
     private class JPANull {
-        private String _name;
+        public String _name;
 
         public String getName() {
             return _name;
@@ -158,4 +159,5 @@ public final class TestJPABasicProcessor {
             _name = name;
         }
     }
+
 }

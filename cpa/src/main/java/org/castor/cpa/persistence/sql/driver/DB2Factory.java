@@ -46,8 +46,6 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Types;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.DB2QueryVisitor;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -69,13 +67,6 @@ public final class DB2Factory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new DB2QueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */
@@ -128,7 +119,7 @@ public final class DB2Factory extends GenericFactory {
            final String tableName, final int increment) {
     return "SELECT nextval FOR " + seqName + " FROM SYSIBM.SYSDUMMY1";    
     }
-
+    
     //-----------------------------------------------------------------------------------
 }
 

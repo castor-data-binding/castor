@@ -63,6 +63,9 @@
         <fileset dir="${lib}">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="newlib">
+            <include name="*.jar"/>
+        </fileset>
         <pathelement location="${basedir}/ddlgen/build/classes" />
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/cpa/build/classes" />
@@ -318,6 +321,7 @@
             <property name="release" value="${release}"/>
         </ant>
     	<!-- compile artifacts in XML module -->
+    	<echo message="Compiling Castor XML artefacts" />
         <javac srcdir="${basedir}/xml/target/generated-sources/castor" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
@@ -416,15 +420,19 @@
             <property name="release" value="${release}"/>
         </ant>
     	<!-- build Castor JDO -->
+    	<!--
     	<ant antfile="${basedir}/cpa/build.xml" target="compile.cpa" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        -->
     	<!-- build examples -->
+    	<!--
         <ant antfile="${basedir}/examples/build.xml" target="compile.examples" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        -->
     </target>
 
     <target name="all" depends="clean,compile,compile.tests"
@@ -653,7 +661,7 @@
                        org/exolab/castor/util/**,
                        org/exolab/castor/xml/**,
                        org/exolab/javasource/**,
-                       *.properties"/>
+        			   *.properties"/>
 
         <!-- copy and filter MANIFEST file for Castor COMMONS -->
         <delete file="${classes}/MANIFEST.MF" />
@@ -677,11 +685,13 @@
             <property name="release" value="${release}"/>
         </ant>
         <!-- create JAR for JDO, calling module build file recursively -->
+    	<!--
         <ant antfile="${basedir}/cpa/build.xml" target="jar.cpa" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        -->
         <!-- create JAR for XML code generator, calling module build file recursively -->
         <ant antfile="${basedir}/codegen/build.xml" target="jar.codegen" inheritAll="false">
             <property name="project" value="${project}"/>
@@ -695,11 +705,13 @@
             <property name="release" value="${release}"/>
         </ant>
         <!-- create JAR for example code -->
+    	<!--
         <ant antfile="${basedir}/examples/build.xml" target="jar.examples" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        -->
         <!-- create JAR for XML schema support code -->
         <ant antfile="${basedir}/schema/build.xml" target="jar.schema" inheritAll="false">
             <property name="project" value="${project}"/>

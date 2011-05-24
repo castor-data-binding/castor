@@ -5,14 +5,14 @@ package org.castor.cpa.persistence.convertor;
  */
 public class EnumTypeConversionHelper {
 
-    private final Class<?> _enumType;
+    private final Class<?> enumType;
 
     public EnumTypeConversionHelper(final Class<?> enumType) {
-        _enumType = enumType;
+        this.enumType = enumType;
     }
 
-    public Class<?> getEnumConstantValueByOrdinal(final int ordinal) {
-        return (Class<?>) _enumType.getEnumConstants()[ordinal];
+    public Class<?> getEnumConstantValueByOrdinal(int ordinal) {
+        return (Class<?>) this.enumType.getEnumConstants()[ordinal];
     }
 
 }

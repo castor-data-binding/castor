@@ -21,8 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Function;
@@ -31,6 +29,8 @@ import org.castor.cpa.query.TemporalType;
 import org.castor.cpa.query.TrimSpecification;
 import org.castor.cpa.query.object.condition.MockParameter;
 import org.castor.cpa.query.object.function.MockExpression;
+
+import junit.framework.TestCase;
 
 /**
  * Junit Test for testing abstract expression class.

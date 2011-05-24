@@ -1,51 +1,50 @@
 package org.castor.cpa.jpa.processors.classprocessors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Map;
-
-import javax.persistence.Entity;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQuery;
-
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.natures.JPAClassNature;
+import org.castor.cpa.jpa.processors.classprocessors.JPANamedNativeQueryProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
+import javax.persistence.Entity;
 
-public final class JPANamedNativeQueryProcessorTest {
-    static final String NAME = "name";
-    static final String QUERY = "query";
+import static org.junit.Assert.*;
 
-    private JPANamedNativeQueryProcessor _processor;
-    private JPAClassNature _classNature;
+public class JPANamedNativeQueryProcessorTest {
+
+    final static String NAME = "name";
+    final static String QUERY = "query";
+
+    JPANamedNativeQueryProcessor processor;
+    
+    JPAClassNature classNature;
+    
     @Mock
-    private NamedNativeQuery _annotation;
+    NamedNativeQuery annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        _processor = new JPANamedNativeQueryProcessor();
+        processor = new JPANamedNativeQueryProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        _classNature = new JPAClassNature(classInfo);
+        classNature = new JPAClassNature(classInfo);
     }
 
     @Test
     public void processorIsForNamedNativeQueryAnnotation() throws Exception {
-        assertEquals(NamedNativeQuery.class, _processor.forAnnotationClass());
+        assertEquals(NamedNativeQuery.class, processor.forAnnotationClass());
     }
 
     @Test
     public void processorReturnsTrueForNamedNativeQueryAnnotatedClassCorrectly()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NamedNativeQueryAnnotatedClass.class);
         assertTrue(result);
     }
@@ -59,7 +58,7 @@ public final class JPANamedNativeQueryProcessorTest {
         assertTrue(classInfo.hasNature(JPAClassNature.class.getName()));
         JPAClassNature jpaClassNature = new JPAClassNature(classInfo);
 
-        final Map<String, String> namedNativeQueryMap = jpaClassNature.getNamedNativeQuery();
+        final Map namedNativeQueryMap = jpaClassNature.getNamedNativeQuery();
         assertNotNull(namedNativeQueryMap);
         assertEquals(NAME, namedNativeQueryMap.keySet().iterator().next());
         assertEquals(QUERY, namedNativeQueryMap.values().iterator().next());
@@ -67,7 +66,7 @@ public final class JPANamedNativeQueryProcessorTest {
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NonAnnotatedClass.class);
         assertFalse(result);
     }
@@ -75,7 +74,7 @@ public final class JPANamedNativeQueryProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 OtherwiseAnnotatedClass.class);
         assertFalse(result);
     }

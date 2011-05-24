@@ -1,45 +1,43 @@
 package org.castor.cpa.jpa.processors.classprocessors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.NamedNativeQuery;
-
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
 import org.castor.cpa.jpa.info.ClassInfo;
 import org.castor.cpa.jpa.info.ClassInfoBuilder;
 import org.castor.cpa.jpa.natures.JPAClassNature;
-import org.exolab.castor.mapping.MappingException;
+import org.castor.cpa.jpa.processors.classprocessors.JPAInheritanceProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import javax.persistence.Entity;
 
-public final class JPAInheritanceProcessorTest {
-    private JPAInheritanceProcessor _processor;
-    private JPAClassNature _classNature;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.NamedNativeQuery;
+import org.exolab.castor.mapping.MappingException;
+import static org.junit.Assert.*;
+
+public class JPAInheritanceProcessorTest {
+
+    JPAInheritanceProcessor processor;
+    JPAClassNature classNature;
     @Mock
-    private Inheritance _annotation;
+    Inheritance annotation;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        _processor = new JPAInheritanceProcessor();
+        processor = new JPAInheritanceProcessor();
         ClassInfo classInfo = new ClassInfo();
         classInfo.addNature(JPAClassNature.class.getCanonicalName());
-        _classNature = new JPAClassNature(classInfo);
+        classNature = new JPAClassNature(classInfo);
     }
 
     @Test
     public void processorIsForNamedQueriesAnnotation() throws Exception {
-        assertEquals(Inheritance.class, _processor.forAnnotationClass());
+        assertEquals(Inheritance.class, processor.forAnnotationClass());
     }
 
-    @Test(expected = MappingException.class)
+    @Test(expected=MappingException.class)
     public void annotationDefaultValuesAreProcessedCorrectly() throws Exception {
 
         ClassInfo classInfo = ClassInfoBuilder.
@@ -65,7 +63,7 @@ public final class JPAInheritanceProcessorTest {
 
     @Test
     public void processorReturnsFalseForNonAnnotatedClass() throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 NonAnnotatedClass.class);
         assertFalse(result);
     }
@@ -73,25 +71,30 @@ public final class JPAInheritanceProcessorTest {
     @Test
     public void processorReturnsFalseForOtherwiseAnnotatedClass()
             throws Exception {
-        boolean result = _processor.processAnnotation(_classNature, _annotation,
+        boolean result = processor.processAnnotation(classNature, annotation,
                 OtherwiseAnnotatedClass.class);
         assertFalse(result);
     }
 
     @Entity()
-    private class BaseClass { }
+    private class BaseClass {
+    }
 
     @Entity
     @Inheritance(strategy = InheritanceType.JOINED)
-    private class JoinedAnnotatedClass extends BaseClass { }
+    private class JoinedAnnotatedClass extends BaseClass{
+    }
 
     @Entity()
     @Inheritance
-    private class InheritanceAnnotatedClass extends BaseClass { }
+    private class InheritanceAnnotatedClass extends BaseClass{
+    }
 
-    private class NonAnnotatedClass { }
+    private class NonAnnotatedClass {
+    }
 
     @Entity
     @NamedNativeQuery(name = "this is not a Inheritance annotation", query = "")
-    private class OtherwiseAnnotatedClass extends BaseClass { }
+    private class OtherwiseAnnotatedClass extends BaseClass{
+    }
 }

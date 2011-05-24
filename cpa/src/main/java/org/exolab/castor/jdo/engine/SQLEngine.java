@@ -15,25 +15,26 @@
  *
  * $Id$
  */
-package org.castor.cpa.persistence.sql.engine;
+package org.exolab.castor.jdo.engine;
 
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.CastorConnection;
+import org.castor.cpa.persistence.sql.engine.SQLStatementDelete;
+import org.castor.cpa.persistence.sql.engine.SQLStatementInsert;
+import org.castor.cpa.persistence.sql.engine.SQLStatementUpdate;
 import org.castor.cpa.persistence.sql.engine.info.InfoFactory;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
-import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
-import org.exolab.castor.jdo.engine.SQLFieldInfo;
-import org.exolab.castor.jdo.engine.SQLQuery;
-import org.exolab.castor.jdo.engine.SQLStatementQuery;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
@@ -43,13 +44,12 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
+import org.exolab.castor.persist.SQLRelationLoader;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
-import org.exolab.castor.xml.ClassDescriptorResolver;
-import org.exolab.castor.xml.ResolverException;
 
 /**
  * The SQL engine performs persistence of one object type against one
@@ -213,117 +213,13 @@ public final class SQLEngine implements Persistence {
         _storeStatement = new SQLStatementUpdate(this);
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    public SQLRelationLoader createSQLRelationLoader(
-            final ClassDescriptorResolver classDescriptorResolver, 
-            final ClassDescriptor classDescriptor, final FieldDescriptor[] identityDescriptors, 
-            final FieldDescriptor fieldDescriptor) throws MappingException {
-        FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
-
-        // the fields is not primitive
-        String[] relatedIdSQL = null;
-        int[] relatedIdType = null;
-        TypeConvertor[] relatedIdConvertTo = null;
-        TypeConvertor[] relatedIdConvertFrom = null;
-
-        String manyTable = nature.getManyTable();
-
-        String[] idSQL = new String[identityDescriptors.length];
-        int[] idType = new int[identityDescriptors.length];
-        TypeConvertor[] idConvertFrom = new TypeConvertor[identityDescriptors.length];
-        TypeConvertor[] idConvertTo = new TypeConvertor[identityDescriptors.length];
-        FieldDescriptor[] identityFieldDescriptors =
-            ((ClassDescriptorImpl) classDescriptor).getIdentities();
-        int identityFieldCount = 0;
-        for (FieldDescriptor identityFieldDescriptor : identityFieldDescriptors) {
-            if (identityFieldDescriptor.hasNature(
-                    FieldDescriptorJDONature.class.getName())) {
-                idSQL[identityFieldCount] = new FieldDescriptorJDONature(
-                        identityFieldDescriptor).getSQLName()[0];
-                int[] type = new FieldDescriptorJDONature(
-                        identityFieldDescriptor).getSQLType();
-                idType[identityFieldCount] = (type == null) ? 0 : type[0];
-                FieldHandlerImpl fieldHandler =
-                    (FieldHandlerImpl) identityFieldDescriptor.getHandler();
-                idConvertTo[identityFieldCount] = fieldHandler.getConvertTo();
-                idConvertFrom[identityFieldCount] = fieldHandler.getConvertFrom();
-            } else {
-                throw new MappingException(
-                        "Identity type must contains sql information: " 
-                        + classDescriptor.getJavaClass().getName());
-            }
-            identityFieldCount++;
-        }
-
-        ClassDescriptor relatedClassDescriptor = null;
-        try {
-            JDOClassDescriptorResolver jdoCDR =
-                (JDOClassDescriptorResolver) classDescriptorResolver;
-            relatedClassDescriptor =
-                jdoCDR.resolve(fieldDescriptor.getFieldType().getName());
-        } catch (ResolverException e) {
-            throw new MappingException("Problem resolving class descriptor for class " 
-                    + fieldDescriptor.getClass().getName(), e);
-        }
-
-        if (relatedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
-            FieldDescriptor[] relatedIdentityDescriptors =
-                ((ClassDescriptorImpl) relatedClassDescriptor).getIdentities();
-            relatedIdSQL = new String[relatedIdentityDescriptors.length];
-            relatedIdType = new int[relatedIdentityDescriptors.length];
-            relatedIdConvertTo = new TypeConvertor[relatedIdentityDescriptors.length];
-            relatedIdConvertFrom = new TypeConvertor[relatedIdentityDescriptors.length];
-            int relatedIdentityCount = 0;
-            for (FieldDescriptor relatedIdentityDescriptor : relatedIdentityDescriptors) {
-                if (relatedIdentityDescriptor.hasNature(
-                        FieldDescriptorJDONature.class.getName())) {
-                    FieldDescriptorJDONature relatedNature = new FieldDescriptorJDONature(
-                            relatedIdentityDescriptor);
-                    String[] tempId = relatedNature.getSQLName();
-                    relatedIdSQL[relatedIdentityCount] =
-                        (tempId == null) ? null : tempId[0];
-                    int[] tempType =  relatedNature.getSQLType();
-                    relatedIdType[relatedIdentityCount] =
-                        (tempType == null) ? 0 : tempType[0];
-                    FieldHandlerImpl fh = (FieldHandlerImpl)
-                    relatedIdentityDescriptors[relatedIdentityCount].getHandler();
-                    relatedIdConvertTo[relatedIdentityCount] = fh.getConvertTo();
-                    relatedIdConvertFrom[relatedIdentityCount] = fh.getConvertFrom();
-                } else {
-                    throw new MappingException("Field type is not persistence-capable: "
-                            + relatedIdentityDescriptors[relatedIdentityCount]
-                                                         .getFieldName());
-                }
-                relatedIdentityCount++;
-            }
-        }
-
-        // if many-key exist, idSQL is overridden
-        String[] manyKey = nature.getManyKey();
-        if ((manyKey != null) && (manyKey.length != 0)) {
-            if (manyKey.length != idSQL.length) {
-                throw new MappingException(
-                        "The number of many-keys doesn't match referred object: "
-                        + classDescriptor.getJavaClass().getName());
-            }
-            idSQL = manyKey;
-        }
-
-        // if name="" exist, relatedIdSQL is overridden
-        String[] manyName = nature.getSQLName();
-        if ((manyName != null) && (manyName.length != 0)) {
-            if (manyName.length != relatedIdSQL.length) {
-                throw new MappingException(
-                        "The number of many-keys doesn't match referred object: "
-                        + relatedClassDescriptor.getJavaClass().getName());
-            }
-            relatedIdSQL = manyName;
-        }
-
-        return new SQLRelationLoader(manyTable, idSQL, idType, idConvertTo, idConvertFrom,
-                relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
+    public SQLRelationLoader createSQLRelationLoader(final String manyTable,
+            final String[] idSQL, final int[] idType,
+            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
+            final String[] relatedIdSQL, final int[] relatedIdType,
+            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
+        return new SQLRelationLoader(manyTable, idSQL, idType, idTo, idFrom,
+                relatedIdSQL, relatedIdType, ridTo, ridFrom, _factory);
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
@@ -343,6 +239,8 @@ public final class SQLEngine implements Persistence {
         _extends = engine;
     }
     
+    public SQLEngine getExtends() { return _extends; }
+
     /**
      * Used by {@link org.exolab.castor.jdo.OQLQuery} to retrieve the class descriptor.
      * @return the JDO class descriptor.
@@ -425,27 +323,30 @@ public final class SQLEngine implements Persistence {
 
     public TableInfo getTableInfo() { return _tableInfo; }
 
-    public Identity create(final Database database, final CastorConnection conn,
-                         final ProposedEntity entity, final Identity identity)
-    throws PersistenceException {
-        Identity internalIdentity = identity;
-
-        // must create record in the parent table first. all other dependents
-        // are created afterwards. quick and very dirty hack to try to make
-        // multiple class on the same table work.
-        if (_extends != null) {
-            String thisTable = new ClassDescriptorJDONature(_clsDesc).getTableName();
-            String extTable = new ClassDescriptorJDONature(_extends._clsDesc).getTableName();
-            if (!extTable.equals(thisTable)) {
-                internalIdentity = _extends.create(database, conn, entity, internalIdentity);
-            }
+    protected Object idToJava(final int index, final Object object) {
+        if ((object == null) || (_ids[index].getConvertTo() == null)) {
+            return object;
         }
-
-        return (Identity) _createStatement.executeStatement(
-                database, conn, internalIdentity, entity);
+        return _ids[index].getConvertTo().convert(object);
     }
 
-    public void store(final CastorConnection conn, final Identity identity,
+    protected Object toJava(final int field, final int column, final Object object) {
+        SQLColumnInfo col = _fields[field].getColumnInfo()[column];
+        if ((object == null) || (col.getConvertTo() == null)) {
+            return object;
+        }
+        return col.getConvertTo().convert(object);
+    }
+
+    public Identity create(final Database database, final Object conn,
+                         final ProposedEntity entity, final Identity identity)
+    throws PersistenceException {
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        return (Identity) _createStatement.executeStatement(
+                database, castorConn, identity, entity);
+    }
+
+    public void store(final Object conn, final Identity identity,
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
@@ -454,27 +355,19 @@ public final class SQLEngine implements Persistence {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        _storeStatement.executeStatement(conn, identity, newentity, oldentity);
-
-        // Must store values of whole extends hierarchy
-        if (_extends != null) {
-            _extends.store(conn, identity, newentity, oldentity);
-        }
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        _storeStatement.executeStatement(castorConn, identity, newentity, oldentity);
     }
 
-    public void delete(final CastorConnection conn, final Identity identity)
+    public void delete(final Object conn, final Identity identity)
     throws PersistenceException {
         // check size of identity columns
         if (identity.size() != _ids.length) {
             throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        _removeStatement.executeStatement(conn, identity);
-        
-        // Must also delete record of extend path from extending to root class
-        if (_extends != null) {
-            _extends.delete(conn, identity);
-        }
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        _removeStatement.executeStatement(castorConn, identity);
     }
 
     /**
@@ -486,20 +379,21 @@ public final class SQLEngine implements Persistence {
      * #store}). If <tt>lock</tt> is true the object must be
      * locked in persistence storage to prevent concurrent updates.
      *
-     * @param conn A CastorConnection object holding an open connection
+     * @param conn An open connection
      * @param entity An Object[] to load field values into
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
      * @throws PersistenceException A persistence error occured
      */
-    public void load(final CastorConnection conn, final ProposedEntity entity,
+    public void load(final Object conn, final ProposedEntity entity,
                        final Identity identity, final AccessMode accessMode)
     throws PersistenceException {
         if (identity.size() != _ids.length) {
         	throw new PersistenceException("Size of identity field mismatched!");
         }
 
-        _loadStatement.executeStatement(conn, identity, entity, accessMode);
+        CastorConnection castorConn = new CastorConnection((Connection) conn, _factory);
+        _loadStatement.executeStatement(castorConn, identity, entity, accessMode);
     }
     
     public String toString() { return _clsDesc.toString(); }

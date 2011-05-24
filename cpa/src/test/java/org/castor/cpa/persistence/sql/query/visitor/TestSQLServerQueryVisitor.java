@@ -18,11 +18,6 @@
 
 package org.castor.cpa.persistence.sql.query.visitor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
@@ -35,6 +30,7 @@ import org.castor.cpa.persistence.sql.query.TableAlias;
 import org.castor.cpa.persistence.sql.query.Visitor;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test if PostgreSQLQueryVisitor works as expected.

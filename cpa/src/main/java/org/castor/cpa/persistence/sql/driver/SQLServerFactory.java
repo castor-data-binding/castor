@@ -48,8 +48,6 @@ import java.sql.Types;
 
 import org.castor.core.util.AbstractProperties;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.SQLServerQueryVisitor;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -74,13 +72,6 @@ public final class SQLServerFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new SQLServerQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

@@ -39,7 +39,7 @@ implements KeyGeneratorTypeHandler <Integer> {
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
-    private int _allocationSize;
+    private int allocationSize;
     
     /**
      * Construct an type handler for integer values.
@@ -49,13 +49,12 @@ implements KeyGeneratorTypeHandler <Integer> {
      */
     public KeyGeneratorTypeHandlerInteger(final boolean fail) {
         _fail = fail;
-        _allocationSize = 1;
+        this.allocationSize = 1;
     }
     
     public KeyGeneratorTypeHandlerInteger(final boolean fail, final int allocationSize) {
         this(fail);
-        
-        _allocationSize = allocationSize;
+        this.allocationSize = allocationSize;
     }
 
     /**
@@ -83,7 +82,7 @@ implements KeyGeneratorTypeHandler <Integer> {
      * {@inheritDoc}
      */
     public Integer increment(final Integer value) {
-        return new Integer(value.intValue() + _allocationSize);
+        return new Integer(value.intValue() + allocationSize);
     }
 
     /**

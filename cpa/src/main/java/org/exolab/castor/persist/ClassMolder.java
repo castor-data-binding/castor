@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.persist;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -52,8 +53,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLRelationLoader;
+import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
@@ -74,13 +74,17 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorHelper;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
+import org.exolab.castor.mapping.loader.FieldHandlerImpl;
+import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ResolverException;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -240,11 +244,99 @@ public class ClassMolder {
                 continue;
             }
 
-            if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())
-                    && new FieldDescriptorJDONature(fieldDescriptor).getManyTable() != null) {
+            if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName()) && 
+                    new FieldDescriptorJDONature(fieldDescriptor).getManyTable() != null) {
+                FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
+                
+                // the fields is not primitive
+                String[] relatedIdSQL = null;
+                int[] relatedIdType = null;
+                TypeConvertor[] relatedIdConvertTo = null;
+                TypeConvertor[] relatedIdConvertFrom = null;
+
+                String manyTable = nature.getManyTable();
+
+                String[] idSQL = new String[identityDescriptors.length];
+                int[] idType = new int[identityDescriptors.length];
+                TypeConvertor[] idConvertFrom = new TypeConvertor[identityDescriptors.length];
+                TypeConvertor[] idConvertTo = new TypeConvertor[identityDescriptors.length];
+                FieldDescriptor[] identityFieldDescriptors = ((ClassDescriptorImpl) classDescriptor).getIdentities();
+                int identityFieldCount = 0;
+                for (FieldDescriptor identityFieldDescriptor : identityFieldDescriptors) {
+                    if (identityFieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                        idSQL[identityFieldCount] = new FieldDescriptorJDONature(identityFieldDescriptor).getSQLName()[0];
+                        int[] type = new FieldDescriptorJDONature(identityFieldDescriptor).getSQLType();
+                        idType[identityFieldCount] = (type == null) ? 0 : type[0];
+                        FieldHandlerImpl fieldHandler = (FieldHandlerImpl) identityFieldDescriptor.getHandler();
+                        idConvertTo[identityFieldCount] = fieldHandler.getConvertTo();
+                        idConvertFrom[identityFieldCount] = fieldHandler.getConvertFrom();
+                    } else {
+                        throw new MappingException(
+                                "Identity type must contains sql information: " + _name);
+                    }
+                    identityFieldCount++;
+                }
+
+                ClassDescriptor relatedClassDescriptor = null;
+                try {
+                    JDOClassDescriptorResolver jdoCDR = (JDOClassDescriptorResolver) classDescriptorResolver;
+                    relatedClassDescriptor = jdoCDR.resolve(fieldDescriptor.getFieldType().getName());
+                } catch (ResolverException e) {
+                    throw new MappingException("Problem resolving class descriptor for class " 
+                            + fieldDescriptor.getClass().getName(), e);
+                }
+
+                if (relatedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
+                    FieldDescriptor[] relatedIdentityDescriptors = ((ClassDescriptorImpl) relatedClassDescriptor).getIdentities();
+                    relatedIdSQL = new String[relatedIdentityDescriptors.length];
+                    relatedIdType = new int[relatedIdentityDescriptors.length];
+                    relatedIdConvertTo = new TypeConvertor[relatedIdentityDescriptors.length];
+                    relatedIdConvertFrom = new TypeConvertor[relatedIdentityDescriptors.length];
+                    int relatedIdentityCount = 0;
+                    for (FieldDescriptor relatedIdentityDescriptor : relatedIdentityDescriptors) {
+                        if (relatedIdentityDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                            FieldDescriptorJDONature relatedNature = new FieldDescriptorJDONature(relatedIdentityDescriptor);
+                            String[] tempId = relatedNature.getSQLName();
+                            relatedIdSQL[relatedIdentityCount] = (tempId == null) ? null : tempId[0];
+                            int[] tempType =  relatedNature.getSQLType();
+                            relatedIdType[relatedIdentityCount] = (tempType == null) ? 0 : tempType[0];
+                            FieldHandlerImpl fh = (FieldHandlerImpl) relatedIdentityDescriptors[relatedIdentityCount].getHandler();
+                            relatedIdConvertTo[relatedIdentityCount] = fh.getConvertTo();
+                            relatedIdConvertFrom[relatedIdentityCount] = fh.getConvertFrom();
+                        } else {
+                            throw new MappingException(
+                                    "Field type is not persistence-capable: "
+                                    + relatedIdentityDescriptors[relatedIdentityCount].getFieldName());
+                        }
+                        relatedIdentityCount++;
+                    }
+                }
+
+                // if many-key exist, idSQL is overridden
+                String[] manyKey = nature.getManyKey();
+                if ((manyKey != null) && (manyKey.length != 0)) {
+                    if (manyKey.length != idSQL.length) {
+                        throw new MappingException(
+                                "The number of many-keys doesn't match referred object: "
+                                + classDescriptor.getJavaClass().getName());
+                    }
+                    idSQL = manyKey;
+                }
+
+                // if name="" exist, relatedIdSQL is overridden
+                String[] manyName = nature.getSQLName();
+                if ((manyName != null) && (manyName.length != 0)) {
+                    if (manyName.length != relatedIdSQL.length) {
+                        throw new MappingException(
+                                "The number of many-keys doesn't match referred object: "
+                                + relatedClassDescriptor.getJavaClass().getName());
+                    }
+                    relatedIdSQL = manyName;
+                }
+
                 SQLRelationLoader loader = _persistence.createSQLRelationLoader(
-                        classDescriptorResolver, classDescriptor, identityDescriptors, 
-                        fieldDescriptor);
+                        manyTable, idSQL, idType, idConvertTo, idConvertFrom,
+                        relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
                 _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor, loader);
             } else {
                 _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor);
@@ -270,16 +362,14 @@ public class ClassMolder {
      * and associated JDO-specific natures.
      * 
      * @param ds {@link DatingService} instance.
-     * @param classDescriptor The {@link ClassDescriptor} instance used.
+     * @param classDescriptor The {@link ClassDescriptor} instance used to describe the class at hand.
      * @throws MappingException If something unforeseen happens ....
      */
     private void dealWithExtendsAndDepends(final DatingService ds,
             final ClassDescriptor classDescriptor) throws MappingException {
 
-        ClassDescriptor dependClassDescriptor =
-            ((ClassDescriptorImpl) classDescriptor).getDepends();
-        ClassDescriptor extendsClassDescriptor =
-            ((ClassDescriptorImpl) classDescriptor).getExtends();
+        ClassDescriptor dependClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getDepends();
+        ClassDescriptor extendsClassDescriptor = ((ClassDescriptorImpl) classDescriptor).getExtends();
 
         //if ( dep != null && ext != null )
         //    throw new MappingException("A JDO cannot both extends and depends on other objects");
@@ -433,7 +523,7 @@ public class ClassMolder {
         if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
             proposedObject.initializeFields(_fhs.length);
 
-            CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
+            Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
             _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
 
             oid.setDbLock(accessMode == AccessMode.DbLocked);
@@ -453,6 +543,7 @@ public class ClassMolder {
      * @param proposedObject ProposedEntity instance
      * @param accessMode Suggested access mode
      * @param results OQL QueryResults instance
+     * @throws ObjectNotFoundException If the object in question cannot be found.
      * @throws PersistenceException For any other persistence-related problem.
      */
     public void load(final TransactionContext tx, final DepositBox locker,
@@ -469,7 +560,7 @@ public class ClassMolder {
         if (results != null) {
             results.getQuery().fetch(proposedObject);
         } else {
-            CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
+            Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
             _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
         }
 
@@ -490,7 +581,7 @@ public class ClassMolder {
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
-            // TODO that check should be moved to e.g. ClassDescriptorJDONature
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
                 FieldDescriptor versionFieldDescriptor = jdoNature.getField(versionField);
@@ -580,7 +671,7 @@ public class ClassMolder {
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
-            // TODO that check should be moved to e.g. ClassDescriptorJDONature
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
                 FieldDescriptor versionFieldDescriptor =
@@ -632,12 +723,12 @@ public class ClassMolder {
         // all many-to-many relationship
         //ASE: This is the source of problem with M:N relations. As we see at
         //     this point, for every persisted object in any M:N relation, a
-        //     new entry to the relation table is created. But this happens not
-        //     only when both related objects are persisted but also after
-        //     persistence of the first. But that cannot work!
-        //     A solution would be to store a collection of relations which have
-        //     to persisted in the relation table after all objects are persisted 
-        //     independently!
+        //	   new entry to the relation table is created. But this happens not
+        //	   only when both related objects are persisted but also after
+        //	   persistence of the first. But that cannot work!
+        // 	   A solution would be to store a collection of relations which have
+        //	   to persisted in the relation table after all objects are persisted 
+        //	   independently!
         
         for (int i = 0; i < _fhs.length; i++) {
             entity.setField(_resolvers[i].postCreate(
@@ -773,7 +864,7 @@ public class ClassMolder {
             String versionField = jdoNature.getVersionField();
 
             // Check if version field was set and has content.
-            // TODO that check should be moved to e.g. ClassDescriptorJDONature
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 // Find field descriptor for version field.
                 FieldDescriptor versionFieldDescriptor =
@@ -795,9 +886,28 @@ public class ClassMolder {
         }
         
         // Gets connection reference
-        CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
+        Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
 
-        _persistence.store(conn, oid.getIdentity(), newentity, oldentity);
+        // Current molder is leaf of extends hierarchy and therefore extending table is null
+        String extendingTableName = null;
+
+        // Start with current molder
+        ClassMolder molder = this;
+        
+        // Loop over all extended molders and store all values of extends hierarchy
+        while (molder != null) {
+            // Gets name of current table
+            String tableName = new ClassDescriptorJDONature(
+                    molder.getClassDescriptor()).getTableName();
+            
+            // Only need to persist values if current table name is different than extending one
+            if (!tableName.equals(extendingTableName)) {
+                molder._persistence.store(conn, oid.getIdentity(), newentity, oldentity);
+            }
+         
+            extendingTableName = tableName;
+            molder = molder._extends;
+        }        
     }
 
     /**
@@ -836,7 +946,7 @@ public class ClassMolder {
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
             jdoNature = new ClassDescriptorJDONature(_clsDesc);
             String versionField = jdoNature.getVersionField();
-            // TODO that check should be moved to e.g. ClassDescriptorJDONature
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 objectTimestamp =  getObjectVersion(versionField, jdoNature, object);
                 timeStampable = true;
@@ -866,7 +976,7 @@ public class ClassMolder {
             if (!timeStampable && isDependent() && (fields == null)) {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
-                CastorConnection conn =
+                Connection conn =
                         tx.getConnection(oid.getMolder().getLockEngine());
 
                 ProposedEntity proposedObject = new ProposedEntity(this);
@@ -984,7 +1094,7 @@ public class ClassMolder {
         if (_clsDesc.hasNature(ClassDescriptorJDONature.class.getName())) {
             ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(_clsDesc);
             String versionField = jdoNature.getVersionField();
-            // TODO that check should be moved to e.g. ClassDescriptorJDONature
+            // TODO: that check should be moved to e.g. ClassDescriptorJDONature
             if (versionField != null && versionField.length() > 0) {
                 objectVersion = getObjectVersion(versionField, jdoNature, object);
             }
@@ -1009,7 +1119,7 @@ public class ClassMolder {
      * @param oid - the object identity of the target object
      */
     public void delete(final TransactionContext tx, final OID oid) throws PersistenceException {
-        CastorConnection conn = tx.getConnection(oid.getMolder().getLockEngine());
+        Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
         Identity ids = oid.getIdentity();
 
         for (int i = 0; i < _fhs.length; i++) {
@@ -1018,7 +1128,28 @@ public class ClassMolder {
             }
         }
 
-        _persistence.delete(conn, ids);
+        // Must delete record of extend path from extending to root class
+        // In addition we remember the extend path to delete everything off the path ourself
+        Vector<ClassMolder> extendPath = new Vector<ClassMolder>();
+        ClassMolder molder = this;
+        while (molder != null) {
+            molder._persistence.delete(conn, ids);
+            extendPath.add(molder);
+            molder = molder._extends;
+        }
+        
+        ClassMolder base = _depends;
+        while (base != null) {
+            if (base._extendent != null) {
+                for (int i = 0; i < base._extendent.size(); i++) {
+                    if (extendPath.contains(base._extendent.get(i))) {
+                        // NB: further INVESTIGATION
+                    }
+                }
+            }
+
+            base = base._extends;
+        }
     }
 
     /**

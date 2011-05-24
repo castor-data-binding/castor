@@ -47,8 +47,6 @@ package org.castor.cpa.persistence.sql.driver;
 import java.sql.Types;
 import java.util.StringTokenizer;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.SapDbQueryVisitor;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -71,13 +69,6 @@ public final class SapDbFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new SapDbQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

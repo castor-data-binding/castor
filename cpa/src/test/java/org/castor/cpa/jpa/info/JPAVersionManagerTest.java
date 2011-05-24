@@ -2,40 +2,43 @@ package org.castor.cpa.jpa.info;
 
 import static org.junit.Assert.assertTrue;
 
+import org.castor.cpa.jpa.info.JPAVersionManager;
+import org.castor.cpa.jpa.info.MultipleVersionFieldDefinitionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class JPAVersionManagerTest {
-    private JPAVersionManager _manager;
+public class JPAVersionManagerTest {
+
+    JPAVersionManager manager;
     
     @Before 
     public void setUp() throws Exception {
-        _manager = JPAVersionManager.getInstance();
-        _manager.reset();
+        manager = JPAVersionManager.getInstance();
+        manager.reset();
     }
     
     @Test
     public void addedClassIsContained() throws Exception {
-        _manager.add(VersionTestClass.class, "version");
-        assertTrue(_manager.contains(VersionTestClass.class));
+        manager.add(VersionTestClass.class, "version");
+        assertTrue(manager.contains(VersionTestClass.class));
     }
     
-    @Test(expected = MultipleVersionFieldDefinitionException.class)
+    @Test(expected=MultipleVersionFieldDefinitionException.class)
     public void addingVersionFieldForTheSameClassCausesException() throws Exception {
-        _manager.add(VersionTestClass.class, "version1");
-        _manager.add(VersionTestClass.class, "version2");
+        manager.add(VersionTestClass.class, "version1");
+        manager.add(VersionTestClass.class, "version2");
     }
     
     @Test
     public void resetClearsManagedGenerators() throws Exception {
-        _manager.add(VersionTestClass.class, "version1");
-        _manager.reset();
-        assertTrue(_manager.isEmpty());
+        manager.add(VersionTestClass.class, "version1");
+        manager.reset();
+        assertTrue(manager.isEmpty());
     }
     
     @After
     public void tearDown() throws Exception {
-        _manager.reset();
+        manager.reset();
     }
 }

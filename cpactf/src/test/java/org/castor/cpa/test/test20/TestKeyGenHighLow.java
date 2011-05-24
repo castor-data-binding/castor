@@ -41,6 +41,5 @@ public class TestKeyGenHighLow extends AbstractTestKeyGenInteger {
     public void testKeyGenHighLow() throws Exception {
         testOneKeyGen(HighLowObject.class, HighLowExtends.class);
         testOneKeyGen(HighLowObjectSameConnection.class, HighLowExtendsSameConnection.class);
-        testOneKeyGen(HighLowObjectGlobal.class, HighLowExtendsGlobal.class);
     }
 }

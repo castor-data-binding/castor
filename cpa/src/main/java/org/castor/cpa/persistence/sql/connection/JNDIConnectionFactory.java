@@ -27,10 +27,8 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.conf.Jndi;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -56,9 +54,6 @@ public final class JNDIConnectionFactory implements ConnectionFactory {
     /** The data source when using a JDBC dataSource. */
     private DataSource _dataSource = null;
 
-    /** PersistenceFactory to be used to construct CastorConnection. */
-    private PersistenceFactory _factory;
-
     //--------------------------------------------------------------------------
 
     /**
@@ -77,8 +72,7 @@ public final class JNDIConnectionFactory implements ConnectionFactory {
     /**
      * {@inheritDoc}
      */
-    public void initializeFactory(final PersistenceFactory factory) throws MappingException {
-        _factory = factory;
+    public void initializeFactory() throws MappingException {
         String name = _jndi.getName();
 
         Object dataSource;
@@ -113,13 +107,6 @@ public final class JNDIConnectionFactory implements ConnectionFactory {
         Connection connection = _dataSource.getConnection();
         if (!_useProxies) { return connection; }
         return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public CastorConnection createCastorConnection () throws SQLException {
-        return new CastorConnection(_factory, createConnection());
     }
 
     //--------------------------------------------------------------------------

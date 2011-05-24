@@ -1,7 +1,7 @@
 package org.castor.cpa.jpa.info;
 
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
 
 
 @NamedQueries({
@@ -9,5 +9,6 @@ import javax.persistence.NamedQuery;
   @NamedQuery(name = "name2", query = "query2")
 })
 public class JpaNamedQueriesTestClass {
-    public JpaNamedQueriesTestClass() { }
+	public JpaNamedQueriesTestClass() {
+	}
 }

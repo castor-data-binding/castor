@@ -29,7 +29,8 @@ import org.exolab.castor.mapping.MappingException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class TestJPAEntityProcessor {
+public class TestJPAEntityProcessor {
+
     @Test
     public void testJPAFull() throws MappingException {
 
