@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<A Attribute="ARoot"><Element>A Element</Element><NumMods>0</NumMods><B Attribute="BChild"><Element>B Element</Element><NumMods>0</NumMods><C Attribute="CChild"><Element>C Element</Element><NumMods>0</NumMods></C></B></A>

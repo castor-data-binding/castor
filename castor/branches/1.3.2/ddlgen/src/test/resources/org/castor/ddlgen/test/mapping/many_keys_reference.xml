@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <description>1-1 relationship</description>
+  <class name="myapp.ProductGroup" identity="id name">
+    <description>Product group</description>
+    <map-to table="prod_group" xml="group" />
+    <field name="id" type="integer" >
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" dirty="check" />
+    </field>
+  </class>
+
+  <!--  Mapping for Product  -->
+  <class name="myapp.Product" identity="id">
+    <description>Product definition</description>
+    <map-to table="prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+    <!--  Product has reference to ProductGroup,
+          many products may reference same group  -->
+    <field name="group" type="myapp.ProductGroup">
+      <sql name="group_id group_name" />
+    </field>
+  </class>
+</mapping>

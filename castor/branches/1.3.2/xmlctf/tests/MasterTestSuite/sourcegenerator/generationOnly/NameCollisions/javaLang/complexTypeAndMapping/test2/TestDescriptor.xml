@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Tests name comflicts with java.lang.*</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        Tests name conflicts with java.lang.*
+    </Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

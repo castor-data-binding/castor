@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<mapping>
+    <class name="SimpleMessage" verify-constructable="false">
+           <map-to xml="SimpleMessage" />
+        <field name="severity" type="Severity" get-method="severity" set-method="%2">
+            <bind-xml name="severity" node="attribute"/>
+        </field>
+        <field name="formattedText" type="java.lang.String" get-method="formattedText" set-method="%1" >
+            <bind-xml name="text" node="attribute"/>
+        </field>
+    </class>
+    
+</mapping>

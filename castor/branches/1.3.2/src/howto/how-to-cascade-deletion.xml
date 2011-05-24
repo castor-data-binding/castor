@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-cascading-operations.xml">
+	<properties>
+		<title>How to cascade deletion</title>
+		<abstract>
+			Describes the various possibilities Castor provides to cascade deletion
+		</abstract>
+		<status>Draft</status>
+	</properties>
+	<body>
+		<title>How to cascade deletion</title>
+		<header>
+		</header>
+
+		<section title="Overview">
+
+			<p>If you enable cascading deletion on a relationship, deleting the object on one end of the relationship
+			(i.e. calling db.remove() on the object) will also delete the object on the other end.</p>
+
+		</section>
+
+		<section title="Enabling cascading deletion">
+
+			<p>To enable cascading deletion on a relationship you simply set the cascading attribute of the &lt;sql&gt; field
+			  describing the relation to "delete" (or "all"):</p>
+
+			<code-panel><![CDATA[
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" cascading="delete" />
+</field>
+]]></code-panel>
+
+    <p>In case of bidirectional relationships, be aware that it matters on which end you enable cascading deletion.
+      It is also possible to enable it on both ends.</p>
+
+		</section>
+
+		<section title="Scenarios">
+
+			<p></p>
+
+			<section title="db.remove()">
+
+				<p>Let's say we have the objects Author and Book and they are in a one-to-one relationship, with every Book
+				having exactly one Author. The database looks like this:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"John Jackson"</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td>1</td>
+									<td>"My Life"</td>
+									<td>1</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p>Now, since we specified the relationship to cascade deletion, if we remove the book, 
+				the author gets removed too (after all, an author without a book isn't really an author).</p>
+
+				<code-panel><![CDATA[
+db.begin();
+
+Book b1 = db.load(Book.class, 1);
+db.remove(db1);
+
+db.commit();]]></code-panel>
+
+				<p>Afterwards, the database predictably looks like this:</p>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Author</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">name</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="2">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+				<table border="0" cellspacing="0" cellpadding="2" bgcolor="#7270c2"
+					style="display:inline">
+					<tr bgcolor="#ffffff">
+						<th>Book</th>
+					</tr>
+					<tr>
+						<td>
+							<table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+								<tr bgcolor="#7270c2" style="color:#000000">
+									<th align="left">id</th>
+									<th align="left">title</th>
+									<th align="left">author_id</th>
+								</tr>
+								<tr bgcolor="#DEDEDE">
+									<td colspan="3">(empty table)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				
+				<p>Cascading the deletion of objects in to-many relationships works in exactly the same way.</p>
+				
+				<p>Note: You need to explicitly invoke db.remove() to delete an object. Simply setting a relational property to NULL
+				or removing an item from a collection will not remove the corresponding entity from the database, even with cascading
+				deletion enabled.</p>
+
+			</section>
+				
+		</section>
+
+		<section title="See also">
+
+			<ul>
+				<li>
+					<a href="how-to-use-cascading-operations.html">How to use cascading operations - overview</a>
+				</li>
+			</ul>
+
+		</section>
+
+
+	</body>
+</document>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="SequenceOfChoiceElement" type="SequenceOfChoice" />
+
+    <xs:complexType name="SequenceOfChoice">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:choice>
+                <xs:element name="ChoiceOne" type="xs:string" />
+                <xs:element name="ChoiceTwo" type="xs:string" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

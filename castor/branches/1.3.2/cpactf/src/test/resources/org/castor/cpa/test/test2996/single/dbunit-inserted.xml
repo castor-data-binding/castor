@@ -1,0 +1,14 @@
+<dataset>
+	<table name="test2996_single_book">
+		<column>isbn</column>
+		<column>title</column>
+		<row>
+			<value>1234</value>
+			<value>Heart of Darkness</value>
+		</row>
+		<row>
+            <value>1235</value>
+            <value>My Definition</value>
+        </row>
+	</table>
+</dataset>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="foo" targetNamespace="foo"
+            elementFormDefault="qualified">
+
+<xsd:redefine schemaLocation="xsd003.xsdmod"/>
+
+<xsd:attributeGroup name="attGroup">
+    <xsd:attribute ref="gAtt"/>
+</xsd:attributeGroup>
+
+<xsd:attribute name="gAtt" type="simpleType"/>
+
+<xsd:element name="root" type="complexType"/>
+
+<xsd:complexType name="complexType">
+    <xsd:group ref="group"/>
+    <xsd:attributeGroup ref="attGroup"/>
+</xsd:complexType>
+
+<xsd:group name="group">
+    <xsd:sequence>
+        <xsd:element ref="root" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+</xsd:group>
+
+<xsd:simpleType name="simpleType">
+    <xsd:restriction base="xsd:string"/>
+</xsd:simpleType>
+
+</xsd:schema>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for complexType definition with all -->
+   <xsd:complexType name="type1">
+      <xsd:all>
+         <xsd:element name="elem1" type="xsd:string"/>
+         <xsd:element name="elem2" type="xsd:integer"/>
+         <xsd:element name="elem3" type="cst:type1"/>
+      </xsd:all>
+      <xsd:attribute name="attr1" type="xsd:boolean"/>
+   </xsd:complexType>
+
+</xsd:schema>

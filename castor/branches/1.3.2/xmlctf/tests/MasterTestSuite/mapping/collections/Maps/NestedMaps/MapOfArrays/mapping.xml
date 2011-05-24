@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+
+    <class name="MapOfArrays">
+        <field name="map" collection="map">
+            <bind-xml name="map">
+                <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+                        <bind-xml name="string1" node="attribute" />
+                    </field>
+                    <field name="value" collection="array" type="java.lang.String">
+                        <bind-xml name="nested" />
+                    </field>
+                </class>
+            </bind-xml>
+        </field>
+    </class>
+
+</mapping>

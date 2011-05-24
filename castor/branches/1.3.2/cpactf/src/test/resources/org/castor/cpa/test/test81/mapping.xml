@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+    
+    <class name="org.castor.cpa.test.test81.MasterObject" identity="id" key-generator="IDENTITY">
+        <map-to table="test81_test_master_ns" />
+        <field name="id" type="int">
+            <sql name="id"/>
+        </field>
+        <field name="depends" type="org.castor.cpa.test.test81.DependentObject">
+            <sql many-key="master_id"/>
+        </field>
+        <field name="descrip" type="string" required="true">
+            <sql name="descrip" type="varchar"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test81.DependentObject" identity="id" key-generator="IDENTITY"
+           depends="org.castor.cpa.test.test81.MasterObject">
+        <map-to table="test81_test_depends_ns"/>
+        <field name="id" type="int">
+            <sql name="id"/>
+        </field>
+        <field name="master" type="org.castor.cpa.test.test81.MasterObject">
+            <sql name="master_id"/>
+        </field>
+        <field name="descrip" type="string">
+            <sql name="descrip" type="varchar"/>
+        </field>
+    </class>
+    
+</mapping>

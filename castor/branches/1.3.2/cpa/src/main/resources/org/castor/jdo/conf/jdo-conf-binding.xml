@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : jdo-conf-binding.xml
+    Created on : March 26, 2010, 23:11 PM
+    Author     : rjoachim
+    Description: A source generator binding file for the jdo-conf schema.
+-->
+
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+             defaultBindingType="element">
+
+  <cbf:elementBinding name="database">
+    <cbf:java-class name="Database"/>
+    <cbf:elementBinding name="class">
+      <cbf:member name="classMapping"/>
+    </cbf:elementBinding>
+    <cbf:elementBinding name="package">
+      <cbf:member name="packageMapping"/>
+    </cbf:elementBinding>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="class">
+    <cbf:java-class name="ClassMapping"/>
+  </cbf:elementBinding>
+
+  <cbf:elementBinding name="package">
+    <cbf:java-class name="PackageMapping"/>
+  </cbf:elementBinding>
+
+</cbf:binding>

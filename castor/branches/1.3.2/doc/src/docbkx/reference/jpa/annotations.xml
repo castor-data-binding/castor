@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jpa.annotations">
+	<title>An outline of JPA-Annotations</title>
+
+	<para>
+		<simplelist>
+			<member>S ... Supported</member> <!-- <entry><?dbhtml bgcolor="#2EFE2E" ?>S</entry> -->
+			<member>PS ... Partially Supported</member> <!-- <entry><?dbhtml bgcolor="#F7FE2E"?>PS</entry> -->
+			<member>NS ... Not Supported</member> <!-- <entry><?dbhtml bgcolor="#FE2E2E" ?>NS</entry> -->
+		</simplelist>
+	</para>
+
+	<table id="jpa.annotations.table" align="center">
+		<title>JPA-Annotations</title>
+		<tgroup cols="3">
+			<colspec colname="c1" align="left" />
+			<colspec colname="c2" />
+			<colspec colname="c3" align="left" />
+			<thead>
+				<row>
+					<entry>Annotation</entry>
+					<entry>Supported</entry>
+					<entry>Comment</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>AssociationOverride</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>AssociationOverrides</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>AttributeOverride</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>AttributeOverrides</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Basic</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>See information on Castor fetch types!</entry>
+				</row>
+				<row>
+					<entry>Column</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: column name, nullable</entry>
+				</row>
+				<row>
+					<entry>ColumnResult</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>DiscriminatorColumn</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry>Castor does not support Joined Table Class Hierachy.
+					</entry>
+				</row>
+				<row>
+					<entry>DiscriminatorValue</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry>Castor does not support Joined Table Class Hierachy.
+					</entry>
+				</row>
+				<row>
+					<entry>Embeddable</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Embedded</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>EmbeddedId</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry>Castor does not support composed primary keys embedded
+						in classes of their own.</entry>
+				</row>
+				<row>
+					<entry>Entity</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>This annotation is needed to tell Castor that this Class
+						is an entity.</entry>
+				</row>
+				<row>
+					<entry>EntityListeners</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>EntityResult</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Enumerated</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>ExcludeDefaultListeners</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>ExcludeSuperclassListeners</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>FieldResult</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>GeneratedValue</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Id</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>Use this annotation to make a field a primary key (or
+						part of it).</entry>
+				</row>
+				<row>
+					<entry>IdClass</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry>Castor creates IdClass-like behaviour implicity when
+						you define multiple Id fields. Castor does not support composed
+						primary keys in relations!</entry>
+				</row>
+				<row>
+					<entry>Inheritance</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>JoinColumn</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: name</entry>
+				</row>
+				<row>
+					<entry>JoinColumns</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry>This is not supported because Castor does not support
+						composed keys in relations.</entry>
+				</row>
+				<row>
+					<entry>JoinTable</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: name, joincolumns, inverseJoincolumns
+					</entry>
+				</row>
+				<row>
+					<entry>Lob</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>ManyToMany</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>this is not tested properly yet.</entry>
+				</row>
+				<row>
+					<entry>ManyToOne</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: targetEntity, fetch, optional -
+						Relations MUST BE optional! Required relations are not supported.
+					</entry>
+				</row>
+				<row>
+					<entry>MapKey</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>MappedSuperclass</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>NamedQuery</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>This annotation used to specify a named query in OQL.</entry>
+				</row>
+				<row>
+					<entry>NamedQueries</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>This annotation specifies an array of named queries</entry>
+				</row>
+				<row>
+					<entry>NamedNativeQuery</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>This annotation is used to specify a native SQL named query.</entry>
+				</row>
+				<row>
+					<entry>NamedNativeQueries</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry>This annotation specifies an array of named native queries.</entry>
+				</row>
+				<row>
+					<entry>OneToMany</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: targetEntity, fetch, mappedBy</entry>
+				</row>
+				<row>
+					<entry>OneToOne</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: targetEntity, fetch, optional -
+						Relations MUST BE optional! Required relations are not supported.
+					</entry>
+				</row>
+				<row>
+					<entry>OrderBy</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PersistenceContext</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PersistenceContexts</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PersistenceProperty</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PersistenceUnit</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PersistenceUnits</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PostLoad</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PostPersist</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PostRemove</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PostUpdate</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PrePersist</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PreRemove</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PreUpdate</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PrimaryKeyJoinColumn</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>PrimaryKeyJoinColumns</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>QueryHint</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>SecondaryTable</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>SecondaryTables</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>SequenceGenerator</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>SqlResultSetMapping</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>SqlResultSetMappings</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Table</entry>
+					<entry><?dbhtml bgcolor="#F7FE2E"?>
+						PS
+					</entry>
+					<entry>Supported: name</entry>
+				</row>
+				<row>
+					<entry>TableGenerator</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Temporal</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Transient</entry>
+					<entry><?dbhtml bgcolor="#2EFE2E" ?>
+						S
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>UniqueConstraint</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+				<row>
+					<entry>Version</entry>
+					<entry><?dbhtml bgcolor="#FE2E2E" ?>
+						NS
+					</entry>
+					<entry />
+				</row>
+
+			</tbody>
+		</tgroup>
+	</table>
+
+</section>

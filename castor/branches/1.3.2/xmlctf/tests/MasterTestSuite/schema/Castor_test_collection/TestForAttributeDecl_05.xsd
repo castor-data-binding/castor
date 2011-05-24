@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for attribute declaration(s) with anonymous simpleType definition  -->
+
+   <!-- Attribute declaration with anonymous simpleType definition -->
+   <xsd:attribute name="color">
+      <xsd:simpleType>
+         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="blue"/>
+            <xsd:enumeration value="red"/>
+            <xsd:enumeration value="yellow"/>
+         </xsd:restriction>
+      </xsd:simpleType>
+   </xsd:attribute>
+
+
+
+</xsd:schema>

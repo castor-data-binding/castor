@@ -1,0 +1,47 @@
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding
+                \\Castor\\schema\\binding.xsd" 
+            defaultBinding="element">
+
+	<package>
+		<name>com.test.syncitem</name>
+		<namespace>http://www.openapplications.org/oagis/9</namespace>
+	</package>
+
+	<package>
+		<name>com.test.qualifieddatatypes</name>
+		<namespace>http://www.openapplications.org/oagis/9/qualifieddatatypes/1.1</namespace>
+	</package>
+
+	<package>
+		<name>com.test.codelists</name>
+		<namespace>http://www.openapplications.org/oagis/9/codelists</namespace>
+	</package>
+		
+	<package>
+		<name>com.test.currencycode</name>
+		<namespace>http://www.openapplications.org/oagis/9/currencycode/54217:2001</namespace>
+	</package>
+
+	<package>
+		<name>com.test.IANAMIMEMediaTypes</name>
+		<namespace>http://www.openapplications.org/oagis/9/IANAMIMEMediaTypes:2003</namespace>
+	</package>
+
+	<package>
+		<name>com.test.languagecode</name>
+		<namespace>http://www.openapplications.org/oagis/9/languagecode/5639:1988</namespace>
+	</package>
+
+	<package>
+		<name>com.test.unitcode</name>
+		<namespace>http://www.openapplications.org/oagis/9/unitcode/66411:2001</namespace>
+	</package>
+
+	<package>
+		<name>com.test.sgpm.unqualifieddatatypes</name>
+		<namespace>http://www.openapplications.org/oagis/9/unqualifieddatatypes/1.1</namespace>
+	</package>
+	
+</binding>

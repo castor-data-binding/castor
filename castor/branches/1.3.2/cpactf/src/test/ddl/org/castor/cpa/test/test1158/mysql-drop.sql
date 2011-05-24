@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS test1158_extended;
+DROP TABLE IF EXISTS test1158_object;

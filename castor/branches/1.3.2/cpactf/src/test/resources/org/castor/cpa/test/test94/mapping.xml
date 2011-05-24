@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="org.castor.cpa.test.test94.Car" extends="org.castor.cpa.test.test94.Product"
+    identity="id">
+    <description>Car definition, extends generic product</description>
+    <map-to table="test94_poly_car" xml="car" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="kw" type="integer" required="true">
+      <sql name="kw" type="integer" />
+    </field>
+    <field name="make" type="string" required="true">
+      <sql name="make" type="varchar" />
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test94.Computer" extends="org.castor.cpa.test.test94.Product"
+    identity="id">
+    <description>Computer definition, extends generic product</description>
+    <map-to table="test94_poly_computer" xml="computer" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="cpu" type="string" required="true">
+      <sql name="cpu" type="varchar" />
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test94.Laptop" extends="org.castor.cpa.test.test94.Computer" identity="id">
+    <description>Laptop definition, extends generic computer</description>
+    <map-to table="test94_poly_laptop" xml="laptop" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="weight" type="integer" required="true">
+      <sql name="weight" type="integer"/>
+    </field>
+    <field name="resolution" type="string" required="true">
+      <sql name="resolution" type="varchar"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test94.Order" identity="id">
+    <description>Order definition</description>
+    <map-to table="test94_poly_ordr" xml="order" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
+    </field>
+    <field name="products" type="org.castor.cpa.test.test94.Product" collection="collection">
+      <sql name="product_id" many-table="test94_poly_order_product" many-key="order_id" />
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test94.Owner" identity="id">
+    <description>Owner definition</description>
+    <map-to table="test94_poly_owner" xml="owner" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="char" />
+    </field>
+    <field name="product" type="org.castor.cpa.test.test94.Product" required="true">
+      <sql name="product" />
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test94.Product" identity="id">
+    <description>Product definition</description>
+    <map-to table="test94_poly_prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="char" />
+    </field>
+    <field name="detail" type="org.castor.cpa.test.test94.ProductDetail" required="true">
+      <sql name="detail" />
+    </field>
+    <field name="owner" type="org.castor.cpa.test.test94.Owner">
+      <sql name="owner" />
+    </field>
+    <field name="orders" type="org.castor.cpa.test.test94.Order" collection="collection">
+      <sql name="order_id" many-table="test94_poly_order_product" many-key="product_id" />
+    </field>
+  </class>
+
+    <class name="org.castor.cpa.test.test94.ProductDetail" identity="id">
+    <description>Product detail definition</description>
+    <map-to table="test94_poly_detail" xml="detail" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="location" type="string" required="true">
+      <sql name="location" type="varchar" />
+    </field>
+    <field name="category" type="string" required="true">
+      <sql name="category" type="varchar" />
+    </field>
+  </class>
+  
+  
+  <class name="org.castor.cpa.test.test94.Truck" extends="org.castor.cpa.test.test94.Car" identity="id">
+    <description>Truck definition, extends generic car</description>
+    <map-to table="test94_poly_truck" xml="truck" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="maxWeight" type="integer" required="true">
+      <sql name="max_weight" type="integer" />
+    </field>
+  </class>
+  
+</mapping>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test16.NestedObject" access="shared" identity="id">
+    <description>nested fields testing</description>
+    <map-to table="test16_sample"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="nested1.value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="nested2.nested3.value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+</mapping>

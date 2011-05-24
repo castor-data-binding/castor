@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            defaultBinding="element">
+
+	<elementBinding name="/complexType:I1Type">
+		<contentMember name="customContentMember" />
+	</elementBinding>
+ 
+		
+</binding>
