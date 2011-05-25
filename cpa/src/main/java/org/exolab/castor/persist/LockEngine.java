@@ -68,7 +68,6 @@ import org.castor.jdo.engine.DatabaseContext;
 import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
-import org.castor.persist.cache.CacheEntry;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.LockNotGrantedException;
@@ -452,11 +451,11 @@ public final class LockEngine {
         boolean succeed = false;
         ObjectLock lock = null;
         try {
-            short action;
+            LockAction action;
             if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked)) {
-                action = ObjectLock.ACTION_WRITE;
+                action = LockAction.WRITE;
             } else {
-                action = ObjectLock.ACTION_READ;
+                action = LockAction.READ;
             }
             
             // we need to synchronize until we got the final lock. this will have quite some
@@ -523,9 +522,9 @@ public final class LockEngine {
 
                     if ((accessMode == AccessMode.Exclusive)
                             || (accessMode == AccessMode.DbLocked)) {
-                        action = ObjectLock.ACTION_WRITE;
+                        action = LockAction.WRITE;
                     } else {
-                        action = ObjectLock.ACTION_READ;
+                        action = LockAction.READ;
                     }
 
                     lock = typeinfo.acquire(oid, tx, action, timeout);
@@ -626,7 +625,7 @@ public final class LockEngine {
 
             try {
 
-                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
+                lock = typeInfo.acquire(internaloid, tx, LockAction.CREATE, 0);
 
                 if (_log.isDebugEnabled()) {
                     _log.debug(Messages.format("jdo.creating.with.id", typeInfo
@@ -670,7 +669,7 @@ public final class LockEngine {
                         .getClassMolder().getName(), internaloid.getIdentity()));
             }
 
-            lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_CREATE, 0);
+            lock = typeInfo.acquire(internaloid, tx, LockAction.CREATE, 0);
 
             internaloid = lock.getOID();
 
@@ -788,7 +787,7 @@ public final class LockEngine {
                     && !typeInfo.isCached(internaloid)
                     && !typeInfo.getClassMolder().isDependent()
                     && (internaloid.getIdentity() != null)) {
-                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
+                lock = typeInfo.acquire(internaloid, tx, LockAction.UPDATE, timeout);
                 internaloid = lock.getOID();
                 
                 // set timestamp of lock to the one of persistent object
@@ -798,7 +797,7 @@ public final class LockEngine {
                     // ignore
                 }
             } else {
-                lock = typeInfo.acquire(internaloid, tx, ObjectLock.ACTION_UPDATE, timeout);
+                lock = typeInfo.acquire(internaloid, tx, LockAction.UPDATE, timeout);
                 internaloid = lock.getOID();
             }
             
@@ -1095,7 +1094,7 @@ public final class LockEngine {
         lock = null;
         try {
             if (typeInfo.isCached(oid)) {
-                lock = typeInfo.acquire(oid, tx, ObjectLock.ACTION_WRITE, timeout);
+                lock = typeInfo.acquire(oid, tx, LockAction.WRITE, timeout);
                 typeInfo.getClassMolder().expireCache(tx, lock);
                 lock.expire();
                 succeed = true;
