@@ -24,96 +24,80 @@ import org.exolab.javasource.JType;
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 6317 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision: 6317 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
+ *          2006) $
  */
 public final class XSUnsignedLong extends AbstractDigitsFacet {
-    //--------------------------------------------------------------------------
+
+    /**
+     * Name of the Java class to be generated.
+     */
+    private static final String JAVA_CLASS_NAME = "java.math.BigInteger";
 
     /** Name of this XSType. */
     public static final String NAME = "unsignedLong";
-    
+
     /** Type number of this XSType. */
     public static final short TYPE = XSType.UNSIGNED_LONG_TYPE;
-    
+
     /** The JType represented by this XSType. */
-    private static final JType JTYPE = new JClass("java.math.BigInteger");
+    private static final JType JTYPE = new JClass(JAVA_CLASS_NAME);
 
     /** A constant holding the minimum value an xsd:long can have, 0. */
     public static final String MIN_VALUE = "0";
-    
-    /** A constant holding the maximum value an xsd:long can have, 2<sup>64</sup>-1. */
+
+    /**
+     * A constant holding the maximum value an xsd:long can have,
+     * 2<sup>64</sup>-1.
+     */
     public static final String MAX_VALUE = "18446744073709551615";
 
-    //--------------------------------------------------------------------------
-    
     /**
      * No-arg constructor.
      */
     public XSUnsignedLong() {
         super();
-        
         setMinInclusive(MIN_VALUE);
         setMaxInclusive(MAX_VALUE);
     }
 
-    //--------------------------------------------------------------------------
+    public String getName() {
+        return NAME;
+    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public String getName() { return NAME; }
+    public short getType() {
+        return TYPE;
+    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public short getType() { return TYPE; }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isPrimitive() { return true; }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isDateTime() { return false; }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public JType getJType() { return JTYPE; }
-    
-    /**
-     * {@inheritDoc}
-     */
+    public boolean isPrimitive() {
+        return false;
+    }
+
+    public boolean isDateTime() {
+        return false;
+    }
+
+    public JType getJType() {
+        return JTYPE;
+    }
+
     public String newInstanceCode() {
         return "new java.math.BigInteger(\"0\");";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public String createToJavaObjectCode(final String variableName) {
         return variableName;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     public String createFromJavaObjectCode(final String variableName) {
         return "((java.math.BigInteger) " + variableName + ")";
     }
 
-    //--------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    public void validationCode(final JSourceCode jsc,
-            final String fixedValue, final String validatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+            final String validatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.BigIntegerValidator typeValidator;\n"
-              + "typeValidator = new org.exolab.castor.xml.validators.BigIntegerValidator();\n"
-              + "{0}.setValidator(typeValidator);", validatorInstanceName);
+                + "typeValidator = new org.exolab.castor.xml.validators.BigIntegerValidator();\n"
+                + "{0}.setValidator(typeValidator);", validatorInstanceName);
 
         if (fixedValue != null) {
             jsc.add("typeValidator.setFixed(new BigInteger(\"" + fixedValue + "\");");
@@ -124,22 +108,20 @@ public final class XSUnsignedLong extends AbstractDigitsFacet {
 
         if (getMinExclusive() != null) {
             jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"{0}\");\n"
-                  + "typeValidator.setMinExclusive(min);", getMinExclusive());
+                    + "typeValidator.setMinExclusive(min);", getMinExclusive());
         } else if (getMinInclusive() != null) {
             jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"{0}\");\n"
-                  + "typeValidator.setMinInclusive(min);", getMinInclusive());
+                    + "typeValidator.setMinInclusive(min);", getMinInclusive());
         }
 
         if (getMaxExclusive() != null) {
             jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"{0}\");\n"
-                  + "typeValidator.setMaxExclusive(max);", getMaxExclusive());
+                    + "typeValidator.setMaxExclusive(max);", getMaxExclusive());
         } else if (getMaxInclusive() != null) {
             jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"{0}\");\n"
-                  + "typeValidator.setMaxInclusive(max);", getMaxInclusive());
+                    + "typeValidator.setMaxInclusive(max);", getMaxInclusive());
         }
 
         codeDigitsFacet(jsc, "typeValidator");
     }
-
-    //--------------------------------------------------------------------------
 }
