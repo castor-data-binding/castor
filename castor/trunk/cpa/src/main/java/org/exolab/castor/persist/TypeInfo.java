@@ -185,7 +185,7 @@ public final class TypeInfo {
      *         to acquire lock on object
      */
     public ObjectLock acquire(final OID oid, final TransactionContext tx,
-            final short lockAction, final int timeout)
+            final LockAction lockAction, final int timeout)
     throws LockNotGrantedException {
         ObjectLock entry = null;
         // sync on "locks" is, unfortunately, necessary if we employ
@@ -231,19 +231,19 @@ public final class TypeInfo {
         boolean failed = true;
         try {
             switch (lockAction) {
-            case ObjectLock.ACTION_READ:
+            case READ:
                 entry.acquireLoadLock(tx, false, timeout);
                 break;
 
-            case ObjectLock.ACTION_WRITE:
+            case WRITE:
                 entry.acquireLoadLock(tx, true, timeout);
                 break;
 
-            case ObjectLock.ACTION_CREATE:
+            case CREATE:
                 entry.acquireCreateLock(tx);
                 break;
 
-            case ObjectLock.ACTION_UPDATE:
+            case UPDATE:
                 entry.acquireUpdateLock(tx, timeout);
                 break;
 
