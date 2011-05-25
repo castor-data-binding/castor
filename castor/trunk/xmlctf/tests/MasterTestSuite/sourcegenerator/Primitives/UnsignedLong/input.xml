@@ -3,4 +3,5 @@
             xsi:noNamespaceSchemaLocation="test.xsd">
     <firstInteger>237</firstInteger>
     <firstString>firstString</firstString>
+    <thirdElement>28953</thirdElement>
 </rootObject>

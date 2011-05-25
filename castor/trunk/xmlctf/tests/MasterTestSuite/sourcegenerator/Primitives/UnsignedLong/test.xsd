@@ -4,8 +4,9 @@
   <xs:element name="rootObject">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="firstInteger" type="xs:unsignedLong" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="firstString" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="firstInteger" type="xs:unsignedLong" />
+        <xs:element name="firstString" type="xs:string" />
+        <xs:element name="thirdElement" type="xs:unsignedLong" minOccurs="0" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
