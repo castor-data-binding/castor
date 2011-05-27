@@ -194,8 +194,6 @@ public interface Persistence {
      * 
      * @param classDescriptorResolver {@link ClassDescriptorResolver} instance
      * @param classDescriptor the classDescriptor for the base class.
-     * @param identityDescriptors the {@link FieldDescriptor}s that describe the identities 
-     *        as defined for this class.
      * @param fieldDescriptor the {@link FieldDescriptor} for non-identity fields, 
      *        including all the fields in base classes.
      * @throws MappingException if an error occurred with analyzing the mapping information.
@@ -203,7 +201,7 @@ public interface Persistence {
      *         many-to-many relation database.
      */
     SQLRelationLoader createSQLRelationLoader(ClassDescriptorResolver classDescriptorResolver, 
-            ClassDescriptor classDescriptor, FieldDescriptor[] identityDescriptors, 
-            FieldDescriptor fieldDescriptor) throws MappingException;
+            ClassDescriptor classDescriptor, FieldDescriptor fieldDescriptor)
+    throws MappingException;
 }
 

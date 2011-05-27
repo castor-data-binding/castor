@@ -240,15 +240,13 @@ public class ClassMolder {
                 continue;
             }
 
-            if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())
-                    && new FieldDescriptorJDONature(fieldDescriptor).getManyTable() != null) {
-                SQLRelationLoader loader = _persistence.createSQLRelationLoader(
-                        classDescriptorResolver, classDescriptor, identityDescriptors, 
-                        fieldDescriptor);
-                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor, loader);
-            } else {
-                _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor);
+            SQLRelationLoader loader = null;
+            if (_persistence != null) {
+                loader = _persistence.createSQLRelationLoader(
+                        classDescriptorResolver, classDescriptor, fieldDescriptor);
             }
+
+            _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor, loader);
 
             // create RelationResolver instance
             _resolvers[fieldMolderCount] = ResolverFactory.createRelationResolver(

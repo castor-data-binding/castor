@@ -218,8 +218,13 @@ public final class SQLEngine implements Persistence {
      */
     public SQLRelationLoader createSQLRelationLoader(
             final ClassDescriptorResolver classDescriptorResolver, 
-            final ClassDescriptor classDescriptor, final FieldDescriptor[] identityDescriptors, 
-            final FieldDescriptor fieldDescriptor) throws MappingException {
+            final ClassDescriptor classDescriptor, final FieldDescriptor fieldDescriptor)
+    throws MappingException {
+        if (!fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())
+                || (new FieldDescriptorJDONature(fieldDescriptor).getManyTable() == null)) {
+            return null;
+        }
+        
         FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
 
         // the fields is not primitive
@@ -230,12 +235,12 @@ public final class SQLEngine implements Persistence {
 
         String manyTable = nature.getManyTable();
 
-        String[] idSQL = new String[identityDescriptors.length];
-        int[] idType = new int[identityDescriptors.length];
-        TypeConvertor[] idConvertFrom = new TypeConvertor[identityDescriptors.length];
-        TypeConvertor[] idConvertTo = new TypeConvertor[identityDescriptors.length];
         FieldDescriptor[] identityFieldDescriptors =
             ((ClassDescriptorImpl) classDescriptor).getIdentities();
+        String[] idSQL = new String[identityFieldDescriptors.length];
+        int[] idType = new int[identityFieldDescriptors.length];
+        TypeConvertor[] idConvertFrom = new TypeConvertor[identityFieldDescriptors.length];
+        TypeConvertor[] idConvertTo = new TypeConvertor[identityFieldDescriptors.length];
         int identityFieldCount = 0;
         for (FieldDescriptor identityFieldDescriptor : identityFieldDescriptors) {
             if (identityFieldDescriptor.hasNature(
