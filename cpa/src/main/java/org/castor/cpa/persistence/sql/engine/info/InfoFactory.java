@@ -122,25 +122,68 @@ public final class InfoFactory {
                     isStore = (table.getExtendedTable() == null) && !selfFN.isReadonly();
                     isDirtyCheck = selfFN.isDirtyCheck();
                 }
+                
+                boolean isBackColsNull = (backCols == null);
 
                 FieldDescriptor[] selfIDs = ((ClassDescriptorImpl) selfCD).getIdentities();
-                if (backCols == null) {
-                    backCols = getSQLNames(selfIDs);
+                if (isBackColsNull) {
+                    backCols = new String[selfIDs.length];
                 } else {
                     if (backCols.length != selfIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
                                 + "does not match with primary key of current class");
                     }
                 }
+                int[] idTypes = new int[selfIDs.length];
+                int identityFieldCount = 0;
+                for (FieldDescriptor identityFieldDescriptor : selfIDs) {
+                    FieldDescriptorJDONature nature = new FieldDescriptorJDONature(
+                            identityFieldDescriptor);
+                    
+                    if (isBackColsNull) {
+                        backCols[identityFieldCount] = nature.getSQLName()[0];
+                        if (backCols[identityFieldCount] == null) {
+                            throw new MappingException("Related class identities field does "
+                                    + "not contain sql information!");
+                        }
+                    }
+                    
+                    int[] type = new FieldDescriptorJDONature(
+                            identityFieldDescriptor).getSQLType();
+                    idTypes[identityFieldCount] = (type == null) ? 0 : type[0];
+                    
+                    identityFieldCount++;
+                }
+                
+                boolean isReferedColsNull = (referedCols == null);
 
                 FieldDescriptor[] referedIDs = ((ClassDescriptorImpl) referedCD).getIdentities();
-                if (referedCols == null) {
-                    referedCols = getSQLNames(referedIDs);
+                if (isReferedColsNull) {
+                    referedCols = new String[referedIDs.length];
                 } else {
                     if (referedCols.length != referedIDs.length) {
                         throw new MappingException("The number of columns of foreign key "
                                 + "does not match with primary key of related class");
                     }
+                }
+                int[] relatedIdTypes = new int[referedIDs.length];
+                int relatedIdentityCount = 0;
+                for (FieldDescriptor relatedIdentityDescriptor : referedIDs) {
+                    FieldDescriptorJDONature nature = new FieldDescriptorJDONature(
+                            relatedIdentityDescriptor);
+                    
+                    if (isReferedColsNull) {
+                        referedCols[relatedIdentityCount] = nature.getSQLName()[0];
+                        if (referedCols[relatedIdentityCount] == null) {
+                            throw new MappingException("Related class identities field does "
+                                    + "not contain sql information!");
+                        }
+                    }
+                    int[] tempType =  nature.getSQLType();
+                    relatedIdTypes[relatedIdentityCount] =
+                        (tempType == null) ? 0 : tempType[0];
+                    
+                    relatedIdentityCount++;
                 }
 
                 if (mode == TableLink.MANY_TO_MANY) {
@@ -152,14 +195,10 @@ public final class InfoFactory {
                     table.addForeignKey(foreignKey);
 
                     // add normal columns
-                    for (String referedCol : referedCols) {
-                        manyTable.addColumn(new ColumnInfo(referedCol));
-                    }
+                    addColumnsToTable(referedCols, relatedIdTypes, null, manyTable);
 
                     // add target columns
-                    for (String backCol : backCols) {
-                        foreignKey.addTargetCol(new ColumnInfo(backCol));
-                    }
+                    addColumnToTableLink(backCols, idTypes, null, foreignKey);
                 } else if (mode == TableLink.REFERS_TO) {
                     // refers to one
                     ArrayList<ColumnInfo> columns = new ArrayList<ColumnInfo>();
@@ -212,24 +251,39 @@ public final class InfoFactory {
             persIndex++;
         }
     }
+
+    /**
+     * Add passed columns to passed table. 
+     * 
+     * @param cols The columns to add to table.
+     * @param types The types of the corresponding columns.
+     * @param convertFrom Converter to convert value of this column.
+     * @param table The table to add columns to. 
+     */
+    private void addColumnsToTable(final String[] cols, final int[] types, 
+            final TypeConvertor convertFrom, final TableInfo table) {
+        for (int i = 0; i < cols.length; i++) {
+            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, false, 
+                    false);
+            table.addColumn(column);
+        }
+    }
     
     /**
-     * Method constructing array of the sqlNames of the belonging columns.
+     * Add passed columns to passed table link. 
      * 
-     * @param fieldDesc FieldDescriptor to get names from.
-     * @return Array of the names of the columns.
-     * @throws MappingException If an error occurs.
+     * @param cols The columns to add to table link.
+     * @param types The types of the corresponding columns. 
+     * @param convertFrom Converter to convert value of this column.
+     * @param tableLink The table link to add columns to. 
      */
-    private String[] getSQLNames(final FieldDescriptor[] fieldDesc) throws MappingException {
-        String[] names = new String[fieldDesc.length];
-        for (int j = 0; j < fieldDesc.length; j++) {
-            names[j] = new FieldDescriptorJDONature(fieldDesc[j]).getSQLName()[0];
-            if (names[j] == null) {
-                throw new MappingException("Related class identities field does "
-                        + "not contain sql information!");
-            }
+    private void addColumnToTableLink(final String[] cols, final int[] types,
+            final TypeConvertor convertFrom, final TableLink tableLink) {
+        for (int i = 0; i < cols.length; i++) {
+            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, 
+                    false, false);
+            tableLink.addTargetCol(column);
         }
-        return names;
     }
 
     //-----------------------------------------------------------------------------------    
