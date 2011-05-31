@@ -1,0 +1,52 @@
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="xml.code.generator.extensions">
+  <title>XML code generation - Extensions</title>
+
+  <section id="xml.code.generator.extensions.why">
+    <title>XML code generation extensions - Motivation</title>
+    
+    <para>
+        With Castor 1.2 and earlier releases it has already been possible to 
+        generate Java classes from an XML schema and use these classes 
+        for XML data binding <emphasis role="bold">without</emphasis> having 
+        to write a mapping file. 
+    </para>
+    
+    <para>
+        This is possible because the Castor XML code generator generated - in 
+        addition to the domain classes - a set of XML descriptor classes as well,
+        with one descriptor class generated per generated domain class. It's this 
+        XML descriptor class that holds all the information required to map Java 
+        classes and/or field members to XML artifacts, as set out in the original
+        XML schema definitions. This includes ....    
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>artefact names</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace URIs</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace prefix</para>
+        </listitem>
+        <listitem>
+            <para>validation code</para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        Starting with Castor 1.3, a mechanism has been added to the XML code generator that allows
+        extension of these core offerings so that either additional content is added to the generated
+        domain classes additonal descriptor classes are gernated.
+    </para>
+  
+    <xi:include href="reference/jdo-extensions.xml" />
+
+    <xi:include href="reference/solrj-extensions.xml" />
+    
+    </section>
+
+</chapter>
