@@ -15,7 +15,7 @@
     <property name="gen.src"              value="${basedir}/target/generated-sources/castor"/>
 
 	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
-	    <artifact:pom id="core" file="${basedir}/pom.xml" />
+	    <artifact:pom id="schema" file="${basedir}/pom.xml" />
     </artifact:dependencies>	
 	
     <path id="build.classpath">
@@ -70,6 +70,9 @@
                debug="on" encoding="ISO-8859-1" deprecation="false"
                source="1.5" target="1.5">
             <classpath refid="build.classpath"/>
+        	<classpath>
+        		<fileset dir="${basedir}/lib"/>
+        	</classpath>
         </javac>
         <copy todir="${classes}">
             <fileset dir="${main.resources}">
