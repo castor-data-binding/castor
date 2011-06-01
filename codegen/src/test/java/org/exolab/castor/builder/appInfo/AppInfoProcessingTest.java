@@ -27,6 +27,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
+import org.exolab.castor.builder.info.nature.SolrjFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.javasource.JClass;
 import org.xml.sax.InputSource;
@@ -295,6 +296,124 @@ public class AppInfoProcessingTest extends TestCase {
                 
                 assertEquals("title", fNature.getColumnName());
                 assertEquals("varchar", fNature.getColumnType());
+            } else {
+                fail("Unexpected ClassInfo Element encountered!");
+            }
+        }
+    }
+
+    /**
+     * This method tests the processing of AppInfos from a Schema that describes
+     * a Book. The Schema consists of a global element whose type is described by
+     * a global <code>complexType</code> definition consisting of two sub-elements
+     * and an attribute. 
+     * 
+     * @throws Exception
+     *             if an error occurs
+     */
+    public final void testAppInfoProcessingWithEntityAndSolrjSchema() throws Exception {
+        _xmlSchema = getClass().getResource("schema-solrj.xsd").toExternalForm();
+        InputSource inputSource = new InputSource(_xmlSchema);
+        _generator.generateSource(inputSource, getClass().getPackage()
+                .getName()
+                + ".generated.solrj");
+        
+     // get the Source Generator's state Info
+        SGStateInfo sgState = _generator.getSGStateInfo();
+
+        assertNotNull(sgState);
+
+        /*
+         * Get all elements (=keys) the ClassInfoResolver knows of. For these
+         * keys the SourceGenerator created ClassInfos in which we are
+         * interested.
+         */
+        Enumeration enumeration = sgState.keys();
+
+        assertTrue(enumeration.hasMoreElements());
+
+        List cInfos = new ArrayList();
+        /*
+         * Get all ClassInfos. Note that during the source generation process
+         * ClassInfos are actually added twice to the ClassInfoResolver's cache: 
+         * - once with the XMLBindingComponent/ClassInfo 
+         * - and with the JClass/ClassInfo 
+         * as key/value pair.
+         * Therefore we only get those ClassInfos with a 
+         * XMLBindingComponent/ClassInfo pair to avoid duplicates!
+         */
+        while (enumeration.hasMoreElements()) {
+            Object elem = enumeration.nextElement();
+            if (!(elem instanceof JClass)) {
+                cInfos.add(sgState.resolve(elem));
+            }
+        }
+
+        assertEquals(2, cInfos.size());
+        
+        for (int i = 0; i < cInfos.size(); ++i) {
+            ClassInfo cInfo = (ClassInfo) cInfos.get(i);
+
+            assertNotNull(cInfo);
+
+            XMLInfoNature xmlNature = new XMLInfoNature(cInfo);
+            
+            if (xmlNature.getNodeName().equals("book")) {
+                /*
+                 * No JDO-specific information should be stored to this
+                 * ClassInfo.
+                 */
+                assertFalse(cInfo.hasNature(JDOClassInfoNature.class.getName()));
+//                JDOClassNature cNature = new JDOClassNature(cInfo);
+//                
+//                assertEquals(null, cNature.getTableName());
+//                
+//                List primaryKeys = cNature.getPrimaryKeys();
+//                
+//                assertNull(primaryKeys);
+                
+                assertEquals(0, cInfo.getFieldCount());
+                
+            } else if (xmlNature.getNodeName().equals("bookType")) {
+                
+                ///////// FieldInfo
+                /*
+                 *  There should be 3 FieldInfos:
+                 *  - coverType (attribute field)
+                 *  - isbn
+                 *  - title 
+                 */
+                assertEquals(3, cInfo.getFieldCount());
+
+                // FieldInfo for coverType
+                FieldInfo fInfo = cInfo.getAttributeField("coverType");
+                assertNotNull(fInfo);
+                
+                assertTrue(fInfo.hasNature(SolrjFieldInfoNature.class.getName()));
+                SolrjFieldInfoNature solrjNature = new SolrjFieldInfoNature(fInfo);
+                assertNull(solrjNature.getFieldName());
+                
+                // FieldInfo for isbn                
+                fInfo = cInfo.getElementField("isbn");
+                assertNotNull(fInfo);
+
+                assertTrue(fInfo.hasNature(SolrjFieldInfoNature.class.getName()));
+                solrjNature = new SolrjFieldInfoNature(fInfo);
+                assertNotNull(solrjNature.getFieldName());
+                assertEquals("isbn", solrjNature.getFieldName());
+
+                // FieldInfo for title
+                fInfo = cInfo.getElementField("title");
+                assertNotNull(fInfo);
+
+                assertTrue(fInfo.hasNature(SolrjFieldInfoNature.class.getName()));
+                
+                assertTrue(fInfo.hasNature(SolrjFieldInfoNature.class.getName()));
+                solrjNature = new SolrjFieldInfoNature(fInfo);
+                assertNotNull(solrjNature.getFieldName());
+                assertEquals("title", solrjNature.getFieldName());
+                
+
             } else {
                 fail("Unexpected ClassInfo Element encountered!");
             }

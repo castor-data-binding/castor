@@ -49,6 +49,7 @@ import java.util.Enumeration;
 import java.util.Stack;
 
 import org.castor.core.constants.cpa.JDOConstants;
+import org.castor.core.constants.solrj.SOLRJConstants;
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
@@ -56,6 +57,8 @@ import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.AppInfo;
+import org.exolab.castor.xml.schema.AppInfoJpaNature;
+import org.exolab.castor.xml.schema.AppInfoSolrjNature;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaNames;
 
@@ -211,7 +214,20 @@ public class AppInfoUnmarshaller extends ComponentReader {
               context.addPackage(JDOConstants.GENERATED_ANNOTATION_CLASSES_PACKAGE);
               Unmarshaller unmarshaller = context.createUnmarshaller();               
               unmarshaller.setClassLoader(getClass().getClassLoader());
-              _appInfo.getJdoContent().add(unmarshaller.unmarshal(node));
+              if (!_appInfo.hasNature(AppInfoJpaNature.class.getName())) {
+                  _appInfo.addNature(AppInfoJpaNature.class.getName());
+              }
+              new AppInfoJpaNature(_appInfo).addContent(unmarshaller.unmarshal(node));
+          }            
+          if (node.getNamespaceURI().equals(SOLRJConstants.NAMESPACE) 
+                  && (node.getLocalName().equals(SOLRJConstants.ANNOTATIONS_FIELD_NAME) 
+                          || node.getLocalName().equals(SOLRJConstants.ANNOTATIONS_ID_NAME))) {
+              XMLContext context = new XMLContext();
+              context.addPackage(SOLRJConstants.GENERATED_ANNOTATION_CLASSES_PACKAGE);
+              Unmarshaller unmarshaller = context.createUnmarshaller();               
+              unmarshaller.setClassLoader(getClass().getClassLoader());
+              _appInfo.addNature(AppInfoSolrjNature.class.getName());
+              new AppInfoSolrjNature(_appInfo).setContent(unmarshaller.unmarshal(node));
           }            
           //-- add to appInfo
           _appInfo.add(node);

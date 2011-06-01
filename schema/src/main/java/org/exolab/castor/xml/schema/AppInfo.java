@@ -45,8 +45,12 @@
 
 package org.exolab.castor.xml.schema;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.castor.core.nature.PropertyHolder;
 
 
 /**
@@ -56,23 +60,27 @@ import java.util.List;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $ 
  * @see AnnotationItem
  */
-public class AppInfo extends AnnotationItem {
+public class AppInfo extends AnnotationItem implements PropertyHolder {
     /** SerialVersionUID */
     private static final long serialVersionUID = -8678983924238645714L;
 
-    private List _jdoContent = null;
+    /**
+     * Map holding the available natures.
+     */
+    private Set<String> _natures = new HashSet<String>();
     
+    /**
+     * Map holding the properties set and read by natures.
+     */
+    private Map<String, Object> _properties = new HashMap<String, Object>();
+
     /**
      * Creates a new AppInfo
      */
     public AppInfo() {
         super();
-        _jdoContent = new LinkedList();
-    } //-- AppInfo
-    
-    //-------------------------------/
-    //- Implementation of Structure -/
-    //-------------------------------/
+        
+    }
     
     /**
      * Returns the type of this Schema Structure
@@ -81,20 +89,51 @@ public class AppInfo extends AnnotationItem {
      */
     public short getStructureType() {
         return Structure.APPINFO;
-    } //-- getStructureType
-
-    /**
-     * @return the jdoContent
-     */
-    public final List getJdoContent() {
-        return _jdoContent;
     }
 
     /**
-     * @param jdoContent the jdoContent to set
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      getProperty(java.lang.String)
+     * @param name
+     *            of the property
+     * @return value of the property
      */
-    public final void setJdoContent(List jdoContent) {
-        _jdoContent = jdoContent;
+    public Object getProperty(final String name) {
+        return _properties.get(name);
     }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
+     *      setProperty(java.lang.String, java.lang.Object)
+     * @param name
+     *            of the property
+     * @param value
+     *            of the property
+     */
+    public void setProperty(final String name, final Object value) {
+        _properties.put(name, value);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      addNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     */
+    public void addNature(final String nature) {
+        _natures.add(nature);
+    }
+
+    /**
+     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
+     *      hasNature(java.lang.String)
+     * @param nature
+     *            ID of the Nature
+     * @return true if the Nature ID was added.
+     */
+    public boolean hasNature(final String nature) {
+        return _natures.contains(nature);
+    }
+
     
-} //-- class: AppInfo
+}
