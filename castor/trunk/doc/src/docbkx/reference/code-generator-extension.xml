@@ -1,6 +1,6 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<chapter id="xml.code.generator.extensions">
+<chapter id="xml.code.generator.extensions" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>XML code generation - Extensions</title>
 
   <section id="xml.code.generator.extensions.why">
@@ -43,9 +43,9 @@
         domain classes additonal descriptor classes are gernated.
     </para>
   
-    <xi:include href="reference/jdo-extensions.xml" />
+    <xi:include href="jdo-extensions.xml" />
 
-    <xi:include href="reference/solrj-extensions.xml" />
+    <xi:include href="solrj-extensions.xml" />
     
     </section>
 
