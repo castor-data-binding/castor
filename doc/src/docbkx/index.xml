@@ -43,7 +43,7 @@
     <xi:include href="reference/solrj-extensions.xml" />
   -->
 
-    <xi:include href="reference/code-generator-extensions.xml" />
+  <xi:include href="reference/code-generator-extension.xml" />
 
   <!--  <xi:include href="reference/showcase.xml" />  -->
   
