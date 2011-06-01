@@ -252,4 +252,9 @@ public class NamespaceHandling {
         createNamespace();
         _createNamespaceScope = false;
     }
+
+    public void setNewNamespaceScopeNecessary(boolean value) {
+        _createNamespaceScope = value;
+        
+    }
 }
