@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="bar">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="color" type="xs:string"/>
+                <xs:element name="category" type="xs:string"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" use="optional" default="1.0"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
+
+
+
+
+
+
+

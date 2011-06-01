@@ -83,6 +83,7 @@ import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
+import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
@@ -139,6 +140,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Attribute name for default namespace declaration
     **/
     private static final String   XMLNS             = "xmlns";
+
+    /**
+     * Attribute prefix for prefixed namespace declaration.
+     **/
+    private final static String XMLNS_PREFIX = "xmlns:";
 
     /**
      * The type attribute (xsi:type) used to denote the
@@ -633,6 +639,34 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     } //-- startDocument
     
+    private void extractNamespaceInformation(Attributes attributes) {
+
+        if (attributes == null || attributes.getLength() == 0) {
+            return;
+        }
+
+        // -- look for any potential namespace declarations
+        // -- in case namespace processing was disable
+        // -- on the parser
+        for (int i = 0; i < attributes.getLength(); i++) {
+            String attributeName = attributes.getQName(i);
+            if (StringUtils.isNotEmpty(attributeName)) {
+                if (attributeName.equals(XMLNS)) {
+                    _namespaceHandling.addDefaultNamespace(attributes.getValue(i));
+                } else if (attributeName.startsWith(XMLNS_PREFIX)) {
+                    String prefix = attributeName.substring(XMLNS_PREFIX.length());
+                    _namespaceHandling.addNamespace(prefix, attributes.getValue(i));
+                }
+            } else {
+                // -- if qName is null or empty, just process as a normal
+                // -- attribute
+                attributeName = attributes.getLocalName(i);
+                if (XMLNS.equals(attributeName)) {
+                    _namespaceHandling.addDefaultNamespace(attributes.getValue(i));
+                }
+            }
+        }
+    }
     
     /**
      * <p>ContentHandler#startElement</p>
@@ -676,9 +710,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- Create a new namespace scope if necessary and
         //-- make sure the flag is reset to true
-        if(_namespaceHandling.isNewNamespaceScopeNecessary())
+        if(_namespaceHandling.isNewNamespaceScopeNecessary()) {
         	_namespaceHandling.startNamespaceScope();
+        } else {
+            _namespaceHandling.setNewNamespaceScopeNecessary(true);
+        }
 
+        // the call to getAttributeSet() has side efefcts in the sense that it actually
+        // sets a default namspace (if present); this is required to have been executed
+        // here before the following code
+        // TODO: refactor = extract namespace handling code
+        // TODO: enable code: extractNamespaceInformation(atts);
+        AttributeSet attributeSet = _attributeSetFactory.getAttributeSet(atts);
+        
         //-- preserve parser passed arguments for any potential
         //-- delegation
         String tmpQName = null;
@@ -690,21 +734,18 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             localName = qName;
             tmpQName = qName;
-        }
-        else {
+        } else {
             if (StringUtils.isEmpty(qName)) {
                 if (StringUtils.isEmpty(namespaceURI)) {
                 	tmpQName = localName;
-                }
-                else {
+                } else {
                     String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
                     if (StringUtils.isNotEmpty(prefix)) {
                     	tmpQName = prefix + ":" + localName;
                     }
                 }
                 
-            }
-            else {
+            } else {
             	tmpQName = qName;
             }
         }
@@ -730,7 +771,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- call private startElement
-        startElementProcessing(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
+        startElementProcessing(localName, namespaceURI, attributeSet);
         
     } //-- startElement
  
@@ -747,12 +788,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void startElement(String name, AttributeList attList)
     throws org.xml.sax.SAXException {
         if (LOG.isTraceEnabled()) {
-        	String trace = MessageFormat
-			.format(
-					resourceBundle
-							.getString("unmarshalHandler.log.trace.startElement"),
-					new Object[] { name });
-        	LOG.trace(trace);
+            String trace = MessageFormat.format(resourceBundle.getString("unmarshalHandler.log.trace.startElement"),
+                    new Object[] { name });
+            LOG.trace(trace);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for

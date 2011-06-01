@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo version="1.0">
+    <color>white</color>
+    <size>big</size>
+    <ns1:bar xmlns:ns1="http://www.example.org/bar" version="1.0">
+        <ns1:color>black</ns1:color>
+        <ns1:category>drink</ns1:category>
+    </ns1:bar>
+</foo>
