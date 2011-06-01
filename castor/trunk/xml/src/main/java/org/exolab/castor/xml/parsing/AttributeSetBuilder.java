@@ -123,12 +123,7 @@ public class AttributeSetBuilder {
         for (int i = 0; i < atts.getLength(); i++) {
             String attName = atts.getQName(i);
             if (StringUtils.isNotEmpty(attName)) {
-                if (attName.equals(XMLNS)) {
-                    _namespaceHandling.addDefaultNamespace(atts.getValue(i));
-                } else if (attName.startsWith(XMLNS_PREFIX)) {
-                    String prefix = attName.substring(XMLNS_PREFIX.length());
-                    _namespaceHandling.addNamespace(prefix, atts.getValue(i));
-                } else {
+                if (!attName.equals(XMLNS) && !attName.startsWith(XMLNS_PREFIX)) {
                     // -- check for prefix
                     if (attName.indexOf(':') < 0) {
                     	attributeSet.setAttribute(attName, atts.getValue(i), atts
@@ -140,9 +135,7 @@ public class AttributeSetBuilder {
                 // -- if attName is null or empty, just process as a normal
                 // -- attribute
                 attName = atts.getLocalName(i);
-                if (XMLNS.equals(attName)) {
-                    _namespaceHandling.addDefaultNamespace(atts.getValue(i));
-                } else {
+                if (!XMLNS.equals(attName)) {
                 	attributeSet.setAttribute(attName, atts.getValue(i), atts
                             .getURI(i));
                 }

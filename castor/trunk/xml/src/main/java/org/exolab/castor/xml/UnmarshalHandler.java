@@ -645,9 +645,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
 
-        // -- look for any potential namespace declarations
-        // -- in case namespace processing was disable
-        // -- on the parser
+        // look for any potential namespace declarations in case namespace 
+        // processing was disabled on the XML parser
         for (int i = 0; i < attributes.getLength(); i++) {
             String attributeName = attributes.getQName(i);
             if (StringUtils.isNotEmpty(attributeName)) {
@@ -716,15 +715,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             _namespaceHandling.setNewNamespaceScopeNecessary(true);
         }
 
-        // the call to getAttributeSet() has side efefcts in the sense that it actually
-        // sets a default namspace (if present); this is required to have been executed
-        // here before the following code
-        // TODO: refactor = extract namespace handling code
-        // TODO: enable code: extractNamespaceInformation(atts);
-        AttributeSet attributeSet = _attributeSetFactory.getAttributeSet(atts);
+        // extract namespace information
+        extractNamespaceInformation(atts);
         
-        //-- preserve parser passed arguments for any potential
-        //-- delegation
+        // preserve parser passed arguments for any potential delegation
         String tmpQName = null;
         
         if (StringUtils.isEmpty(localName)) {
@@ -771,7 +765,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- call private startElement
-        startElementProcessing(localName, namespaceURI, attributeSet);
+        startElementProcessing(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
         
     } //-- startElement
  
