@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<chapter id="jdo.extensions">
+<section id="jdo.extensions">
   <title>SOLRJ extensions for the Castor XML code generator</title>
 
 <!-- 
@@ -110,12 +110,12 @@
         
         <programlistingco>        
               <areaspec>
-                 <area id="solrj.extensions.schema.location.1" units="linecolumn" coords="5 80"/>
+                 <area id="solrj.extensions.schema.location.1" units="linecolumn" coords="6 95"/>
               </areaspec>
             <programlisting language="xml"><![CDATA[
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://your/target/namespace"
-    xmlns:jdo="http://www.castor.org/binding/solrj"
+    xmlns:solr="http://www.castor.org/binding/solrj"
     xmlns="http://your/target/namespace"
     xsi:schemaLocation="http://www.castor.org/binding/solrj http://www.castor.org/solrj-extensions.xsd">
     
@@ -144,14 +144,14 @@
            <title>&lt;field&gt; element</title>
 
             <para>
-                The &lt;field&gt; element allows you to map a member of content model 
-                of a &lt;complexType&gt; definition to SOLRJ field.
+                The &lt;field&gt; element allows you to map a member of the content model 
+                of a <literal>&lt;complexType&gt;</literal> definition to SOLRJ field.
             </para>
 
            <programlistingco>
               <areaspec>
-                 <area id="solrj.extensions.schema.elements.field.1" units="linecolumn" coords="6 80"/>
-                 <area id="solrj.extensions.schema.elements.field.2" units="linecolumn" coords="13 80"/>
+                 <area id="solrj.extensions.schema.elements.field.1" units="linecolumn" coords="7 80"/>
+                 <area id="solrj.extensions.schema.elements.field.2" units="linecolumn" coords="14 80"/>
               </areaspec>
               <programlisting language="xml"><![CDATA[
 <complexType name="bookType">
@@ -202,6 +202,23 @@
                 to be specified if the field name and the Java property name
                 are identical.
             </para>
+            
+            <para>
+                Above complex type definition will be transformed to the 
+                corresponding Java property definitions (within a class):
+            </para>
+            
+            <programlisting>
+public class BookType {
+
+    @Field("id")
+    private String isbn;
+    
+    @Field
+    private long pages;
+    
+}
+            </programlisting>
             
             <para>
                 The XML schema definition for <literal>&lt;field&gt;</literal> is 
@@ -273,4 +290,4 @@
         
      </section>
       
-</chapter>
+</section>
