@@ -30,9 +30,8 @@
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>castor-maven-plugin</artifactId>
              <configuration>
-                <schema>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.xsd</schema>
-                <packaging>org.exolab.castor.xml.schema.annotations.jdo</packaging>
-                <!-- <properties>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/jdo/jdo-extensions.properties</properties> -->
+                <schemaDirectory>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations</schemaDirectory>
+                <properties>${basedir}/src/main/resources/org/exolab/castor/xml/schema/annotations/annotations.properties</properties>
              </configuration>
              <executions>
                 <execution>

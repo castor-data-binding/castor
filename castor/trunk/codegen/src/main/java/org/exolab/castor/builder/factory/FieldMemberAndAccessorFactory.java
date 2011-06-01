@@ -1,10 +1,14 @@
 package org.exolab.castor.builder.factory;
 
+import org.apache.commons.lang.StringUtils;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.nature.SolrjFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.javasource.JAnnotation;
+import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
@@ -15,7 +19,6 @@ import org.exolab.javasource.JParameter;
 import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
-import org.exolab.javasource.Java5HacksHelper;
 
 /**
  * This factory takes a FieldInfo and generates the suitable JFields
@@ -133,7 +136,27 @@ public class FieldMemberAndAccessorFactory {
         if (fieldInfo.getComment() != null) {
             field.setComment(fieldInfo.getComment());
         }
-
+        
+        // deal with SOLRJ annotations
+        if (fieldInfo.hasNature(SolrjFieldInfoNature.class.getName())) {
+            SolrjFieldInfoNature solrjNature =  new SolrjFieldInfoNature(fieldInfo);
+            
+            JAnnotationType annotationType = null;
+            if (solrjNature.isIdDefinition()) {
+                annotationType = new JAnnotationType("org.apache.solr.client.solrj.beans.Id");
+                jClass.addImport("org.apache.solr.client.solrj.beans.Id");
+            } else {
+                annotationType = new JAnnotationType("org.apache.solr.client.solrj.beans.Field");
+                jClass.addImport("org.apache.solr.client.solrj.beans.Field");
+            }
+            JAnnotation annotation = new JAnnotation(annotationType);
+            field.addAnnotation(annotation);
+            String fieldName = solrjNature.getFieldName();
+            if (StringUtils.isNotBlank(fieldName)) {
+                annotation.setValue("\"" + fieldName + "\"");
+            }
+        }
+        
         jClass.addField(field);
 
         //-- special supporting fields

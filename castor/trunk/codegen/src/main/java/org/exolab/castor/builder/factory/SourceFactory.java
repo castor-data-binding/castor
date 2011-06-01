@@ -55,6 +55,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.castor.core.util.StringUtil;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
@@ -73,6 +74,7 @@ import org.exolab.castor.builder.info.GroupInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
+import org.exolab.castor.builder.info.nature.SolrjFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToManyNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToOneNature;
@@ -83,6 +85,8 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AppInfo;
+import org.exolab.castor.xml.schema.AppInfoJpaNature;
+import org.exolab.castor.xml.schema.AppInfoSolrjNature;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
@@ -107,6 +111,8 @@ import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
 import org.exolab.castor.xml.schema.annotations.jdo.Table;
+import org.exolab.castor.xml.schema.annotations.solrj.Field;
+//import org.exolab.castor.xml.schema.annotations.solrj.Id;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
@@ -1395,7 +1401,7 @@ public final class SourceFactory extends BaseFactory {
                 }
                 jsc.add("   result = 37 * result + " + name + ".hashCode();");
 
-           	    if (getConfig().useCycleBreaker()) {
+                if (getConfig().useCycleBreaker()) {
                     // Calculates hashCode in an acyclic recursive manner
                     jsc.add("   org.castor.core.util.CycleBreaker.releaseCycleHandle(" + name + ");");
                 }
@@ -1831,24 +1837,29 @@ public final class SourceFactory extends BaseFactory {
             Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
                 AppInfo appInfo = appInfos.nextElement();
-                List<?> content = appInfo.getJdoContent();
-                Iterator<?> it = content.iterator();
-                if (it.hasNext()) {
-                    cInfo.addNature(JDOClassInfoNature.class.getName());
-                    JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
-                    while (it.hasNext()) {
-                        Object tmpObject = it.next();
-                        if (tmpObject instanceof Table) {
-                            Table table = (Table) tmpObject;
-                            cNature.setTableName(table.getName());
-                            cNature.setAccessMode(AccessMode.valueOf("shared"));
-                            cNature.setDetachable(table.isDetachable());
-                         // TODO: Uncomment next line as soon as Annotation Classes have been updated!
-//                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
-                            PrimaryKey pk = table.getPrimaryKey();
-                            Iterator<? extends String> pIt = pk.iterateKey();
-                            while (pIt.hasNext()) {
-                                cNature.addPrimaryKey(pIt.next());
+                if (appInfo.hasNature(AppInfoJpaNature.class.getName())) {
+                    AppInfoJpaNature nature = new AppInfoJpaNature(appInfo);
+                    List<?> content = nature.getContent();
+                    if (content != null && !content.isEmpty()) {
+                        Iterator<?> it = content.iterator();
+                        if (it.hasNext()) {
+                            cInfo.addNature(JDOClassInfoNature.class.getName());
+                            JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
+                            while (it.hasNext()) {
+                                Object tmpObject = it.next();
+                                if (tmpObject instanceof Table) {
+                                    Table table = (Table) tmpObject;
+                                    cNature.setTableName(table.getName());
+                                    cNature.setAccessMode(AccessMode.valueOf("shared"));
+                                    cNature.setDetachable(table.isDetachable());
+                                    // TODO: Uncomment next line as soon as Annotation Classes have been updated!
+                                    //                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
+                                    PrimaryKey pk = table.getPrimaryKey();
+                                    Iterator<? extends String> pIt = pk.iterateKey();
+                                    while (pIt.hasNext()) {
+                                        cNature.addPrimaryKey(pIt.next());
+                                    }
+                                }
                             }
                         }
                     }
@@ -1880,34 +1891,55 @@ public final class SourceFactory extends BaseFactory {
             Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
                 AppInfo appInfo = appInfos.nextElement();
-                List<?> content = appInfo.getJdoContent();
-                Iterator<?> it = content.iterator();
-                if (it.hasNext()) {                 
-                    while (it.hasNext()) {
-                        Object tmpObject = it.next();
-                        if (tmpObject instanceof Column) {
-                            fInfo.addNature(JDOFieldInfoNature.class.getName());
-                            JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
-                            Column column = (Column) tmpObject;
-                            fNature.setColumnName(column.getName());
-                            fNature.setColumnType(column.getType());
-                            fNature.setReadOnly(column.isReadOnly());
-                            fNature.setDirty(false);
-                            fNature.setDirty(column.getDirty());
-                        } else if (tmpObject instanceof OneToOne) {
-                            OneToOne relation = (OneToOne) tmpObject;
-                            fInfo.addNature(JDOOneToOneNature.class.getName());
-                            JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
-                            oneNature.addForeignKey(relation.getName());
-                            oneNature.setDirty(relation.isDirty());
-                            oneNature.setReadOnly(relation.isReadOnly());
-                        } else if (tmpObject instanceof OneToMany) {
-                            OneToMany relation = (OneToMany) tmpObject;
-                            fInfo.addNature(JDOOneToManyNature.class.getName());
-                            JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
-                            manyNature.addForeignKey(relation.getName());
-                            manyNature.setDirty(relation.isDirty());
-                            manyNature.setReadOnly(relation.isReadOnly());
+                
+                if (appInfo.hasNature(AppInfoSolrjNature.class.getName())) {
+                    AppInfoSolrjNature nature = new AppInfoSolrjNature(appInfo);
+                    Object solrjRawContent = nature.getContent();
+                    if (solrjRawContent != null) {
+                        fInfo.addNature(SolrjFieldInfoNature.class.getName());
+                        SolrjFieldInfoNature solrjNature = new SolrjFieldInfoNature(fInfo);
+                        if (solrjRawContent instanceof Field) {
+                            Field solrjField = (Field) solrjRawContent;
+                            if (StringUtils.isNotBlank(solrjField.getName())) {
+                                solrjNature.setFieldName(solrjField.getName());
+                            }
+                        }
+                    }
+                }
+                
+                if (appInfo.hasNature(AppInfoJpaNature.class.getName())) {
+                    AppInfoJpaNature nature = new AppInfoJpaNature(appInfo);
+                    List<?> content = nature.getContent();
+                    if (content != null && !content.isEmpty()) {
+                        Iterator<?> it = content.iterator();
+                        if (it.hasNext()) {                 
+                            while (it.hasNext()) {
+                                Object tmpObject = it.next();
+                                if (tmpObject instanceof Column) {
+                                    fInfo.addNature(JDOFieldInfoNature.class.getName());
+                                    JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
+                                    Column column = (Column) tmpObject;
+                                    fNature.setColumnName(column.getName());
+                                    fNature.setColumnType(column.getType());
+                                    fNature.setReadOnly(column.isReadOnly());
+                                    fNature.setDirty(false);
+                                    fNature.setDirty(column.getDirty());
+                                } else if (tmpObject instanceof OneToOne) {
+                                    OneToOne relation = (OneToOne) tmpObject;
+                                    fInfo.addNature(JDOOneToOneNature.class.getName());
+                                    JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
+                                    oneNature.addForeignKey(relation.getName());
+                                    oneNature.setDirty(relation.isDirty());
+                                    oneNature.setReadOnly(relation.isReadOnly());
+                                } else if (tmpObject instanceof OneToMany) {
+                                    OneToMany relation = (OneToMany) tmpObject;
+                                    fInfo.addNature(JDOOneToManyNature.class.getName());
+                                    JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
+                                    manyNature.addForeignKey(relation.getName());
+                                    manyNature.setDirty(relation.isDirty());
+                                    manyNature.setReadOnly(relation.isReadOnly());
+                                }
+                            }
                         }
                     }
                 }
