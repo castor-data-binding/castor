@@ -135,6 +135,7 @@ public final class InfoFactory {
                     }
                 }
                 int[] idTypes = new int[selfIDs.length];
+                TypeConvertor[] idConvertFrom = new TypeConvertor[selfIDs.length];
                 int identityFieldCount = 0;
                 for (FieldDescriptor identityFieldDescriptor : selfIDs) {
                     FieldDescriptorJDONature nature = new FieldDescriptorJDONature(
@@ -151,6 +152,9 @@ public final class InfoFactory {
                     int[] type = new FieldDescriptorJDONature(
                             identityFieldDescriptor).getSQLType();
                     idTypes[identityFieldCount] = (type == null) ? 0 : type[0];
+                    FieldHandlerImpl fieldHandler =
+                        (FieldHandlerImpl) identityFieldDescriptor.getHandler();
+                    idConvertFrom[identityFieldCount] = fieldHandler.getConvertFrom();
                     
                     identityFieldCount++;
                 }
@@ -167,6 +171,7 @@ public final class InfoFactory {
                     }
                 }
                 int[] relatedIdTypes = new int[referedIDs.length];
+                TypeConvertor[] relatedIdConvertFrom = new TypeConvertor[referedIDs.length];
                 int relatedIdentityCount = 0;
                 for (FieldDescriptor relatedIdentityDescriptor : referedIDs) {
                     FieldDescriptorJDONature nature = new FieldDescriptorJDONature(
@@ -182,6 +187,9 @@ public final class InfoFactory {
                     int[] tempType =  nature.getSQLType();
                     relatedIdTypes[relatedIdentityCount] =
                         (tempType == null) ? 0 : tempType[0];
+                    FieldHandlerImpl fh = (FieldHandlerImpl)
+                    referedIDs[relatedIdentityCount].getHandler();
+                    relatedIdConvertFrom[relatedIdentityCount] = fh.getConvertFrom();
                     
                     relatedIdentityCount++;
                 }
@@ -195,10 +203,11 @@ public final class InfoFactory {
                     table.addForeignKey(foreignKey);
 
                     // add normal columns
-                    addColumnsToTable(referedCols, relatedIdTypes, null, manyTable);
+                    addColumnsToTable(referedCols, relatedIdTypes, relatedIdConvertFrom, 
+                            manyTable);
 
                     // add target columns
-                    addColumnToTableLink(backCols, idTypes, null, foreignKey);
+                    addColumnToTableLink(backCols, idTypes, idConvertFrom, foreignKey);
                 } else if (mode == TableLink.REFERS_TO) {
                     // refers to one
                     ArrayList<ColumnInfo> columns = new ArrayList<ColumnInfo>();
@@ -257,14 +266,14 @@ public final class InfoFactory {
      * 
      * @param cols The columns to add to table.
      * @param types The types of the corresponding columns.
-     * @param convertFrom Converter to convert value of this column.
+     * @param convFrom Converter to convert value of this column.
      * @param table The table to add columns to. 
      */
     private void addColumnsToTable(final String[] cols, final int[] types, 
-            final TypeConvertor convertFrom, final TableInfo table) {
+            final TypeConvertor[] convFrom, final TableInfo table) {
         for (int i = 0; i < cols.length; i++) {
-            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, false, 
-                    false);
+            TypeConvertor convertFrom = (convFrom == null) ? null : convFrom[i];
+            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, false, false);
             table.addColumn(column);
         }
     }
@@ -274,14 +283,14 @@ public final class InfoFactory {
      * 
      * @param cols The columns to add to table link.
      * @param types The types of the corresponding columns. 
-     * @param convertFrom Converter to convert value of this column.
+     * @param convFrom Converter to convert value of this column.
      * @param tableLink The table link to add columns to. 
      */
     private void addColumnToTableLink(final String[] cols, final int[] types,
-            final TypeConvertor convertFrom, final TableLink tableLink) {
+            final TypeConvertor[] convFrom, final TableLink tableLink) {
         for (int i = 0; i < cols.length; i++) {
-            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, 
-                    false, false);
+            TypeConvertor convertFrom = (convFrom == null) ? null : convFrom[i];
+            ColumnInfo column = new ColumnInfo(cols[i], 0, types[i], convertFrom, false, false);
             tableLink.addTargetCol(column);
         }
     }
