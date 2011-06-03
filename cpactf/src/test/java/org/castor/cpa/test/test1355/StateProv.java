@@ -3,7 +3,7 @@ package org.castor.cpa.test.test1355;
 import org.junit.Ignore;
 
 @Ignore
-public final class StateProv extends BaseObject {
+public class StateProv extends BaseObject {
     private String _code;
     private String _name;
     private Country _country = new Country();

@@ -32,6 +32,7 @@ public final class TestDeleteWithThreeLevelExtends extends CPATestCase {
 //        return false;
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
             || (engine == DatabaseEngineType.SAPDB);
     }

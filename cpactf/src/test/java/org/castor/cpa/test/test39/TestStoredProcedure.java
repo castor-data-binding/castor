@@ -49,9 +49,8 @@ public final class TestStoredProcedure extends CPATestCase {
     // If that's resolved ORACLE engine should work again
 
     public boolean include(final DatabaseEngineType engine) {
-        return false;
-//        return (engine == DatabaseEngineType.ORACLE)
-//            || (engine == DatabaseEngineType.POSTGRESQL);
+        return (engine == DatabaseEngineType.POSTGRESQL);
+//            || (engine == DatabaseEngineType.ORACLE);
     }
     
     public boolean exclude(final DatabaseEngineType engine) {
