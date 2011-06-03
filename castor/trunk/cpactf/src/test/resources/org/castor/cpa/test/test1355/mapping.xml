@@ -67,7 +67,7 @@
 			<sql name="yardage" type="integer"/>
 		</field>
 		<field name="holes" type="org.castor.cpa.test.test1355.GolfCourseHole" lazy="false" collection="collection">
-			<sql many-key="corse_tees_id"/>
+			<sql many-key="course_tees_id"/>
 		</field>
 		<field name="createdById" type="long">
 			<sql name="record_created_by_id" type="bigint"/>

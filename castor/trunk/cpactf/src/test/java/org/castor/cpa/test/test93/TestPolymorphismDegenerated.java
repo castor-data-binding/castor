@@ -35,11 +35,8 @@ public final class TestPolymorphismDegenerated extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL);
-    }
-
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.ORACLE);
     }
 
     public void setUp() throws Exception {
