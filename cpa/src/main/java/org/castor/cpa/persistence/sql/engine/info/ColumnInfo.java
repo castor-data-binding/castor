@@ -29,11 +29,12 @@ import org.exolab.castor.mapping.TypeConvertor;
 public final class ColumnInfo implements Cloneable {
     //-----------------------------------------------------------------------------------    
 
+    /** Index of the field in array of field values. This does not correspond to fields in
+     *  mapping as transient fields ignored and are not counted here. */
+    private final int _fieldIndex;
+
     /** Variable storing name of this column. */
     private final String _name;
-
-    /** Variable storing the index of the field this column belongs to. */
-    private final int _index;
 
     /** Variable storing the type of this column. */
     private final int _type;
@@ -55,19 +56,19 @@ public final class ColumnInfo implements Cloneable {
     /**
      * Constructor with all given values.
      * 
+     * @param fieldIndex Index of the field in array of field values.
      * @param name Name of this column.
-     * @param index Index of the field this column belongs to.
      * @param type SQL type of this column.
      * @param convertFrom Converter to convert value of this column.
      * @param primaryKey Flag telling if column belongs to primary key or not.
      * @param store Flag telling if column is persistent or not.
      * @param dirty Flag telling if this column was changed or not.
      */
-    protected ColumnInfo(final String name, final int index, final int type,
+    protected ColumnInfo(final int fieldIndex, final String name, final int type,
             final TypeConvertor convertFrom, final boolean primaryKey, final boolean store,
             final boolean dirty) {
+        _fieldIndex = fieldIndex;
         _name = name;
-        _index = index;
         _type = type;
         _convertFrom = convertFrom;
         _primaryKey = primaryKey;
@@ -78,18 +79,19 @@ public final class ColumnInfo implements Cloneable {
     //-----------------------------------------------------------------------------------    
 
     /**
+     * Get index of the field in array of field values. This does not correspond to fields in
+     * mapping as transient fields ignored and are not counted here.
+     * 
+     * @return Index of the field in array of field values.
+     */
+    public int getFieldIndex() { return _fieldIndex; }
+
+    /**
      * Method returning name of this column.
      * 
      * @return Name of this column.
      */
     public String getName() { return _name; }
-
-    /**
-     * Method returning the field index of this column.
-     * 
-     * @return Index of the field this column belongs to.
-     */
-    public int getIndex() { return _index; }
 
     /**
      * Method returning SQL type currently set.

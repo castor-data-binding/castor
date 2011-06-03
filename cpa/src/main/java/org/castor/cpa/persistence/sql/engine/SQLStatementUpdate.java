@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
+import org.castor.cpa.persistence.sql.engine.info.ForeignKeyInfo;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
@@ -108,11 +109,20 @@ public final class SQLStatementUpdate {
 
         // add assignments to update statement
         int count = 0;
-        for (ColumnInfo col : _tableInfo.getAllColumns()) {
-            if (col.isStore()) {
-                _update.addAssignment(new Column(col.getName()),
-                        new Parameter(SET_PARAM_NAMESPACE + col.getName()));
+        for (ColumnInfo column : _tableInfo.getSimpleColumns()) {
+            if (column.isStore()) {
+                _update.addAssignment(new Column(column.getName()),
+                        new Parameter(SET_PARAM_NAMESPACE + column.getName()));
                 ++count;
+            }
+        }
+        for (ForeignKeyInfo foreignKey : _tableInfo.getForeignKeys()) {
+            for (ColumnInfo column : foreignKey.getFromColumns()) {
+                if (column.isStore()) {
+                    _update.addAssignment(new Column(column.getName()),
+                            new Parameter(SET_PARAM_NAMESPACE + column.getName()));
+                    ++count;
+                }
             }
         }
 

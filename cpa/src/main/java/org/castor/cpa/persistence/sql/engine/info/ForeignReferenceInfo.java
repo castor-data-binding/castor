@@ -20,8 +20,6 @@ package org.castor.cpa.persistence.sql.engine.info;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.exolab.castor.mapping.TypeConvertor;
-
 /**
  * Class representing a foreign reference from one table to another.
  *
@@ -30,6 +28,10 @@ import org.exolab.castor.mapping.TypeConvertor;
  */
 public final class ForeignReferenceInfo {
     //-----------------------------------------------------------------------------------    
+
+    /** Index of the field in array of field values. This does not correspond to fields in
+     *  mapping as transient fields ignored and are not counted here. */
+    private final int _fieldIndex;
 
     /** Table referenced by the foreign key. */
     private final EntityTableInfo _toTable;
@@ -48,12 +50,14 @@ public final class ForeignReferenceInfo {
     /**
      * Construct a foreign reference.
      * 
+     * @param fieldIndex Index of the field in array of field values.
      * @param toTable Table referenced by the foreign key.
      * @param fromTable Table that holds the foreign key.
      * @param fromAlias Alias of the table that holds the foreign key.
      */
-    protected ForeignReferenceInfo(final EntityTableInfo toTable, final TableInfo fromTable,
-            final String fromAlias) {
+    protected ForeignReferenceInfo(final int fieldIndex, final EntityTableInfo toTable,
+            final TableInfo fromTable, final String fromAlias) {
+        _fieldIndex = fieldIndex;
         _toTable = toTable;
         _fromTable = fromTable;
         _fromAlias = fromAlias;
@@ -64,19 +68,22 @@ public final class ForeignReferenceInfo {
     /**
      * Add from column.
      * 
-     * @param name Name of this column.
-     * @param index Index of the field this column belongs to.
-     * @param type SQL type of this column.
-     * @param convertFrom Converter to convert value of this column.
+     * @param column Column to add to from columns.
      */
-    protected void addFromColumn(final String name, final int index, final int type,
-            final TypeConvertor convertFrom) {
-        ColumnInfo column = new ColumnInfo(name, index, type, convertFrom, false, false, false);
+    protected void addFromColumn(final ColumnInfo column) {
         _fromColumns.add(column);
     }
     
     //-----------------------------------------------------------------------------------    
 
+    /**
+     * Get index of the field in array of field values. This does not correspond to fields in
+     * mapping as transient fields ignored and are not counted here.
+     * 
+     * @return Index of the field in array of field values.
+     */
+    public int getFieldIndex() { return _fieldIndex; }
+    
     /**
      * Method returning the table referenced by the foreign key.
      * 

@@ -26,35 +26,60 @@ package org.castor.cpa.persistence.sql.engine.info;
 public final class ColumnValue {
     //-----------------------------------------------------------------------------------    
 
-    private final ColumnInfo _info;
-    private final int _index;
+    /** Column the value belongs to. */
+    private final ColumnInfo _column;
+    
+    /** Value of the column. */
     private Object _value;
     
     //-----------------------------------------------------------------------------------    
 
-    protected ColumnValue(final ColumnInfo info, final int index, final Object value) {
-        _info = info;
-        _index = index;
-        
-        setValue(value);
+    /**
+     * Construct ColumnValue for given column with given value. 
+     * 
+     * @param column Column the value belongs to.
+     * @param value Value of the column.
+     */
+    protected ColumnValue(final ColumnInfo column, final Object value) {
+        _column = column;
+        _value = _column.toSQL(value);
     }
     
     //-----------------------------------------------------------------------------------    
 
-    protected void setValue(final Object value) { _value = _info.toSQL(value); }
+    /**
+     * Method returning name of this column.
+     * 
+     * @return Name of this column.
+     */
+    public String getName() { return _column.getName(); }
     
-    //-----------------------------------------------------------------------------------    
-
-    public String getName() { return _info.getName(); }
+    /**
+     * Method returning SQL type of this column.
+     * 
+     * @return SQL type of this column.
+     */
+    public int getType() { return _column.getType(); }
     
-    public int getType() { return _info.getType(); }
+    /**
+     * Method returning store flag.
+     * 
+     * @return Store flag.
+     */
+    public boolean isStore() { return _column.isStore(); }
     
-    public boolean isStore() { return _info.isStore(); }
+    /**
+     * Method returning dirty flag.
+     * 
+     * @return Dirty flag.
+     */
+    public boolean isDirty() { return _column.isDirty(); }
     
-    public boolean isDirty() { return _info.isDirty(); }
-    
-    public int getIndex() { return _index; }
-    
+    /**
+     * Get value of the column.
+     * 
+     * @return Value of the column.
+     */
     public Object getValue() { return _value; }
 
     //-----------------------------------------------------------------------------------    

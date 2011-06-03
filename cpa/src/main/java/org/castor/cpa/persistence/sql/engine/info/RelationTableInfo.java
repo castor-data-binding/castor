@@ -26,9 +26,6 @@ package org.castor.cpa.persistence.sql.engine.info;
 public final class RelationTableInfo extends TableInfo {
     //-----------------------------------------------------------------------------------    
 
-    /** Name of the table. */
-    private final String _tableName;
-    
     /** Foreign key to left side of many to many relation. */
     private ForeignKeyInfo _leftForeignKey;
 
@@ -38,12 +35,12 @@ public final class RelationTableInfo extends TableInfo {
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Constructor taking tableName in order to construct Table that holds his name only.
+     * Constructor taking tableName in order to construct table that holds his name only.
      * 
      * @param tableName Name of the table to be constructed.
      */
     protected RelationTableInfo(final String tableName) {
-        _tableName = tableName;
+        super(tableName);
     }
 
     //-----------------------------------------------------------------------------------
@@ -66,13 +63,6 @@ public final class RelationTableInfo extends TableInfo {
     }
     
     //-----------------------------------------------------------------------------------    
-
-    /**
-     * Method returning name of this table.
-     * 
-     * @return Name of the table currently set.
-     */
-    public String getTableName() { return _tableName; }
 
     /**
      * Get foreign key to left side of many to many relation.

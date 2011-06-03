@@ -18,7 +18,7 @@
 package org.castor.cpa.persistence.sql.engine.info;
 
 /**
- * Class representing given table classes as Tables.
+ * Abstract base class representing given table.
  *
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -27,12 +27,28 @@ package org.castor.cpa.persistence.sql.engine.info;
 public abstract class TableInfo {
     //-----------------------------------------------------------------------------------    
 
+    /** Name of the table. */
+    private final String _tableName;
+    
+    //-----------------------------------------------------------------------------------    
+    
+    /**
+     * Constructor taking tableName in order to construct table that holds his name only.
+     * 
+     * @param tableName Name of the table to be constructed.
+     */
+    protected TableInfo(final String tableName) {
+        _tableName = tableName;
+    }
+
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Method returning name of this table.
      * 
      * @return Name of the table currently set.
      */
-    public abstract String getTableName();
+    public final String getTableName() { return _tableName; }
 
     //-----------------------------------------------------------------------------------    
 }
