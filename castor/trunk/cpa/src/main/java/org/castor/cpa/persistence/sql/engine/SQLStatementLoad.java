@@ -32,7 +32,6 @@ import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
 import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.engine.info.ForeignKeyInfo;
-import org.castor.cpa.persistence.sql.engine.info.ManyToMany;
 import org.castor.cpa.persistence.sql.engine.info.ForeignReferenceInfo;
 import org.castor.cpa.persistence.sql.engine.info.RelationTableInfo;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
@@ -235,7 +234,7 @@ public final class SQLStatementLoad {
         
         if (addJoin) {
             for (ForeignReferenceInfo referer : tblInfo.getForeignReferences()) {
-                EntityTableInfo joinTableInfo = (EntityTableInfo) referer.getFromTable();
+                TableInfo joinTableInfo = referer.getFromTable();
                 Qualifier joinTable = new Table(joinTableInfo.getTableName());
                 
                 if (joinTables.contains(referer.getFromTable())
@@ -250,26 +249,13 @@ public final class SQLStatementLoad {
                         CompareOperator.EQ, joinTable,
                         referer.getFromColumns()));
 
-                addColumns(joinTable, joinTableInfo.getPrimaryKeyColumns());
-            }
-
-            for (ManyToMany manyToMany : tblInfo.getManyToManys()) {
-                RelationTableInfo joinTableInfo = (RelationTableInfo) manyToMany.getFromTable();
-                Qualifier joinTable = new Table(joinTableInfo.getTableName());
-                
-                if (joinTables.contains(manyToMany.getFromTable())
-                        || _mapTo.equals(manyToMany.getFromTable().getTableName())) {
-                    joinTable = new TableAlias((Table) joinTable, manyToMany.getFromAlias());
+                if (joinTableInfo instanceof EntityTableInfo) {
+                    EntityTableInfo entityTableInfo = (EntityTableInfo) joinTableInfo;
+                    addColumns(joinTable, entityTableInfo.getPrimaryKeyColumns());
                 } else {
-                    joinTables.add(manyToMany.getFromTable());
+                    RelationTableInfo relationTableInfo = (RelationTableInfo) joinTableInfo;
+                    addColumns(joinTable, relationTableInfo.getRightForeignKey().getFromColumns());
                 }
-
-                mainTbl.addLeftJoin(joinTable, constructCondition(table,
-                        manyToMany.getToTable().getPrimaryKeyColumns(),
-                        CompareOperator.EQ, joinTable,
-                        manyToMany.getFromColumns()));
-
-                addColumns(joinTable, joinTableInfo.getRightForeignKey().getFromColumns());
             }
         }
     }
@@ -296,9 +282,9 @@ public final class SQLStatementLoad {
      * @param rightCols Columns of the right table to be used for the condition of the join.
      * @return AndCondition containing all conditions for the join.
      */
-    private AndCondition constructCondition(final Qualifier leftTbl, final List<ColumnInfo> leftCols,
-            final CompareOperator compareOp, final Qualifier rightTbl,
-            final List<ColumnInfo> rightCols) {
+    private AndCondition constructCondition(final Qualifier leftTbl,
+            final List<ColumnInfo> leftCols, final CompareOperator compareOp,
+            final Qualifier rightTbl, final List<ColumnInfo> rightCols) {
         if (leftCols.size() != rightCols.size()) {
             System.out.println("Error while constructing condition! Size of leftCols and rightCols"
                     + " is not equal!");

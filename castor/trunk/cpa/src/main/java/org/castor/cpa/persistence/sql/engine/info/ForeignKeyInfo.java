@@ -20,8 +20,6 @@ package org.castor.cpa.persistence.sql.engine.info;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.exolab.castor.mapping.TypeConvertor;
-
 /**
  * Class representing a foreign key from one table to another.
  *
@@ -30,6 +28,10 @@ import org.exolab.castor.mapping.TypeConvertor;
  */
 public final class ForeignKeyInfo {
     //-----------------------------------------------------------------------------------    
+
+    /** Index of the field in array of field values. This does not correspond to fields in
+     *  mapping as transient fields ignored and are not counted here. */
+    private final int _fieldIndex;
 
     /** Table that holds the foreign key. */
     private final TableInfo _fromTable;
@@ -42,18 +44,20 @@ public final class ForeignKeyInfo {
 
     /** Alias of the table referenced by the foreign key. */
     private final String _toAlias;
-
+    
     //-----------------------------------------------------------------------------------    
 
     /**
      * Construct a foreign key.
      * 
+     * @param fieldIndex Index of the field in array of field values.
      * @param fromTable Table that holds the foreign key.
      * @param toTable Table referenced by the foreign key.
      * @param toAlias Alias of the table referenced by the foreign key.
      */
-    protected ForeignKeyInfo(final TableInfo fromTable, final EntityTableInfo toTable,
-            final String toAlias) {
+    protected ForeignKeyInfo(final int fieldIndex, final TableInfo fromTable,
+            final EntityTableInfo toTable, final String toAlias) {
+        _fieldIndex = fieldIndex;
         _fromTable = fromTable;
         _toTable = toTable;
         _toAlias = toAlias;
@@ -64,21 +68,22 @@ public final class ForeignKeyInfo {
     /**
      * Add from column.
      * 
-     * @param name Name of this column.
-     * @param index Index of the field this column belongs to.
-     * @param type SQL type of this column.
-     * @param convertFrom Converter to convert value of this column.
-     * @param store Flag telling if column is persistent or not.
-     * @param dirty Flag telling if this column was changed or not.
+     * @param column Column to add to from columns.
      */
-    protected void addFromColumn(final String name, final int index, final int type,
-            final TypeConvertor convertFrom, final boolean store, final boolean dirty) {
-        ColumnInfo column = new ColumnInfo(name, index, type, convertFrom, false, store, dirty);
+    protected void addFromColumn(final ColumnInfo column) {
         _fromColumns.add(column);
     }
     
     //-----------------------------------------------------------------------------------    
 
+    /**
+     * Get index of the field in array of field values. This does not correspond to fields in
+     * mapping as transient fields ignored and are not counted here.
+     * 
+     * @return Index of the field in array of field values.
+     */
+    public int getFieldIndex() { return _fieldIndex; }
+    
     /**
      * Method returning the table that holds the foreign key.
      * 
