@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
-import org.castor.cpa.persistence.sql.engine.info.TableInfo;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
@@ -61,7 +61,7 @@ public final class SQLStatementDelete {
     private Delete _delete;
 
     /** TableInfo object holding queried table with its relations. */
-    private TableInfo _tableInfo;
+    private EntityTableInfo _tableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -86,7 +86,7 @@ public final class SQLStatementDelete {
     private void buildStatement(final String mapTo) {
         // build condition for delete statement
         Condition condition = new AndCondition();
-        for (ColumnInfo col : _tableInfo.getPrimaryKey().getColumns()) {
+        for (ColumnInfo col : _tableInfo.getPrimaryKeyColumns()) {
             String name = col.getName();
             condition.and(new Column(name).equal(new Parameter(name)));
         }

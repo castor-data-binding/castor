@@ -30,8 +30,12 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
+import org.castor.cpa.persistence.sql.engine.info.ForeignKeyInfo;
+import org.castor.cpa.persistence.sql.engine.info.ManyToMany;
+import org.castor.cpa.persistence.sql.engine.info.ForeignReferenceInfo;
+import org.castor.cpa.persistence.sql.engine.info.RelationTableInfo;
 import org.castor.cpa.persistence.sql.engine.info.TableInfo;
-import org.castor.cpa.persistence.sql.engine.info.TableLink;
 import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
@@ -95,7 +99,7 @@ public final class SQLStatementLoad {
     private SQLEngine _engine;
 
     /** TableInfo object holding queried table with its relations. */
-    private TableInfo _mainTableInfo;
+    private EntityTableInfo _mainTableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -144,20 +148,20 @@ public final class SQLStatementLoad {
             Table mainTbl = new Table(_mapTo);
             _select = new Select(mainTbl);
 
-            TableInfo currentTblInf = _mainTableInfo;
+            EntityTableInfo currentTblInf = _mainTableInfo;
             Table walkTbl = mainTbl;
             Table tempTbl;
 
             // walk up the extends hierarchy and add columns and joins for every extended table
             // as result we get deeply nested table hierarchy
             while (currentTblInf.getExtendedTable() != null) {
-                TableInfo extendedTable = currentTblInf.getExtendedTable();
+                EntityTableInfo extendedTable = currentTblInf.getExtendedTable();
                 tempTbl = new Table(extendedTable.getTableName());
 
                 AndCondition cond = constructCondition(walkTbl,
-                        currentTblInf.getPrimaryKey().getColumns(),
+                        currentTblInf.getPrimaryKeyColumns(),
                         CompareOperator.EQ, tempTbl,
-                        extendedTable.getPrimaryKey().getColumns());
+                        extendedTable.getPrimaryKeyColumns());
 
                 walkTbl.addInnerJoin(tempTbl, cond);
                 joinTableInfos.add(extendedTable);
@@ -176,7 +180,7 @@ public final class SQLStatementLoad {
 
             // construct where condition for the query
             Condition condition = new AndCondition();
-            for (ColumnInfo col : _mainTableInfo.getPrimaryKey().getColumns()) {
+            for (ColumnInfo col : _mainTableInfo.getPrimaryKeyColumns()) {
                 String name = col.getName();
                 condition.and(mainTbl.column(name).equal(new Parameter(name)));
             }
@@ -191,14 +195,14 @@ public final class SQLStatementLoad {
      * @param mainTbl The mainTable queried.
      * @param joinTableInfos List holding Tables already joined.
      */
-    private void addExtendingTables(final TableInfo info, final Table mainTbl,
+    private void addExtendingTables(final EntityTableInfo info, final Table mainTbl,
             final List<TableInfo> joinTableInfos) {
-        for (TableInfo tbl : info.getExtendingTables()) {
+        for (EntityTableInfo tbl : info.getExtendingTables()) {
             Table t = new Table(tbl.getTableName());
 
             mainTbl.addLeftJoin(t, constructCondition(mainTbl,
-                    _mainTableInfo.getPrimaryKey().getColumns(),
-                    CompareOperator.EQ, t, tbl.getPrimaryKey().getColumns()));
+                    _mainTableInfo.getPrimaryKeyColumns(),
+                    CompareOperator.EQ, t, tbl.getPrimaryKeyColumns()));
 
             addCols(tbl, joinTableInfos, mainTbl, false);
 
@@ -217,40 +221,55 @@ public final class SQLStatementLoad {
      *        True: Joins are added as well as special columns, False: no joins are added and
      *        no special columns are attached to the select object.
      */
-    private void addCols(final TableInfo tblInfo, final List<TableInfo> joinTables,
+    private void addCols(final EntityTableInfo tblInfo, final List<TableInfo> joinTables,
             final Table mainTbl, final boolean addJoin) {
         Qualifier table = new Table(tblInfo.getTableName());
 
-        addColumns(table, tblInfo.getPrimaryKey().getColumns());
-        addColumns(table, tblInfo.getColumns());
+        addColumns(table, tblInfo.getPrimaryKeyColumns());
+        addColumns(table, tblInfo.getSimpleColumns());
 
         // handle foreign keys: add their columns and joins if necessary
-        for (TableLink tblLnk : tblInfo.getForeignKeys()) {
-            if (!(TableLink.REFERS_TO == tblLnk.getRelationType())) {
-                TableInfo joinTableInfo = tblLnk.getTargetTable();
+        for (ForeignKeyInfo foreignKey : tblInfo.getForeignKeys()) {
+            addColumns(table, foreignKey.getFromColumns());
+        }
+        
+        if (addJoin) {
+            for (ForeignReferenceInfo referer : tblInfo.getForeignReferences()) {
+                EntityTableInfo joinTableInfo = (EntityTableInfo) referer.getFromTable();
                 Qualifier joinTable = new Table(joinTableInfo.getTableName());
-                if (addJoin) {
-                    if (joinTables.contains(tblLnk.getTargetTable())
-                            || _mapTo.equals(tblLnk.getTargetTable().getTableName())) {
-                        joinTable = new TableAlias((Table) joinTable, tblLnk.getTableAlias());
-                        mainTbl.addLeftJoin(joinTable, constructCondition(table,
-                                tblLnk.getStartCols(), CompareOperator.EQ, joinTable,
-                                tblLnk.getTargetCols()));
-                    } else {
-                        mainTbl.addLeftJoin(joinTable, constructCondition(table,
-                                tblLnk.getStartCols(), CompareOperator.EQ, joinTable,
-                                tblLnk.getTargetCols()));
-                        joinTables.add(tblLnk.getTargetTable());
-                    }
-
-                    if (TableLink.REFERED_BY == (tblLnk.getRelationType())) {
-                        addColumns(joinTable, joinTableInfo.getPrimaryKey().getColumns());
-                    } else if (TableLink.MANY_TO_MANY == (tblLnk.getRelationType())) {
-                        addColumns(joinTable, joinTableInfo.getColumns());
-                    }
+                
+                if (joinTables.contains(referer.getFromTable())
+                        || _mapTo.equals(referer.getFromTable().getTableName())) {
+                    joinTable = new TableAlias((Table) joinTable, referer.getFromAlias());
+                } else {
+                    joinTables.add(referer.getFromTable());
                 }
-            } else {
-                addColumns(table, tblLnk.getStartCols());
+
+                mainTbl.addLeftJoin(joinTable, constructCondition(table,
+                        referer.getToTable().getPrimaryKeyColumns(),
+                        CompareOperator.EQ, joinTable,
+                        referer.getFromColumns()));
+
+                addColumns(joinTable, joinTableInfo.getPrimaryKeyColumns());
+            }
+
+            for (ManyToMany manyToMany : tblInfo.getManyToManys()) {
+                RelationTableInfo joinTableInfo = (RelationTableInfo) manyToMany.getFromTable();
+                Qualifier joinTable = new Table(joinTableInfo.getTableName());
+                
+                if (joinTables.contains(manyToMany.getFromTable())
+                        || _mapTo.equals(manyToMany.getFromTable().getTableName())) {
+                    joinTable = new TableAlias((Table) joinTable, manyToMany.getFromAlias());
+                } else {
+                    joinTables.add(manyToMany.getFromTable());
+                }
+
+                mainTbl.addLeftJoin(joinTable, constructCondition(table,
+                        manyToMany.getToTable().getPrimaryKeyColumns(),
+                        CompareOperator.EQ, joinTable,
+                        manyToMany.getFromColumns()));
+
+                addColumns(joinTable, joinTableInfo.getRightForeignKey().getFromColumns());
             }
         }
     }
@@ -311,7 +330,7 @@ public final class SQLStatementLoad {
             final ProposedEntity entity, final AccessMode accessMode) throws PersistenceException {
         ResultSet rs = null;
 
-        TableInfo info = _engine.getTableInfo();
+        EntityTableInfo info = _engine.getTableInfo();
 
         UncoupleVisitor uncle = new UncoupleVisitor();
         uncle.visit(_select);

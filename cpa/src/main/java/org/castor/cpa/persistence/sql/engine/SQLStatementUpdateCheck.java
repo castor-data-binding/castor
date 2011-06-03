@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
-import org.castor.cpa.persistence.sql.engine.info.TableInfo;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -69,7 +69,7 @@ public final class SQLStatementUpdateCheck {
     private Select _select;
 
     /** TableInfo object holding queried table with its relations. */
-    private TableInfo _tableInfo;
+    private EntityTableInfo _tableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -98,13 +98,13 @@ public final class SQLStatementUpdateCheck {
         
         // define conditions for select statement
         Condition condition = new AndCondition();
-        for (ColumnInfo col : _tableInfo.getPrimaryKey().getColumns()) {
+        for (ColumnInfo col : _tableInfo.getPrimaryKeyColumns()) {
             condition.and(table.column(col.getName()).equal(new Parameter(col.getName())));
         }
 
         // initialize select statement returning only first identity column 
         _select = new Select(table);
-        _select.addSelect(table.column(_tableInfo.getPrimaryKey().getColumns().get(0).getName()));
+        _select.addSelect(table.column(_tableInfo.getPrimaryKeyColumns().get(0).getName()));
         _select.setCondition(condition);
 
     }

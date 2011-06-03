@@ -23,8 +23,8 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.engine.info.InfoFactory;
-import org.castor.cpa.persistence.sql.engine.info.TableInfo;
 import org.castor.cpa.util.JDOClassDescriptorResolver;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
@@ -94,7 +94,7 @@ public final class SQLEngine implements Persistence {
 
     private final SQLStatementUpdate _storeStatement;
 
-    private final TableInfo _tableInfo;
+    private final EntityTableInfo _tableInfo;
 
     public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
     throws MappingException {
@@ -198,7 +198,6 @@ public final class SQLEngine implements Persistence {
 
         InfoFactory infoFactory = new InfoFactory();
         _tableInfo = infoFactory.createTableInfo(clsDesc);
-        infoFactory.resolveForeignKeys();
 
         _ids = new SQLColumnInfo[idsInfo.size()];
         idsInfo.copyInto(_ids);
@@ -428,7 +427,7 @@ public final class SQLEngine implements Persistence {
         return _queryStatement.getQueryExpression();
     }
 
-    public TableInfo getTableInfo() { return _tableInfo; }
+    public EntityTableInfo getTableInfo() { return _tableInfo; }
 
     public Identity create(final Database database, final CastorConnection conn,
                          final ProposedEntity entity, final Identity identity)
