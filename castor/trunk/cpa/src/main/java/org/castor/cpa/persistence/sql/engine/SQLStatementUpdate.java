@@ -22,7 +22,7 @@ import java.sql.SQLException;
 
 import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
 import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
-import org.castor.cpa.persistence.sql.engine.info.TableInfo;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
@@ -70,7 +70,7 @@ public final class SQLStatementUpdate {
     private Update _update;
 
     /** TableInfo object holding queried table with its relations. */
-    private TableInfo _tableInfo;
+    private EntityTableInfo _tableInfo;
 
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
@@ -108,7 +108,7 @@ public final class SQLStatementUpdate {
 
         // add assignments to update statement
         int count = 0;
-        for (ColumnInfo col : _tableInfo.iterateAll()) {
+        for (ColumnInfo col : _tableInfo.getAllColumns()) {
             if (col.isStore()) {
                 _update.addAssignment(new Column(col.getName()),
                         new Parameter(SET_PARAM_NAMESPACE + col.getName()));
@@ -148,7 +148,7 @@ public final class SQLStatementUpdate {
 
             // build condition for identities
             Condition condition = new AndCondition();
-            for (ColumnInfo col : _tableInfo.getPrimaryKey().getColumns()) {
+            for (ColumnInfo col : _tableInfo.getPrimaryKeyColumns()) {
                 String name = col.getName();
                 condition.and(new Column(name).equal(new Parameter(name)));
             }

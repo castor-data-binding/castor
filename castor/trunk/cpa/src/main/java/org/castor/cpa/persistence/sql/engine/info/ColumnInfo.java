@@ -15,7 +15,6 @@
  *
  * $Id: TableInfo.java 8469 2009-12-28 16:47:54Z rjoachim $
  */
-
 package org.castor.cpa.persistence.sql.engine.info;
 
 import org.exolab.castor.mapping.TypeConvertor;
@@ -42,6 +41,9 @@ public final class ColumnInfo implements Cloneable {
     /** Variable storing the converter to convert the type of this columns value. */
     private final TypeConvertor _convertFrom;
 
+    /** Flag telling if column belongs to primary key or not. */
+    private final boolean _primaryKey;
+    
     /** Flag telling if column is persistent or not. */
     private final boolean _store;
 
@@ -57,31 +59,20 @@ public final class ColumnInfo implements Cloneable {
      * @param index Index of the field this column belongs to.
      * @param type SQL type of this column.
      * @param convertFrom Converter to convert value of this column.
+     * @param primaryKey Flag telling if column belongs to primary key or not.
      * @param store Flag telling if column is persistent or not.
      * @param dirty Flag telling if this column was changed or not.
      */
-    protected ColumnInfo (final String name, final int index, final int type,
-            final TypeConvertor convertFrom, final boolean store, final boolean dirty) {
+    protected ColumnInfo(final String name, final int index, final int type,
+            final TypeConvertor convertFrom, final boolean primaryKey, final boolean store,
+            final boolean dirty) {
         _name = name;
         _index = index;
         _type = type;
         _convertFrom = convertFrom;
+        _primaryKey = primaryKey;
         _store = store;
         _dirty = dirty;
-    }
-
-    /**
-     * Constructor creating new column with only name set.
-     * 
-     * @param name Name to be set.
-     */
-    protected ColumnInfo(final String name) {
-        _name = name; 
-        _index = 0;
-        _type = 0;
-        _convertFrom = null;
-        _store = false;
-        _dirty = false;
     }
 
     //-----------------------------------------------------------------------------------    
@@ -106,6 +97,13 @@ public final class ColumnInfo implements Cloneable {
      * @return SQL type currently set.
      */
     public int getType() { return _type; }
+
+    /**
+     * Method returning primary flag.
+     * 
+     * @return Primary flag.
+     */
+    public boolean isPrimaryKey() { return _primaryKey; }
 
     /**
      * Method returning store flag.

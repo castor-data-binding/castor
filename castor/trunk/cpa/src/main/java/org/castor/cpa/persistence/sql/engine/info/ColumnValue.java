@@ -15,7 +15,6 @@
  *
  * $Id: TableInfo.java 8469 2009-12-28 16:47:54Z rjoachim $
  */
-
 package org.castor.cpa.persistence.sql.engine.info;
 
 /**
