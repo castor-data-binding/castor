@@ -99,7 +99,10 @@ public final class QueryResults {
         _tx = tx;
         _engine = engine;
         _query = query;
-        _accessMode = engine.getClassMolder(_query.getResultType()).getAccessMode(accessMode);
+        
+        ClassMolderRegistry registry = engine.getClassMolderRegistry();
+        ClassMolder molder = registry.getClassMolder(_query.getResultType());
+        _accessMode = molder.getAccessMode(accessMode);
     }
 
 
@@ -196,7 +199,7 @@ public final class QueryResults {
             throw new IllegalStateException(Messages.message("jdo.fetchNoNextIdentity"));
         }
 
-        handler = _engine.getClassMolder(_query.getResultType());
+        handler = _engine.getClassMolderRegistry().getClassMolder(_query.getResultType());
 
         // load the object thur the transaction of the query
         ProposedEntity proposedValue = new ProposedEntity(handler);

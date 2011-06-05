@@ -1651,7 +1651,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final boolean isLocked(final Class cls, final Identity identity,
             final LockEngine lockEngine) {
-        OID oid = new OID(lockEngine.getClassMolder(cls), identity);
+        OID oid = new OID(lockEngine.getClassMolderRegistry().getClassMolder(cls), identity);
         return lockEngine.isLocked(cls, oid);
     }
 

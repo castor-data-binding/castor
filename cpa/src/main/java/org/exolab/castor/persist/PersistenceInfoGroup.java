@@ -58,7 +58,7 @@ public class PersistenceInfoGroup {
         ClassMolder molder = null;
         int i = 0;
         while ((i < _engines.length) && (molder == null)) {
-            molder = _engines[i++].getClassMolderWithDependent(type);
+            molder = _engines[i++].getClassMolderRegistry().getClassMolderWithDependent(type);
         }
         
         if (molder == null) {
@@ -82,7 +82,7 @@ public class PersistenceInfoGroup {
     public final ClassMolder findClassMolderByQuery(final String query) {
         ClassMolder molder = null;
         for (int i = 0; i < _engines.length; i++) {            
-            molder = _engines[i].getClassMolderByQuery(query);            
+            molder = _engines[i].getClassMolderRegistry().getClassMolderByQuery(query);            
         }
         return molder;
     }
@@ -97,7 +97,7 @@ public class PersistenceInfoGroup {
     public final ClassMolder findClassMolderByNativeQuery(final String query) {
         ClassMolder molder = null;
         for (int i = 0; i < _engines.length; i++) {            
-                molder = _engines[i].getClassMolderByNativeQuery(query);            
+            molder = _engines[i].getClassMolderRegistry().getClassMolderByNativeQuery(query);
         }
         return molder;
     }

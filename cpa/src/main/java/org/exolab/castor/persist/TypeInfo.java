@@ -59,7 +59,12 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * Provides information about an object of a specific type (class's full name).
  * This information includes the object's descriptor and lifecycle interceptor
  * requesting notification about activities that affect an object.
- * 
+ * <p>
+ * It also provides caching for a persistence storage. Different {@link Cache} mechanisms
+ * can be specified. 
+ * <p>
+ * Each class hierarchy gets its own cache, so caches can be
+ * controlled on a class-by-class basis.
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
@@ -73,12 +78,6 @@ public final class TypeInfo {
      */
     private static Log _log = LogFactory.getFactory().getInstance(TypeInfo.class);
     
-    /** The molder for this class. */
-    private ClassMolder _molder;
-
-    /** The full qualified name of the Java class represented by this type info. */
-    private String _name;
-
     /** The Map contains all the in-used ObjectLock of the class type, which
      *  keyed by the OID representing the object. All extends classes share the
      *  same map as the base class. */
@@ -93,38 +92,26 @@ public final class TypeInfo {
     /**
      * Constructor for creating base class info.
      *
-     * @param  molder   The classMolder of this type.
      * @param  locks    The new HashMap which will be used
      *         for holding all the in-used ObjectLock.
      * @param  cache    The new LRU which will be used to
      *         store and dispose freed ObjectLock.
      */
-    public TypeInfo(final ClassMolder molder, final HashMap<OID, ObjectLock> locks,
-            final Cache cache) {
-        this._name = molder.getName();
-        this._molder = molder;
-        this._locks = locks;
-        this._cache = cache;
+    public TypeInfo(final HashMap<OID, ObjectLock> locks, final Cache cache) {
+        _locks = locks;
+        _cache = cache;
     }
 
     /**
      * Constructor for creating extended class info.
      * 
-     * @param  molder   The classMolder of this type.
      * @param  base     The TypeInfo of the base class of
      *         the molder's class.
      */
-    public TypeInfo(final ClassMolder molder, final TypeInfo base) {
-        this(molder, base._locks, base._cache);
+    public TypeInfo(final TypeInfo base) {
+        this(base._locks, base._cache);
     }
 
-    /**
-     * @return The classModler of this type
-     */
-    public ClassMolder getClassMolder() {
-        return _molder;
-    }
-    
     /**
      * Life-cycle method to allow shutdown of cache instances.
      */
@@ -134,9 +121,10 @@ public final class TypeInfo {
     
     /**
      * Dump all objects in cache or lock to output.
+     * @param name the class's full name
      */
-    public void dumpCache() {
-        _log.info(_name + ".dumpCache()...");
+    public void dumpCache(final String name) {
+        _log.info(name + ".dumpCache()...");
         synchronized (_locks) {
             for (Iterator<ObjectLock> iter = _locks.values().iterator(); iter.hasNext(); ) {
                 ObjectLock entry = iter.next();

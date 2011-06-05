@@ -94,8 +94,8 @@ public class CacheManager {
      */
     public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
         if (_transactionContext != null && _transactionContext.isOpen()) {
-            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls,
-                    new Identity(identity));
+            ClassMolder molder = _lockEngine.getClassMolderRegistry().getClassMolder(cls);
+            return _transactionContext.isCached(molder, cls, new Identity(identity));
         }
         
         throw new PersistenceException("isCached() has to be called within an active transaction.");
@@ -175,7 +175,7 @@ public class CacheManager {
      */
     public void expireCache(final Class type, final Object[] identity) throws PersistenceException {
         testForOpenDatabase();
-        ClassMolder molder = _lockEngine.getClassMolder(type);
+        ClassMolder molder = _lockEngine.getClassMolderRegistry().getClassMolder(type);
         for (int i = 0; i < identity.length; i++) {
             _transactionContext.expireCache(molder, new Identity(identity[i]));
         }
