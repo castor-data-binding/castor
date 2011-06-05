@@ -78,6 +78,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.ClassMolder;
+import org.exolab.castor.persist.ClassMolderRegistry;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
@@ -164,7 +165,8 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
                 if (paramClass.isAssignableFrom(valueClass)) {
                     LockEngine lockEngine = ((AbstractDatabaseImpl) _database).getLockEngine();
-                    ClassMolder molder = lockEngine.getClassMolder(valueClass);
+                    ClassMolderRegistry registry = lockEngine.getClassMolderRegistry();
+                    ClassMolder molder = registry.getClassMolder(valueClass);
 
                     if (molder != null) {
                         Identity temp = molder.getActualIdentity(
