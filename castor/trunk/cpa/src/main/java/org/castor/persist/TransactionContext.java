@@ -502,7 +502,7 @@ public interface TransactionContext {
      */
     boolean isDeleted(final Object object);
 
-    boolean isDeletedByOID(final OID oid);
+    boolean isDeletedByOID(final LockEngine engine, final OID oid);
 
     /**
      * Check to see whether this transaction considers an object to have been marked 

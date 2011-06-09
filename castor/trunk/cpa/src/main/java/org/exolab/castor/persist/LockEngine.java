@@ -553,7 +553,9 @@ public final class LockEngine {
 
             internaloid.setDbLock(true);
 
-            OID newoid = new OID(internaloid.getMolder(), internaloid.getDepends(), newids);
+            OID newoid = new OID(
+                    _classMolderRegistry.getClassMolderWithDependent(internaloid.getName()),
+                    internaloid.getDepends(), newids);
 
             typeInfo.rename(internaloid, newoid, tx);
 
