@@ -74,9 +74,6 @@ public final class OID implements Serializable {
     /** The full qualified name of the object's type. */
     private final String _name;
 
-    /** The ClassMolder of the object. */
-    private final transient ClassMolder _molder;
-
     /** The OID of depended object. */
     private final OID _depends;
 
@@ -100,7 +97,6 @@ public final class OID implements Serializable {
     private OID() {
         _identity = null;
         _name = null;
-        _molder = null;
         _depends = null;
         _hashCode = 0;
     }
@@ -121,7 +117,6 @@ public final class OID implements Serializable {
         if (internalMolder == null) {
             throw new IllegalArgumentException("molder can't be null");
         }
-        _molder = internalMolder;
         _identity = identity;
         _name = internalMolder.getName();
         _depends = depends;
@@ -148,15 +143,6 @@ public final class OID implements Serializable {
      */
     public OID getDepends() {
         return _depends;
-    }
-
-    /**
-     * Get the ClassMolder of this object.
-     * 
-     * @return the ClassMolder of this object.
-     */
-    public ClassMolder getMolder() {
-        return _molder;
     }
 
     /**

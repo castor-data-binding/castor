@@ -175,7 +175,8 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 
                 // must be loaded in transaction, so that the related object
                 // is properly locked and updated before we delete it.
-                if (!tx.isDeletedByOID(new OID(fieldClassMolder, removedId))) {
+                if (!tx.isDeletedByOID(fieldClassMolder.getLockEngine(),
+                        new OID(fieldClassMolder, removedId))) {
                     ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                     Object removedEntity = tx.load(removedId, proposedValue, null);
 
@@ -183,7 +184,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                         tx.writeLock(removedEntity, 0);
 
                         _fieldMolder.getRelationLoader().deleteRelation(
-                                tx.getConnection(oid.getMolder().getLockEngine()),
+                                tx.getConnection(fieldClassMolder.getLockEngine()),
                                 oid.getIdentity(), removedId);
 
                         fieldClassMolder.removeRelation(tx, removedEntity, _classMolder, object);
@@ -204,7 +205,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
 
                 if (tx.isPersistent(addedEntity)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getConnection(oid.getMolder().getLockEngine()),
+                            tx.getConnection(fieldClassMolder.getLockEngine()),
                             oid.getIdentity(),
                             fieldClassMolder.getIdentity(tx, addedEntity));
                 } else {
@@ -286,7 +287,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 //	   created due to another relation they occur in!
                 if (tx.isPersistent(oo)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getConnection(oid.getMolder().getLockEngine()), createdId,
+                            tx.getConnection(fieldClassMolder.getLockEngine()), createdId,
                             fieldClassMolder.getIdentity(tx, oo));
                 }
             }

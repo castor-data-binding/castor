@@ -348,7 +348,7 @@ public final class LazyHashSet<E> implements LazyCollection<E>, Set<E> {
             // make sure the object is not deleted in
             // the current transaction outside this class
             OID oid = new OID(_parent._molder, id);
-            return _parent._tx.isDeletedByOID(oid);
+            return _parent._tx.isDeletedByOID(_parent._molder.getLockEngine(), oid);
         }
         
         private E lazyLoad(final Identity ids) {
