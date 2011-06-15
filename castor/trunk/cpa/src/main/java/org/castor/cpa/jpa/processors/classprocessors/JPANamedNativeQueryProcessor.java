@@ -29,15 +29,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JPANamedNativeQueryProcessor extends BaseJPAAnnotationProcessor {
-
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging</a> instance used for all logging.
+     */
     private static final Log LOG = LogFactory.getFactory().getInstance(
             JPANamedNativeQueryProcessor.class);
 
-    public Class<? extends Annotation> forAnnotationClass() {
+    /**
+     * {@inheritDoc}
+     */
+    public final Class<? extends Annotation> forAnnotationClass() {
         return NamedNativeQuery.class;
     }
 
-    public <I extends BaseNature,
+    public final <I extends BaseNature,
             A extends Annotation> boolean processAnnotation(
             final I info, final A annotation, final AnnotatedElement target)
             throws AnnotationTargetException {

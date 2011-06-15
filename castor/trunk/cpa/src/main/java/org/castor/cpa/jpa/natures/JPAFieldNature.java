@@ -974,7 +974,8 @@ public class JPAFieldNature extends BaseNature {
     /**
      * Set the {@link javax.persistence.GeneratedValue#strategy()}.
      * @see #GENERATEDVALUE_STRATEGY
-     * @param strategy
+     * @param strategy The primary key generation strategy that the persistence 
+     *        provider must use to generate the annotated entity primary key. 
      */
     public void setGeneratedValueStrategy(final GenerationType strategy) {
         super.setProperty(GENERATEDVALUE_STRATEGY, strategy);
@@ -991,8 +992,9 @@ public class JPAFieldNature extends BaseNature {
     
     /**
      * Set the {@link javax.persistence.GeneratedValue#generator()}.
-     * @see #GENERATEDVALUE_STRATEGY
-     * @param strategy
+     * @see #GENERATEDVALUE_GENERATOR
+     * @param generator The name of the primary key generator to use as specified 
+     *        in the SequenceGenerator or TableGenerator annotation.
      */
     public void setGeneratedValueGenerator(final String generator) {
         super.setProperty(GENERATEDVALUE_GENERATOR, generator);

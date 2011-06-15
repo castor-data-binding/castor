@@ -27,15 +27,24 @@ import java.lang.reflect.AnnotatedElement;
 import javax.persistence.MappedSuperclass;
 
 public class JPAMappedSuperclassProcessor extends BaseJPAAnnotationProcessor {
-
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging</a> instance used for all logging.
+     */
     private static final Log LOG = LogFactory.getFactory().getInstance(
             JPAMappedSuperclassProcessor.class);
 
-    public Class<? extends Annotation> forAnnotationClass() {
+    /**
+     * {@inheritDoc}
+     */
+    public final Class<? extends Annotation> forAnnotationClass() {
         return MappedSuperclass.class;
     }
-
-    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+    
+    /**
+     * {@inheritDoc}
+     */
+    public final <I extends BaseNature, A extends Annotation> boolean processAnnotation(
             final I info, final A annotation, final AnnotatedElement target)
             throws AnnotationTargetException {
         if ((info instanceof JPAClassNature)

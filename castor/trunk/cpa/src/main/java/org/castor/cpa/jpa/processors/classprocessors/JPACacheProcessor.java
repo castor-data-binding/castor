@@ -29,11 +29,18 @@ import org.castor.cpa.jpa.natures.JPAClassNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
 public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
-
+    
+    /**
+     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     * Logging</a> instance used for all logging.
+     */
     private static Log _log = LogFactory.getFactory().getInstance(
             JPACacheProcessor.class);
 
-    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+    /**
+     * {@inheritDoc}
+     */
+    public final <I extends BaseNature, A extends Annotation> boolean processAnnotation(
             final I info, final A annotation, final AnnotatedElement target)
             throws AnnotationTargetException {
 
@@ -57,7 +64,10 @@ public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
-    public Class<? extends Annotation> forAnnotationClass() {
+    /**
+     * {@inheritDoc}
+     */
+    public final Class<? extends Annotation> forAnnotationClass() {
         return Cache.class;
     }
 
