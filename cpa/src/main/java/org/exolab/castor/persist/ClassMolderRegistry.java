@@ -75,8 +75,7 @@ public final class ClassMolderRegistry {
 
                 if (!new ClassDescriptorJDONature(desc).hasMappedSuperclass()) {
                     Persistence persistence = persistenceFactory.getPersistence(desc);
-                    ClassMolder molder = new ClassMolder(ds, jdoResolver,
-                            engine, desc, persistence);
+                    ClassMolder molder = new ClassMolder(ds, engine, desc, persistence);
                     _classMolders.put(molder.getName(), molder);
                 }
             }

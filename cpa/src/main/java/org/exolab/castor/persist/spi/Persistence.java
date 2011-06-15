@@ -51,10 +51,8 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -200,8 +198,7 @@ public interface Persistence {
      * @return SQLRelationLoader, for creating and removing relation from a 
      *         many-to-many relation database.
      */
-    SQLRelationLoader createSQLRelationLoader(ClassDescriptorResolver classDescriptorResolver, 
-            ClassDescriptor classDescriptor, FieldDescriptor fieldDescriptor)
+    SQLRelationLoader createSQLRelationLoader(FieldDescriptor fieldDescriptor)
     throws MappingException;
 }
 

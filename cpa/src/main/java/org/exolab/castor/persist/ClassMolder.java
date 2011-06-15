@@ -80,7 +80,6 @@ import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -173,16 +172,14 @@ public class ClassMolder {
      * 
      * @param ds is the helper class for resolving depends and extends relationship
      *        among all the ClassMolder in the same LockEngine.
-     * @param classDescriptorResolver {@link ClassDescriptorResolver} instance
      * @param lock the lock engine.
      * @param classDescriptor the classDescriptor for the base class.
      * @param persistenceEngine the Persistence for the base class.
      * @throws ClassNotFoundException If a class cannot be loaded.
      * @throws MappingException if an error occurred with analyzing the mapping information.
      */
-    ClassMolder(final DatingService ds, final ClassDescriptorResolver classDescriptorResolver, 
-            final LockEngine lock, final ClassDescriptor classDescriptor, 
-            final Persistence persistenceEngine)
+    ClassMolder(final DatingService ds, final LockEngine lock,
+            final ClassDescriptor classDescriptor, final Persistence persistenceEngine)
             throws ClassNotFoundException, MappingException {
 
         _engine = lock;
@@ -242,8 +239,7 @@ public class ClassMolder {
 
             SQLRelationLoader loader = null;
             if (_persistence != null) {
-                loader = _persistence.createSQLRelationLoader(
-                        classDescriptorResolver, classDescriptor, fieldDescriptor);
+                loader = _persistence.createSQLRelationLoader(fieldDescriptor);
             }
 
             _fhs[fieldMolderCount] = new FieldMolder(ds, this, fieldDescriptor, loader);

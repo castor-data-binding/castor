@@ -1,5 +1,6 @@
 /*
- * Copyright 2006 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
+ * Copyright 2011 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
+ *                Ralf Joachim, Johannes Venzke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
+import org.castor.cpa.persistence.sql.engine.info.ForeignReferenceInfo;
 import org.castor.cpa.persistence.sql.engine.info.InfoFactory;
-import org.castor.cpa.util.JDOClassDescriptorResolver;
+import org.castor.cpa.persistence.sql.engine.info.RelationTableInfo;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
@@ -40,7 +42,6 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.persist.spi.Identity;
@@ -48,8 +49,6 @@ import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
-import org.exolab.castor.xml.ClassDescriptorResolver;
-import org.exolab.castor.xml.ResolverException;
 
 /**
  * The SQL engine performs persistence of one object type against one
@@ -64,6 +63,7 @@ import org.exolab.castor.xml.ResolverException;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:johannes DOT venzke AT revival DOT de">Johannes Venzke</a>
  * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
  */
 public final class SQLEngine implements Persistence {
@@ -215,119 +215,27 @@ public final class SQLEngine implements Persistence {
     /**
      * {@inheritDoc}
      */
-    public SQLRelationLoader createSQLRelationLoader(
-            final ClassDescriptorResolver classDescriptorResolver, 
-            final ClassDescriptor classDescriptor, final FieldDescriptor fieldDescriptor)
+    public SQLRelationLoader createSQLRelationLoader(final FieldDescriptor fieldDescriptor)
     throws MappingException {
         if (!fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())
                 || (new FieldDescriptorJDONature(fieldDescriptor).getManyTable() == null)) {
             return null;
         }
         
-        FieldDescriptorJDONature nature = new FieldDescriptorJDONature(fieldDescriptor);
-
-        // the fields is not primitive
-        String[] relatedIdSQL = null;
-        int[] relatedIdType = null;
-        TypeConvertor[] relatedIdConvertTo = null;
-        TypeConvertor[] relatedIdConvertFrom = null;
-
-        String manyTable = nature.getManyTable();
-
-        FieldDescriptor[] identityFieldDescriptors =
-            ((ClassDescriptorImpl) classDescriptor).getIdentities();
-        String[] idSQL = new String[identityFieldDescriptors.length];
-        int[] idType = new int[identityFieldDescriptors.length];
-        TypeConvertor[] idConvertFrom = new TypeConvertor[identityFieldDescriptors.length];
-        TypeConvertor[] idConvertTo = new TypeConvertor[identityFieldDescriptors.length];
-        int identityFieldCount = 0;
-        for (FieldDescriptor identityFieldDescriptor : identityFieldDescriptors) {
-            if (identityFieldDescriptor.hasNature(
-                    FieldDescriptorJDONature.class.getName())) {
-                idSQL[identityFieldCount] = new FieldDescriptorJDONature(
-                        identityFieldDescriptor).getSQLName()[0];
-                int[] type = new FieldDescriptorJDONature(
-                        identityFieldDescriptor).getSQLType();
-                idType[identityFieldCount] = (type == null) ? 0 : type[0];
-                FieldHandlerImpl fieldHandler =
-                    (FieldHandlerImpl) identityFieldDescriptor.getHandler();
-                idConvertTo[identityFieldCount] = fieldHandler.getConvertTo();
-                idConvertFrom[identityFieldCount] = fieldHandler.getConvertFrom();
-            } else {
-                throw new MappingException(
-                        "Identity type must contains sql information: " 
-                        + classDescriptor.getJavaClass().getName());
-            }
-            identityFieldCount++;
-        }
-
-        ClassDescriptor relatedClassDescriptor = null;
-        try {
-            JDOClassDescriptorResolver jdoCDR =
-                (JDOClassDescriptorResolver) classDescriptorResolver;
-            relatedClassDescriptor =
-                jdoCDR.resolve(fieldDescriptor.getFieldType().getName());
-        } catch (ResolverException e) {
-            throw new MappingException("Problem resolving class descriptor for class " 
-                    + fieldDescriptor.getClass().getName(), e);
-        }
-
-        if (relatedClassDescriptor.hasNature(ClassDescriptorJDONature.class.getName())) {
-            FieldDescriptor[] relatedIdentityDescriptors =
-                ((ClassDescriptorImpl) relatedClassDescriptor).getIdentities();
-            relatedIdSQL = new String[relatedIdentityDescriptors.length];
-            relatedIdType = new int[relatedIdentityDescriptors.length];
-            relatedIdConvertTo = new TypeConvertor[relatedIdentityDescriptors.length];
-            relatedIdConvertFrom = new TypeConvertor[relatedIdentityDescriptors.length];
-            int relatedIdentityCount = 0;
-            for (FieldDescriptor relatedIdentityDescriptor : relatedIdentityDescriptors) {
-                if (relatedIdentityDescriptor.hasNature(
-                        FieldDescriptorJDONature.class.getName())) {
-                    FieldDescriptorJDONature relatedNature = new FieldDescriptorJDONature(
-                            relatedIdentityDescriptor);
-                    String[] tempId = relatedNature.getSQLName();
-                    relatedIdSQL[relatedIdentityCount] =
-                        (tempId == null) ? null : tempId[0];
-                    int[] tempType =  relatedNature.getSQLType();
-                    relatedIdType[relatedIdentityCount] =
-                        (tempType == null) ? 0 : tempType[0];
-                    FieldHandlerImpl fh = (FieldHandlerImpl)
-                    relatedIdentityDescriptors[relatedIdentityCount].getHandler();
-                    relatedIdConvertTo[relatedIdentityCount] = fh.getConvertTo();
-                    relatedIdConvertFrom[relatedIdentityCount] = fh.getConvertFrom();
-                } else {
-                    throw new MappingException("Field type is not persistence-capable: "
-                            + relatedIdentityDescriptors[relatedIdentityCount]
-                                                         .getFieldName());
+        String fieldName = fieldDescriptor.getFieldName();
+        
+        EntityTableInfo entity = _tableInfo;
+        RelationTableInfo relation = null;
+        while (relation == null) {
+            for (ForeignReferenceInfo reference : entity.getForeignReferences()) {
+                if (fieldName.equals(reference.getFieldName())) {
+                    relation = (RelationTableInfo) reference.getFromTable();
                 }
-                relatedIdentityCount++;
             }
+            entity = entity.getExtendedTable();
         }
 
-        // if many-key exist, idSQL is overridden
-        String[] manyKey = nature.getManyKey();
-        if ((manyKey != null) && (manyKey.length != 0)) {
-            if (manyKey.length != idSQL.length) {
-                throw new MappingException(
-                        "The number of many-keys doesn't match referred object: "
-                        + classDescriptor.getJavaClass().getName());
-            }
-            idSQL = manyKey;
-        }
-
-        // if name="" exist, relatedIdSQL is overridden
-        String[] manyName = nature.getSQLName();
-        if ((manyName != null) && (manyName.length != 0)) {
-            if (manyName.length != relatedIdSQL.length) {
-                throw new MappingException(
-                        "The number of many-keys doesn't match referred object: "
-                        + relatedClassDescriptor.getJavaClass().getName());
-            }
-            relatedIdSQL = manyName;
-        }
-
-        return new SQLRelationLoader(manyTable, idSQL, idType, idConvertTo, idConvertFrom,
-                relatedIdSQL, relatedIdType, relatedIdConvertTo, relatedIdConvertFrom);
+        return new SQLRelationLoader(relation);
     }
 
     public SQLColumnInfo[] getColumnInfoForIdentities() {
