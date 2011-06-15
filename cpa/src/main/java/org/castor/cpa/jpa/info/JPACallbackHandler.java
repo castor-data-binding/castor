@@ -46,6 +46,8 @@ import javax.persistence.PreUpdate;
  */
 public class JPACallbackHandler implements CallbackInterceptor {
 
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(JPACallbackHandler.class);
 
     /**

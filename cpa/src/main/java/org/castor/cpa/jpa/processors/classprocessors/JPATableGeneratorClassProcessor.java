@@ -39,9 +39,14 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  */
 public class JPATableGeneratorClassProcessor extends BaseJPAAnnotationProcessor {
 
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(JPATableGeneratorClassProcessor.class);
 
-    public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
+    /**
+     * {@inheritDoc}
+     */
+    public final <I extends BaseNature, A extends Annotation> boolean processAnnotation(
             final I info, final A annotation, final AnnotatedElement target)
             throws AnnotationTargetException {
 
@@ -86,7 +91,10 @@ public class JPATableGeneratorClassProcessor extends BaseJPAAnnotationProcessor 
         return true;
     }
 
-    public Class<? extends Annotation> forAnnotationClass() {
+    /**
+     * {@inheritDoc}
+     */
+    public final Class<? extends Annotation> forAnnotationClass() {
         return TableGenerator.class;
     }
 

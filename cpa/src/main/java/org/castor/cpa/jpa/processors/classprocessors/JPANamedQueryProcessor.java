@@ -34,6 +34,8 @@ import java.util.Map;
  */
 public class JPANamedQueryProcessor extends BaseJPAAnnotationProcessor {
 
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private final Log _log = LogFactory.getLog(getClass());
 
     /**

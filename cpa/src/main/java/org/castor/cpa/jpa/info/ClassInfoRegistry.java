@@ -3,12 +3,16 @@ package org.castor.cpa.jpa.info;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class holds {@link ClassInfo}s describing the given classes
+ * mapped to class objects.
+ */
 public final class ClassInfoRegistry {
 
     /**
      * Map for ClassInfo storage.
      */
-    private static final Map<Class, ClassInfo> CLASS_INFOS = new HashMap<Class, ClassInfo>();
+    private static final Map<Class<?>, ClassInfo> CLASS_INFOS = new HashMap<Class<?>, ClassInfo>();
 
     /**
      * Returns the {@link ClassInfo} instance registered for the given Class type.

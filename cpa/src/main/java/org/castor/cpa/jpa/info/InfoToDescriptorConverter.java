@@ -258,6 +258,13 @@ public final class InfoToDescriptorConverter {
         defineVersionField(classInfo, jdoNature);
     }
 
+    /**
+     * Retrieve version field from JPAVersionManager and set
+     * it to given ClassDescriptorJDONature. 
+     * 
+     * @param classInfo ClassInfo to retrieve described class from. 
+     * @param jdoNature The ClassDescriptorJDONature to set version field to. 
+     */
     private static void defineVersionField(final ClassInfo classInfo,
             final ClassDescriptorJDONature jdoNature) {
         JPAVersionManager manager = JPAVersionManager.getInstance();
@@ -267,6 +274,16 @@ public final class InfoToDescriptorConverter {
         }
     }
     
+    /**
+     * 
+     * 
+     * @param fieldInfo This class holds the necessary information so that Castor can 
+     *        properly map a JPA annotated classes member to the database.
+     * @param jpaKeyInfo JPAFieldNature to access the underlying 
+     *        PropertyHolder (obviously a FieldInfo).
+     * @return KeyGeneratorDescriptor that describes the properties of a key generator for a 
+     *         given class, with resolved alias and parameters.
+     */
     private static KeyGeneratorDescriptor describeKeyGenerator(
             final FieldInfo fieldInfo, final JPAFieldNature jpaKeyInfo) {
         GenerationType strategy = jpaKeyInfo.getGeneratedValueStrategy();
@@ -385,52 +402,10 @@ public final class InfoToDescriptorConverter {
 
         // Generate values and prerequisites
 
-        // Field type
-        Class<?> javaType = org.exolab.castor.mapping.loader.Types
-                .typeFromPrimitive(typeInfo.getFieldType());
-        int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
+        int sqlType = determineFieldType(jpaNature, typeInfo);
 
-        if (fieldInfo.getFieldType().isEnum()) { // Serializing enum types.
-            sqlType = jpaNature.isStringEnumType()
-                    ? java.sql.Types.VARCHAR : java.sql.Types.INTEGER;
-        } else if (jpaNature.isLob()) {
-            sqlType =  typeInfo.getFieldType() == String.class
-                    ? java.sql.Types.CLOB : java.sql.Types.BLOB;
-        } else {
-            final TemporalType temporalType = jpaNature.getTemporalType();
-            if (temporalType != null) {
-                switch (temporalType) {
-                    case DATE:
-                        sqlType = java.sql.Types.DATE;
-                        break;
-                    case TIME:
-                        sqlType = java.sql.Types.TIME;
-                        break;
-                    case TIMESTAMP:
-                        sqlType = java.sql.Types.TIMESTAMP;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        // ManyToMany JoinTable definition => if this field has a ManyToMany
-        // relation, everything is defined from now on, because we do not
-        // support mapping defaults and the ClassInfoBuilder already checks for
-        // complete definition.
         if (jpaNature.isManyToManyInverseCopy()) {
-            ClassInfo relatedClass = ClassInfoBuilder.buildClassInfo(
-                    jpaNature.getRelationTargetEntity());
-            String relatedFieldName = jpaNature.getRelationMappedBy();
-            FieldInfo relatedField = relatedClass.getFieldInfoByName(relatedFieldName);
-            JPAFieldNature relatedFieldNature = new JPAFieldNature(relatedField);
-
-            jpaNature.setJoinTableCatalog(relatedFieldNature.getJoinTableCatalog());
-            jpaNature.setJoinTableName(relatedFieldNature.getJoinTableName());
-            jpaNature.setJoinTableSchema(relatedFieldNature.getJoinTableSchema());
-            jpaNature.setJoinTableInverseJoinColumns(relatedFieldNature.getJoinTableJoinColumns());
-            jpaNature.setJoinTableJoinColumns(relatedFieldNature.getJoinTableInverseJoinColumns());
+            defineManyToManyJoinTable(jpaNature);
         }
 
         // FieldDescriptor value setting
@@ -591,6 +566,74 @@ public final class InfoToDescriptorConverter {
     }
 
     /**
+     * Determine SQL type of field in given TypeInfo. 
+     * 
+     * @param jpaNature The nature holding JPA information and
+     *        to access the underlying PropertyHolder.
+     * @param typeInfo TypeInfo which is used to get the fields type 
+     *        and to create the FieldHandler.
+     * @return SQLType of field in given typeInfo. 
+     */
+    private static int determineFieldType(final JPAFieldNature jpaNature, 
+            final TypeInfo typeInfo) {
+        Class<?> javaType = org.exolab.castor.mapping.loader.Types
+                .typeFromPrimitive(typeInfo.getFieldType());
+        int sqlType = SQLTypeInfos.javaType2sqlTypeNum(javaType);
+        
+        if (jpaNature.getFieldInfo().getFieldType().isEnum()) { // Serializing enum types.
+            sqlType = jpaNature.isStringEnumType()
+                    ? java.sql.Types.VARCHAR : java.sql.Types.INTEGER;
+        } else if (jpaNature.isLob()) {
+            sqlType =  typeInfo.getFieldType() == String.class
+                    ? java.sql.Types.CLOB : java.sql.Types.BLOB;
+        } else {
+            final TemporalType temporalType = jpaNature.getTemporalType();
+            if (temporalType != null) {
+                switch (temporalType) {
+                    case DATE:
+                        sqlType = java.sql.Types.DATE;
+                        break;
+                    case TIME:
+                        sqlType = java.sql.Types.TIME;
+                        break;
+                    case TIMESTAMP:
+                        sqlType = java.sql.Types.TIMESTAMP;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return sqlType;
+    }
+
+    /**
+     *  ManyToMany JoinTable definition => if this field has a ManyToMany
+     *  relation, everything is defined from now on, because we do not
+     *  support mapping defaults and the ClassInfoBuilder already checks for
+     *  complete definition.
+     * 
+     * @param jpaNature The nature holding JPA information and
+     *        to access the underlying PropertyHolder.
+     * @throws MappingException if annotation placement is invalid (field and 
+     *         property access for the same field) or if composite keys are used!
+     */
+    private static void defineManyToManyJoinTable(final JPAFieldNature jpaNature)
+            throws MappingException {
+        ClassInfo relatedClass = ClassInfoBuilder.buildClassInfo(
+                jpaNature.getRelationTargetEntity());
+        String relatedFieldName = jpaNature.getRelationMappedBy();
+        FieldInfo relatedField = relatedClass.getFieldInfoByName(relatedFieldName);
+        JPAFieldNature relatedFieldNature = new JPAFieldNature(relatedField);
+    
+        jpaNature.setJoinTableCatalog(relatedFieldNature.getJoinTableCatalog());
+        jpaNature.setJoinTableName(relatedFieldNature.getJoinTableName());
+        jpaNature.setJoinTableSchema(relatedFieldNature.getJoinTableSchema());
+        jpaNature.setJoinTableInverseJoinColumns(relatedFieldNature.getJoinTableJoinColumns());
+        jpaNature.setJoinTableJoinColumns(relatedFieldNature.getJoinTableInverseJoinColumns());
+    }
+
+    /**
      * Create the right parameter values for
      * {@link FieldDescriptorImpl#setRequired(boolean)} according to given JPA
      * specific information.
@@ -660,6 +703,8 @@ public final class InfoToDescriptorConverter {
      *            This is needed for OneToOne and ManyToOne relations only!
      * @param sqlType
      *            the SQL type representing the java type.
+     * @param fieldDescriptor 
+     *            FieldDescriptor which describes the properties of a field. 
      * @param parentClassDescriptor
      *            The {@link ClassDescriptorImpl} of the field owning class to
      *            get the identity field (see above).
