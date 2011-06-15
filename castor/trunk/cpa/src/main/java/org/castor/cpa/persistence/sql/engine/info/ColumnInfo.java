@@ -33,6 +33,9 @@ public final class ColumnInfo implements Cloneable {
      *  mapping as transient fields ignored and are not counted here. */
     private final int _fieldIndex;
 
+    /** Name of field in mapping. */
+    private final String _fieldName;
+
     /** Variable storing name of this column. */
     private final String _name;
 
@@ -57,6 +60,7 @@ public final class ColumnInfo implements Cloneable {
      * Constructor with all given values.
      * 
      * @param fieldIndex Index of the field in array of field values.
+     * @param fieldName Name of field in mapping.
      * @param name Name of this column.
      * @param type SQL type of this column.
      * @param convertFrom Converter to convert value of this column.
@@ -64,10 +68,11 @@ public final class ColumnInfo implements Cloneable {
      * @param store Flag telling if column is persistent or not.
      * @param dirty Flag telling if this column was changed or not.
      */
-    protected ColumnInfo(final int fieldIndex, final String name, final int type,
-            final TypeConvertor convertFrom, final boolean primaryKey, final boolean store,
-            final boolean dirty) {
+    protected ColumnInfo(final int fieldIndex, final String fieldName,
+            final String name, final int type, final TypeConvertor convertFrom,
+            final boolean primaryKey, final boolean store, final boolean dirty) {
         _fieldIndex = fieldIndex;
+        _fieldName = fieldName;
         _name = name;
         _type = type;
         _convertFrom = convertFrom;
@@ -86,6 +91,13 @@ public final class ColumnInfo implements Cloneable {
      */
     public int getFieldIndex() { return _fieldIndex; }
 
+    /**
+     * Get name of field in mapping.
+     * 
+     * @return Name of field in mapping.
+     */
+    public String getFieldName() { return _fieldName; }
+    
     /**
      * Method returning name of this column.
      * 

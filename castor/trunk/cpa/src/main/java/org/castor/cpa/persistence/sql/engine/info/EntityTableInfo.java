@@ -87,28 +87,33 @@ public final class EntityTableInfo extends TableInfo {
     /**
      * Add primary key column.
      * 
+     * @param fieldName Name of field in mapping.
      * @param name Name of this column.
      * @param type SQL type of this column.
      * @param convertFrom Converter to convert value of this column.
      */
-    protected void addPrimaryKeyColumn(final String name, final int type,
-            final TypeConvertor convertFrom) {
-        _primaryKeyColumns.add(new ColumnInfo(-1, name, type, convertFrom, true, false, false));
+    protected void addPrimaryKeyColumn(final String fieldName,
+            final String name, final int type, final TypeConvertor convertFrom) {
+        _primaryKeyColumns.add(new ColumnInfo(-1, fieldName, name,
+                type, convertFrom, true, false, false));
     }
     
     /**
      * Add simple column.
      * 
-     * @param index Index of the field in array of field values.
+     * @param fieldIndex Index of the field in array of field values.
+     * @param fieldName Name of field in mapping.
      * @param name Name of this column.
      * @param type SQL type of this column.
      * @param convertFrom Converter to convert value of this column.
      * @param store Flag telling if column is persistent or not.
      * @param dirty Flag telling if this column was changed or not.
      */
-    protected void addSimpleColumn(final int index, final String name, final int type,
-            final TypeConvertor convertFrom, final boolean store, final boolean dirty) {
-        _simpleColumns.add(new ColumnInfo(index, name, type, convertFrom, false, store, dirty));
+    protected void addSimpleColumn(final int fieldIndex, final String fieldName,
+            final String name, final int type, final TypeConvertor convertFrom,
+            final boolean store, final boolean dirty) {
+        _simpleColumns.add(new ColumnInfo(fieldIndex, fieldName,
+                name, type, convertFrom, false, store, dirty));
     }
     
     /**
@@ -178,19 +183,11 @@ public final class EntityTableInfo extends TableInfo {
     /**
      * Method appending values from passed identity to corresponding columns.
      * 
-     * @param input Identity containing values to be assigned to corresponding columns.
-     * @return ArrayList containing all columns with their corresponding values.
+     * @param identity Identity containing values to be assigned to corresponding columns.
+     * @return List containing all columns with their corresponding values.
      */
-    public List<ColumnValue> toSQL(final Identity input) {
-        List<ColumnValue> values = new ArrayList<ColumnValue>();
-
-        List<ColumnInfo> columns = getPrimaryKeyColumns();
-        for (int i = 0; i < columns.size(); i++) {
-            ColumnInfo column = columns.get(i);
-            values.add(new ColumnValue(column, input.get(i)));
-        }
-
-        return values;
+    public List<ColumnValue> toSQL(final Identity identity) {
+        return toSQL(getPrimaryKeyColumns(), identity);
     }
 
     /**
@@ -207,16 +204,8 @@ public final class EntityTableInfo extends TableInfo {
         }
 
         for (ForeignKeyInfo foreignKey : getForeignKeys()) {
-            List<ColumnInfo> columns = foreignKey.getFromColumns();
             Identity identity = (Identity) input[foreignKey.getFieldIndex()];
-            for (int i = 0; i < columns.size(); i++) {
-                ColumnInfo column = columns.get(i);
-                if (identity == null) {
-                    values.add(new ColumnValue(column, null));
-                } else {
-                    values.add(new ColumnValue(column, identity.get(i)));
-                }
-            }
+            values.addAll(toSQL(foreignKey.getFromColumns(), identity));
         }
 
         return values;

@@ -17,6 +17,11 @@
  */
 package org.castor.cpa.persistence.sql.engine.info;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.exolab.castor.persist.spi.Identity;
+
 /**
  * Class representing a table for a many to many relation.
  *
@@ -77,6 +82,32 @@ public final class RelationTableInfo extends TableInfo {
      * @return Foreign key to right side of many to many relation.
      */
     public ForeignKeyInfo getRightForeignKey() { return _rightForeignKey; }
+    
+    //-----------------------------------------------------------------------------------
+    
+    /**
+     * Method appending values from passed identities to corresponding columns.
+     * 
+     * @param left Identity containing values to be assigned to corresponding columns.
+     * @return ArrayList containing all columns with their corresponding values.
+     */
+    public List<ColumnValue> toSQL(final Identity left) {
+        return toSQL(getLeftForeignKey().getFromColumns(), left);
+    }
+    
+    /**
+     * Method appending values from passed identities to corresponding columns.
+     * 
+     * @param left Identity containing values to be assigned to corresponding columns.
+     * @param right Identity containing values to be assigned to corresponding columns.
+     * @return ArrayList containing all columns with their corresponding values.
+     */
+    public List<ColumnValue> toSQL(final Identity left, final Identity right) {
+        List<ColumnValue> values = new ArrayList<ColumnValue>();
+        values.addAll(toSQL(getLeftForeignKey().getFromColumns(), left));
+        values.addAll(toSQL(getRightForeignKey().getFromColumns(), right));
+        return values;
+    }
     
     //-----------------------------------------------------------------------------------    
 }

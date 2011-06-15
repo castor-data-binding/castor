@@ -33,6 +33,9 @@ public final class ForeignKeyInfo {
      *  mapping as transient fields ignored and are not counted here. */
     private final int _fieldIndex;
 
+    /** Name of field in mapping. */
+    private final String _fieldName;
+
     /** Table that holds the foreign key. */
     private final TableInfo _fromTable;
 
@@ -51,13 +54,15 @@ public final class ForeignKeyInfo {
      * Construct a foreign key.
      * 
      * @param fieldIndex Index of the field in array of field values.
+     * @param fieldName Name of field in mapping.
      * @param fromTable Table that holds the foreign key.
      * @param toTable Table referenced by the foreign key.
      * @param toAlias Alias of the table referenced by the foreign key.
      */
-    protected ForeignKeyInfo(final int fieldIndex, final TableInfo fromTable,
-            final EntityTableInfo toTable, final String toAlias) {
+    protected ForeignKeyInfo(final int fieldIndex, final String fieldName,
+            final TableInfo fromTable, final EntityTableInfo toTable, final String toAlias) {
         _fieldIndex = fieldIndex;
+        _fieldName = fieldName;
         _fromTable = fromTable;
         _toTable = toTable;
         _toAlias = toAlias;
@@ -83,6 +88,13 @@ public final class ForeignKeyInfo {
      * @return Index of the field in array of field values.
      */
     public int getFieldIndex() { return _fieldIndex; }
+    
+    /**
+     * Get name of field in mapping.
+     * 
+     * @return Name of field in mapping.
+     */
+    public String getFieldName() { return _fieldName; }
     
     /**
      * Method returning the table that holds the foreign key.

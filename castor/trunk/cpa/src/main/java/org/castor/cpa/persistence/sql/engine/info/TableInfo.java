@@ -17,6 +17,11 @@
  */
 package org.castor.cpa.persistence.sql.engine.info;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.exolab.castor.persist.spi.Identity;
+
 /**
  * Abstract base class representing given table.
  *
@@ -49,6 +54,31 @@ public abstract class TableInfo {
      * @return Name of the table currently set.
      */
     public final String getTableName() { return _tableName; }
+
+    //-----------------------------------------------------------------------------------    
+
+    /**
+     * Method appending values from passed identity to corresponding columns.
+     * 
+     * @param columns List of columns.
+     * @param identity Identity containing values to be assigned to corresponding columns.
+     * @return List containing all columns with their corresponding values.
+     */
+    public static final List<ColumnValue> toSQL(final List<ColumnInfo> columns,
+            final Identity identity) {
+        List<ColumnValue> values = new ArrayList<ColumnValue>(columns.size());
+
+        for (int i = 0; i < columns.size(); i++) {
+            ColumnInfo column = columns.get(i);
+            if (identity == null) {
+                values.add(new ColumnValue(column, null));
+            } else {
+                values.add(new ColumnValue(column, identity.get(i)));
+            }
+        }
+
+        return values;
+    }
 
     //-----------------------------------------------------------------------------------    
 }

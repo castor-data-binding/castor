@@ -1,3 +1,20 @@
+/*
+ * Copyright 2010 Dennis Butterstein, Ralf Joachim, Johannes Venzke
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Id: TableInfo.java 8469 2009-12-28 16:47:54Z rjoachim $
+ */
 package org.castor.cpa.persistence.sql.engine.info;
 
 import java.util.ArrayList;
@@ -10,13 +27,21 @@ import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 
+/**
+ * Factory for SQL info.
+ *
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:johannes DOT venzke AT revival DOT de">Johannes Venzke</a>
+ * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
 public final class InfoFactory {
     //-----------------------------------------------------------------------------------    
 
+    /** Map associating class names of entities with the EntityTableInfo instance for the class. */
     private final Map<String, EntityTableInfo> _entityMap = new HashMap<String, EntityTableInfo>();
     
     //-----------------------------------------------------------------------------------    
@@ -64,30 +89,31 @@ public final class InfoFactory {
     
     private void resolvePrimaryKeys(final ClassDescriptor classDescriptor, final EntityTableInfo table)
     throws MappingException {
-        for (FieldDescriptor selfFD : ((ClassDescriptorImpl) classDescriptor).getIdentities()) {
-            if (!selfFD.hasNature(FieldDescriptorJDONature.class.getName())) {
+        for (FieldDescriptor id : ((ClassDescriptorImpl) classDescriptor).getIdentities()) {
+            if (!id.hasNature(FieldDescriptorJDONature.class.getName())) {
                 throw new MappingException("Excepted JDOFieldDescriptor");
             }
-            FieldDescriptorJDONature selfFN = new FieldDescriptorJDONature(selfFD);
-            String sqlName = selfFN.getSQLName()[0];
-            int selfType = selfFN.getSQLType()[0];
-            TypeConvertor convFrom = ((FieldHandlerImpl) selfFD.getHandler()).getConvertFrom();
+            FieldDescriptorJDONature fieldNature = new FieldDescriptorJDONature(id);
+            String columnName = fieldNature.getSQLName()[0];
+            int columnType = fieldNature.getSQLType()[0];
+            FieldHandlerImpl columnHandler = (FieldHandlerImpl) id.getHandler();
 
-            table.addPrimaryKeyColumn(sqlName, selfType, convFrom);
+            table.addPrimaryKeyColumn(id.getFieldName(),
+                    columnName, columnType, columnHandler.getConvertFrom());
         }
     }
     
-    private void resolveColumns(final ClassDescriptor selfCD, final EntityTableInfo table)
+    private void resolveColumns(final ClassDescriptor classDescriptor, final EntityTableInfo table)
     throws MappingException {
-        int fieldIndex = 0;
-        for (FieldDescriptor selfFD : selfCD.getFields()) {
+        int index = 0;
+        for (FieldDescriptor fieldDescriptor : classDescriptor.getFields()) {
             // field is persistent if it is not transient
-            if (!selfFD.isTransient()) {
-                ClassDescriptor referedCD = selfFD.getClassDescriptor();
+            if (!fieldDescriptor.isTransient()) {
+                ClassDescriptor referedCD = fieldDescriptor.getClassDescriptor();
 
-                FieldDescriptorJDONature selfFN = null;
-                if (selfFD.hasNature(FieldDescriptorJDONature.class.getName())) {
-                    selfFN = new FieldDescriptorJDONature(selfFD);
+                FieldDescriptorJDONature fieldNature = null;
+                if (fieldDescriptor.hasNature(FieldDescriptorJDONature.class.getName())) {
+                    fieldNature = new FieldDescriptorJDONature(fieldDescriptor);
                 }
                 
                 if (referedCD != null) {
@@ -95,19 +121,19 @@ public final class InfoFactory {
                         throw new MappingException("Related class is not a JDOClassDescriptor");
                     }
                     
-                    if (selfFN == null) {
-                        resolveForeignReference(selfCD, selfFD, table, fieldIndex);
-                    } else if (selfFN.getManyTable() != null) {
-                        resolveManyToMany(selfCD, selfFD, table, fieldIndex);
-                    } else if (selfFN.getSQLName() != null) {
-                        resolveForeignKey(selfFD, table, fieldIndex);
+                    if (fieldNature == null) {
+                        resolveForeignReference(classDescriptor, fieldDescriptor, table, index);
+                    } else if (fieldNature.getManyTable() != null) {
+                        resolveManyToMany(classDescriptor, fieldDescriptor, table, index);
+                    } else if (fieldNature.getSQLName() != null) {
+                        resolveForeignKey(fieldDescriptor, table, index);
                     } else {
-                        resolveForeignReference(selfCD, selfFD, table, fieldIndex);
+                        resolveForeignReference(classDescriptor, fieldDescriptor, table, index);
                     }
-                    fieldIndex++;
-                } else if (selfFN != null) {
-                    resolveSimpleColumn(selfFD, table, fieldIndex);
-                    fieldIndex++;
+                    index++;
+                } else if (fieldNature != null) {
+                    resolveSimpleColumn(fieldDescriptor, table, index);
+                    index++;
                 }
             }
         }
@@ -129,8 +155,8 @@ public final class InfoFactory {
         int columnType = fieldNature.getSQLType()[0];
         FieldHandlerImpl columnHandler = (FieldHandlerImpl) fieldDescriptor.getHandler();
 
-        table.addSimpleColumn(fieldIndex, columnName, columnType,
-                columnHandler.getConvertFrom(), isStore, isDirtyCheck);
+        table.addSimpleColumn(fieldIndex, fieldDescriptor.getFieldName(),
+                columnName, columnType, columnHandler.getConvertFrom(), isStore, isDirtyCheck);
     }
 
     private void resolveForeignKey(final FieldDescriptor fieldDescriptor,
@@ -141,15 +167,17 @@ public final class InfoFactory {
         ClassDescriptor referedCD = fieldDescriptor.getClassDescriptor();
         EntityTableInfo referedTable = createTableInfo(referedCD);
 
-        ForeignKeyInfo foreignKey = new ForeignKeyInfo(fieldIndex, table, referedTable,
-                referedTable.getTableName() + "_f" + fieldIndex);
+        ForeignKeyInfo foreignKey = new ForeignKeyInfo(
+                fieldIndex, fieldDescriptor.getFieldName(), table,
+                referedTable, referedTable.getTableName() + "_f" + fieldIndex);
         
         boolean isExtended = (table.getExtendedTable() != null);
         boolean isStore = !fieldNature.isReadonly() && !isExtended;
         boolean isDirtyCheck = fieldNature.isDirtyCheck();
 
         String[] columnNames = fieldNature.getSQLName();
-        List<ColumnInfo> columns = createColumnInfos(fieldIndex,
+        List<ColumnInfo> columns = createColumnInfos(
+                fieldIndex, fieldDescriptor.getFieldName(),
                 referedCD, columnNames, isStore, isDirtyCheck);
         for (ColumnInfo column : columns) {
             foreignKey.addFromColumn(column);
@@ -165,7 +193,8 @@ public final class InfoFactory {
         ClassDescriptor referingCD = fieldDescriptor.getClassDescriptor();
         EntityTableInfo referingTable = createTableInfo(referingCD);
 
-        ForeignReferenceInfo foreignReference = new ForeignReferenceInfo(fieldIndex, table,
+        ForeignReferenceInfo foreignReference = new ForeignReferenceInfo(
+                fieldIndex, fieldDescriptor.getFieldName(), table,
                 referingTable, referingTable.getTableName() + "_f" + fieldIndex);
         
         String[] columnNames = null;
@@ -173,7 +202,8 @@ public final class InfoFactory {
             FieldDescriptorJDONature fieldNature = new FieldDescriptorJDONature(fieldDescriptor);
             columnNames = fieldNature.getManyKey();
         }
-        List<ColumnInfo> columns = createColumnInfos(fieldIndex,
+        List<ColumnInfo> columns = createColumnInfos(
+                fieldIndex, fieldDescriptor.getFieldName(),
                 classDescriptor, columnNames, false, false);
         for (ColumnInfo column : columns) {
             foreignReference.addFromColumn(column);
@@ -194,33 +224,35 @@ public final class InfoFactory {
         String relationTableName = fieldNature.getManyTable();
         RelationTableInfo relationTable = new RelationTableInfo(relationTableName);
 
-        ForeignReferenceInfo manyToMany = new ForeignReferenceInfo(fieldIndex, table,
+        ForeignReferenceInfo manyToMany = new ForeignReferenceInfo(
+                fieldIndex, fieldDescriptor.getFieldName(), table,
                 relationTable, relationTable.getTableName() + "_f" + fieldIndex);
 
         String[] columnNames = fieldNature.getManyKey();
-        List<ColumnInfo> columns = createColumnInfos(fieldIndex,
+        List<ColumnInfo> columns = createColumnInfos(
+                fieldIndex, fieldDescriptor.getFieldName(),
                 classDescriptor, columnNames, false, false);
         for (ColumnInfo column : columns) {
             manyToMany.addFromColumn(column);
         }
         
-        ForeignKeyInfo leftForeignKey = new ForeignKeyInfo(0, relationTable, table,
-                table.getTableName() + "_f" + 0);
+        ForeignKeyInfo leftForeignKey = new ForeignKeyInfo(0, null, relationTable,
+                table, table.getTableName() + "_f" + 0);
         relationTable.setLeftForeignKey(leftForeignKey);
         
         String[] leftColumnNames = fieldNature.getManyKey();
-        List<ColumnInfo> leftColumns = createColumnInfos(0,
+        List<ColumnInfo> leftColumns = createColumnInfos(0, null,
                 classDescriptor, leftColumnNames, false, false);
         for (ColumnInfo column : leftColumns) {
             leftForeignKey.addFromColumn(column);
         }
 
-        ForeignKeyInfo rightForeignKey = new ForeignKeyInfo(1, relationTable, referedTable,
-                referedTable.getTableName() + "_f" + 1);
+        ForeignKeyInfo rightForeignKey = new ForeignKeyInfo(1, null, relationTable,
+                referedTable, referedTable.getTableName() + "_f" + 1);
         relationTable.setRightForeignKey(rightForeignKey);
         
         String[] rightColumnNames = fieldNature.getSQLName();
-        List<ColumnInfo> rightColumns = createColumnInfos(1,
+        List<ColumnInfo> rightColumns = createColumnInfos(1, null,
                 referedCD, rightColumnNames, false, false);
         for (ColumnInfo column : rightColumns) {
             rightForeignKey.addFromColumn(column);
@@ -229,7 +261,7 @@ public final class InfoFactory {
         table.addForeignReference(manyToMany);
     }
     
-    private List<ColumnInfo> createColumnInfos(final int fieldIndex,
+    private List<ColumnInfo> createColumnInfos(final int fieldIndex, final String fieldName,
             final ClassDescriptor classDescriptor, final String[] columnNames,
             final boolean store, final boolean dirty)
     throws MappingException {
@@ -260,7 +292,7 @@ public final class InfoFactory {
             int columnType = nature.getSQLType()[0];
             FieldHandlerImpl columnHandler = (FieldHandlerImpl) id.getHandler();
 
-            columns.add(new ColumnInfo(fieldIndex, columnName, columnType,
+            columns.add(new ColumnInfo(fieldIndex, fieldName, columnName, columnType,
                     columnHandler.getConvertFrom(), false, store, dirty));
         }
         

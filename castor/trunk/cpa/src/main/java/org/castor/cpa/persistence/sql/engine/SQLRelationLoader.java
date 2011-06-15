@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Thomas Yip
+ * Copyright 2011 Thomas Yip, Ralf Joachim, Johannes Venzke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,32 +19,36 @@ package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
+import org.castor.cpa.persistence.sql.engine.info.RelationTableInfo;
 import org.castor.cpa.persistence.sql.query.Delete;
 import org.castor.cpa.persistence.sql.query.Insert;
 import org.castor.cpa.persistence.sql.query.Select;
-import org.castor.cpa.persistence.sql.query.Table;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.castor.jdo.util.JDOUtils;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
-import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
- * SQLRelationLoader is a quick hack for creating and removing
- * relation from a many-to-many relation database from ClassMolder.
- * Eventually, it will be merged into SQLEngine. But, it requires
- * chaning of the Persistence interface.
+ * SQLRelationLoader is a quick hack for creating and removing relation from a many-to-many
+ * relation database from ClassMolder. Eventually, it will be merged into SQLEngine. But, it
+ * requires changing of the Persistence interface.
  *
- * @author <a href="mailto:yip@intalio.com">Thomas Yip</a>
+ * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @author <a href="mailto:johannes DOT venzke AT revival DOT de">Johannes Venzke</a>
+ * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
  */
-public class SQLRelationLoader {
+public final class SQLRelationLoader {
+    //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
@@ -52,13 +56,9 @@ public class SQLRelationLoader {
 
     //-----------------------------------------------------------------------------------    
 
-    /** The name of the relation table */
-    private String _tableName;
+    /** The relation table. */
+    private RelationTableInfo _relation;
     
-    private SQLColumnInfo[] _left;
-
-    private SQLColumnInfo[] _right;
-
     /** The SQL statement for selecting the relation from the relation table. */
     private Select _select;
 
@@ -71,90 +71,119 @@ public class SQLRelationLoader {
     /** The SQL statement to delete all the relation associate with the left side type. */
     private Delete _deleteAll;
 
-    public SQLRelationLoader(final String table, final String[] key, final int[] keyType,
-            final TypeConvertor[] idTo, final TypeConvertor[] idFrom,
-            final String[] otherKey, final int[] otherKeyType,
-            final TypeConvertor[] ridTo, final TypeConvertor[] ridFrom) {
-        
-      _left = new SQLColumnInfo[key.length];
-      for (int i = 0; i < key.length; i++) {
-          _left[i] = new SQLColumnInfo(key[i], keyType[i], idTo[i], idFrom[i]);
-      }
-      
-      _right = new SQLColumnInfo[otherKey.length];
-      for (int i = 0; i < otherKey.length; i++) {
-          _right[i] = new SQLColumnInfo(otherKey[i], otherKeyType[i], ridTo[i], ridFrom[i]);
-      }
+    //-----------------------------------------------------------------------------------    
 
-        _tableName = table;
+    /**
+     * Create class to handle n-to-m relations of two tables. 
+     * 
+     * @param relation The relation table. 
+     */
+    public SQLRelationLoader(final RelationTableInfo relation) {
+        _relation = relation;
         
-        // construct select statement
-        Table qualifier = new Table(_tableName);
-        _select = new Select(qualifier);
-        for (SQLColumnInfo colInfo : _left) {
-            _select.addSelect(new Column(colInfo.getName()));
-        }
-        for (SQLColumnInfo colInfo : _right) {
-            _select.addSelect(new Column(colInfo.getName()));
-        }
+        List<ColumnInfo> left = relation.getLeftForeignKey().getFromColumns();
+        List<ColumnInfo> right = relation.getRightForeignKey().getFromColumns();
         
-        AndCondition conditionSelect = new AndCondition();
-        for (SQLColumnInfo colInfo : _left) {
-            conditionSelect.and(new Column(colInfo.getName()).equal(
-                    new Parameter(colInfo.getName())));
-        }
-        for (SQLColumnInfo colInfo : _right) {
-            conditionSelect.and(new Column(colInfo.getName()).equal(
-                    new Parameter(colInfo.getName())));
-        }
-        _select.setCondition(conditionSelect);
-        
-
-        // construct insert statement
-        _insert = new Insert(_tableName);
-        for (SQLColumnInfo colInfo : _left) {
-            _insert.addAssignment(new Column(colInfo.getName()), 
-                    new Parameter(colInfo.getName()));
-        }
-        for (SQLColumnInfo colInfo : _right) {
-            _insert.addAssignment(new Column(colInfo.getName()), 
-                    new Parameter(colInfo.getName()));
-        }
-
-        // construct delete statement
-        _delete = new Delete(_tableName);
-        AndCondition conditionDelete = new AndCondition();
-        for (SQLColumnInfo colInfo : _left) {
-            conditionDelete.and(new Column(colInfo.getName()).equal(
-                    new Parameter(colInfo.getName())));
-        }
-        for (SQLColumnInfo colInfo : _right) {
-            conditionDelete.and(new Column(colInfo.getName()).equal(
-                    new Parameter(colInfo.getName())));
-        }
-        _delete.setCondition(conditionDelete);
-
-        // construct delete statement for the left side only
-        _deleteAll = new Delete(_tableName);
-        AndCondition conditionDeleteAll = new AndCondition();
-        for (SQLColumnInfo colInfo : _left) {
-            conditionDeleteAll.and(new Column(colInfo.getName()).equal(
-                    new Parameter(colInfo.getName())));
-        }
-        _deleteAll.setCondition(conditionDeleteAll);
+        constructSelectStatement(left, right);
+        constructInsertStatement(left, right);
+        constructDeleteStatement(left, right);
+        constructDeleteAllStatement(left);
     }
 
-    private Object idToSQL(final int index, final Object object) {
-        if ((object == null) || (_left[index].getConvertFrom() == null)) { return object; }
-        return _left[index].getConvertFrom().convert(object);
+    /**
+     * Construct SELECT statement.
+     *
+     * @param left The columns that represent foreign keys to left table of relation.
+     * @param right The columns that represent foreign keys to right table of relation.
+     */
+    private void constructSelectStatement(
+            final List<ColumnInfo> left, final List<ColumnInfo> right) {
+        _select = new Select(_relation.getTableName());
+
+        AndCondition condition = new AndCondition();
+        _select.setCondition(condition);
+        
+        for (ColumnInfo colInfo : left) {
+            String name = colInfo.getName();
+            Column column = new Column(name);
+            _select.addSelect(column);
+            condition.and(column.equal(new Parameter(name)));
+        }
+        
+        for (ColumnInfo colInfo : right) {
+            String name = colInfo.getName();
+            Column column = new Column(name);
+            _select.addSelect(column);
+            condition.and(column.equal(new Parameter(name)));
+        }
     }
 
-    private Object ridToSQL(final int index, final Object object) {
-        if ((object == null) || (_right[index].getConvertFrom() == null)) { return object; }
-        return _right[index].getConvertFrom().convert(object);
+    /**
+     *  Construct INSERT statement. 
+     *
+     * @param left The columns that represent foreign keys to left table of relation.
+     * @param right The columns that represent foreign keys to right table of relation.
+     */
+    private void constructInsertStatement(
+            final List<ColumnInfo> left, final List<ColumnInfo> right) {
+        _insert = new Insert(_relation.getTableName());
+        
+        for (ColumnInfo colInfo : left) {
+            String name = colInfo.getName();
+            _insert.addAssignment(new Column(name), new Parameter(name));
+        }
+        
+        for (ColumnInfo colInfo : right) {
+            String name = colInfo.getName();
+            _insert.addAssignment(new Column(name), new Parameter(name));
+        }
     }
 
-    public void createRelation(final CastorConnection conn, final Identity left, final Identity right)
+    /**
+     * Construct DELETE statement. 
+     *
+     * @param left The columns that represent foreign keys to left table of relation.
+     * @param right The columns that represent foreign keys to right table of relation.
+     */
+    private void constructDeleteStatement(
+            final List<ColumnInfo> left, final List<ColumnInfo> right) {
+        _delete = new Delete(_relation.getTableName());
+        
+        AndCondition condition = new AndCondition();
+        _delete.setCondition(condition);
+
+        for (ColumnInfo colInfo : left) {
+            String name = colInfo.getName();
+            condition.and(new Column(name).equal(new Parameter(name)));
+        }
+        
+        for (ColumnInfo colInfo : right) {
+            String name = colInfo.getName();
+            condition.and(new Column(name).equal(new Parameter(name)));
+        }
+    }
+
+    /**
+     * Construct DELETE statement for the left side only. 
+     *
+     * @param left The columns that represent foreign keys to left table of relation.
+     */
+    private void constructDeleteAllStatement(final List<ColumnInfo> left) {
+        _deleteAll = new Delete(_relation.getTableName());
+        
+        AndCondition condition = new AndCondition();
+        _deleteAll.setCondition(condition);
+
+        for (ColumnInfo colInfo : left) {
+            String name = colInfo.getName();
+            condition.and(new Column(name).equal(new Parameter(name)));
+        }
+    }
+
+    //-----------------------------------------------------------------------------------    
+
+    public void createRelation(final CastorConnection conn, 
+            final Identity left, final Identity right)
     throws PersistenceException {
         CastorStatement selectStatement = conn.createStatement();
         CastorStatement insertStatement = conn.createStatement();
@@ -163,38 +192,20 @@ public class SQLRelationLoader {
 
         try {
             selectStatement.prepareStatement(_select);
-            for (int i = 0; i < left.size(); i++) {
-                String name = _left[i].getName();
-                Object value = idToSQL(i, left.get(i));
-                int type = _left[i].getSqlType();
-                
-                selectStatement.bindParameter(name, value, type);
+            
+            List<ColumnValue> colVals = _relation.toSQL(left, right);
+            for (ColumnValue cv : colVals) {
+                selectStatement.bindParameter(cv.getName(), cv.getValue(), cv.getType());
             }
-            for (int i = 0; i < right.size(); i++) {
-                String name = _right[i].getName();
-                Object value = ridToSQL(i, right.get(i));
-                int type = _right[i].getSqlType();
-                
-                selectStatement.bindParameter(name, value, type);
-            }
+            
             rset = selectStatement.executeQuery();
-
-            insertStatement.prepareStatement(_insert);
             if (!rset.next()) {
-                for (int i = 0; i < left.size(); i++) {
-                    String name = _left[i].getName();
-                    Object value = idToSQL(i, left.get(i));
-                    int type = _left[i].getSqlType();
-                    
-                    insertStatement.bindParameter(name, value, type);
+                insertStatement.prepareStatement(_insert);
+
+                for (ColumnValue cv : colVals) {
+                    insertStatement.bindParameter(cv.getName(), cv.getValue(), cv.getType());
                 }
-                for (int i = 0; i < right.size(); i++) {
-                    String name = _right[i].getName();
-                    Object value = ridToSQL(i, right.get(i));
-                    int type = _right[i].getSqlType();
-                    
-                    insertStatement.bindParameter(name, value, type);
-                }
+                
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(Messages.format("jdo.inserting", insertStatement.toString()));
                 }
@@ -202,7 +213,6 @@ public class SQLRelationLoader {
                 insertStatement.executeUpdate();
             }
         } catch (SQLException ex) {
-            LOG.fatal(selectStatement.toString() + "\n" + insertStatement.toString(), ex);
             throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
             // close statement
@@ -221,10 +231,9 @@ public class SQLRelationLoader {
         CastorStatement stmt = conn.createStatement();
         try {
             stmt.prepareStatement(_deleteAll);
-            for (int i = 0; i < left.size(); i++) {
-                Object value = idToSQL(i, left.get(i));
-                
-                stmt.bindParameter(_left[i].getName(), value, _left[i].getSqlType());
+            
+            for (ColumnValue cv : _relation.toSQL(left)) {
+                stmt.bindParameter(cv.getName(), cv.getValue(), cv.getType());
             }
             
             if (LOG.isDebugEnabled()) {
@@ -233,7 +242,6 @@ public class SQLRelationLoader {
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOG.fatal(stmt.toString(), ex);
             throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
             // close statement
@@ -245,28 +253,23 @@ public class SQLRelationLoader {
         }
     }
 
-    public void deleteRelation(final CastorConnection conn, final Identity left, final Identity right)
+    public void deleteRelation(final CastorConnection conn,
+            final Identity left, final Identity right)
     throws PersistenceException {
         CastorStatement stmt = conn.createStatement();
         try {
             stmt.prepareStatement(_delete);
-            for (int i = 0; i < left.size(); i++) {
-                Object value = idToSQL(i, left.get(i));
-                
-                stmt.bindParameter(_left[i].getName(), value, _left[i].getSqlType());
+            
+            for (ColumnValue cv : _relation.toSQL(left, right)) {
+                stmt.bindParameter(cv.getName(), cv.getValue(), cv.getType());
             }
-            for (int i = 0; i < right.size(); i++) {
-                Object value = ridToSQL(i, right.get(i));
-                
-                stmt.bindParameter(_right[i].getName(), value, _right[i].getSqlType());
-            }
+            
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.removing", stmt.toString()));
             }
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOG.fatal(stmt.toString(), ex);
             throw new PersistenceException(Messages.format("persist.nested", ex), ex);
         } finally {
             // close statement
@@ -277,4 +280,6 @@ public class SQLRelationLoader {
             }
         }
     }
+
+    //-----------------------------------------------------------------------------------    
 }
