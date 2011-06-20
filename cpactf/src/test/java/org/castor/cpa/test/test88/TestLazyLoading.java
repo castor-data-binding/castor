@@ -614,7 +614,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof LazyCollection);
+                loadPerson.getProjects() instanceof LazyCollection<?>);
 
         // OK, the collection of projects is there, let's test a rollback for
         // bug #1046
@@ -625,7 +625,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof LazyCollection);
+                loadPerson.getProjects() instanceof LazyCollection<?>);
     }
 
     public void testMasterUpdate() throws PersistenceException {

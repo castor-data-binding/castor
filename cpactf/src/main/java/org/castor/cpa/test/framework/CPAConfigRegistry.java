@@ -47,20 +47,31 @@ import org.xml.sax.InputSource;
 public final class CPAConfigRegistry {
     //--------------------------------------------------------------------------
 
+    /** The base URL for the configuration file. */
     private String _jdoConfBaseURL;
     
+    /** The default database name in the configuration. */
     private String _defaultDatabaseName;
     
+    /** The default transaction name in the configuration. */
     private String _defaultTransactionName;
     
+    /** Databases from configuration file, associated with their names. */
     private final Map<String, Database> _databases
         = new HashMap<String, Database>();
     
+    /** Transactions from configuration file, associated with their names.  */
     private final Map<String, Transaction> _transactions
         = new HashMap<String, Transaction>();
     
     //--------------------------------------------------------------------------
 
+    /**
+     * Read configuration from file and store databases and transactions
+     * in a map. 
+     * 
+     * @param url The URL of the configuration file. 
+     */
     public void loadConfiguration(final String url) {
         InputSource source = new InputSource(url);
         _jdoConfBaseURL = source.getSystemId();
@@ -94,12 +105,33 @@ public final class CPAConfigRegistry {
     
     //--------------------------------------------------------------------------
 
+    /** 
+     * Provide the base URL for the configuration file. 
+     * 
+     * @return The base URL for the configuration file.
+     */
     public String getJdoConfBaseURL() { return _jdoConfBaseURL; }
     
+    /** 
+     * Provide The default database name in the configuration. 
+     * 
+     * @return The default database name in the configuration. 
+     */
     public String getDefaultDatabaseName() { return _defaultDatabaseName; }
     
+    /**
+     * Provide the default transaction name in the configuration. 
+     * 
+     * @return The default transaction name in the configuration.
+     */
     public String getDefaultTransactionName() { return _defaultTransactionName; }
     
+    /**
+     * Provides which engine type the database of the given name uses. 
+     * 
+     * @param db The name of the database that is used. 
+     * @return A DatabaseEngineType instance. 
+     */
     public DatabaseEngineType getEngine(final String db) {
         if (!_databases.containsKey(db)) {
             throw new CPAConfigException("Database config '" + db + "' not found.");
@@ -115,6 +147,13 @@ public final class CPAConfigRegistry {
         return database.getEngine();
     }
     
+    /**
+     * Provide the database configuration for the given name. 
+     * 
+     * @param name The name to use for the database configuration. 
+     * @param db The name of the database that is used. 
+     * @return The database configuration for the given name and database. 
+     */
     public org.castor.jdo.conf.Database createDbConfig(final String name, final String db) {
         if (name == null) {
             throw new CPAConfigException("No configuration name specified.");
@@ -153,6 +192,13 @@ public final class CPAConfigRegistry {
         return dbConfig;
     }
     
+    /**
+     * Create a JDO driver configuration from JDBC connection parameters.
+     * 
+     * @param db The name of the database to create driver for. 
+     * @param driver JDBC driver. Must not be null. 
+     * @return JDO driver configuration. 
+     */
     private org.castor.jdo.conf.Driver createDriver(final String db, final Driver driver) {
         String classname = driver.getClassName();
         if (classname == null) {
@@ -185,6 +231,14 @@ public final class CPAConfigRegistry {
         return JDOConfFactory.createDriver(classname, connect, user, password);
     }
     
+    /**
+     * Create a JDO datasource configuration from a JDBC DataSource instance 
+     * and apply the supplied property entries.
+     * 
+     * @param db The name of the database that is used. 
+     * @param ds JDBC DataSource. Must not be null. 
+     * @return JDO Datasource configuration.
+     */
     private org.castor.jdo.conf.DataSource createDataSource(final String db, final DataSource ds) {
         String classname = ds.getClassName();
         if (classname == null) {
@@ -201,6 +255,13 @@ public final class CPAConfigRegistry {
         return JDOConfFactory.createDataSource(classname, props);
     }
     
+    /**
+     * Create a JDO jndi configuration with the given name.
+     * 
+     * @param db The name of the database that is used. 
+     * @param jndi JDBC JNDI. Must not be null. 
+     * @return JDO JNDI configuration.
+     */
     private org.castor.jdo.conf.Jndi createJNDI(final String db, final Jndi jndi) {
         String name = jndi.getName();
         if (name == null) {
@@ -211,6 +272,12 @@ public final class CPAConfigRegistry {
         return JDOConfFactory.createJNDI(name);
     }
     
+    /**
+     * Provide the configuration of the transaction belonging to given name. 
+     * 
+     * @param tx The name of the transaction that is used. 
+     * @return The transaction configuration for the given name.
+     */
     public org.castor.jdo.conf.TransactionDemarcation createTxConfig(final String tx) {
         if (!_transactions.containsKey(tx)) {
             throw new CPAConfigException("Transaction config '" + tx + "' not found.");
