@@ -22,5 +22,5 @@ import org.junit.Ignore;
  */
 @Ignore
 public class HighLowObjectGlobal extends AbstractKeyGenObjectInteger {
-	
+    
 }

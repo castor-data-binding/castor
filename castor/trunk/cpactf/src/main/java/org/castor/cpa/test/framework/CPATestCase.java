@@ -42,30 +42,43 @@ import junit.framework.TestResult;
 public abstract class CPATestCase extends TestCase {
     //--------------------------------------------------------------------------
 
+    /** Filename of default configuration, to use as a fall back if
+     *  retrieving of configuration from System fails. */
     private static final String DEFAULT_CONFIG = "/cpactf-conf.xml";
     
+    /** The name of the configuration argument. */
     private static final String ARG_CONFIG = "config";
     
+    /** The name of the database argument. */
     private static final String ARG_DATABASE = "database";
     
+    /** The name of the transaction argument. */
     private static final String ARG_TRANSACTION = "transaction";
     
+    /** The name of the force argument. */
     private static final String ARG_FORCE = "force";
     
     //--------------------------------------------------------------------------
 
+    /** The CPAConfigRegistry helper class. */
     private static CPAConfigRegistry _registry = null;
     
+    /** The name of the database that is used. */
     private static String _database;
     
+    /** The name of the transaction that is used. */
     private static String _transaction;
     
+    /** Whether this test should be executed independent of exclude or not include setting. */
     private static boolean _force;
     
+    /** The engine type of the database that is used. */
     private static DatabaseEngineType _engine;
     
+    /** The currently used connection. */
     private static Connection _connection;
     
+    /** Set that holds all tests that extend CPATestCase. */
     private static Set<String> _tests;
     
     //--------------------------------------------------------------------------
@@ -75,22 +88,52 @@ public abstract class CPATestCase extends TestCase {
     
     //--------------------------------------------------------------------------
     
+    /**
+     * Get the one and only static CPA properties.
+     * 
+     * @return One and only properties instance for Castor CPA modul.
+     */
     public static AbstractProperties getProperties() {
         return CPAProperties.getInstance();
     }
 
+    /**
+     * Provide the base URL for the configuration file. 
+     * 
+     * @return The base URL for the configuration file. 
+     */
     public static final String getJdoConfBaseURL() {
         return _registry.getJdoConfBaseURL();
     }
     
+    /**
+     * Provide the database configuration for the given name. 
+     * 
+     * @param name The name to use for the database configuration. 
+     * @return The database configuration for the given name. 
+     */
     public static final org.castor.jdo.conf.Database getDbConfig(final String name) {
         return _registry.createDbConfig(name, _database);
     }
 
+    /**
+     * Provide the transaction configuration. 
+
+     * @return The transaction configuration.
+     */
     public static final org.castor.jdo.conf.TransactionDemarcation getTxConfig() {
         return _registry.createTxConfig(_transaction);
     }
 
+    /**
+     * Provide a JDOManager instance for one of the databases configured in the JDOManager 
+     * configuration file. 
+     * 
+     * @param dbConfig Database configuration. 
+     * @return A JDOManager instance.
+     * @throws MappingException The mapping file is invalid, or any error occurred trying 
+     *         to load the JDO configuration/mapping
+     */
     public static final JDOManager getJDOManager(final org.castor.jdo.conf.Database dbConfig)
     throws MappingException {
         String name = dbConfig.getName();
@@ -101,6 +144,14 @@ public abstract class CPATestCase extends TestCase {
         return JDOManager.createInstance(name);
     }
     
+    /**
+     * 
+     * @param name The name to use for the database configuration. 
+     * @param mapping URL to retrieve mapping configuration file. 
+     * @return A JDOManager instance.
+     * @throws MappingException The mapping file is invalid, or any error occurred trying 
+     *         to load the JDO configuration/mapping. 
+     */
     public static final JDOManager getJDOManager(final String name, final String mapping)
     throws MappingException {
         org.castor.jdo.conf.Database dbConfig = getDbConfig(name);
@@ -110,16 +161,27 @@ public abstract class CPATestCase extends TestCase {
     
     //--------------------------------------------------------------------------
 
+    /**
+     * Default Constructor. 
+     */
     public CPATestCase() {
         super();
         initialize();
     }
     
+    /**
+     * Construct CPATestCase with given name.
+     * 
+     * @param name Name of the test.
+     */
     public CPATestCase(final String name) {
         super(name);
         initialize();
     }
     
+    /**
+     * Initialize database, transaction, connection, ... .
+     */
     private void initialize() {
         if (_registry == null) {
             _registry = new CPAConfigRegistry();
@@ -173,10 +235,30 @@ public abstract class CPATestCase extends TestCase {
     
     //--------------------------------------------------------------------------
 
+    /**
+     * Is given database engine included in current test? 
+     * Database types that support the tested functionality should be included. 
+     * 
+     * @param engine The database engine that is to test. 
+     * @return true, if given database engine is included, false if not. 
+     */
     public boolean include(final DatabaseEngineType engine) { return true; }
     
+    /**
+     * Is given database engine excluded from current test? 
+     * Database types that don't support the tested functionality should be excluded. 
+     * 
+     * @param engine The database engine that is to test.
+     * @return true, if given database engine is excluded, false if not. 
+     */
     public boolean exclude(final DatabaseEngineType engine) { return false; }
     
+    /**
+     * Provide whether current database engine is included and not excluded
+     * in test or force flag is set. 
+     * 
+     * @return true if test is included or force flag is set, false otherwise. 
+     */
     private boolean canRun() {
         return (include(_engine) && !exclude(_engine)) || _force;
     }
