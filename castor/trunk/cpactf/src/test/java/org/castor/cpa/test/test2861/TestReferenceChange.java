@@ -38,6 +38,7 @@ public final class TestReferenceChange extends CPAThreadedTestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.POSTGRESQL)
             || (engine == DatabaseEngineType.SAPDB);

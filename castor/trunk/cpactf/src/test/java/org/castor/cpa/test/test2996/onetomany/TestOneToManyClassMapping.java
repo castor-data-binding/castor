@@ -38,12 +38,6 @@ public class TestOneToManyClassMapping extends AbstractTestOneToMany {
         return false;
     }
     
-    
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
-    }
-
     @Override
     protected JDOManager getJDOManager() throws MappingException {
         org.castor.jdo.conf.Database dbConfig = getDbConfig(DBNAME);

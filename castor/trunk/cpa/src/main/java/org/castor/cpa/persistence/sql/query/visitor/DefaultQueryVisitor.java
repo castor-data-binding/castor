@@ -226,7 +226,7 @@ public class DefaultQueryVisitor implements Visitor {
      * 
      * @param qualifier Qualifier to process joins from.
      */
-    protected final void handleJoinConstruction(final Qualifier qualifier) {
+    protected void handleJoinConstruction(final Qualifier qualifier) {
         if (!qualifier.hasJoin()) {
             addTableNames(qualifier);
         } else {
