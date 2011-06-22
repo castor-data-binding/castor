@@ -41,7 +41,7 @@ create table test20_uuid_ext (
 create unique index test20_uuid_ext_pk on test20_uuid_ext ( id );
 
 create table test20_identity (
-  id    integer not null identity primary key,
+  id    integer not null identity,
   attr  varchar(200) not null
 );
 

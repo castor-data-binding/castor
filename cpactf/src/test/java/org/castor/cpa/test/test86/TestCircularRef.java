@@ -40,7 +40,7 @@ public final class TestCircularRef extends CPATestCase {
             || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
-    // Sequence key generator is not supported by DERBY and MYSQL
+    // Sequence key generator is not supported by DERBY, HSQL and MYSQL
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
