@@ -681,7 +681,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // Note that the oid which is created is for a dependent object;
         // this is not a change to the rootObjectOID, and therefore doesn't get
         // trackOIDChange()d.
-        OID oid = new OID(molder, rootObjectOID, identity);
+        OID oid = new OID(molder, identity);
+        oid.setDepended(rootObjectOID);
 
         // You shouldn't be able to modify an object marked read-only in this
         // transaction.
@@ -855,7 +856,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         Identity identity = molder.getActualIdentity(this, object);
         if (molder.isDefaultIdentity(identity)) { identity = null; }
 
-        OID oid = new OID(molder, depended, identity);
+        OID oid = new OID(molder, identity);
+        oid.setDepended(depended);
 
         // Check the object is in the transaction.
         Object foundInTransaction = _tracker.getObjectForOID(engine, oid, false);
@@ -1498,7 +1500,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             return false;
         }
 
-        OID depends = oid.getDepends();
+        OID depends = oid.getDepended();
 
         if (depends == null) {
             return false;

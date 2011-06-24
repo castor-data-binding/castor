@@ -561,8 +561,7 @@ public class ClassMolder {
             final Object object) throws PersistenceException {
 
         if (_persistence == null) {
-            throw new PersistenceException("non persistence capable: "
-                    + oid.getName());
+            throw new PersistenceException("non persistence capable: " + oid.getTypeName());
         }
 
         ProposedEntity entity = new ProposedEntity();
@@ -1255,6 +1254,17 @@ public class ClassMolder {
      */
     public String getName() {
         return _name;
+    }
+
+    /**
+     * Get molder of the top level entity of the extends hierarchy.
+     */
+    public ClassMolder getTopMolder() {
+        ClassMolder molder = this;
+        while (molder.getExtends() != null) {
+            molder = molder.getExtends();
+        }
+        return molder;
     }
 
     /**
