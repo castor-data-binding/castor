@@ -469,8 +469,11 @@ public class ClassMolder {
 
         oid.setDbLock(accessMode == AccessMode.DbLocked);
         
-        // store (new) field values to cache
-        locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
+        // Store (new) field values to cache.
+        // If the object is expended, then the object is not useful and wrong.
+        if (!proposedObject.isExpanded()) {
+            locker.setObject(tx, proposedObject.getFields(), System.currentTimeMillis());
+        }
     }
 
     public void mold(final TransactionContext tx, final DepositBox locker,

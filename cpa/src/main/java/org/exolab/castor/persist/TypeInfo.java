@@ -187,23 +187,8 @@ public final class TypeInfo {
                 CacheEntry cachedEntry = (CacheEntry) _cache.remove(oid);
                 if (cachedEntry != null) {
                     // found in 'second level' cache
-                    OID cacheOid = cachedEntry.getOID();
-                    if (oid.getName().equals(cacheOid.getName())) {
-                        // found the requested class in cache
-                        entry = new ObjectLock(cachedEntry.getOID(),
-                                cachedEntry.getEntry(), cachedEntry.getTimeStamp());
-                        
-                        entry.setOID(oid);
-                    } else if (oid.getSuperClassNames() != null
-                        && oid.getSuperClassNames().contains(
-                            cacheOid.getName())) {
-                        // found a base class in cache
-                        entry = new ObjectLock(oid);
-                    } else {
-                        // found an extended class in cache
-                        entry = new ObjectLock(cachedEntry.getOID(),
-                                cachedEntry.getEntry(), cachedEntry.getTimeStamp());
-                    }
+                    entry = new ObjectLock(cachedEntry.getOID(),
+                            cachedEntry.getEntry(), cachedEntry.getTimeStamp());
                 } else {
                     // not found in 'second level' cache
                     entry = new ObjectLock(oid);

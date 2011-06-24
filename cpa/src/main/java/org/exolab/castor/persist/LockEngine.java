@@ -288,11 +288,6 @@ public final class LockEngine {
                     "persist.classNotPersistenceCapable", oid.getName()));
         }
         
-        ClassMolder basemolder = molder;
-        while (basemolder.getExtends() != null) {
-            basemolder = basemolder.getExtends();
-        }
-        
         InstanceFactory entityFactory = tx.getInstanceFactory();
         ClassLoader entityLoader = tx.getDatabase().getClassLoader();
 
@@ -327,84 +322,49 @@ public final class LockEngine {
             } else {
                 action = LockAction.READ;
             }
+
+            lock = typeinfo.acquire(oid, tx, action, timeout);
             
-            // we need to synchronize until we got the final lock. this will have quite some
-            // performance impact but currently there is no other chance. on the long term we
-            // have to rewrite LockEngine to always acquire locks on the base class of an
-            // extends hierarchy.
-            synchronized (basemolder) {
-                lock = typeinfo.acquire(oid, tx, action, timeout);
-                
-                // Remember if entity is extended or not
-                proposedObject.setExpanded(oid != lock.getOID());
-
-                // (lock.getObject() == null) indicates a cache miss
-                if (lock.getObject() == null) {
-                    // We always need to load at cache miss
-                    molder.load(tx, lock, proposedObject, accessMode, results);
-                    
-                    // Get ClassMolder
-                    molder = _classMolderRegistry
-                            .getClassMolderWithDependent(proposedObject
-                                    .getActualEntityClass());
-                } else {
-                    // Get ClassMolder
-                    molder = _classMolderRegistry
-                            .getClassMolderWithDependent(lock.getOID()
-                                    .getName());
-                }
-                
-                if (proposedObject.isExpanded()) {
-                    // Confirm lock before setting it to null
-                    lock.confirm(tx, true);
-
-                    // Current transaction holds lock for old OID
-                    typeinfo.release(lock.getOID(), tx);
-
-                    lock = null;
-                    
-                    // Remove old OID from ObjectTracker
+            // (lock.getObject() == null) indicates a cache miss
+            if (lock.getObject() == null) {
+                // We always need to load at cache miss
+                molder.load(tx, lock, proposedObject, accessMode, results);
+                // Change the OID's name because the object's type changed.
+                lock.getOID().setName(proposedObject.getActualEntityClass().getName());
+            } else {
+                // cache hit, then remember if entity is extended or not
+                proposedObject.setExpanded(!oid.getName().equals(lock.getOID().getName()));
+                // cache hit, then track the cached oid
+                if (!proposedObject.isExpanded()) {
                     tx.untrackObject(proposedObject.getEntity());
-                    
-                    // Create new OID
-                    oid = new OID(molder, oid.getIdentity());
-
-                    // Create instance of 'expanded object'
-                    if (entityFactory != null) {
-                        objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
-                    } else {
-                        objectInTx = molder.newInstance(entityLoader);
-                    }
-
-                    molder.setIdentity(tx, objectInTx, identity);
-                    
-                    proposedObject.setActualClassMolder(null);
-                    proposedObject.setEntity(objectInTx);
-                    proposedObject.setExpanded(false);
-
-                    // Add new OID to ObjectTracker
-                    tx.trackObject(molder, oid, proposedObject.getEntity());
-                    
-                    // Reload 'expanded object' using correct ClassMolder
-                    typeinfo = _typeInfo.get(oid.getName());
-                    if (typeinfo == null) {
-                        throw new ClassNotPersistenceCapableException(Messages.format(
-                                "persist.classNotPersistenceCapable", oid.getName()));
-                    }
-
-                    accessMode = molder.getAccessMode(suggestedAccessMode);
-
-                    if ((accessMode == AccessMode.Exclusive)
-                            || (accessMode == AccessMode.DbLocked)) {
-                        action = LockAction.WRITE;
-                    } else {
-                        action = LockAction.READ;
-                    }
-
-                    lock = typeinfo.acquire(oid, tx, action, timeout);
+                    tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
                 }
-            }
+            }      
             
+            if (proposedObject.isExpanded()) {
+                // Remove old object from ObjectTracker
+                tx.untrackObject(proposedObject.getEntity());
+                
+                // Get the actual ClassMolder
+                molder = _classMolderRegistry.getClassMolderWithDependent(lock
+                        .getOID().getName());
+                
+                // Create instance of 'expanded object'
+                if (entityFactory != null) {
+                    objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
+                } else {
+                    objectInTx = molder.newInstance(entityLoader);
+                }
+
+                molder.setIdentity(tx, objectInTx, identity);
+                
+                proposedObject.setActualClassMolder(null);
+                proposedObject.setEntity(objectInTx);
+                proposedObject.setExpanded(false);
+
+                // Add new object to ObjectTracker
+                tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
+            }
             // Set fields at proposed object
             proposedObject.setFields(lock.getObject(tx));
             

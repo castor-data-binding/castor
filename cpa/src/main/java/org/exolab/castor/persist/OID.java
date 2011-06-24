@@ -72,7 +72,7 @@ public final class OID implements Serializable {
     private final Identity _identity;
 
     /** The full qualified name of the object's type. */
-    private final String _name;
+    private String _name;
 
     /** The OID of depended object. */
     private final OID _depends;
@@ -185,6 +185,13 @@ public final class OID implements Serializable {
         return _identity;
     }
 
+    /**
+     * @param name The object's type's full name 
+     */
+    void setName(final String name) {
+        _name = name;
+    }
+    
     /**
      * Return the full qualified name of the object's type. When using
      * inheritance this is the type's full name of the top most object in the
