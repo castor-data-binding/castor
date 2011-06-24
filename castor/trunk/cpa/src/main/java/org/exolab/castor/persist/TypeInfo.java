@@ -47,6 +47,7 @@ package org.exolab.castor.persist;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,23 +66,23 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * <p>
  * Each class hierarchy gets its own cache, so caches can be
  * controlled on a class-by-class basis.
+ * 
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @version $Revision: 8888 $ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public final class TypeInfo {
+    //-----------------------------------------------------------------------------------    
 
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(TypeInfo.class);
     
     /** The Map contains all the in-used ObjectLock of the class type, which
      *  keyed by the OID representing the object. All extends classes share the
      *  same map as the base class. */
-    private final HashMap<OID, ObjectLock> _locks;
+    private final Map<OID, ObjectLock> _locks = new HashMap<OID, ObjectLock>();
     
     /** The Map contains all the freed ObjectLock of the class type, which keyed
      *  by the OID representing the object. ObjectLock put into cache maybe
@@ -89,28 +90,18 @@ public final class TypeInfo {
      *  base class. */
     private final Cache _cache;
 
+    //-----------------------------------------------------------------------------------    
+
     /**
      * Constructor for creating base class info.
      *
-     * @param  locks    The new HashMap which will be used
-     *         for holding all the in-used ObjectLock.
-     * @param  cache    The new LRU which will be used to
-     *         store and dispose freed ObjectLock.
+     * @param cache The new LRU which will be used to store and dispose freed ObjectLock.
      */
-    public TypeInfo(final HashMap<OID, ObjectLock> locks, final Cache cache) {
-        _locks = locks;
+    public TypeInfo(final Cache cache) {
         _cache = cache;
     }
 
-    /**
-     * Constructor for creating extended class info.
-     * 
-     * @param  base     The TypeInfo of the base class of
-     *         the molder's class.
-     */
-    public TypeInfo(final TypeInfo base) {
-        this(base._locks, base._cache);
-    }
+    //-----------------------------------------------------------------------------------    
 
     /**
      * Life-cycle method to allow shutdown of cache instances.
@@ -125,15 +116,13 @@ public final class TypeInfo {
      */
     public void dumpCache(final String name) {
         _log.info(name + ".dumpCache()...");
+        
         synchronized (_locks) {
-            for (Iterator<ObjectLock> iter = _locks.values().iterator(); iter.hasNext(); ) {
-                ObjectLock entry = iter.next();
+            for (OID entry : _locks.keySet()) {
                 _log.info("In locks: " + entry);
             }
-
-            for (Iterator<Object> iter = _cache.values().iterator(); iter.hasNext(); ) {
-                ObjectLock entry = (ObjectLock) iter.next();
-                _log.info("In cache: " + entry.getOID());
+            for (Object entry : _cache.keySet()) {
+                _log.info("In cache: " + entry);
             }
         }
     }
@@ -458,4 +447,6 @@ public final class TypeInfo {
     public boolean isLocked(final OID oid) {
         return _locks.containsKey(oid);
     }
+
+    //-----------------------------------------------------------------------------------    
 }
