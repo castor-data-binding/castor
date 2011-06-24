@@ -281,11 +281,11 @@ public final class LockEngine {
     ClassNotFoundException {
         OID oid = paramoid;
         
-        TypeInfo typeinfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeinfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         if (typeinfo == null || molder == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", oid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getTypeName()));
         }
         
         InstanceFactory entityFactory = tx.getInstanceFactory();
@@ -330,10 +330,10 @@ public final class LockEngine {
                 // We always need to load at cache miss
                 molder.load(tx, lock, proposedObject, accessMode, results);
                 // Change the OID's name because the object's type changed.
-                lock.getOID().setName(proposedObject.getActualEntityClass().getName());
+                lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
             } else {
                 // cache hit, then remember if entity is extended or not
-                proposedObject.setExpanded(!oid.getName().equals(lock.getOID().getName()));
+                proposedObject.setExpanded(!oid.getTypeName().equals(lock.getOID().getTypeName()));
                 // cache hit, then track the cached oid
                 if (!proposedObject.isExpanded()) {
                     tx.untrackObject(proposedObject.getEntity());
@@ -346,8 +346,8 @@ public final class LockEngine {
                 tx.untrackObject(proposedObject.getEntity());
                 
                 // Get the actual ClassMolder
-                molder = _classMolderRegistry.getClassMolderWithDependent(lock
-                        .getOID().getName());
+                molder = _classMolderRegistry.getClassMolderWithDependent(
+                        lock.getOID().getTypeName());
                 
                 // Create instance of 'expanded object'
                 if (entityFactory != null) {
@@ -389,7 +389,7 @@ public final class LockEngine {
         } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object does not exist
             throw new ObjectNotFoundException(Messages.format(
-                    "persist.objectNotFound", oid.getName(), oid.getIdentity()), except);
+                    "persist.objectNotFound", oid.getTypeName(), oid.getIdentity()), except);
         } catch (LockNotGrantedException e) {
             if (lock != null) { lock.release(tx); }
             throw e;
@@ -409,11 +409,11 @@ public final class LockEngine {
      */
     public void markCreate(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         if (typeInfo == null || molder == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", oid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getTypeName()));
         }
         molder.markCreate(tx, oid, null, object);
     }
@@ -513,15 +513,13 @@ public final class LockEngine {
 
             internaloid.setDbLock(true);
 
-            OID newoid = new OID(
-                    _classMolderRegistry.getClassMolderWithDependent(internaloid.getName()),
-                    internaloid.getDepends(), newids);
+            OID newoid = new OID(molder, newids);
+            newoid.setDepended(internaloid.getDepended());
 
             typeInfo.rename(internaloid, newoid, tx);
 
             return newoid;
         } catch (LockNotGrantedException e) {
-//            e.printStackTrace();
             throw new PersistenceException(Messages.format(
                     "persist.nested", "Key Generator Failure. Duplicated Identity is generated!"));
         } finally {
@@ -551,8 +549,8 @@ public final class LockEngine {
      */
     public void delete(final TransactionContext tx, final OID oid)
             throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         try {
             typeInfo.assure(oid, tx, true);
 
@@ -571,8 +569,8 @@ public final class LockEngine {
 
     public void markDelete(final TransactionContext tx, final OID oid, final Object object,
             final int timeout) throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         ObjectLock lock = typeInfo.upgrade(oid, tx, timeout);
         molder.markDelete(tx, oid, lock, object);
         lock.expire();
@@ -610,11 +608,11 @@ public final class LockEngine {
     public boolean update(final TransactionContext tx, final OID oid, final Object object,
             final AccessMode suggestedAccessMode, final int timeout) throws PersistenceException {
         // If the object is new, don't try to load it from the cache
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         if (typeInfo == null || molder == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", oid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getTypeName()));
         }
 
         boolean succeed = false;
@@ -648,7 +646,7 @@ public final class LockEngine {
         } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object not existing
             throw new ObjectNotFoundException(Messages.format(
-                    "persist.objectNotFound", internaloid.getName(),
+                    "persist.objectNotFound", internaloid.getTypeName(),
                     internaloid.getIdentity()), except);
         } finally {
             if (lock != null) {
@@ -731,8 +729,8 @@ public final class LockEngine {
 
     public void store(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         ObjectLock lock = null;
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
@@ -782,7 +780,7 @@ public final class LockEngine {
      */
     public void writeLock(final TransactionContext tx, final OID oid, final int timeout)
     throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
         // Attempt to obtain a lock on the database. If this attempt
         // fails, release the lock and report the exception.
         try {
@@ -812,7 +810,7 @@ public final class LockEngine {
      */
     public void softLock(final TransactionContext tx, final OID oid, final int timeout)
     throws LockNotGrantedException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
         typeInfo.upgrade(oid, tx, timeout);
     }
 
@@ -830,8 +828,8 @@ public final class LockEngine {
      */
     public void revertObject(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         try {
             ObjectLock lock = typeInfo.assure(oid, tx, false);
             molder.revertObject(tx, oid, lock, object);
@@ -854,8 +852,8 @@ public final class LockEngine {
      * @param object The object to copy from
      */
     public void updateCache(final TransactionContext tx, final OID oid, final Object object) {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         ObjectLock lock = typeInfo.assure(oid, tx, true);
         molder.updateCache(tx, oid, lock, object);
     }
@@ -869,7 +867,7 @@ public final class LockEngine {
      * @param oid The object OID
      */
     public void releaseLock(final TransactionContext tx, final OID oid) {
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
         ObjectLock lock = typeInfo.release(oid, tx);
         lock.getOID().setDbLock(false);
     }
@@ -888,7 +886,7 @@ public final class LockEngine {
     public void forgetObject(final TransactionContext tx, final OID oid) {
         TypeInfo   typeInfo;
 
-        typeInfo = _typeInfo.get(oid.getName());
+        typeInfo = _typeInfo.get(oid.getTypeName());
         //lock = typeInfo.locks.aquire( oid, tx );
         typeInfo.assure(oid, tx, true);
         typeInfo.delete(oid, tx);
@@ -927,11 +925,11 @@ public final class LockEngine {
         boolean    succeed;
         ObjectLock lock;
  
-        TypeInfo typeInfo = _typeInfo.get(oid.getName());
-        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getName());
+        TypeInfo typeInfo = _typeInfo.get(oid.getTypeName());
+        ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         if (typeInfo == null || molder == null) {
             throw new ClassNotPersistenceCapableException(Messages.format(
-                    "persist.classNotPersistenceCapable", oid.getName()));
+                    "persist.classNotPersistenceCapable", oid.getTypeName()));
         }
    
         succeed = false;
