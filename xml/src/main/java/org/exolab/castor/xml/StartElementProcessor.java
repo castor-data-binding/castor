@@ -391,7 +391,8 @@ public class StartElementProcessor {
                     .getBooleanProperty(
                             XMLProperties.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
                     .booleanValue();
-            if (_unmarshalHandler.getStrictElementHandler().skipStartElement()) {
+            // checks if the element could be skipped
+            if (_unmarshalHandler.getStrictElementHandler().skipStartElementIgnoringDepth()) {
                 // -- remove the StateInfo we just added
                 _unmarshalHandler.getStateStack().removeLastState();
                 // drop Namespace instance as well
