@@ -73,6 +73,19 @@ public class StrictElementHandler {
     }
 
     /**
+     * Checks if a start element can be skipped omitting current value of element depth.
+     *
+     * @return true if start element can be skipped, false otherwise
+     */
+    public boolean skipStartElementIgnoringDepth() {
+        if (areElementsIgnorable()) {
+            addIgnorableElement();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if an end element can be skipped.
      * 
      * @return true if end element can be skipped, false otherwise

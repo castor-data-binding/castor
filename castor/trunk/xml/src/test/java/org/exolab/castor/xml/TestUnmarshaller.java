@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.xml;
 
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -23,6 +24,9 @@ import junit.framework.TestCase;
 
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLProperties;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+import org.xml.sax.InputSource;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
@@ -55,24 +59,24 @@ public class TestUnmarshaller extends TestCase {
      * Tests usage of get-/setProperty() methods.
     */
     public void testSetProperty() {
-        
+
         XMLContext xmlContext = new XMLContext();
         Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
         assertNotNull(unmarshaller);
-        
-        String lenientSequenceValidation = 
+
+        String lenientSequenceValidation =
             unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("false", lenientSequenceValidation);
-        
+
         unmarshaller.setProperty(XMLProperties.LENIENT_SEQUENCE_ORDER, "true");
- 
-        lenientSequenceValidation = 
+
+        lenientSequenceValidation =
             unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("true", lenientSequenceValidation);
     }
-    
+
     /**
      * Creates an Unmarshaller instance without any argument; sets the
      * root class and calls unmarshal.
@@ -85,7 +89,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance without any argument; sets the
      * root object and calls unmarshal.
@@ -98,9 +102,9 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
-     * Creates an Unmarshaller instance with root class 
+     * Creates an Unmarshaller instance with root class
      * and calls unmarshal.
      * @throws Exception in case of unmarshal problems
      */
@@ -110,9 +114,9 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
-     * Creates an Unmarshaller instance with root class 
+     * Creates an Unmarshaller instance with root class
      * and calls unmarshal.
      * @throws Exception in case of unmarshal problems
      */
@@ -123,7 +127,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context only;
      * sets root class and calls unmarshal.
@@ -136,7 +140,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context only;
      * sets root class and calls unmarshal.
@@ -150,7 +154,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -162,7 +166,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -176,7 +180,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -189,7 +193,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -201,7 +205,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -215,7 +219,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -228,7 +232,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -241,7 +245,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-   
+
     /**
      * Creates an Unmarshaller instance with an root object instance
      * and calls unmarshal.
@@ -253,7 +257,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance with an root object instance
      * and calls unmarshal.
@@ -266,7 +270,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.
@@ -278,7 +282,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-    
+
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.
@@ -292,7 +296,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-    
+
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.
@@ -304,5 +308,75 @@ public class TestUnmarshaller extends TestCase {
         UnmarshalFranz f = (UnmarshalFranz)u.unmarshal(_reader);
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
+    }
+
+    /**
+     * Tests the Unmarshaller instance with xml that has additional attributes not mapped by mapping file.
+     * Tests the Unmarshaller behaviour when the setIgnoreExtraElements is set to true.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testUnmarshallerIgnoringExtraElementsTrue() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping();
+        unmarshaller.setIgnoreExtraElements(true);
+
+        String xml = "<?xml version=\"1.0\"?><entity><id>1</id><name>name</name><value>123</value></entity>";
+
+        unmarshaller.unmarshal(new StringReader(xml));
+    }
+
+    /**
+     * Tests the Unmarshaller instance with xml that has additional attributes not mapped by mapping file.
+     * Tests the Unmarshaller behaviour when the setIgnoreExtraElements is set to false.
+     * </p>
+     * MarshalException should be thrown.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testUnmarshallerIgnoringExtraElementsFalse() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping();
+        unmarshaller.setIgnoreExtraElements(false);
+
+        String xml = "<?xml version=\"1.0\"?><entity><id>1</id><name>name</name><value>123</value></entity>";
+
+        try {
+            unmarshaller.unmarshal(new StringReader(xml));
+            fail("MarshalException was expected.");
+        } catch (MarshalException exc) {
+            // test passed
+        }
+    }
+
+    /**
+     * Creates new instance of Unmarshaller
+     *
+     * @return configured Unmarshaller instance
+     *
+     * @throws MappingException if any error occurs when loading mapping file
+     */
+    private Unmarshaller createUnmarsahllerFromMapping() throws MappingException {
+        XMLContext xmlContext = createXmlContextFromMapping();
+
+        Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
+        unmarshaller.setValidation(true);
+        return unmarshaller;
+    }
+
+    /**
+     * Creates a XMLContext with loaded mapping file.
+     *
+     * @return configured XMLContext
+     * @throws MappingException if any error occurs while loading mapping file.
+     */
+    private XMLContext createXmlContextFromMapping() throws MappingException {
+        InputStream mappingFile = getClass().getResourceAsStream("/org/castor/test/entity/mapping.xml");
+
+        XMLContext xmlContext = new XMLContext();
+        Mapping mapping = new Mapping();
+        mapping.loadMapping(new InputSource(mappingFile));
+        xmlContext.addMapping(mapping);
+        return xmlContext;
     }
 }
