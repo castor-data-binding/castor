@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.TokenManagerError;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -1409,7 +1410,20 @@ public class TestEjbQLTreeWalker extends TestCase {
     }
     
     // --------------------------------------------------------------------------
-
+    
+//    @Test
+//    public final void testCountAggregation() throws Exception {
+//        String oql = "SELECT COUNT(o.item) from de.jsci.pcv.jdo.LieferantJDO as o";
+//        QueryObject qo = getQO(oql);
+//        
+//        String expected = "SELECT COUNT(o.item) FROM de.jsci.pcv.jdo.LieferantJDO AS o";
+//        String actual = qo.toString();
+//        assertEquals(expected, actual);
+//    }
+    
+    // --------------------------------------------------------------------------
+    
+    @Ignore
     private QueryObject getQO(final String oql)
             throws UnsupportedEncodingException, ParseException {
         EjbQLParser parser = null;
@@ -1431,6 +1445,7 @@ public class TestEjbQLTreeWalker extends TestCase {
         }
     }
 
+    @Ignore
     private SimpleNode getSimpleNode(final String oql)
             throws UnsupportedEncodingException, ParseException {
         EjbQLParser parser = null;
@@ -1450,6 +1465,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     }
 
+    @Ignore
     private EjbQLParserTokenManager createTkmgr(final String oql)
             throws UnsupportedEncodingException {
 
