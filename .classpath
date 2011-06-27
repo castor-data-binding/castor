@@ -100,5 +100,6 @@
 	<classpathentry kind="var" path="M2_REPO"/>
 	<classpathentry kind="var" path="M2_REPO/stax/stax-api/1.0.1/stax-api-1.0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/dev/maven/repository/xmlunit/xmlunit/1.2/xmlunit-1.2.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>

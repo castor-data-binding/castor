@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+    <description>Castor generated mapping file</description>
+    <class name="org.castor.test.entity.Emails">
+        <description>
+            Default mapping for class
+            org.castor.test.entity.Emails
+        </description>
+        <map-to xml="emails"
+                ns-uri="http://castor.org/email" ns-prefix="tns"/>
+        <field name="email"
+               type="org.castor.test.entity.Email"
+               required="true" collection="array">
+            <bind-xml name="tns:email" node="element" QName-prefix="tns"
+                      xmlns:tns="http://castor.org/email"/>
+        </field>
+    </class>
+    <class name="org.castor.test.entity.Email">
+        <description>
+            Default mapping for class
+            org.castor.test.entity.Email
+        </description>
+        <map-to xml="email"
+                ns-uri="http://castor.org/email" ns-prefix="tns"/>
+        <field name="from" type="string" required="true">
+            <bind-xml name="tns:from" node="element"
+                      xmlns:tns="http://castor.org/email"/>
+        </field>
+        <field name="to" type="string" required="true">
+            <bind-xml name="tns:to" node="element"
+                      xmlns:tns="http://castor.org/email"/>
+        </field>
+    </class>
+</mapping>
