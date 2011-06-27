@@ -19,6 +19,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 /**
@@ -33,13 +35,8 @@ import junit.framework.TestCase;
  */
 public class TestCastorQLParser extends TestCase {
     // --------------------------------------------------------------------------
-    
-    public TestCastorQLParser(final String name) {
-        super(name);
-    }
 
-    // --------------------------------------------------------------------------
-
+    @Test
     public static void testParserPerformance() {
         System.out.println("start : Castor");
 
