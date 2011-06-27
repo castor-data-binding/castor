@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveEnum extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isEmpty(value)) {
             return null;
         }

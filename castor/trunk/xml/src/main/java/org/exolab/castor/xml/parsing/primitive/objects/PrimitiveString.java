@@ -26,8 +26,8 @@ package org.exolab.castor.xml.parsing.primitive.objects;
 class PrimitiveString extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
-        return object;
+    public Object getObject(Class<?> type, String value) {
+        return value;
     }
 
 }

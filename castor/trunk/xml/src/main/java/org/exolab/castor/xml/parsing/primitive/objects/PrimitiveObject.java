@@ -26,37 +26,15 @@ package org.exolab.castor.xml.parsing.primitive.objects;
  */
 class PrimitiveObject {
 
-	Class<?> type;
-	String value;
-	Object object;
-
-	/**
-	 * Sets the type and value for the class which should be instantiated
-	 * 
-	 * @param type
-	 *            Class
-	 */
-	void setType(final Class<?> type) {
-		this.type = type;
-	}
-
-	/**
-	 * Sets the value for the class which should be instantiated
-	 * 
-	 * @param value
-	 *            String
-	 */
-	void setValue(String value) {
-		this.object = this.value = value;
-	}
-
 	/**
 	 * Object that matches given Class and Value
-	 * 
+     *
+     * @param type type of object which should be instantiated
+     * @param value value of the object which should be instantiated
+	 *
 	 * @return Object
 	 */
-	Object getObject() {
-		return this.object;
+	Object getObject(Class<?> type, String value) {
+		return value;
 	}
-
 }

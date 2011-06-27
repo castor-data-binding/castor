@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveBigInteger extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isEmpty(value)) {
             return java.math.BigInteger.valueOf(0);
         }

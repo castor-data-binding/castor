@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveByte extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isEmpty(value)) {
             return Byte.valueOf((byte) 0);
         }
