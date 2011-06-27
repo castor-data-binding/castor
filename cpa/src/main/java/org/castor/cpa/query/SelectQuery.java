@@ -187,6 +187,14 @@ public interface SelectQuery extends QueryObject {
     void addProjection(Field field);
     
     /**
+     * Adds the projection.
+     * 
+     * @param field the field
+     * @param alias the alias of the field
+     */
+    void addProjection(Field field, String alias);
+    
+    /**
      * Adds the schema.
      * 
      * @param schema the schema

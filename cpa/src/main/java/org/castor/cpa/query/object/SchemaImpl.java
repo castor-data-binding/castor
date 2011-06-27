@@ -43,6 +43,19 @@ public final class SchemaImpl extends AbstractField implements Schema  {
     //--------------------------------------------------------------------------
     
     /**
+     * Construct schema with given identifier.
+     * 
+     * @param identifier The identifier of the schema.
+     */
+    public SchemaImpl(final String identifier) {
+        if (identifier == null) { throw new NullPointerException(); }
+        _abstractName = null;
+        _typeName = null;
+        _type = null;
+        _identifier = identifier;
+    }
+    
+    /**
      * Construct schema with given abstract schema name and identifier.
      * 
      * @param name The abstract schema name represented by the Schema.

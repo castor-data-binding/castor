@@ -34,11 +34,10 @@ import org.castor.cpa.query.TokenManagerError;
  * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
-public class TestCastorQLTreeWalker extends TestCase {
+public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
 
-    public final void testConstructor() {
-
+    public void testConstructor() {
         try {
             new CastorQLTreeWalker(new SimpleNode(3));
             fail("expected IllegalArgumentException !!!");
@@ -68,1115 +67,1039 @@ public class TestCastorQLTreeWalker extends TestCase {
             fail("Exception didn't expeccted !!!");
             e.printStackTrace();
         }
-
     }
 
-    public final void testOrderBy() throws UnsupportedEncodingException, ParseException {
-
-        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " order by o.name, o.id desc";
-
+    // --------------------------------------------------------------------------
+    // minimal select query
+    
+    public void testSelect() throws Exception {
+        String oql = "select a from r o";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // select with path
+    
+    public void testSelectPathDot1() throws Exception {
+        String oql = "select a.b from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectPathDot2() throws Exception {
+        String oql = "select a.b.c from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectPathDot3() throws Exception {
+        String oql = "select a.b.c.d from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectPathDart1() throws Exception {
+        String oql = "select a->b from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectPathDart2() throws Exception {
+        String oql = "select a->b->c from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectPathDart3() throws Exception {
+        String oql = "select a->b->c->d from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // select with alias
+    
+    public void testSelectAliasAs1() throws Exception {
+        String oql = "select a as x from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectAliasAs2() throws Exception {
+        String oql = "select a.b.c.d as x from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectAliasAs3() throws Exception {
+        String oql = "select a->b->c->d as x from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectAliasColon1() throws Exception {
+        String oql = "select x:a from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectAliasColon2() throws Exception {
+        String oql = "select x:a.b.c.d from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectAliasColon3() throws Exception {
+        String oql = "select x:a->b->c->d from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // select distinct
+    
+    public void testSelectDistinct1() throws Exception {
+        String oql = "select distinct a from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT DISTINCT a FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectDistinct2() throws Exception {
+        String oql = "select distinct a.b.c.d as x from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT DISTINCT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testSelectDistinct3() throws Exception {
+        String oql = "select distinct x:a->b->c->d from r o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT DISTINCT a.b.c.d AS x FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // from with path
+    
+    public void testFromPathDot1() throws Exception {
+        String oql = "select a from r.s o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromPathDot2() throws Exception {
+        String oql = "select a from r.s.t o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromPathDot3() throws Exception {
+        String oql = "select a from r.s.t.u o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromPathDart1() throws Exception {
+        String oql = "select a from r->s o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromPathDart2() throws Exception {
+        String oql = "select a from r->s->t o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromPathDart3() throws Exception {
+        String oql = "select a from r->s->t->u o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // from with as alias
+    
+    public void testFromAliasAs1() throws Exception {
+        String oql = "select a from r as o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromAliasAs2() throws Exception {
+        String oql = "select a from r.s.t.u as o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromAliasAs3() throws Exception {
+        String oql = "select a from r->s->t->u as o";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    // --------------------------------------------------------------------------
+    // from with in alias
+    
+    public void testFromAliasIn1() throws Exception {
+        String oql = "select a from o in r";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromAliasIn2() throws Exception {
+        String oql = "select a from o in r.s.t.u";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    public void testFromAliasIn3() throws Exception {
+        String oql = "select a from o in r->s->t->u";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r.s.t.u AS o";
+        assertEquals(expected, actual);
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // --------------------------------------------------------------------------
+    // order
+    
+    public void testOrderBy() throws Exception {
+        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+            + " order by o.name, o.id desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO"
-                + " AS o ORDER BY o.name ASC, o.id DESC";
-        String actual = qo.toString();
-
+            + " AS o ORDER BY o.name ASC, o.id DESC";
         assertEquals(expected, actual);
-
     }
 
     // --------------------------------------------------------------------------
-
-    public final void testLimitOffsetWithInt() throws UnsupportedEncodingException, ParseException {
-
+    // limit
+    
+    public void testLimitOffsetWithInt() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " limit 1 offset 2";
+            + " limit 1 offset 2";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " LIMIT 1 OFFSET 2";
-        String actual = qo.toString();
+            + " LIMIT 1 OFFSET 2";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLimitOffsetWithParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testLimitOffsetWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " limit ?1 offset ?2";
+            + " limit ?1 offset ?2";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " LIMIT ?1 OFFSET ?2";
-        String actual = qo.toString();
+            + " LIMIT ?1 OFFSET ?2";
         assertEquals(expected, actual);
-
     }
 
     // --------------------------------------------------------------------------
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    public final void testCompareEqualWithBoolean() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithBoolean() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = true";
+            + " where o.deleted = true";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = true)";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = true)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = 67";
+            + " where o.deleted = 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = 67)";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = 67.43";
+            + " where o.deleted = 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = 67.43)";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = 'Testing'";
+            + " where o.deleted = 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = 'Testing')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = DATE '2008-08-04'";
+            + " where o.deleted = DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = Time '03:22:04.9'";
+            + " where o.deleted = Time '03:22:04.9'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = TIME '03:22:04.900')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = TIME '03:22:04.900')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareEqualWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = TimeStamp '2008-08-05 03:22:04.000'";
+            + " where o.deleted = TimeStamp '2008-08-05 03:22:04.000'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted = TIMESTAMP '2008-08-05 03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted = TIMESTAMP '2008-08-05 03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithBoolean() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithBoolean() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != true";
-
+            + " where o.deleted != true";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <> true)";
-        String actual = qo.toString();
-
+            + " WHERE (o.deleted <> true)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != 67";
+            + " where o.deleted != 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <> 67)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <> 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != 67.43";
+            + " where o.deleted != 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <> 67.43)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <> 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != 'Testing'";
+            + " where o.deleted != 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <> 'Testing')";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <> 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != DATE '2008-08-04'";
+            + " where o.deleted != DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <> DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted <> DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != Time '03:22:04.000'";
+            + " where o.deleted != Time '03:22:04.000'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <> TIME '03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted <> TIME '03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareNotEqualWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareNotEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted != TimeStamp '2008-08-05 03:22:04.000'";
-
+            + " where o.deleted != TimeStamp '2008-08-05 03:22:04.000'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <> TIMESTAMP '2008-08-05 03:22:04.000')";
-        String actual = qo.toString();
-
+            + " WHERE (o.deleted <> TIMESTAMP '2008-08-05 03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < 67";
+            + " where o.deleted < 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted < 67)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted < 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < 67.43";
+            + " where o.deleted < 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted < 67.43)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted < 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < 'Testing'";
+            + " where o.deleted < 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted < 'Testing')";
-        String actual = qo.toString();
+            + "WHERE (o.deleted < 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < DATE '2008-08-04'";
+            + " where o.deleted < DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted < DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted < DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < Time '03:22:04'";
+            + " where o.deleted < Time '03:22:04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted < TIME '03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted < TIME '03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessThanWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessThanWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted < TimeStamp '2008-08-05 03:22:04.000'";
+            + " where o.deleted < TimeStamp '2008-08-05 03:22:04.000'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted < TIMESTAMP '2008-08-05 03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted < TIMESTAMP '2008-08-05 03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= 67";
+            + " where o.deleted <= 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <= 67)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <= 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= 67.43";
+            + " where o.deleted <= 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <= 67.43)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <= 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= 'Testing'";
+            + " where o.deleted <= 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted <= 'Testing')";
-        String actual = qo.toString();
+            + "WHERE (o.deleted <= 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= DATE '2008-08-04'";
+            + " where o.deleted <= DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <= DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted <= DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= Time '03:22:04'";
+            + " where o.deleted <= Time '03:22:04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <= TIME '03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted <= TIME '03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareLessEqualWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareLessEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted <= TimeStamp '2008-08-05 03:22:04.000'";
+            + " where o.deleted <= TimeStamp '2008-08-05 03:22:04.000'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted <= TIMESTAMP '2008-08-05 03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted <= TIMESTAMP '2008-08-05 03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= 67";
+            + " where o.deleted >= 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted >= 67)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted >= 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= 67.43";
+            + " where o.deleted >= 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted >= 67.43)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted >= 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= 'Testing'";
+            + " where o.deleted >= 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted >= 'Testing')";
-        String actual = qo.toString();
+            + "WHERE (o.deleted >= 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= DATE '2008-08-04'";
+            + " where o.deleted >= DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted >= DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted >= DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= Time '03:22:04'";
+            + " where o.deleted >= Time '03:22:04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted >= TIME '03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted >= TIME '03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterEqualWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted >= TimeStamp '2008-08-05 03:22:04.090'";
+            + " where o.deleted >= TimeStamp '2008-08-05 03:22:04.090'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted >= TIMESTAMP '2008-08-05 03:22:04.090')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted >= TIMESTAMP '2008-08-05 03:22:04.090')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithLong() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > 67";
+            + " where o.deleted > 67";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted > 67)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted > 67)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > 67.43";
+            + " where o.deleted > 67.43";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted > 67.43)";
-        String actual = qo.toString();
+            + "WHERE (o.deleted > 67.43)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > 'Testing'";
+            + " where o.deleted > 'Testing'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted > 'Testing')";
-        String actual = qo.toString();
+            + "WHERE (o.deleted > 'Testing')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithDate() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > DATE '2008-08-04'";
+            + " where o.deleted > DATE '2008-08-04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted > DATE '2008-08-04')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted > DATE '2008-08-04')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithTime() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > Time '03:22:04'";
+            + " where o.deleted > Time '03:22:04'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted > TIME '03:22:04.000')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted > TIME '03:22:04.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCompareGreaterThanWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCompareGreaterThanWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted > TimeStamp '2008-08-05 03:22:04.009'";
+            + " where o.deleted > TimeStamp '2008-08-05 03:22:04.009'";
         QueryObject qo = getQO(oql);
+        String actual = qo.toString();
         String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o"
-                + " WHERE (o.deleted > TIMESTAMP '2008-08-05 03:22:04.009')";
-        String actual = qo.toString();
+            + " WHERE (o.deleted > TIMESTAMP '2008-08-05 03:22:04.009')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithString() throws UnsupportedEncodingException, ParseException {
-
+    public void testLikeWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.$8de_leted LIKE '%s@T#'";
+            + " where o.$8de_leted LIKE '%s@T#'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.$8de_leted LIKE '%s@T#')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.$8de_leted LIKE '%s@T#')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithStringChar() throws UnsupportedEncodingException, ParseException {
-
+    public void testLikeWithStringChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted LIKE 'sT' ESCAPE 'r'";
+            + " where o.deleted LIKE 'sT' ESCAPE 'r'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted LIKE 'sT' ESCAPE 'r')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted LIKE 'sT' ESCAPE 'r')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithStringParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testLikeWithStringParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted LIKE 'sT' ESCAPE :N";
+            + " where o.deleted LIKE 'sT' ESCAPE :N";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted LIKE 'sT' ESCAPE :N)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted LIKE 'sT' ESCAPE :N)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithParameter() throws UnsupportedEncodingException, ParseException {
-
+    public void testLikeWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted LIKE :NamedParameter";
+            + " where o.deleted LIKE :NamedParameter";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted LIKE :NamedParameter)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted LIKE :NamedParameter)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithParameterChar() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testLikeWithParameterChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted LIKE :NamedParameter Escape 'r'";
+            + " where o.deleted LIKE :NamedParameter Escape 'r'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted LIKE :NamedParameter ESCAPE 'r')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted LIKE :NamedParameter ESCAPE 'r')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testLikeWithParameterParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testLikeWithParameterParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted LIKE :NamedParameter Escape :N";
+            + " where o.deleted LIKE :NamedParameter Escape :N";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted LIKE :NamedParameter ESCAPE :N)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted LIKE :NamedParameter ESCAPE :N)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithString() throws UnsupportedEncodingException, ParseException {
-
+    public void testNotLikeWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT LIKE 'sT'";
+            + " where o.deleted NOT LIKE 'sT'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE 'sT')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE 'sT')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithStringChar() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotLikeWithStringChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted Not LIKE 'sT' ESCAPE 'r'";
+            + " where o.deleted Not LIKE 'sT' ESCAPE 'r'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE 'r')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE 'r')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithStringParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotLikeWithStringParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted nOt LIKE 'sT' ESCAPE :N";
+            + " where o.deleted nOt LIKE 'sT' ESCAPE :N";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE :N)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE 'sT' ESCAPE :N)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotLikeWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted not LIKE :NamedParameter";
+            + " where o.deleted not LIKE :NamedParameter";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE :NamedParameter)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE :NamedParameter)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithParameterChar() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotLikeWithParameterChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted not LIKE :NamedParameter Escape 'r'";
+            + " where o.deleted not LIKE :NamedParameter Escape 'r'";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE 'r')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE 'r')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotLikeWithParameterParameter() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotLikeWithParameterParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT LIKE :NamedParameter Escape :N";
+            + " where o.deleted NOT LIKE :NamedParameter Escape :N";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE :N)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT LIKE :NamedParameter ESCAPE :N)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithLong() throws UnsupportedEncodingException, ParseException {
-
+    public void testBetweenWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn 95 and 400 ";
+            + " where o.deleted betweEn 95 and 400 ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN 95 AND 400)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN 95 AND 400)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithDouble() throws UnsupportedEncodingException, ParseException {
-
+    public void testBetweenWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn 95.43 and 400.95 ";
+            + " where o.deleted betweEn 95.43 and 400.95 ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN 95.43 AND 400.95)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN 95.43 AND 400.95)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithString() throws UnsupportedEncodingException, ParseException {
-
+    public void testBetweenWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn 'Low' and 'High' ";
+            + " where o.deleted betweEn 'Low' and 'High' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN 'Low' AND 'High')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN 'Low' AND 'High')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithDate() throws UnsupportedEncodingException, ParseException {
-
+    public void testBetweenWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
+            + " where o.deleted betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithTime() throws UnsupportedEncodingException, ParseException {
-
+    public void testBetweenWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn TIME '06:52:56' and TIME '08:52:56' ";
+            + " where o.deleted betweEn TIME '06:52:56' and TIME '08:52:56' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testBetweenWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testBetweenWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted betweEn TIMESTAMP '2007-08-05 06:52:56.130' and "
-                + "TIMESTAMP '2008-08-05 08:52:56.130' ";
+            + " where o.deleted betweEn TIMESTAMP '2007-08-05 06:52:56.130' and "
+            + "TIMESTAMP '2008-08-05 08:52:56.130' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted BETWEEN TIMESTAMP '2007-08-05 06:52:56.130' AND "
-                + "TIMESTAMP '2008-08-05 08:52:56.130')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN TIMESTAMP '2007-08-05 06:52:56.130' AND "
+            + "TIMESTAMP '2008-08-05 08:52:56.130')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithLong() throws UnsupportedEncodingException, ParseException {
-
+    public void testNotBetweenWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn 95 and 400 ";
+            + " where o.deleted NOT betweEn 95 and 400 ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN 95 AND 400)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN 95 AND 400)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithDouble() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotBetweenWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn 95.43 and 400.95 ";
+            + " where o.deleted NOT betweEn 95.43 and 400.95 ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN 95.43 AND 400.95)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN 95.43 AND 400.95)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithString() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotBetweenWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn 'Low' and 'High' ";
+            + " where o.deleted NOT betweEn 'Low' and 'High' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN 'Low' AND 'High')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN 'Low' AND 'High')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithDate() throws UnsupportedEncodingException, ParseException {
-
+    public void testNotBetweenWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
+            + " where o.deleted NOT betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN DATE '2007-08-05' AND DATE '2008-08-05')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithTime() throws UnsupportedEncodingException, ParseException {
-
+    public void testNotBetweenWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn TIME '06:52:56' and TIME '08:52:56' ";
+            + " where o.deleted NOT betweEn TIME '06:52:56' and TIME '08:52:56' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN TIME '06:52:56.000' AND TIME '08:52:56.000')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNotBetweenWithTimestamp() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testNotBetweenWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT betweEn TIMESTAMP '2007-08-05 06:52:56.013' and "
-                + "TIMESTAMP '2008-08-05 08:52:56.013' ";
+            + " where o.deleted NOT betweEn TIMESTAMP '2007-08-05 06:52:56.013' and "
+            + "TIMESTAMP '2008-08-05 08:52:56.013' ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT BETWEEN TIMESTAMP '2007-08-05 06:52:56.013' AND "
-                + "TIMESTAMP '2008-08-05 08:52:56.013')";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT BETWEEN TIMESTAMP '2007-08-05 06:52:56.013' AND "
+            + "TIMESTAMP '2008-08-05 08:52:56.013')";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testInWithPath() throws UnsupportedEncodingException, ParseException {
-
+    public void testInWithPath() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT IN (o.path1, o.path2, o.path3)";
+            + " where o.deleted NOT IN (o.path1, o.path2, o.path3)";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT  IN ('o.path1', 'o.path2', 'o.path3'))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT  IN ('o.path1', 'o.path2', 'o.path3'))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testInParameter() throws UnsupportedEncodingException, ParseException {
-
+    public void testInParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT IN (:test, ?453,:asd)";
+            + " where o.deleted NOT IN (:test, ?453,:asd)";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT  IN (:test, ?453, :asd))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT  IN (:test, ?453, :asd))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testInLiterals() throws UnsupportedEncodingException, ParseException {
-
+    public void testInLiterals() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted NOT IN (34, 453.34, true, 'String')";
+            + " where o.deleted NOT IN (34, 453.34, true, 'String')";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted NOT  IN (34, 453.34, true, 'String'))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted NOT  IN (34, 453.34, true, 'String'))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testNull() throws UnsupportedEncodingException, ParseException {
-
+    public void testNull() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted IS NOT NULL";
+            + " where o.deleted IS NOT NULL";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted IS NOT NULL)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted IS NOT NULL)";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testComplex() throws UnsupportedEncodingException, ParseException {
-
+    public void testComplex() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted+3*5 = 4 and (o.deleted+3)*5 = 4 "
-                + " or o.deleted LIKE 'jk' and o.deleted IS NULL ";
+            + " where o.deleted+3*5 = 4 and (o.deleted+3)*5 = 4 "
+            + " or o.deleted LIKE 'jk' and o.deleted IS NULL ";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE ((o.deleted + (3 * 5) = 4) AND ((o.deleted + 3) * 5 = 4))"
-                + " OR ((o.deleted LIKE 'jk') AND (o.deleted IS NULL))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE ((o.deleted + (3 * 5) = 4) AND ((o.deleted + 3) * 5 = 4))"
+            + " OR ((o.deleted LIKE 'jk') AND (o.deleted IS NULL))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCustomFunction() throws UnsupportedEncodingException, ParseException {
-
+    public void testCustomFunction() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = CustomFUNCTION (o.deleted)";
+            + " where o.deleted = CustomFUNCTION (o.deleted)";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted = CustomFUNCTION(o.deleted))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted = CustomFUNCTION(o.deleted))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testCustomFunctionMoreParameters() throws UnsupportedEncodingException,
-            ParseException {
-
+    public void testCustomFunctionMoreParameters() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where o.deleted = CustomFUNCTION (o.deleted,o.edited)";
+            + " where o.deleted = CustomFUNCTION (o.deleted,o.edited)";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.deleted = CustomFUNCTION(o.deleted, o.edited))";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted = CustomFUNCTION(o.deleted, o.edited))";
         assertEquals(expected, actual);
-
     }
 
-    // --------------------------------------------------------------------------
-
-    public final void testUndefinedFunction() throws UnsupportedEncodingException, ParseException {
-
+    public void testUndefinedFunction() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where IS_UNDEFINED (o.field)";
+            + " where IS_UNDEFINED (o.field)";
         QueryObject qo = getQO(oql);
-        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.field IS NULL)";
         String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.field IS NULL)";
         assertEquals(expected, actual);
+    }
 
-        oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-                + " where IS_DEFINED (o.field)";
-        qo = getQO(oql);
-        expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-                + "WHERE (o.field IS NOT NULL)";
-        actual = qo.toString();
+    public void testDefinedFunction() throws Exception {
+        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+            + " where IS_DEFINED (o.field)";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.field IS NOT NULL)";
         assertEquals(expected, actual);
-
     }
 
     // --------------------------------------------------------------------------
 
-    private QueryObject getQO(final String oql) 
-            throws UnsupportedEncodingException, ParseException {
+    private QueryObject getQO(final String oql)
+    throws UnsupportedEncodingException, ParseException {
         CastorQLParser parser = null;
         CastorQLParserTokenManager tkmgr = null;
         try {
-
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
             SimpleNode root = parser.castorQL();
             CastorQLTreeWalker tw = new CastorQLTreeWalker(root);
             return tw.getSelect();
-
         } catch (org.castor.cpa.query.castorql.ParseException e) {
             parser.ReInit(tkmgr);
             throw new ParseException(e);
@@ -1186,12 +1109,11 @@ public class TestCastorQLTreeWalker extends TestCase {
         }
     }
 
-    private SimpleNode getSimpleNode(final String oql) throws UnsupportedEncodingException,
-            ParseException {
+    private SimpleNode getSimpleNode(final String oql)
+    throws UnsupportedEncodingException, ParseException {
         CastorQLParser parser = null;
         CastorQLParserTokenManager tkmgr = null;
         try {
-
             tkmgr = createTkmgr(oql);
             parser = new CastorQLParser(tkmgr);
             return parser.castorQL();
@@ -1202,12 +1124,10 @@ public class TestCastorQLTreeWalker extends TestCase {
             // parser.ReInit(tkmgr);
             throw new TokenManagerError(e);
         }
-
     }
 
     private CastorQLParserTokenManager createTkmgr(final String oql)
-            throws UnsupportedEncodingException {
-
+    throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer(oql);
         InputStream bis = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
         InputStreamReader isr = new InputStreamReader(bis, "UTF-8");

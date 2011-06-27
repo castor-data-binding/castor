@@ -32,61 +32,45 @@ import junit.framework.TestCase;
  * @since 1.3
  */
 public class TestCastorQLParser extends TestCase {
-
     // --------------------------------------------------------------------------
+    
     public TestCastorQLParser(final String name) {
         super(name);
     }
 
     // --------------------------------------------------------------------------
-    public static void testParserPerformance() {
 
+    public static void testParserPerformance() {
         System.out.println("start : Castor");
 
-        // Modify to test more
         String oql = "Select DisTinct o.item "
                 + "from de.jsci.pcv.jdo.LieferantJDO as o "
                 + "where o.deleted = false " + "order by o.name, o.id desc "
                 + "limit ?1, ?2";
 
-        long start = 0L;
-
-        // for(int i=0;i<10000;i++){
-
-        start = System.nanoTime();
+        long start = System.nanoTime();
         runParser(oql);
-
-        // }
         long stop = System.nanoTime();
 
         System.out.println("end : Castor Parsed :" + oql);
 
-        System.out.println(" in " + (stop - start) / 1000000.0
-                + " milliseconds");
-
+        System.out.println(" in " + (stop - start) / 1000000.0 + " milliseconds");
     }
 
     // --------------------------------------------------------------------------
+    
     /**
      * Method which passes the OQL String to CastorQL Parser
      */
     public static void runParser(final String oql) {
-
         StringBuffer stringBuffer = new StringBuffer(oql);
 
         CastorQLParser parser = null;
         try {
-
-            InputStream bis = new ByteArrayInputStream(stringBuffer.toString()
-                    .getBytes("UTF-8"));
-
+            InputStream bis = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
             InputStreamReader isr = new InputStreamReader(bis, "UTF-8");
-
             SimpleCharStream jSt = new SimpleCharStream(isr);
-
-            CastorQLParserTokenManager tkmgr = new CastorQLParserTokenManager(
-                    jSt);
-
+            CastorQLParserTokenManager tkmgr = new CastorQLParserTokenManager(jSt);
             parser = new CastorQLParser(tkmgr);
             parser.castorQL();
         } catch (Exception e) {
@@ -96,5 +80,6 @@ public class TestCastorQLParser extends TestCase {
             e.printStackTrace();
         }
     }
+
     // --------------------------------------------------------------------------
 }
