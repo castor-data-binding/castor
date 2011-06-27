@@ -1,0 +1,52 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Ignorring extra attributes</Name>
+    <Author>Jakub Narloch</Author>
+
+    <Comment>
+        Tests if unmarshaller ignores the extra attributes not mapped by mapping file.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Jakub Narloch</Reporter>
+        <Date_Report>2011-05-20</Date_Report>
+        <Date_Fix>2009-05-20</Date_Fix>
+        <Comment>https://jira.codehaus.org/browse/CASTOR-3114</Comment>
+    </BugFix>
+
+    <MarshallingTest>
+        <Root_Object>Entity</Root_Object>
+        <UnitTestCase>
+            <Name>IgnoreAttributesTest</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setIgnoreExtraAttributes">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>IgnoreAttributesTestFailure</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setIgnoreExtraAttributes">
+                        <Value type="boolean">false</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
+            <Input>input.xml</Input>
+            <Failure>true</Failure>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

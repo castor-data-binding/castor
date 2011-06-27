@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<entity>
+    <id unique="true">1</id>
+    <name type="type">name</name>
+</entity>
