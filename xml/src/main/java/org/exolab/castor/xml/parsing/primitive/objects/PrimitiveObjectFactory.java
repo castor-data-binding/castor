@@ -76,14 +76,11 @@ public class PrimitiveObjectFactory {
             handler = getDefaultHandler();
         }
 
-        handler.setType(type);
-        if (type == String.class) {
-            handler.setValue(value);
-        } else {
-            handler.setValue(trimNumericValues(value));
+        if (type != String.class) {
+            value = trimNumericValues(value);
         }
 
-        return handler.getObject();
+        return handler.getObject(type, value);
     }
 
     /**

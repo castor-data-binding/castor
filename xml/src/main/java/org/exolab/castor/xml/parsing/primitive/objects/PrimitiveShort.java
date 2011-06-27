@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveShort extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isEmpty(value)) {
             return Short.valueOf((short) 0);
         }

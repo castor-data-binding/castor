@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveLong extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isEmpty(value)) {
             return Long.valueOf(0);
         }

@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 class PrimitiveChar extends PrimitiveObject {
 
     @Override
-    public Object getObject() {
+    public Object getObject(Class<?> type, String value) {
         if (StringUtils.isNotEmpty(value)) {
             return Character.valueOf(value.charAt(0));
         }
