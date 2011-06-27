@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.castor.cpa.query.Condition;
 import org.castor.cpa.query.Expression;
+import org.castor.cpa.query.Field;
 import org.castor.cpa.query.Function;
 import org.castor.cpa.query.InCondition;
 import org.castor.cpa.query.Literal;
@@ -31,6 +32,7 @@ import org.castor.cpa.query.Parameter;
 import org.castor.cpa.query.QueryFactory;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.SelectQuery;
+import org.castor.cpa.query.object.SchemaImpl;
 import org.castor.cpa.query.object.function.CustomFunction;
 import org.castor.cpa.query.object.literal.BooleanLiteral;
 import org.castor.cpa.query.object.literal.DateLiteral;
@@ -95,15 +97,6 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         return _select;
     }
 
-    /**
-     * Sets the select.
-     * 
-     * @param select the new select
-     */
-    public void setSelect(final SelectQuery select) {
-        _select = select;
-    }
-    
     //--------------------------------------------------------------------------
     
     /**
@@ -113,13 +106,12 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      */
     private void selectStatement(final SimpleNode node) {
         _select = QueryFactory.newSelectQuery();
-        // First the schema need to be setup
 
-        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROMCLAUSE) {
-            fromClause((SimpleNode) node.jjtGetChild(1));
-        }
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTSELECTCLAUSE) {
             selectClause((SimpleNode) node.jjtGetChild(0));
+        }
+        if (((SimpleNode) node.jjtGetChild(1)).id == JJTFROMCLAUSE) {
+            fromClause((SimpleNode) node.jjtGetChild(1));
         }
         for (int i = 2; node.jjtGetNumChildren() > i; i++) {
             if (((SimpleNode) node.jjtGetChild(i)).id == JJTWHERECLAUSE) {
@@ -154,14 +146,37 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      */
     private void selectExpression(final SimpleNode node) {
-        for (int i = 0; node.jjtGetNumChildren() > i; i++) {
-            if (((SimpleNode) node.jjtGetChild(i)).id == JJTPATH) {
-                _select.addProjection(_schema
-                        .field(identifier((SimpleNode) node.jjtGetChild(i)
-                                .jjtGetChild(1))));
-            }
+        if ((node.jjtGetNumChildren() == 1)
+                && (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH)) {
+            _select.addProjection(
+                    selectExpressionPath((SimpleNode) node.jjtGetChild(0)));
+        } else if ((node.jjtGetNumChildren() == 2)
+                && (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH)
+                && (((SimpleNode) node.jjtGetChild(1)).id == JJTIDENTIFIER)) {
+            _select.addProjection(
+                    selectExpressionPath((SimpleNode) node.jjtGetChild(0)),
+                    identifier((SimpleNode) node.jjtGetChild(1)));
+        } else if ((node.jjtGetNumChildren() == 2)
+                && (((SimpleNode) node.jjtGetChild(1)).id == JJTPATH)
+                && (((SimpleNode) node.jjtGetChild(0)).id == JJTIDENTIFIER)) {
+            _select.addProjection(
+                    selectExpressionPath((SimpleNode) node.jjtGetChild(1)),
+                    identifier((SimpleNode) node.jjtGetChild(0)));
         }
-        _select.addSchema(_schema);
+    }
+
+    /**
+     * Path of select expression.
+     * 
+     * @param node of the SimpleNode of JJTree
+     * @return field representing the path
+     */
+    private Field selectExpressionPath(final SimpleNode node) {
+        Field field = new SchemaImpl(identifier((SimpleNode) node.jjtGetChild(0)));
+        for (int i = 1; i < node.jjtGetNumChildren(); i++) {
+            field = field.field(identifier((SimpleNode) node.jjtGetChild(i)));
+        }
+        return field;
     }
 
     /**
@@ -183,9 +198,33 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
     private void fromDeclaration(final SimpleNode node) {
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH
                 && (((SimpleNode) node.jjtGetChild(1)).id == JJTIDENTIFIER)) {
-            _schema = _select.newSchema(path((SimpleNode) node.jjtGetChild(0)),
+            _schema = _select.newSchema(
+                    fromDeclarationPath((SimpleNode) node.jjtGetChild(0)),
                     identifier((SimpleNode) node.jjtGetChild(1)));
+            _select.addSchema(_schema);
+        } else if (((SimpleNode) node.jjtGetChild(1)).id == JJTPATH
+                && (((SimpleNode) node.jjtGetChild(0)).id == JJTIDENTIFIER)) {
+            _schema = _select.newSchema(
+                    fromDeclarationPath((SimpleNode) node.jjtGetChild(1)),
+                    identifier((SimpleNode) node.jjtGetChild(0)));
+            _select.addSchema(_schema);
         }
+    }
+
+    /**
+     * Path of from declaration.
+     * 
+     * @param node of the SimpleNode of JJTree
+     * @return the string
+     */
+    private String fromDeclarationPath(final SimpleNode node) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(identifier((SimpleNode) node.jjtGetChild(0)));
+        for (int i = 1; i < node.jjtGetNumChildren(); i++) {
+            sb.append('.');
+            sb.append(identifier((SimpleNode) node.jjtGetChild(i)));
+        }
+        return sb.toString();
     }
 
     /**
@@ -196,8 +235,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
     private void whereClause(final SimpleNode node) {
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTCONDITIONALEXPRESSION) {
             Condition condition = null;
-            condition = conditionalExpression((SimpleNode) node.jjtGetChild(0),
-                    condition);
+            condition = conditionalExpression((SimpleNode) node.jjtGetChild(0), condition);
             _select.setWhere(condition);
         }
     }

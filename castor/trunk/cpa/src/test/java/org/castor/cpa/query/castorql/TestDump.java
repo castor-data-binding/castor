@@ -30,34 +30,28 @@ import org.castor.cpa.query.ParseException;
  * @since 1.3
  */
 public class TestDump extends TestCase {
-      //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
-       * Test tree dump.
-       * 
-       * @throws UnsupportedEncodingException the unsupported encoding exception
-       */
-      public static void testTreeDump() throws UnsupportedEncodingException {
-      try {  
-       
-      //Mess the Query to see the exceptions    
-      String oql = "SelecT DisTinct o.item from org.castor.cpa.query.Foo as o"
-            + " where o . deleted = Time '03:22:04.000'";
-            //+ " order by o.name, o.id desc"
-           // + " limit ?4 offset ?2";
-      
-      CastorQLParserAdapter parser = new CastorQLParserAdapter();
-        
-       SimpleNode root = parser.getSimpleNode(oql);
-       root.dump("");
-        
-        
-      } catch (ParseException e) { 
-          e.printStackTrace(System.out);
-      } catch (TokenMgrError tkme) {
-        tkme.printStackTrace(System.out); 
-      }
-      
+     * Test tree dump.
+     * 
+     * @throws UnsupportedEncodingException the unsupported encoding exception
+     */
+    public static void testTreeDump() throws UnsupportedEncodingException {
+        try {  
+            // Mess the Query to see the exceptions    
+            String oql = "SelecT DisTinct o.item from org.castor.cpa.query.Foo as o"
+                  + " where o . deleted = Time '03:22:04.000'";
+            
+            CastorQLParserAdapter parser = new CastorQLParserAdapter();
+              
+            SimpleNode root = parser.getSimpleNode(oql);
+            root.dump("");
+        } catch (ParseException e) { 
+            e.printStackTrace(System.out);
+        } catch (TokenMgrError tkme) {
+            tkme.printStackTrace(System.out); 
+        }
     }
     
     //--------------------------------------------------------------------------

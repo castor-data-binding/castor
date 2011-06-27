@@ -134,9 +134,9 @@ void SelectStatement() : {}
 {
   SelectClause()
   FromClause()
-  (WhereClause())?
-  (OrderbyClause())?
-  (LimitClause())? 
+  ( WhereClause() )?
+  ( OrderbyClause() )?
+  ( LimitClause() )? 
     
 }
 
@@ -149,8 +149,9 @@ void SelectClause() : {  Token t; }
 
 void SelectExpression() : {}
 {
-  LOOKAHEAD(2) Path() ( <AS> Identifier() )?
-  | Identifier() ":" Path()
+  LOOKAHEAD(2)
+    Identifier() ":" Path()
+  | Path() ( <AS> Identifier() )?
 }
 
 void FromClause() : {}
@@ -160,8 +161,9 @@ void FromClause() : {}
 
 void FromDeclaration() : {}
 {
-  LOOKAHEAD(2) Path() (<AS>)? Identifier() 
-  | Identifier() <IN> Path()
+  LOOKAHEAD(2)
+    Identifier() <IN> Path()
+  | Path() (<AS>)? Identifier() 
 }
 
 void WhereClause() : {}
@@ -176,14 +178,15 @@ void OrderbyClause() : {}
 
 void OrderbyItem() : { Token t; }
 {
-  Path() ( t = <ASC> { jjtThis.setKind(t.kind); }
-  | t = <DESC> { jjtThis.setKind(t.kind); } )?
+  Path() (
+      t = <ASC> { jjtThis.setKind(t.kind); }
+    | t = <DESC> { jjtThis.setKind(t.kind); }
+  )?
 }
 
 void LimitClause() : {}
 {
-  <LIMIT>(IntegerLiteral() | Parameter()) 
-  ( <OFFSET> (IntegerLiteral() | Parameter()) )?
+  <LIMIT> (IntegerLiteral() | Parameter()) ( <OFFSET> (IntegerLiteral() | Parameter()) )?
 }
 
 void ConditionalExpression() : {}
@@ -254,6 +257,7 @@ void InItem() : {}
 {
   LOOKAHEAD(2) Path()  | Parameter()   | Literal()
 }
+
 void NullExpression() : { Token t; }
 {
   ( LOOKAHEAD(2) Path() | Parameter() )
