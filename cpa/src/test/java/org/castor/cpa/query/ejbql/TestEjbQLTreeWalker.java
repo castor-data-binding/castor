@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.TokenManagerError;
+import org.junit.Test;
 
 /**
  * Junit test for testing EjbQL Tree Walker.
@@ -38,8 +39,8 @@ import org.castor.cpa.query.TokenManagerError;
 public class TestEjbQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testConstructor() throws ParseException {
-
         try {
             new EjbQLTreeWalker(new SimpleNode(3));
             fail("expected IllegalArgumentException !!!");
@@ -72,6 +73,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     }
 
+    @Test
     public final void testOrderBy() throws UnsupportedEncodingException,
             ParseException {
 
@@ -89,6 +91,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLimitOffsetWithInt()
             throws UnsupportedEncodingException, ParseException {
 
@@ -104,6 +107,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLimitOffsetWithParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -119,6 +123,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithBoolean()
             throws UnsupportedEncodingException, ParseException {
 
@@ -134,6 +139,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -149,6 +155,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -164,6 +171,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -179,6 +187,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -194,6 +203,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -209,6 +219,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareEqualWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -224,6 +235,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithBoolean()
             throws UnsupportedEncodingException, ParseException {
 
@@ -241,6 +253,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -256,6 +269,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -271,6 +285,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -286,6 +301,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -301,6 +317,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -316,6 +333,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareNotEqualWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -333,6 +351,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -348,6 +367,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -363,6 +383,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -378,6 +399,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -393,6 +415,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -408,6 +431,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessThanWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -423,6 +447,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -438,6 +463,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -453,6 +479,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -468,6 +495,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -483,6 +511,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -498,6 +527,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareLessEqualWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -513,6 +543,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -528,6 +559,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -543,6 +575,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -558,6 +591,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -573,6 +607,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -588,6 +623,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterEqualWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -603,6 +639,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -618,6 +655,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -633,6 +671,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -648,6 +687,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -663,6 +703,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -678,6 +719,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testCompareGreaterThanWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -693,6 +735,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithString() throws UnsupportedEncodingException,
             ParseException {
 
@@ -708,6 +751,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithStringChar()
             throws UnsupportedEncodingException, ParseException {
 
@@ -723,6 +767,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithStringParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -738,6 +783,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -753,6 +799,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithParameterChar()
             throws UnsupportedEncodingException, ParseException {
 
@@ -768,6 +815,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLikeWithParameterParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -783,6 +831,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -798,6 +847,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithStringChar()
             throws UnsupportedEncodingException, ParseException {
 
@@ -813,6 +863,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithStringParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -828,6 +879,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -843,6 +895,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithParameterChar()
             throws UnsupportedEncodingException, ParseException {
 
@@ -858,6 +911,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotLikeWithParameterParameter()
             throws UnsupportedEncodingException, ParseException {
 
@@ -873,6 +927,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -888,6 +943,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -903,6 +959,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -918,6 +975,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -933,6 +991,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -948,6 +1007,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testBetweenWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -965,6 +1025,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithLong()
             throws UnsupportedEncodingException, ParseException {
 
@@ -980,6 +1041,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithDouble()
             throws UnsupportedEncodingException, ParseException {
 
@@ -995,6 +1057,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithString()
             throws UnsupportedEncodingException, ParseException {
 
@@ -1010,6 +1073,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithDate()
             throws UnsupportedEncodingException, ParseException {
 
@@ -1025,6 +1089,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithTime()
             throws UnsupportedEncodingException, ParseException {
 
@@ -1040,6 +1105,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNotBetweenWithTimestamp()
             throws UnsupportedEncodingException, ParseException {
 
@@ -1057,6 +1123,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testInWithPath() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1074,6 +1141,7 @@ public class TestEjbQLTreeWalker extends TestCase {
     
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testInWithPathFail() throws UnsupportedEncodingException {
 
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
@@ -1090,6 +1158,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testInParameter() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1105,6 +1174,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testInLiterals() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1120,6 +1190,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testNull() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1135,6 +1206,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testComplex() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1152,6 +1224,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLengthFunction() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1167,6 +1240,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLocateFunction() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1190,6 +1264,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testAbsFunction() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1205,6 +1280,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testSqrtFunction() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1220,6 +1296,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testModFunction() throws UnsupportedEncodingException,
             ParseException {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
@@ -1234,6 +1311,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testConcateFunction()
             throws UnsupportedEncodingException, ParseException {
         
@@ -1249,6 +1327,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testSubstringFunction()
             throws UnsupportedEncodingException, ParseException {
 
@@ -1264,6 +1343,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
     
+    @Test
     public final void testTrimFunction() throws UnsupportedEncodingException, ParseException {
 
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
@@ -1284,11 +1364,11 @@ public class TestEjbQLTreeWalker extends TestCase {
 
         oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = trim(TRAILING FROM 'testString')";
-    qo = getQO(oql);
-    expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-            + "WHERE (o.deleted = TRIM(TRAILING FROM 'testString'))";
-    actual = qo.toString();
-    assertEquals(expected, actual);
+        qo = getQO(oql);
+        expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+                + "WHERE (o.deleted = TRIM(TRAILING FROM 'testString'))";
+        actual = qo.toString();
+        assertEquals(expected, actual);
     
         oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
                 + " where o.deleted = trim(LEADING 't' FROM 'testString')";
@@ -1301,6 +1381,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     // --------------------------------------------------------------------------
 
+    @Test
     public final void testLowerFunction() throws UnsupportedEncodingException,
             ParseException {
 
@@ -1314,6 +1395,7 @@ public class TestEjbQLTreeWalker extends TestCase {
 
     }
     
+    @Test
     public final void testUpperFunction() throws UnsupportedEncodingException, ParseException {
 
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"

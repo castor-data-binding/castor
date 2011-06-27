@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.TokenManagerError;
+import org.junit.Test;
 
 /**
  * Junit test for testing CastorQL Tree Walker.
@@ -37,6 +38,7 @@ import org.castor.cpa.query.TokenManagerError;
 public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
 
+    @Test
     public void testConstructor() {
         try {
             new CastorQLTreeWalker(new SimpleNode(3));
@@ -72,6 +74,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // minimal select query
     
+    @Test
     public void testSelect() throws Exception {
         String oql = "select a from r o";
         QueryObject qo = getQO(oql);
@@ -83,6 +86,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // select with path
     
+    @Test
     public void testSelectPathDot1() throws Exception {
         String oql = "select a.b from r o";
         QueryObject qo = getQO(oql);
@@ -91,6 +95,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectPathDot2() throws Exception {
         String oql = "select a.b.c from r o";
         QueryObject qo = getQO(oql);
@@ -99,6 +104,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectPathDot3() throws Exception {
         String oql = "select a.b.c.d from r o";
         QueryObject qo = getQO(oql);
@@ -107,6 +113,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectPathDart1() throws Exception {
         String oql = "select a->b from r o";
         QueryObject qo = getQO(oql);
@@ -115,6 +122,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectPathDart2() throws Exception {
         String oql = "select a->b->c from r o";
         QueryObject qo = getQO(oql);
@@ -123,6 +131,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectPathDart3() throws Exception {
         String oql = "select a->b->c->d from r o";
         QueryObject qo = getQO(oql);
@@ -134,6 +143,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // select with alias
     
+    @Test
     public void testSelectAliasAs1() throws Exception {
         String oql = "select a as x from r o";
         QueryObject qo = getQO(oql);
@@ -142,6 +152,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectAliasAs2() throws Exception {
         String oql = "select a.b.c.d as x from r o";
         QueryObject qo = getQO(oql);
@@ -150,6 +161,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectAliasAs3() throws Exception {
         String oql = "select a->b->c->d as x from r o";
         QueryObject qo = getQO(oql);
@@ -158,6 +170,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectAliasColon1() throws Exception {
         String oql = "select x:a from r o";
         QueryObject qo = getQO(oql);
@@ -166,6 +179,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectAliasColon2() throws Exception {
         String oql = "select x:a.b.c.d from r o";
         QueryObject qo = getQO(oql);
@@ -174,6 +188,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectAliasColon3() throws Exception {
         String oql = "select x:a->b->c->d from r o";
         QueryObject qo = getQO(oql);
@@ -185,6 +200,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // select distinct
     
+    @Test
     public void testSelectDistinct1() throws Exception {
         String oql = "select distinct a from r o";
         QueryObject qo = getQO(oql);
@@ -193,6 +209,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectDistinct2() throws Exception {
         String oql = "select distinct a.b.c.d as x from r o";
         QueryObject qo = getQO(oql);
@@ -201,6 +218,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testSelectDistinct3() throws Exception {
         String oql = "select distinct x:a->b->c->d from r o";
         QueryObject qo = getQO(oql);
@@ -212,6 +230,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // from with path
     
+    @Test
     public void testFromPathDot1() throws Exception {
         String oql = "select a from r.s o";
         QueryObject qo = getQO(oql);
@@ -220,6 +239,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromPathDot2() throws Exception {
         String oql = "select a from r.s.t o";
         QueryObject qo = getQO(oql);
@@ -228,6 +248,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromPathDot3() throws Exception {
         String oql = "select a from r.s.t.u o";
         QueryObject qo = getQO(oql);
@@ -236,6 +257,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromPathDart1() throws Exception {
         String oql = "select a from r->s o";
         QueryObject qo = getQO(oql);
@@ -244,6 +266,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromPathDart2() throws Exception {
         String oql = "select a from r->s->t o";
         QueryObject qo = getQO(oql);
@@ -252,6 +275,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromPathDart3() throws Exception {
         String oql = "select a from r->s->t->u o";
         QueryObject qo = getQO(oql);
@@ -263,6 +287,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // from with as alias
     
+    @Test
     public void testFromAliasAs1() throws Exception {
         String oql = "select a from r as o";
         QueryObject qo = getQO(oql);
@@ -271,6 +296,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromAliasAs2() throws Exception {
         String oql = "select a from r.s.t.u as o";
         QueryObject qo = getQO(oql);
@@ -279,6 +305,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromAliasAs3() throws Exception {
         String oql = "select a from r->s->t->u as o";
         QueryObject qo = getQO(oql);
@@ -290,6 +317,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // from with in alias
     
+    @Test
     public void testFromAliasIn1() throws Exception {
         String oql = "select a from o in r";
         QueryObject qo = getQO(oql);
@@ -298,6 +326,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromAliasIn2() throws Exception {
         String oql = "select a from o in r.s.t.u";
         QueryObject qo = getQO(oql);
@@ -306,6 +335,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testFromAliasIn3() throws Exception {
         String oql = "select a from o in r->s->t->u";
         QueryObject qo = getQO(oql);
@@ -327,6 +357,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // order
     
+    @Test
     public void testOrderBy() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " order by o.name, o.id desc";
@@ -340,6 +371,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // limit
     
+    @Test
     public void testLimitOffsetWithInt() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " limit 1 offset 2";
@@ -350,6 +382,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLimitOffsetWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " limit ?1 offset ?2";
@@ -372,6 +405,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
     
     
 
+    @Test
     public void testCompareEqualWithBoolean() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = true";
@@ -382,6 +416,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = 67";
@@ -392,6 +427,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = 67.43";
@@ -402,6 +438,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = 'Testing'";
@@ -412,6 +449,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = DATE '2008-08-04'";
@@ -422,6 +460,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = Time '03:22:04.9'";
@@ -432,6 +471,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = TimeStamp '2008-08-05 03:22:04.000'";
@@ -442,6 +482,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithBoolean() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != true";
@@ -452,6 +493,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != 67";
@@ -462,6 +504,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != 67.43";
@@ -472,6 +515,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != 'Testing'";
@@ -482,6 +526,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != DATE '2008-08-04'";
@@ -492,6 +537,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != Time '03:22:04.000'";
@@ -502,6 +548,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareNotEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted != TimeStamp '2008-08-05 03:22:04.000'";
@@ -512,6 +559,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < 67";
@@ -522,6 +570,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < 67.43";
@@ -532,6 +581,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < 'Testing'";
@@ -542,6 +592,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < DATE '2008-08-04'";
@@ -552,6 +603,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < Time '03:22:04'";
@@ -562,6 +614,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessThanWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted < TimeStamp '2008-08-05 03:22:04.000'";
@@ -572,6 +625,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= 67";
@@ -582,6 +636,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= 67.43";
@@ -592,6 +647,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= 'Testing'";
@@ -602,6 +658,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= DATE '2008-08-04'";
@@ -612,6 +669,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= Time '03:22:04'";
@@ -622,6 +680,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareLessEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted <= TimeStamp '2008-08-05 03:22:04.000'";
@@ -632,6 +691,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= 67";
@@ -642,6 +702,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= 67.43";
@@ -652,6 +713,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= 'Testing'";
@@ -662,6 +724,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= DATE '2008-08-04'";
@@ -672,6 +735,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= Time '03:22:04'";
@@ -682,6 +746,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterEqualWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted >= TimeStamp '2008-08-05 03:22:04.090'";
@@ -692,6 +757,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > 67";
@@ -702,6 +768,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > 67.43";
@@ -712,6 +779,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > 'Testing'";
@@ -722,6 +790,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > DATE '2008-08-04'";
@@ -732,6 +801,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > Time '03:22:04'";
@@ -742,6 +812,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCompareGreaterThanWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted > TimeStamp '2008-08-05 03:22:04.009'";
@@ -752,6 +823,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.$8de_leted LIKE '%s@T#'";
@@ -762,6 +834,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithStringChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted LIKE 'sT' ESCAPE 'r'";
@@ -772,6 +845,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithStringParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted LIKE 'sT' ESCAPE :N";
@@ -782,6 +856,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted LIKE :NamedParameter";
@@ -792,6 +867,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithParameterChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted LIKE :NamedParameter Escape 'r'";
@@ -802,6 +878,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testLikeWithParameterParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted LIKE :NamedParameter Escape :N";
@@ -812,6 +889,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT LIKE 'sT'";
@@ -822,6 +900,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithStringChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted Not LIKE 'sT' ESCAPE 'r'";
@@ -832,6 +911,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithStringParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted nOt LIKE 'sT' ESCAPE :N";
@@ -842,6 +922,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted not LIKE :NamedParameter";
@@ -852,6 +933,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithParameterChar() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted not LIKE :NamedParameter Escape 'r'";
@@ -862,6 +944,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotLikeWithParameterParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT LIKE :NamedParameter Escape :N";
@@ -872,6 +955,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn 95 and 400 ";
@@ -882,6 +966,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn 95.43 and 400.95 ";
@@ -892,6 +977,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn 'Low' and 'High' ";
@@ -902,6 +988,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
@@ -912,6 +999,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn TIME '06:52:56' and TIME '08:52:56' ";
@@ -922,6 +1010,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testBetweenWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted betweEn TIMESTAMP '2007-08-05 06:52:56.130' and "
@@ -934,6 +1023,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithLong() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn 95 and 400 ";
@@ -944,6 +1034,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithDouble() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn 95.43 and 400.95 ";
@@ -954,6 +1045,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithString() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn 'Low' and 'High' ";
@@ -964,6 +1056,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithDate() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn DATE '2007-08-05' and DATE '2008-08-05' ";
@@ -974,6 +1067,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithTime() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn TIME '06:52:56' and TIME '08:52:56' ";
@@ -984,6 +1078,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNotBetweenWithTimestamp() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT betweEn TIMESTAMP '2007-08-05 06:52:56.013' and "
@@ -996,6 +1091,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testInWithPath() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT IN (o.path1, o.path2, o.path3)";
@@ -1006,6 +1102,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testInParameter() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT IN (:test, ?453,:asd)";
@@ -1016,6 +1113,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testInLiterals() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted NOT IN (34, 453.34, true, 'String')";
@@ -1026,6 +1124,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testNull() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted IS NOT NULL";
@@ -1036,6 +1135,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testComplex() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted+3*5 = 4 and (o.deleted+3)*5 = 4 "
@@ -1048,6 +1148,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCustomFunction() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = CustomFUNCTION (o.deleted)";
@@ -1058,6 +1159,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testCustomFunctionMoreParameters() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where o.deleted = CustomFUNCTION (o.deleted,o.edited)";
@@ -1068,6 +1170,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testUndefinedFunction() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where IS_UNDEFINED (o.field)";
@@ -1078,6 +1181,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
     public void testDefinedFunction() throws Exception {
         String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
             + " where IS_DEFINED (o.field)";

@@ -15,6 +15,8 @@
  */
 package org.castor.cpa.query;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 /**
@@ -29,6 +31,7 @@ import junit.framework.TestCase;
 public final class TestQOCondition extends TestCase {
     //--------------------------------------------------------------------------
 
+    @Test
     public static void testEqual() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -43,6 +46,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testNotEqual() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -58,6 +62,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testLessThan() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -73,6 +78,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testLessEqual() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -88,6 +94,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testGreaterEqual() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -103,6 +110,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testGreaterThan() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -118,6 +126,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testLike() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -133,6 +142,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testNotLike() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -148,6 +158,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testBetween() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -163,6 +174,7 @@ public final class TestQOCondition extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testNotBetween() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");

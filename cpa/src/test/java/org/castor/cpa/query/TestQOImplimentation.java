@@ -18,6 +18,7 @@ package org.castor.cpa.query;
 import junit.framework.TestCase;
 
 import org.castor.cpa.query.object.OrderImpl;
+import org.junit.Test;
 
 /**
  * Junit test for testing query object implimentation.
@@ -31,6 +32,7 @@ import org.castor.cpa.query.object.OrderImpl;
 public final class TestQOImplimentation extends TestCase {
     //--------------------------------------------------------------------------
 
+    @Test
     public static void testSimpleSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -41,6 +43,7 @@ public final class TestQOImplimentation extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testDistinctSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -52,6 +55,7 @@ public final class TestQOImplimentation extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testProjectionSelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
@@ -63,6 +67,7 @@ public final class TestQOImplimentation extends TestCase {
         assertEquals(actual, expected);
     }
 
+    @Test
     public static void testOrderBySelect() {
         SelectQuery select = QueryFactory.newSelectQuery();
         Schema schema = select.newSchema(Foo.class, "o");
