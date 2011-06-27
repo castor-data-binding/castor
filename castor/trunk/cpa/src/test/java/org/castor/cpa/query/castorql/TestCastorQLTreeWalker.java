@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.castor.cpa.query.ParseException;
 import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.TokenManagerError;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -1191,9 +1192,63 @@ public final class TestCastorQLTreeWalker extends TestCase {
             + "WHERE (o.field IS NOT NULL)";
         assertEquals(expected, actual);
     }
+    
+    // --------------------------------------------------------------------------
+    
+//    @Test
+//    public void testBetweenWithParameter() throws Exception {
+//        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+//            + " where o.deleted betweEn $1 and $2 ";
+//        QueryObject qo = getQO(oql);
+//        String actual = qo.toString();
+//        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+//            + "WHERE (o.deleted BETWEEN ?1 AND ?2)";
+//        assertEquals(expected, actual);
+//    }
+
+//    @Test
+//    public void testNumberedParameter() throws Exception {
+//        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
+//            + "where $1 = 1000";
+//        QueryObject qo = getQO(oql);
+//        String actual = qo.toString();
+//        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+//            + "WHERE (?1 = 1000)";
+//        assertEquals(expected, actual);
+//    }
+    
+//    @Test
+//    public void testTypedNumberedParameter() throws Exception {
+//        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
+//            + "where $(int)1 = 1000";
+//        QueryObject qo = getQO(oql);
+//        String actual = qo.toString();
+//        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+//            + "WHERE (?(int)1 = 1000)";
+//        assertEquals(expected, actual);
+//    }
+    
+//    @Test
+//    public void testCountAggregation() throws Exception {
+//        String oql = "SELECT COUNT(o.item) from de.jsci.pcv.jdo.LieferantJDO as o";
+//        QueryObject qo = getQO(oql);
+//        String actual = qo.toString();
+//        String expected = "SELECT COUNT(o.item) FROM de.jsci.pcv.jdo.LieferantJDO AS o";
+//        assertEquals(expected, actual);
+//    }
+    
+//    @Test
+//    public void testCountAggregationStar() throws Exception {
+//        String oql = "SELECT COUNT(*) from de.jsci.pcv.jdo.LieferantJDO as o";
+//        QueryObject qo = getQO(oql);
+//        String actual = qo.toString();
+//        String expected = "SELECT COUNT(*) FROM de.jsci.pcv.jdo.LieferantJDO AS o";
+//        assertEquals(expected, actual);
+//    }
 
     // --------------------------------------------------------------------------
 
+    @Ignore
     private QueryObject getQO(final String oql)
     throws UnsupportedEncodingException, ParseException {
         CastorQLParser parser = null;
@@ -1213,6 +1268,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         }
     }
 
+    @Ignore
     private SimpleNode getSimpleNode(final String oql)
     throws UnsupportedEncodingException, ParseException {
         CastorQLParser parser = null;
@@ -1230,6 +1286,7 @@ public final class TestCastorQLTreeWalker extends TestCase {
         }
     }
 
+    @Ignore
     private CastorQLParserTokenManager createTkmgr(final String oql)
     throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer(oql);
