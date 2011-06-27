@@ -15,23 +15,57 @@
  */
 package org.exolab.castor.xml;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
+import org.castor.test.entity.Email;
+import org.castor.test.entity.Emails;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.xml.sax.InputSource;
 
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
+
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
  */
 public class TestUnmarshaller extends TestCase {
+
+    /**
+     * Represents the xml used for testing.
+     */
+    private static final String INPUT_STRING =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                    "<tns:emails xmlns:tns=\"http://castor.org/email\">" +
+                    "<tns:email><tns:from>from@castor.org</tns:from><tns:to>to@castor.org</tns:to>" +
+                    "</tns:email></tns:emails>";
+
+    /**
+     * Represents the xml with additional attribute that is not mapped in Castor config.
+     */
+    private static final String EXTRA_ATTRIBUTES_STRING =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                    "<tns:emails xmlns:tns=\"http://castor.org/email\">" +
+                    "<tns:email status=\"deleted\"><tns:from>from@castor.org</tns:from><tns:to>to@castor.org</tns:to>" +
+                    "</tns:email></tns:emails>";
+
+    /**
+     * Represents the xml with additional element that is not mapped in Castor config.
+     */
+    private static final String EXTRA_ELEMENTS_STRING =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                    "<tns:emails xmlns:tns=\"http://castor.org/email\">" +
+                    "<tns:email><tns:from>from@castor.org</tns:from><tns:to>to@castor.org</tns:to>" +
+                    "<tns:date>2011-06-26</tns:date></tns:email></tns:emails>";
+
+    /**
+     * <p>Represents the path to mapping file.</p>
+     */
+    private static final String EMAIL_MAPPING_FILE = "/org/castor/test/entity/mapping-email.xml";
+
     private static final String testXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\" />";
     private Reader _reader;
     private InternalContext _internalContext;
@@ -311,38 +345,93 @@ public class TestUnmarshaller extends TestCase {
     }
 
     /**
-     * Tests the Unmarshaller instance with xml that has additional attributes not mapped by mapping file.
-     * Tests the Unmarshaller behaviour when the setIgnoreExtraElements is set to true.
+     * Tests the Unmarshaller when the {@link Unmarshaller#setWhitespacePreserve(boolean)} is set to <code>true</code>.
      *
      * @throws Exception in case of unmarshal problems
      */
-    public void testUnmarshallerIgnoringExtraElementsTrue() throws Exception {
+    public void testWhitespacePreserveTrue() throws Exception {
 
-        Unmarshaller unmarshaller = createUnmarsahllerFromMapping();
-        unmarshaller.setIgnoreExtraElements(true);
-
-        String xml = "<?xml version=\"1.0\"?><entity><id>1</id><name>name</name><value>123</value></entity>";
-
-        unmarshaller.unmarshal(new StringReader(xml));
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setWhitespacePreserve(true);
+        Object result = unmarshalEmails(unmarshaller);
+        testEmails(result);
     }
 
     /**
-     * Tests the Unmarshaller instance with xml that has additional attributes not mapped by mapping file.
-     * Tests the Unmarshaller behaviour when the setIgnoreExtraElements is set to false.
-     * </p>
-     * MarshalException should be thrown.
+     * Tests the Unmarshaller when the {@link Unmarshaller#setWhitespacePreserve(boolean)} is set to
+     * <code>false</code>.
      *
      * @throws Exception in case of unmarshal problems
      */
-    public void testUnmarshallerIgnoringExtraElementsFalse() throws Exception {
+    public void testWhitespacePreserveFalse() throws Exception {
 
-        Unmarshaller unmarshaller = createUnmarsahllerFromMapping();
-        unmarshaller.setIgnoreExtraElements(false);
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setWhitespacePreserve(false);
+        Object result = unmarshalEmails(unmarshaller);
+        testEmails(result);
+    }
 
-        String xml = "<?xml version=\"1.0\"?><entity><id>1</id><name>name</name><value>123</value></entity>";
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIgnoreExtraAttributes(boolean)} is set to
+     * <code>true</code>.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIgnoreExtraAttributesTrue() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setIgnoreExtraAttributes(true);
+        Object result = unmarshal(unmarshaller, EXTRA_ATTRIBUTES_STRING);
+        testEmails(result);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIgnoreExtraAttributes(boolean)} is set to
+     * <code>false</code>. </p> {@link MarshalException} is expected.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIgnoreExtraAttributesFalse() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setIgnoreExtraAttributes(false);
 
         try {
-            unmarshaller.unmarshal(new StringReader(xml));
+            unmarshal(unmarshaller, EXTRA_ATTRIBUTES_STRING);
+            fail("MarshalException was expected.");
+        } catch (MarshalException e) {
+            // test passed
+        }
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIgnoreExtraElements(boolean)} is set to
+     * <code>true</code>.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIgnoreExtraElementsTrue() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setIgnoreExtraElements(true);
+
+        Object result = unmarshal(unmarshaller, EXTRA_ELEMENTS_STRING);
+        testEmails(result);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIgnoreExtraElements(boolean)} is set to
+     * <code>false</code>. </p> {@link MarshalException} is expected.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIgnoreExtraElementsFalse() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setIgnoreExtraElements(false);
+
+        try {
+            unmarshal(unmarshaller, EXTRA_ELEMENTS_STRING);
             fail("MarshalException was expected.");
         } catch (MarshalException exc) {
             // test passed
@@ -350,14 +439,77 @@ public class TestUnmarshaller extends TestCase {
     }
 
     /**
-     * Creates new instance of Unmarshaller
+     * Tests the Unmarshaller when the {@link Unmarshaller#setObject(Object)} is set.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testObject() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+
+        Emails emails = new Emails();
+        unmarshaller.setObject(emails);
+        Object result = unmarshalEmails(unmarshaller);
+
+        testEmails(result);
+        assertSame("Result Emails is different object.", emails, result);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setClearCollections(boolean)} is set to <code>true</code>.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testClearCollectionsTrue() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+
+        Emails emails = new Emails();
+        emails.setEmail(new Email[]{new Email()});
+        unmarshaller.setObject(emails);
+        unmarshaller.setClearCollections(true);
+        Object result = unmarshalEmails(unmarshaller);
+
+        assertSame("Result Emails is different object.", emails, result);
+        assertEquals("Result Emails has incorrect number of Email.", 1, ((Emails) result).getEmail().length);
+        testEmails(result);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setClearCollections(boolean)} is set to <code>false</code>.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testClearCollectionsFalse() throws Exception {
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        Emails emails = new Emails();
+        emails.setEmail(new Email[]{new Email(), null});
+        unmarshaller.setObject(emails);
+        unmarshaller.setValidation(false);
+        unmarshaller.setClearCollections(false);
+
+        Object result = unmarshalEmails(unmarshaller);
+
+        assertSame("Result Emails is different object.", emails, result);
+        assertEquals("Result Emails has incorrect number of Email.", 3, ((Emails) result).getEmail().length);
+        assertNull("Null Email was expected.", emails.getEmail()[1]);
+
+        assertEquals("Emails has invalid sender.", "from@castor.org", emails.getEmail()[2].getFrom());
+        assertEquals("Emails has invalid recipient.", "to@castor.org", emails.getEmail()[2].getTo());
+    }
+
+    /**
+     * Creates new instance of Unmarshaller.
+     *
+     * @param mapping the path to the mapping file
      *
      * @return configured Unmarshaller instance
      *
      * @throws MappingException if any error occurs when loading mapping file
      */
-    private Unmarshaller createUnmarsahllerFromMapping() throws MappingException {
-        XMLContext xmlContext = createXmlContextFromMapping();
+    private Unmarshaller createUnmarsahllerFromMapping(String mapping) throws MappingException {
+        XMLContext xmlContext = createXmlContextFromMapping(mapping);
 
         Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
         unmarshaller.setValidation(true);
@@ -367,16 +519,61 @@ public class TestUnmarshaller extends TestCase {
     /**
      * Creates a XMLContext with loaded mapping file.
      *
+     * @param mappingPath the path to the mapping file
+     *
      * @return configured XMLContext
+     *
      * @throws MappingException if any error occurs while loading mapping file.
      */
-    private XMLContext createXmlContextFromMapping() throws MappingException {
-        InputStream mappingFile = getClass().getResourceAsStream("/org/castor/test/entity/mapping.xml");
+    private XMLContext createXmlContextFromMapping(String mappingPath) throws MappingException {
+        InputStream mappingFile = getClass().getResourceAsStream(mappingPath);
 
         XMLContext xmlContext = new XMLContext();
         Mapping mapping = new Mapping();
         mapping.loadMapping(new InputSource(mappingFile));
         xmlContext.addMapping(mapping);
         return xmlContext;
+    }
+
+    /**
+     * Unmarshals the emails instance.
+     *
+     * @param unmarshaller the unmarshaller to use
+     *
+     * @return the unmarshaled object instance
+     *
+     * @throws Exception if any error exception
+     */
+    private Object unmarshalEmails(Unmarshaller unmarshaller) throws Exception {
+        return unmarshal(unmarshaller, INPUT_STRING);
+    }
+
+    /**
+     * Unmarshals the emails instance.
+     *
+     * @param unmarshaller unmarshaller to use
+     * @param xml          the xml to unmarshall
+     *
+     * @return the unmarshaled instance
+     *
+     * @throws Exception if any error exception
+     */
+    private Object unmarshal(Unmarshaller unmarshaller, String xml) throws Exception {
+        return unmarshaller.unmarshal(new StringReader(xml));
+    }
+
+    /**
+     * Asserts the emails instance.
+     *
+     * @param result the object to assert
+     */
+    private void testEmails(Object result) {
+        Emails emails = (Emails) result;
+        assertNotNull("Emails were null.", emails);
+        Email email = emails.getEmail()[0];
+        assertNotNull("Email was null.", emails);
+
+        assertEquals("Emails has invalid sender.", "from@castor.org", email.getFrom());
+        assertEquals("Emails has invalid recipient.", "to@castor.org", email.getTo());
     }
 }
