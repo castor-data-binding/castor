@@ -440,6 +440,24 @@
 > mvn clean verify -Dsurefire.print.summary=true
 > mvn clean test -Dsurefire.print.summary=true</code-panel>
 
+                <p>
+                   It is also possible to execute just a subset of the master test suite, simply by 
+                   specifying <tt>castor.xmlctf.root</tt> property. For example:
+                </p>
+
+                <code-panel>
+> mvn clean verify -Dcastor.root.test=MasterTestSuite/mapping</code-panel>
+
+                <p>
+                   The above command will effect in running only the subset of tests located under the 
+                   <tt>MasterTestSuite/mapping</tt> directory.
+                </p>
+                
+                <p>
+                    For more information about how to execute the CTF test suite and its 
+                    internals, please visit <a href="test-framework.html">this place</a>.
+                </p>                
+                
             </section>
         
       </section>
@@ -496,6 +514,13 @@ mvn -Declipse.projectNameTemplate=[artifactId]-2612</code-panel>
         </ul>
     </section>
 
+    <section title="References">
+
+        <ul>
+            <li><a href="test-framework.html">The testing framework</a></li>
+        </ul>
+
+    </section>
   </body>
 
 </document>

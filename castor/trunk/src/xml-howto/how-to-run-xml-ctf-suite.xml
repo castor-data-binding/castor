@@ -46,7 +46,7 @@
                 <a href="scm.html">here</a></li>
         </ul>
         
-        <p><b>Note:</b>The CTF currently requires the Sun JDK (or SDK) to execute,
+        <note>The CTF currently requires the Sun JDK (or SDK) to execute,
            although it may be possible to execute fine with GNU gcj or with JRockit. The
            CTF will not work if you are using only a JRE. This is because the CTF uses
            the Sun Java compiler API to compile code as needed for Source Generator and
@@ -54,32 +54,38 @@
            for additional compiler frameworks, so if you use a compiler or runtime that
            is not supported, you should be able to easily add support for a new framework.
            If you want to do this, contact Castor committors for assistance and direction
-           and they'll set you on the right course.</p>
+           and they'll set you on the right course.</note>
     </section>
 
     <section title="Steps">
 
         <p>Once you have obtained the Castor sources in one of the ways highlighted above,
            here is how to proceed. In general, more information about how to 
-           execute the CTF test suite can be found <a href="test-framework.html">here</a>.</p>
+           execute the CTF test suite and its internals can be found 
+           <a href="test-framework.html">here</a>.</p>
 
 
         <p>From a command line (e.g a shell), please execute the following
-           commands to run the Castor XML master test suite (default suite).</p>
+           commands to run the complete Castor XML master test suite (default suite).</p>
            
         <code-panel>
 > cd &lt;castor-root&gt;
 > mvn install
 > cd &lt;castor-root&gt;/xmlctf
-> mvn test</code-panel>
+> mvn clean verify</code-panel>
 
-        <p>To execute just a subset of the master test suite, please change this to:</p>
+        <p>
+           It is also possible to execute just a subset of the master test suite, simply by 
+           specifying <tt>castor.xmlctf.root</tt> property. For example:
+        </p>
 
         <code-panel>
-> cd &lt;castor-root&gt;
-> mvn install
-> cd &lt;castor-root&gt;/xmlctf
-> mvn test</code-panel>
+> mvn clean verify -Dcastor.root.test=MasterTestSuite/mapping</code-panel>
+
+        <p>
+           The above command will effect in running only the subset of tests located under the 
+           <tt>MasterTestSuite/mapping</tt> directory.
+        </p>
 
     </section>
         
