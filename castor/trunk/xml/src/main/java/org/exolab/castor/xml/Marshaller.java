@@ -279,7 +279,8 @@ public class Marshaller extends MarshalFramework {
      * Creates a new {@link Marshaller} with the given SAX {@link DocumentHandler}.
      *
      * @param handler the SAX {@link DocumentHandler} to "marshal" to.
-     * 
+     *
+     * @throws IllegalArgumentException if the given {@link DocumentHandler} is null
      * @deprecate Please use {@link XMLContext#createMarshaller()} and 
      *    {@link Marshaller#setDocumentHandler(DocumentHandler)} instead
      * 
@@ -290,10 +291,7 @@ public class Marshaller extends MarshalFramework {
     **/
     public Marshaller(final DocumentHandler handler) {
         super(null);
-        if (handler == null) {
-            throw new IllegalArgumentException("The given 'org.sax.DocumentHandler' " 
-                    + "instance is null.");
-        }
+        checkNotNull(handler, "The given 'org.sax.DocumentHandler' instance is null.");
 
         setContentHandler(new DocumentHandlerAdapter(handler));
     }
@@ -302,12 +300,11 @@ public class Marshaller extends MarshalFramework {
      * Sets the given SAX {@link DocumentHandler} to 'marshal' into.
      *
      * @param handler the SAX {@link DocumentHandler} to "marshal" to.
+     *
+     * @throws IllegalArgumentException if the given {@link DocumentHandler} is null
     **/
     public void setDocumentHandler(final DocumentHandler handler) {
-        if (handler == null) {
-            throw new IllegalArgumentException("The given 'org.sax.DocumentHandler' " 
-                    + "instance is null.");
-        }
+        checkNotNull(handler, "The given 'org.sax.DocumentHandler' instance is null.");
 
         setContentHandler(new DocumentHandlerAdapter(handler));
     }
@@ -316,7 +313,7 @@ public class Marshaller extends MarshalFramework {
      * Creates a new {@link Marshaller} with the given SAX {@link ContentHandler}.
      *
      * @param contentHandler the {@link ContentHandler} to "marshal" to.
-     * 
+     * @throws IllegalArgumentException if the gievn {@link ContentHandler} is null
      * @deprecate Please use {@link XMLContext#createMarshaller()} and 
      *    {@link Marshaller#setContentHandler(ContentHandler)} instead
      * 
@@ -327,9 +324,7 @@ public class Marshaller extends MarshalFramework {
     **/
     public Marshaller(final ContentHandler contentHandler) {
         super(null);
-        if (contentHandler == null) {
-            throw new IllegalArgumentException("The given 'org.sax.ContentHandler' is null.");
-        }
+        checkNotNull(contentHandler, "The given 'org.sax.ContentHandler' is null.");
 
         setContentHandler(contentHandler);
     }
@@ -354,8 +349,9 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
-     * Creates a new Marshaller with the given writer.
-     * @param out the Writer to serialize to
+     * Creates a new {@link Marshaller} with the given writer.
+     * @param out the {@link Writer} to serialise to.
+     * @throws IllegalArgumentException if the given {@link Writer} is null
      * @throws IOException If the given {@link Writer} instance cannot be opened.
      * @deprecate Please use {@link XMLContext#createMarshaller()} and 
      *    {@link Marshaller#setWriter(Writer)} instead
@@ -375,13 +371,14 @@ public class Marshaller extends MarshalFramework {
      * 
      * @param out
      *            The writer to use for marshalling
+     *
+     * @throws IllegalArgumentException if out is null
      * @throws IOException
      *             If there's a problem accessing the java.io.Writer provided
      */
     public void setWriter (final Writer out) throws IOException {
-        if (out == null) {
-            throw new IllegalArgumentException("The given 'java.io.Writer instance' is null.");
-        }
+        checkNotNull(out, "The given 'java.io.Writer instance' is null.");
+
         configureSerializer(out);
     }
 
@@ -411,21 +408,20 @@ public class Marshaller extends MarshalFramework {
      * Creates a new {@link Marshaller} for the given DOM {@link Node}.
      *
      * @param node the DOM {@link Node} to marshal into.
-     * 
+     *
+     * @throws IllegalArgumentException if node is null
+     *
      * @deprecate Please use {@link XMLContext#createMarshaller()} and 
      *    {@link Marshaller#setNode(Node)} instead
      * 
      * @see {@link XMLContext#createMarshaller()}
      * @see {@link Marshaller#setNode(Node)}
      * @see XMLContext
-     * 
-     * 
     **/
     public Marshaller(final Node node) {
         super(null);
-        if (node == null) {
-            throw new IllegalArgumentException("The given org.w3c.dom.Node instance is null.");
-        }
+        checkNotNull(node, "The given 'org.w3c.dom.Node' instance is null.");
+
         setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
     }
     
@@ -433,11 +429,12 @@ public class Marshaller extends MarshalFramework {
      * Sets the W3C {@link Node} instance to marshal to.
      *
      * @param node the DOM {@link Node} to marshal into.
+     *
+     * @throws IllegalArgumentException if node is null
     **/
     public void setNode(final Node node) {
-        if (node == null) {
-            throw new IllegalArgumentException("The given org.w3c.dom.Node instance is null.");
-        }
+        checkNotNull(node, "The given 'org.w3c.dom.Node' instance is null.");
+
         setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
     }
     
@@ -480,18 +477,14 @@ public class Marshaller extends MarshalFramework {
      *
      * @param target the processing instruction target
      * @param data the processing instruction data
+    *
+    * @throws IllegalArgumentException if target is null or empty string or data is null
     **/
     public void addProcessingInstruction(String target, String data) {
 
-        if ((target == null) || (target.length() == 0)) {
-            String err = "the argument 'target' must not be null or empty.";
-            throw new IllegalArgumentException(err);
-        }
+        checkNotEmpty(target, "The argument 'target' must not be null or empty.");
+        checkNotNull(data, "The argument 'data' must not be null.");
 
-        if (data == null) {
-            String err = "the argument 'data' must not be null.";
-            throw new IllegalArgumentException(err);
-        }
         _processingInstructions.add(new ProcessingInstruction(target, data));
     } //-- addProcessingInstruction
 
@@ -512,21 +505,8 @@ public class Marshaller extends MarshalFramework {
             //-- reset output format, this needs to be done
             //-- any time a change occurs to the format.
             _serializer.setOutputFormat( _format );
-            try {
-                //-- Due to a Xerces Serializer bug that doesn't allow declaring
-                //-- multiple prefixes to the same namespace, we use the old
-                //-- DocumentHandler format and process namespaces ourselves
-                _handler = new DocumentHandlerAdapter(_serializer.asDocumentHandler());
-            }
-            catch (java.io.IOException iox) {
-                //-- we can ignore this exception since it shouldn't
-                //-- happen. If _serializer is not null, it means
-                //-- we've already called this method sucessfully
-                //-- in the Marshaller() constructor
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error setting up document handler", iox);
-                }
-            }
+
+            setDocumentHandler();
         }
         else {
             String error = "doctype cannot be set if you've passed in "+
@@ -534,7 +514,6 @@ public class Marshaller extends MarshalFramework {
             throw new IllegalStateException(error);
         }
     } //-- setDoctype
-
 
     /**
      * Sets whether or not to marshal as a document which includes
@@ -588,21 +567,8 @@ public class Marshaller extends MarshalFramework {
             //-- reset output format, this needs to be done
             //-- any time a change occurs to the format.
             _serializer.setOutputFormat( _format );
-            try {
-                //-- Due to a Xerces Serializer bug that doesn't allow declaring
-                //-- multiple prefixes to the same namespace, we use the old
-                //-- DocumentHandler format and process namespaces ourselves
-                _handler = new DocumentHandlerAdapter(_serializer.asDocumentHandler());
-            }
-            catch (java.io.IOException iox) {
-                //-- we can ignore this exception since it shouldn't
-                //-- happen. If _serializer is not null, it means
-                //-- we've already called this method sucessfully
-                //-- in the Marshaller() constructor
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error setting up document handler", iox);
-                }
-            }
+
+            setDocumentHandler();
         }
 
     } //-- setMarshalAsDocument
@@ -654,13 +620,12 @@ public class Marshaller extends MarshalFramework {
      * 
      * @param nsPrefix the namespace prefix
      * @param nsURI the namespace that the prefix resolves to
+     *
+     * @throws IllegalArgumentException if nsURI is null or empty string
     **/
     public void setNamespaceMapping(final String nsPrefix, final String nsURI) {
 
-        if ((nsURI == null) || (nsURI.length() == 0)) {
-            String err = "namespace URI must not be null.";
-            throw new IllegalArgumentException(err);
-        }
+        checkNotEmpty(nsURI, "Namespace URI must be not null.");
 
         _namespaces.addNamespace(nsPrefix, nsURI);
 
@@ -2875,14 +2840,9 @@ public class Marshaller extends MarshalFramework {
         private String _xmlName      = null;
 
         MarshalState(Object owner, String xmlName) {
-            if (owner == null) {
-                String err = "The argument 'owner' must not be null";
-                throw new IllegalArgumentException(err);
-            }
-            if (xmlName == null) {
-                String err = "The argument 'xmlName' must not be null";
-                throw new IllegalArgumentException(err);
-            }
+            checkNotNull(owner, "The argument 'owner' must not be null.");
+            checkNotNull(xmlName, "The argument 'xmlName' must not be null.");
+
             _owner = owner;
             _xmlName = xmlName;
         }
@@ -2954,6 +2914,59 @@ public class Marshaller extends MarshalFramework {
      */
     public void setContentHandler(final ContentHandler contentHandler) {
         _handler = contentHandler;
+    }
+
+    /**
+     * Assigns the document handler, ignoring any possible exception.
+     */
+    private void setDocumentHandler() {
+        try {
+            //-- Due to a Xerces Serializer bug that doesn't allow declaring
+            //-- multiple prefixes to the same namespace, we use the old
+            //-- DocumentHandler format and process namespaces ourselves
+            _handler = new DocumentHandlerAdapter(_serializer.asDocumentHandler());
+        }
+        catch (IOException iox) {
+            //-- we can ignore this exception since it shouldn't
+            //-- happen. If _serializer is not null, it means
+            //-- we've already called this method successfully
+            //-- in the Marshaller() constructor
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error setting up document handler", iox);
+            }
+        }
+    }
+
+    /**
+     * Checks if passed parameter is not null and not a empty string. In case it is, a
+     * {@link IllegalArgumentException} is thrown.
+     *
+     * @param param the parameter to check
+     * @param msg the error message to use for thrown exception
+     *
+     * @throws IllegalArgumentException if param is null
+     */
+    private static void checkNotEmpty(String param, String msg) {
+        checkNotNull(param, msg);
+
+        if (param.length() == 0) {
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+    /**
+     * Checks if passed parameter is not null. In case it is, a {@link IllegalArgumentException} is thrown.
+     *
+     * @param param the parameter to check
+     * @param msg the error message to use for thrown exception
+     *
+     * @throws IllegalArgumentException if param is null
+     */
+    private static void checkNotNull(Object param, String msg) {
+
+        if (param  == null) {
+            throw new IllegalArgumentException(msg);
+        }
     }
 } //-- Marshaller
 
