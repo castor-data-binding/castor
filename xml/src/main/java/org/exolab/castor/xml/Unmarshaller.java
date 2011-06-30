@@ -221,6 +221,8 @@ public class Unmarshaller {
      * unmarshalling process.
      * 
      * @param internalContext the {@link InternalContext} to use
+     *
+     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext) {
         this(internalContext, (Class) null, (ClassLoader) null);
@@ -233,6 +235,8 @@ public class Unmarshaller {
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
+     *
+     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext, final Class c) {
         this(internalContext, c, null);
@@ -246,16 +250,15 @@ public class Unmarshaller {
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
      * @param loader The {@link ClassLoader} to use.
+     *
+     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(
-            final InternalContext internalContext, 
+            final InternalContext internalContext,
             final Class c, final ClassLoader loader) {
         super();
-        if (internalContext == null) {
-            String message = "InternalContext must not be null";
-            LOG.warn(message);
-            throw new IllegalArgumentException(message);
-        }
+
+        checkNotNull(internalContext, "InternalContext must not be null.");
         setInternalContext(internalContext);
 
         setClass(c);
@@ -282,7 +285,9 @@ public class Unmarshaller {
      *
      * @param internalContext the internal context to use
      * @param mapping The Mapping to use.
-     * @throws MappingException in case that Unmarshaller fails to be instantiated 
+     * @throws MappingException in case that Unmarshaller fails to be instantiated
+     *
+     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext, final Mapping mapping)
     throws MappingException {
@@ -311,6 +316,8 @@ public class Unmarshaller {
      * @param root the instance to unmarshal into. This
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
+     *
+     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext, final Object root) {
         this(internalContext, null, null);
@@ -1080,6 +1087,21 @@ public class Unmarshaller {
      */
     public void setResolver(XMLClassDescriptorResolver xmlClassDescriptorResolver) {
         _internalContext.setResolver(xmlClassDescriptorResolver);
+    }
+
+    /**
+     * Checks if passed parameter is not null. In case it is, a {@link IllegalArgumentException} is thrown.
+     *
+     * @param param the parameter to check
+     * @param msg the error message to use for thrown exception
+     *
+     * @throws IllegalArgumentException if param is null
+     */
+    private static void checkNotNull(Object param, String msg) {
+
+        if (param  == null) {
+            throw new IllegalArgumentException(msg);
+        }
     }
 } //-- Unmarshaller
 
