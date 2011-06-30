@@ -17,17 +17,19 @@ package org.exolab.castor.xml;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import org.castor.test.entity.Email;
-import org.castor.test.entity.Emails;
+import org.castor.test.entity.*;
 import org.castor.xml.InternalContext;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.util.ObjectFactory;
 import org.xml.sax.InputSource;
 
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.easymock.EasyMock.*;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
@@ -65,6 +67,33 @@ public class TestUnmarshaller extends TestCase {
      * <p>Represents the path to mapping file.</p>
      */
     private static final String EMAIL_MAPPING_FILE = "/org/castor/test/entity/mapping-email.xml";
+
+    /**
+     * <p>Represents the path to mapping file.</p>
+     */
+    private static final String LIBRARY_MAPPING_FILE = "/org/castor/test/entity/mapping-library.xml";
+
+    /**
+	 * <p>Represents the xml that contains referencing elements with all referenced ids defined in xml.</p>
+	 */
+	protected static final String ID_REF_INPUT_STRING =
+			"<tns:Library xmlns:tns=\"http://castor.org/library\">" +
+					"<tns:Authors><tns:Author id=\"author1\">" +
+					"<tns:Name>Carol Dikens</tns:Name></tns:Author></tns:Authors>" +
+					"<tns:Books><tns:Book><tns:Title>Oliver Twist</tns:Title>" +
+					"<tns:Author idref=\"author1\"/></tns:Book></tns:Books>" +
+					"</tns:Library>";
+
+	/**
+	 * <p>Represents the xml that contains referencing elements with not all referenced ids defined in xml.</p>
+	 */
+	protected static final String EXTERNAL_ID_REF_INPUT_STRING =
+			"<tns:Library xmlns:tns=\"http://castor.org/library\">" +
+					"<tns:Authors><tns:Author id=\"author1\">" +
+					"<tns:Name>Carol Dikens</tns:Name></tns:Author></tns:Authors>" +
+					"<tns:Books><tns:Book><tns:Title>Oliver Twist</tns:Title>" +
+					"<tns:Author idref=\"author2\"/></tns:Book></tns:Books>" +
+					"</tns:Library>";
 
     private static final String testXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\" />";
     private Reader _reader;
@@ -500,6 +529,89 @@ public class TestUnmarshaller extends TestCase {
     }
 
     /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setUnmarshalListener(org.castor.xml.UnmarshalListener)}
+     * is set.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testUnmarshalListener() throws Exception {
+        org.castor.xml.UnmarshalListener listener = createMockListener();
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setUnmarshalListener(listener);
+        Object result = unmarshalEmails(unmarshaller);
+        testEmails(result);
+        verify(listener);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setObjectFactory(org.exolab.castor.util.ObjectFactory)}
+     * is set.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testObjectFactory() throws Exception {
+        Emails emails = new Emails();
+
+        ObjectFactory objectFactory = createMock(ObjectFactory.class);
+        objectFactory.createInstance(Emails.class, null, null);
+        expectLastCall().andReturn(emails);
+
+        replay(objectFactory);
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
+        unmarshaller.setObjectFactory(objectFactory);
+        Object result = unmarshalEmails(unmarshaller);
+        testEmails(result);
+
+        verify(objectFactory);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIDResolver(IDResolver)} is set.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIDResolver() throws Exception {
+
+        IDResolver idResolver = createMock(IDResolver.class);
+        replay(idResolver);
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(LIBRARY_MAPPING_FILE);
+        unmarshaller.setValidation(false);
+        unmarshaller.setIDResolver(idResolver);
+        Object result = unmarshal(unmarshaller, ID_REF_INPUT_STRING);
+
+        testLibrary(result);
+
+        verify(idResolver);
+    }
+
+    /**
+     * Tests the Unmarshaller when the {@link Unmarshaller#setIDResolver(IDResolver)} is set.
+     *
+     * @throws Exception in case of unmarshal problems
+     */
+    public void testIDResolverExternalId() throws Exception {
+        Author author = new Author();
+        author.setId("author2");
+        author.setName("Carol Dikens");
+
+        IDResolver idResolver = createMock(IDResolver.class);
+        idResolver.resolve("author2");
+        expectLastCall().andReturn(author);
+        replay(idResolver);
+
+        Unmarshaller unmarshaller = createUnmarsahllerFromMapping(LIBRARY_MAPPING_FILE);
+        unmarshaller.setValidation(false);
+        unmarshaller.setIDResolver(idResolver);
+        Object result = unmarshal(unmarshaller, EXTERNAL_ID_REF_INPUT_STRING);
+
+        testLibrary(result);
+
+        verify(idResolver);
+    }
+
+    /**
      * Creates new instance of Unmarshaller.
      *
      * @param mapping the path to the mapping file
@@ -576,4 +688,39 @@ public class TestUnmarshaller extends TestCase {
         assertEquals("Emails has invalid sender.", "from@castor.org", email.getFrom());
         assertEquals("Emails has invalid recipient.", "to@castor.org", email.getTo());
     }
+
+    /**
+	 * Creates mock {@link org.castor.xml.UnmarshalListener} instance.
+	 *
+	 * @return newly created mock instance
+	 */
+	private org.castor.xml.UnmarshalListener createMockListener() {
+		org.castor.xml.UnmarshalListener listener = createMock(org.castor.xml.UnmarshalListener.class);
+        listener.initialized(anyObject(Object.class), anyObject(Object.class));
+        expectLastCall().times(2);
+        listener.fieldAdded(anyObject(String.class), anyObject(Object.class), anyObject(Object.class));
+        expectLastCall().times(3);
+        listener.attributesProcessed(anyObject(Object.class), anyObject(Object.class));
+        expectLastCall().times(2);
+        listener.unmarshalled(anyObject(Object.class), anyObject(Object.class));
+        expectLastCall().times(4);
+        replay(listener);
+		return listener;
+	}
+
+	/**
+	 * Tests the unnarshaled {@link Library} instance.
+	 *
+	 * @param result the unmarshaled {@link Library} to test
+	 */
+	private void testLibrary(Object result) {
+		Library library = (Library) result;
+
+		assertNotNull("Library is null.", library);
+		assertEquals("Library has incorrect number of authors", 1, library.getAuthors().getAuthorCount());
+		assertEquals("Library has incorrect number of books", 1, library.getBooks().getBookCount());
+
+		Book book = library.getBooks().getBook(0);
+		assertEquals("Book has incorrect title", "Oliver Twist", book.getTitle());
+	}
 }

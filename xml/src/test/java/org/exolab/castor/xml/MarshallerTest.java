@@ -15,15 +15,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import javax.xml.transform.stream.StreamResult;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertEquals;
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
+import static org.easymock.EasyMock.*;
 
 /**
  * @author <a herf="mailto:jmnarloch AT gmail DOT com">Jakub Narloch</a>
@@ -98,7 +97,7 @@ public class MarshallerTest extends TestCase {
     /**
      * <p>Represents the path to mapping file.</p>
      */
-    private static final String MAPPING_FILE = "/org/castor/test/entity/mapping-email.xml";
+    private static final String EMAIL_MAPPING_FILE = "/org/castor/test/entity/mapping-email.xml";
 
     /**
      * Represents the instance of emails used for testing.
@@ -126,7 +125,7 @@ public class MarshallerTest extends TestCase {
      * @throws Exception in case of marshal problems
      */
     public void testSuppressNamespacesTrue() throws Exception {
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressNamespaces(true);
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", SUPPRESSED_NAMESPACE_EXPECTED_STRING, result);
@@ -138,7 +137,7 @@ public class MarshallerTest extends TestCase {
      * @throws Exception in case of marshal problems
      */
     public void testSuppressNamespacesFalse() throws Exception {
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressNamespaces(false);
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", EXPECTED_STRING, result);
@@ -152,7 +151,7 @@ public class MarshallerTest extends TestCase {
     public void testSuppressXsiTypeTrue() throws Exception {
         CastorObject castorObject = createCastorObject();
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressXSIType(true);
         marshaller.setRootElement("objects");
         String result = marshal(marshaller, Arrays.asList(castorObject));
@@ -167,7 +166,7 @@ public class MarshallerTest extends TestCase {
     public void testSuppressXsiTypeFalse() throws Exception {
         CastorObject castorObject = createCastorObject();
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressXSIType(false);
         marshaller.setRootElement("objects");
         String result = marshal(marshaller, Arrays.asList(castorObject));
@@ -181,7 +180,7 @@ public class MarshallerTest extends TestCase {
      */
     public void testMarshalAsDocumentTrue() throws Exception {
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setMarshalAsDocument(true);
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", DOCUMENT_EXPECTED_STRING, result);
@@ -196,7 +195,7 @@ public class MarshallerTest extends TestCase {
      */
     public void testMarshalAsDocumentFalse() throws Exception {
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setMarshalAsDocument(false);
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", EXPECTED_STRING, result);
@@ -210,7 +209,7 @@ public class MarshallerTest extends TestCase {
      */
     public void testRootElement() throws Exception {
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setRootElement("mailingList");
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", ROOT_ELEMENT_EXPECTED_STRING, result);
@@ -224,7 +223,7 @@ public class MarshallerTest extends TestCase {
     public void testNoNamespaceSchemaLocation() throws Exception {
         String noNamespaceSchemaLocation = "emails.xsd";
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setNoNamespaceSchemaLocation(noNamespaceSchemaLocation);
         String result = marshalEmails(marshaller);
 
@@ -241,7 +240,7 @@ public class MarshallerTest extends TestCase {
     public void testSchemaLocation() throws Exception {
         String schemaLocation = "emails.xsd";
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSchemaLocation(schemaLocation);
 
         String result = marshalEmails(marshaller);
@@ -259,7 +258,7 @@ public class MarshallerTest extends TestCase {
     public void testUseXsiTypeAsRootTrue() throws Exception {
         CastorObject castorObject = createCastorObject();
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
 
         marshaller.setSuppressXSIType(false);
         marshaller.setUseXSITypeAtRoot(true);
@@ -276,13 +275,45 @@ public class MarshallerTest extends TestCase {
     public void testUseXsiTypeAsRootFalse() throws Exception {
         CastorObject castorObject = createCastorObject();
 
-        Marshaller marshaller = createMarsahllerFromMapping(MAPPING_FILE);
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
 
         marshaller.setSuppressXSIType(false);
         marshaller.setUseXSITypeAtRoot(false);
         marshaller.setRootElement("objects");
         String result = marshal(marshaller, Arrays.asList(castorObject));
         assertXMLEqual("Marshaller wrote invalid result", ROOT_WITHOUT_XSI_EXPECTED_STRING, result);
+    }
+
+    /**
+     * Tests the Marshaller when the {@link Marshaller#setMarshalListener(MarshalListener)} is set.
+     *
+     * @throws Exception in case of marshal problems
+     */
+    public void testMarshalListener() throws Exception {
+        MarshalListener listener = createMockListener();
+
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
+        marshaller.setMarshalListener(listener);
+
+        String result = marshalEmails(marshaller);
+        assertXMLEqual("Marshaller writes invalid StreamResult", EXPECTED_STRING, result);
+        verify(listener);
+    }
+
+    /**
+     * Tests the Marshaller when the {@link Marshaller#addProcessingInstruction(String, String)} is set.
+     *
+     * @throws Exception in case of marshal problems
+     */
+    public void testProcessingInstructions() throws Exception {
+
+        Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
+        marshaller.addProcessingInstruction("xml-stylesheet", "href=\"email.xsl\"");
+
+        String result = marshalEmails(marshaller);
+        assertXMLEqual("Marshaller writes invalid StreamResult", EXPECTED_STRING, result);
+        assertTrue("Marshal result doesn't contain processing instruction.",
+                result.contains("<?xml-stylesheet href=\"email.xsl\"?>"));
     }
 
     /**
@@ -358,7 +389,7 @@ public class MarshallerTest extends TestCase {
      * @throws org.exolab.castor.mapping.MappingException
      *          if any error occurs when loading mapping file
      */
-    private Marshaller createMarsahllerFromMapping(String mapping) throws MappingException {
+    private Marshaller createMarshallerFromMapping(String mapping) throws MappingException {
         XMLContext xmlContext = createXmlContextFromMapping(mapping);
 
         Marshaller marshaller = xmlContext.createMarshaller();
@@ -381,5 +412,21 @@ public class MarshallerTest extends TestCase {
         mapping.loadMapping(new InputSource(mappingFile));
         xmlContext.addMapping(mapping);
         return xmlContext;
+    }
+
+    /**
+     * Creates mock {@link MarshalListener} instance.
+     *
+     * @return newly created mock instance
+     */
+    private MarshalListener createMockListener() {
+        MarshalListener listener = createMock(MarshalListener.class);
+        listener.preMarshal(anyObject(Object.class));
+        expectLastCall().andReturn(true);
+        expectLastCall().times(4);
+        listener.postMarshal(anyObject(Object.class));
+        expectLastCall().times(4);
+        replay(listener);
+        return listener;
     }
 }
