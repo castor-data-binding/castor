@@ -19,11 +19,15 @@ import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.cpa.test.framework.CPATestCase;
+import org.castor.cpa.test.framework.CPAThreadedTestCase;
+import org.castor.cpa.test.framework.CPAThreadedTestRunnable;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.TransactionAbortedException;
+import org.exolab.castor.jdo.TransactionNotInProgressException;
 import org.exolab.castor.mapping.AccessMode;
 
 /**
@@ -35,7 +39,7 @@ import org.exolab.castor.mapping.AccessMode;
  * test cases. These tests passed if LockNotGrantedException is thrown 
  * in the appropriate time for the access mode in action.
  */
-public final class TestDeadlock extends CPATestCase {
+public final class TestDeadlock extends CPAThreadedTestCase {
     /**  The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      * Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(TestDeadlock.class);
@@ -44,33 +48,30 @@ public final class TestDeadlock extends CPATestCase {
      * The time a transaction sleep and wait for another transaction to
      * process
      */
-    public static final long  WAIT = 1000;
+    public static final long WAIT = 2000;
 
-    private static final String DBNAME = "test04";
-    private static final String MAPPING = "/org/castor/cpa/test/test04/mapping.xml";
+    protected static final String DBNAME = "test04";
+    protected static final String MAPPING = "/org/castor/cpa/test/test04/mapping.xml";
     private Database _db;
 
-    /**  AccessMode used in the tests */
-    public static AccessMode      _accessMode;
-
     /** The java object to be synchronized on */
-    public static Object          _lock;
+    protected Object _lock = new Object();
 
     /**  The JDO database used for first concurrent transactions */
-    private Database        _firstDb;
+    private Database _firstDb;
 
     /** The thread that the first transaction is running on */
-    private FirstThread     _firstThread;
+    private FirstRunnable _firstRunnable;
 
-    public Exception       _firstProblem;
+    public Exception _firstProblem;
 
     /** The JDO database used for second concurrent transactions */
-    private Database        _secondDb;
+    private Database _secondDb;
 
     /** The thread that the second transaction is running on  */
-    public static SecondThread    _secondThread;
+    public SecondRunnable _secondRunnable;
 
-    public Exception       _secondProblem;
+    public Exception _secondProblem;
 
     /**
      * Constructor
@@ -148,7 +149,7 @@ public final class TestDeadlock extends CPATestCase {
      * these tests are runing in DbLocked mode, some database might throw 
      * an exception to resolve the deadlock before Castor JDO detects it.
      */
-    public void testDeadlock() throws InterruptedException {
+    public void testDeadlock() {
         LOG.info("Running in access mode shared");
         runOnce(Database.SHARED);
 
@@ -174,8 +175,8 @@ public final class TestDeadlock extends CPATestCase {
     /**
      * Creates threads to test for deadlock detection behaviors.
      */
-    public void runOnce(final AccessMode accessMode) throws InterruptedException {
-        LOG.debug("Note: this test uses a 2 seconds delay between "
+    public void runOnce(final AccessMode accessMode) {
+        LOG.debug("Note: this test uses a 1 seconds delay between "
                 + "threads. CPU and database load might cause the test to not "
                 + "perform synchronously, resulting in erroneous results. Make "
                 + "sure that execution is not hampered by CPU/datebase load.");
@@ -183,31 +184,166 @@ public final class TestDeadlock extends CPATestCase {
         // Run two threads in parallel attempting to update the
         // two objects in a different order, with the first
         // suceeding and second failing
-        _accessMode = accessMode;
-        _lock = new Object();
-        _firstThread = new FirstThread(_firstDb, this);
+        _firstRunnable = new FirstRunnable(this, accessMode);
         _firstProblem = null;
-        _secondThread = new SecondThread(_secondDb, this);
+        _secondRunnable = new SecondRunnable(this, accessMode);
         _secondProblem = null;
+        
+        CPAThreadedTestRunnable[] ctr = {_firstRunnable, _secondRunnable};
+        runTestRunnables(ctr);
 
-        _secondThread.start();
-        _firstThread.start();
-
-        _firstThread.join();
-        _secondThread.join();
-
-        if (!_firstThread._resultOk || !_secondThread._resultOk) {
-            if (!_firstThread._resultOk) {
+        if (_firstProblem != null || _secondProblem != null) {
+            if (_firstProblem != null) {
                 LOG.error("first failed: ", _firstProblem);
             }
-            if (!_secondThread._resultOk) {
+            if (_secondProblem != null) {
                 LOG.error("second failed: ", _secondProblem);
             }
             fail("unexpected deadlock behavior");
         }
     }
     
+    public void firstTransactionRun(final AccessMode accessMode) {
+        Sample object;
+            
+        try {
+            _firstDb.begin();
+            
+            // Sleep one second, and make sure the second thread run first.  
+            Thread.sleep(WAIT);
+            
+            // Load first object and change something about it
+            // (otherwise will not write)
+            LOG.debug("1.1: Loading object " + Sample.DEFAULT_ID);
+            object = _firstDb.load(Sample.class,
+                    new Integer(Sample.DEFAULT_ID), accessMode);
+            object.setValue1(Sample.DEFAULT_VALUE_1 + ":1");
+            LOG.debug("1.2: Modified to " + object);
+
+            // Notify the other thread that it may proceed and suspend
+            // to give the other thread a opportunity.
+            synchronized (_lock) {
+                _lock.notify();
+                _lock.wait();
+            }
+
+            LOG.debug("1.3: Loading object " + (Sample.DEFAULT_ID + 1));
+            object = _firstDb.load(Sample.class, new Integer(
+                    Sample.DEFAULT_ID + 1), accessMode);
+            object.setValue2(Sample.DEFAULT_VALUE_2 + ":1");
+            LOG.debug("1.4: Modified to " + object);
+
+            // Notify the other thread that it may proceed and suspend
+            // to give the other thread a 2 second opportunity.
+            synchronized (_lock) {
+                _lock.notify();
+                _lock.wait(WAIT);
+            }
+
+            // Attempt to commit the transaction, must acquire a write
+            // lock blocking until the first transaction completes.
+            LOG.debug("1.5: Committing");
+
+            _firstDb.commit();
+
+            synchronized (_lock) {
+                _lock.notify();
+            }
+
+            LOG.debug("1.6: Committed");
+        } catch (Exception ex) {
+            _firstProblem = ex;
+            LOG.info("1.X: ", ex);
+        } finally {
+            try {
+                if (_firstDb.isActive()) {
+                    _firstDb.rollback();
+                }
+            } catch (TransactionNotInProgressException ex) {
+            }
+        }
+    }
     
+    public void secondTransactionRun(final AccessMode accessMode) {
+        Sample   object;
 
+        try {
+            _secondDb.begin(); 
 
+            // Suspend and give the other thread a opportunity.
+            synchronized (_lock) {
+                _lock.wait();
+            }
+            
+            // Load first object and change something about it
+            // (otherwise will not write)
+            LOG.debug("2.1: Loading object " + (Sample.DEFAULT_ID + 1));
+            object = _secondDb.load(Sample.class, new Integer(
+                    Sample.DEFAULT_ID + 1), accessMode);
+            object.setValue2(Sample.DEFAULT_VALUE_2 + ":2");
+            LOG.debug("2.2: Modified to " + object);
+            
+            // Notify the other thread that it may proceed and suspend
+            // to give the other thread a 2 second opportunity.
+            synchronized (_lock) {
+                _lock.notify();
+                _lock.wait(WAIT);
+            }
+            
+            LOG.debug("2.3: Loading object " + Sample.DEFAULT_ID);
+            try {
+                object = _secondDb.load(Sample.class, new Integer(
+                        Sample.DEFAULT_ID), accessMode);
+            } catch (LockNotGrantedException ex) {
+                if (accessMode == Database.EXCLUSIVE
+                        || accessMode == Database.DBLOCKED) {
+                    LOG.debug("2.X OK: Deadlock detected");
+                } else {
+                    _secondProblem = ex;
+                    LOG.info("2.X Error: ", ex);
+                }
+                _secondDb.rollback();
+                return;
+            }
+            object.setValue1(Sample.DEFAULT_VALUE_1 + ":2");
+            LOG.debug("2.4: Modified to " + object);
+
+            // Notify the other thread that it may proceed and suspend
+            // to give the other thread a 2 second opportunity.
+            synchronized (_lock) {
+                _lock.notify();
+                _lock.wait(WAIT);
+            }
+            
+            // Attempt to commit the transaction, must acquire a write
+            // lock blocking until the first transaction completes.
+            LOG.debug("2.5: Committing");
+            
+            _secondDb.commit();
+
+            synchronized (_lock) {
+                _lock.notify();
+            }
+            
+            LOG.info("2.6 Error: no deadlock and second committed");
+            _secondProblem = new Exception(
+                    "deadlock not detected");
+        } catch (TransactionAbortedException ex) {
+            if (ex.getCause() instanceof LockNotGrantedException) {
+                LOG.debug("2.X OK: Deadlock detected");
+            } else {
+                _secondProblem = ex;
+                LOG.info("2.X Error: ", ex);
+            }
+            LOG.debug("2.X Second: aborting");
+        } catch (Exception ex) {
+            _secondProblem = ex;
+            LOG.info("2.X Error: ", ex);
+        } finally {
+            try {
+                if (_secondDb.isActive()) { _secondDb.rollback(); }
+            } catch (TransactionNotInProgressException ex) {
+            }
+        }
+    }
 }
