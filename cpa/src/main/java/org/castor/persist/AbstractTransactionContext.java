@@ -667,14 +667,6 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             return;
         }
 
-        if (_tracker.isDeleted(object)) {
-            OID deletedoid = _tracker.getOIDForObject(object);
-            throw new PersistenceException(Messages.format(
-                    "persist.objectAlreadyPersistent", object.getClass()
-                            .getName(), (deletedoid != null) ? deletedoid
-                            .getIdentity() : null));
-        }
-
         // Create the object. This can only happen once for each object in
         // all transactions running on the same engine, so after creation
         // add a new entry for this object and use this object as the view
@@ -696,6 +688,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             } else if (_tracker.isDeleted(object)) {
                 // Undelete it.
                 _tracker.unmarkDeleted(object);
+                return;
             }
         }
 
