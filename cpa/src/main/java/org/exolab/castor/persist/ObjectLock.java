@@ -319,11 +319,32 @@ public final class ObjectLock implements DepositBox {
         _isExpired = false; 
         _expiredObject = null;
     }
+    
+    public void acquireLoadLock(final TransactionContext tx,
+            final boolean write, final int timeout)
+    throws LockNotGrantedException {
+        LockAction action = (write) ? LockAction.WRITE : LockAction.READ;
+        acquireLock(tx, action, timeout);
+    }
+    
+    public void acquireUpdateLock(final TransactionContext tx, final int timeout)
+    throws LockNotGrantedException {
+        acquireLock(tx, LockAction.UPDATE, timeout);
+    }
+    
+    public void acquireCreateLock(final TransactionContext tx)
+    throws LockNotGrantedException {
+        acquireLock(tx, LockAction.CREATE, 0);
+    }
 
-    synchronized void acquireLoadLock(final TransactionContext tx, final boolean write,
-            final int timeout) throws LockNotGrantedException {
-        long endtime = (timeout > 0) ? System.currentTimeMillis() + timeout
-                * 1000 : Long.MAX_VALUE;
+    private synchronized void acquireLock(final TransactionContext tx,
+            final LockAction action, final int timeout)
+    throws LockNotGrantedException {
+        long endtime = Long.MAX_VALUE;
+        if (timeout > 0) {
+            endtime = System.currentTimeMillis() + timeout * 1000;
+        }
+
         while (true) {
             // cases to consider:
             // 3/ waitingForConfirmation exist
@@ -339,47 +360,42 @@ public final class ObjectLock implements DepositBox {
             //      then, put it tx into read/write waiting
             // 2/ read exist
             //      then, put it read, or write waiting
-            if (_deleted) {
+            if (_deleted && (action != LockAction.UPDATE) && (action != LockAction.CREATE)) {
                 throw new ObjectDeletedWaitingForLockException("Object deleted");
-            } else if (_confirmWaitingTransaction != null) {
-                // other thread is loading or creating object and haven't finished
+            } else if ((_confirmWaitingTransaction != null) || _deleted) {
+                // other thread haven't finished
                 try {
                     _waitCount++;
                     wait();                        
+                    while (_deleted && (action == LockAction.CREATE)) {
+                        wait();
+                    }
                 } catch (InterruptedException e) {
                     throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
                 } finally {
                     _waitCount--;
                 }
-            } else if (_writeTransaction == tx) {
-                //throw new IllegalStateException(
-                //        "Transaction: " + tx + " has already hold the write lock on "
-                //        + _oid + " Acquire shouldn't be called twice");
-                return;
-            } else if ((_readTransactions.isEmpty()) && (_writeTransaction == null) && write) {
-                // no transaction hold any lock,
-                _confirmWaitingTransaction = tx;
-                _confirmWaitingAction = LockAction.WRITE;
-                return;
-            } else if ((_readTransactions.isEmpty()) && (_writeTransaction == null) && !write) {
+            } else if ((_writeTransaction == null) && _readTransactions.isEmpty()) {
                 // no transaction hold any lock, 
-                if (_object == null) {
+                if ((_object != null) && (action == LockAction.READ)) {
+                    _readTransactions.add(tx);
+                } else {
                     _confirmWaitingTransaction = tx;
-                    _confirmWaitingAction = LockAction.READ;
-                    return;
+                    _confirmWaitingAction = action;
                 }
-                _readTransactions.add(tx);
-                return;
-            } else if ((!_readTransactions.isEmpty()) && !write) {
-                // already a transaction holding read lock, can acquire read lock
-                if (_readTransactions.contains(tx)) {
-                    return;
-                }
-                // if not already in readLock
-                _readTransactions.add(tx);
                 return;
             } else {
-                waitingForLock(tx, write, endtime);
+                if (action == LockAction.CREATE) {
+                    throw new LockNotGrantedException("Lock already exist!");
+                } else if (_writeTransaction == tx) {
+                    return;
+                } else if (!_readTransactions.isEmpty() && (action == LockAction.READ)) {
+                    if (!_readTransactions.contains(tx)) {
+                        _readTransactions.add(tx);
+                    }
+                    return;
+                }
+                waitingForLock(tx, (action != LockAction.READ), endtime);
             }
         }
     }
@@ -445,77 +461,6 @@ public final class ObjectLock implements DepositBox {
         } finally {
             removeWaiting(tx);
             tx.setWaitOnLock(null);
-        }
-    }
-
-    synchronized void acquireCreateLock(final TransactionContext tx)
-    throws LockNotGrantedException {
-        while (true) {
-            // cases to consider:
-            // 1/ waitingForConfirmation exist
-            // 2/ lock can't be granted, throw LockNotGrantedException
-            // 3/ lock can be granted
-            //      then, we return and wait for confirmation
-            if (_deleted || (_confirmWaitingTransaction != null)) {
-                // other thread is loading or creating object and haven't finished
-                try {
-                    _waitCount++;
-                    wait();
-                    while (_deleted) {
-                        wait();
-                    }
-                } catch (InterruptedException e) {
-                    throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
-                } finally {
-                    _waitCount--;
-                }
-            } else if ((!_readTransactions.isEmpty()) || (_writeTransaction != null)) {
-                throw new LockNotGrantedException("Lock already exist!");
-            } else {
-                _confirmWaitingTransaction = tx;
-                _confirmWaitingAction = LockAction.CREATE;
-                return;
-            }
-        }
-    }
-
-    // probaraly we just don't need update....
-    synchronized void acquireUpdateLock(final TransactionContext tx, final int timeout)
-    throws LockNotGrantedException {
-        int internalTimeout = timeout;
-        long endtime = (internalTimeout > 0)
-                     ? System.currentTimeMillis() + internalTimeout * 1000
-                     : Long.MAX_VALUE;
-        while (true) {
-            // case to consider:
-            // 1/ waitingForConfirmation exist
-            // 2/ lock can be granted, and _object is not empty
-            //      then, we return and wait for confirmation
-            // 3/ lock can not granted, wait
-
-            if (_deleted || (_confirmWaitingTransaction != null)) {
-                try {
-                    _waitCount++;
-                    wait();
-                    /*
-                    if ( _deleted ) {
-                        throw new ObjectDeletedWaitingForLockException("Object deleted!");
-                    }*/
-                } catch (InterruptedException e) {
-                    throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
-                } finally {
-                    _waitCount--;
-                }
-            } else if (_writeTransaction == tx) {
-                return;
-            } else if ((_writeTransaction == null) && (_readTransactions.isEmpty())) {
-                // can get the lock now
-                _confirmWaitingTransaction = tx;
-                _confirmWaitingAction = LockAction.UPDATE;
-                return;
-            } else {
-                waitingForLock(tx, true, endtime);
-            }
         }
     }
 
