@@ -69,7 +69,7 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
      */
     public static final short MIXED_CASE_STYLE = 1;
 
-    private static short _style = LOWER_CASE_STYLE;
+    private short _style = LOWER_CASE_STYLE;
 
     /**
      * Creates a new DefaultNaming
