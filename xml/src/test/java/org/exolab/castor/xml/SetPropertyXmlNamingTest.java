@@ -65,12 +65,12 @@ public class SetPropertyXmlNamingTest extends TestCase {
 
     public void testSetMarshallerToMixed() throws Exception {
         XMLContext xmlContext = new XMLContext();
+        xmlContext.setProperty("org.exolab.castor.xml.naming", "mixed");
         xmlContext.addClass(Foo.class);
 
         StringWriter writer = new StringWriter();
         Marshaller marshaller = xmlContext.createMarshaller();
         marshaller.setWriter(writer);
-        marshaller.setProperty("org.exolab.castor.xml.naming", "mixed");
         marshaller.marshal(new Foo());
 
         assertEquals(RESULT, writer.toString());
