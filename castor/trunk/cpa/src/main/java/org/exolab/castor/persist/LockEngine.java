@@ -64,6 +64,7 @@ import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
+import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.ObjectDeletedException;
@@ -270,14 +271,11 @@ public final class LockEngine {
      * @throws ObjectDeletedWaitingForLockException The object has been deleted, but is waiting
      *         for a lock.
      */
-    public void load(final AbstractTransactionContext tx, final OID paramoid,
+    public void load(final AbstractTransactionContext tx, final OID oid,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
             final int timeout, final QueryResults results, final ClassMolder paramMolder,
             final Identity identity)
-    throws PersistenceException, InstantiationException, IllegalAccessException,
-    ClassNotFoundException {
-        OID oid = paramoid;
-        
+    throws PersistenceException {
         TypeInfo typeinfo = getTypeInfo(oid.getTypeName());
         ClassMolder molder = _classMolderRegistry.getClassMolderWithDependent(oid.getTypeName());
         if (typeinfo == null || molder == null) {
@@ -285,104 +283,131 @@ public final class LockEngine {
                     "persist.classNotPersistenceCapable", oid.getTypeName()));
         }
         
-        InstanceFactory entityFactory = tx.getInstanceFactory();
-        ClassLoader entityLoader = tx.getDatabase().getClassLoader();
-
-        // Check whether an instance was given to the load method.
-        Object objectInTx;
-        if (proposedObject.getEntity() != null) {
-            objectInTx = proposedObject.getEntity();
-        } else {
-            if (entityFactory != null) {
-                objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
-            } else {
-                objectInTx = molder.newInstance(entityLoader);
-            }
-        }
-        
-        molder.setIdentity(tx, objectInTx, identity);
-        
-        proposedObject.setProposedEntityClass(objectInTx.getClass());
-        proposedObject.setActualEntityClass(objectInTx.getClass());
-        proposedObject.setEntity(objectInTx);
-
-        tx.trackObject(molder, oid, proposedObject.getEntity());
-        
         AccessMode accessMode = molder.getAccessMode(suggestedAccessMode);
+        LockAction action = LockAction.READ;
+        if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked)) {
+            action = LockAction.WRITE;
+        }
 
         boolean succeed = false;
         ObjectLock lock = null;
         try {
-            LockAction action;
-            if ((accessMode == AccessMode.Exclusive) || (accessMode == AccessMode.DbLocked)) {
-                action = LockAction.WRITE;
-            } else {
-                action = LockAction.READ;
-            }
-
             lock = typeinfo.acquire(oid, tx, action, timeout);
             
-            // (lock.getObject() == null) indicates a cache miss
-            if (lock.getObject() == null) {
-                // We always need to load at cache miss
-                molder.load(tx, lock, proposedObject, accessMode, results);
-                // Change the OID's name because the object's type changed.
-                lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
-            } else {
-                // cache hit, then remember if entity is extended or not
-                proposedObject.setExpanded(!oid.getTypeName().equals(lock.getOID().getTypeName()));
-                // cache hit, then track the cached oid
-                if (!proposedObject.isExpanded()) {
-                    tx.untrackObject(proposedObject.getEntity());
-                    tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
-                }
-            }      
-            
-            if (proposedObject.isExpanded()) {
-                // Remove old object from ObjectTracker
-                tx.untrackObject(proposedObject.getEntity());
-                
-                // Get the actual ClassMolder
-                molder = _classMolderRegistry.getClassMolderWithDependent(
-                        lock.getOID().getTypeName());
-                
-                // Create instance of 'expanded object'
-                if (entityFactory != null) {
-                    objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
-                } else {
-                    objectInTx = molder.newInstance(entityLoader);
-                }
+            try {
+                InstanceFactory entityFactory = tx.getInstanceFactory();
+                ClassLoader entityLoader = tx.getDatabase().getClassLoader();
 
+                // Check whether an instance was given to the load method.
+                Object objectInTx;
+                if (proposedObject.getEntity() != null) {
+                    objectInTx = proposedObject.getEntity();
+                } else {
+                    if (entityFactory != null) {
+                        objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
+                    } else {
+                        objectInTx = molder.newInstance(entityLoader);
+                    }
+                }
+                
                 molder.setIdentity(tx, objectInTx, identity);
                 
-                proposedObject.setActualClassMolder(null);
+                proposedObject.setProposedEntityClass(objectInTx.getClass());
+                proposedObject.setActualEntityClass(objectInTx.getClass());
                 proposedObject.setEntity(objectInTx);
-                proposedObject.setExpanded(false);
 
-                // Add new object to ObjectTracker
-                tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
-            }
-            // Set fields at proposed object
-            proposedObject.setFields(lock.getObject(tx));
+                tx.trackObject(molder, oid, proposedObject.getEntity());
             
-            proposedObject.setActualClassMolder(molder);
+                // (lock.getObject() == null) indicates a cache miss
+                if (lock.getObject() == null) {
+                    // We always need to load at cache miss
+                    molder.load(tx, lock, proposedObject, accessMode, results);
+                    // Change the OID's name because the object's type changed.
+                    lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
+                } else {
+                    // cache hit, then remember if entity is extended or not
+                    proposedObject.setExpanded(!oid.getTypeName().equals(
+                            lock.getOID().getTypeName()));
+                    // cache hit, then track the cached oid
+                    if (!proposedObject.isExpanded()) {
+                        tx.untrackObject(proposedObject.getEntity());
+                        tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
+                    }
+                }      
+                
+                if (proposedObject.isExpanded()) {
+                    // Remove old object from ObjectTracker
+                    tx.untrackObject(proposedObject.getEntity());
+                    
+                    // Get the actual ClassMolder
+                    molder = _classMolderRegistry.getClassMolderWithDependent(
+                            lock.getOID().getTypeName());
+                    
+                    // Create instance of 'expanded object'
+                    if (entityFactory != null) {
+                        objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
+                    } else {
+                        objectInTx = molder.newInstance(entityLoader);
+                    }
 
-            // Load the fields from the persistent storage if fields are not set yet
-            // or if access mode is DbLocked (thus guaranteeing that a lock at the
-            // database level will be created)
-            if (!proposedObject.isFieldsSet() || (accessMode == AccessMode.DbLocked)) {
-                molder.load(tx, lock, proposedObject, accessMode, results);
+                    molder.setIdentity(tx, objectInTx, identity);
+                    
+                    proposedObject.setActualClassMolder(null);
+                    proposedObject.setEntity(objectInTx);
+                    proposedObject.setExpanded(false);
+
+                    // Add new object to ObjectTracker
+                    tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
+                }
+                // Set fields at proposed object
+                proposedObject.setFields(lock.getObject(tx));
+                
+                proposedObject.setActualClassMolder(molder);
+
+                // Load the fields from the persistent storage if fields are not set yet
+                // or if access mode is DbLocked (thus guaranteeing that a lock at the
+                // database level will be created)
+                if (!proposedObject.isFieldsSet() || (accessMode == AccessMode.DbLocked)) {
+                    molder.load(tx, lock, proposedObject, accessMode, results);
+                }
+
+                // Mold fields into entity
+                molder.mold(tx, lock, proposedObject, accessMode);
+
+                if (_log.isDebugEnabled()) {
+                    _log.debug(Messages.format("jdo.loading.with.id",
+                            molder.getName(), oid.getIdentity()));
+                }
+
+                succeed = true;
+            } catch (ClassCastException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw except;
+            } catch (ObjectDeletedWaitingForLockException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw except;
+            } catch (ObjectNotFoundException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw except;
+            } catch (ConnectionFailedException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw except;
+            } catch (LockNotGrantedException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw except;
+            } catch (ClassNotPersistenceCapableException except) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw new PersistenceException(Messages.format("persist.nested", except));
+            } catch (InstantiationException e) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw new PersistenceException(e.getMessage(), e);
+            } catch (IllegalAccessException e) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw new PersistenceException(e.getMessage(), e);
+            } catch (ClassNotFoundException e) {
+                tx.untrackObject(proposedObject.getEntity());
+                throw new PersistenceException(e.getMessage(), e);
             }
-
-            // Mold fields into entity
-            molder.mold(tx, lock, proposedObject, accessMode);
-
-            if (_log.isDebugEnabled()) {
-                _log.debug(Messages.format("jdo.loading.with.id",
-                        molder.getName(), oid.getIdentity()));
-            }
-
-            succeed = true;
         } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object does not exist
             throw new ObjectNotFoundException(Messages.format(
