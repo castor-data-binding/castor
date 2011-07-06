@@ -555,34 +555,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // through the persistence engine with the requested lock. This might report
         // failure (object no longer exists), hold until a suitable lock is granted
         // (or fail to grant), or report error with the persistence engine.
-        try {
-            engine.load(this, oid, proposedObject, suggestedAccessMode,
-                    _lockTimeout, results, molder, identity);
-        } catch (ClassCastException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw except;
-        } catch (ObjectNotFoundException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw except;
-        } catch (ConnectionFailedException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw except;
-        } catch (LockNotGrantedException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw except;
-        } catch (ClassNotPersistenceCapableException except) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw new PersistenceException(Messages.format("persist.nested", except));
-        } catch (InstantiationException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw new PersistenceException(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw new PersistenceException(e.getMessage(), e);
-        } catch (ClassNotFoundException e) {
-            _tracker.untrackObject(proposedObject.getEntity());
-            throw new PersistenceException(e.getMessage(), e);
-        }
+        engine.load(this, oid, proposedObject, suggestedAccessMode,
+                _lockTimeout, results, molder, identity);
 
         objectInTx = proposedObject.getEntity();
         
