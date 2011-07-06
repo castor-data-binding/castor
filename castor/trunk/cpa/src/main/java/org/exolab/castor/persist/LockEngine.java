@@ -64,7 +64,6 @@ import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
-import org.exolab.castor.jdo.ConnectionFailedException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.ObjectDeletedException;
@@ -255,21 +254,15 @@ public final class LockEngine {
      * OID is always returned.
      *
      * @param tx The transaction context
-     * @param paramoid The identity of the object to load
+     * @param oid The identity of the object to load
      * @param proposedObject The type of the object to load
      * @param suggestedAccessMode The desired access mode
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
-     * @throws ObjectNotFoundException The object was not found in
-     *  persistent storage
-     * @throws LockNotGrantedException Timeout or deadlock occured
-     *  attempting to acquire lock on object
-     * @throws PersistenceException An error reported by the
-     *  persistence engine
-     * @throws ClassNotPersistenceCapableException The class is not
-     *  persistent capable
-     * @throws ObjectDeletedWaitingForLockException The object has been deleted, but is waiting
-     *         for a lock.
+     * @param results the QueryResults
+     * @param paramMolder the ClassMolder
+     * @param identity the Identity
+     * @throws PersistenceException An error reported by the persistence engine
      */
     public void load(final AbstractTransactionContext tx, final OID oid,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode,
@@ -294,107 +287,75 @@ public final class LockEngine {
         try {
             lock = typeinfo.acquire(oid, tx, action, timeout);
             
-            try {
-                InstanceFactory entityFactory = tx.getInstanceFactory();
-                ClassLoader entityLoader = tx.getDatabase().getClassLoader();
+            // Check whether an instance was given to the load method.
+            Object objectInTx;
+            if (proposedObject.getEntity() != null) {
+                objectInTx = proposedObject.getEntity();
+            } else {
+                objectInTx = molder.newInstance(tx);
+            }
+            
+            molder.setIdentity(tx, objectInTx, identity);
+            
+            proposedObject.setProposedEntityClass(objectInTx.getClass());
+            proposedObject.setActualEntityClass(objectInTx.getClass());
+            proposedObject.setEntity(objectInTx);
 
-                // Check whether an instance was given to the load method.
-                Object objectInTx;
-                if (proposedObject.getEntity() != null) {
-                    objectInTx = proposedObject.getEntity();
-                } else {
-                    if (entityFactory != null) {
-                        objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
-                    } else {
-                        objectInTx = molder.newInstance(entityLoader);
-                    }
-                }
+            // (lock.getObject() == null) indicates a cache miss
+            if (lock.getObject() == null) {
+                // We always need to load at cache miss
+                molder.load(tx, lock, proposedObject, accessMode, results);
+                // Change the OID's name because the object's type changed.
+                lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
+            } else {
+                // cache hit, then remember if entity is extended or not
+                proposedObject.setExpanded(!oid.getTypeName().equals(
+                        lock.getOID().getTypeName()));
+            }      
+            
+            if (proposedObject.isExpanded()) {
+                // Get the actual ClassMolder
+                molder = _classMolderRegistry.getClassMolderWithDependent(
+                        lock.getOID().getTypeName());
                 
+                // Create instance of 'expanded object'
+                objectInTx = molder.newInstance(tx);
+
                 molder.setIdentity(tx, objectInTx, identity);
                 
-                proposedObject.setProposedEntityClass(objectInTx.getClass());
-                proposedObject.setActualEntityClass(objectInTx.getClass());
                 proposedObject.setEntity(objectInTx);
-
-                // (lock.getObject() == null) indicates a cache miss
-                if (lock.getObject() == null) {
-                    // We always need to load at cache miss
-                    molder.load(tx, lock, proposedObject, accessMode, results);
-                    // Change the OID's name because the object's type changed.
-                    lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
-                } else {
-                    // cache hit, then remember if entity is extended or not
-                    proposedObject.setExpanded(!oid.getTypeName().equals(
-                            lock.getOID().getTypeName()));
-                }      
-                
-                if (proposedObject.isExpanded()) {
-                    // Get the actual ClassMolder
-                    molder = _classMolderRegistry.getClassMolderWithDependent(
-                            lock.getOID().getTypeName());
-                    
-                    // Create instance of 'expanded object'
-                    if (entityFactory != null) {
-                        objectInTx = entityFactory.newInstance(molder.getName(), entityLoader);
-                    } else {
-                        objectInTx = molder.newInstance(entityLoader);
-                    }
-
-                    molder.setIdentity(tx, objectInTx, identity);
-                    
-                    proposedObject.setActualClassMolder(null);
-                    proposedObject.setEntity(objectInTx);
-                    proposedObject.setExpanded(false);
-                }
-                // Set fields at proposed object
-                proposedObject.setFields(lock.getObject(tx));
-                
-                proposedObject.setActualClassMolder(molder);
-
-                // Load the fields from the persistent storage if fields are not set yet
-                // or if access mode is DbLocked (thus guaranteeing that a lock at the
-                // database level will be created)
-                if (!proposedObject.isFieldsSet() || (accessMode == AccessMode.DbLocked)) {
-                    molder.load(tx, lock, proposedObject, accessMode, results);
-                }
-
-                // Add new object to ObjectTracker
-                tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
-
-                // Mold fields into entity
-                try {
-                    molder.mold(tx, lock, proposedObject, accessMode);
-                } catch (PersistenceException ex) {
-                    // Remove object from ObjectTracker in case of exception
-                    tx.untrackObject(proposedObject.getEntity());
-                    throw ex;
-                }
-
-                if (_log.isDebugEnabled()) {
-                    _log.debug(Messages.format("jdo.loading.with.id",
-                            molder.getName(), oid.getIdentity()));
-                }
-
-                succeed = true;
-            } catch (ClassCastException except) {
-                throw except;
-            } catch (ObjectDeletedWaitingForLockException except) {
-                throw except;
-            } catch (ObjectNotFoundException except) {
-                throw except;
-            } catch (ConnectionFailedException except) {
-                throw except;
-            } catch (LockNotGrantedException except) {
-                throw except;
-            } catch (ClassNotPersistenceCapableException except) {
-                throw new PersistenceException(Messages.format("persist.nested", except));
-            } catch (InstantiationException e) {
-                throw new PersistenceException(e.getMessage(), e);
-            } catch (IllegalAccessException e) {
-                throw new PersistenceException(e.getMessage(), e);
-            } catch (ClassNotFoundException e) {
-                throw new PersistenceException(e.getMessage(), e);
+                proposedObject.setExpanded(false);
             }
+            // Set fields at proposed object
+            proposedObject.setFields(lock.getObject(tx));
+            
+            proposedObject.setActualClassMolder(molder);
+
+            // Load the fields from the persistent storage if fields are not set yet
+            // or if access mode is DbLocked (thus guaranteeing that a lock at the
+            // database level will be created)
+            if (!proposedObject.isFieldsSet() || (accessMode == AccessMode.DbLocked)) {
+                molder.load(tx, lock, proposedObject, accessMode, results);
+            }
+
+            // Add new object to ObjectTracker
+            tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
+
+            // Mold fields into entity
+            try {
+                molder.mold(tx, lock, proposedObject, accessMode);
+            } catch (PersistenceException ex) {
+                // Remove object from ObjectTracker in case of exception
+                tx.untrackObject(proposedObject.getEntity());
+                throw ex;
+            }
+
+            if (_log.isDebugEnabled()) {
+                _log.debug(Messages.format("jdo.loading.with.id",
+                        molder.getName(), oid.getIdentity()));
+            }
+
+            succeed = true;    
         } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object does not exist
             throw new ObjectNotFoundException(Messages.format(
@@ -406,7 +367,7 @@ public final class LockEngine {
             if (lock != null) { lock.confirm(tx, succeed); }
         }
     }
-    
+
     /**
      * Mark an object and its related or dependent object to be created.
      *
@@ -614,7 +575,7 @@ public final class LockEngine {
      *  transaction.
      * @throws ObjectDeletedWaitingForLockException
      */
-    public boolean update(final TransactionContext tx, final OID oid, final Object object,
+    public boolean update(final AbstractTransactionContext tx, final OID oid, final Object object,
             final AccessMode suggestedAccessMode, final int timeout) throws PersistenceException {
         // If the object is new, don't try to load it from the cache
         TypeInfo typeInfo = getTypeInfo(oid.getTypeName());
