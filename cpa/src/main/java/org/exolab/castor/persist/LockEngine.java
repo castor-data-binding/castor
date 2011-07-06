@@ -316,8 +316,6 @@ public final class LockEngine {
                 proposedObject.setActualEntityClass(objectInTx.getClass());
                 proposedObject.setEntity(objectInTx);
 
-                tx.trackObject(molder, oid, proposedObject.getEntity());
-            
                 // (lock.getObject() == null) indicates a cache miss
                 if (lock.getObject() == null) {
                     // We always need to load at cache miss
@@ -328,17 +326,9 @@ public final class LockEngine {
                     // cache hit, then remember if entity is extended or not
                     proposedObject.setExpanded(!oid.getTypeName().equals(
                             lock.getOID().getTypeName()));
-                    // cache hit, then track the cached oid
-                    if (!proposedObject.isExpanded()) {
-                        tx.untrackObject(proposedObject.getEntity());
-                        tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
-                    }
                 }      
                 
                 if (proposedObject.isExpanded()) {
-                    // Remove old object from ObjectTracker
-                    tx.untrackObject(proposedObject.getEntity());
-                    
                     // Get the actual ClassMolder
                     molder = _classMolderRegistry.getClassMolderWithDependent(
                             lock.getOID().getTypeName());
@@ -355,9 +345,6 @@ public final class LockEngine {
                     proposedObject.setActualClassMolder(null);
                     proposedObject.setEntity(objectInTx);
                     proposedObject.setExpanded(false);
-
-                    // Add new object to ObjectTracker
-                    tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
                 }
                 // Set fields at proposed object
                 proposedObject.setFields(lock.getObject(tx));
@@ -371,8 +358,17 @@ public final class LockEngine {
                     molder.load(tx, lock, proposedObject, accessMode, results);
                 }
 
+                // Add new object to ObjectTracker
+                tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
+
                 // Mold fields into entity
-                molder.mold(tx, lock, proposedObject, accessMode);
+                try {
+                    molder.mold(tx, lock, proposedObject, accessMode);
+                } catch (PersistenceException ex) {
+                    // Remove object from ObjectTracker in case of exception
+                    tx.untrackObject(proposedObject.getEntity());
+                    throw ex;
+                }
 
                 if (_log.isDebugEnabled()) {
                     _log.debug(Messages.format("jdo.loading.with.id",
@@ -381,31 +377,22 @@ public final class LockEngine {
 
                 succeed = true;
             } catch (ClassCastException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw except;
             } catch (ObjectDeletedWaitingForLockException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw except;
             } catch (ObjectNotFoundException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw except;
             } catch (ConnectionFailedException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw except;
             } catch (LockNotGrantedException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw except;
             } catch (ClassNotPersistenceCapableException except) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw new PersistenceException(Messages.format("persist.nested", except));
             } catch (InstantiationException e) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw new PersistenceException(e.getMessage(), e);
             } catch (IllegalAccessException e) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw new PersistenceException(e.getMessage(), e);
             } catch (ClassNotFoundException e) {
-                tx.untrackObject(proposedObject.getEntity());
                 throw new PersistenceException(e.getMessage(), e);
             }
         } catch (ObjectDeletedWaitingForLockException except) {
