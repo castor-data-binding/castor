@@ -55,6 +55,7 @@ import org.castor.core.util.Messages;
 import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.cpa.persistence.sql.engine.SQLRelationLoader;
 import org.castor.jdo.util.ClassLoadingUtils;
+import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
@@ -79,6 +80,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.xml.NamedNativeQuery;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
 import org.exolab.castor.persist.spi.Identity;
+import org.exolab.castor.persist.spi.InstanceFactory;
 import org.exolab.castor.persist.spi.Persistence;
 
 /**
@@ -400,15 +402,10 @@ public class ClassMolder {
         return molders;
     }
 
-    public void loadTimeStamp(final TransactionContext tx, final DepositBox locker,
+    public void loadTimeStamp(final AbstractTransactionContext tx, final DepositBox locker,
             final AccessMode suggestedAccessMode)
     throws PersistenceException {
-        Object loadObject = null;
-        try {
-            loadObject = newInstance(tx.getClassLoader());
-        } catch (Exception ex) {
-            throw new PersistenceException("failed to load object", ex);
-        }
+        Object loadObject = newInstance(tx);
 
         ProposedEntity proposedObject = new ProposedEntity(this);
         proposedObject.setProposedEntityClass(loadObject.getClass());
@@ -1082,22 +1079,28 @@ public class ClassMolder {
     }
 
     /**
-     * Return a new instance of the base class with the provided ClassLoader object.
-     *
-     * @param loader the ClassLoader object to use to create a new object.
-     * @return Object the object reprenseted by this ClassMolder, and instanciated with the
-     *         provided ClassLoader instance.
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
+     * Return a new instance of the base class with InstanceFactory and ClassLoader 
+     * of the provided AbstractTransactionContext.
+     * 
+     * @param tx The TransactionContext.
+     * @return An object for the ClassMolder.
+     * @throws PersistenceException 
      */
-    public Object newInstance(final ClassLoader loader)
-    throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        Class<?> aClass = null;
-        aClass = ClassLoadingUtils.loadClass(loader, _name);
-        return aClass.newInstance();
+    public Object newInstance(final AbstractTransactionContext tx)
+    throws PersistenceException {
+        try { 
+            InstanceFactory entityFactory = tx.getInstanceFactory();
+            ClassLoader entityLoader = tx.getDatabase().getClassLoader();
+            if (entityFactory != null) {
+                return entityFactory.newInstance(_name, entityLoader);
+            }
+            Class<?> aClass = ClassLoadingUtils.loadClass(entityLoader, _name);
+            return aClass.newInstance();
+        } catch (Exception e) {
+            throw new PersistenceException(e.getMessage(), e);
+        }
     }
-
+    
     /**
      * Get the effective accessMode of the the base type.
      * 
