@@ -331,7 +331,7 @@
                     </entry>
                     <entry>
                         A class that implements
-                        <classname>org.exolab.castor.xml.validators.RegExpValidator</classname>
+                        <classname>org.exolab.castor.util.RegExpValidator</classname>
                         .
                     </entry>
                     <entry>-</entry>

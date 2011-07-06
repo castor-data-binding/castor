@@ -166,7 +166,7 @@
       		<td>org.exolab.castor.regexp</td>
       		<td>Specifies the regular expression validator to use.</td>
       		<td>A class that implements 
-      		    <api href="org.exolab.castor.xml.validators.RegExpValidator">RegExpValidator</api>.</td>
+      		    <api href="org.exolab.castor.util.RegExpValidator">RegExpValidator</api>.</td>
       		<td> - </td>
       		<td> - </td>
       	</crow>
