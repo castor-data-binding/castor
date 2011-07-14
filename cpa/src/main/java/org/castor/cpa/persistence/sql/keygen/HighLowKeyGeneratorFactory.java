@@ -23,7 +23,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 /**
  * HIGH-LOW key generator factory. The short name of this key generator is "HIGH-LOW".
  * <br/>
- * It uses the following alrorithm: a special sequence table must be in the database which keeps
+ * It uses the following algorithm: a special sequence table must be in the database which keeps
  * the maximum key values. The name of the sequence table is a mandatory parameter of the key
  * generator, the parameter name is "table". The name of the primary key column of the sequence
  * table and the name of the column in which maximum values are stored are mandatory parameters
