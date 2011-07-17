@@ -32,6 +32,9 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
 
     private static final Log LOG = LogFactory.getLog(TableKeyGenerator.class);

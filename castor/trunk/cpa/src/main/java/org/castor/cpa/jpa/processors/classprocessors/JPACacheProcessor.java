@@ -28,6 +28,9 @@ import org.castor.cpa.jpa.annotations.CacheProperty;
 import org.castor.cpa.jpa.natures.JPAClassNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
     
     /**

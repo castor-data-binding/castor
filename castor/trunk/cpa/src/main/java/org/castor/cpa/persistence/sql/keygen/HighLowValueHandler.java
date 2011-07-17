@@ -22,6 +22,9 @@ import java.sql.SQLException;
 import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandler;
 import org.exolab.castor.jdo.PersistenceException;
 
+/**
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ */
 public final class HighLowValueHandler <T> {
     private final String _table;
     private final int _grab;
