@@ -73,7 +73,6 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
-import org.exolab.castor.persist.spi.InstanceFactory;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.xml.ClassDescriptorResolver;
@@ -287,49 +286,45 @@ public final class LockEngine {
         try {
             lock = typeinfo.acquire(oid, tx, action, timeout);
             
-            // Check whether an instance was given to the load method.
-            Object objectInTx;
-            if (proposedObject.getEntity() != null) {
-                objectInTx = proposedObject.getEntity();
-            } else {
-                objectInTx = molder.newInstance(tx);
-            }
-            
-            molder.setIdentity(tx, objectInTx, identity);
-            
-            proposedObject.setProposedEntityClass(objectInTx.getClass());
-            proposedObject.setActualEntityClass(objectInTx.getClass());
-            proposedObject.setEntity(objectInTx);
-
             // (lock.getObject() == null) indicates a cache miss
             if (lock.getObject() == null) {
                 // We always need to load at cache miss
                 molder.load(tx, lock, proposedObject, accessMode, results);
                 // Change the OID's name because the object's type changed.
-                lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
+                if (proposedObject.isExpanded()) {
+                    lock.getOID().setTypeName(proposedObject.getActualEntityClass().getName());
+                }
             } else {
                 // cache hit, then remember if entity is extended or not
                 proposedObject.setExpanded(!oid.getTypeName().equals(
                         lock.getOID().getTypeName()));
-            }      
+            }
             
             if (proposedObject.isExpanded()) {
                 // Get the actual ClassMolder
                 molder = _classMolderRegistry.getClassMolderWithDependent(
                         lock.getOID().getTypeName());
-                
-                // Create instance of 'expanded object'
-                objectInTx = molder.newInstance(tx);
-
-                molder.setIdentity(tx, objectInTx, identity);
-                
-                proposedObject.setEntity(objectInTx);
                 proposedObject.setExpanded(false);
             }
+            
+            // Check whether an instance was given to the load method.
+            Object objectInTx;
+            if (proposedObject.getEntity() != null
+                    && proposedObject.getEntity().getClass().getName()
+                            .equals(molder.getName())) {
+                objectInTx = proposedObject.getEntity();
+            } else {
+                objectInTx = molder.newInstance(tx);
+            }
+            
+            proposedObject.setProposedEntityClass(objectInTx.getClass());
+            proposedObject.setActualEntityClass(objectInTx.getClass());
+            proposedObject.setEntity(objectInTx); 
+            proposedObject.setActualClassMolder(molder);
+            
+            molder.setIdentity(tx, objectInTx, identity);     
             // Set fields at proposed object
             proposedObject.setFields(lock.getObject(tx));
-            
-            proposedObject.setActualClassMolder(molder);
 
             // Load the fields from the persistent storage if fields are not set yet
             // or if access mode is DbLocked (thus guaranteeing that a lock at the
