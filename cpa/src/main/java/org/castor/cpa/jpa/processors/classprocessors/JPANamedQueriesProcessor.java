@@ -32,6 +32,8 @@ import java.util.Map;
 /**
  * Processes the JPA annotation {@link NamedQuery}. After this processor is
  * done, {@link JPAClassNature#getNamedQuery()} returns a valid value!
+ * 
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  */
 public class JPANamedQueriesProcessor extends BaseJPAAnnotationProcessor {
     

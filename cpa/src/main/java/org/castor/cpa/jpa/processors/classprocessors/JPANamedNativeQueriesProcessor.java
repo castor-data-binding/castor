@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.NamedNativeQueries;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPANamedNativeQueriesProcessor extends BaseJPAAnnotationProcessor {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons

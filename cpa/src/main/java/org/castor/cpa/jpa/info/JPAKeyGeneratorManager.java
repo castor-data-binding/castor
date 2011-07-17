@@ -18,6 +18,9 @@ package org.castor.cpa.jpa.info;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPAKeyGeneratorManager {
 
     private Map<String, JPAKeyGeneratorDescriptor> _generators =

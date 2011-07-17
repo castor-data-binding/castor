@@ -26,6 +26,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPAMappedSuperclassProcessor extends BaseJPAAnnotationProcessor {
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons

@@ -17,6 +17,9 @@ package org.castor.cpa.jpa.info;
 
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPAUniqueConstraint {
     
     private String[] _columnNames;

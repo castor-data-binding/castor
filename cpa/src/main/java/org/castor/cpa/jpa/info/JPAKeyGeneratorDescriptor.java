@@ -15,6 +15,9 @@
  */
 package org.castor.cpa.jpa.info;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public abstract class JPAKeyGeneratorDescriptor {
     private String _name;
     private int _allocationSize;

@@ -18,6 +18,9 @@ package org.castor.cpa.jpa.info;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ */
 public class JPATableGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
 
     private String _pkColumnName;

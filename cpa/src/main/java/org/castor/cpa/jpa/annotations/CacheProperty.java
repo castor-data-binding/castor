@@ -25,6 +25,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Defines a key-value pair which can be used for defining properties of both,<br/>
  * built-in and external vendor-specific cache engines.
+ * 
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  */
 @Documented
 @Target(value = TYPE)

@@ -25,6 +25,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies an array of cache properties.
+ * 
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  */
 @Documented
 @Target(value = TYPE)

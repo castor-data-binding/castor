@@ -43,6 +43,8 @@ import javax.persistence.PreUpdate;
 
 /**
  * Handles JPA annotation-driven callback hooks.
+ * 
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  */
 public class JPACallbackHandler implements CallbackInterceptor {
 

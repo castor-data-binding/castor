@@ -38,6 +38,12 @@ import org.exolab.castor.jdo.engine.SQLColumnInfo;
  /**
   * SQLStatementInsertCheck class to check duplicate primary key problem. If that
   * would be the case then DuplicateIdentityException will be raised.
+  * 
+  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
+  * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
+  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
+  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
   */
 public final class SQLStatementInsertCheck {
     //----------------------------------------------------------------------------------------------
