@@ -203,7 +203,7 @@ public final class SQLStatementLoad {
                     _mainTableInfo.getPrimaryKeyColumns(),
                     CompareOperator.EQ, t, tbl.getPrimaryKeyColumns()));
 
-            addCols(tbl, joinTableInfos, mainTbl, false);
+            addCols(tbl, joinTableInfos, mainTbl, true);
 
             addExtendingTables(tbl, t, joinTableInfos);
         }
@@ -364,18 +364,17 @@ public final class SQLStatementLoad {
                             ids.length, fields.length, _numberOfExtendLevels, rs);
                 ClassDescriptor potentialLeafDescriptor = (ClassDescriptor) returnValues[0];
 
-                if ((potentialLeafDescriptor != null)
-                        && !potentialLeafDescriptor.getJavaClass().getName().equals(_type)) {
-
-                    entity.initializeFields(potentialLeafDescriptor.getFields().length);
+                if (potentialLeafDescriptor != null) {
+                    try {
+                        SQLEngine newEngine = (SQLEngine) _engine
+                                .getPersistenceFactory().getPersistence(
+                                        potentialLeafDescriptor);
+                        fields = newEngine.getInfo();
+                    } catch (MappingException e) {
+                    }
+                    entity.initializeFields(fields.length);
                     entity.setActualEntityClass(potentialLeafDescriptor.getJavaClass());
                     entity.setExpanded(true);
-                }
-
-                // make sure that we only return early (as described above), if we actually
-                // found a potential leaf descriptor
-                if (potentialLeafDescriptor != null) {
-                    return;
                 }
             }
 
