@@ -414,5 +414,9 @@ public final class SQLEngine implements Persistence {
         _loadStatement.executeStatement(conn, identity, entity, accessMode);
     }
     
+    public PersistenceFactory getPersistenceFactory () {
+        return _factory;
+    }
+    
     public String toString() { return _clsDesc.toString(); }
 }

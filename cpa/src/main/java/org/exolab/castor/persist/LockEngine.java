@@ -287,7 +287,9 @@ public final class LockEngine {
             lock = typeinfo.acquire(oid, tx, action, timeout);
             
             // (lock.getObject() == null) indicates a cache miss
-            if (lock.getObject() == null) {
+            // if access mode is DbLocked (thus guaranteeing that a lock at the
+            // database level will be created)
+            if (lock.getObject() == null || (accessMode == AccessMode.DbLocked)) {
                 // We always need to load at cache miss
                 molder.load(tx, lock, proposedObject, accessMode, results);
                 // Change the OID's name because the object's type changed.
@@ -325,13 +327,6 @@ public final class LockEngine {
             molder.setIdentity(tx, objectInTx, identity);     
             // Set fields at proposed object
             proposedObject.setFields(lock.getObject(tx));
-
-            // Load the fields from the persistent storage if fields are not set yet
-            // or if access mode is DbLocked (thus guaranteeing that a lock at the
-            // database level will be created)
-            if (!proposedObject.isFieldsSet() || (accessMode == AccessMode.DbLocked)) {
-                molder.load(tx, lock, proposedObject, accessMode, results);
-            }
 
             // Add new object to ObjectTracker
             tx.trackObject(molder, lock.getOID(), proposedObject.getEntity());
