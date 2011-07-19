@@ -12,9 +12,16 @@ import org.castor.core.nature.BaseNature;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision: 7134 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
 public class JPATemporalProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
 
     private final Log _log = LogFactory.getLog(this.getClass());
+    
+    //-----------------------------------------------------------------------------------
 
     public Class<? extends Annotation> forAnnotationClass() {
         return Temporal.class;
@@ -36,4 +43,5 @@ public class JPATemporalProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
 }
