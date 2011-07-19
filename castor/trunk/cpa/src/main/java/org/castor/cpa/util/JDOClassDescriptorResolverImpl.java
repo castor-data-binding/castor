@@ -26,9 +26,12 @@ import org.exolab.castor.xml.ResolverException;
  * class (name).
  * 
  * @see JDOClassDescriptorResolver
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision: 7134 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolver {
-
+    //-----------------------------------------------------------------------------------
+    
     /**
      * A key ({@link Class}) value ({@link ClassDescriptor}) pair to cache
      * already resolved JDO class descriptors.
@@ -60,6 +63,8 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     private Map<String, ClassDescriptorResolutionCommand> _commands = 
         new HashMap<String, ClassDescriptorResolutionCommand>();
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Creates an instance of this class, with no classed manually added.
      */
@@ -70,6 +75,8 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         registerCommand(new ClassResolutionByCDR());
         registerCommand(new ClassResolutionByAnnotations());
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Registers a {@link ClassDescriptorResolutionCommand} used to resolve
@@ -281,4 +288,6 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     public ClassLoader getClassLoader() {
         return _mappingLoader.getClassLoader();
     }
+    
+    //-----------------------------------------------------------------------------------
 }

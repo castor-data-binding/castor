@@ -11,9 +11,16 @@ import javax.persistence.Lob;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
+/**
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision: 7134 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
 public class JPALobProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
 
     private final Log _log = LogFactory.getLog(getClass());
+    
+    //-----------------------------------------------------------------------------------
 
     public Class<? extends Annotation> forAnnotationClass() {
         return Lob.class;
@@ -34,4 +41,5 @@ public class JPALobProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
 }
