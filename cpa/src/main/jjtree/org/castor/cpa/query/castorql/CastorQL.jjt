@@ -111,8 +111,7 @@ TOKEN:{
   /* UNICODE IDENTIFIER */
   |<IDENTIFIER: <LETTER>(<LETTER> | <DIGIT>)* >
   /* UNICODE LETTER */
-  | <LETTER:  ["\u0024",             // for '$'
-               "\u0041"-"\u005a",    // for A-Z
+  | <LETTER:  ["\u0041"-"\u005a",    // for A-Z
                "\u005f",             // for '_'
                "\u0061"-"\u007a" ]>  // for a-z
              
