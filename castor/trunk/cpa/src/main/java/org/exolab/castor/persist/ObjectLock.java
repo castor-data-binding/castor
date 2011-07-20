@@ -85,7 +85,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * calling {@link #release}.
  * <p>
  * If the object has been deleted, the transaction must call {@link
- * #delete} instead of {@link #release}.
+ * #delete} first, then {@link #release}.
  *
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
@@ -115,13 +115,13 @@ public final class ObjectLock implements DepositBox {
      *  exclusive. */
     private TransactionContext _writeTransaction;
 
-    /** Read locks on this object. A LinkedTx list of all transactions
+    /** Read locks on this object. A list of all transactions
      *  that have acquired a read lock. Read and write locks are
      *  mutually exclusive. */
     private final Set<TransactionContext> _readTransactions =
         new HashSet<TransactionContext>();
 
-    /** List of all transactions waiting for a read lock. Attempts to
+    /** Set of all transactions waiting for a read lock. Attempts to
      *  acquire read lock while object has write lock will be recorded
      *  here. When write lock is released, all read locks will acquire. */
     private final Set<TransactionContext> _readWaitingTransactions =
@@ -129,7 +129,7 @@ public final class ObjectLock implements DepositBox {
 
     private int _waitCount;
 
-    /** List of all transactions waiting for a write lock (including
+    /** Set of all transactions waiting for a write lock (including
      *  waiting for upgrade from read lock). Attempts to acquire a
      *  write lock while object has a read lock will be recorded here.
      *  When read lock is released, the first write lock will acquire. */
@@ -141,7 +141,7 @@ public final class ObjectLock implements DepositBox {
     private LockAction _confirmWaitingAction;
 
     /** Number of transactions which are interested to invoke method on this lock.
-     *  If the number is zero, and the lock isFree(), then it is safe dispose this lock. */
+     *  If the number is zero, and the lock isFree(), then it is safe to dispose this lock. */
     private int _gateCount;
 
     /** The object's version. */
@@ -196,7 +196,7 @@ public final class ObjectLock implements DepositBox {
      * Indicate that a transaction is interested in this lock.
      * A transaction should call this method if it is going to
      * change the state of this lock (by calling acquire, update 
-     * or relase.) It method should be synchronized externally 
+     * or release.) It method should be synchronized externally 
      * to avoid race condition. enter and leave should be called 
      * exactly the same number of time.
      */
@@ -351,7 +351,7 @@ public final class ObjectLock implements DepositBox {
             // 3/ waitingForConfirmation exist
             //      then, we wait
             // 4/ need a read, and objectLock has something
-            //      then, we return and wait for confirmation
+            //      then, we get lock and return
             // 5/ need a read, and objectLock has nothing
             //      then, we return and wait for confirmation
             // 6/ need a write
@@ -554,7 +554,7 @@ public final class ObjectLock implements DepositBox {
      * If the timeout has elapsed or a dead lock has been detected,
      * a {@link LockNotGrantedException} is thrown. If the object has
      * been deleted while waiting for a lock, a {@link
-     * ObjectDeletedException} is thrown. To prevent dead locks, a
+     * ObjectDeletedWaitingForLockException} is thrown. To prevent dead locks, a
      * transaction must only call this method for any given object
      * from a single thread and must mark the lock it is trying to
      * acquire and return it from a call to {@link
@@ -568,8 +568,6 @@ public final class ObjectLock implements DepositBox {
      *  zero for no waiting
      * @throws LockNotGrantedException Lock could not be granted in
      *  the specified timeout or a dead lock has been detected
-     * @throws ObjectDeletedWaitingForLockException The object has
-     *  been deleted while waiting for the lock
      */
     synchronized void upgrade(final TransactionContext tx, final int timeout)
     throws LockNotGrantedException {
@@ -597,8 +595,6 @@ public final class ObjectLock implements DepositBox {
             } else if ((_writeTransaction == null)
                     && (_readTransactions.contains(tx)) && (_readTransactions.size() == 1)) {
                 // Upgrading from read to write, no other locks, can upgrade
-                // Order is important in case thread is stopped in the middle
-                //_readLock = null;
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Acquired on " + this.toString() + " by " + tx);
                 }
@@ -660,11 +656,9 @@ public final class ObjectLock implements DepositBox {
      * Informs the lock that the object has been deleted by the
      * transaction holding the write lock. The lock on the object is
      * released and all transactions waiting for a lock will
-     * terminate with an {@link ObjectDeletedException}.
+     * terminate with an {@link ObjectDeletedWaitingForLockException}.
      *
      * @param tx The transaction that holds the lock
-     * @throws RuntimeException Attempt to delete object without
-     *   acquiring a write lock
      */
     synchronized void delete(final TransactionContext tx) {
         if (tx != _writeTransaction) {
@@ -709,9 +703,11 @@ public final class ObjectLock implements DepositBox {
      * thrown.
      *
      * @param waitingTx The transaction waiting to acquire this lock
+     * @param numOfRec the deep of recursion
+     * @throws LockNotGrantedException when a dead lock has been detected
      */
     private void detectDeadlock(final TransactionContext waitingTx, final int numOfRec)
-    throws LockNotGrantedException {
+        throws LockNotGrantedException {
         if (numOfRec <= 0) {
             return;
         }
@@ -730,8 +726,8 @@ public final class ObjectLock implements DepositBox {
         // Only the last lock attempt in a dead-lock situation will cancel.
 
         if (_writeTransaction != null) {
-            // _writeLock is the blocking transaction. We are only interested in
-            // a blocked transacrtion.
+            // _writeTransaction is the blocking transaction. We are only interested in
+            // a blocked transaction.
             ObjectLock waitOn = _writeTransaction.getWaitOnLock();
             if (waitOn != null) {
                 // Is the blocked transaction blocked by the transaction locking
@@ -749,10 +745,10 @@ public final class ObjectLock implements DepositBox {
             TransactionContext tx;
             while (iterReadTx.hasNext()) {
                 // T1 trying to acquire lock on O1, which is locked by T2
-                // T2 trying to acauire lock on O1, T1 is waiting on O1
+                // T2 trying to acquire lock on O1, T1 is waiting on O1
 
                 // lock is the blocking transaction. We are only interested in
-                // a blocked transacrtion.
+                // a blocked transaction.
                 tx = iterReadTx.next();
                 ObjectLock waitOn = tx.getWaitOnLock();
                 if ((waitOn != null) && (tx != waitingTx)) {
@@ -770,6 +766,7 @@ public final class ObjectLock implements DepositBox {
 
     /**
      * Remove the transaction from the waiting list (both read and write).
+     * @param tx the TransactionContext
      */
     private void removeWaiting(final TransactionContext tx) {
         try {
