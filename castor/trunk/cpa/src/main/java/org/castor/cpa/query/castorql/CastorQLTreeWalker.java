@@ -41,6 +41,7 @@ import org.castor.cpa.query.object.literal.LongLiteral;
 import org.castor.cpa.query.object.literal.StringLiteral;
 import org.castor.cpa.query.object.literal.TimeLiteral;
 import org.castor.cpa.query.object.literal.TimestampLiteral;
+import org.castor.cpa.query.object.parameter.CastorParameter;
 import org.castor.cpa.query.object.parameter.NamedParameter;
 import org.castor.cpa.query.object.parameter.PositionalParameter;
 
@@ -757,7 +758,7 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTEXPRESSION) {
             return expression((SimpleNode) node.jjtGetChild(0));
         } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH) {
-            return _schema.field(identifier((SimpleNode) node.jjtGetChild(0).jjtGetChild(1)));
+            return createFieldFromPath((SimpleNode) node.jjtGetChild(0));
         } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTPARAMETER) {
             return parameter((SimpleNode) node.jjtGetChild(0));
         } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTLITERAL) {
@@ -886,12 +887,14 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @return the parameter
      */
     private Parameter parameter(final SimpleNode node) {
-        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONALPARAMETER
-                || ((SimpleNode) node.jjtGetChild(0)).id == JJTCASTORPARAMETER) {
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTPOSITIONALPARAMETER) {
             return positionalParameter((SimpleNode) node.jjtGetChild(0));
         }
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTNAMEDPARAMETER) {
             return namedParameter((SimpleNode) node.jjtGetChild(0));
+        }
+        if (((SimpleNode) node.jjtGetChild(0)).id == JJTCASTORPARAMETER) {
+            return castorParameter((SimpleNode) node.jjtGetChild(0));
         }
         return null;
     }
@@ -915,6 +918,28 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      */
     private NamedParameter namedParameter(final SimpleNode node) {
         return new NamedParameter(identifier((SimpleNode) node.jjtGetChild(0)));
+    }
+    
+    /**
+     * Castor parameter.
+     * 
+     * @param node of the SimpleNode of JJTree
+     * @return the Castor parameter
+     */
+    private CastorParameter castorParameter(final SimpleNode node) {
+        if (node.jjtGetNumChildren() == 1) {
+            SimpleNode child0 = (SimpleNode) node.jjtGetChild(0);
+            if (child0.id == JJTINTEGERLITERAL) {
+                return new CastorParameter(integerLiteral(child0));
+            } 
+        } else if (node.jjtGetNumChildren() == 2) {
+            SimpleNode child0 = (SimpleNode) node.jjtGetChild(0);
+            SimpleNode child1 = (SimpleNode) node.jjtGetChild(1);
+            if ((child1.id == JJTINTEGERLITERAL) && (child0.id == JJTIDENTIFIER)) {
+                return new CastorParameter(integerLiteral(child1), child0.getText());
+            } 
+        }
+        return null;
     }
 
     /**

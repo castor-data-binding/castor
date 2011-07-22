@@ -542,18 +542,18 @@ public final class TestCastorQLTreeWalker extends TestCase {
         String oql = "select a from r o limit $75";
         QueryObject qo = getQO(oql);
         String actual = qo.toString();
-        String expected = "SELECT a FROM r AS o LIMIT ?75";
+        String expected = "SELECT a FROM r AS o LIMIT $75";
         assertEquals(expected, actual);
     }
     
-//    @Test
-//    public void testLimitCastorParameterTyped() throws Exception {
-//        String oql = "select a from r o limit $(int)19";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT $(int)19";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitCastorParameterTyped() throws Exception {
+        String oql = "select a from r o limit $(int)19";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT $(int)19";
+        assertEquals(expected, actual);
+    }
     
     @Test
     public void testLimitIntOffsetInt() throws Exception {
@@ -587,18 +587,18 @@ public final class TestCastorQLTreeWalker extends TestCase {
         String oql = "select a from r o limit 100 offset $75";
         QueryObject qo = getQO(oql);
         String actual = qo.toString();
-        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET ?75";
+        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET $75";
         assertEquals(expected, actual);
     }
     
-//    @Test
-//    public void testLimitIntOffsetCastorParameterTyped() throws Exception {
-//        String oql = "select a from r o limit 100 offset $(int)19";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET $(int)19";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitIntOffsetCastorParameterTyped() throws Exception {
+        String oql = "select a from r o limit 100 offset $(int)19";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET $(int)19";
+        assertEquals(expected, actual);
+    }
 
 
 
@@ -1433,38 +1433,38 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // parameter
     
-//    @Test
-//    public void testParameterWithBetween() throws Exception {
-//        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
-//            + " where o.deleted betweEn $1 and $2 ";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-//            + "WHERE (o.deleted BETWEEN ?1 AND ?2)";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testParameterWithBetween() throws Exception {
+        String oql = "SelecT DisTinct o.item from de.jsci.pcv.jdo.LieferantJDO as o"
+            + " where o.deleted betweEn $1 and $2 ";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT DISTINCT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE (o.deleted BETWEEN $1 AND $2)";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testNumberedParameter() throws Exception {
-//        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
-//            + "where $1 = 1000";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-//            + "WHERE (?1 = 1000)";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testNumberedParameter() throws Exception {
+        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
+            + "where $1 = 1000";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE ($1 = 1000)";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testTypedNumberedParameter() throws Exception {
-//        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
-//            + "where $(int)1 = 1000";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
-//            + "WHERE (?(int)1 = 1000)";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testTypedNumberedParameter() throws Exception {
+        String oql = "SELECT o.item from de.jsci.pcv.jdo.LieferantJDO as o "
+            + "where $(int)1 = 1000";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT o.item FROM de.jsci.pcv.jdo.LieferantJDO AS o "
+            + "WHERE ($(int)1 = 1000)";
+        assertEquals(expected, actual);
+    }
     
     // --------------------------------------------------------------------------
 
