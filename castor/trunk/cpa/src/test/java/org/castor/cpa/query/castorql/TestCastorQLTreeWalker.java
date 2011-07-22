@@ -387,163 +387,164 @@ public final class TestCastorQLTreeWalker extends TestCase {
     // --------------------------------------------------------------------------
     // order
     
-//    @Test
-//    public void testOrderBySingle1() throws Exception {
-//        String oql = "select a from r o order by l";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderBySingle1() throws Exception {
+        String oql = "select a from r o order by l";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l ASC";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testOrderBySingle2() throws Exception {
-//        String oql = "select a from r o order by l.m.n";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderBySingle2() throws Exception {
+        String oql = "select a from r o order by l.m.n";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderBySingle3() throws Exception {
-//        String oql = "select a from r o order by l->m->n";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderBySingle3() throws Exception {
+        String oql = "select a from r o order by l->m->n";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByAscSingle1() throws Exception {
-//        String oql = "select a from r o order by l asc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByAscSingle1() throws Exception {
+        String oql = "select a from r o order by l asc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l ASC";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testOrderByAscSingle2() throws Exception {
-//        String oql = "select a from r o order by l.m.n asc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByAscSingle2() throws Exception {
+        String oql = "select a from r o order by l.m.n asc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByAscSingle3() throws Exception {
-//        String oql = "select a from r o order by l->m->n asc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByAscSingle3() throws Exception {
+        String oql = "select a from r o order by l->m->n asc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n ASC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByDescSingle1() throws Exception {
-//        String oql = "select a from r o order by l desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByDescSingle1() throws Exception {
+        String oql = "select a from r o order by l desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l DESC";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testOrderByDescSingle2() throws Exception {
-//        String oql = "select a from r o order by l.m.n desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByDescSingle2() throws Exception {
+        String oql = "select a from r o order by l.m.n desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n DESC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByDescSingle3() throws Exception {
-//        String oql = "select a from r o order by l->m->n desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l.m.n DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByDescSingle3() throws Exception {
+        String oql = "select a from r o order by l->m->n desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l.m.n DESC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByMulti1() throws Exception {
-//        String oql = "select a from r o order by l1, l2 asc, l3 desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l1 ASC, l2 ASC, l3 DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByMulti1() throws Exception {
+        String oql = "select a from r o order by l1, l2 asc, l3 desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o ORDER BY l1 ASC, l2 ASC, l3 DESC";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testOrderByMulti2() throws Exception {
-//        String oql = "select a from r o order by l1.m1.n1, l2.m2.n2 asc, l3.m3.n3 desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o "
-//            + "ORDER BY l1.m1.n1 ASC, l2.m2.n2 ASC, l3.m3.n3 DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByMulti2() throws Exception {
+        String oql = "select a from r o order by l1.m1.n1, l2.m2.n2 asc, l3.m3.n3 desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o "
+            + "ORDER BY l1.m1.n1 ASC, l2.m2.n2 ASC, l3.m3.n3 DESC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByMulti3() throws Exception {
-//        String oql = "select a from r o order by l1->m1->n1, l2->m2->n2 asc, l3->m3->n3 desc";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o "
-//            + "ORDER BY l1.m1.n1 ASC, l2.m2.n2 ASC, l3.m3.n3 DESC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByMulti3() throws Exception {
+        String oql = "select a from r o order by l1->m1->n1, l2->m2->n2 asc, l3->m3->n3 desc";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o "
+            + "ORDER BY l1.m1.n1 ASC, l2.m2.n2 ASC, l3.m3.n3 DESC";
+        assertEquals(expected, actual);
+    }
 
-//    @Test
-//    public void testOrderByMulti4() throws Exception {
-//        String oql = "select a from r o order by l1 desc, l2.m2.n2 asc, l3->m3->n3";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o ORDER BY l1 DESC, l2.m2.n2 ASC, l3.m3.n3 ASC";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testOrderByMulti4() throws Exception {
+        String oql = "select a from r o order by l1 desc, l2.m2.n2 asc, l3->m3->n3";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM "
+            + "r AS o ORDER BY l1 DESC, l2.m2.n2 ASC, l3.m3.n3 ASC";
+        assertEquals(expected, actual);
+    }
     
     // --------------------------------------------------------------------------
     // limit
     
-//    @Test
-//    public void testLimitInt() throws Exception {
-//        String oql = "select a from r o limit 100";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT 100";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitInt() throws Exception {
+        String oql = "select a from r o limit 100";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT 100";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testLimitPositionalParameter() throws Exception {
-//        String oql = "select a from r o limit ?34";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT ?34";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitPositionalParameter() throws Exception {
+        String oql = "select a from r o limit ?34";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT ?34";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testLimitNamedParameter() throws Exception {
-//        String oql = "select a from r o limit :test";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT :test";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitNamedParameter() throws Exception {
+        String oql = "select a from r o limit :test";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT :test";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testLimitCastorParameter() throws Exception {
-//        String oql = "select a from r o limit $75";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT $75";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitCastorParameter() throws Exception {
+        String oql = "select a from r o limit $75";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT ?75";
+        assertEquals(expected, actual);
+    }
     
 //    @Test
 //    public void testLimitCastorParameterTyped() throws Exception {
@@ -563,32 +564,32 @@ public final class TestCastorQLTreeWalker extends TestCase {
         assertEquals(expected, actual);
     }
     
-//    @Test
-//    public void testLimitIntOffsetPositionalParameter() throws Exception {
-//        String oql = "select a from r o limit 100 offset ?34";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET ?34";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitIntOffsetPositionalParameter() throws Exception {
+        String oql = "select a from r o limit 100 offset ?34";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET ?34";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testLimitIntOffsetNamedParameter() throws Exception {
-//        String oql = "select a from r o limit 100 offset :test";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET :test";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitIntOffsetNamedParameter() throws Exception {
+        String oql = "select a from r o limit 100 offset :test";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET :test";
+        assertEquals(expected, actual);
+    }
     
-//    @Test
-//    public void testLimitIntOffsetCastorParameter() throws Exception {
-//        String oql = "select a from r o limit 100 offset $75";
-//        QueryObject qo = getQO(oql);
-//        String actual = qo.toString();
-//        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET $75";
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testLimitIntOffsetCastorParameter() throws Exception {
+        String oql = "select a from r o limit 100 offset $75";
+        QueryObject qo = getQO(oql);
+        String actual = qo.toString();
+        String expected = "SELECT a FROM r AS o LIMIT 100 OFFSET ?75";
+        assertEquals(expected, actual);
+    }
     
 //    @Test
 //    public void testLimitIntOffsetCastorParameterTyped() throws Exception {

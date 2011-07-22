@@ -257,6 +257,14 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
         _limit = new LongLiteral(limit);
         _offset = new LongLiteral(offset);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setLimit(final int limit, final Parameter offset) {
+        _limit = new LongLiteral(limit);
+        _offset = offset;
+    }
 
     /**
      * {@inheritDoc}
@@ -264,6 +272,14 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
     public void setLimit(final Parameter limit, final Parameter offset) {
         _limit = limit;
         _offset = offset;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void setLimit(final Parameter limit, final int offset) {
+        _limit = limit;
+        _offset = new LongLiteral(offset);
     }
     
     //--------------------------------------------------------------------------

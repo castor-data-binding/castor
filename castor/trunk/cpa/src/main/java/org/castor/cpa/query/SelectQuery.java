@@ -243,7 +243,23 @@ public interface SelectQuery extends QueryObject {
      * @param limit the limit
      * @param offset the offset
      */
+    void setLimit(int limit, Parameter offset);
+    
+    /**
+     * Sets the limit.
+     * 
+     * @param limit the limit
+     * @param offset the offset
+     */
     void setLimit(Parameter limit, Parameter offset);
+    
+    /**
+     * Sets the limit.
+     * 
+     * @param limit the limit
+     * @param offset the offset
+     */
+    void setLimit(Parameter limit, int offset);
 
     //--------------------------------------------------------------------------
 }

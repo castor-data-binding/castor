@@ -149,29 +149,29 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
         if ((node.jjtGetNumChildren() == 1)
                 && (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH)) {
             _select.addProjection(
-                    selectExpressionPath((SimpleNode) node.jjtGetChild(0)));
+                    createFieldFromPath((SimpleNode) node.jjtGetChild(0)));
         } else if ((node.jjtGetNumChildren() == 2)
                 && (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH)
                 && (((SimpleNode) node.jjtGetChild(1)).id == JJTIDENTIFIER)) {
             _select.addProjection(
-                    selectExpressionPath((SimpleNode) node.jjtGetChild(0)),
+                    createFieldFromPath((SimpleNode) node.jjtGetChild(0)),
                     identifier((SimpleNode) node.jjtGetChild(1)));
         } else if ((node.jjtGetNumChildren() == 2)
                 && (((SimpleNode) node.jjtGetChild(1)).id == JJTPATH)
                 && (((SimpleNode) node.jjtGetChild(0)).id == JJTIDENTIFIER)) {
             _select.addProjection(
-                    selectExpressionPath((SimpleNode) node.jjtGetChild(1)),
+                    createFieldFromPath((SimpleNode) node.jjtGetChild(1)),
                     identifier((SimpleNode) node.jjtGetChild(0)));
         }
     }
 
     /**
-     * Path of select expression.
+     * Create a field that represents the path in given node. 
      * 
      * @param node of the SimpleNode of JJTree
      * @return field representing the path
      */
-    private Field selectExpressionPath(final SimpleNode node) {
+    private Field createFieldFromPath(final SimpleNode node) {
         Field field = new SchemaImpl(identifier((SimpleNode) node.jjtGetChild(0)));
         for (int i = 1; i < node.jjtGetNumChildren(); i++) {
             field = field.field(identifier((SimpleNode) node.jjtGetChild(i)));
@@ -261,28 +261,48 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
     private void orderbyItem(final SimpleNode node) {
         if (((SimpleNode) node.jjtGetChild(0)).id == JJTPATH) {
             if (_order == null) {
-                if (node.getKind() == DESC) {
-                    _order = _select.newOrder(_schema
-                            .field(identifier((SimpleNode) node.jjtGetChild(0)
-                                    .jjtGetChild(1))),
-                                    OrderDirection.DESCENDING);
-                    _select.setOrder(_order);
-                } else {
-                    _order = _select.newOrder(_schema
-                            .field(identifier((SimpleNode) node.jjtGetChild(0)
-                                    .jjtGetChild(1))));
-                    _select.setOrder(_order);
-                }
+                createNewOrder(node);
             } else {
-                if (node.getKind() == DESC) {
-                    _order.add(_schema.field(identifier((SimpleNode) node
-                            .jjtGetChild(0).jjtGetChild(1))),
-                            OrderDirection.DESCENDING);
-                } else {
-                    _order.add(_schema.field(identifier((SimpleNode) node
-                            .jjtGetChild(0).jjtGetChild(1))));
-                }
+                addFieldToExistingOrder(node);
             }
+        } 
+    }
+
+    /**
+     * Create Order of Query objects and set it to SelectQuery. 
+     * 
+     * @param node The ORDER BY item node of JJTree. 
+     */
+    private void createNewOrder(final SimpleNode node) {
+        SimpleNode child0 = (SimpleNode) node.jjtGetChild(0);
+        Field field = createFieldFromPath(child0);
+        
+        if (node.getKind() == ASC) {
+            _order = _select.newOrder(field, OrderDirection.ASCENDING);
+        } else if (node.getKind() == DESC) {
+            _order = _select.newOrder(field, OrderDirection.DESCENDING);
+        } else {
+            _order = _select.newOrder(field);
+        }
+        
+        _select.setOrder(_order);
+    }
+
+    /**
+     * Add field contained in given path to Order of query objects. 
+     * 
+     * @param node The ORDER BY item node of JJTree. 
+     */
+    private void addFieldToExistingOrder(final SimpleNode node) {
+        SimpleNode child0 = (SimpleNode) node.jjtGetChild(0);
+        Field field = createFieldFromPath(child0);
+        
+        if (node.getKind() == ASC) {
+            _order.add(field, OrderDirection.ASCENDING);
+        } else if (node.getKind() == DESC) {
+            _order.add(field, OrderDirection.DESCENDING);
+        } else {
+            _order.add(field);
         }
     }
 
@@ -292,17 +312,41 @@ implements CastorQLParserTreeConstants, CastorQLParserConstants {
      * @param node of the SimpleNode of JJTree
      */
     private void limitClause(final SimpleNode node) {
-        if (node.jjtGetNumChildren() == 2) {
-            if (((SimpleNode) node.jjtGetChild(0)).id == JJTPARAMETER
-                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTPARAMETER) {
-                _select.setLimit(parameter((SimpleNode) node.jjtGetChild(0)),
-                        parameter((SimpleNode) node.jjtGetChild(1)));
-            } else if (((SimpleNode) node.jjtGetChild(0)).id == JJTINTEGERLITERAL
-                    && ((SimpleNode) node.jjtGetChild(1)).id == JJTINTEGERLITERAL) {
-                _select.setLimit(integerLiteral((SimpleNode) node
-                        .jjtGetChild(0)), integerLiteral((SimpleNode) node
-                                .jjtGetChild(1)));
-            }
+        if (node.jjtGetNumChildren() == 1) {
+            setLimit((SimpleNode) node.jjtGetChild(0));
+        } else if (node.jjtGetNumChildren() == 2) {
+            setLimit((SimpleNode) node.jjtGetChild(0), (SimpleNode) node.jjtGetChild(1));
+        }
+    }
+
+    /**
+     * Extract limit from given node and set it to SelectQuery. 
+     * 
+     * @param limitNode The node to get limit from. 
+     */
+    private void setLimit(final SimpleNode limitNode) {
+        if (limitNode.id == JJTINTEGERLITERAL) {
+            _select.setLimit(integerLiteral(limitNode));
+        } else if (limitNode.id == JJTPARAMETER) {
+            _select.setLimit(parameter(limitNode));
+        }
+    }
+    
+    /**
+     * Extract limit with offset from given nodes and set them to SelectQuery. 
+     * 
+     * @param limitNode The node to get limit from. 
+     * @param offsetNode The node to get offset from. 
+     */
+    private void setLimit(final SimpleNode limitNode, final SimpleNode offsetNode) {
+        if ((limitNode.id == JJTINTEGERLITERAL)   && (offsetNode.id == JJTINTEGERLITERAL)) {
+            _select.setLimit(integerLiteral(limitNode), integerLiteral(offsetNode));
+        } else if ((limitNode.id == JJTINTEGERLITERAL) && (offsetNode.id == JJTPARAMETER)) {
+            _select.setLimit(integerLiteral(limitNode), parameter(offsetNode));
+        } else if ((limitNode.id == JJTPARAMETER)      && (offsetNode.id == JJTPARAMETER)) {
+            _select.setLimit(parameter(limitNode), parameter(offsetNode));
+        } else if ((limitNode.id == JJTPARAMETER) && (offsetNode.id == JJTINTEGERLITERAL)) {
+            _select.setLimit(parameter(limitNode), integerLiteral(offsetNode));
         }
     }
 
