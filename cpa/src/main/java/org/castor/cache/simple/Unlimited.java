@@ -16,9 +16,9 @@
 package org.castor.cache.simple;
 
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.castor.cache.AbstractBaseCache;
 
@@ -39,8 +39,8 @@ public final class Unlimited extends AbstractBaseCache {
     public static final String TYPE = "unlimited";
     
     /** The internal map. */
-    private Hashtable<Object, Object> _map = new Hashtable<Object, Object>();
-    
+    private Map<Object, Object> _map = new ConcurrentHashMap<Object, Object>();
+
     //--------------------------------------------------------------------------
     // getters/setters for cache configuration
 
