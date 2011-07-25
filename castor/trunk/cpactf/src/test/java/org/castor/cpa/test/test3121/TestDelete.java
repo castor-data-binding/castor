@@ -78,7 +78,10 @@ public final class TestDelete extends CPAThreadedTestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.HSQL)
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     /**
