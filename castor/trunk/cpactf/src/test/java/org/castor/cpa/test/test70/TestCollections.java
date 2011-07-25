@@ -43,11 +43,8 @@ public final class TestCollections extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE);
-    }
-
-    public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void setUp() throws Exception {
