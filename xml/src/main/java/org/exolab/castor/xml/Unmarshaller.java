@@ -53,6 +53,10 @@ import java.util.StringTokenizer;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -857,6 +861,47 @@ public class Unmarshaller {
         }
         return handler.getObject();
 
+    }
+
+    /**
+     * Unmarshals ths given {@link Source} instance. Currently this method will support fallowing classes {@link
+     * DOMSource}, {@link SAXSource} and {@link StreamSource}.
+     *
+     * @param source the source to unmarshal
+     *
+     * @return the unmarshalled object instance
+     *
+     * @throws IllegalArgumentException if the given source is null or it is unsupported
+     * @throws MarshalException         indiactes a general error during the unmarshalling process.
+     * @throws ValidationException      indicates a validation error.
+     */
+    public Object unmarshal(Source source) throws MarshalException, ValidationException {
+        checkNotNull(source, "The given 'javax.xml.transform.Source' instance is null.");
+
+        if (source instanceof DOMSource) {
+            DOMSource domSource = (DOMSource) source;
+            if (domSource.getNode() != null) {
+                return unmarshal(domSource.getNode());
+            }
+        } else if (source instanceof SAXSource) {
+            SAXSource saxSource = (SAXSource) source;
+
+            if (saxSource.getInputSource() != null) {
+                // TODO should the XMLReader from the SAXSource should be used instead ?
+                return unmarshal(saxSource.getInputSource());
+            }
+        } else if (source instanceof StreamSource) {
+            StreamSource streamSource = (StreamSource) source;
+
+            if (streamSource.getInputStream() != null) {
+                return unmarshal(new InputSource(streamSource.getInputStream()));
+            } else if (streamSource.getReader() != null) {
+                return unmarshal(streamSource.getReader());
+            }
+        }
+
+        throw new IllegalArgumentException(
+                "The given 'javax.transform.xml.Source' is not supported, or were incorrectly instantiated.");
     }
 
     /**

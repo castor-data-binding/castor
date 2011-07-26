@@ -94,6 +94,8 @@ import org.exolab.castor.xml.util.AnyNode2SAX2;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.DocumentHandlerAdapter;
 import org.exolab.castor.xml.util.SAX2DOMHandler;
+import org.exolab.castor.xml.util.StaxEventHandler;
+import org.exolab.castor.xml.util.StaxStreamHandler;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
@@ -102,6 +104,14 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamWriter;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * A Marshaller that serializes Java Object's to XML
@@ -367,6 +377,38 @@ public class Marshaller extends MarshalFramework {
     }
 
     /**
+     * Creates a new {@link Marshaller} with the given {@link XMLStreamWriter}.
+     *
+     * @param xmlStreamWriter the {@link XMLStreamWriter}
+     * @throws IllegalArgumentException if the given {@link XMLStreamWriter} is null
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setXmlStreamWriter(javax.xml.stream.XMLStreamWriter)}
+     * @see XMLContext
+     *
+     * @since 1.3.3
+     */
+    public Marshaller(XMLStreamWriter xmlStreamWriter) {
+        super(null);
+        setXmlStreamWriter(xmlStreamWriter);
+    }
+
+    /**
+     * Creates a new {@link Marshaller} with the given {@link XMLEventWriter}.
+     *
+     * @param xmlEventWriter the {@link XMLEventWriter}
+     * @throws IllegalArgumentException if the given {@link XMLEventWriter} is null
+     * @see {@link XMLContext#createMarshaller()}
+     * @see {@link Marshaller#setXmlEventWriter(javax.xml.stream.XMLEventWriter)}
+     * @see XMLContext
+     *
+     * @since 1.3.3
+     */
+    public Marshaller(XMLEventWriter xmlEventWriter) {
+        super(null);
+        setXmlEventWriter(xmlEventWriter);
+    }
+
+    /**
      * Sets the java.io.Writer to be used during marshalling.
      * 
      * @param out
@@ -377,9 +419,57 @@ public class Marshaller extends MarshalFramework {
      *             If there's a problem accessing the java.io.Writer provided
      */
     public void setWriter (final Writer out) throws IOException {
-        checkNotNull(out, "The given 'java.io.Writer instance' is null.");
+        checkNotNull(out, "The given 'java.io.Writer' instance is null.");
 
         configureSerializer(out);
+    }
+
+    /**
+     * Sets the {@link Result} into which the output xml will be written. Currently this method supports
+     * {@link DOMResult}, {@link SAXResult} and {@link StreamResult}.
+     *
+     * @param result the {@link Result} instance to set
+     *
+     * @throws IllegalArgumentException if the result is null or it is not supported
+     *
+     * @since 1.3.3
+     */
+    public void setResult(Result result) throws IOException {
+        checkNotNull(result, "The given 'javax.xml.transform.Result' instance is null.");
+
+        if(result instanceof DOMResult) {
+            DOMResult domResult = (DOMResult) result;
+
+            if(domResult.getNode() != null) {
+                // sets the dom node
+                setNode(domResult.getNode());
+                return;
+            }
+        } else if(result instanceof SAXResult) {
+            SAXResult saxResult = (SAXResult) result;
+
+            if(saxResult.getHandler() != null) {
+                // sets the content handler
+                setContentHandler(saxResult.getHandler());
+                return;
+                // TODO what to do with lexical handler ?
+            }
+        } else if (result instanceof StreamResult) {
+            StreamResult streamResult = (StreamResult) result;
+
+            if(streamResult.getWriter() != null) {
+                // sets the writer
+                setWriter(streamResult.getWriter());
+                return;
+            } else if(streamResult.getOutputStream() != null) {
+                // sets the output stream, wrapping it into a print writer instance
+                setWriter(new PrintWriter(streamResult.getOutputStream()));
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException(
+                "The given 'javax.transofrm.xml.Result' is not supported, or were incorrectly instantiated.");
     }
 
 
@@ -436,6 +526,36 @@ public class Marshaller extends MarshalFramework {
         checkNotNull(node, "The given 'org.w3c.dom.Node' instance is null.");
 
         setContentHandler(new DocumentHandlerAdapter(new SAX2DOMHandler(node)));
+    }
+
+    /**
+     * Sets the {@link XMLStreamWriter} to use.
+     *
+     * @param xmlStreamWriter the {@link XMLStreamWriter} instance to use
+     *
+     * @throws IllegalArgumentException if the xmlStreamWriter is null
+     *
+     * @since 1.3.3
+     */
+    public void setXmlStreamWriter(XMLStreamWriter xmlStreamWriter) {
+        checkNotNull(xmlStreamWriter, "The given 'java.xml.stream.XMLStreamWriter' instance is null.");
+
+        setContentHandler(new StaxStreamHandler(xmlStreamWriter));
+    }
+
+    /**
+     * Sets the {@link XMLEventWriter} to use.
+     *
+     * @param xmlEventWriter the {@link XMLEventWriter} instance to use
+     *
+     * @throws IllegalArgumentException if the xmlEventReader is null
+     *
+     * @since 1.3.3
+     */
+    public void setXmlEventWriter(XMLEventWriter xmlEventWriter) {
+        checkNotNull(xmlEventWriter, "The given 'java.xml.stream.XMLEventWriter' instance is null.");
+
+        setContentHandler(new StaxEventHandler(xmlEventWriter));
     }
     
   /**
