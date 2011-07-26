@@ -420,7 +420,291 @@ marshaller.marshal(person);
 	<section>
 		<title>Sources and destinations</title>
 
-		<para>TBD</para>
+        <para>
+            Castor supports multiple sources and destinations from which
+            objects can be marshalled and unmarshalled.
+        </para>
+
+        <table align="center">
+            <title>
+                Marshalling destinations.
+            </title>
+            <tgroup cols="2">
+                <colspec colname="c1"/>
+                <colspec colname="c2"/>
+                <thead>
+                    <row>
+                        <entry>Destination</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(java.io.Writer)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The character stream.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(org.xml.sax.DocumentHandler)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The SAX document handler.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(org.xml.sax.ContentHandler)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The SAX content handler.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(org.w3c.dom.Node)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The DOM node to marshall object into.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(javax.xml.stream.XMLStreamWriter)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The STaX cursor API.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(javax.xml.stream.XMLEventWriter)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                The STaX iterator API.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>marshal(javax.xml.transform.Result)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <literal>javax.xml.transform.dom.DOMResult</literal>, 
+                                <literal>javax.xml.transform.sax.SAXResult</literal> and 
+                                <literal>javax.xml.transform.stream.StreamResult</literal> are supported.
+                            </para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+
+        <table align="center">
+            <title>
+                Unmarshalling sources.
+            </title>
+            <tgroup cols="2">
+                <colspec colname="c1"/>
+                <colspec colname="c2"/>
+                <thead>
+                    <row>
+                        <entry>Source</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(java.io.Reader)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                A character stream.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(org.xml.sax.InputSource)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                A SAX input source.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(org.w3c.dom.Node)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                A W3C DOM node which will be used for unmarshalling.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(javax.xml.stream.XMLStreamReader)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                A StAX cursor.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(javax.xml.stream.XMLEventReader)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                A StAX iterator.
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>
+                                <classname>unmarshal(javax.xml.transform.Source)</classname>
+                            </para>
+                        </entry>
+                        <entry>
+                            <para>
+                                Supports <literal>javax.xml.transform.dom.DOMSource</literal>, 
+                                <literal>javax.xml.transform.sax.SAXSource</literal>
+                                and <literal>javax.xml.transform.stream.StreamSource</literal>.
+                            </para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+
+        <para>
+            Castor 1.3.2 and 1.3.3 introduced support for the STaX API for
+            both for marshalling and unmarshalling. The framework fully
+            supports the STaX cursor and iterator API.
+        </para>
+
+        <para>
+            An example of marshalling using STaX:
+        </para>
+
+        <example>
+            <title>Marshalling to a StAX java.xml.stream.XMLStreamWriter</title>
+            <programlisting language="java">
+// marshalling using STaX
+StringWriter writer = new StringWriter();
+XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(writer);
+
+marshaller.setXmlStreamWriter(xmlStreamWriter);
+marshaller.marshal(object);
+    		</programlisting>
+        </example>
+
+        <para>
+            Also beginning from version 1.3.3, the framework has been
+            modified to support Source and Result interfaces. Now it
+            is possible to use SAXSource, DOMSource and StreamSource
+            for unmarshalling and corresponding classes for marshalling.
+        </para>
+
+        <para>
+            Below an example of marshalling into Result:
+        </para>
+
+        <example>
+            <title>Marshalling to a <literal>javax.xml.transform.dom.DOMResult</literal></title>
+            <programlisting language="java">
+// instance of object to be marshalled
+Object obj = ...
+
+// marshalling into DOM node
+XMLContext xmlContext = ... // creates the xml context
+
+// creates marshaller
+Marshaller marshaller = xmlContext.createMarshaller();
+
+// creates DOM factory
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+DocumentBuilder builder = factory.newDocumentBuilder();
+
+// creates document
+Document document = builder.newDocument();
+
+// sets the DOM result for the marshaller
+marshaller.setResult(new DOMResult(document));
+
+// marshalls object
+marshaller.marshall(obj);
+		  </programlisting>
+        </example>
+
+        <para>
+            Another example of unmarshalling from Source:
+        </para>
+
+        <example>
+            <title>Unmarshalling from a <literal>javax.xml.transform.sax.SAXSource</literal></title>
+            <programlisting language="java">
+// unmarshalling from SAX InputSource
+XMLContext xmlContext = ... // creates the xml context
+
+// creates unmarshaller
+Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
+
+// creates SAX input source
+InputSource inputSource = new InputSource(new StringReader(xml));
+
+// creates instance of SAXSource
+SAXSource saxSource = new SAXSource(inputSource);
+
+// unmarshalls object
+Object result = unmarshaller.unmarshal(saxSource);
+    		</programlisting>
+        </example>
 
 	</section>
 
