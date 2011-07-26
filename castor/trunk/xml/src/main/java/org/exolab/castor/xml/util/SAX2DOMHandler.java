@@ -44,36 +44,41 @@
  */
 package org.exolab.castor.xml.util;
 
-import java.util.Stack;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.xml.sax.AttributeList;
 import org.xml.sax.HandlerBase;
+import org.xml.sax.SAXException;
+
+import java.util.Stack;
 
 /**
- * A class for converting a SAX events to DOM nodes
+ * A class for converting a SAX events to DOM nodes.
  *
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class SAX2DOMHandler extends HandlerBase {
-    private Node _document;
-    private Stack _parents = new Stack();
+    
+    private Node _node;
+    
+    private Stack<Element> _parents = new Stack<Element>();
 
+    /**
+     * Creates new instance of {@link SAX2DOMHandler} class.
+     *
+     * @param node the DOM node to use
+     */
     public SAX2DOMHandler(Node node) {
-        _document = node;
+        _node = node;
     }
 
+    @Override
     public void startElement(final String name, final AttributeList attributes) {
-        Node parent = _parents.size()>0 ? (Node) _parents.peek() : _document;
-        final Document document;
-        if (parent instanceof Document) {
-            document = (Document) parent;
-        } else {
-            document = parent.getOwnerDocument();
-        }
+        Node parent = _parents.size() > 0 ? (Node) _parents.peek() : _node;
+        final Document document = getDocument(parent);
 
         Element element = document.createElement(name);
         int length = attributes.getLength();
@@ -84,20 +89,44 @@ public class SAX2DOMHandler extends HandlerBase {
         _parents.push(element);
     }
 
+    @Override
     public void characters(final char[] chars, final int offset, final int length) {
         String data = new String(chars, offset, length);
-        Node parent = (_parents.size() > 0) ? (Node) _parents.peek() : _document;
+        Node parent = (_parents.size() > 0) ? (Node) _parents.peek() : _node;
         Node last = parent.getLastChild();
         if ((last != null) && (last.getNodeType() == Node.TEXT_NODE)) {
-            ((Text)last).appendData(data);
+            ((Text) last).appendData(data);
         } else {
             Text text = parent.getOwnerDocument().createTextNode(data);
             parent.appendChild(text);
         }
     }
 
+    @Override
     public void endElement(final String name) {
         _parents.pop();
     }
 
+    @Override
+    public void processingInstruction(String target, String data) throws SAXException {
+        // adds the given processing instruction to the document root
+        Document document = getDocument(_node);
+        ProcessingInstruction instruction = document.createProcessingInstruction(target, data);
+        document.insertBefore(instruction, document.getFirstChild());
+    }
+    
+    /**
+     * Returns the owning {@link Document} for the given {@link Node}.
+     * @param node A given node.
+     * @return the owning {@link Document} for the give node.
+     */
+    private Document getDocument(Node node) {
+        Document document;
+        if (node instanceof Document) {
+            document = (Document) node;
+        } else {
+            document = node.getOwnerDocument();
+        }
+        return document;
+    }
 }
