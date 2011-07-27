@@ -102,6 +102,9 @@ public final class ObjectLock implements DepositBox {
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getFactory().getInstance(ObjectLock.class);
 
+    /** Milliseconds per second. */
+    private static final long ONE_SECOND = 1000;
+    
     /** The idcount for all the instances. */
     private static AtomicInteger _idcount = new AtomicInteger(0);
     
@@ -330,30 +333,21 @@ public final class ObjectLock implements DepositBox {
         _isExpired = false; 
         _expiredObject = null;
     }
-    
-    public void acquireLoadLock(final TransactionContext tx,
-            final boolean write, final int timeout)
-    throws LockNotGrantedException {
-        LockAction action = (write) ? LockAction.WRITE : LockAction.READ;
-        acquireLock(tx, action, timeout);
-    }
-    
-    public void acquireUpdateLock(final TransactionContext tx, final int timeout)
-    throws LockNotGrantedException {
-        acquireLock(tx, LockAction.UPDATE, timeout);
-    }
-    
-    public void acquireCreateLock(final TransactionContext tx)
-    throws LockNotGrantedException {
-        acquireLock(tx, LockAction.CREATE, 0);
-    }
 
-    private void acquireLock(final TransactionContext tx,
+    /**
+     * The TransactionContext tries to acquire a lock for LockAction.
+     *
+     * @param tx The TransactionContext
+     * @param action The LockAction
+     * @param timeout The timeout for acquiring the lock
+     * @throws LockNotGrantedException If the lock is not granted
+     */
+    public void acquireLock(final TransactionContext tx,
             final LockAction action, final int timeout)
     throws LockNotGrantedException {
         long endtime = Long.MAX_VALUE;
         if (timeout > 0) {
-            endtime = System.currentTimeMillis() + timeout * 1000;
+            endtime = System.currentTimeMillis() + timeout * ONE_SECOND;
         }
 
         try {
@@ -623,7 +617,7 @@ public final class ObjectLock implements DepositBox {
             }
 
             long endtime = (timeout > 0)
-                         ? System.currentTimeMillis() + timeout * 1000
+                         ? System.currentTimeMillis() + timeout * ONE_SECOND
                          : Long.MAX_VALUE;
             while (true) {
                 // Repeat forever until lock is acquired or timeout
