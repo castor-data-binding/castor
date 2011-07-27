@@ -18,11 +18,13 @@ package org.castor.cache.simple;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +74,8 @@ public class TimeLimited extends AbstractBaseCache {
     private static final TickThread TIMER = new TickThread(DEFAULT_PRECISION);
     
     /** Container for cached objects. */
-    private Hashtable<Object, QueueItem> _map = new Hashtable<Object, QueueItem>();
+    private final ConcurrentHashMap<Object, QueueItem> _map =
+        new ConcurrentHashMap<Object, QueueItem>();
 
     /** Real ttl of this cache. */
     private int _ttl = DEFAULT_TTL;
@@ -94,10 +97,8 @@ public class TimeLimited extends AbstractBaseCache {
             _ttl = DEFAULT_TTL;
         }
 
-        if (TIMER._list.contains(this)) {
-            TIMER._list.remove(this);
-            _map.clear();
-        }
+        _map.clear();
+        
         TIMER.addTickerTask(this);
     }
 
@@ -122,27 +123,25 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized int size() { return _map.size(); }
+    public final int size() { return _map.size(); }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized boolean isEmpty() { return _map.isEmpty(); }
+    public final boolean isEmpty() { return _map.isEmpty(); }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized boolean containsKey(final Object key) {
+    public final boolean containsKey(final Object key) {
         return _map.containsKey(key);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized boolean containsValue(final Object value) {
-        Iterator<QueueItem> iter = _map.values().iterator();
-        while (iter.hasNext()) {
-            QueueItem item = iter.next();
+    public final boolean containsValue(final Object value) {
+        for (QueueItem item : _map.values()) {
             if (value == null) {
                 if (item._value == null) { return true; }  
             } else {
@@ -155,7 +154,7 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Object get(final Object key) {
+    public final Object get(final Object key) {
         QueueItem item = _map.get(key);
         return (item == null) ? null : item._value;
     }
@@ -166,19 +165,15 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Object put(final Object key, final Object value) {
-        QueueItem item = _map.get(key);
-        if (item != null) {
-            return item.update(value, _ttl);
-        }
-        _map.put(key, new QueueItem(key, value, _ttl));
-        return null;
+    public final Object put(final Object key, final Object value) {
+        QueueItem item = _map.putIfAbsent(key, new QueueItem(key, value, _ttl));
+        return (item == null) ? null : item.update(value, _ttl);
     }
     
     /**
      * {@inheritDoc}
      */
-    public synchronized Object remove(final Object key) {
+    public Object remove(final Object key) {
         QueueItem item = _map.remove(key);
         return (item == null) ? null : item._value;
     }
@@ -190,10 +185,7 @@ public class TimeLimited extends AbstractBaseCache {
      * {@inheritDoc}
      */
     public final void putAll(final Map<? extends Object, ? extends Object> map) {
-        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
-        iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<? extends Object, ? extends Object> entry = iter.next();
+        for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -201,7 +193,7 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized void clear() { _map.clear(); }
+    public final void clear() { _map.clear(); }
 
     //--------------------------------------------------------------------------
     // view operations of map interface
@@ -209,18 +201,16 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Set<Object> keySet() {
+    public final Set<Object> keySet() {
         return Collections.unmodifiableSet(_map.keySet());
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized Collection<Object> values() {
-        Collection<Object> col = new ArrayList<Object>(_map.size());
-        Iterator<QueueItem> iter = _map.values().iterator();
-        while (iter.hasNext()) {
-            QueueItem item = iter.next();
+    public final Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>();
+        for (QueueItem item : _map.values()) {
             col.add(item._value);
         }
         return Collections.unmodifiableCollection(col);
@@ -229,13 +219,10 @@ public class TimeLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final synchronized Set<Entry<Object, Object>> entrySet() {
-        Map<Object, Object> map = new Hashtable<Object, Object>(_map.size());
-        Iterator<Entry<Object, QueueItem>> iter = _map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<Object, QueueItem> entry = iter.next();
-            QueueItem item = entry.getValue();
-            map.put(entry.getKey(), item._value);
+    public final Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        for (QueueItem item : _map.values()) {
+            map.put(item._key, item._value);
         }
         return Collections.unmodifiableSet(map.entrySet());
     }
@@ -247,13 +234,13 @@ public class TimeLimited extends AbstractBaseCache {
      */
     private final class QueueItem {
         /** The key. */
-        private Object _key;
+        private final Object _key;
         
         /** The value. */
-        private Object _value;
+        private volatile Object _value;
         
         /** The time to life (ttl). */
-        private int _time;
+        private final AtomicInteger _time;
 
         /**
          * Construct a new QueueItem with given value and time.
@@ -265,7 +252,7 @@ public class TimeLimited extends AbstractBaseCache {
         private QueueItem(final Object key, final Object value, final int time) {
             _key = key;
             _value = value;
-            _time = time;
+            _time = new AtomicInteger(time);
         }
         
         /**
@@ -278,7 +265,7 @@ public class TimeLimited extends AbstractBaseCache {
         private Object update(final Object value, final int time) {
             Object oldValue = _value;
             _value = value;
-            _time = time;
+            _time.set(time);
             return oldValue;
         }
     }
@@ -288,10 +275,10 @@ public class TimeLimited extends AbstractBaseCache {
      */
     private static final class TickThread extends Thread {
         /** The list of all registered caches. */
-        private ArrayList<TimeLimited> _list = new ArrayList<TimeLimited>();
+        private final Set<TimeLimited> _set = new CopyOnWriteArraySet<TimeLimited>();
         
         /** The intervall to checked cache for elapsed entries in milliseconds. */
-        private int _tick;
+        private final int _tick;
         
         /**
          * Construct a TickThread to remove cache entries whose ttl has been elapsed.
@@ -315,7 +302,7 @@ public class TimeLimited extends AbstractBaseCache {
          * @param cache Cache to be added to cache list.
          */
         void addTickerTask(final TimeLimited cache) {
-            _list.add(cache);
+            _set.add(cache);
         }
         
         /**
@@ -333,8 +320,8 @@ public class TimeLimited extends AbstractBaseCache {
                     long diff = System.currentTimeMillis() - last;
                     if (diff < _tick) { sleep(_tick - diff); }
                     last = System.currentTimeMillis();
-                    for (int i = 0; i < _list.size(); i++) {
-                        _list.get(i).tick();
+                    for (TimeLimited cache : _set) {
+                        cache.tick();
                     }
                 }
             } catch (InterruptedException e) {
@@ -347,17 +334,12 @@ public class TimeLimited extends AbstractBaseCache {
      * Called by TickThread to decrement ttl of all entries of the cache and remove
      * those whose ttl has been expired.
      */
-    private synchronized void tick() {
-        if (!_map.isEmpty()) {
-            for (Iterator<QueueItem> iter = _map.values().iterator(); iter.hasNext(); ) {
-                QueueItem queueItem = iter.next();
+    private void tick() {
+        for (QueueItem queueItem : _map.values()) {
+            if (queueItem._time.getAndAdd(-TICK_DELAY) <= 0) {
                 Object key = queueItem._key;
-                if (queueItem._time <= 0) {
-                    iter.remove();
-                    if (LOG.isDebugEnabled()) { LOG.trace("dispose(" + key + ")"); }
-                } else {
-                    queueItem._time -= TICK_DELAY;
-                }
+                _map.remove(key);
+                if (LOG.isDebugEnabled()) { LOG.trace("dispose(" + key + ")"); }
             }
         }
     }
