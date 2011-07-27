@@ -39,7 +39,7 @@ public final class TestCreate extends CPATestCase {
     }
     
     // Test uses returning sequence key generator.
-    // derby, mysql and mssql do not support sequence.
+    // derby, hsql, mysql and mssql do not support sequence.
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)

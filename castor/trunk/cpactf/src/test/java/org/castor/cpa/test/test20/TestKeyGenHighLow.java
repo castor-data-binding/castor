@@ -35,7 +35,8 @@ public class TestKeyGenHighLow extends AbstractTestKeyGenInteger {
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public void testKeyGenHighLow() throws Exception {

@@ -42,7 +42,7 @@ go
 
 create table test97_poly_server (
   id   int not null,
-  numberOfCPUs  int not null,
+  number_of_cpus  int not null,
   support int not null
 )
 go
@@ -86,7 +86,7 @@ go
 create table test97_poly_server_multi (
   id1   int not null,
   id2        int not null,
-  numberOfCPUs  int not null,
+  number_of_cpus  int not null,
   support int not null
 )
 go
@@ -145,14 +145,14 @@ insert into test97_poly_prod (id, name, detail, owner) values (3, 'server 3', 3,
 go
 insert into test97_poly_computer (id, cpu) values (3, 'pentium 4')
 go
-insert into test97_poly_server (id, numberOfCPUs, support) values (3, 4, 3)
+insert into test97_poly_server (id, number_of_cpus, support) values (3, 4, 3)
 go
 
 insert into test97_poly_prod (id, name, detail, owner) values (4, 'server 4', 4, 4)
 go
 insert into test97_poly_computer (id, cpu) values (4, 'pentium 4')
 go
-insert into test97_poly_server (id, numberOfCPUs, support) values (4, 16,5)
+insert into test97_poly_server (id, number_of_cpus, support) values (4, 16,5)
 go
 
 insert into test97_poly_prod (id, name, detail, owner) values (5, 'truck 5', 5, 5)
@@ -180,14 +180,14 @@ insert into test97_poly_prod_multi (id1, id2, name) values (3, 3, 'server 3')
 go
 insert into test97_poly_computer_multi (id1, id2, cpu) values (3, 3, 'pentium 4')
 go
-insert into test97_poly_server_multi (id1,  id2, numberOfCPUs, support) values (3, 3, 4, 3)
+insert into test97_poly_server_multi (id1,  id2, number_of_cpus, support) values (3, 3, 4, 3)
 go
 
 insert into test97_poly_prod_multi (id1, id2, name) values (4, 4, 'server 4')
 go
 insert into test97_poly_computer_multi (id1, id2, cpu) values (4, 4, 'pentium 4')
 go
-insert into test97_poly_server_multi (id1, id2, numberOfCPUs, support) values (4, 4, 16,5)
+insert into test97_poly_server_multi (id1, id2, number_of_cpus, support) values (4, 4, 16,5)
 go
 
 insert into test97_poly_owner (id, name, product) values (1, 'owner 1', 1)

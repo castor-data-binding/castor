@@ -12,5 +12,3 @@ create procedure proc_check_permissions @userName varchar(200),
     SELECT id, value1, value2 FROM test39_entity WHERE value1 = @userName
     SELECT id, value1, value2 FROM test39_entity WHERE value2 = @groupName
 go
-sp_procxmode proc_check_permissions, "anymode"
-go

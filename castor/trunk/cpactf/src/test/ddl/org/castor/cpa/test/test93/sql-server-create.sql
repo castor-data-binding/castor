@@ -30,13 +30,13 @@ go
 
 create table test93_subscription (
     id                int not null,
-    createddate        timestamp,
+    created_date        datetime,
     description        varchar(200),
     customer_id        int not null
 )
 go
 
-insert into test93_subscription (id, createddate, customer_id) values (1, CURRENT_TIMESTAMP, 2)
+insert into test93_subscription (id, created_date, customer_id) values (1, GETDATE(), 2)
 go
-insert into test93_subscription (id, createddate, customer_id) values (2, CURRENT_TIMESTAMP, 2)
+insert into test93_subscription (id, created_date, customer_id) values (2, GETDATE(), 2)
 go

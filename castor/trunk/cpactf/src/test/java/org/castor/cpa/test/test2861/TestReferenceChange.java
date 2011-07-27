@@ -41,7 +41,8 @@ public final class TestReferenceChange extends CPAThreadedTestCase {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.SAPDB)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void createObjects() throws Exception {
