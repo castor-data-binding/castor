@@ -192,28 +192,7 @@ public final class TypeInfo {
         // So, it must be called outside synchronized( locks ) block.
         boolean failed = true;
         try {
-            switch (lockAction) {
-            case READ:
-                entry.acquireLoadLock(tx, false, timeout);
-                break;
-
-            case WRITE:
-                entry.acquireLoadLock(tx, true, timeout);
-                break;
-
-            case CREATE:
-                entry.acquireCreateLock(tx);
-                break;
-
-            case UPDATE:
-                entry.acquireUpdateLock(tx, timeout);
-                break;
-
-            default:
-                throw new IllegalArgumentException(
-                        "lockType " + lockAction + " is undefined!"); 
-            }
-            
+            entry.acquireLock(tx, lockAction, timeout);
             failed = false;
             return entry;
         } finally {
