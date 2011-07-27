@@ -3,7 +3,7 @@ go
 drop table test25_detail
 go
 drop table test25_detail2
-gp
+go
 drop table test25_detail3
 go
 drop table test25_group

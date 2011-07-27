@@ -36,7 +36,8 @@ public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
     // HSQL and MYSQL do not support sequence key generator
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.MYSQL);
+            || (engine == DatabaseEngineType.MYSQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public void testKeyGenSequence() throws Exception {

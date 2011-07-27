@@ -1,2 +1,2 @@
-drop table if exists test16_sample
+drop table test16_sample
 go

@@ -17,7 +17,7 @@ go
 
 create table test70_comp_item (
   iid integer not null,
-  id integer  not null
+  id integer
 )
 go
 

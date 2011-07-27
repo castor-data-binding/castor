@@ -37,7 +37,8 @@ public final class TestDepends extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

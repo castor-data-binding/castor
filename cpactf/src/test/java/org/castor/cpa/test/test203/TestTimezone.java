@@ -53,10 +53,6 @@ public final class TestTimezone extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return false;
-//        return (engine == DatabaseEngineType.DERBY)
-//            || (engine == DatabaseEngineType.HSQL)
-//            || (engine == DatabaseEngineType.MYSQL)
-//            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
     public void testDate() throws Exception {

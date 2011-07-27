@@ -37,7 +37,8 @@ public final class TestPolymorphismMany2Many extends CPATestCase {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public void testCreateProd() throws Exception {

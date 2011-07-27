@@ -49,7 +49,8 @@ public final class TestNestedFields extends CPATestCase {
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.SAPDB)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
     
     public void setUp() throws Exception {

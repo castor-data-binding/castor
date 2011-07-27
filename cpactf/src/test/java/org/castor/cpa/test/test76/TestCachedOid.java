@@ -47,7 +47,8 @@ public final class TestCachedOid extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.ORACLE);
+            || (engine == DatabaseEngineType.ORACLE)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

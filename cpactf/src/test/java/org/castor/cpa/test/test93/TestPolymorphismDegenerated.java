@@ -35,7 +35,8 @@ public final class TestPolymorphismDegenerated extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     // Test currently fails against oracle. don't know why.

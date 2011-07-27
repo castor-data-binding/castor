@@ -6,14 +6,14 @@ go
 create unique index test75_group_pk on test75_group ( gid )
 go
 
-create table test75_group (
+create table test75_person (
   pid        int           not null,
   value1     varchar(100)  not null,
   helloworld varchar(100)  null,
   sthelse    varchar(100)  null
 )
 go
-create unique index test75_group_pk on test75_group ( pid )
+create unique index test75_person_pk on test75_person ( pid )
 go
 
 create table test75_group_person (

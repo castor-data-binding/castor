@@ -40,7 +40,8 @@ public class TestOneToManyMixedMapping2 extends AbstractTestOneToMany {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SQL_SERVER);
     }
 
     @Override
