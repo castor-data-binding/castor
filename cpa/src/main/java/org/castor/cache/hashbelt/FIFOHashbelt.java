@@ -15,7 +15,6 @@
  */
 package org.castor.cache.hashbelt;
 
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -132,10 +131,6 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
-        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
-        iter = map.entrySet().iterator();
-        Entry<? extends Object, ? extends Object> entry;
-
         try {
             lock().writeLock().lockInterruptibly();
         } catch (InterruptedException ex) {
@@ -143,8 +138,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         }
         
         try {
-            while (iter.hasNext()) {
-                entry = iter.next();
+            for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
                 putObjectIntoCache(entry.getKey(), entry.getValue());
             }
         } catch (RuntimeException ex) {
