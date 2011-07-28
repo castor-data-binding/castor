@@ -15,11 +15,10 @@
  */
 package org.castor.persist.cache;
 
-import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.persist.OID;
 
 /**
- * Utility class to store 'data' accessed through Castor JDO in performance caches.
+ * Immutable class to store 'data' accessed through Castor JDO in performance caches.
  * 
  * @author <a href="mailto:werner DOT guttmann @ gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2005-12-01 14:45:18 -0700 (Thu, 01 Dec 2005) $
@@ -31,79 +30,57 @@ public final class CacheEntry implements java.io.Serializable {
     /** SerialVersionUID. */
     private static final long serialVersionUID = -5165311222436920871L;
 
-    /** OID of the entry to be cached. */
-    private OID _oid;
+    /** OID of the entity cached. */
+    private final OID _oid;
 
-    /** Actual data to be cached. */
-    private Object[] _entry;
+    /** Actual values of the entity cached. */
+    private final Object[] _values;
 
-    /** Associated time stamp. */
-    private long _timeStamp = TimeStampable.NO_TIMESTAMP;
+    /** Associated version of the entity. */
+    private final long _version;
 
     //--------------------------------------------------------------------------
 
-    public CacheEntry() { }
-    
-    public CacheEntry(final OID oid, final Object[] entry, final long timeStamp) {
+    /**
+     * Construct CacheEntry with given OID, values and version.
+     * 
+     * @param oid OID of the entity cached.
+     * @param values Actual values of the entity cached.
+     * @param version Associated version of the entity.
+     */
+    public CacheEntry(final OID oid, final Object[] values, final long version) {
         _oid = oid;
-        _entry = entry;
-        _timeStamp = timeStamp;
+        _values = values;
+        _version = version;
     }
     
     //--------------------------------------------------------------------------
 
     /**
-     * Get OID of the entry to be cached.
+     * Get OID of the entity cached.
      * 
-     * @return OID of the entry to be cached.
+     * @return OID of the entity cached.
      */
     public OID getOID() {
         return _oid;
     }
 
     /**
-     * Set OID of the entry to be cached.
+     * Get actual values of the entity cached.
      * 
-     * @param oid   OID of the entry to be cached.
+     * @return Actual values of the entity cached.
      */
-    public void setOID(final OID oid) {
-        _oid = oid;
+    public Object[] getValues() {
+        return _values;
     }
 
     /**
-     * Get actual data to be cached.
+     * Get associated version of the entity.
      * 
-     * @return Actual data to be cached.
+     * @return Associated version of the entity.
      */
-    public Object[] getEntry() {
-        return _entry;
-    }
-
-    /**
-     * Set actual data to be cached.
-     * 
-     * @param entry Actual data to be cached.
-     */
-    public void setEntry(final Object[] entry) {
-        _entry = entry;
-    }
-
-    /**
-     * Get associated time stamp.
-     * 
-     * @return Associated time stamp.
-     */
-    public long getTimeStamp() {
-        return _timeStamp;
-    }
-
-    /**
-     * Set associated time stamp.
-     * 
-     * @param stamp Associated time stamp.
-     */
-    public void setTimeStamp(final long stamp) {
-        _timeStamp = stamp;
+    public long getVersion() {
+        return _version;
     }
 
     //--------------------------------------------------------------------------
