@@ -164,10 +164,7 @@ public final class FastIteratingContainer implements Container {
      * {@inheritDoc}
      */
     public synchronized void putAll(final Map<? extends Object, ? extends Object> map) {
-        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
-        iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<? extends Object, ? extends Object> entry = iter.next();
+        for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
             put(entry.getKey(), entry.getValue());
         }
     }
