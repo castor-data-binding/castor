@@ -34,8 +34,7 @@ public final class TestCacheEntry extends TestCase {
         TestSuite suite = new TestSuite("CacheEntry Tests");
 
         suite.addTest(new TestCacheEntry("testOIDConstructor"));
-        suite.addTest(new TestCacheEntry("testConstructor"));
-        suite.addTest(new TestCacheEntry("testGetterSetter"));
+        suite.addTest(new TestCacheEntry("testCacheEntry"));
 
         return suite;
     }
@@ -43,44 +42,34 @@ public final class TestCacheEntry extends TestCase {
     public TestCacheEntry(final String name) { super(name); }
 
     public void testOIDConstructor() throws Exception {
-        Constructor<OID> constructor = OID.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        Object object = constructor.newInstance();
+        Object object = createOID();
         assertTrue(object instanceof OID);
+    }
+
+    public void testCacheEntry() throws Exception {
+        CacheEntry ce1 = new CacheEntry(null, null, TimeStampable.NO_TIMESTAMP);
+        assertNull(ce1.getOID());
+        assertNull(ce1.getValues());
+        assertEquals(TimeStampable.NO_TIMESTAMP, ce1.getVersion());
+        
+        OID oid = createOID();
+        Object[] entry = new Object[] {};
+        
+        CacheEntry ce2 = new CacheEntry(oid, entry, Long.MAX_VALUE);
+        assertTrue(oid == ce2.getOID());
+        assertTrue(entry == ce2.getValues());
+        assertTrue(Long.MAX_VALUE == ce2.getVersion());
+
+        
+        CacheEntry ce3 = new CacheEntry(oid, entry, Long.MIN_VALUE);
+        assertTrue(oid == ce3.getOID());
+        assertTrue(entry == ce3.getValues());
+        assertTrue(Long.MIN_VALUE == ce3.getVersion());
     }
 
     private OID createOID() throws Exception {
         Constructor<OID> constructor = OID.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         return constructor.newInstance();
-    }
-
-    public void testConstructor() throws Exception {
-        Object obj = new CacheEntry();
-        assertTrue(obj instanceof CacheEntry);
-    }
-
-    public void testGetterSetter() throws Exception {
-        CacheEntry ce = new CacheEntry();
-        assertNull(ce.getOID());
-        assertNull(ce.getEntry());
-        assertEquals(TimeStampable.NO_TIMESTAMP, ce.getTimeStamp());
-
-        OID oid = createOID();
-        ce.setOID(oid);
-        assertTrue(oid == ce.getOID());
-        ce.setOID(null);
-        assertNull(ce.getOID());
-        
-        Object[] entry = new Object[] {};
-        ce.setEntry(entry);
-        assertTrue(entry == ce.getEntry());
-        ce.setEntry(null);
-        assertNull(ce.getEntry());
-        
-        ce.setTimeStamp(Long.MAX_VALUE);
-        assertTrue(Long.MAX_VALUE == ce.getTimeStamp());
-        ce.setTimeStamp(Long.MIN_VALUE);
-        assertTrue(Long.MIN_VALUE == ce.getTimeStamp());
     }
 }

@@ -177,7 +177,7 @@ public final class TypeInfo {
                 if (cachedEntry != null) {
                     // found in 'second level' cache
                     entry = new ObjectLock(cachedEntry.getOID(),
-                            cachedEntry.getEntry(), cachedEntry.getTimeStamp());
+                            cachedEntry.getValues(), cachedEntry.getVersion());
                 } else {
                     // not found in 'second level' cache
                     entry = new ObjectLock(oid);
