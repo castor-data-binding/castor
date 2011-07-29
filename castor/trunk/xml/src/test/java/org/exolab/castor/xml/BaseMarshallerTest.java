@@ -225,7 +225,7 @@ public abstract class BaseMarshallerTest extends TestCase {
         marshaller.setMarshalAsDocument(false);
         String result = marshalEmails(marshaller);
         assertXMLEqual("Marshaller wrote invalid result", EXPECTED_STRING, result);
-//        Assert.assertFalse("Result contains xml declaration.", result.matches("<\\?\\s*xml"));
+        Assert.assertFalse("Result contains xml declaration.", result.matches("<\\?\\s*xml"));
     }
 
     /**
