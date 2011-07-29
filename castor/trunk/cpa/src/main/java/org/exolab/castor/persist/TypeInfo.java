@@ -245,7 +245,7 @@ public final class TypeInfo {
                 throw new ObjectDeletedWaitingForLockException(
                         "Lock entry not found. Deleted?");
             }
-            if (!entry.hasLock(tx, false)) {
+            if (!entry.hasLock(tx)) {
                 throw new IllegalStateException(
                         "Transaction does not hold the any lock on " + internaloid + "!");    
             }
@@ -279,10 +279,16 @@ public final class TypeInfo {
                 throw new IllegalStateException(
                         "Lock, " + oid + ", doesn't exist or no lock!");
             }
-            if (!entry.hasLock(tx, write)) {
-                throw new IllegalStateException(
-                        "Transaction " + tx + " does not hold the "
-                        + (write ? "write" : "read") + " lock: " + entry + "!");
+            if (write) {
+                if (!entry.hasWriteLock(tx)) {
+                    throw new IllegalStateException(
+                            "Transaction " + tx + " does not hold the write lock: " + entry + "!");
+                }
+            } else {
+                if (!entry.hasLock(tx)) {
+                    throw new IllegalStateException(
+                            "Transaction " + tx + " does not hold the read lock: " + entry + "!");
+                }
             }
             return entry;
         }

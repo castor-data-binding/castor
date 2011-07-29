@@ -197,16 +197,10 @@ public final class ObjectLock implements DepositBox {
     public Object[] getObject(final TransactionContext tx) {
         try {
             _lock.readLock().lock();
-            if ((_confirmWaitingTransaction != null) && (_confirmWaitingTransaction == tx)) {
-                return _object;
-            } else if ((_writeTransaction != null) && (_writeTransaction == tx)) {
-                return _object;
-            } else {
-                if (_readTransactions.contains(tx)) {
-                    return _object;
-                }
+            if (!hasLock(tx)) {
                 throw new IllegalArgumentException("Transaction tx does not own this lock!");
             }
+            return _object;
         } finally {
             _lock.readLock().unlock();
         }
@@ -216,11 +210,14 @@ public final class ObjectLock implements DepositBox {
         // initialize cache expiration flag to false
         try {
             _lock.writeLock().lock();
+            _deleted = false;
             _expired = false;
             _expiredObject = null;
-            _deleted = false;
             
-            if ((_confirmWaitingTransaction != null) && (_confirmWaitingTransaction == tx)) {
+            if (_writeTransaction == tx) {
+                _version = version;
+                _object = object;
+            } else if (_confirmWaitingTransaction == tx) {
                 _version = version;
                 _object = object;
                 if (_confirmWaitingAction == LockAction.READ) {
@@ -230,9 +227,6 @@ public final class ObjectLock implements DepositBox {
                 }
                 _confirmWaitingTransaction = null;
                 _conditionForLock.signalAll();
-            } else if ((_writeTransaction != null) && (_writeTransaction == tx)) {
-                _version = version;
-                _object = object;
             } else {
                 throw new IllegalArgumentException(
                         "Transaction tx does not own this lock, " + toString() + "!");
@@ -585,7 +579,7 @@ public final class ObjectLock implements DepositBox {
                 throw new IllegalStateException(
                         "Internal error: acquire when confirmWaiting is not null");
             }
-            if (!hasLock(tx, false)) {
+            if (!hasLock(tx)) {
                 throw new IllegalStateException(
                         "Transaction didn't previously acquire this lock");
             }
@@ -675,7 +669,7 @@ public final class ObjectLock implements DepositBox {
     public void delete(final TransactionContext tx) {
         try {
             _lock.writeLock().lock();
-            if (tx != _writeTransaction) {
+            if (_writeTransaction != tx) {
                 throw new IllegalStateException(Messages.message(
                         "persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx);
             }
@@ -694,13 +688,13 @@ public final class ObjectLock implements DepositBox {
     public void invalidate(final TransactionContext tx) {
         try {
             _lock.writeLock().lock();
-            if (tx != _writeTransaction) {
+            if (_writeTransaction != tx) {
                 throw new IllegalStateException(Messages.message(
                         "persist.notOwnerLock") + " oid:" + _oid + "/" + _id + " by " + tx);
             }
 
             if (LOG.isDebugEnabled()) {
-                LOG.debug ("Delete " + this.toString() + " by " + tx);
+                LOG.debug ("Invalidate " + this.toString() + " by " + tx);
             }
 
             _invalidated = true;
@@ -770,48 +764,43 @@ public final class ObjectLock implements DepositBox {
     }
     
     /**
-     * Returns true if the transaction holds a read or write lock on
-     * the object. This method is an efficient mean to determine whether
-     * a lock is required, or if the object is owned by the transaction.
+     * Returns true if the transaction holds a read or write lock on the object. This
+     * method is an efficient mean to determine whether a lock is required, or if the
+     * object is owned by the transaction.
      *
-     * @param tx The transaction
-     * @param write True if must have a write lock
-     * @return True if the transaction has a lock on this object
+     * @param tx The transaction.
+     * @return <code>true</code> if the transaction has a lock on this object.
      */
-    protected boolean hasLock(final TransactionContext tx, final boolean write) {
-        if (_writeTransaction == tx) {
-            return true;
-        }
+    protected boolean hasLock(final TransactionContext tx) {
+        if (_writeTransaction == tx) { return true; }
+        if (_confirmWaitingTransaction == tx) { return true; }
+        return _readTransactions.contains(tx);
+    }
+
+    /**
+     * Returns true if the transaction holds a write lock on the object. This method is
+     * an efficient mean to determine whether a lock is required, or if the object is
+     * owned by the transaction.
+     *
+     * @param tx The transaction.
+     * @return <code>true</code> if the transaction has a write lock on this object.
+     */
+    protected boolean hasWriteLock(final TransactionContext tx) {
+        if (_writeTransaction == tx) { return true; }
 
         if (_confirmWaitingTransaction == tx) {
             if ((_confirmWaitingAction == LockAction.WRITE)
                     || (_confirmWaitingAction == LockAction.CREATE)) {
                 return true;
-            } else if (!write && (_confirmWaitingAction == LockAction.READ)) {
-                return true;
             }
-            return false;
         }
 
-        if (write) {
-            return false;
-        }
-
-        return _readTransactions.contains(tx);
+        return false;
     }
 
     protected boolean isExclusivelyOwned(final TransactionContext tx) {
-        if (_writeTransaction == null) {
-            if (_readTransactions.isEmpty()) {
-                return false;
-            } else if ((_readTransactions.size() == 1) && _readTransactions.contains(tx)) {
-                return true;
-            }
-        } else if (_writeTransaction == tx) {
-            if (_readTransactions.isEmpty()) {
-                return true;
-            }
-        }
+        if (_writeTransaction == tx) { return true; }
+        if (_readTransactions.contains(tx) && (_readTransactions.size() == 1)) { return true; }
         return false;
     }
     
