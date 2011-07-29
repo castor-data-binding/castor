@@ -17,6 +17,9 @@ package org.exolab.castor.xml;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
+
+import org.junit.Ignore;
+
 import java.io.StringWriter;
 
 /**
@@ -26,6 +29,7 @@ import java.io.StringWriter;
  * @version 1.3.3
  * @since 1.3.3
  */
+@Ignore
 public class MarshallerStaxStreamTest extends BaseMarshallerTest {
 
     /**
