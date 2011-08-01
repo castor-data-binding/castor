@@ -107,7 +107,7 @@ import org.exolab.castor.xml.ClassDescriptorResolver;
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class LockEngine {
     /**

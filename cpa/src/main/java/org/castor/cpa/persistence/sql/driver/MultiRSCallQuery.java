@@ -57,7 +57,7 @@ import org.exolab.castor.persist.spi.AbstractCallQuery;
  * that yield multiple ResultSets, like Sybase stored procedures.
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 final class MultiRSCallQuery extends AbstractCallQuery {
     /**

@@ -19,7 +19,7 @@ package org.castor.transactionmanager;
  * Dummy transaction manager factory to test AbstractTransactionManagerFactory.
  *  
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class TransactionManagerFactoryDummy

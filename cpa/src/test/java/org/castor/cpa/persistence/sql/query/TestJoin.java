@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
+ * @version $Revision$ $Date$
  */
 public final class TestJoin {
 

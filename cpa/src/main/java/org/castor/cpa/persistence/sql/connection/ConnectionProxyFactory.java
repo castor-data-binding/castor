@@ -27,7 +27,7 @@ import java.sql.PreparedStatement;
  * logging.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 5951 $ $Date$
+ * @version $Revision$ $Date$
  * @since 1.0.4
  */
 public final class ConnectionProxyFactory {

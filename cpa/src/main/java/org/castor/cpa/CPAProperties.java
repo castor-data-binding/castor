@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Id: Configuration.java 6907 2007-03-28 21:24:52Z rjoachim $
+ * $Id$
  */
 package org.castor.cpa;
 
@@ -25,7 +25,7 @@ import org.castor.xml.XMLProperties;
 /**
  * Properties of CPA modul.
  * 
- * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
+ * @version $Id$
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  */

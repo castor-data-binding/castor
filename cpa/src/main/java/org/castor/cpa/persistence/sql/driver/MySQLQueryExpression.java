@@ -51,7 +51,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for MySQL.
  *
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
+ * @version $Revision$ $Date$
  */
 public final class MySQLQueryExpression extends JDBCQueryExpression {
     public MySQLQueryExpression(final PersistenceFactory factory) {

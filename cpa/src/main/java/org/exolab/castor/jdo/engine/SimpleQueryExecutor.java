@@ -65,7 +65,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * and this class will execute the query, and return results.
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
+ * @version $Revision$ $Date$
  */
 public class SimpleQueryExecutor {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta

@@ -59,7 +59,7 @@ import org.junit.Ignore;
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 @Ignore

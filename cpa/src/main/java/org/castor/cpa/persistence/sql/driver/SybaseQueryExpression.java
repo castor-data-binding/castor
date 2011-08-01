@@ -53,7 +53,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for Sybase Adaptive Servers.
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
+ * @version $Revision$ $Date$
  */
 public final class SybaseQueryExpression extends JDBCQueryExpression {
     public SybaseQueryExpression(final PersistenceFactory factory) {

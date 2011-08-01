@@ -40,7 +40,7 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id: LockEngine.java 8888 2011-05-12 12:35:39Z rjoachim $
+ * $Id$
  */
 
 package org.exolab.castor.persist;
@@ -70,7 +70,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
- * @version $Revision: 8888 $ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class TypeInfo {
     //-----------------------------------------------------------------------------------    

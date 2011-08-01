@@ -28,7 +28,7 @@ import org.castor.cpa.persistence.sql.query.expression.Parameter;
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
- * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
+ * @version $Revision$ $Date$
  */
 public final class TestUpdate extends TestCase {
     public void testExtendsHierarchy() {

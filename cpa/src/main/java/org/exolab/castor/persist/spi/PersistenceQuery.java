@@ -67,7 +67,7 @@ import org.exolab.castor.mapping.AccessMode;
  * objects, identities and stamps.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
+ * @version $Revision$ $Date$
  * @see Persistence
  */
 public interface PersistenceQuery {

@@ -43,7 +43,7 @@ import org.exolab.castor.mapping.MappingException;
  * Java type.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class SQLTypeInfos {

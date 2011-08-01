@@ -26,7 +26,7 @@ import org.castor.cache.AbstractCacheFactory;
  * implementation of {@link org.castor.cache.Cache}.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class GigaspacesCacheFactory extends AbstractCacheFactory {

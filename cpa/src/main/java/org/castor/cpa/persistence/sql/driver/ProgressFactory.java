@@ -23,7 +23,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for Progress RDBMS.
  * 
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
+ * @version $Revision$ $Date$
  */
 public final class ProgressFactory extends GenericFactory {
     //-----------------------------------------------------------------------------------

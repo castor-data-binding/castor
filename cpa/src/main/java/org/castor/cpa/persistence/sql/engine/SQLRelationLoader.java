@@ -45,7 +45,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:johannes DOT venzke AT revival DOT de">Johannes Venzke</a>
- * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class SQLRelationLoader {
     //-----------------------------------------------------------------------------------    

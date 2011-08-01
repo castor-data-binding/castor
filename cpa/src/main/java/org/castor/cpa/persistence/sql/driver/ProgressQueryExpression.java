@@ -21,7 +21,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for Progress RDBMS.
  * 
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2004-09-08 03:37:54 -0600 (Wed, 08 Sep 2004) $
+ * @version $Revision$ $Date$
  */
 public final class ProgressQueryExpression extends JDBCQueryExpression {
 

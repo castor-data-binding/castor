@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Id: SQLStatementDelete.java 8894 2011-05-19 17:17:16Z rjoachim $
+ * $Id$
  */
 package org.exolab.castor.persist;
 
@@ -21,7 +21,7 @@ package org.exolab.castor.persist;
  * LockAction is enum which show the action of lock.
  * 
  * @author <a href="mailto:wsdou55 AT gmail DOT com">Wensheng Dou</a>
- * @version $Revision: 8894 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public enum LockAction {
     /**

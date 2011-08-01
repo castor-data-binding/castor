@@ -19,7 +19,7 @@ package org.exolab.castor.jdo;
  * An attempt to open a JDBC connection failed.
  *
  * @author <a href="ralf.joachim@syscon.eu">Ralf Joachim</a>
- * @version $Revision: 7121 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
+ * @version $Revision$ $Date$
  */
 public class ConnectionFailedException extends PersistenceException {
     /** SerialVersionUID. */

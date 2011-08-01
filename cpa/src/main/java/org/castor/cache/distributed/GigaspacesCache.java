@@ -81,7 +81,7 @@ import org.castor.cache.CacheAcquireException;
  * @see <a href="http://www.gigaspaces.com/">The Gigaspaces Home Page</a>
  * @see <a href="http://www.gigaspaces.com/wiki">The Gigaspaces Wiki</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 

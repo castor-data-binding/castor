@@ -73,7 +73,7 @@ import org.castor.cpa.persistence.sql.keygen.NoKeyGeneratorFactory;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public abstract class BaseFactory implements PersistenceFactory {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta

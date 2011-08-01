@@ -51,7 +51,7 @@ import junit.framework.TestCase;
  * Test class for {@link Parser}. 
  *
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class TestParser extends TestCase {
     public static final int NODE_TYPES = 1;

@@ -43,7 +43,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 8241 $ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class NoKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------
