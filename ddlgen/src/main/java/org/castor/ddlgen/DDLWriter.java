@@ -55,7 +55,7 @@ import java.text.MessageFormat;
  * such methods.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.1.2
  */
 public final class DDLWriter extends Writer {
