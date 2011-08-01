@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
  * Run all tests of the ptf.jdo.rel1toN package.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
+ * @version $Revision:6817 $ $Date$
  */
 public class TestAll extends TestCase {
     public static Test suite() throws Exception {
