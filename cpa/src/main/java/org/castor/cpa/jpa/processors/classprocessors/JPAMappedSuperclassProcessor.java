@@ -28,8 +28,11 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAMappedSuperclassProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
@@ -37,6 +40,8 @@ public class JPAMappedSuperclassProcessor extends BaseJPAAnnotationProcessor {
     private static final Log LOG = LogFactory.getFactory().getInstance(
             JPAMappedSuperclassProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      */
@@ -63,4 +68,5 @@ public class JPAMappedSuperclassProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
 }

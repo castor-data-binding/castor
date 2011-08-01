@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,10 +35,13 @@ import org.exolab.castor.mapping.MappingException;
  * Uses a JPA annotated {@link Class} to build a {@link ClassInfo} and
  * {@link FieldInfo}s of it and parse the mapping information in them.
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public final class ClassInfoBuilder {
+    //-----------------------------------------------------------------------------------
 
     /**
      * The {@link TargetAwareAnnotationProcessingService} for class related
@@ -53,11 +56,15 @@ public final class ClassInfoBuilder {
     private static TargetAwareAnnotationProcessingService _fieldAnnotationProcessingService = 
         new JPAFieldAnnotationProcessingService();
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Do not allow instances of utility classes.
      */
     private ClassInfoBuilder() {
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Builds a new {@link ClassInfo} describing the given Class. Annotations
@@ -301,4 +308,6 @@ public final class ClassInfoBuilder {
         }
         return isDescribeable;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

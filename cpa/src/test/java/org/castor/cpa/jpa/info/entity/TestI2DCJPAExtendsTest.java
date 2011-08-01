@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Werner Guttmann, Peter Schmidt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,21 @@ import org.junit.Ignore;
 
 /**
  * Domain class annotated with JPA annotation used for unit testing.
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 @Entity
 @Ignore
 public final class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Show that the primary_key is the ID of this entity.
      */
     private String _primaryKey;
+    
+    //-----------------------------------------------------------------------------------
 
     @Id
     public String getPrimaryKey() {
@@ -40,4 +46,6 @@ public final class TestI2DCJPAExtendsTest extends TestI2DCJPATest {
     public void setPrimaryKey(final String primaryKey) {
         _primaryKey = primaryKey;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

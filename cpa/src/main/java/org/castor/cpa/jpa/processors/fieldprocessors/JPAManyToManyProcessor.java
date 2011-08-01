@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,12 +45,13 @@ import org.castor.cpa.jpa.processors.ReflectionsHelper;
  * the Many2Many related ones) of {@link JPAFieldNature} will return valid
  * values.
  * 
- * @author Peter Schmidt
- * @version 05.02.2009
- * 
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
-
+    //-----------------------------------------------------------------------------------
+    
     /**
      * This enumeration is used to determine the origin of JoinTable
      * information.
@@ -81,6 +82,8 @@ public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
          */
         nothing
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -89,6 +92,8 @@ public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
     private static Log _log = LogFactory.getFactory().getInstance(
             JPAManyToManyProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The value of {@link ManyToMany#mappedBy()}.
      */
@@ -105,6 +110,8 @@ public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
      */
     private AnnotatedElement _target;
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -464,4 +471,5 @@ public class JPAManyToManyProcessor extends BaseJPAAnnotationProcessor {
         return JoinTableStrategy.nothing;
     }
 
+    //-----------------------------------------------------------------------------------
 }

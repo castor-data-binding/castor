@@ -65,6 +65,10 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * structure. Execute method prepares a SQL statement, binds identity values to parameters
  * of the query, executes it and handles the results of the query.
  * 
+ * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
+ * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
+ * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $

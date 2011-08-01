@@ -35,13 +35,17 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * all column specific methods of {@link JPAFieldNature} return valid values.
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class JPASequenceGeneratorClassProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(JPASequenceGeneratorClassProcessor.class);
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -98,4 +102,5 @@ public class JPASequenceGeneratorClassProcessor extends BaseJPAAnnotationProcess
         return SequenceGenerator.class;
     }
 
+    //-----------------------------------------------------------------------------------
 }

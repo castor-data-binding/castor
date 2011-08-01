@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Martin Kandler, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,9 +31,12 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * {@link JPAFieldNature#isTransient()} will return valid values.
  * 
  * @author Martin Kandler
- * @version 2008-12-08
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPATransientProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
@@ -41,6 +44,8 @@ public class JPATransientProcessor extends BaseJPAAnnotationProcessor {
     private static Log _log = LogFactory.getFactory().getInstance(
             JPATransientProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -70,4 +75,6 @@ public class JPATransientProcessor extends BaseJPAAnnotationProcessor {
         }
         return false;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

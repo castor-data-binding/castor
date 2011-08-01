@@ -44,6 +44,7 @@ import org.exolab.castor.jdo.engine.SQLColumnInfo;
   * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
   * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
   * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+  * @version $Revision$ $Date$
   */
 public final class SQLStatementInsertCheck {
     //----------------------------------------------------------------------------------------------

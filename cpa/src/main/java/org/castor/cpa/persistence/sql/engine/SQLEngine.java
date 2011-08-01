@@ -67,12 +67,15 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
  */
 public final class SQLEngine implements Persistence {
+    //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLEngine.class);
     
     private static final String JDO_FIELD_NATURE = FieldDescriptorJDONature.class.getName();
+    
+    //-----------------------------------------------------------------------------------
 
     private final SQLFieldInfo[]        _fields;
 
@@ -95,6 +98,8 @@ public final class SQLEngine implements Persistence {
     private final SQLStatementUpdate _storeStatement;
 
     private final EntityTableInfo _tableInfo;
+    
+    //-----------------------------------------------------------------------------------
 
     public SQLEngine(final ClassDescriptor clsDesc, final PersistenceFactory factory)
     throws MappingException {
@@ -211,6 +216,8 @@ public final class SQLEngine implements Persistence {
         _removeStatement = new SQLStatementDelete(this);
         _storeStatement = new SQLStatementUpdate(this);
     }
+    
+    //-----------------------------------------------------------------------------------
     
     /**
      * {@inheritDoc}
@@ -419,4 +426,6 @@ public final class SQLEngine implements Persistence {
     }
     
     public String toString() { return _clsDesc.toString(); }
+    
+    //-----------------------------------------------------------------------------------
 }

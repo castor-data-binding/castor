@@ -21,16 +21,20 @@ import org.exolab.castor.mapping.MappingLoader;
 
 /**
  * {@link MappingLoaderNature} provides a {@link MappingLoader}.
- * @author Lukas Lang
+ * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
+ * @version $Revision$ $Date$
  * @since 1.2.1
  *
  */
 public final class MappingLoaderNature extends BaseNature {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Nature property name for {@link MappingLoader}.
      */
     private static final String MAPPING_LOADER = "mappingloader";
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Constructor taking a {@link PropertyHolder}.
@@ -39,6 +43,8 @@ public final class MappingLoaderNature extends BaseNature {
     public MappingLoaderNature(final PropertyHolder holder) {
         super(holder);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Returns the Nature Id.
@@ -65,4 +71,5 @@ public final class MappingLoaderNature extends BaseNature {
         return (MappingLoader) getProperty(MAPPING_LOADER);
     }
 
+    //-----------------------------------------------------------------------------------
 }

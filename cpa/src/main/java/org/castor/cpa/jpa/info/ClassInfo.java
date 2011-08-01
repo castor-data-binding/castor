@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Werner Guttmann, Peter Schmidt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,13 @@ import org.castor.core.nature.PropertyHolder;
  * This class holds the necessary information so that Castor can properly map a
  * JPA annotated {@link Class} to the database.
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public final class ClassInfo implements PropertyHolder {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Set of {@link FieldInfo}'s for all attributes that are members of this
@@ -60,6 +63,8 @@ public final class ClassInfo implements PropertyHolder {
      */
     private Class<?> _describedClass;
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Creates a new empty ClassInfo.
      */
@@ -75,6 +80,8 @@ public final class ClassInfo implements PropertyHolder {
     public ClassInfo(final Class<?> describedClass) {
         this._describedClass = describedClass;
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -251,4 +258,5 @@ public final class ClassInfo implements PropertyHolder {
         return this._describedClass.getSuperclass();
     }
 
+    //-----------------------------------------------------------------------------------
 }

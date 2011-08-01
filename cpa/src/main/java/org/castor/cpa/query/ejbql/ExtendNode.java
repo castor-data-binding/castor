@@ -25,11 +25,15 @@ package org.castor.cpa.query.ejbql;
  * @since 1.3
  */
 public class ExtendNode {
+    // --------------------------------------------------------------------------
+    
     /** The text. */
     private String _text;
 
     /** The kind. */
     private int _kind; 
+    
+    // --------------------------------------------------------------------------
     
     /**
      * Gets the text.
@@ -66,4 +70,6 @@ public class ExtendNode {
     public final void setKind(final int kind) {
         _kind = kind;
     }
+    
+    // --------------------------------------------------------------------------
 }

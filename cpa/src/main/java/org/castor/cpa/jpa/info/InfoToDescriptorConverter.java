@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,17 +60,22 @@ import org.exolab.castor.xml.ResolverException;
  * Working getters for Classes ({@link #convert(ClassInfo)}) and Fields (
  * {@link #convert(ClassDescriptor, FieldInfo)})
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public final class InfoToDescriptorConverter {
-
+    //-----------------------------------------------------------------------------------
+    
     /**
      * This is a utility class that only offers static functions.
      */
     private InfoToDescriptorConverter() {
 
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * This method converts a {@link ClassInfo} to a {@link ClassDescriptorImpl}
@@ -924,4 +929,5 @@ public final class InfoToDescriptorConverter {
                 || jpaNature.isOneToMany() || jpaNature.isManyToMany();
     }
 
+    //-----------------------------------------------------------------------------------
 }

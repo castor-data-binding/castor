@@ -19,10 +19,14 @@ import javax.persistence.SequenceGenerator;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPASequenceGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
+    //-----------------------------------------------------------------------------------
 
     private String _sequenceName;
+    
+    //-----------------------------------------------------------------------------------
 
     public String getSequenceName() {
         return _sequenceName;
@@ -42,4 +46,6 @@ public class JPASequenceGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
         
         return descriptor;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

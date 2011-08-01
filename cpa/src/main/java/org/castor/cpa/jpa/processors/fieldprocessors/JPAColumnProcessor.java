@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,16 +30,21 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * Processes the JPA annotation {@link Column}. After this processor is done,
  * all column specific methods of {@link JPAFieldNature} return valid values.
  * 
- * @author Peter Schmidt
- * @version 2008-12-08
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAColumnProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
      */
     private static Log _log = LogFactory.getLog(JPAColumnProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -78,4 +83,6 @@ public class JPAColumnProcessor extends BaseJPAAnnotationProcessor {
         
         return false;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

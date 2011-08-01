@@ -19,12 +19,16 @@ package org.castor.cpa.jpa.info;
  * Defines an exception related to defining multiple version fields.
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class MultipleVersionFieldDefinitionException extends Exception {
+    //-----------------------------------------------------------------------------------
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1172019711964808828L;
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Creates an instance of this class.
@@ -42,4 +46,5 @@ public class MultipleVersionFieldDefinitionException extends Exception {
         super(message);
     }    
     
+    //-----------------------------------------------------------------------------------
 }

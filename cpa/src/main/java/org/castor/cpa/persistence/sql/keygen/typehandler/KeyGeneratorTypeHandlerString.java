@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ralf Joachim
+ * Copyright 2009 Ahmad Hassan, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,13 +31,19 @@ import org.exolab.castor.jdo.PersistenceException;
  */
 public final class KeyGeneratorTypeHandlerString
 implements KeyGeneratorTypeHandler <String> {
+    //-----------------------------------------------------------------------------------
+    
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
     private static String _zero;
+    
+    //-----------------------------------------------------------------------------------
 
     /** <code>true</code> if the type handler should fail when current row of the record set is
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
+    
+    //-----------------------------------------------------------------------------------
     
     /**
      * Construct an type handler for string values.
@@ -54,6 +60,8 @@ implements KeyGeneratorTypeHandler <String> {
         }
         _fail = fail;
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -115,4 +123,6 @@ implements KeyGeneratorTypeHandler <String> {
     throws SQLException {
         stmt.setString(index, value);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2006 Werner Guttmann, Peter Schmidt
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.castor.cpa.util.classresolution.command;
 
 import java.util.LinkedHashMap;
@@ -21,16 +36,20 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @see ClassInfoBuilder
  * @see InfoToDescriptorConverter
  * 
- * @author Peter Schmidt
- * @version 2009-05-05
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * 
  */
 public class ClassResolutionByAnnotations extends BaseResolutionCommand {
+    //-----------------------------------------------------------------------------------
 
     /** The Logger instance to use. */
     private static final Log LOG = LogFactory
             .getLog(ClassResolutionByAnnotations.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Internal loop cache. contains all unfinished {@link ClassDescriptor}s.
      * After conversion (fail or success) the descriptors are removed from the cache.
@@ -38,6 +57,8 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
     private Map<Class<?>, ClassDescriptorImpl> _loopCache = 
         new LinkedHashMap<Class<?>, ClassDescriptorImpl>();
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Try to resolve/generate a {@link ClassDescriptor} for the given (JPA
      * annotated) type.
@@ -104,4 +125,6 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
             return null;
         }
     }
+    
+    //-----------------------------------------------------------------------------------
 }

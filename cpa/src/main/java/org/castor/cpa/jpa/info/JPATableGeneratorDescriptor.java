@@ -20,8 +20,10 @@ import javax.persistence.UniqueConstraint;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPATableGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
+    //-----------------------------------------------------------------------------------
 
     private String _pkColumnName;
     private String _pkColumnValue;
@@ -30,6 +32,8 @@ public class JPATableGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
     private JPAUniqueConstraint[] _uniqueConstraints;
     private String _valueColumnName;
     private Class<?> _primaryKeyType;
+    
+    //-----------------------------------------------------------------------------------
     
     public static JPATableGeneratorDescriptor extract(final TableGenerator tableGenerator) {
         JPATableGeneratorDescriptor descriptor = new JPATableGeneratorDescriptor();
@@ -101,5 +105,7 @@ public class JPATableGeneratorDescriptor extends JPAKeyGeneratorDescriptor {
 
     public void setPrimaryKeyType(final Class<?> primaryKeyType) {
         this._primaryKeyType = primaryKeyType;
-    }   
+    } 
+    
+    //-----------------------------------------------------------------------------------
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,13 @@ import javax.persistence.InheritanceType;
  * class bound JPA annotations.
  * 
  * @see PropertyHolder
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public class JPAClassNature extends BaseNature {
+    //-----------------------------------------------------------------------------------
 
     /** 
      * Property Key for {@link javax.persistence.Entity#name()}. 
@@ -68,6 +71,8 @@ public class JPAClassNature extends BaseNature {
      * Property Key for {@link org.castor.cpa.jpa.annotations.Cache}.
      */
     public static final String CACHE_PROPERTIES = "CACHE_PROPERTIES"; 
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Instantiate a {@link JPAClassNature} to access the given
@@ -83,6 +88,8 @@ public class JPAClassNature extends BaseNature {
     public JPAClassNature(final PropertyHolder holder) {
         super(holder);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -244,5 +251,7 @@ public class JPAClassNature extends BaseNature {
     public Properties getCacheProperties() {
         return (Properties) super.getProperty (CACHE_PROPERTIES);
     }
+    
+    //-----------------------------------------------------------------------------------
 }
 

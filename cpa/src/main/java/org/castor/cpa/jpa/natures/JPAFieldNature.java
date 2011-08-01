@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Peter Schmidt, Martin Kandler, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,15 @@ import org.castor.cpa.jpa.info.FieldInfo;
  * A {@link BaseNature} extension, that gives access to information derived from
  * field bound JPA annotations.
  * 
- * @author Peter Schmidt, Martin Kandler
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author Martin Kandler
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  * @see PropertyHolder
  */
 public class JPAFieldNature extends BaseNature {
+    //-----------------------------------------------------------------------------------
 
     /** Property Key for {@link javax.persistence.Basic#fetch()}. */
     private static final String BASIC_FETCH = "BASIC_FETCH";
@@ -185,6 +189,8 @@ public class JPAFieldNature extends BaseNature {
      */
     public static final String CASCADE_TYPES = "CASCADE_TYPES";
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Instantiate a {@link JPAFieldNature} to access the given
      * {@link PropertyHolder}.
@@ -198,6 +204,8 @@ public class JPAFieldNature extends BaseNature {
     public JPAFieldNature(final PropertyHolder holder) {
         super(holder);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -1084,4 +1092,5 @@ public class JPAFieldNature extends BaseNature {
         super.setProperty(CASCADE_TYPES, cascadeTypes);
     }
 
+    //-----------------------------------------------------------------------------------
 }

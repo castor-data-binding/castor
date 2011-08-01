@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Werner Guttmann, Peter Schmidt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,15 @@ import org.junit.Ignore;
 
 /**
  * Domain class annotated with JPA annotation used for unit testing.
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 @Ignore
 
 @Entity
 public class TestI2DCJPATest {
+    //-----------------------------------------------------------------------------------
     
     /** 
      * A primary key. 
@@ -46,6 +49,8 @@ public class TestI2DCJPATest {
     private String _blob;
     
     private int _default;
+    
+    //-----------------------------------------------------------------------------------
 
     public final int getDefault() {
         return _default;
@@ -109,4 +114,6 @@ public class TestI2DCJPATest {
     public final void setBlob(final String blob) {
         _blob = blob;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

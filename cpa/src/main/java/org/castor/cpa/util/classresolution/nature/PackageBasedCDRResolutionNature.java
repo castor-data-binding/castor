@@ -24,15 +24,19 @@ import org.castor.core.nature.PropertyHolder;
  * This class provides a view on a additional properties for
  * {@link ClassDescriptorResolutionCommand}s.
  * 
- * @author Sebastian Gabmeyer
+ * @author <a href="dexxter AT quantentunnel DOT de">Sebastian Gabmeyer</a>
+ * @version $Revision$ $Date$
  * @since 1.2.1
  */
 public class PackageBasedCDRResolutionNature extends BaseNature {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Property name for the string list of package names.
      */
     private static final String PACKAGES = "package-names";
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * The constructor takes a {@link PropertyHolder}.
@@ -42,6 +46,8 @@ public class PackageBasedCDRResolutionNature extends BaseNature {
     public PackageBasedCDRResolutionNature(final PropertyHolder holder) {
         super(holder);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -83,4 +89,6 @@ public class PackageBasedCDRResolutionNature extends BaseNature {
     public List<String> getPackageNames() {
         return getPropertyAsList(PACKAGES);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

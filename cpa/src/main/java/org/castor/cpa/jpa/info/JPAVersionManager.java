@@ -22,12 +22,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class JPAVersionManager {
+    //-----------------------------------------------------------------------------------
 
     private Map<Class<?>, String> _entityVersions = new ConcurrentHashMap<Class<?>, String>();
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Thread-safe singleton implementation based on the initialization on
      * demand holder idiom.
@@ -37,10 +41,14 @@ public class JPAVersionManager {
         
         private SingletonHolder() { }
     }
+    
+    //-----------------------------------------------------------------------------------
 
     public static JPAVersionManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
+    
+    //-----------------------------------------------------------------------------------
 
     public void add(final Class<?> type, final String versionField)
             throws MultipleVersionFieldDefinitionException {
@@ -68,4 +76,5 @@ public class JPAVersionManager {
         return _entityVersions.isEmpty();
     }
     
+    //-----------------------------------------------------------------------------------
 }

@@ -19,10 +19,14 @@ import javax.persistence.UniqueConstraint;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAUniqueConstraint {
+    //-----------------------------------------------------------------------------------
     
     private String[] _columnNames;
+    
+    //-----------------------------------------------------------------------------------
     
     public static JPAUniqueConstraint extract(final UniqueConstraint uniqueConstraint) {
         JPAUniqueConstraint constraint = new JPAUniqueConstraint();
@@ -44,4 +48,5 @@ public class JPAUniqueConstraint {
         _columnNames = columnNames;
     }
     
+    //-----------------------------------------------------------------------------------
 }
