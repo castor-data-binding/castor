@@ -33,7 +33,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:thomas DOT fach AT publica DOT de">Thomas Fach</a>
  * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class UUIDKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------

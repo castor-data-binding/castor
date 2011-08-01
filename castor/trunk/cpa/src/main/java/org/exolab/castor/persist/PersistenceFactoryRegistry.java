@@ -57,7 +57,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * JDO database configuration file.
  * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class PersistenceFactoryRegistry {
     /** Association between factory name and object. */

@@ -50,7 +50,7 @@ import junit.framework.TestCase;
  * Test class for {@link Lexer}. 
  *
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class TestLexer extends TestCase {
     public void testLexer() throws Exception {

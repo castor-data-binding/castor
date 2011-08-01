@@ -44,7 +44,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
  * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------

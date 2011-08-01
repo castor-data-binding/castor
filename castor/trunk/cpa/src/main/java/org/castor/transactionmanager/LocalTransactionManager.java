@@ -24,7 +24,7 @@ import javax.transaction.TransactionManager;
  * in other words not within a J2EE container.
  *  
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class LocalTransactionManager implements TransactionManager {

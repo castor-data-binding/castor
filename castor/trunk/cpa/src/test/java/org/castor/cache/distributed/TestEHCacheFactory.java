@@ -25,7 +25,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date: 2006-01-06 13:10:47 0100 (Fr, 06 Jän 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0.1
  */
 public final class TestEHCacheFactory extends TestCase {

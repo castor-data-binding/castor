@@ -67,7 +67,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *  WHERE rnk BETWEEN 3 AND 8
  * 
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2005-03-24 03:45:01 -0700 (Thu, 24 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public final class OracleQueryExpression extends JDBCQueryExpression {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta

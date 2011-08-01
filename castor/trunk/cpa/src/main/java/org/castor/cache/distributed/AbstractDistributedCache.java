@@ -27,7 +27,7 @@ import org.castor.cache.AbstractBaseCache;
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-05-05 13:53:54 -0600 (Fri, 05 May 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public abstract class AbstractDistributedCache extends AbstractBaseCache {

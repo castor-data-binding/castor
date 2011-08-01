@@ -88,7 +88,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * An OQLQuery implementation to execute a query based upon an OQL statement.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public class OQLQueryImpl implements Query, OQLQuery {
     private static TypeConvertorRegistry _typeConvertorRegistry = null;

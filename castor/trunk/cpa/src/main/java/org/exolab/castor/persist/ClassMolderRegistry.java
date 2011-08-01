@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Id: TableInfo.java 8469 2009-12-28 16:47:54Z rjoachim $
+ * $Id$
  */
 package org.exolab.castor.persist;
 
@@ -35,7 +35,7 @@ import org.exolab.castor.xml.ClassDescriptorResolver;
  * 
  * @author <a href="mailto:wsdou55 AT gmail DOT com">Wensheng Dou</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 8469 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class ClassMolderRegistry {
     //-----------------------------------------------------------------------------------    

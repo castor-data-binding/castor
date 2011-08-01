@@ -55,7 +55,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for Oracle 7/8 driver.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class OracleFactory extends GenericFactory {
     //-----------------------------------------------------------------------------------

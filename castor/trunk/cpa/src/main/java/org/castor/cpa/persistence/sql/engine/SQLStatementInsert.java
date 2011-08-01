@@ -36,7 +36,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
+ * @version $Revision$ $Date$
  */
 public class SQLStatementInsert {
     

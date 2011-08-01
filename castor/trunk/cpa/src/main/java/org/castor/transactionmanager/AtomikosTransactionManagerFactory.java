@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Implements {link org.castor.jdo.transaction.TransactionManagerFactory}.
  *
  * @author <a href=" mailto:ralf DOT joachim AT syscon DOT de">Ralf Joachim</a>
- * @version $Revision: 8104 $ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class AtomikosTransactionManagerFactory implements TransactionManagerFactory {

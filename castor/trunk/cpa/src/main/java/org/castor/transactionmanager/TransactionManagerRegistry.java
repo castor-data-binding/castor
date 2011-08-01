@@ -30,7 +30,7 @@ import org.castor.cpa.CPAProperties;
  * Registry for {@link TransactionManager} instances obtained by their name.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class TransactionManagerRegistry {

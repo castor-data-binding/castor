@@ -36,7 +36,7 @@ import org.exolab.castor.persist.ClassMolderRegistry;
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a>
- * @version $Revision$ $Date: 2006-05-24 08:49:08 -0600 (Wed, 24 May 2006) $
+ * @version $Revision$ $Date$
  * @since 0.9.9.1
  */
 public final class JDOUtils {

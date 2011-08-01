@@ -26,7 +26,7 @@ import javax.transaction.TransactionManager;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision$ $Date$
  * since 1.0
  */
 public final class LocalTransactionManagerFactory implements TransactionManagerFactory {

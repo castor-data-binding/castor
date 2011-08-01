@@ -68,7 +68,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:wsdou55 AT gmail DOT com">Wensheng Dou</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class ObjectLock implements DepositBox {
     //-----------------------------------------------------------------------------------    

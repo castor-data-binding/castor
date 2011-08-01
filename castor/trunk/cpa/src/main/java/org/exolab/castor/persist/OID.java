@@ -30,7 +30,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:wsdou55 AT gmail DOT com ">Wensheng Dou</a>
- * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class OID implements Serializable {
     //-----------------------------------------------------------------------------------    

@@ -26,7 +26,7 @@ import org.castor.cache.hashbelt.container.MapContainer;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class TestNotifyingReaper extends TestCase {

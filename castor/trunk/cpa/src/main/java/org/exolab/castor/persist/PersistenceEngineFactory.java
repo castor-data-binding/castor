@@ -58,7 +58,7 @@ import org.exolab.castor.xml.ClassDescriptorResolver;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date: 2005-07-24 11:48:19 -0600 (Sun, 24 Jul 2005) $
+ * @version $Revision$ $Date$
  */
 public final class PersistenceEngineFactory {
     /**

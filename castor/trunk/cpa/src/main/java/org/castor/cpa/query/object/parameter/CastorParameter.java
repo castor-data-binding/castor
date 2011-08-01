@@ -20,7 +20,7 @@ package org.castor.cpa.query.object.parameter;
  *
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="johannes DOT venzke AT revival DOT de">Johannes Venzke</a>
- * @version $Revision: $
+ * @version $Revision$
  */
 public final class CastorParameter extends AbstractParameter {
     //--------------------------------------------------------------------------

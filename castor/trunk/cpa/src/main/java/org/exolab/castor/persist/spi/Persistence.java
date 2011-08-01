@@ -83,7 +83,7 @@ import org.exolab.castor.mapping.MappingException;
  * and never hold a reference to a connection.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
+ * @version $Revision$ $Date$
  * @see org.castor.persist.TransactionContext
  * @see org.exolab.castor.persist.spi.PersistenceQuery
  */

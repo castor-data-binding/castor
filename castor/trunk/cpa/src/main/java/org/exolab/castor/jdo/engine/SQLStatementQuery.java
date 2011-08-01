@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * $Id: SQLStatementLoad.java 8435 2009-09-10 21:56:23Z rjoachim $
+ * $Id$
  */
 package org.exolab.castor.jdo.engine;
 

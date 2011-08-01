@@ -29,7 +29,7 @@ import org.castor.cache.CacheAcquireException;
 /**
  * JUnit test case for Gigaspaces cache 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0.1
  */
 public final class TestGigaspacesCache extends TestCase {

@@ -21,7 +21,7 @@ import org.castor.core.util.AbstractProperties;
  * Convert <code>String</code> to <code>Boolean</code>.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision: 7134 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.1.3
  */
 public final class StringToBoolean extends AbstractTypeConvertor {

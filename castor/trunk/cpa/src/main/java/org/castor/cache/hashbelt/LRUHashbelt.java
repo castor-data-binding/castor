@@ -25,7 +25,7 @@ import java.util.Map;
  * eventually be discarded, if they are not referenced.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class LRUHashbelt extends AbstractHashbelt {

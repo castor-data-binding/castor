@@ -29,7 +29,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @see IdentityKeyGenerator
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
     //-----------------------------------------------------------------------------------

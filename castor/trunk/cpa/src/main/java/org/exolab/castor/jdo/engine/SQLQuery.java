@@ -51,7 +51,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class SQLQuery implements PersistenceQuery {

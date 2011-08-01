@@ -40,7 +40,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date$
  */
 public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
     //-----------------------------------------------------------------------------------

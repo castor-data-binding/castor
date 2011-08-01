@@ -88,7 +88,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * OQL Queries against a Castor Database.
  *
  * @author <a href="mauch@imkenberg.de">Thorsten Mauch</a>
- * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
+ * @version $Revision$ $Date$
  */
 public final class QueryAnalyser {
     private boolean _packFrame = false;
