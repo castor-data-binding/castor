@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +35,13 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * {@link JPAFieldNature#isRelationLazyFetch()} and
  * {@link JPAFieldNature#isRelationOptional()} will return valid values.
  * 
- * @author Peter Schmidt
- * @version 03.02.2009
- *
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
@@ -47,6 +49,8 @@ public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
     private static Log _log = LogFactory.getFactory().getInstance(
             JPAOneToOneProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -129,4 +133,5 @@ public class JPAOneToOneProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
 }

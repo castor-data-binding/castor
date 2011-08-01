@@ -26,13 +26,18 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *
  * @see TableKeyGenerator
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class TableKeyGeneratorFactory implements KeyGeneratorFactory {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Short name of this key generator factory. 
      */
     public static final String NAME = "TABLE";
+    
+    //-----------------------------------------------------------------------------------
     
     public String getKeyGeneratorName() {
         return NAME;
@@ -42,4 +47,6 @@ public class TableKeyGeneratorFactory implements KeyGeneratorFactory {
             final Properties params, final int sqlType) throws MappingException {
         return new TableKeyGenerator(factory, params, sqlType);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

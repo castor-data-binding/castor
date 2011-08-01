@@ -23,9 +23,12 @@ import org.exolab.castor.mapping.MappingException;
  * Factory for creating {@link KeyGeneratorTypeHandler} instances.
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public final class KeyGeneratorTypeHandlerFactory {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Returns an {@link KeyGeneratorTypeHandler} instance.
      * 
@@ -51,8 +54,12 @@ public final class KeyGeneratorTypeHandlerFactory {
         }
     }
     
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Hide constructor of utility class.
      */
     private KeyGeneratorTypeHandlerFactory() { }
+    
+    //-----------------------------------------------------------------------------------
 }

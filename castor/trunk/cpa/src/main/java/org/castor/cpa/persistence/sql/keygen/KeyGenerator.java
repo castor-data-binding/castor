@@ -41,6 +41,8 @@ import org.exolab.castor.persist.spi.Identity;
  * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
 public interface KeyGenerator {
+    //---------------------------------------------------------------------------------------------
+    
     /**
      * Generate a new key for the specified table. This method is
      * called when a new object is about to be created. In some
@@ -90,4 +92,6 @@ public interface KeyGenerator {
      *        class is responsible for. Holds all required information of the entity type.
      */
     void buildStatement(final SQLEngine engine);
+    
+    //---------------------------------------------------------------------------------------------
 }

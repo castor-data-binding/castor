@@ -19,12 +19,16 @@ package org.castor.cpa.jpa.info;
  * Signals that a key generator name is used more than once.
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class GeneratorNameAlreadyUsedException extends Exception {
+    //-----------------------------------------------------------------------------------
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1721448018301715685L;
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Creates an instance of this exception.
@@ -41,4 +45,6 @@ public class GeneratorNameAlreadyUsedException extends Exception {
     public GeneratorNameAlreadyUsedException(final String message) {
         super(message);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

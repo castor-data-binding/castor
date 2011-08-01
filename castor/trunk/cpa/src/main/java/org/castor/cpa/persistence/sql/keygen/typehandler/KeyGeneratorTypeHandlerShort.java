@@ -27,16 +27,20 @@ import org.exolab.castor.jdo.PersistenceException;
  * type.
  * 
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public final class KeyGeneratorTypeHandlerShort implements
         KeyGeneratorTypeHandler<Short> {
+    //-----------------------------------------------------------------------------------
     
     /**
      * Value to be returned by getValue() method if current row of the record
      * set is not valid and the type handler should not fail in this case.
      */
     private static final Short ZERO = new Short((short) 0);
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * <code>true</code> if the type handler should fail when current row of the
@@ -45,6 +49,8 @@ public final class KeyGeneratorTypeHandlerShort implements
     private final boolean _fail;
 
     private Short _allocationSize;
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Construct an type handler for Short values.
@@ -64,6 +70,8 @@ public final class KeyGeneratorTypeHandlerShort implements
         
         _allocationSize = new Short((short) allocationSize);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -109,4 +117,6 @@ public final class KeyGeneratorTypeHandlerShort implements
             final Short value) throws SQLException {
         stmt.setShort(index, value.shortValue());
     }
+    
+    //-----------------------------------------------------------------------------------
 }

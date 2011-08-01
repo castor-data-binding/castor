@@ -34,13 +34,17 @@ import java.util.Map;
  * done, {@link JPAClassNature#getNamedQuery()} returns a valid value!
  * 
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPANamedQueriesProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private final Log _log = LogFactory.getLog(getClass());
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -80,4 +84,6 @@ public class JPANamedQueriesProcessor extends BaseJPAAnnotationProcessor {
         }
         return false;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Werner Guttmann, Peter Schmidt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,14 @@ import org.castor.cpa.jpa.processors.classprocessors.JPATableProcessor;
  * This is a standard {@link BaseTargetAwareAnnotationProcessingService}
  * initialized with JPA Annotation processors for class bound JPA annotations.
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public class JPAClassAnnotationProcessingService extends
         BaseTargetAwareAnnotationProcessingService {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Instantiate a {@link BaseTargetAwareAnnotationProcessingService} with JPA
@@ -56,4 +59,5 @@ public class JPAClassAnnotationProcessingService extends
         this.addAnnotationProcessor(new JPATableGeneratorClassProcessor());
     }
 
+    //-----------------------------------------------------------------------------------
 }

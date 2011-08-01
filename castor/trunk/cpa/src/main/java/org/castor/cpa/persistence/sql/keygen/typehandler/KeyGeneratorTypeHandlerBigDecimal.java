@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ralf Joachim
+ * Copyright 2009 Ahmad Hassan, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,18 +32,24 @@ import org.exolab.castor.jdo.PersistenceException;
  */
 public final class KeyGeneratorTypeHandlerBigDecimal
 implements KeyGeneratorTypeHandler <BigDecimal> {
+    //-----------------------------------------------------------------------------------
+    
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
     private static final BigDecimal ZERO = new BigDecimal(0);
 
     /** Value to add to another to increment this by one. */
     private static final BigDecimal ONE = new BigDecimal(1);
+    
+    //-----------------------------------------------------------------------------------
 
     /** <code>true</code> if the type handler should fail when current row of the record set is
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
     private BigDecimal _allocationSize;
+    
+    //-----------------------------------------------------------------------------------
     
     /**
      * Construct an type handler for big decimal values.
@@ -61,6 +67,8 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
         
         _allocationSize = new BigDecimal(allocationSize);
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -106,4 +114,6 @@ implements KeyGeneratorTypeHandler <BigDecimal> {
     throws SQLException {
         stmt.setBigDecimal(index, value);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

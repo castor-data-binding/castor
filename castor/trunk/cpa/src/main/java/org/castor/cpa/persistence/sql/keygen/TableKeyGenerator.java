@@ -34,8 +34,10 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
+    //-----------------------------------------------------------------------------------
 
     private static final Log LOG = LogFactory.getLog(TableKeyGenerator.class);
     
@@ -46,10 +48,14 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
     public static final String DEFAULT_PK_COLUMN_NAME = "ID_NAME";
     public static final String DEFAULT_VALUE_COLUMN_NAME = "ID_VALUE";
     public static final String DEFAULT_PK_COLUMN_VALUE = "ID_GEN";
+    
+    //-----------------------------------------------------------------------------------
 
     private PersistenceFactory _factory;
     private JPATableGeneratorDescriptor _descriptor;
     private int _sqlType;
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Creates an instance of this key generator.
@@ -71,6 +77,8 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
         assertNumericSqlType(sqlType);
     }
 
+    //-----------------------------------------------------------------------------------
+    
     private void assertNumericSqlType(final int sqlType) throws MappingException {
         switch (sqlType) {
         case Types.BIGINT:
@@ -158,4 +166,5 @@ public class TableKeyGenerator extends AbstractBeforeKeyGenerator {
         return _descriptor;
     }
 
+    //-----------------------------------------------------------------------------------
 }

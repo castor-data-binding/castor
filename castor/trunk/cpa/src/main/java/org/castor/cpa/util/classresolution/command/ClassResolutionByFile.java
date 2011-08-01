@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Lukas Lang, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,14 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
 /**
  * Resolves {@link ClassDescriptor}s on the file system.
  * 
- * @author Lukas Lang
+ * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.2.1
  * 
  */
 public final class ClassResolutionByFile extends BaseResolutionCommand {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Constructor taking a MappingLoader.
@@ -35,6 +38,8 @@ public final class ClassResolutionByFile extends BaseResolutionCommand {
     public ClassResolutionByFile() {
         addNature(ClassLoaderNature.class.getName());
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Tries to load a {@link ClassDescriptor} for the given type from the
@@ -75,4 +80,6 @@ public final class ClassResolutionByFile extends BaseResolutionCommand {
         }
         return classDesc;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

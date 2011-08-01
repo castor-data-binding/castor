@@ -30,8 +30,10 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
     
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -40,6 +42,8 @@ public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
     private static Log _log = LogFactory.getFactory().getInstance(
             JPACacheProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      */
@@ -74,4 +78,5 @@ public class JPACacheProcessor extends BaseJPAAnnotationProcessor {
         return Cache.class;
     }
 
+    //-----------------------------------------------------------------------------------
 }

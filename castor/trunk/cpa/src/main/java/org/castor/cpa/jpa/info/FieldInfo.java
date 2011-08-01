@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,14 @@ import org.castor.core.nature.PropertyHolder;
  * This class holds the necessary information so that Castor can properly map a
  * JPA annotated classes member to the database.
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3
  */
 public class FieldInfo implements PropertyHolder {
-
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@link ClassInfo} instance which 'own' (declares) this {@link FieldInfo}.
      */
@@ -66,6 +69,8 @@ public class FieldInfo implements PropertyHolder {
      * The reference to the setter method of the Field.
      */
     private Method _setterMethod;
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Creates a FieldInfo associated to the given {@link ClassInfo}, describing
@@ -91,6 +96,8 @@ public class FieldInfo implements PropertyHolder {
         _getterMethod = getterMethod;
         _setterMethod = setterMethod;
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -227,4 +234,5 @@ public class FieldInfo implements PropertyHolder {
         _setterMethod = setterMethod;
     }
 
+    //-----------------------------------------------------------------------------------
 }

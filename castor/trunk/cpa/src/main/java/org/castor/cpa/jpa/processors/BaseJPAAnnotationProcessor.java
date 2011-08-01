@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Peter Schmidt, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,14 @@ import org.castor.core.nature.BaseNature;
  * Basic abstract {@link TargetAwareAnnotationProcessor} that does not allow
  * processing without a target (returns false).
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @see AnnotationProcessor#processAnnotation(BaseNature, Annotation)
  */
 public abstract class BaseJPAAnnotationProcessor implements
         TargetAwareAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Returns false - non target aware processing shall not be implemented in
@@ -43,4 +46,6 @@ public abstract class BaseJPAAnnotationProcessor implements
             final I info, final A annotation) {
         return false;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

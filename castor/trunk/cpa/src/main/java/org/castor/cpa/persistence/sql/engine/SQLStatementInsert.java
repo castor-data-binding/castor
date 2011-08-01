@@ -30,7 +30,11 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * SQLStatementCreate class that makes use of KeyGenerators methods to build sql
  * insert statement and execute them. 
  * 
- * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
+ * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */

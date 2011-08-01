@@ -20,14 +20,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPAKeyGeneratorManager {
+    //-----------------------------------------------------------------------------------
 
     private Map<String, JPAKeyGeneratorDescriptor> _generators =
         new ConcurrentHashMap<String, JPAKeyGeneratorDescriptor>();
+    
+    //-----------------------------------------------------------------------------------
 
     public static final String AUTO_GENERATOR_NAME = "AUTO";
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Thread-safe singleton implementation based on the initialization on
      * demand holder idiom.
@@ -80,4 +86,6 @@ public class JPAKeyGeneratorManager {
         }
         return get(AUTO_GENERATOR_NAME);
     }
+    
+    //-----------------------------------------------------------------------------------
 }

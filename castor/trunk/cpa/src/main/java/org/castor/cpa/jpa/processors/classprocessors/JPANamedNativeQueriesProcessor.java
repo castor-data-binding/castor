@@ -31,8 +31,11 @@ import javax.persistence.NamedNativeQueries;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPANamedNativeQueriesProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
@@ -40,6 +43,8 @@ public class JPANamedNativeQueriesProcessor extends BaseJPAAnnotationProcessor {
     private static final Log LOG = LogFactory.getFactory().getInstance(
             JPANamedNativeQueryProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      */
@@ -77,4 +82,5 @@ public class JPANamedNativeQueriesProcessor extends BaseJPAAnnotationProcessor {
         return false;
     }
 
+    //-----------------------------------------------------------------------------------
 }

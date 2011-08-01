@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Werner Guttmann
+ * Copyright 2005 Martin Kandler, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,15 +33,20 @@ import org.castor.cpa.jpa.processors.BaseJPAAnnotationProcessor;
  * {@link JPAClassNature#getTableSchema()} return valid values!
  * 
  * @author Martin Kandler
- * @version 2009-01-03
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPATableProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      * Logging</a> instance used for all logging.
      */
     private static Log _log = LogFactory.getLog(JPATableProcessor.class);
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * {@inheritDoc}
      * 
@@ -87,4 +92,6 @@ public class JPATableProcessor extends BaseJPAAnnotationProcessor {
         return false;
 
     }
+    
+    //-----------------------------------------------------------------------------------
 }

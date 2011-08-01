@@ -22,6 +22,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  */
 public class JPATestResolveCommand extends
         org.castor.cpa.util.classresolution.command.BaseResolutionCommand {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Internal loop cache. contains all unfinished {@link ClassDescriptor}s.
@@ -29,6 +30,8 @@ public class JPATestResolveCommand extends
      */
     private Map<Class<?>, ClassDescriptorImpl> _loopCache = 
         new LinkedHashMap<Class<?>, ClassDescriptorImpl>();
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Try to resolve/generate a {@link ClassDescriptor} for the given (JPA
@@ -91,4 +94,6 @@ public class JPATestResolveCommand extends
             return null;
         }
     }
+    
+    //-----------------------------------------------------------------------------------
 }

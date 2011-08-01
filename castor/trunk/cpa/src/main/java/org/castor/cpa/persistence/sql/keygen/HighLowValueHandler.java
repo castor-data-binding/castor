@@ -24,8 +24,11 @@ import org.exolab.castor.jdo.PersistenceException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date$
  */
 public final class HighLowValueHandler <T> {
+    //---------------------------------------------------------------------------------------------
+    
     private final String _table;
     private final int _grab;
     private final KeyGeneratorTypeHandler <T> _typeHandler;
@@ -33,12 +36,16 @@ public final class HighLowValueHandler <T> {
     private T _max;
     private int _values;
     
+    //---------------------------------------------------------------------------------------------
+    
     public HighLowValueHandler(final String table, final int grab,
             final KeyGeneratorTypeHandler <T> typeHandler) {
         _table = table;
         _grab = grab;
         _typeHandler = typeHandler;
     }
+    
+    //---------------------------------------------------------------------------------------------
 
     public void init(final ResultSet rs) throws PersistenceException, SQLException {
         _last = _typeHandler.getValue(rs);
@@ -67,4 +74,6 @@ public final class HighLowValueHandler <T> {
     public void bindMax(final PreparedStatement stmt, final int index) throws SQLException {
         _typeHandler.bindValue(stmt, index, _max);
     }
+    
+    //---------------------------------------------------------------------------------------------
 }

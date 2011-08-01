@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Werner Guttmann
+ * Copyright 2010 Ahmad Hassan, Ralf Joachim, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,21 +25,28 @@ import org.exolab.castor.jdo.PersistenceException;
 /** 
  *  Class implementing the KeyGeneratorTypeHandler for Integer type.
  *  
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
 public final class KeyGeneratorTypeHandlerInteger
 implements KeyGeneratorTypeHandler <Integer> {
+    //-----------------------------------------------------------------------------------
+    
     /** Value to be returned by getValue() method if current row of the record set is not valid
      *  and the type handler should not fail in this case.  */
     private static final Integer ZERO = new Integer(0);
+    
+    //-----------------------------------------------------------------------------------
 
     /** <code>true</code> if the type handler should fail when current row of the record set is
      *  not valid, <code>false</code> otherwise. */
     private final boolean _fail;
     
     private int _allocationSize;
+    
+    //-----------------------------------------------------------------------------------
     
     /**
      * Construct an type handler for integer values.
@@ -57,6 +64,8 @@ implements KeyGeneratorTypeHandler <Integer> {
         
         _allocationSize = allocationSize;
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -100,4 +109,6 @@ implements KeyGeneratorTypeHandler <Integer> {
     throws SQLException {
         stmt.setInt(index, value.intValue());
     }
+    
+    //-----------------------------------------------------------------------------------
 }

@@ -17,11 +17,16 @@ package org.castor.cpa.jpa.info;
 
 /**
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public abstract class JPAKeyGeneratorDescriptor {
+    //-----------------------------------------------------------------------------------
+    
     private String _name;
     private int _allocationSize;
     private int _initialValue;
+    
+    //-----------------------------------------------------------------------------------
     
     public final String getName() {
         return _name;
@@ -46,4 +51,6 @@ public abstract class JPAKeyGeneratorDescriptor {
     public final void setInitialValue(final int initialValue) {
         _initialValue = initialValue;
     }
+    
+    //-----------------------------------------------------------------------------------
 }

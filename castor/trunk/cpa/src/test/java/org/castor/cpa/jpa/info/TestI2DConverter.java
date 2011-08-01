@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Werner Guttmann, Peter Schmidt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,13 +34,18 @@ import org.junit.Test;
  * Test the conversion features of the {@link InfoToDescriptorConverter} on the
  * external classes {@link TestI2DCJPATest} and {@link TestI2DCJPAExtendsTest}.
  * 
- * @author Peter Schmidt
+ * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
+ * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public final class TestI2DConverter {
+    //-----------------------------------------------------------------------------------
 
     /** the used {@link ClassDescriptorResolver}. */
     private ClassDescriptorResolver _cmd;
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Set the {@link #_classBuilder} and the {@link #_cmd}.
      */
@@ -124,4 +129,6 @@ public final class TestI2DConverter {
         public void setMappingLoader(final MappingLoader mappingLoader) {
         }
     }
+    
+    //-----------------------------------------------------------------------------------
 }

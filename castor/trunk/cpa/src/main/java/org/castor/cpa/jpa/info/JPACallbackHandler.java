@@ -45,9 +45,11 @@ import javax.persistence.PreUpdate;
  * Handles JPA annotation-driven callback hooks.
  * 
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public class JPACallbackHandler implements CallbackInterceptor {
-
+    //-----------------------------------------------------------------------------------
+    
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(JPACallbackHandler.class);
@@ -66,6 +68,8 @@ public class JPACallbackHandler implements CallbackInterceptor {
      * Memorises if superclass listeners are to be excluded.
      */
     private boolean _excludeSuperclassListeners = false;
+    
+    //-----------------------------------------------------------------------------------
 
     public Class<?> loaded(final Object object, final AccessMode accessMode)
             throws Exception {
@@ -345,4 +349,5 @@ public class JPACallbackHandler implements CallbackInterceptor {
         method.invoke(object);
     }
 
+    //-----------------------------------------------------------------------------------
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann
+ * Copyright 2008 Lukas Lang, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,12 @@ import org.exolab.castor.mapping.ClassDescriptor;
 /**
  * Resolves {@link ClassDescriptor}s using a {@link MappingLoader}.
  * 
- * @author Lukas Lang
+ * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
+ * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 public final class ClassResolutionByMappingLoader extends BaseResolutionCommand {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Constructor taking a MappingLoader.
@@ -31,6 +34,8 @@ public final class ClassResolutionByMappingLoader extends BaseResolutionCommand 
     public ClassResolutionByMappingLoader() {
         addNature(MappingLoaderNature.class.getName());
     }
+    
+    //-----------------------------------------------------------------------------------
 
     /**
      * Resolves a {@link ClassDescriptor} for the given type using 
@@ -46,5 +51,5 @@ public final class ClassResolutionByMappingLoader extends BaseResolutionCommand 
                 .getMappingLoader().getDescriptor(type.getName());
     }
 
-
+    //-----------------------------------------------------------------------------------
 }

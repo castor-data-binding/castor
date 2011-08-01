@@ -27,11 +27,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * built-in and external vendor-specific cache engines.
  * 
  * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  */
 @Documented
 @Target(value = TYPE)
 @Retention(value = RUNTIME)
 public @interface CacheProperty {
+    //-----------------------------------------------------------------------------------
+    
     /**
      * The key of the cache engine property.
      */
@@ -41,4 +44,6 @@ public @interface CacheProperty {
      * The value of the key of the cache engine property.
      */
     String value();
+    
+    //-----------------------------------------------------------------------------------
 }

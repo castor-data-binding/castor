@@ -35,11 +35,15 @@ import org.castor.cpa.jpa.processors.ReflectionsHelper;
  * all column specific methods of {@link JPAFieldNature} return valid values.
  * 
  * @author <a href=" mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
+ * @version $Revision$ $Date$
  * @since 1.3.2
  */
 public class JPAVersionProcessor extends BaseJPAAnnotationProcessor {
+    //-----------------------------------------------------------------------------------
 
     private static final Log LOG = LogFactory.getLog(JPAVersionProcessor.class);
+    
+    //-----------------------------------------------------------------------------------
 
     public <I extends BaseNature, A extends Annotation> boolean processAnnotation(
             final I info, final A annotation, final AnnotatedElement target)
@@ -88,4 +92,5 @@ public class JPAVersionProcessor extends BaseJPAAnnotationProcessor {
         return Version.class;
     }
 
+    //-----------------------------------------------------------------------------------
 }

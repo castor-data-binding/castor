@@ -1,6 +1,6 @@
 /*
  * Copyright 2010 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann,
- *                Ralf Joachim, Dennis Butterstein
+ *                Ralf Joachim, Ahmad Hassan, Dennis Butterstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,10 @@ import org.exolab.castor.persist.spi.Identity;
  * structure. Execute method prepares a SQL statement, binds identity values to parameters
  * of the query and executes it.
  * 
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
+ * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>

@@ -26,12 +26,14 @@ import org.castor.cpa.util.JDOClassDescriptorResolver;
  * Provides basic {@link HashMap} based property implementation for a
  * {@link ClassDescriptorResolutionCommand}.
  * 
- * @author Lukas Lang
+ * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
+ * @version $Revision$ $Date$
  * @since 1.2.1
  * 
  */
 public abstract class BaseResolutionCommand implements
         ClassDescriptorResolutionCommand {
+    //-----------------------------------------------------------------------------------
 
     /**
      * Properties set by Natures.
@@ -49,6 +51,8 @@ public abstract class BaseResolutionCommand implements
      */
     private JDOClassDescriptorResolver _classDescriptorResolver;
 
+    //-----------------------------------------------------------------------------------
+    
     /**
      * Get a Nature property.
      * 
@@ -107,4 +111,6 @@ public abstract class BaseResolutionCommand implements
             final JDOClassDescriptorResolver classDescriptorResolver) {
         _classDescriptorResolver = classDescriptorResolver;
     }
+    
+    //-----------------------------------------------------------------------------------
 }
