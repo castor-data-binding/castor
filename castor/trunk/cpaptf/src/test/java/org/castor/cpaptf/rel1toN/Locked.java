@@ -20,7 +20,7 @@ import java.util.Collection;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
+ * @version $Revision:6817 $ $Date$
  */
 public final class Locked {
     //-------------------------------------------------------------------------
