@@ -17,8 +17,8 @@ package org.castor.cache.hashbelt;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -41,7 +41,7 @@ import org.castor.cache.hashbelt.reaper.NullReaper;
  * <p>
  * A hashbelt has six important values which get set at initialization:
  * <dl>
- * <dt>containers</dt>
+ * <dt>containers
  * <dd>The number of containers in the conveyor belt. For example: If a box
  * will drop off of the conveyor belt every 30 seconds, and you want a cache
  * that lasts for 5 minutes, you want 5 / 30 = 6 containers on the belt. Every
@@ -56,36 +56,36 @@ import org.castor.cache.hashbelt.reaper.NullReaper;
  * is ultimately a performance/accuracy tradeoff with the actual discard-from-cache
  * time being further from the mark as the rotation time goes up. Also the number
  * of objects discarded at once when capacity limit is reached depends upon the
- * number of containers.</dd>
- * <dt>capacity</dt>
+ * number of containers.
+ * <dt>capacity
  * <dd>Maximum capacity of the whole cache. If there are, for example, ten
  * containers on the belt and the capacity has been set to 1000, each container
  * will hold a maximum of 1000/10 objects. Therefore if the capacity limit is
  * reached and the last container gets droped from the belt there are up to 100
  * objects discarted at once. By default the capacity is set to 0 which causes
  * capacity limit to be ignored so the cache can hold an undefined number of
- * objects.</dd>
- * <dt>ttl</dt>
+ * objects.
+ * <dt>ttl
  * <dd>The maximum time an object lifes in cache. If the are, for example, ten
  * containers and ttl is set to 300 seconds (5 minutes), a new container will be
  * put in front of the belt every 300/10 = 30 seconds while another is dropped at
  * the end at the same time. Due to the granularity of 30 seconds, everything just
  * until 5 minutes 30 seconds will also end up in this box. The default value for
  * ttl is 60 seconds. If ttl is set to 0 which means that objects life in cache
- * for unlimited time and may only discarded by a capacity limit.</dd>
- * <dt>monitor</dt>
+ * for unlimited time and may only discarded by a capacity limit.
+ * <dt>monitor
  * <dd>The monitor intervall in minutes when hashbelt cache rports the current
  * number of containers used and objects cached. If set to 0 (default) monitoring
- * is disabled.</dd>
- * <dt>container-class</dt>
+ * is disabled.
+ * <dt>container-class
  * <dd>The implementation of <b>org.castor.cache.hashbelt.container.Container</b>
  * interface to be used for all containers of the cache. Castor provides the following
  * 3 implementations of the Container interface.<br/>
  * org.castor.cache.hashbelt.container.FastIteratingContainer<br/>
  * org.castor.cache.hashbelt.container.MapContainer<br/>
  * org.castor.cache.hashbelt.container.WeakReferenceContainer<br/>
- * If not specified the MapContainer will be used as default.</dd>
- * <dt>reaper-class</dt>
+ * If not specified the MapContainer will be used as default.
+ * <dt>reaper-class
  * <dd>Specific reapers yield different behaviors. The GC reaper, the default,
  * just dumps the contents to the garbage collector. However, custom
  * implementations may want to actually do something when a bucket drops off the
@@ -96,7 +96,7 @@ import org.castor.cache.hashbelt.reaper.NullReaper;
  * org.castor.cache.hashbelt.reaper.NotifyingReaper<br/>
  * org.castor.cache.hashbelt.reaper.RefreshingReaper<br/>
  * org.castor.cache.hashbelt.reaper.ReinsertingReaper<br/>
- * to be extended by your custom implementation.</dd>
+ * to be extended by your custom implementation.
  * </dl>
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
@@ -350,45 +350,42 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     public final int size() {
         try {
-            _lock.readLock().lockInterruptibly();
-            int size = _cacheSize;
+            _lock.readLock().lock();
+            return _cacheSize;
+        } finally {
             _lock.readLock().unlock();
-            return size;
-        } catch (InterruptedException ex) {
-            return 0;
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean isEmpty() { return (size() == 0); }
+    public final boolean isEmpty() {
+        try {
+            _lock.readLock().lock();
+            return (_cacheSize == 0);
+        } finally {
+            _lock.readLock().unlock();
+        }
+    }
 
     /**
      * {@inheritDoc}
      */
     public final boolean containsKey(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
-
-        boolean found = false;
-        
+      
+        _lock.readLock().lock();
         try {
-            _lock.readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return false;
-        }
-        
-        try {
-            for (int i = 0; (i < _containerCount) && !found; i++) {
-                if (_cache[i].containsKey(key)) { found = true; }
+            for (int i = 0; i < _containerCount; i++) {
+                if (_cache[i].containsKey(key)) { 
+                    return true; 
+                }
             }
-        } catch (RuntimeException ex) {
-            throw ex;
+            return false;
         } finally {
             _lock.readLock().unlock();
         }
-        
-        return found;
     }
 
     /**
@@ -396,45 +393,29 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     public final boolean containsValue(final Object value) {
         if (value == null) { throw new NullPointerException("value"); }
-        
-        boolean found = false;
 
+        _lock.readLock().lock();
         try {
-            _lock.readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return false;
-        }
-        
-        try {
-            for (int i = 0; (i < _containerCount) && !found; i++) {
-                if (_cache[i].containsValue(value)) { found = true; }
+            for (int i = 0; i < _containerCount; i++) {
+                if (_cache[i].containsValue(value)) { 
+                    return true; 
+                }
             }
-        } catch (RuntimeException ex) {
-            throw ex;
+            return false;
         } finally {
             _lock.readLock().unlock();
         }
-        return found;
     }
 
     /**
      * {@inheritDoc}
      */
     public final void clear() {
-        try {
-            _lock.writeLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return;
+        _lock.writeLock().lock();
+        while (_containerCount > 0) { 
+            expireCacheContainer(); 
         }
-        
-        try {
-            while (_containerCount > 0) { expireCacheContainer(); }
-            _cacheSize = 0;
-        } catch (RuntimeException ex) {
-            throw ex;
-        } finally {
-            _lock.writeLock().unlock();
-        }
+        _lock.writeLock().unlock();
     }
 
     //--------------------------------------------------------------------------
@@ -444,75 +425,48 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * {@inheritDoc}
      */
     public final Set<Object> keySet() {
-        Set<Object> set = new HashSet<Object>(size());
-        
+        _lock.readLock().lock();
         try {
-            _lock.readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return set;
-        }
-        
-        try {
+            Set<Object> set = new HashSet<Object>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
                 set.addAll(_cache[i].keySet());
             }
-        } catch (RuntimeException ex) {
-            throw ex;
+            return set;
         } finally {
             _lock.readLock().unlock();
         }
-        
-        return set;
     }
     
     /**
      * {@inheritDoc}
      */
     public final Collection<Object> values() {
-        Collection<Object> col = new ArrayList<Object>(size());
-        
+        _lock.readLock().lock();
         try {
-            _lock.readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return col;
-        }
-        
-        try {
+            Collection<Object> col = new ArrayList<Object>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
                 col.addAll(_cache[i].values());
             }
-        } catch (RuntimeException ex) {
-            throw ex;
+            return col;
         } finally {
             _lock.readLock().unlock();
         }
-
-        return col;
     }
 
     /**
      * {@inheritDoc}
      */
     public final Set<Entry<Object, Object>> entrySet() {
-        Map<Object, Object> map = new Hashtable<Object, Object>(size());
-        
+        _lock.readLock().lock();
         try {
-            _lock.readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return map.entrySet();
-        }
-        
-        try {
+            Map<Object, Object> map = new HashMap<Object, Object>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
                 map.putAll(_cache[i]);
             }
-        } catch (RuntimeException ex) {
-            throw ex;
+            return map.entrySet();
         } finally {
             _lock.readLock().unlock();
         }
-        
-        return map.entrySet();
     }
 
     //--------------------------------------------------------------------------
@@ -598,9 +552,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      *         be returned if no value has been associated with key.
      */
     protected final Object removeObjectFromCache(final Object key) {
-        Object result;
         for (int i = 0; i < _containerCount; i++) {
-            result = _cache[i].remove(key);
+            Object result = _cache[i].remove(key);
             if (result != null) {
                 _cacheSize--;
                 return result;
@@ -663,9 +616,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     private void timeoutCacheContainers() {
         long timeout = System.currentTimeMillis() - _ttl;
-        while ((_containerCount > 0)
-            && (_cache[_containerCount - 1].getTimestamp() <= timeout)) {
-            
+        while ((_containerCount > 0) && (_cache[_containerCount - 1].getTimestamp() <= timeout)) {
             expireCacheContainer();
         }
     }

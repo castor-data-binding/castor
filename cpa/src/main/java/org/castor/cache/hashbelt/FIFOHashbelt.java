@@ -48,23 +48,12 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     public Object get(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
         
-        Object result = null;
-
+        lock().readLock().lock();
         try {
-            lock().readLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return null;
-        }
-        
-        try {
-            result = getObjectFromCache(key);
-        } catch (RuntimeException ex) {
-            throw ex;
+            return getObjectFromCache(key);
         } finally {
             lock().readLock().unlock();
         }
-
-        return result;
     }
     
     //--------------------------------------------------------------------------
@@ -76,24 +65,13 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     public Object put(final Object key, final Object value) {
         if (key == null) { throw new NullPointerException("key"); }
         if (value == null) { throw new NullPointerException("value"); }
-        
-        Object result = null;
-
+            
+        lock().writeLock().lock();
         try {
-            lock().writeLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return null;
-        }
-        
-        try {
-            result = putObjectIntoCache(key, value);
-        } catch (RuntimeException ex) {
-            throw ex;
+            return putObjectIntoCache(key, value);
         } finally {
             lock().writeLock().unlock();
         }
-        
-        return result;
     }
 
     /**
@@ -102,23 +80,12 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     public Object remove(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
 
-        Object result = null;
-
+        lock().writeLock().lock();
         try {
-            lock().writeLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return null;
-        }
-        
-        try {
-            result = removeObjectFromCache(key);
-        } catch (RuntimeException ex) {
-            throw ex;
+            return removeObjectFromCache(key);
         } finally {
             lock().writeLock().unlock();
         }
-
-        return result;
     }
 
     //--------------------------------------------------------------------------
@@ -131,18 +98,11 @@ public final class FIFOHashbelt extends AbstractHashbelt {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
-        try {
-            lock().writeLock().lockInterruptibly();
-        } catch (InterruptedException ex) {
-            return;
-        }
-        
+        lock().writeLock().lock();
         try {
             for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
                 putObjectIntoCache(entry.getKey(), entry.getValue());
             }
-        } catch (RuntimeException ex) {
-            throw ex;
         } finally {
             lock().writeLock().unlock();
         }
