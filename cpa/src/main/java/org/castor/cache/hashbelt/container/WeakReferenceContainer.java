@@ -73,24 +73,14 @@ public final class WeakReferenceContainer implements Container {
      * {@inheritDoc}
      */
     public Iterator<Object> keyIterator() {
-        try {
-            _lock.readLock().lock();
-            return new ArrayList<Object>(keySet()).iterator();
-        } finally {
-            _lock.readLock().unlock();
-        }
+        return new ArrayList<Object>(keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
     public Iterator<Object> valueIterator() {
-        try {
-            _lock.writeLock().lock();
-            return values().iterator();
-        } finally {
-            _lock.writeLock().unlock();
-        }
+        return values().iterator();
     }
     
     //--------------------------------------------------------------------------
@@ -188,40 +178,34 @@ public final class WeakReferenceContainer implements Container {
      * {@inheritDoc}
      */
     public Object put(final Object key, final Object value) {
-        try {
-            _lock.writeLock().lock();
-            WeakReference<Object> ref = _container.put(key, new WeakReference<Object>(value));
-            // if we have no ref then there is no previous entry in the container.
-            if (ref == null) { return null; }
-            // check to see if we've got a referenceable object to return.
-            Object found = ref.get();
-            // if we have found an object we return it.
-            if (found != null) { return found; }
-            // else we lost the referent so we return as haven't found anything.
-            return null;
-        } finally {
-            _lock.writeLock().unlock();
-        }
+        _lock.writeLock().lock();
+        WeakReference<Object> ref = _container.put(key, new WeakReference<Object>(value));
+        _lock.writeLock().unlock();
+        // if we have no ref then there is no previous entry in the container.
+        if (ref == null) { return null; }
+        // check to see if we've got a referenceable object to return.
+        Object found = ref.get();
+        // if we have found an object we return it.
+        if (found != null) { return found; }
+        // else we lost the referent so we return as haven't found anything.
+        return null;
     }
     
     /**
      * {@inheritDoc}
      */
     public Object remove(final Object key) {
-        try {
-            _lock.writeLock().lock();
-            WeakReference<Object> ref = _container.remove(key);
-            // if we have no ref then there is no previous entry in the container.
-            if (ref == null) { return null; }
-            // check to see if we've got a referenceable object to return.
-            Object found = ref.get();
-            // if we have found an object we return it.
-            if (found != null) { return found; }
-            // else we lost the referent and return as haven't found anything.
-            return null;
-        } finally {
-            _lock.writeLock().unlock();
-        }
+        _lock.writeLock().lock();
+        WeakReference<Object> ref = _container.remove(key);
+        _lock.writeLock().unlock();
+        // if we have no ref then there is no previous entry in the container.
+        if (ref == null) { return null; }
+        // check to see if we've got a referenceable object to return.
+        Object found = ref.get();
+        // if we have found an object we return it.
+        if (found != null) { return found; }
+        // else we lost the referent and return as haven't found anything.
+        return null;
     }
     
     //--------------------------------------------------------------------------
