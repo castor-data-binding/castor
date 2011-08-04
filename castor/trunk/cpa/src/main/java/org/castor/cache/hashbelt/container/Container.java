@@ -24,8 +24,9 @@ import java.util.Map;
  * grouping that allows the container to be efficiently dealt with as a group of
  * objects to be expired.
  * <p>
- * Implementations of this interface need to be appropriately synchronized --
- * the implementations of the hashbelt rely on this object to be threadsafe.
+ * According to the AbstractHashblet's implementations, if the container can't
+ * be protected by AbstractHashblet.lock(), the implementations of this interface need 
+ * to be appropriately synchronized.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>

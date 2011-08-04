@@ -17,7 +17,7 @@ package org.castor.cache.hashbelt.container;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 /**
  * A very basic, HashMap-based implementation of the hashmap container strategy,
@@ -33,9 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class MapContainer
-extends ConcurrentHashMap<Object, Object>
-implements Container {
+public final class MapContainer extends HashMap<Object, Object> implements Container {
     //--------------------------------------------------------------------------
     
     /** SerialVersionUID. */
