@@ -20,6 +20,10 @@ package org.castor.cpa.persistence.sql.engine;
 
 import java.sql.SQLException;
 
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
+import org.castor.cpa.persistence.sql.engine.info.ForeignKeyInfo;
 import org.castor.cpa.persistence.sql.query.Update;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
@@ -30,8 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
-import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -49,12 +51,12 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date$
 */
-public final class SQLStatementUpdate {
+public final class SQLStatementUpdate2 {
     //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLStatementUpdate.class);
+    private static final Log LOG = LogFactory.getLog(SQLStatementUpdate2.class);
     
     /** Name space to prepend to set parameter names to distinguish them from parameters
      *  of where clause. */
@@ -64,16 +66,13 @@ public final class SQLStatementUpdate {
 
     /** Name of engine descriptor. */
     private final String _type;
-    
-    /** Column information for identities specific to the particular engine instance. */
-    private final SQLColumnInfo[] _ids;
-    
-    /** Contains the Information specific to particular engine instance. */
-    private final SQLFieldInfo[] _fields;
 
     /** Update SQL statement class hierarchy. */
     private Update _update;
-    
+
+    /** TableInfo object holding queried table with its relations. */
+    private EntityTableInfo _tableInfo;
+
     /** Indicates whether there is a field to persist at all; in the case of 
      *  EXTEND relationships where no additional attributes are defined in the 
      *  extending class, this might NOT be the case; in general, a class has to have
@@ -81,7 +80,7 @@ public final class SQLStatementUpdate {
     private boolean _hasFieldsToPersist;
 
     /** SQLStatementUpdateCheck instance to check the failure reason of the update statement.*/
-    private final SQLStatementUpdateCheck _statementUpdateCheck;
+    private final SQLStatementUpdateCheck2 _statementUpdateCheck;
     
     //-----------------------------------------------------------------------------------    
 
@@ -91,14 +90,13 @@ public final class SQLStatementUpdate {
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
      */
-    public SQLStatementUpdate(final SQLEngine engine) {
+    public SQLStatementUpdate2(final SQLEngine engine) {
         _type = engine.getDescriptor().getJavaClass().getName();
-        _ids = engine.getColumnInfoForIdentities();
-        _fields = engine.getInfo();
+        _tableInfo = engine.getTableInfo();
 
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
 
-        _statementUpdateCheck = new SQLStatementUpdateCheck(engine);
+        _statementUpdateCheck = new SQLStatementUpdateCheck2(engine);
     }
     
     /**
@@ -111,12 +109,18 @@ public final class SQLStatementUpdate {
 
         // add assignments to update statement
         int count = 0;
-        for (int i = 0; i < _fields.length; ++i) {
-            if (_fields[i].isStore()) {
-                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                for (int j = 0; j < columns.length; j++) {
-                    _update.addAssignment(new Column(columns[j].getName()),
-                            new Parameter(SET_PARAM_NAMESPACE + columns[j].getName()));
+        for (ColumnInfo column : _tableInfo.getSimpleColumns()) {
+            if (column.isStore()) {
+                _update.addAssignment(new Column(column.getName()),
+                        new Parameter(SET_PARAM_NAMESPACE + column.getName()));
+                ++count;
+            }
+        }
+        for (ForeignKeyInfo foreignKey : _tableInfo.getForeignKeys()) {
+            for (ColumnInfo column : foreignKey.getFromColumns()) {
+                if (column.isStore()) {
+                    _update.addAssignment(new Column(column.getName()),
+                            new Parameter(SET_PARAM_NAMESPACE + column.getName()));
                     ++count;
                 }
             }
@@ -154,8 +158,8 @@ public final class SQLStatementUpdate {
 
             // build condition for identities
             Condition condition = new AndCondition();
-            for (int i = 0; i < _ids.length; i++) {
-                String name = _ids[i].getName();
+            for (ColumnInfo col : _tableInfo.getPrimaryKeyColumns()) {
+                String name = col.getName();
                 condition.and(new Column(name).equal(new Parameter(name)));
             }
 
@@ -203,41 +207,14 @@ public final class SQLStatementUpdate {
      */
     private void appendOldEntityCondition(final ProposedEntity oldentity, final Condition condition)
     throws PersistenceException {
-        
         if (oldentity.getFields() != null) {
-            for (int i = 0; i < _fields.length; ++i) {
-                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    Object value = oldentity.getField(i);
-                    if (value == null) { 
-                        // append 'is NULL' in case the value is null    
-                        for (int j = 0; j < columns.length; j++) {
-                            String name = columns[j].getName();
-                            condition.and(new Column(name).isNull());
-                        }
-                    } else if (value instanceof Identity) {
-                        // raise exception if identity size doesn't match column length
-                        Identity identity = (Identity) value;
-                        if (identity.size() != columns.length) {
-                            throw new PersistenceException("Size of identity field mismatch!");
-                        }
-
-                        // traverse through all the columns of the identity and append it to SQL
-                        // dependent on weather the value of that column is null or not
-                        for (int j = 0; j < columns.length; j++) {
-                            String name = columns[j].getName();
-                            if (identity.get(j) == null) {
-                                condition.and(new Column(name).isNull());
-                            } else {
-                                condition.and(new Column(name).equal(new Parameter(name)));
-                            }
-                        }
+            for (ColumnValue value : _tableInfo.toSQL(oldentity.getFields())) {
+                if (value.isStore() && value.isDirty()) {
+                    String name = value.getName();
+                    if (value.getValue() == null) {
+                        condition.and(new Column(name).isNull());
                     } else {
-                        // append condition with parameter for all normal fields
-                        for (int j = 0; j < columns.length; j++) {
-                            String name = columns[j].getName();
-                            condition.and(new Column(name).equal(new Parameter(name)));
-                        }
+                        condition.and(new Column(name).equal(new Parameter(name)));
                     }
                 }
             }
@@ -254,34 +231,11 @@ public final class SQLStatementUpdate {
      */
     private void bindNewEntity(final ProposedEntity newentity, final CastorStatement stmt)
     throws PersistenceException, SQLException {
-        // bind fields of the row to be stored into the preparedStatement
-        for (int i = 0; i < _fields.length; ++i) {
-            if (_fields[i].isStore()) {
-                SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                Object value = newentity.getField(i);
-                if (value == null) {
-                    for (int j = 0; j < columns.length; j++) {
-                         stmt.bindParameter(SET_PARAM_NAMESPACE + columns[j].getName(), 
-                                 null, columns[j].getSqlType());
-                    }
-                } else if (value instanceof Identity) {
-                    Identity id = (Identity) value;
-                    if (id.size() != columns.length) {
-                        throw new PersistenceException("Size of identity field mismatch!");
-                    }
-                    
-                    for (int j = 0; j < columns.length; j++) {
-                       stmt.bindParameter(SET_PARAM_NAMESPACE + columns[j].getName(), 
-                               columns[j].toSQL(id.get(j)), columns[j].getSqlType());
-                    }
-                } else {
-                    if (columns.length != 1) {
-                        throw new PersistenceException("Complex field expected!");
-                    }
-                    
-                     stmt.bindParameter(SET_PARAM_NAMESPACE + columns[0].getName(),
-                             columns[0].toSQL(value), columns[0].getSqlType());
-                }
+        //         bind fields of the row to be stored into the preparedStatement
+        for (ColumnValue value : _tableInfo.toSQL(newentity.getFields())) {
+            if (value.isStore()) {
+                stmt.bindParameter(SET_PARAM_NAMESPACE + value.getName(), value.getValue(),
+                        value.getType());
             }
         }
     }
@@ -296,13 +250,12 @@ public final class SQLStatementUpdate {
     private void  bindIdentity(final Identity identity, final CastorStatement stmt) 
     throws SQLException {
         // bind the identity of the row to be stored into the preparedStatement
-        for (int i = 0; i < _ids.length; i++) {
-            stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
-                    _ids[i].getSqlType());
+        for (ColumnValue value : _tableInfo.toSQL(identity)) {
+            stmt.bindParameter(value.getName(), value.getValue(), value.getType());
 
             if (LOG.isTraceEnabled()) {
-                LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
-                        _ids[i].toSQL(identity.get(i))));
+                LOG.trace(Messages.format("jdo.bindingIdentity", value.getName(),
+                        value.getValue()));
             }
         }
     }
@@ -318,31 +271,10 @@ public final class SQLStatementUpdate {
     private void bindOldEntity(final ProposedEntity oldentity, final CastorStatement stmt) 
     throws PersistenceException, SQLException {
         // bind the old fields of the row to be stored into the preparedStatement
-        if (oldentity.getFields() != null) {
-            for (int i = 0; i < _fields.length; ++i) {
-                if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
-                    SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    Object value = oldentity.getField(i);
-                    if (value == null) {
-                        continue;
-                    } else if (value instanceof Identity) {
-                        Identity id = (Identity) value;
-                        if (id.size() != columns.length) {
-                            throw new PersistenceException("Size of identity field mismatch!");
-                        }
-                        
-                        for (int j = 0; j < columns.length; j++) {
-                               stmt.bindParameter(columns[j].getName(), columns[j].toSQL(id.get(j)),
-                                       columns[j].getSqlType());
-                        }
-                    } else {
-                        if (columns.length != 1) {
-                            throw new PersistenceException("Complex field expected!");
-                        }
-                        
-                           stmt.bindParameter(columns[0].getName(), columns[0].toSQL(value),
-                                   columns[0].getSqlType());
-                    }
+        for (ColumnValue value : _tableInfo.toSQL(oldentity.getFields())) {
+            if (value.isStore() && value.isDirty()) {
+                if (value.getValue() != null) {
+                    stmt.bindParameter(value.getName(), value.getValue(), value.getType());
                 }
             }
         }

@@ -24,6 +24,9 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.engine.info.ColumnInfo;
+import org.castor.cpa.persistence.sql.engine.info.ColumnValue;
+import org.castor.cpa.persistence.sql.engine.info.EntityTableInfo;
 import org.castor.cpa.persistence.sql.query.Select;
 import org.castor.cpa.persistence.sql.query.Table;
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
@@ -32,7 +35,6 @@ import org.castor.cpa.persistence.sql.query.expression.Parameter;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.engine.SQLColumnInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -51,23 +53,23 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
  * @version $Revision$ $Date$
  */
-public final class SQLStatementUpdateCheck {
+public final class SQLStatementUpdateCheck2 {
     //-----------------------------------------------------------------------------------    
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(SQLStatementUpdateCheck.class);
+    private static final Log LOG = LogFactory.getLog(SQLStatementUpdateCheck2.class);
 
     //-----------------------------------------------------------------------------------    
 
     /** The name of engine descriptor. */
     private final String _type;
-    
-    /** Column information for identities specific to the particular engine instance. */
-    private final SQLColumnInfo[] _ids;
 
     /** Select SQL statement class hierarchy. */
     private Select _select;
+
+    /** TableInfo object holding queried table with its relations. */
+    private EntityTableInfo _tableInfo;
 
     //-----------------------------------------------------------------------------------    
 
@@ -77,9 +79,9 @@ public final class SQLStatementUpdateCheck {
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.  
      */
-    public SQLStatementUpdateCheck(final SQLEngine engine) {
+    public SQLStatementUpdateCheck2(final SQLEngine engine) {
         _type = engine.getDescriptor().getJavaClass().getName();
-        _ids = engine.getColumnInfoForIdentities();
+        _tableInfo = engine.getTableInfo();
 
         buildStatement(new ClassDescriptorJDONature(engine.getDescriptor()).getTableName());
     }
@@ -96,13 +98,13 @@ public final class SQLStatementUpdateCheck {
         
         // define conditions for select statement
         Condition condition = new AndCondition();
-        for (int i = 0; i < _ids.length; i++) {             
-            condition.and(table.column(_ids[i].getName()).equal(new Parameter(_ids[i].getName())));
+        for (ColumnInfo col : _tableInfo.getPrimaryKeyColumns()) {
+            condition.and(table.column(col.getName()).equal(new Parameter(col.getName())));
         }
 
         // initialize select statement returning only first identity column 
         _select = new Select(table);
-        _select.addSelect(table.column(_ids[0].getName()));
+        _select.addSelect(table.column(_tableInfo.getPrimaryKeyColumns().get(0).getName()));
         _select.setCondition(condition);
 
     }
@@ -130,14 +132,13 @@ public final class SQLStatementUpdateCheck {
             stmt.prepareStatement(_select);
 
             // bind the identity of the row into the preparedStatement
-            for (int i = 0; i < _ids.length; i++) {
+            for (ColumnValue value : _tableInfo.toSQL(identity)) {
                 // bind value to prepared statement
-                stmt.bindParameter(_ids[i].getName(), _ids[i].toSQL(identity.get(i)),
-                        _ids[i].getSqlType());
+                stmt.bindParameter(value.getName(), value.getValue(), value.getType());
                 
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace(Messages.format("jdo.bindingIdentity", _ids[i].getName(),
-                            _ids[i].toSQL(identity.get(i))));
+                    LOG.trace(Messages.format("jdo.bindingIdentity", value.getName(),
+                            value.getValue()));
                 }
             }
 
