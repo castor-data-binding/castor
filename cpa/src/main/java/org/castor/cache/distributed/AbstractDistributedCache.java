@@ -15,6 +15,8 @@
  */
 package org.castor.cache.distributed;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -61,31 +63,31 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final int size() { return _cache.size(); }
+    public int size() { return _cache.size(); }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean isEmpty() { return _cache.isEmpty(); }
+    public boolean isEmpty() { return _cache.isEmpty(); }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean containsKey(final Object key) {
+    public boolean containsKey(final Object key) {
         return _cache.containsKey(key);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean containsValue(final Object value) {
+    public boolean containsValue(final Object value) {
         return _cache.containsValue(value);
     }
     
     /**
      * {@inheritDoc}
      */
-    public final Object get(final Object key) {
+    public Object get(final Object key) {
         return _cache.get(key);
     }
 
@@ -95,14 +97,14 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Object put(final Object key, final Object value) {
+    public Object put(final Object key, final Object value) {
         return _cache.put(key, value);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Object remove(final Object key) {
+    public Object remove(final Object key) {
         return _cache.remove(key);
     }
 
@@ -112,14 +114,14 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         _cache.putAll(map);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void clear() { _cache.clear(); }
+    public void clear() { _cache.clear(); }
 
     //--------------------------------------------------------------------------
     // view operations of map interface
@@ -127,22 +129,68 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set<Object> keySet() {
+    public Set<Object> keySet() {
         return Collections.unmodifiableSet(_cache.keySet());
     }
     
     /**
      * {@inheritDoc}
      */
-    public final Collection<Object> values() {
+    public Collection<Object> values() {
         return Collections.unmodifiableCollection(_cache.values());
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         return Collections.unmodifiableSet(_cache.entrySet());
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Invoke static method with given name and arguments having parameters of
+     * types specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeStaticMethod(final Class<?> target, final String name, 
+            final Class<?>[] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getMethod(name, types);
+        return method.invoke(null, arguments);
+    }
+
+    /**
+     * Invoke method with given name and arguments having parameters of types
+     * specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeMethod(final Object target, final String name, 
+            final Class<?>[] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getClass().getMethod(name, types);
+        return method.invoke(target, arguments);
     }
 
     //--------------------------------------------------------------------------
