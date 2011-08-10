@@ -15,12 +15,10 @@
  */
 package org.castor.cache;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
- * Base implementation of all LRU cache types. 
+ * Base implementation of all cache types. 
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
@@ -70,52 +68,6 @@ public abstract class AbstractBaseCache implements Cache {
      * {@inheritDoc}
      */
     public final void expireAll() { clear(); }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Invoke static method with given name and arguments having parameters of
-     * types specified on the given target.
-     * 
-     * @param target The target object to invoke the method on.
-     * @param name The name of the method to invoke.
-     * @param types The types of the parameters.
-     * @param arguments The parameters.
-     * @return The result of the method invokation.
-     * @throws NoSuchMethodException If a matching method is not found or if the
-     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
-     * @throws IllegalAccessException If this Method object enforces Java language
-     *         access control and the underlying method is inaccessible.
-     * @throws InvocationTargetException If the underlying method throws an exception.
-     */
-    protected final Object invokeStaticMethod(final Class<?> target, final String name, 
-            final Class<?>[] types, final Object[] arguments) 
-    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method method = target.getMethod(name, types);
-        return method.invoke(null, arguments);
-    }
-
-    /**
-     * Invoke method with given name and arguments having parameters of types
-     * specified on the given target.
-     * 
-     * @param target The target object to invoke the method on.
-     * @param name The name of the method to invoke.
-     * @param types The types of the parameters.
-     * @param arguments The parameters.
-     * @return The result of the method invokation.
-     * @throws NoSuchMethodException If a matching method is not found or if the
-     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
-     * @throws IllegalAccessException If this Method object enforces Java language
-     *         access control and the underlying method is inaccessible.
-     * @throws InvocationTargetException If the underlying method throws an exception.
-     */
-    protected final Object invokeMethod(final Object target, final String name, 
-            final Class<?>[] types, final Object[] arguments) 
-    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method method = target.getClass().getMethod(name, types);
-        return method.invoke(target, arguments);
-    }
 
     //--------------------------------------------------------------------------
 }

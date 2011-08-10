@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.cache.AbstractBaseCache;
 import org.castor.cache.CacheAcquireException;
 
 /**
@@ -39,7 +38,7 @@ import org.castor.cache.CacheAcquireException;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class JcsCache extends AbstractBaseCache {
+public final class JcsCache extends AbstractDistributedCache {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
