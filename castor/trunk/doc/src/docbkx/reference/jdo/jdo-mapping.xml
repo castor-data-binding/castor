@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+     
+  <section id="jdo.mapping">
+    <sectioninfo>
+	   <authorgroup>
+	      <author>
+	        <firstname>Bruce</firstname>
+	        <surname>Snyder</surname>  
+<!--
+            <email>ferret AT frii DOT com</email>
+-->
+	      </author>
+	      <author>
+	        <firstname>Werner</firstname>
+	        <surname>Guttmann</surname>  
+<!--
+            <email>werner DOT guttmann AT gmx DOT net</email>
+-->
+	      </author>
+	   </authorgroup>
+<!--   
+       <abstract>
+           <para>
+               Outlines the use the Castor XML Mapping with regard to Castor JDO.
+           </para>
+       </abstract>
+-->
+    </sectioninfo>
+    
+<!-- 
+    Status: final
+-->    
+    
+    <title>Castor JDO Mapping</title>
+    
+    <section id="jdo.mapping.news">
+       <title>News</title>
+
+       <para>
+          <emphasis role="bold">Release 1.0 M3</emphasis>:
+          <itemizedlist>
+             <listitem>
+               <para>Added collection type 'iterator'.</para>
+             </listitem>
+             
+             <listitem>
+               <para>Added collection type 'enumerate'.</para>
+             </listitem>
+             
+             <listitem>
+               <para>Added additional syntax for specifying the identity of a class.</para>
+             </listitem>
+          </itemizedlist>
+       </para>
+    </section>
+    
+    <section id="jdo.mapping.introduction">
+      <title>Introduction</title>
+
+      <para>
+         The Castor mapping file also provides a mechanism for binding a Java
+         object model to a relational database model. This is usually referred to
+         as object-to-relational mapping (O/R mapping). O/R mapping bridges the gap
+         between an object model and a relational model.
+      </para>
+
+      <para>
+         The mapping file provides a description of the Java object model to
+         Castor JDO. Via Castor XML, Castor JDO uses the information in the mapping
+         file to map Java objects to relational database tables. The
+         following is a high-level example of a mapping file:
+      </para>
+
+      <programlisting language="xml"><![CDATA[
+  <mapping>
+      <class ... >
+          <map-to ... />
+          <field ... >
+              <sql ... />
+          </field>
+          ...
+      </class>
+  </mapping>]]></programlisting>
+
+      <para>
+         Each Java object is represented by a &lt;class> element composed of attributes,
+         a &lt;map-to> element and &lt;field> elements. The &lt;map-to> element
+         contains a reference to the relational table to which the Java object maps.
+         Each &lt;field> element represents either a public class variable or the
+         variable's accessor/mutator methods (depending upon the mapping info). Each
+         &lt;field> element is composed of attributes and one &lt;sql> element.
+         The &lt;sql> element represents the field in the relational table to which
+         the &lt;field> element maps.
+      </para>
+
+      <para>
+         It is possible to use the mapping file and Castor's default behavior in
+         conjunction. When Castor handles an object but is unable to locate
+         information about it in the mapping file, it will rely upon its default
+         behavior. Castor makes use of the Java programming language
+         <ulink url="http://java.sun.com/j2se/1.4.1/docs/api/java/lang/reflect/package-summary.html">
+         Reflection API</ulink> to introspect the Java objects to determine the methods
+         to use. This is the reason some attributes are not required in the mapping
+         file.
+      </para>
+
+    </section>
+
+    <section id="jdo.mapping.file">
+      <title>The Mapping File</title>
+
+      <section id="jdo.mapping.file.mapping-element">
+        <title>The &lt;mapping&gt; element</title>
+
+        <programlisting language="xml"><![CDATA[
+  <!ELEMENT mapping ( description?, include*, class*, key-generator* )>]]></programlisting>
+
+        <para>
+           The &lt;mapping&gt; element is the root element of a mapping file. It contains:
+        </para>
+
+        <itemizedlist>
+          <listitem>
+             <para>an optional description</para>
+          </listitem>
+          
+          <listitem>
+             <para>zero or more &lt;include> which facilitates reusing mapping files</para>
+          </listitem>
+          
+          <listitem>
+             <para>
+                zero or more &lt;class> descriptions: one for each class we intend to give
+                mapping information
+             </para>
+          </listitem>
+          
+          <listitem>
+             <para>zero or more &lt;key-generator>: not used for XML mapping</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>A mapping file look like this:</para>
+
+        <programlisting language="xml"><![CDATA[
+  <?xml version="1.0"?>
+  <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+
+  <mapping>
+     <description>Description of the mapping</description>
+     <include href="other_mapping_file.xml"/>
+
+     <class name="A">
+         ...
+     </class>
+
+     <class name="B">
+        ...
+     </class>
+  </mapping>]]></programlisting>
+
+      </section>
+
+      <section id="jdo.mapping.file.class-element">
+        <title>The &lt;class&gt; element</title>
+
+        <programlisting language="xml"><![CDATA[
+  <!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
+  <!ATTLIST class
+            name            ID       #REQUIRED
+            extends         IDREF    #IMPLIED
+            depends         IDREF    #IMPLIED
+            auto-complete   ( true |false ) "false"
+            identity        CDATA    #IMPLIED
+            access          ( read-only | shared | exclusive | db-locked )  "shared"
+            key-generator   IDREF    #IMPLIED >]]></programlisting>
+
+
+        <para>
+           The  &lt;class&gt; element contains all the information used to map a Java object
+           to a relational database. The content of &lt;class&gt; is mainly used to describe
+           the fields that will be mapped.
+        </para>
+
+        <para>Description of the attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+             <para>
+	             <emphasis role="bold">name:</emphasis> The fully qualified package name of the 
+	             Java object to map to.
+             </para>
+          </listitem>
+          <listitem>
+             <para>
+	             <emphasis role="bold">extends:</emphasis> Should be used 
+	             <emphasis role="bold">only</emphasis> if this Java object extends another Java
+	             object for which mapping information is provided. It should 
+	             <emphasis role="bold">not</emphasis> be used if the extended 
+	             Java object is not referenced in the mapping file.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+	             <emphasis role="bold">depends:</emphasis> For more information on this field, 
+	             please see
+	             <link linkend="jdo.advanced-features.dependent-and-related">
+	             Dependent and related relationships</link>.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+	             <emphasis role="bold">identity:</emphasis> For more information on this field, 
+	             please see 
+	             <!-- TODO change link when advanced jdo doc is finished -->
+	             <ulink url="../../design-persist.html#Persistence">Design -> Persistence</ulink>.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+	             <emphasis role="bold">access:</emphasis> For more information on this field, 
+	             <!-- TODO change link when advanced JDO doc is finished -->
+	             please see <ulink url="../../locking.html#Locking-Modes">Locking Modes</ulink>.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+	             <emphasis role="bold">key-generator</emphasis>: For more information on 
+	             <!--  TODO change link when advanced jdo doc is finished -->
+	             this field, please see <ulink url="../../key-generator.html">KeyGen</ulink>.
+             </para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Description of the elements:</para>
+
+        <itemizedlist>
+             <listitem>
+	             <para>
+		             <emphasis role="bold">&lt;description></emphasis>: 
+		             An optional description.
+	             </para>
+             </listitem>
+
+             <listitem>
+	             <para>
+		             <emphasis role="bold">&lt;cache-type></emphasis>: 
+		             For more information on this field please see
+		             <!-- TODO change link when advanced jdo doc is finished -->
+		             <ulink url="../../long-transact.html#Bounded-dirty-checking"><!--  
+		          -->Bounded Dirty Checking</ulink>
+		             and <link linkend="jdo.advanced-features.caching">Caching</link>.
+	             </para>
+             </listitem>
+
+             <listitem>
+	             <para>
+		             <emphasis role="bold">&lt;map-to&gt;</emphasis>: 
+		             Used to tell Castor the name of the relational
+		             table to which to map.
+	             </para>
+             </listitem>
+
+             <listitem>
+	             <para>
+		             <emphasis role="bold">&lt;field&gt;</emphasis>: Zero or more 
+		             &lt;field&gt; elements are used to describe properties
+		             of each Java object.
+	             </para>
+             </listitem>
+        </itemizedlist>
+
+      </section>
+
+      <section id="jdo.mapping.file.map-to-element">
+        <title>The &lt;map-to&gt; element</title>
+
+        <programlisting language="java"><![CDATA[
+  <!ELEMENT map-to EMPTY>
+  <!ATTLIST map-to
+            table      NMTOKEN  #IMPLIED
+            xml        NMTOKEN  #IMPLIED
+            ns-uri     NMTOKEN  #IMPLIED
+            ns-prefix  NMTOKEN  #IMPLIED
+            ldap-dn    NMTOKEN  #IMPLIED
+            ldap-oc    NMTOKEN  #IMPLIED>]]></programlisting>
+
+        <para>&lt;map-to&gt; is used to specify the name of the item that should be associated
+          with the given Java object. The &lt;map-to&gt; element is only used for the root
+          Java object.</para>
+
+        <para>Description of the attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+             <para>
+	            <emphasis role="bold">table:</emphasis> 
+	            The name of the relational database table to which the
+	            Java object is associated.
+	         </para>
+          </listitem>
+        </itemizedlist>
+
+      </section>
+
+      <section id="jdo.mapping.file.field-element">
+        <title>The &lt;field> element</title>
+
+        <programlisting language="xml"><![CDATA[
+  <!ELEMENT field ( description?, sql?, xml?, ldap? )>
+  <!ATTLIST field
+            name           NMTOKEN  #REQUIRED
+            type           NMTOKEN  #IMPLIED
+            required       ( true | false )  "false"
+            direct         ( true | false )  "false"
+            lazy           ( true | false )  "false"
+            transient      ( true | false )  "false"
+            identity       ( true | false )  "false"
+            get-method     NMTOKEN  #IMPLIED
+            set-method     NMTOKEN  #IMPLIED
+            create-method  NMTOKEN  #IMPLIED
+            collection     ( array | enumerate | collection | set | 
+                             arraylist | vector | map | hashtable | sortedset | iterator )  #IMPLIED
+            comparator     NMTOKEN  #IMPLIED>]]></programlisting>
+
+        <para>
+           The &lt;field> element is used to describe a property of a Java object. It provides:
+        </para>
+        <itemizedlist>
+          <listitem>
+             <para>the identity ('name') of the property</para>
+          </listitem>
+          <listitem>
+             <para>the type of the property (inferred from 'type' and 'collection')</para>
+          </listitem>
+          <listitem>
+             <para>
+                the access method of the property 
+                (inferred from 'direct', 'get-method', 'set-method')
+             </para>
+          </listitem>
+        </itemizedlist>
+
+        <para>
+          From this information, Castor is able to access a given property in the Java
+          object.
+        </para>
+
+        <para>
+          In order to determine the signature that Castor expects, there are two easy
+          rules to apply.
+        </para>
+
+        <para><emphasis role="bold">1. Determine &lt;type&gt;.</emphasis></para>
+
+        <itemizedlist>
+	        <listitem>
+	           <para>
+	              <emphasis role="bold">If there is no 'collection' attribute</emphasis>, 
+	              the object type is the value of the 'type' attribute. 
+	              The value of the type attribute can be a fully qualified Java object 
+	              like 'java.lang.String' or one of the allowed aliases:
+	           </para>
+	
+	         <informaltable border="0" cellspacing="1" cellpadding="2">
+	            <tr>
+	               <td>
+	                  <informaltable border="0" cellspacing="0" cellpadding="6">
+	                     <tr>
+	                        <th align="left">short name</th>
+	                        <th align="left">Primitive type?</th>
+	                        <th align="left">Java Class</th>
+	                     </tr>
+	                     <tr><td>big-decimal</td> <td>N</td><td>java.math.BigDecimal</td>    </tr>
+	                     <tr><td>big-integer</td> <td>Y</td><td>java.math.BigInteger</td>    </tr>
+	                     <tr><td>boolean</td>     <td>Y</td><td>java.lang.Boolean.TYPE</td>  </tr>
+	                     <tr><td>byte</td>        <td>Y</td><td>java.lang.Byte.TYPE</td>     </tr>
+	                     <tr><td>bytes</td>       <td>N</td><td>byte[]</td>                  </tr>
+	                     <tr><td>char</td>        <td>Y</td><td>java.lang.Character.TYPE</td></tr>
+	                     <tr><td>chars</td>       <td>N</td><td>char[]</td>                  </tr>
+	                     <tr><td>clob</td>        <td>N</td><td>java.sql.Clob</td>           </tr>
+	                     <tr><td>date</td>        <td>N</td><td>java.util.Date</td>          </tr>
+	                     <tr><td>double</td>      <td>Y</td><td>java.lang.Double.TYPE</td>   </tr>
+	                     <tr><td>float</td>       <td>Y</td><td>java.lang.Float.TYPE</td>    </tr>
+	                     <tr><td>int</td>         <td>Y</td><td>java.lang.Integer.TYPE</td>  </tr>
+	                     <tr><td>integer</td>     <td>Y</td><td>java.lang.Integer</td>       </tr>
+	                     <tr><td>locale</td>      <td>N</td><td>java.util.Locale</td>        </tr>
+	                     <tr><td>long</td>        <td>Y</td><td>java.lang.Long.TYPE</td>     </tr>
+	                     <tr><td>other</td>       <td>N</td><td>java.lang.Object</td>        </tr>
+	                     <tr><td>serializable</td><td>Y</td><td>java.io.Serializable</td>    </tr>
+	                     <tr><td>short</td>       <td>Y</td><td>java.lang.Short.TYPE</td>    </tr>
+	                     <tr><td>sqldate</td>     <td>Y</td><td>java.sql.Date</td>           </tr>
+	                     <tr><td>sqltime</td>     <td>Y</td><td>java.sql.Date</td>           </tr>
+	                     <tr><td>string</td>      <td>N</td><td>java.lang.String</td>        </tr>
+	                     <tr><td>strings</td>     <td>N</td><td>String[]</td>                </tr>                
+	                     <tr><td>stream</td>      <td>N</td><td>java.io.InputStream</td>     </tr>
+	                     <tr><td>timestamp</td>   <td>N</td><td>java.sql.Timestamp</td>      </tr>
+	                  </informaltable>
+	               </td>
+	            </tr>
+	         </informaltable>
+	
+	         <para>
+	            Castor will try to cast the data in the mapping file to the proper Java 
+	            type.
+	         </para>
+	      </listitem>
+
+
+	      <listitem>
+	         <para>
+	            <emphasis role="bold">If there is a collection attribute</emphasis>, 
+	            the items in the following table can be
+	            used:
+	         </para>
+	
+	         <informaltable border="0" cellspacing="1" cellpadding="2">
+	            <tr>
+	               <td>
+	                  <informaltable border="0" cellspacing="0" cellpadding="6">
+	                     <tr>
+	                        <th align="left">name</th>
+	                        <th align="left">type</th>
+	                        <th align="left">default implementation</th>
+	                        <th align="left">added in release</th>
+	                     </tr>
+	                     <tr>
+	                       <td>array</td>
+	                       <td>&lt;type_attribute>[]</td>
+	                       <td>&lt;type_attribute>[]</td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>enumerate</td>
+	                       <td>java.util.Enumeration</td>
+	                       <td>-</td>
+	                       <td style="color:red;">1.0 M3</td>
+	                     </tr>
+	                     <tr>
+	                       <td>collection</td>
+	                       <td>java.util.Collection</td>
+	                       <td>java.util.ArrayList </td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>set</td>
+	                       <td>java.util.Set</td>
+	                       <td>java.util.HashSet</td>
+	                       <td></td>
+	                       </tr>
+	                     <tr>
+	                       <td>arraylist</td>
+	                       <td>java.util.ArrayList</td>
+	                       <td>java.util.ArrayList </td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>vector</td>
+	                       <td>java.util.Vector</td>
+	                       <td>java.util.Vector</td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>map</td>
+	                       <td>java.util.Map</td>
+	                       <td>java.util.HashMap</td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>hashtable</td>
+	                       <td>java.util.Hashtable</td>
+	                       <td>java.util.Hashtable</td>
+	                       <td></td>
+	                     </tr>
+	                     <tr>
+	                       <td>sortedset</td>
+	                       <td>java.util.SortedSet</td>
+	                       <td>java.util.TreeSet</td>
+	                       <td>1.0 M2</td>
+	                     </tr>
+	                     <tr>
+	                       <td>iterator</td>
+	                       <td>java.util.Iterator</td>
+	                       <td> n/a </td>
+	                       <td style="color:red">1.0 M3</td>
+	                     </tr>
+	                  </informaltable>
+	               </td>
+	            </tr>
+	         </informaltable>
+	
+	         <para>
+	            The type of the object inside the collection is the 'type' attribute. The 'default
+	            implementation' is the type used if the object holding the collection is found
+	            to be null and needs to be instantiated.
+	         </para>
+	
+	         <para>
+	            For hashtable and map, Castor will add an object using the put(object, object) 
+	            method - the object is both the key and the value. This will be improved in the future.
+	         </para>
+	      </listitem>
+	    </itemizedlist>
+
+        <para>
+           It is necessary to use a collection when the content model of the element expects more 
+           than one element of the specified type. This is how the 'to-many' portion of a relationship 
+           is described.
+        </para>
+           
+        <note>
+           <para>
+              It is not possible to use a collection of type 'iterator' or 'enumerate' 
+              with lazy loading enabled.
+           </para>
+        </note>
+
+        <para>
+           <emphasis role="bold">2. Determine the signature of the method</emphasis>
+        </para>
+
+        <itemizedlist>
+	        <listitem>
+	           <para>
+	              <emphasis role="bold">If 'direct' is set to true</emphasis>, 
+	              Castor expects to find a public Java object variable with the 
+	              given signature:
+	           </para>
+	
+	        <programlisting language="java"><![CDATA[  public <type> <name>;]]></programlisting>
+	        </listitem>
+	
+	        <listitem>
+	           <para>
+	               <emphasis role="bold">If 'direct' is set to false or omitted</emphasis>, 
+	               Castor will access the property though accessor methods. 
+	               Castor determines the signature of the accessors and mutators as follows: 
+	               If the 'get-method' or 'set-method' attributes are supplied, it will
+		           try to find a function with the following signature:
+	           </para>
+	
+	        <programlisting language="java"><![CDATA[  public <type> <get-method>();]]></programlisting>
+	        <para>or</para>
+	        <programlisting language="java"><![CDATA[  public void <set-method>(<type> value);]]></programlisting>
+	
+	        <para>
+	           If 'get-method' or 'set-method' attributes are not provided, Castor will try to
+	           find the following functions:
+	        </para>
+		
+	        <programlisting language="java"><![CDATA[  public <type> is<capitalized-name>();]]></programlisting>
+	        <para>or</para>
+	        <programlisting language="java"><![CDATA[  public <type> get<capitalized-name>();]]></programlisting>
+			
+			<para>
+			   the former for boolean types, the latter for all other types (or if the 
+	           'is&lt;capitalized-name>()' method is not defined for a boolean type), and 
+	           a standard set method of
+	        </para>
+	        
+	        <programlisting language="java"><![CDATA[  public void set<capitalized-name>(<type> value);]]></programlisting>
+		
+		    <para>
+		       If there are more than one set&lt;capitalized-name> method it first tries to find the one
+	           that exactly matches &lt;type>. If no such method is available and &lt;type> is a java
+	           primitive type it tries to find a method with the corresponing java object type.
+	        </para>
+		
+	        <para>
+	           &lt;capitalized-name> means that Castor uses the &lt;name> attribute by changing its first
+	           letter to uppercase without modifying the other letters.
+	        </para>
+	
+	        <para>
+	           The content of the &lt;field&gt; element will contain the information about how to map 
+	           this field to the relational table.
+	        </para>
+	        </listitem>
+        </itemizedlist>
+
+        <para>Description of the attributes: </para>
+
+        <itemizedlist>
+          <listitem>
+             <para>
+	             <emphasis role="bold">name:</emphasis> If 'direct' access is used, 
+	             'name' should be the name of a public variable in the object we are 
+	             mapping (the field must be public, not static and not transient). 
+	             If no direct access and no 'get-/set-method' is specified, 
+	             this name will be used to infer the name of the accessor and 
+	             mutator methods.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                 <emphasis role="bold">type:</emphasis> The Java type of the field. 
+                 This is used to access the field. Castor will use this information 
+                 to cast the data type(e.g. string into integer). It is also used 
+                 to define the signature of the accessor and mutator methods. 
+                 If a collection is specified, this is used to specify the type of 
+                 the object inside the collection. See description above for more 
+	             details.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                <emphasis role="bold">required:</emphasis> If true, the field is not optional.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                 <emphasis role="bold">transient:</emphasis> If true, the field will 
+                 be ignored during persistence (and XML un-/marshalling). 
+                 If you want this field to be ignored during any persistence-related 
+                 operations only, please use the 'transient' attribute at the &lt;sql&gt; 
+                 level.
+             </para>
+          </listitem>
+
+          <listitem>
+            <para>
+              <emphasis role="bold">identity:</emphasis> If true, the field is part of 
+              the class identity. Please use this as an alternative way of specifying 
+              the identity of an object.
+            </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                <emphasis role="bold">direct:</emphasis> If true, Castor expects a public 
+                variable in the object and will modify it directly.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                <emphasis role="bold">collection:</emphasis> If a parent object expects
+                more than one occurrence of one of its fields, it is necessary to specify 
+                which collection type Castor will use to handle them. The type specified 
+                is used to define the type of the content inside the collection.
+             </para>
+          </listitem>
+
+          <listitem>
+            <para>
+                <emphasis role="bold">comparator:</emphasis> If the collection type equals 
+                'sortedset', it is possible to specify a 
+                <classname>java.util.Comparator</classname> instance that will be used with 
+                the <classname>java.util.SortedSet</classname> (implementation) to specify 
+                a custom sort order. Please use this attribute to specify the class name 
+                of the Comparator instance to be used. Alternatively, it is possible to not 
+                specify a Comparator instance and have the Java objects stored in the 
+                SortedSet implement <classname>java.util.Comparable</classname> 
+                to specify the sort order.
+            </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                 <emphasis role="bold">get-method:</emphasis> An optional name of the 
+                 accessor method Castor should use. If this attribute is not set, 
+                 Castor will try to guess the name with the algorithm described above.
+             </para>
+          </listitem>
+
+
+          <listitem>
+             <para>
+	             <emphasis role="bold">set-method:</emphasis> An optional name of the 
+	             mutator method Castor should use. If this attribute is not set, 
+	             Castor will try to guess the name with the algorithm described above.
+             </para>
+          </listitem>
+
+          <listitem>
+             <para>
+                <emphasis role="bold">create-method:</emphasis> Factory method 
+                for instantiation of the object.
+             </para>
+          </listitem>
+        </itemizedlist>
+
+      </section>
+
+      <section id="jdo.mapping.file.sql-element">
+        <title>The &lt;sql&gt; element</title>
+
+        <programlisting language="xml"><![CDATA[
+  <!ELEMENT sql EMPTY>
+  <!ATTLIST sql
+            name        NMTOKENS  #IMPLIED
+            type        NMTOKENS  #IMPLIED
+            many-key    NMTOKENS  #IMPLIED
+            many-table  NMTOKEN   #IMPLIED
+            transient   ( true | false )    "false"
+            read-only   ( true | false )    "false"
+            dirty       ( check | ignore )  "check">
+            cascading	( create | delete | update | all | none ) "none"]]></programlisting>
+  
+        <para>
+           The &lt;sql&gt; element is used to denote information about the database 
+           column to which a Java object is mapped. It should be declared for all 
+           &lt;field&gt; elements. Each &lt;field&gt; element contains one &lt;sql&gt; 
+           element. The &lt;sql&gt; element correlates directly to the &lt;map-to&gt; 
+           element for the containing &lt;class&gt; element. The &lt;sql&gt; elements 
+           contains the following attributes:
+        </para>
+
+        <itemizedlist>
+           <listitem>
+              <para>
+                 <emphasis role="bold">name:</emphasis> The name of the column in the 
+                 database table.
+              </para>
+           </listitem>
+  
+           <listitem>
+              <para>
+	              <emphasis role="bold">type:</emphasis> The JDBC type of the column. 
+	              It is inferred from the object when the type of this field is a 
+	              persistent Java class that is defined elsewhere in the mapping. 
+	              The complete list of automatic type conversions, and which values 
+	              require manual mapping (e.g, java.util.Date) is listed in the
+	              <link linkend="jdo.types.type-conversion">SQL Type Conversion 
+	              section of the Type Support</link> document.
+	          </para>
+           </listitem>
+  
+           <listitem>
+              <para>
+	              <emphasis role="bold">read-only:</emphasis> If true, the column in 
+	              the relational database table will only be read, not updated or deleted.
+	          </para>
+           </listitem>
+  
+           <listitem>
+              <para>
+	              <emphasis role="bold">transient (as of 0.9.9):</emphasis> If true, the 
+	              field will be ignored during persistence only. If you want this field 
+	              to be ignored during XML un-/marshalling as well, please use the 
+	              'transient' attribute at the &lt;field&gt; level.
+	          </para>
+           </listitem>
+          
+           <listitem>
+              <para>
+	              <emphasis role="bold">dirty:</emphasis> If the value is 'ignore', the 
+	              field will not be checked against the database for modification.
+	          </para>
+           </listitem>
+              
+           <listitem>
+              <para>
+	               <emphasis role="bold">cascading:</emphasis> If the field is a relation, 
+	               this attribute specifies which operations to cascade. Possible values 
+	               are: 'all', none', 'create', 'update' or 'delete'; when not specifying
+	               'none' or 'all', it is possibel to specify more than one value, using 
+	               whitespace as a delimiter (e.g. 'create update'). For further 
+	               information see 
+	               <!-- TODO change link when HOWTO docs are finished -->
+	               <ulink url="../../how-to-use-cascading-operations.html">HOW-TO</ulink> 
+	               on using cascading operation.
+              </para>
+           </listitem>
+        </itemizedlist>
+          
+        <para>
+           There are two more attributes used <emphasis role="bold">only</emphasis> 
+           with 'to-many' relations.
+        </para>
+             
+        <itemizedlist>
+            <listitem>
+	            <para>
+		            <emphasis role="bold">many-key:</emphasis> Specifies the name 
+		            of the column that holds the foreign key to this object. 
+		            That column is in the database table that stores objects 
+		            of the Java type of this field.
+	            </para>
+            </listitem>
+  
+            <listitem>
+	            <para>
+		            <emphasis role="bold">many-table:</emphasis> Specifies the 
+		            name of the bridge table that contains the primary keys of 
+		            the object on each side of the relationship. This is 
+		            <emphasis>only</emphasis> used for many-to-many relationships.
+	            </para>
+            </listitem>
+        </itemizedlist>
+
+      </section>
+
+    </section>
+
+  </section>

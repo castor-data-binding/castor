@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+  <section id="jdo.usage">
+    <title>Using Castor JDO</title>
+
+    <section id="jdo.usage.database-connection">
+      <title>Opening A JDO Database</title>
+
+      <para>
+        Castor JDO supports two type of environments, client applications and J2EE servers.
+        <link linkend="jdo.usage.database-connection.stand-alone">Client applications</link> 
+        are responsible for configuring the database connection and managing transactions 
+        explicitly. 
+        <link linkend="jdo.usage.database-connection.j2ee">J2EE applications</link>
+         use JNDI to obtain a pre-configured database connection, and use
+        <literal>UserTransaction</literal> or container managed transactions (CMT) to 
+        manage transactions. If you have been using JDBC in these two environments, 
+        you will be readily familiar with the two models and the differences between 
+        them. 
+      </para>
+
+      <section id="jdo.usage.database-connection.stand-alone">
+        <title>Stand-alone application</title>
+
+        <para>
+          Client applications are responsible for defining the JDO configuration, and managing 
+          the transaction explicitly. The database is by default configured through a separate
+          XML file which links to the mapping file. Alternatively, it can be configured using the
+          utility class <classname>org.exolab.castor.jdo.util.JDOConfFactory</classname>.
+        </para>
+
+		<para>
+		  In the example code I refer to the JDO configuration file as 
+		  <literal>jdo-conf.xml</literal>, but any name can be used. See 
+		  <link linkend="jdo.configuration">Castor JDO Configuration</link> 
+		  for more information.
+		</para>
+
+        <para>
+          As of release 0.9.6, a new JDOManager class is provided, that replaces the former JDO
+		   class. Any new features will be implemented against the new JDOManager class only.
+		</para>
+           
+        <para>As with its predecessor, <classname>org.exolab.castor.jdo.JDOManager</classname> defines the database 
+		   name and properties and is used to open a database connection. An instance of this class 
+		   is constructed with a two-step approach:
+		</para> 
+           
+        <orderedlist>
+          <listitem>
+            <para>
+              Statically load the JDO configuration file through one of the 
+              loadConfiguration() methods, e.g. 
+			  <methodname>org.exolab.castor.jdo.JDOManager.loadConfiguration(java.lang.String)</methodname>.
+			</para>
+	      </listitem>
+          <listitem>
+            <para>
+              Create an instance of the JDO engine using the factory method 
+              <methodname>org.exolab.castor.jdo.JDOManager.createInstance(java.lang.String)</methodname>
+			  where you supply one of the database names defined in the configuration 
+			  file loaded in step 1).
+			</para>
+	      </listitem>
+        </orderedlist>
+        
+        <para>
+          The <classname>org.exolab.castor.jdo.Database</classname> object represents 
+          an open connection to the database. By definition the database object is not 
+          thread safe and should not be used from concurrent threads. There is little 
+          overhead involved in opening multiple <literal>Database</literal>
+          objects, and a JDBC connection is acquired only per open transaction.
+        </para>
+
+        <para>
+          The following code fragment creates an instance of JDOManager for a database 'mybd',
+	      opens a database, performs a transaction, and closes the database - as it will typically 
+		  appear in client applications (for brevity, we have ommitted any required exception 
+		  handling):
+	    </para>
+       
+        <programlisting language="java"> 
+JDOManager jdoManager;
+Database db;
+ 
+// load the JDO configuration file and construct a new JDOManager for the database 'mydb'
+JDOManager.loadConfiguration("jdo-conf.xml");
+jdoManager = JDOManager.createInstance("mydb");
+
+// Obtain a new database
+Database db = jdoManager.getDatabase();
+    
+// Begin a transaction
+db.begin();
+
+// Do something
+. . .
+
+// Commit the transaction and close the database
+db.commit();
+db.close();
+        </programlisting> 
+
+		<para>
+		  For an example showing how to set up a database configuration on the fly without
+		  the need of a preconfigured XML configuration file) see
+		  <link linkend="jdo.configuration">JdoConfFactory</link>.
+		</para>
+      </section>
+
+      <section id="jdo.usage.database-connection.j2ee">
+        <title>J2EE Application</title>
+
+        <para>
+          J2EE applications depend on the J2EE container (Servlet, EJB, etc) to configure
+          the database connection and use JNDI to look it up. This model allows the application
+          deployer to configure the database properties from a central place, and gives the J2EE
+          container the ability to manage distributed transactions across multiple data sources.
+        </para>
+
+        <para>
+          Instead of constructing a 
+          <classname>org.exolab.castor.jdo.JDOManager</classname>
+          the application uses the JNDI namespace to look it up. 
+          We recommend enlisting the <literal>JDOManager</literal> 
+          object under the <literal>java:comp/env/jdo</literal> namespace, 
+          compatible with the convention for listing JDBC resources.
+        </para>
+
+        <para>
+          The following code fragment uses JNDI to lookup a database, and uses the JTA 
+		  <literal>UserTransaction</literal> interface to manage the transaction:
+		</para>
+           
+		<programlisting language="java">
+InitialContext  ctx;
+UserTransaction ut;
+Database        db;
+
+// Lookup databse in JNDI
+ctx = new InitialContext();
+db = (Database) ctx.lookup( "java:comp/env/jdo/mydb" );
+
+// Begin a transaction
+ut = (UserTransaction) ctx.lookup( "java:comp/UserTransaction" );
+ut.begin();
+// Do something
+. . .
+// Commit the transaction, close database
+ut.commit();
+db.close();
+        </programlisting>
+
+        <para>
+          If the transaction is managed by the container, a common case with EJB beans and
+          in particular entity beans, there is no need to begin/commit the transaction explicitly.
+          Instead the application server takes care of enlisting the database in the ongoing
+          transaction and executes commit/rollback at the proper time.
+        </para>
+
+        <para>
+          The following code snippet relies on the container to manage the transaction
+        </para>
+        
+        <programlisting language="java">
+InitialContext  ctx;
+UserTransaction ut;
+Database        db;
+
+// Lookup database in JNDI
+ctx = new InitialContext();
+db = (Database) ctx.lookup( "java:comp/env/jdo/mydb" );
+
+// Do something
+. . .
+// Close the database
+db.close();
+        </programlisting>
+      </section>
+    </section>
+
+    <section id="jdo.usage.database-persistence">
+      <title>Using A JDO Database to perform persistence operations</title>
+
+      <section id="jdo.usage.database-persistence.objects">
+        <title>Transient And Persistent Objects</title>
+
+        <para>
+          All JDO operations occur within the context of a transaction. JDO works by loading
+          data from the database into an object in memory, allowing the application to modify
+          the object, and then storing the object's new state when the transaction commits.
+          All objects can be in one of two states: transient or persistent.
+        </para>
+
+        <para>
+          <emphasis role="bold">Transient:</emphasis> Any object whose state will not be saved 
+          to the database when the transaction commits. Changes to transient objects will not 
+          be reflected in the database.
+        </para>
+
+        <para>
+          <emphasis role="bold">Persistent:</emphasis> Any object whose state will be saved 
+          to the database when the transaction commits. Changes to persistent objects will 
+          be reflected in the database.
+        </para>
+
+        <para>
+          An object becomes persistent in one of two ways: it is the result of a query,
+          (and the query is not performed in read-only mode) or it is added to the database 
+          using 
+          <methodname>org.exolab.castor.jdo.Database.create(java.lang.Object)</methodname>
+          or 
+          <methodname>org.exolab.castor.jdo.Database.update(java.lang.Object)</methodname>.
+          All objects that are not persistent are transient. When the transaction commits 
+          or rolls back, all persistent objects become transient.
+        </para>
+
+       <para>
+         In a client application, use 
+         <methodname>org.exolab.castor.jdo.Database.begin()</methodname>,
+         <methodname>org.exolab.castor.jdo.Database.commit()</methodname> and
+         <methodname>org.exolab.castor.jdo.Database.rollback()</methodname> 
+         to manage transactions. In a J2EE application, JDO relies on the container 
+         to manage transactions either implicitly (based on the transaction attribute 
+         of a bean) or explicitly using the
+         <literal>javax.transaction.UserTransaction</literal> interface.
+       </para>
+
+       <para>
+         If a persistent object was modified during the transaction, at commit time the 
+         modifications are stored back to the database. If the transaction rolls back, 
+         no modifications will be made to the database. Once the transaction completes, 
+         the object is once again transient. To use the same object in two different 
+         transactions, you must query it again.
+       </para>
+
+       <para>
+         An object is transient or persistent from the view point of the database to which
+         the transaction belongs. An object is generally persistent in a single database,
+         and calling 
+         <methodname>org.exolab.castor.jdo.Database">isPersistent(java.lang.Object)</methodname>
+         from another database will return false. It is possible to make an object persistent
+         in two database, e.g. by querying it in one, and creating it in the other.
+       </para>
+
+      </section>
+
+      <section id="jdo.usage.database-persistence.query">
+        <title>Running an OQL Query</title>
+
+        <para>
+          OQL queries are used to lookup and query objects from the database. OQL queries are
+          similar to SQL queries, but use object names instead of SQL names and do not require
+          join clauses. For example, if the object being loaded is of type <literal>TestObject</literal>,
+          the OQL query will load <literal>FROM TestObject</literal>, whether the actual table name in
+          the database is <literal>test</literal>, <literal>test_object</literal>, or any other name. 
+          If a join is required to load related objects, Castor will automatically perform the join.
+        </para>
+
+        <para>
+          The following code snippet uses an OQL query to load all the objects in a given group.
+          Note that product and group are related objects, the JDBC query involves a join:
+        </para>
+           
+        <programlisting language="java">
+OQLQuery     oql;
+QueryResults results;
+
+// Explicitly begin transaction
+db.begin();
+
+// Construct a new query and bind its parameters
+oql = db.getOQLQuery("SELECT p FROM Product p WHERE Group=$1");
+oql.bind(groupId);
+
+// Retrieve results and print each one
+results = oql.execute();
+while (results.hasMore()) {
+  System.out.println(results.next());
+}
+
+// Explicitly close the QueryResults
+results.close();
+
+// Explicitly close the OQLQuery
+oql.close();
+
+// Explicitly commit transaction
+db.commit();
+db.close();
+        </programlisting>
+
+        <para>
+          The following code snippet uses the previous query to obtain products, mark down
+          their price by 25%, and store them back to the database (in this case using
+          a client application transaction):
+        </para>
+           
+        <programlisting language="java">
+OQLQuery     oql;
+QueryResults results;
+
+// Explicitly begin transaction
+db.begin();
+
+// Construct a new query and bind its parameters
+oql = db.getOQLQuery("SELECT p FROM Product p WHERE Group=$1");
+oql.bind(groupId);
+
+// Retrieve results and mark up each one by 25%
+Product prod;
+while (results.hasMore()) {
+  prod = (Product) results.next();
+  prod.markDown(0.25);
+  prod.setOnSale(true);
+}
+
+// Explicitly close the QueryResults
+results.close();
+
+// Explicitly close the OQLQuery
+oql.close();
+
+// Explicitly commit transaction
+db.commit();
+db.close();
+        </programlisting>
+
+        <para>
+          As illustrated above, a query is executed in three steps. First a query object is
+          created from the database using an OQL statement. If there are any parameters, the
+          second step involves binding these parameters. Numbered parameters are bound using
+		  the order specified in their names. (e.g. first $1, after that $2, and so on...)
+		  The third step involves executing the query and obtaining a result set of type
+          <classname>org.exolab.castor.jdo.QueryResults</classname>.
+        </para>
+
+        <para>
+          A query can be created once and executed multiple times. Each time it is executed
+          the bound parameters are lost, and must be supplied a second time. The result of
+          a query can be used while the query is being executed a second time.
+        </para>
+
+        <para>
+          There is also a special form of query that gives a possibility to call stored
+          procedures:
+        </para>
+        
+        <para>   
+            <code language="java">
+oql = db.getOQLQuery("CALL sp_something($) AS myapp.Product");
+            </code>
+        </para>
+           
+        <para>
+          Here sp_something is a stored procedure returning one or more
+          ResultSets with the same sequence of fields as Castor-generated
+          SELECT for the OQL query "SELECT p FROM myapp.Product p"
+          (for objects without relations the sequence is: identity, then all
+          other fields in the same order as in mapping.xml).
+        </para>
+
+      </section>
+
+      <section id="jdo.usage.database-persistence.create">
+        <title>Creating a persistent object</title>
+
+        <para>
+          The method 
+          <methodname>org.exolab.castor.jdo.Database.create(java.lang.Object)</methodname>
+          creates a new object in the database, or in JDO terminology makes a transient
+          object persistent. An object created with the <literal>create</literal> method 
+          will remain in the database if the transaction commits; 
+          if the transaction rolls back the object will be removed from the database. 
+          An exception is thrown if an object with the same identity already exists in 
+          the database.
+        </para>
+
+        <para>
+          The following code snippet creates a new product with a group that was previously
+          queried:
+        </para>
+           
+           <programlisting language="java">
+Database db = ...;
+db.begin();        
+
+//load product group
+ProductGroup furnitures = db.load(...);
+
+// Create the Product object
+Product prod;
+prod = new Product();
+prod.setSku(5678);
+prod.setName("Plastic Chair");
+prod.setPrice(55.0 );
+prod.setGroup(furnitures);
+
+// Make it persistent
+db.create(prod);
+
+db.commit();
+        </programlisting>
+        
+      </section>
+
+      <section id="jdo.usage.database-persistence.remove">
+        <title>Removing a persistent object</title>
+
+        <para>
+          The method 
+          <methodname>org.exolab.castor.jdo.Database.remove(java.lang.Object)</methodname>
+          has the reverse effect, deleting a persistent object. Once removed the object is no
+          longer visible to any transaction. If the transaction commits, the object will be removed
+          from the database, however, if the transaction rolls back the object will remain in
+          the database. An exception is thrown when attempting to remove an object that is not
+          persistent.
+        </para>
+           
+        <para>
+          The following code snippet deletes the previously created Product instance:
+        </para>
+
+        <programlisting language="java">
+Database db = ...;
+db.begin();        
+
+// load the Product instance with sku = 5678
+Product prod = db.load (Product.class, new Integer(5678);
+
+// delete the Product instance
+<emphasis role="bold">db.remove(prod);</emphasis>
+
+db.commit();
+        </programlisting>
+      </section>
+        
+      <section id="jdo.usage.database-persistence.update">
+        <title>Updating a persistent object</title>
+      
+        <para>
+          There's no special method offering on the 
+          <classname>org.exolab.castor.jdo.Database</classname> 
+          to update an existing persistent object. Simply load the object to be updated, change
+          one or more of its properties, and commit the transaction. Castor JDO will automatically
+          figure that that the object in question has changed and will persist these changes
+          to the underlying database.
+        </para>
+
+        <para>
+          The following code snippet loads a previously created Product instance, changes its
+          description property and commits the transaction.
+        </para>
+
+        <programlisting language="java">
+Database db = ...;
+db.begin();        
+
+// load the Product instance with sku = 5678
+Product prod = db.load (Product.class, new Integer(5678);
+
+// change the object properties
+prod.setDescription("New plastic chair");
+
+//commit the transaction
+db.commit();
+        </programlisting>
+      </section>
+    </section>
+
+    <section id="jdo.usage.jdo-and-xml">
+      <title>Using JDO And XML</title>
+
+      <para>
+        Castor JDO and Castor XML can be combined to perform transactional database operations
+        that use XML as the form of input and output. The following code snippet uses a combination
+        of persistent and transient objects to describe a financial operation.
+      </para>
+
+      <para>
+        This example retrieves two account objects and moves an amount from one account to the
+        other. The transfer is described using a transient object (i.e. no record in the database),
+        which is then used to generate an XML document describing the transfer. An extra step
+        (not shown here), uses XSLT to transform the XML document into an HTML page.
+      </para>
+
+      <programlisting language="java">
+Transfer tran;
+Account  from;
+Account  to;
+OQLQuery oql;
+
+tran = new Transfer();
+
+// Construct a query and load the two accounts
+oql = db.getOQLQuery("SELECT a FROM Account a WHERE Id=$");
+oql.bind(fromId);
+from = oql.execute().nextElement();
+oql.bind(toId);
+to = oql.execute().nextElement();
+
+// Move money from one account to the other
+if (from.getBalance() >= amount) {
+  from.decBalance(amount);
+  to.incBalance(amount);
+  trans.setStatus(Transfer.COMPLETE);
+  trans.setAccount(from);
+  trans.setAmount(amount);
+} else {
+  // Report an overdraft
+  trans.setStatus( Transfer.OVERDRAFT );
+}
+
+// Produce an XML describing the transfer
+Marshaller.marshal(trans, outputStream);
+      </programlisting>
+
+      <para>The XML produced by the above code might look like:</para>
+      
+      <programlisting language="xml"><![CDATA[
+<?xml version="1.0"?>
+<report>
+  <status>Completed</status>
+  <account id="1234-5678-90" balance="50"/>
+  <transfer amount="49.99"/>
+</report>
+]]></programlisting>
+    </section>
+  </section>
+
+
+
+
+
+
+
+
+
