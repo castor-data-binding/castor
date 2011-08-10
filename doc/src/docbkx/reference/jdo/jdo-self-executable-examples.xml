@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+  <section id="jdo.self-executable-examples">
+    <sectioninfo>
+      <authorgroup>
+	      <author>
+	        <firstname>Werner</firstname>
+	        <surname>Guttmann</surname>  
+	        <email>werner DOT guttmann AT gmx DOT net</email>
+	      </author>
+      </authorgroup>
+ <!-- 
+      <abstract>
+        <para>Outlines how to run the self-executable Castor JDO examples.</para>
+      </abstract>
+      
+      Status: Draft
+-->
+    </sectioninfo>
+    
+    <title>Running the self-executable Castor JDO examples</title>
+
+    <para>
+      As of release 1.0M3, the Castor JDO examples have been packaged in a
+      new way and are available for download at the
+      <ulink url="../../download.html">download page</ulink>. In the following sections, we
+      explain the steps required to unpack this new archive, and how to execute
+      the tests.
+    </para>
+
+    <section id="jdo.self-executable-examples.zip-archive">
+      <title>Download the castor-$RELEASE-examples.zip archive</title>
+
+      <para>
+        In order to be able to run the new Castor JDO examples, please download
+        the new <literal>castor-</literal>${RELEASE}<literal>-examples.zip</literal> from the
+        <ulink url="../../download.html">download page</ulink> and put it into some location
+        on your computer.
+      </para>
+    </section>
+
+    <section id="jdo.self-executable-examples.unpack-zip">
+      <title>Unpack the ZIP file</title>
+
+      <para>
+        To unpack the ZIP file downloaded, issue one of the following commands:
+      </para>
+
+      <programlisting>unzip castor-1.1M2-examples.zip</programlisting>
+
+      <para>or</para>
+
+      <programlisting>jar xvf castor-1.1M2-examples.zip</programlisting>
+
+      <para>
+        You can now run the examples using the directions provided in the
+        next section.
+      </para>
+    </section>
+
+    <section id="jdo.self-executable-examples.run">
+      <title>Running the Castor JDO samples</title>
+
+      <para>
+        In the directory where you have unpacked the ZIP file you'll find a
+        castor-1.1M2-examples.jar. In addition, you'll find a directory named
+        <literal>lib</literal> where you'll find several JAR files required to
+        run the samples.
+      </para>
+
+      <para>To execute the samples, issue the following command:</para>
+
+      <programlisting>java -jar castor-1.1M2-examples.jar</programlisting>
+
+      <para>
+        ... et voila ! You'll see various lines of logging output flashing
+        by whilst the Castor JDO samples are executing against a database.
+      </para>
+    </section>
+
+    <section id="jdo.self-executable-examples.what-happens">
+      <title>What happens</title>
+
+      <para>
+        The Castor JDO sample will test persistence between a set of Java
+        classes (Product, ProductGroup, ProductDetail, etc.) and perform this
+        code against an Apache Derby instance as RDBMS. For this purpose, the
+        sample code will start an embedded Derby instance on the fly, create
+        the required tables, and then continue to execute several code
+        fragments using various Castor JDO artifacts (JDOManager, Database,
+        etc.) against this embedded database.
+      </para>
+
+      <para>
+        In other words, everything is self-contained and there is no need to
+        install a database, create a database schema, or create database tables.
+        Everything required for the tests is initiated and set up from within
+        the sample code.
+      </para>
+    </section>
+
+    <section id="jdo.self-executable-examples.hints">
+      <title>Hints</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>
+	          If it is not set yet, you might have to set the 
+	          <literal>JAVA_HOME</literal> environment variable, and add the 
+	          $JAVA_HOME/bin directory to your path.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>

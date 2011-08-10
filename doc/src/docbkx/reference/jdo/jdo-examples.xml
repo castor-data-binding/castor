@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+  <section id="jdo.code-samples">
+    <sectioninfo>
+	    <authorgroup>
+	      <author>
+	        <firstname>Werner</firstname>
+	        <surname>Guttmann</surname>  
+	        <email>werner DOT guttmann AT gmx DOT net</email>
+	      </author>
+	    </authorgroup>
+    </sectioninfo>
+    
+<!-- 
+    Status: In progress
+ -->    
+    
+    <title>Castor JDO code samples</title>
+
+    <section id="jdo.code-samples.introduction">
+       <title>Introduction</title>
+
+       <para>
+         This document provides object mapping examples and the corresponding
+         Java objects and DDL for the database table.
+       </para>
+
+       <section id="jdo.code-samples.introduction.java-class-files">
+          <title>Java class files</title>
+
+          <para>
+            The following fragment shows the Java class declaration for the
+            <classname>Product</classname> class:
+          </para>
+
+          <programlisting language="java">
+package myapp;
+
+public class Product {
+
+    private int       _id;
+
+    private String    _name;
+
+    private float     _price;
+
+    private ProductGroup _group;
+
+
+    public int getId() { ... }
+
+    public void setId( int anId ) { ... }
+
+    public String getName() { ... }
+
+    public void setName( String aName ) { ... }
+
+    public float getPrice() { ... }
+
+    public void setPrice( float aPrice ) { ... }
+
+    public ProductGroup getProductGroup() { ... }
+
+    public void setProductGroup( ProductGroup aProductGroup ) { ... }
+}</programlisting>
+
+      <para>
+        The following fragment shows the Java class declaration for the
+        <classname>ProductGroup</classname> class:
+      </para>
+
+      <programlisting language="java">
+public class ProductGroup {
+
+    private int       _id;
+
+    private String    _name;
+
+    public int getId() { ... }
+
+    public void setId( int id ) { ... }
+
+    public String getName() { ... }
+
+    public void setName( String name ) { ... }
+
+}</programlisting>
+      </section>
+
+       <section id="jdo.code-samples.introduction.ddl">
+          <title>DDL</title>
+
+          <para>
+            The following sections show the DDL for the relational database
+            tables <database class="table">PROD</database>, 
+            <database class="table">PROD_GROUP</database>, 
+            and <database class="table">PROD_DETAIL</database>:
+          </para>
+
+          <para>
+            <emphasis role="bold"><literal>PROD</literal></emphasis>:
+          </para>
+
+          <programlisting>
+create table prod (
+  id        int           not null,
+  name      varchar(200)  not null,
+  price     numeric(18,2) not null,
+  group_id  int           not null
+);</programlisting>
+
+          <para>
+            <emphasis role="bold"><literal>PROD_GROUP</literal></emphasis>:
+          </para>
+
+          <programlisting>
+create table prod_group (
+  id        int           not null,
+  name      varchar(200)  not null
+);</programlisting>
+
+          <para>
+            <emphasis role="bold"><literal>PROD_DETAIL</literal></emphasis>:
+          </para>
+
+          <programlisting>
+create table prod_detail (
+  id        int           not null,
+  prod_id   int           not null,
+  name      varchar(200)  not null
+);</programlisting>
+       </section>
+
+       <section id="jdo.code-samples.introduction.object-mappings">
+         <title>Object Mappings</title>
+
+        <para>
+          The following code fragment shows the object mapping for the
+          <classname>ProductGroup</classname> class:
+        </para>
+
+        <programlisting language="xml">
+&lt;?xml version="1.0"?>
+&lt;!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+&lt;mapping>
+
+  &lt;class name="myapp.ProductGroup" identity="id"&gt;
+
+    &lt;description&gt;Product group&lt;/description&gt;
+
+    &lt;map-to table="prod_group" xml="group" /&gt;
+
+    &lt;field name="id" type="integer" &gt;
+      &lt;sql name="id" type="integer"/&gt;
+    &lt;/field&gt;
+
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char" /&gt;
+    &lt;/field&gt;
+
+  &lt;/class>
+
+&lt;/mapping></programlisting>
+
+       <para>
+         As a result of that declaration, Castor JDO will create the following
+         SQL statements for creating, deleting, loading and updating instances
+         of <classname>ProductGroup</classname>:
+       </para>
+
+       <programlisting>
+create: INSERT INTO prod_group (id, name) VALUES (?,?)
+delete: DELETE FROM prod_group WHERE id=?
+load:   SELECT prod_group.id, prod_group.name FROM prod_group WHERE prod_group.id=?;
+update: UPDATE prod_group SET name=? WHERE id=?
+       </programlisting>
+
+       <section id="jdo.code-samples.introduction.read-only-fields">
+          <title>Read-only fields</title>
+
+          <para>
+            To declare the <database class="field">name</database> field 
+            <emphasis role="bold">read-only</emphasis>, the field definition 
+            above for the field <database class="field">name</database> needs 
+            to be changed to:
+          </para>
+
+          <programlisting language="xml">
+  &lt;class name="myapp.ProductGroup" identity="id"&gt;
+
+    ...
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char" read-only="true" /&gt;
+    &lt;/field&gt;
+
+  &lt;/class></programlisting>
+
+          <para>
+            As a result of that declaration, Castor JDO creates the following
+            SQL statements for creating, deleting, loading and updating
+            instances of <classname>ProductGroup</classname>:
+          </para>
+
+          <programlisting>
+create: INSERT INTO prod_group (id) VALUES (?)
+delete: DELETE FROM prod_group WHERE id=?
+load:   SELECT prod_group.id, prod_group.name FROM prod_group WHERE prod_group.id=?;
+update: /* no statement will be generated */
+          </programlisting>
+       </section>
+
+       <section id="jdo.code-samples.transient-fields">
+          <title>Transient fields</title>
+
+          <para>
+            To declare the <database class="field">name</database> field 
+            <emphasis role="bold">transient</emphasis> with regards to
+            persistence, above field definition for the field 
+            <database class="field">name</database> needs to be changed to:
+          </para>
+
+          <programlisting language="xml">
+  &lt;class name="myapp.ProductGroup" identity="id"&gt;
+
+    ...
+    &lt;field name="name" type="string" &gt;
+      &lt;sql name="name" type="char" transient="true" /&gt;
+    &lt;/field&gt;
+
+  &lt;/class></programlisting>
+       </section>
+    </section>
+
+    <section id="jdo.code-samples.relations">
+       <title>Relations</title>
+
+       <section id="jdo.code-samples.relations.1-to-1">
+          <title>1:1 relation</title>
+
+          <para>
+            The following code fragment shows the mapping file for the Product
+            class.  Apart from the simple field declarations, this includes a
+            simple 1:1 relation between <literal>Product</literal> and
+            <literal>ProductGroup</literal>, where every product instance 
+            is associated with a <literal>ProductGroup</literal>:
+          </para>
+
+          <programlisting language="xml">
+    &lt;class name="myapp.Product" identity="id"&gt;
+
+        &lt;map-to table="prod" /&gt;
+
+        &lt;field name="id" type="integer">
+            &lt;sql name="id" type="integer" />
+        &lt;/field>
+
+        &lt;field name="name" type="string">
+            &lt;sql name="name" type="char" />
+        &lt;/field>
+
+        &lt;field name="price" type="float">
+            &lt;sql name="price" type="numeric" />
+        &lt;/field>
+
+        &lt;field name="group" type="myapp.ProductGroup" &gt;
+            &lt;sql name="group_id" /&gt;
+        &lt;/field&gt;
+
+        &lt;field name="details" type="myapp.ProductDetail"
+               collection="vector"&gt;
+           &lt;sql many-key="prod_id"/&gt;
+        &lt;/field&gt;
+
+        &lt;field name="categories" type="myapp.Category" collection="vector"&gt;
+           &lt;sql name="category_id"
+                many-table="category_prod" many-key="prod_id" /&gt;
+        &lt;/field&gt;
+
+    &lt;/class&gt;</programlisting>
+       </section>
+
+          <section id="jdo.code-samples.relations.1-to-m">
+             <title>1:M relation</title>
+             
+             <para>
+               The following code fragment shows (again) the mapping file for
+               the <classname>Product</classname> class. The field definition highlighted
+               shows how to declare a 1:M relation between <literal>Product</literal> 
+               and <literal>ProductDetail</literal>, where every product instance is 
+               made up of many <literal>ProductDetails</literal>:
+             </para>
+
+             <programlisting language="xml">
+    &lt;class name="myapp.Product" identity="id"&gt;
+
+        &lt;map-to table="prod" /&gt;
+
+        &lt;field name="id" type="integer">
+            &lt;sql name="id" type="integer" />
+        &lt;/field>
+
+        &lt;field name="name" type="string">
+            &lt;sql name="name" type="char" />
+        &lt;/field>
+
+        &lt;field name="price" type="float">
+            &lt;sql name="price" type="numeric" />
+        &lt;/field>
+
+        &lt;field name="group" type="myapp.ProductGroup" &gt;
+            &lt;sql name="group_id" /&gt;
+        &lt;/field&gt;
+
+        &lt;field name="details" type="myapp.ProductDetail" collection="vector"&gt;
+           &lt;sql many-key="prod_id"/&gt;
+        &lt;/field&gt;
+
+        &lt;field name="categories" type="myapp.Category" collection="vector"&gt;
+           &lt;sql name="category_id"
+                many-table="category_prod" many-key="prod_id" /&gt;
+        &lt;/field&gt;
+    &lt;/class&gt;</programlisting>
+
+             <para>
+               The following code fragment shows the corresponding mapping
+               entry for the <classname>ProductDetail</classname> class that defines the
+               second leg of the 1:M relation between <literal>Product</literal> and
+               <literal>ProductDetail</literal>.
+             </para>
+
+             <programlisting language="xml">
+  &lt;class name="myapp.ProductDetail" identity="id" depends="myapp.Product" &gt;
+
+    &lt;description&gt;Product detail&lt;/description&gt;
+
+    &lt;map-to table="prod_detail" xml="detail" /&gt;
+
+    &lt;field name="id" type="integer"&gt;
+      &lt;sql name="id" type="integer"/&gt;
+    &lt;/field&gt;
+
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char"/&gt;
+    &lt;/field&gt;
+
+    &lt;field name="product" type="myapp.Product"&gt;
+      &lt;sql name="prod_id" /&gt;
+    &lt;/field&gt;
+
+  &lt;/class&gt;</programlisting>
+          </section>
+
+          <section id="jdo.code-samples.relations.m-to-n">
+             <title>M:N relation</title>
+             
+             <para>
+               The following code fragment shows (again) the mapping file for
+               the <classname>Product</classname> class.  The field definition highlighted
+               shows how to declare a M:N relation between <literal>Product</literal> 
+               and <literal>ProductCategory</literal>, where many products can be 
+               mapped to many product categories:
+             </para>
+
+             <programlisting language="xml">
+    &lt;class name="myapp.Product" identity="id"&gt;
+
+        &lt;map-to table="prod" /&gt;
+
+        &lt;field name="id" type="integer">
+            &lt;sql name="id" type="integer" />
+        &lt;/field>
+
+        &lt;field name="name" type="string">
+            &lt;sql name="name" type="char" />
+        &lt;/field>
+
+        &lt;field name="price" type="float">
+            &lt;sql name="price" type="numeric" />
+        &lt;/field>
+
+        &lt;field name="group" type="myapp.ProductGroup" &gt;
+            &lt;sql name="group_id" /&gt;
+        &lt;/field&gt;
+
+        &lt;field name="details" type="myapp.ProductDetail" collection="vector"&gt;
+           &lt;sql many-key="prod_id">/&gt;
+        &lt;/field&gt;
+
+        &lt;field name="categories" type="myapp.Category" collection="vector"&gt;
+           &lt;sql name="category_id"
+                many-table="category_prod" many-key="prod_id" /&gt;
+        &lt;/field&gt;
+
+    &lt;/class&gt;</programlisting>
+
+             <para>
+               The following code fragment shows the corresponding mapping
+               entry for the <classname>ProductCategory</classname> class that defines the
+               second leg of the M:N relation between <literal>Product</literal> and
+               <literal>Category</literal>.
+             </para>
+
+             <programlisting language="xml">
+  &lt;class name="myapp.Category" identity="id"&gt;
+
+    &lt;description&gt;
+        A product category, any number of products can belong to
+        the same category, a product can belong to any number of
+        categories.
+    &lt;/description&gt;
+
+    &lt;map-to table="category" xml="category" /&gt;
+
+    &lt;field name="id" type="integer"&gt;
+      &lt;sql name="id" type="integer"/&gt;
+    &lt;/field&gt;
+
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char"/&gt;
+    &lt;/field&gt;
+
+    &lt;field name="products" type="myapp.Product" collection="vector"&gt;
+      &lt;sql name="prod_id"
+           many-table="category_prod" many-key="category_id" /&gt;
+    &lt;/field&gt;
+
+  &lt;/class&gt;</programlisting>
+          </section>
+       </section>
+
+      <section id="jdo.code-samples.extend-relation-polymorphism">
+         <title>Extend relation &amp; polymorphism</title>
+
+         <para>
+           As of release 0.9.9, Castor supports polymorphic queries on extend
+           hierarchies.  (That is, hierarchies where some entities "extend"
+           other entities.)  To highlight this new feature, let's add two new
+           classes to what we have currently.
+         </para>
+
+         <programlisting language="java">
+package myapp;
+
+public class Computer extends Product {
+
+    private int       _id;
+
+    private String    _make;
+
+    public int getId() { ... }
+
+    public void setId( int anId ) { ... }
+
+    public String getmake() { ... }
+
+    public void setMake( String aMake ) { ... }
+
+}
+
+public class Car extends Product {
+
+    private int       _id;
+
+    private Date    _registeredIn;
+
+    public int getId() { ... }
+
+    public void setId( int anId ) { ... }
+
+    public Date getRegisteredIn() { ... }
+
+    public void setRegisteredIn( Date aRegisteredIn ) { ... }
+}</programlisting>
+
+          <para>
+            The corresponding DDL statements for the relational database tables
+            <database class="table">COMP</database> and 
+            <database class="table">CAR</database> would look as follows:
+          </para>
+
+          <para><emphasis role="bold"><literal>COMP</literal></emphasis>:</para>
+
+          <programlisting>
+create table comp (
+  id        int           not null,
+  make      varchar(200)  not null
+);</programlisting>
+
+          <para><emphasis role="bold"><literal>CAR</literal></emphasis>:</para>
+
+          <programlisting>
+create table car (
+  id        int           not null,
+  regIn     int           not null
+);</programlisting>
+
+             <para>
+               Based upon the mapping defined for the <classname>Product</classname> 
+               class as shown above, the following code fragment shows the mapping 
+               for the <literal>Computer</literal> and <literal>Car</literal> classes.
+             </para>
+
+             <programlisting language="xml">
+    &lt;class name="myapp.Computer" extends="myapp.Product" identity="id"&gt;
+
+        &lt;map-to table="COMP" /&gt;
+
+        &lt;field name="id" type="integer">
+            &lt;sql name="id" type="integer" />
+        &lt;/field>
+
+        &lt;field name="make" type="string">
+            &lt;sql name="make" type="char" />
+        &lt;/field>
+
+    &lt;/class&gt;
+
+    &lt;class name="myapp.Car" extends="myapp.Product" identity="id"&gt;
+
+        &lt;map-to table="CAR" /&gt;
+
+        &lt;field name="id" type="integer">
+            &lt;sql name="id" type="integer" />
+        &lt;/field>
+
+        &lt;field name="registeredIn" type="date">
+            &lt;sql name="regIn" type="long" />
+        &lt;/field>
+
+    &lt;/class&gt;</programlisting>
+
+        <para>
+          Based upon this mapping, it is possible to execute the following OQL
+          queries against this class model:
+        </para>
+
+        <programlisting language="java">
+OQLQuery query = d.getOQLQuery("SELECT c FROM myapp.Computer c");
+        </programlisting>
+
+        <para>To return all computers:</para>
+
+        <programlisting language="java">
+OQLQuery query = d.getOQLQuery("SELECT c FROM myapp.Computer c WHERE c.make = $");
+        </programlisting>
+
+        <para>To return all computers of a particular make:</para>
+
+        <programlisting language="java">
+OQLQuery query = d.getOQLQuery("SELECT p FROM myapp.Product p");
+        </programlisting>
+
+        <para>
+          To return all products (where Castor will return the actual object
+          instances, i.e. a <literal>Computer</literal> instance if the object 
+          returned by the query is of type <literal>Computer</literal> or a 
+          <literal>Car</literal> instance if the object returned by the query is 
+          of type <literal>Car</literal>):
+        </para>
+
+        <programlisting language="java">
+OQLQuery query = d.getOQLQuery("SELECT p FROM myapp.Product p WHERE p.group.name = $");
+        </programlisting>
+
+        <para>
+          To return all products that belong to the specified product group
+          (where Castor will return the actual object instances, i.e. a
+          <literal>Computer</literal> instance if the object returned by the query 
+          is of type <literal>Computer</literal> or a <literal>Car</literal> instance 
+          if the object returned by the query is of type <literal>Car</literal>):
+        </para>
+      </section>
+
+      <section id="jdo.code-samples.oql-samples">
+        <title>OQL samples</title>
+
+        <para>
+          Based upon above definitions, here are a few OQL sample queries that
+          highlight various artifacts of the OQL support of Castor JDO.
+        </para>
+
+        <para>
+          <emphasis role="bold"><emphasis role="italic">To Be Written</emphasis></emphasis>
+        </para>
+      </section>
+    </section>
+  </section>

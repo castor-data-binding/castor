@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="jdo.introduction">
+    <sectioninfo>
+      <authorgroup>
+	     <author>
+	        <firstname>Werner</firstname>
+	        <surname>Guttmann</surname>  
+	        <email>werner DOT guttmann AT gmx DOT net</email>
+	     </author>
+	  </authorgroup>
+    </sectioninfo>
+    
+<!-- 
+    Status: Final
+-->    
+    
+  <title>Castor JDO - An introduction</title>
+
+  <section id="jdo.introduction.what">
+     <title>What is Castor JDO</title>
+        
+     <para>
+       Castor JDO is an Object-Relational Mapping and Data-Binding Framework, which is 
+       written in 100% pure Java[tm]. Castor can map relational database data into 
+       Java Data Object based on user-defined mapping schema. In the other point-of-view, 
+       it provides java data objects a persistence layer.
+     </para>
+
+     <para>
+       It frees programmer from dealing with database directly and replacing the entire 
+       burden of composing updating the database. Proper SQL statements are automatically 
+       generated for loading, updating, creating and deleting. Changes to objects in transaction 
+       are automatically done to data source at commit time. Thus programmer can stay in pure-Java
+       without remember all the details in the backing database, after the creation of 
+       database tables and the mapping schema. The separation of persistence and programming 
+       logic also enable much clearer object-oriented design, which is important in larger 
+       projects.
+     </para>
+  </section>
+ 
+  <section id="jdo.introduction.features">
+     <title>Features</title>
+         
+     <para>
+       JDO is <emphasis role="bold">transactional</emphasis>. Data objects loaded in Castor 
+       are properly locked and isolated from other transactions. Castor supports full 
+       2-phase commit via xa.Synchronzation. Castor supports several locking modes, 
+       including "shared", "exclusive", "database locked", and "read-only".
+     </para>
+            
+     <para>
+       <itemizedlist>
+         <listitem>
+           <para>
+             <emphasis role="bold">Shared access</emphasis>, the default, is useful for 
+             situations in which it is common for two or more transactions to read the 
+             same objects, and/or update different objects.
+           </para>
+         </listitem>
+         <listitem>
+           <para>
+             <emphasis role="bold">Exclusive access</emphasis> uses in-memory locks 
+             implemented by Castor to force competing transactions to serialize access 
+             to an object. This is useful for applications in which it is common for more 
+             than one transaction to attempt to update the same object, and for which most, 
+             if not all access to the database is performed through Castor.
+           </para>
+         </listitem>
+         <listitem>
+           <para>
+             <emphasis role="bold">Database-Locked access</emphasis> is often used for 
+             applications in which exclusive locking is required, but in which the database 
+             is frequently accessed from applications outside of Castor, bypassing Castor's 
+             memory-based locking mechanism used by "exclusive access" locking.
+           </para>
+         </listitem>
+         <listitem>
+           <para>
+             <emphasis role="bold">Read-Only access</emphasis> performs no locking at all. 
+             Objects read using this access mode are not locked, and those objects do not 
+             participate in transaction commit/rollback.
+           </para>
+         </listitem>
+       </itemizedlist>
+     </para>
+
+     <para>
+       In addition, Castor supports <emphasis role="bold">"long transactions"</emphasis>, 
+       whichs allow objects to be read in one transaction, modified, and then committed 
+       in a second transaction, with built-in dirty-checking to prevent data that has been 
+       changed since the initial transaction from being overwritten.
+     </para>
+            
+     <para>
+       Through <emphasis role="bold">automatic dirty-checking</emphasis> 
+       and <emphasis role="bold">deadlock detection</emphasis>, Castor can be 
+       used to ensure data integrity and reduce unnecessary database updates.
+     </para>
+            
+     <para>
+       A subset of OQL, defined in the Object Management Group (OMG) 3.0 
+       <emphasis role="bold">Object Query Language</emphasis> Specification, 
+       is supported for interacting with the database. OQL is 
+       similar to SQL, though operations are performed directly on Java objects instead 
+       of database tables, making the language more appropriate for use within a 
+       Java-based application.
+     </para>
+            
+     <para>
+       Castor implements a <emphasis role="bold">data cache</emphasis> to reduce database 
+       accesses, providing several alternative LRU-based caching strategies.
+     </para>
+
+     <para>
+       Castor supports different cardinalities of <emphasis role="bold">relationship</emphasis>, 
+       including <emphasis role="bold">one-to-one</emphasis>, 
+       <emphasis role="bold">one-to-many</emphasis> 
+       and <emphasis role="bold">many-to-many</emphasis>. It also supports both object 
+        and database record <emphasis role="bold">inheritance</emphasis>. It distinguishes 
+       between <emphasis role="bold">related</emphasis> (i.e. association) 
+       and <emphasis role="bold">dependent</emphasis> 
+       (i.e. aggregation) relationships during an object's life cycle, automatically creating 
+       and deleting dependent objects at appropriate times in the independent object's 
+       life cycle.
+     </para>
+           
+     <para>
+       Multiple-column primary keys, and a variety of key generators are supported.
+     </para>
+
+     <para>
+       Castor automatically manages persistence for objects that contain Java collection 
+       types, including Vector, Hashtable, Collection, Set, and Map. 
+       <emphasis role="bold">Lazy loading</emphasis> 
+       (of collections as well as simple 1:1 relations) is implemented to reduce unnecessary 
+       database loading. Lazy loading can be turned on or off for each individual field (of 
+       any supported collection type for 1-to-many and many-to-many relations).
+     </para>
+
+     <para>
+       Other features include a type converter for all Java primitive types (see the 
+       info on supported <ulink url="#jdo.types">types</ulink>).
+     </para>
+
+     <para>
+       No pre-processor (aka pre-compiler), class enhancer (bytecodes modification) is needed 
+       or used for data-binding and object persistence.
+     </para>
+
+     <para>
+       Castor JDO works in an application that uses multiple ClassLoaders, making it possible to 
+       use in an EJB container or servlet, for example. A Castor-defined callback interface, 
+       "Persistent", can be implemented if the objects wants to be notified on Castor 
+       events: jdoLoad(), jdoCreate(), jdoRemove() and jdoTransient(). This makes it possible 
+       to create user-defined actions to take at various times in an object's life cycle.
+     </para>
+
+      <para>
+        The Java-XML Data-Binding Framework (Castor XML) has been merged with Castor JDO for 
+        users who need both O/R Mapping and Java-XML Data-Binding together.
+      </para>
+
+      <para>
+        The following relational databases are supported: 
+            
+        <itemizedlist>
+          <listitem><para>DB2</para></listitem>
+          <listitem><para>Derby</para></listitem>
+          <listitem><para>Generic DBMS</para></listitem>
+          <listitem><para>Hypersonic SQL</para></listitem>
+          <listitem><para>Informix</para></listitem>
+          <listitem><para>InstantDB</para></listitem>
+          <listitem><para>Interbase</para></listitem>
+          <listitem><para>MySQL</para></listitem>
+          <listitem><para>Oracle</para></listitem>
+          <listitem><para>PostgreSQL</para></listitem>
+          <listitem><para>Progress</para></listitem>
+          <listitem><para>SAP DB / MaxDB</para></listitem>
+          <listitem><para>SQLServer</para></listitem>
+          <listitem><para>Sybase</para></listitem>
+        </itemizedlist>
+      </para>
+            
+      <para>
+        Database support includes Oracle 8.1.x and different versions of Sybase Enterprise and 
+        Anywhere. Users can implement the Driver interface to adapt Castor to the differences in 
+        SQL syntax supported by different relational DBMS's, as long as the DBMS supports JDBC 
+        2.0, multiple ResultSet, and transactions. Thanks to many individual open source 
+        contributors, drivers for different database are available.
+      </para>
+  </section>
+</section>
