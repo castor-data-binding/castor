@@ -217,24 +217,21 @@
              <para>
 	             <emphasis role="bold">identity:</emphasis> For more information on this field, 
 	             please see 
-	             <!-- TODO change link when advanced jdo doc is finished -->
-	             <ulink url="../../design-persist.html#Persistence">Design -> Persistence</ulink>.
+	             <link linkend="advanced-jdo.persist.spi.persistence">Design -> Persistence</link>.
              </para>
           </listitem>
 
           <listitem>
              <para>
 	             <emphasis role="bold">access:</emphasis> For more information on this field, 
-	             <!-- TODO change link when advanced JDO doc is finished -->
-	             please see <ulink url="../../locking.html#Locking-Modes">Locking Modes</ulink>.
+	             please see <link linkend="advanced-jdo.locking.modes">Locking Modes</link>.
              </para>
           </listitem>
 
           <listitem>
              <para>
 	             <emphasis role="bold">key-generator</emphasis>: For more information on 
-	             <!--  TODO change link when advanced jdo doc is finished -->
-	             this field, please see <ulink url="../../key-generator.html">KeyGen</ulink>.
+	             this field, please see <link linkend="advanced-jdo.key-generator">KeyGen</link>.
              </para>
           </listitem>
         </itemizedlist>
@@ -254,8 +251,8 @@
 		             <emphasis role="bold">&lt;cache-type></emphasis>: 
 		             For more information on this field please see
 		             <!-- TODO change link when advanced jdo doc is finished -->
-		             <ulink url="../../long-transact.html#Bounded-dirty-checking"><!--  
-		          -->Bounded Dirty Checking</ulink>
+		             <link linkend="advanced-jdo.long-transactions.bounded-dirty-checking"><!--  
+		          -->Bounded Dirty Checking</link>
 		             and <link linkend="jdo.advanced-features.caching">Caching</link>.
 	             </para>
              </listitem>
@@ -768,7 +765,7 @@
 	               whitespace as a delimiter (e.g. 'create update'). For further 
 	               information see 
 	               <!-- TODO change link when HOWTO docs are finished -->
-	               <ulink url="../../how-to-use-cascading-operations.html">HOW-TO</ulink> 
+                   <ulink url="http://castor.codehaus.org/how-to-use-cascading-operations.html">HOW-TO</ulink> 
 	               on using cascading operation.
               </para>
            </listitem>

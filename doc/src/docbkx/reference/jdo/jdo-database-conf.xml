@@ -435,8 +435,7 @@
            
         <para>
            Please check with 
-           <ulink url="../../jdo-pooling.html">Using Pooled Database Connections</ulink>
-           <!-- TODO exchange ulink with link when advanced jdo documentation is finished -->
+           <link linkend="advanced-jdo.pooling">Using Pooled Database Connections</link>
            for general information about hot to use DBCP with Castor.
         </para>
            

@@ -506,9 +506,7 @@ query.bind(false);
 	            <programlisting><![CDATA[
 java.sql.SQLException: ORA-01461: can bind a LONG value only for insert into a LONG column
 	            ]]></programlisting>
-	            According to 
-	            <ulink url="http://edocs.bea.com/wlp/docs40/relnotes/relnotes.htm#300245"><!-- 
-	         -->Weblogic Release Notes</ulink>, this error can remedied by setting 
+	            According to Weblogic Release Notes, this error can remedied by setting 
 	            a Weblogic environment variable. 
             </para>
         </section>
@@ -593,7 +591,7 @@ java.sql.SQLException: ORA-01461: can bind a LONG value only for insert into a L
 
             <para>
 	            Yes. It is available from the Castor website: 
-	            <ulink url="../../oql.html">Advanced JDO &mdash;&gt; OQL</ulink>
+                <link linkend="advanced-jdo.oql-to-sql-translator">Advanced JDO &mdash;&gt; OQL</link>
             </para>
         </section>
 

@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+  <section id="advanced-jdo.caching">
+    <sectioninfo>
+      <title>Castor JDO - Caching</title>
+<!--  
+      <abstract>
+        <para>Castor JDO - Caching concepts</para>
+      </abstract>
+-->
+    </sectioninfo>
+    <title>Castor JDO - Caching concepts</title>
+
+    <section id="advanced-jdo.caching.introduction">
+        <title>Introduction</title>
+        
+        <para>
+           As explained at 
+           <link linkend="jdo.introduction">the introduction to Castor JDO</link>,
+           Castor has support for many advanced features such as caching. 
+           The below sections detail the features related to caching in Castor JDO, 
+           as their understanding is required to use Castor JDO in a performant and 
+           secure way.
+        </para>
+           
+        <para>
+           In general, performance caches enhance the application performance 
+           by reducing the number of read operations against the persistence 
+           storage, by storing and reusing the last read or committed values of 
+           the object. Performance caches do not affect the behavior of short 
+           transactions or locking. It only affects persistence objects that have 
+           been released from any transactional context.
+        </para>
+           
+        <para>
+           Starting from Castor 0.8.6, a performance cache implementation has been 
+           added. At a technical level, Castor maintains separate (performance) caches 
+           for each object type specified in the JDO mapping provided, allowing users 
+           to specify - for each object type individually - the type and 
+           capacity of the cache.
+        </para>
+           
+        <para>By default, the following cache types are available:</para>
+           
+        <table frame="all">
+          <title>Available cache types</title>
+          
+          <tgroup cols="7">
+            <thead>
+              <row>
+                <entry>name</entry>
+                <entry>Vendor</entry>
+                <entry>Version</entry>
+                <entry>Distributable?</entry>
+                <entry>Open source/commercial</entry>
+                <entry>high volume/performance</entry>
+                <entry>Added in release</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>none</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center"></entry>
+              </row>
+              <row>
+                <entry>unlimited</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center"></entry>
+              </row>
+              <row>
+                <entry>count-limited</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center"></entry>
+              </row>
+              <row>
+                <entry>time-limited</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center"></entry>
+              </row>
+              <row>
+                <entry>coherence</entry>
+                <entry>
+                  <ulink url="http://www.tangosol.com/coherence.jsp">Tangosol 
+                  Coherence</ulink>
+                </entry>
+                <entry>2.5</entry>
+                <entry align="center">Yes</entry>
+                <entry>Commercial</entry>
+                <entry align="center">Yes</entry>
+                <entry align="center">0.9.9</entry>
+              </row>
+              <row>
+                <entry>jcs</entry>
+                <entry><ulink url="http://jakarta.apache.org/jcs">JCS</ulink></entry>
+                <entry>1.2.5</entry>
+                <entry align="center">Yes</entry>
+                <entry>Open source</entry>
+                <entry align="center">Yes</entry>
+                <entry align="center">0.9.9</entry>
+              </row>
+              <row>
+                <entry>fkcache</entry>
+                <entry><ulink url="http://jcache.sourceforge.net/">FKCache</ulink></entry>
+                <entry>1.0-beta6</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center">0.9.9</entry>
+              </row>
+              <row>
+                <entry>oscache</entry>
+                <entry>
+                  <ulink url="http://www.opensymphony.com/oscache/">OSCache</ulink>
+                </entry>
+                <entry>2.5</entry>
+                <entry align="center">Yes</entry>
+                <entry>Open Source</entry>
+                <entry align="center">No</entry>
+                <entry align="center">1.0</entry>
+              </row>
+              <row>
+                <entry>fifo</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">Yes</entry>
+                <entry align="center">1.0</entry>
+              </row>
+              <row>
+                <entry>lru</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">No</entry>
+                <entry>Open Source</entry>
+                <entry align="center">Yes</entry>
+                <entry align="center">1.0</entry>
+              </row>
+              <row>
+                <entry>ehcache</entry>
+                <entry>Built-in</entry>
+                <entry>-</entry>
+                <entry align="center">Yes</entry>
+                <entry>Open Source</entry>
+                <entry align="center">?</entry>
+                <entry align="center">1.0.1</entry>
+              </row>
+              <row>
+                <entry>gigaspaces</entry>
+                <entry><ulink url="http://jakarta.apache.org/jcs">JCS</ulink></entry>
+                <entry>5.0</entry>
+                <entry align="center">Yes</entry>
+                <entry>Commercial</entry>
+                <entry align="center">Yes</entry>
+                <entry align="center">1.0.1</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+        <para>
+           As some of these cache providers allow for allow you to use it in a 
+           <emphasis role="bold">distributed</emphasis> mode, this allows Castor 
+           JDO to be used in a clustered (multi-JVM) environment. Please see the 
+           section 
+           <link linkend="advanced-jdo.caching.configuration.clustered-environments">below</link> 
+           for short summary of this feature.
+        </para>
+
+        <para>
+           Per definition, all build-in performance caches are 
+           <emphasis role="bold">write-through</emphasis>, because all 
+           changes to objects as part of a transaction should be persisted into the 
+           cache at commit time without delay.
+        </para>
+
+        <para>
+           For problems related to the use of performance caches, please consult with 
+           the relevant entries in the 
+           <link linkend="jdo.faq.performance-caches">JDO F.A.Q.</link>.
+        </para>
+    </section>
+    
+    <section id="advanced-jdo.caching.long-transactions">
+        <title>Caching and long transactions</title>
+        
+        <para>
+           As it stands currently, performance caches also serve a dual purpose 
+           as dirty checking caches for 
+           <link linkend="advanced-jdo.long-transactions">long-transactions</link>.
+           This limitation implies that the object's availability in the performance 
+           cache determines the allowed time span of a long transaction.
+        </para>
+           
+        <para>
+           This might become an issue when performance caches of type 'count-limited' or 
+           'time-limited' are being used, where objects will eventually be disposed. 
+           If an application tries to update an object that has been disposed from 
+           the dirty checking cache, an ObjectModifedException will be thrown.
+        </para>
+    </section>
+    
+    <section id="advanced-jdo.caching.configuration">
+        <title>Configuration</title>
+        
+        <para>
+           The DTD declaration is as follows:
+           <programlisting language="xml"><![CDATA[
+<!ELEMENT cache-type  ( param* )>
+<!ATTLIST cache-type
+    type           ( none | count-limited | time-limited | unlimited |
+                     coherence | fkcache | jcache | jcs | oscache |
+                     fifo | lru | ehcache | gigaspaces ) "count-limited"
+    debug          (true|false) "false"
+    capacity       NMTOKEN  #IMPLIED>
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+          name   NMTOKEN  #REQUIRED
+          value  NMTOKEN  #REQUIRED>]]></programlisting>
+        </para>
+          
+        <para>
+           With release 1.0 of Castor the DTD has changed but it is backward compatible
+           to the old one and allows to enable debugging of cache access for a specific
+           class as well as passing individual configuration parameters to each cache
+           instance. Only <emphasis role="bold">count-limited</emphasis> and 
+           <emphasis role="bold">time-limited</emphasis> of the current
+           build-in cache types support parameters. Parameter names are case sensitive 
+           and are silently ignored if they are unknown to a cache type.
+        </para>
+                   
+        <para>
+           It need to be noted that there are 3 parameter names that are reserved for
+           internal use. If you specify a parameter with one of the names: 
+           <emphasis role="bold">type</emphasis>, <emphasis role="bold">name</emphasis> 
+           or <emphasis role="bold">debug</emphasis> their value will silently be 
+           overwritten with another one used internally.
+        </para>
+                
+        <example id="advanced-jdo.caching.configuration.sample-count-limited">
+            <title>Configuration sample - count-limited</title>
+            
+            <para>
+               A <emphasis role="bold">count-limited</emphasis> least-recently-used 
+               cache (LRU) for 500 objects can be specified by:
+            </para>
+               
+            <programlisting language="xml"><![CDATA[
+<cache-type type="count-limited" capacity="500"/>]]></programlisting>
+
+            <para>or</para>
+           
+            <programlisting language="xml"><![CDATA[
+<cache-type type="count-limited"/>
+    <param name="capacity" value="500"/>
+</cache-type>]]></programlisting>
+
+            <para>
+               If both, the capacity attribute and parameter with name="capacity" is
+               specified, the parameter value takes precedence over the attribute 
+               value.
+            </para>
+        </example>
+                
+        <example id="advanced-jdo.caching.configuration.sample-time-limited">
+            <title>Configuration sample - time-limited</title>
+            
+            <para>
+               A <emphasis role="bold">time-limited</emphasis> first-in-first-out 
+               cache (FIFO) that expires objects after 15 minutes can be specified by:
+            </para>
+               
+            <programlisting language="xml"><![CDATA[
+<cache-type type="time-limited" capacity="900"/>]]></programlisting>
+            
+            <para>or</para>
+            
+            <programlisting language="xml"><![CDATA[
+<cache-type type="time-limited"/>
+    <param name="ttl" value="900"/>
+</cache-type>]]></programlisting>
+
+           <para>
+              If both, the capacity attribute and parameter with name="ttl" is 
+              specified, the parameter value takes precedence over the attribute value.
+           </para>
+        </example>
+                   
+        <para>
+           The <emphasis role="bold">debug</emphasis> attribute can be used to enable 
+           debugging for objects of a single class. In addition to setting this 
+           attribut to <emphasis role="bold">true</emphasis> you also need to set 
+           logging level of <emphasis role="bold">org.castor.cache.Cache</emphasis> 
+           to debug.
+        </para>
+
+        <note>
+           <para>
+              The default cache-type is <literal>count-limited</literal> with a 
+              capacity of 30. This will be used when no cache-type is specified in 
+              the mapping for a class.
+           </para>
+        </note>
+    </section>
+        
+    <section id="advanced-jdo.caching.configuration.fifo-lru">
+        <title>fifo and lru cache providers</title>
+
+        <para>
+           The cache types <emphasis role="bold">fifo</emphasis> and 
+           <emphasis role="bold">lru</emphasis> are based on a set of articles in the
+           O'Reilly Network by William Grosso, to implement a simplified and 
+           1.3-compatible implementation of a Hashbelt algorithm.
+        </para>
+
+        <para>
+           Hashbelts are simple, in principle. Instead of walking all objects and 
+           finding out when they're supposed to expire, use a "conveyor belt" approach. 
+           At any particular point in time, objects going into the cache go into the 
+           front of the conveyor belt. After a certain amount of time or when the size 
+           limit of a container has been reached, move the conveyor belt - put a new, 
+           empty container at the front of the conveyor belt to catch new objects, and 
+           the one that drops off of the end of the conveyor belt is, by definition, 
+           ready for garbage collection.
+        </para>
+
+        <para>
+           As seen in his system, you can use a set of pluggable strategies to 
+           implement the actual hashbelt bits. A container strategy allows you to 
+           change out the implementation of the container itself - from simple 
+           hashtable-based implementations, up through more complex uses of soft 
+           referenced or hashset-based implementations, depending on what you need 
+           and what you want it to be used for. A pluggable "expire behavior" handler 
+           allows you to determine what action is taken on something which drops off 
+           of the bottom of the conveyor belt.
+        </para>
+
+        <para>
+           In difference to all other cache types the 
+           <emphasis role="bold">fifo</emphasis> and 
+           <emphasis role="bold">lru</emphasis> cache types offer various configuration 
+           options. Both of them have 6 parameters to configure their behaviour.
+        </para>
+
+        <table frame="all">
+          <title>cache types parameters</title>
+        
+          <tgroup cols="2">
+            <colspec colwidth="1*" />
+            <colspec colwidth="12*" />
+            <thead>
+              <row>
+                <entry align="left">parameter</entry>
+                <entry align="left">description</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry>containers</entry>
+                <entry>
+                   The number of containers in the conveyor belt. For example: If a 
+                   box will drop off of the conveyor belt every 30 seconds, and you 
+                   want a cache that lasts for 5 minutes, you want 5 / 30 = 6 
+                   containers on the belt. Every 30 seconds, another, clean container 
+                   goes on the front of the conveyor belt, and everything in the last 
+                   belt gets discarded. If not specified 10 containers are used by default.
+
+                   For systems with fine granularity, you are free to use a large 
+                   number of containers; but the system is most efficient when the 
+                   user decides on a "sweet spot" determining both the number of 
+                   containers to be managed on the whole and the optimal number of 
+                   buckets in those containers for managing. This is ultimately a 
+                   performance/accuracy tradeoff with the actual discard-from-cache 
+                   time being further from the mark as the rotation time goes up. 
+                   Also the number of objects discarded at once when capacity limit 
+                   is reached depends upon the number of containers.
+                </entry>
+              </row>
+              <row>
+                <entry>capacity</entry>
+                <entry>
+                   Maximum capacity of the whole cache. If there are, for example, ten
+                   containers on the belt and the capacity has been set to 1000, each 
+                   container will hold a maximum of 1000/10 objects. Therefore if the 
+                   capacity limit is reached and the last container gets droped from 
+                   the belt there are up to 100 objects discarted at once. By default 
+                   the capacity is set to 0 which causes capacity limit to be ignored 
+                   so the cache can hold an undefined number of objects.
+                </entry>
+              </row>
+              <row>
+                <entry>ttl</entry>
+                <entry>
+                   The maximum time an object lifes in cache. If the are, for example, 
+                   ten containers and ttl is set to 300 seconds (5 minutes), a new 
+                   container will be put in front of the belt every 300/10 = 30 seconds 
+                   while another is dropped at the end at the same time. Due to the 
+                   granularity of 30 seconds, everything just until 5 minutes 30 
+                   seconds will also end up in this box. The default value for ttl 
+                   is 60 seconds. If ttl is set to 0 which means that objects life 
+                   in cache for unlimited time and may only discarded by a capacity 
+                   limit.
+                </entry>
+              </row>
+              <row>
+                <entry>monitor</entry>
+                <entry>
+                   The monitor intervall in minutes when hashbelt cache rports the 
+                   current number of containers used and objects cached. If set to 0 
+                   (default) monitoring is disabled.
+                </entry>
+              </row>
+              <row>
+                <entry>container-class</entry>
+                <entry>
+                   The implementation of 
+                   <interface>org.castor.cache.hashbelt.container.Container</interface>
+                   interface to be used for all containers of the cache. 
+                   Castor provides the following 3 implementations of the Container 
+                   interface.
+                    <itemizedlist>
+                      <listitem>
+                        <para>
+                           org.castor.cache.hashbelt.container.FastIteratingContainer
+                        </para>
+                      </listitem>
+                      <listitem>
+                        <para>
+                          org.castor.cache.hashbelt.container.MapContainer
+                        </para>
+                      </listitem>
+                      <listitem>
+                        <para>
+                          org.castor.cache.hashbelt.container.WeakReferenceContainer
+                        </para>
+                      </listitem>
+                    </itemizedlist>
+                    If not specified the MapContainer will be used as default.
+                </entry>
+              </row>
+              <row>
+                <entry>reaper-class</entry>
+                <entry>
+                   Specific reapers yield different behaviors. The GC reaper, 
+                   the default, just dumps the contents to the garbage collector. 
+                   However, custom implementations may want to actually do something 
+                   when a bucket drops off the end; see the javadocs on other available 
+                   reapers to find a reaper strategy that meets your behavior 
+                   requirements. Apart of the default 
+                   <classname>org.castor.cache.hashbelt.reaper.NullReaper</classname> we provide 
+                   3 abstract implementations of 
+                   <interface>org.castor.cache.hashbelt.reaper.Reaper</interface> interface:
+                    <itemizedlist>
+                      <listitem>
+                        <para>
+                          <classname>
+                            org.castor.cache.hashbelt.reaper.NotifyingReaper
+                          </classname>
+                        </para>
+                      </listitem>
+                      <listitem>
+                        <para>
+                          <classname>
+                            org.castor.cache.hashbelt.reaper.RefreshingReaper
+                          </classname>
+                        </para>
+                      </listitem>
+                      <listitem>
+                        <para>
+                          <classname>
+                            org.castor.cache.hashbelt.reaper.ReinsertingReaper
+                          </classname>
+                        </para>
+                      </listitem>
+                    </itemizedlist>
+                    to be extended by your custom implementation.
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        
+        <example id="advanced-jdo.caching.configuration.fifo-lru.sample-fifo">
+          <title>Configuration sample - fifo</title>
+            
+          <para>
+            A <emphasis role="bold">fifo</emphasis> cache with default values 
+            explained above is specified by:
+          </para>
+            
+             <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+       &lt;cache-type type="<emphasis role="bold">fifo</emphasis>"/&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+        </example>
+
+        <example id="advanced-jdo.caching.configuration.fifo-lru.sample-lru">
+          <title>Configuration sample - lru</title>
+
+          <para>
+            A <emphasis role="bold">lru</emphasis> cache with capacity=300 and 
+            ttl=300 is defined by:
+          </para>
+                
+          <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+       &lt;cache-type type="<emphasis role="bold">lru</emphasis>" capacity="300"/&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+
+           <para>or better by:</para>
+
+           <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+       &lt;cache-type type="<emphasis role="bold">lru</emphasis>"&gt;
+          &lt;param name="capacity" value="300"/&gt;
+          &lt;param name="ttl" value="300"/&gt;
+       &lt;/cache-type&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+        </example>
+        
+        <example id="advanced-jdo.caching.configuration.fifo-lru.sample-fifo-customized">
+            <title>Configuration sample - fifo (custommized)</title>
+
+            <para>An example of a customized configuration of a <emphasis role="bold">fifo</emphasis> cache is:</para>
+                
+           <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+       &lt;cache-type type="<emphasis role="bold">fifo</emphasis>"/&gt;
+          <emphasis role="bold">&lt;param name="container" value="10"/&gt;
+          &lt;param name="capacity" value="1000"/&gt;
+          &lt;param name="ttl" value="600"/&gt;
+          &lt;param name="monitor" value="5"/&gt;
+          &lt;param name="container-class" value="org.castor.cache.hashbelt.container.WeakReferenceContainer"/&gt;
+          &lt;param name="reaper-class" value="org.castor.cache.hashbelt.reaper.NullReaper"/&gt;</emphasis>
+       &lt;/cache-type&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+        </example>
+    </section>
+
+    <section id="advanced-jdo.caching.configuration.clustered-environments">
+        <title>Caching and clustered environments</title>
+    
+        <para>
+           All of the cache providers added with release 0.9.9 are distributed caches 
+           per se or can be configured to operate in such a mode. This effectively 
+           allows Castor JDO to be used in a clustered J2EE (multi-JVM) environment, 
+           where Castor JDO runs on each of the cluster instances, and where cache 
+           state is automatically snychronized between these instances.
+        </para>
+            
+        <para>
+           In such an environment, Castor JDO wil make use of the underlying cache 
+           provider to replicate/distribute the content of a specific cache between 
+           the various JDOManager instances. Through the distribution mechanism of 
+           the cache provider, a client of a Castor JDO instance on one JVM will see 
+           any updates made to domain objects performed against any other JVM/JDO 
+           instance.
+        </para>
+    
+        <example id="advanced-jdo.caching.configuration.sample-coherence">
+            <title>Configuration sample - Coherence</title>
+            
+            <para>The following class mapping, for example, ... </para>
+            
+            <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+        &lt;cache-type type="<emphasis role="bold">coherence</emphasis>" /&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+    
+            <para>
+               defines that for all objects of type 
+               <literal>com.xyz.MyOtherObject</literal> Tangosol's 
+               <emphasis role="italic">Coherence</emphasis> cache provider should 
+               be used.
+            </para>
+        </example>
+
+        <example id="advanced-jdo.caching.configuration.sample-gigaspaces">
+            <title>Configuration sample - Gigaspaces</title>
+            
+            <para>The following class mapping, for example, ... </para>
+            
+            <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+        &lt;cache-type type="<emphasis role="bold">gigaspaces</emphasis>" /&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+    
+            <para>
+               defines that for all objects of type 
+               <literal>com.xyz.MyOtherObject</literal> the 
+               <emphasis role="italic">Gigaspaces</emphasis> cache provider should 
+               be used. As Gigspaces supports various cache and clsuer modes, this 
+               cache provider allows product-specific configuration as shown below:
+            </para>
+
+            <programlisting language="xml">
+&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...
+        &lt;cache-type type="<emphasis role="bold">gigaspaces</emphasis>" &gt;
+           &lt;param name="spaceURL" value="/./" /&gt;
+           &lt;param name="spaceProperties" value="useLocalCache" /&gt;
+        &lt;/cache-type&gt;
+       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</programlisting>
+        </example>
+    </section>
+    
+    <section id="advanced-jdo.caching.custom-provider">
+       <title>Custom cache provider</title>
+     
+       <para>
+          As of release 0.9.6, Castor allows for the addition of user-defined cache 
+          implementations. Whilst Castor provides a set of pre-built cache providers, 
+          offering a variety of different cache algorithms, special needs still might
+          require the application developer to implement a custom cache 
+          algorithm. Castor facilitates such need by making available standardized
+          interfaces and an easy to understand recipe for integrating a custom 
+          cache provider with Castor.
+       </para>
+
+       <para>
+          As explained in <package>org.exolab.castor.jdo.persist</package> 
+          (API docs for the persists package), 
+          <classname>org.exolab.castor.persist.LockEngine</classname> implements 
+          a persistence engine that caches objects in memory for performance reasons 
+          and thus reduces the number of operations against the persistence storage.
+       </para>
+    
+       <para>
+          The main component of this package is the interface 
+          <interface>org.castor.cache.Cache</interface>, which declares the external 
+          functionality of a (performance) cache. Existing (and future) cache 
+          implementations (have to) implement this interface, which is closely 
+          modelled after the <interface>java.util.Map</interface> interface.
+          </para>
+            
+       <para>
+          Below is a summary of the steps required to build a custom cache provider 
+          and register it with Castor JDO:
+       </para>
+    
+       <para>
+         <orderedlist>
+            <listitem>
+              <para>
+                Create a class that implements 
+                <interface>org.exolab.castor.persist.cache.Cache</interface>.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Create a class that implements 
+                <interface>org.exolab.castor.persist.cache.CacheFacto</interface>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Register your custom cache implementation with Castor JDO in the
+                <filename>castor.properties</filename> file.
+              </para>
+            </listitem>
+         </orderedlist>
+       </para>
+
+       <section id="advanced-jdo.caching.custom-provider.cache-implementation">
+            <title>Cache implementation</title>
+
+            <para>
+               Please create a class that implements the interface
+               <interface>org.exolab.castor.persist.cache.Cache">Cache</interface>.
+            </para>    
+       
+            <para>
+               To assist users in this task, a 
+               <classname>org.castor.cache.AbstractBaseCache</classname> 
+               class has been supplied, which users should derive their custom 
+               <classname>org.castor.cache.Cache</classname> instances 
+               from, if they wish so. Please consult existing 
+               <classname>org.castor.cache.Cache</classname> implementations such as 
+               <classname>org.castor.cache.simple.TimeLimited</classname>} or 
+               <classname>org.castor.cache.simple.CountLimited</classname> 
+               for code samples.
+            </para>
+             
+            <programlisting language="java">
+/**
+ * My own cache implementation
+ */ 
+ public class <emphasis role="bold">CustomCache</emphasis> extends <emphasis role="bold">AbstractBaseCache</emphasis> {
+ 
+    ...
+    
+ }</programlisting>
+       </section>
+
+       <section id="advanced-jdo.caching.custom-provider.cachefactory-implementation">
+           <title>CacheFactory implementation</title>
+          
+            <para>
+               Please add a class that imnplements the 
+               <interface>org.castor.cache.CacheFactory</interface> interface 
+               and make sure that you provide valid values for the two 
+               properties <literal>name</literal> and <literal>className</literal>.
+            </para>    
+       
+            <para>
+               To assist users in this task, a 
+               <classname>org.castor.cache.AbstractCacheFactory</classname> 
+               class has been supplied, which users should derive their custom 
+               <interface>org.castor.cache.CacheFactory</interface> instances 
+               from, if they wish so. Please consult existing 
+               <interface>org.castor.cache.CacheFactory</interface> implementations 
+               such as <classname>org.castor.cache.simple.TimeLimitedFactory</classname>} or 
+               <classname>org.castor.cache.simple.CountLimitedFactory</classname> 
+               for code samples.
+            </para>    
+
+            <programlisting language="java">
+/**
+ * My own cache factory implementation
+ */ 
+ public class <emphasis role="bold">CustomCacheFactory</emphasis> extends <emphasis role="bold">AbstractCacheFactory</emphasis> {
+ 
+    /**
+     * The name of the factory
+     */
+    <emphasis role="bold">private static final String NAME = "custom"</emphasis>;
+
+    /**
+     * Full class name of the underlying cache implementation.
+     */
+    <emphasis role="bold">private static final String CLASS_NAME = "my.company.project.CustomCache"</emphasis>; 
+    
+    /**
+     * Returns the short alias for this factory instance.
+     * @return The short alias name. 
+     */
+    <emphasis role="bold">public String getName()</emphasis> {
+        return NAME;
+    }
+    
+    /**
+     * Returns the full class name of the underlying cache implementation.
+     * @return The full cache class name. 
+     */
+    <emphasis role="bold">public String getCacheClassName()</emphasis> {
+        return CLASS_NAME;   
+    }
+    
+ }</programlisting> 
+        </section>
+
+        <section id="advanced-jdo.caching.custom-provider.configuration">
+            <title>Configuration</title>
+    
+            <para>
+               The file <filename>castor.properties</filename> holds a property
+               <literal>org.castor.cache.Factories</literal> that enlists the available
+               cache types through their related CacheFactory instances.
+            </para>    
+
+            <programlisting>
+# 
+# Cache implementations
+# 
+org.castor.cache.Factories=\
+  org.castor.cache.simple.NoCacheFactory,\
+  org.castor.cache.simple.TimeLimitedFactory,\
+  org.castor.cache.simple.CountLimitedFactory,\
+  org.castor.cache.simple.UnlimitedFactory,\
+  org.castor.cache.distributed.FKCacheFactory,\
+  org.castor.cache.distributed.JcsCacheFactory,\
+  org.castor.cache.distributed.JCacheFactory,\
+  org.castor.cache.distributed.CoherenceCacheFactory,\
+  org.castor.cache.distributed.OsCacheFactory,\
+  org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+  org.castor.cache.hashbelt.LRUHashbeltFactory</programlisting>
+
+            <para>
+               To add your custom cache implementation, please append the 
+               fully-qualified class name to this list as shown below:
+            </para>
+       
+            <programlisting>
+# 
+# Cache implementations
+# 
+org.castor.cache.Factories=\
+  org.castor.cache.simple.NoCacheFactory,\
+  org.castor.cache.simple.TimeLimitedFactory,\
+  org.castor.cache.simple.CountLimitedFactory,\
+  org.castor.cache.simple.UnlimitedFactory,\
+  org.castor.cache.distributed.FKCacheFactory,\
+  org.castor.cache.distributed.JcsCacheFactory,\
+  org.castor.cache.distributed.JCacheFactory,\
+  org.castor.cache.distributed.CoherenceCacheFactory,\
+  org.castor.cache.distributed.OsCacheFactory,\
+  org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+  org.castor.cache.hashbelt.LRUHashbeltFactory,\
+  <emphasis role="bold">org.whatever.somewhere.nevermind.CustomCache</emphasis></programlisting>
+        </section>
+    </section>
+        
+    <section id="advanced-jdo.caching.cachemanager">
+      <title>CacheManager - monitoring and clearing caches</title>
+   
+	  <para>
+	     Sometimes it is necessary to interact with Castor's (performance) caches to 
+         e.g.  (selectively) clear a Castor cache of its content, or inquire about 
+         whether a particular object instance (as identified by its identity) is 
+         cached already.
+      </para>
+	     
+	  <para>
+	     For this purpose a 
+         <classname>org.exolab.castor.jdo.CacheManager</classname> can 
+	     be obtained from a <classname>org.exolab.castor.jdo.Database</classname> 
+         instance by issuing the following code:
+      </para>
+	  
+	  <programlisting language="java">
+	  
+JDO jdo = ....;
+Database db = jdo.getDatabase();
+CacheManager manager = db.getCacheManager();
+	  </programlisting>
+	
+	  <para>
+	     This instance can subsequently be used to selectively clear the 
+         Castor performance cache using one of the following methods:
+      </para>
+	     
+	  <para>
+	     <itemizedlist>
+	        <listitem>
+	          <para>
+		        <methodname>org.exolab.castor.jdo.CacheManager.expireCache()</methodname>
+	          </para>
+	        </listitem>
+	        <listitem>
+	          <para>
+		        <methodname>org.exolab.castor.jdo.CacheManager.expireCache(Class,Object)</methodname>
+	          </para>
+	        </listitem>
+	        <listitem>
+	          <para>
+		        <methodname>org.exolab.castor.jdo.CacheManager.expireCache(Class,Object[])</methodname>
+	          </para>
+	        </listitem>
+	        <listitem>
+	          <para>
+		        <methodname>org.exolab.castor.jdo.CacheManager.expireCache(Class[])</methodname>
+	          </para>
+	        </listitem>
+	     </itemizedlist>
+	  </para>
+	     
+	  <para>
+	     To inquire whether an object has already been cached, please use the 
+         following method:
+      </para>
+
+	  <para>
+	     <itemizedlist>
+	        <listitem>
+	          <para>
+	            <methodname>org.exolab.castor.jdo.CacheManager.isCached (Class, Object);</methodname>
+	          </para>
+	        </listitem>
+	     </itemizedlist>
+	  </para>
+	     
+	  <para>
+	     Please note that once you have closed the Database instance from which you 
+         have obtained the CacheManager, the CacheManager cannot be used anymore and 
+         will throw a 
+	     <exceptionname>org.exolab.castor.jdo.PersistenceException</exceptionname>.
+	  </para>
+   
+   </section>    
+  </section>
