@@ -35,6 +35,8 @@
   <xi:include href="reference/code-generator.xml" />
 
   <xi:include href="reference/jdo.xml" />
+  
+  <xi:include href="reference/advanced-jdo.xml" />
 
   <xi:include href="reference/spring-orm.xml" />
 

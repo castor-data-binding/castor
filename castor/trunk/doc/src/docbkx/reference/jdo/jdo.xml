@@ -106,7 +106,7 @@ db.close();
 		<para>
 		  For an example showing how to set up a database configuration on the fly without
 		  the need of a preconfigured XML configuration file) see
-		  <link linkend="jdo.configuration">JdoConfFactory</link>.
+		  <link linkend="jdo.configuration.jdoconffactory">JdoConfFactory</link>.
 		</para>
       </section>
 

@@ -38,8 +38,7 @@
         <para>
            All information related to caching and related concepts supported 
            by Castor has been consolidated into one place, and is available 
-           <!-- TODO change link when Advanced JDO chapter is finished -->
-           <ulink url="../../jdo-caching-detail.html">here</ulink>.
+           <link linkend="advanced-jdo.caching">here</link>.
         </para>
            
     </section>

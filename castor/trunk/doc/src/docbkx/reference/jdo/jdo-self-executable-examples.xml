@@ -25,9 +25,9 @@
     <para>
       As of release 1.0M3, the Castor JDO examples have been packaged in a
       new way and are available for download at the
-      <ulink url="../../download.html">download page</ulink>. In the following sections, we
-      explain the steps required to unpack this new archive, and how to execute
-      the tests.
+      <ulink url="http://castor.org/download.html">download page</ulink>. In the 
+      following sections, we explain the steps required to unpack this new archive, 
+      and how to execute the tests.
     </para>
 
     <section id="jdo.self-executable-examples.zip-archive">
@@ -36,8 +36,8 @@
       <para>
         In order to be able to run the new Castor JDO examples, please download
         the new <literal>castor-</literal>${RELEASE}<literal>-examples.zip</literal> from the
-        <ulink url="../../download.html">download page</ulink> and put it into some location
-        on your computer.
+        <ulink url="http://castor.org/download.html">download page</ulink> and put it into 
+        some location on your computer.
       </para>
     </section>
 

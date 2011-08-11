@@ -45,15 +45,15 @@
               <listitem>
 	              <para>
 		              <!-- TODO change link when howto section is finished -->
-		              <ulink url="../../how-to-setup-castor-project-in-eclipse.html">How to 
-		              setup Castor project in eclipse</ulink>
+		              <ulink url="http://castor.org/how-to-setup-castor-project-in-eclipse.html">
+		              How to setup Castor project in eclipse</ulink>
 	              </para>
               </listitem>
 	            
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-run-jdo-unit-tests.html">How to 
+	                  <ulink url="http://castor.org/how-to-run-jdo-unit-tests.html">How to 
 	                  run Castor JDO's database independend unit tests</ulink>
                   </para>
               </listitem>
@@ -61,7 +61,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-run-jdo-test-suite.html">How to 
+	                  <ulink url="http://castor.org/how-to-run-jdo-test-suite.html">How to 
 	                  run Castor JDO's test suite</ulink>
                   </para>
               </listitem>
@@ -69,7 +69,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-run-jdo-performance-tests.html">How to 
+	                  <ulink url="http://castor.org/how-to-run-jdo-performance-tests.html">How to 
 	                  run Castor JDO's performance tests</ulink>
                   </para>
               </listitem>
@@ -77,7 +77,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-submit-a-bug.html">How to 
+	                  <ulink url="http://castor.org/how-to-submit-a-bug.html">How to 
 	                  submit a bug report</ulink>
                   </para>
               </listitem>
@@ -85,7 +85,7 @@
               <listitem>
 	              <para>
                       <!-- TODO change link when howto section is finished -->
-		              <ulink url="../../how-to-prepare-a-patch.html">How to 
+		              <ulink url="http://castor.org/how-to-prepare-a-patch.html">How to 
 		              prepare a patch</ulink>
 	              </para>
               </listitem>
@@ -104,7 +104,7 @@
               <listitem>
                 <para>
                       <!-- TODO change link when howto section is finished -->
-                    <ulink url="../../how-to-use-limit-clause.html">How to 
+                    <ulink url="http://castor.org/how-to-use-limit-clause.html">How to 
                     use a LIMIT clause</ulink>
                 </para>
               </listitem>
@@ -118,7 +118,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-use-a-cache.html">How to 
+	                  <ulink url="http://castor.org/how-to-use-a-cache.html">How to 
 	                  use a cache</ulink>
                   </para>
               </listitem>
@@ -126,7 +126,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-map-enums.html">How to 
+	                  <ulink url="http://castor.org/how-to-map-enums.html">How to 
 	                  map enums</ulink>
                   </para>
               </listitem>
@@ -134,7 +134,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-connection-proxies.html">How to 
+	                  <ulink url="http://castor.org/how-to-connection-proxies.html">How to 
 	                  log SQL statements</ulink>
                   </para>
               </listitem>
@@ -149,7 +149,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-use-cascading-operations.html">How to 
+	                  <ulink url="http://castor.org/how-to-use-cascading-operations.html">How to 
 	                  use cascading operations - overview</ulink>
                   </para>
               </listitem>
@@ -157,7 +157,7 @@
        		  <listitem>
         		  <para>
                       <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="../../how-to-cascade-creation.html">How to 
+	        		  <ulink url="http://castor.org/how-to-cascade-creation.html">How to 
 	        		  use cascading on object creation</ulink>
         		  </para>
        		  </listitem>
@@ -165,7 +165,7 @@
        		  <listitem>
         		  <para>
                       <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="../../how-to-cascade-deletion.html">How to 
+	        		  <ulink url="http://castor.org/how-to-cascade-deletion.html">How to 
 	        		  cascading on object deletion</ulink>
         		  </para>
        		  </listitem>
@@ -173,7 +173,7 @@
        		  <listitem>
         		  <para>
                       <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="../../how-to-cascade-update.html">How to 
+	        		  <ulink url="http://castor.org/how-to-cascade-update.html">How to 
 	        		  cascading on object updates</ulink>
         		  </para>
        		  </listitem>
@@ -188,7 +188,7 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-create-custom-cache.html">How to 
+	                  <ulink url="http://castor.org/how-to-create-custom-cache.html">How to 
 	                  create a custom cache provider</ulink>
                   </para>
               </listitem>
@@ -196,8 +196,8 @@
               <listitem>
                   <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-use-castor-in-a-j2ee-cluster.html">How to 
-	                  use Castor in a J2EE cluster</ulink>
+	                  <ulink url="http://castor.org/how-to-use-castor-in-a-j2ee-cluster.html">
+	                  How to use Castor in a J2EE cluster</ulink>
                   </para>
               </listitem>
           </itemizedlist>
@@ -211,7 +211,7 @@
               <listitem>
 	              <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-use-jakarta-dbcp.html">How to 
+	                  <ulink url="http://castor.org/how-to-use-jakarta-dbcp.html">How to 
 	                  use Jakarta DBCP with Castor</ulink>
 	              </para>
               </listitem>
@@ -226,8 +226,8 @@
                 <listitem>
 	                <para>
                       <!-- TODO change link when howto section is finished -->
-	                  <ulink url="../../how-to-use-castor-with-distributed-transactions.html">How to 
-	                  use Castor with distributed transaction</ulink>
+	                  <ulink url="http://castor.org/how-to-use-castor-with-distributed-transactions.html">
+	                  How to use Castor with distributed transaction</ulink>
 	                </para>
                 </listitem>
             </itemizedlist>
