@@ -44,25 +44,25 @@ public final class TestFIFOHashbeltFactory extends TestCase {
     public TestFIFOHashbeltFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new FIFOHashbeltFactory();
+        CacheFactory<String, String> cf = new FIFOHashbeltFactory<String, String>();
         assertTrue(cf instanceof FIFOHashbeltFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new FIFOHashbeltFactory();
+        CacheFactory<String, String> cf = new FIFOHashbeltFactory<String, String>();
         assertEquals("fifo", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new FIFOHashbeltFactory();
+        CacheFactory<String, String> cf = new FIFOHashbeltFactory<String, String>();
         String classname = "org.castor.cache.hashbelt.FIFOHashbelt";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new FIFOHashbeltFactory();
+        CacheFactory<String, String> cf = new FIFOHashbeltFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof FIFOHashbelt);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of FIFOHashbelt from factroy");
@@ -70,7 +70,7 @@ public final class TestFIFOHashbeltFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new FIFOHashbeltFactory();
+        CacheFactory<String, String> cf = new FIFOHashbeltFactory<String, String>();
         cf.shutdown();
     }
 }

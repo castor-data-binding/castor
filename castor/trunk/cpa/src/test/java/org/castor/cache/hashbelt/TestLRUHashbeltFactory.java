@@ -44,25 +44,25 @@ public final class TestLRUHashbeltFactory extends TestCase {
     public TestLRUHashbeltFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new LRUHashbeltFactory();
+        CacheFactory<String, String> cf = new LRUHashbeltFactory<String, String>();
         assertTrue(cf instanceof LRUHashbeltFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new LRUHashbeltFactory();
+        CacheFactory<String, String> cf = new LRUHashbeltFactory<String, String>();
         assertEquals("lru", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new LRUHashbeltFactory();
+        CacheFactory<String, String> cf = new LRUHashbeltFactory<String, String>();
         String classname = "org.castor.cache.hashbelt.LRUHashbelt";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new LRUHashbeltFactory();
+        CacheFactory<String, String> cf = new LRUHashbeltFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof LRUHashbelt);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of LRUHashbelt from factroy");
@@ -70,7 +70,7 @@ public final class TestLRUHashbeltFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new LRUHashbeltFactory();
+        CacheFactory<String, String> cf = new LRUHashbeltFactory<String, String>();
         cf.shutdown();
     }
 }

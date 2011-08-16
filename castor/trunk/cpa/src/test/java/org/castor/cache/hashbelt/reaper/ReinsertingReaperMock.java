@@ -25,14 +25,14 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class ReinsertingReaperMock extends ReinsertingReaper {
+public final class ReinsertingReaperMock<K, V> extends ReinsertingReaper<K, V> {
     private static final List<Object> EXPIRED = new ArrayList<Object>();
     
     public static List<Object> getExpiredObjects() {
         return EXPIRED;
     }
     
-    protected void handleExpiredObject(final Object expiredObject) {
+    protected void handleExpiredObject(final V expiredObject) {
         EXPIRED.add(expiredObject);
     }
 }

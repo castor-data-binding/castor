@@ -62,12 +62,12 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache c = new JcsCache();
+        Cache<String, String> c = new JcsCache<String, String>();
         assertTrue(c instanceof JcsCache);
     }
 
     public void testGetType() {
-        Cache c = new JcsCache();
+        Cache<String, String> c = new JcsCache<String, String>();
         assertEquals("jcs", c.getType());
     }
 
@@ -75,7 +75,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        JcsCache c = new JcsCache();
+        JcsCache<String, String> c = new JcsCache<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -105,7 +105,7 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testClose() {
-        Cache c = new JcsCache();
+        Cache<String, String> c = new JcsCache<String, String>();
         c.close();
     }
     

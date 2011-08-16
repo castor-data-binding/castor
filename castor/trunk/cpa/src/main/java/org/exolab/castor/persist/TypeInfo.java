@@ -88,7 +88,7 @@ public final class TypeInfo {
      *  by the OID representing the object. ObjectLock put into cache maybe
      *  disposed by LRU mechanisum. All extends classes share the same map as the
      *  base class. */
-    private final Cache _cache;
+    private final Cache<OID, CacheEntry> _cache;
 
     //-----------------------------------------------------------------------------------    
 
@@ -97,7 +97,7 @@ public final class TypeInfo {
      *
      * @param cache The new LRU which will be used to store and dispose freed ObjectLock.
      */
-    public TypeInfo(final Cache cache) {
+    public TypeInfo(final Cache<OID, CacheEntry> cache) {
         _cache = cache;
     }
 
@@ -173,7 +173,7 @@ public final class TypeInfo {
             entry = _locks.get(oid);
             if (entry == null) {
                 // consult with the 'second level' cache, aka physical cache
-                CacheEntry cachedEntry = (CacheEntry) _cache.remove(oid);
+                CacheEntry cachedEntry = _cache.remove(oid);
                 if (cachedEntry != null) {
                     // found in 'second level' cache
                     entry = new ObjectLock(cachedEntry.getOID(),

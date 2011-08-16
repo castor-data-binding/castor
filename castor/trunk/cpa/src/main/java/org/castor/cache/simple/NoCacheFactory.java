@@ -21,12 +21,15 @@ import org.castor.cache.AbstractCacheFactory;
  * Implements {@link org.castor.cache.CacheFactory} for the {@link NoCache}
  * implementation of {@link org.castor.cache.Cache}.
  *
+ * @param <K> the type of keys maintained by cache
+ * @param <V> the type of cached values
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class NoCacheFactory extends AbstractCacheFactory {
+public final class NoCacheFactory<K, V> extends AbstractCacheFactory<K, V> {
     /**
      * {@inheritDoc}
      */

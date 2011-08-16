@@ -44,25 +44,25 @@ public final class TestUnlimitedFactory extends TestCase {
     public TestUnlimitedFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new UnlimitedFactory();
+        CacheFactory<String, String> cf = new UnlimitedFactory<String, String>();
         assertTrue(cf instanceof UnlimitedFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new UnlimitedFactory();
+        CacheFactory<String, String> cf = new UnlimitedFactory<String, String>();
         assertEquals("unlimited", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new UnlimitedFactory();
+        CacheFactory<String, String> cf = new UnlimitedFactory<String, String>();
         String classname = "org.castor.cache.simple.Unlimited";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new UnlimitedFactory();
+        CacheFactory<String, String> cf = new UnlimitedFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof Unlimited);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of Unlimited from factroy");
@@ -70,7 +70,7 @@ public final class TestUnlimitedFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new UnlimitedFactory();
+        CacheFactory<String, String> cf = new UnlimitedFactory<String, String>();
         cf.shutdown();
     }
 }

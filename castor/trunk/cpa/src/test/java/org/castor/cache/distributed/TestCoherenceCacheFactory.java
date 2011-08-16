@@ -48,25 +48,25 @@ public final class TestCoherenceCacheFactory extends TestCase {
     public TestCoherenceCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new CoherenceCacheFactory();
+        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
         assertTrue(cf instanceof CoherenceCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new CoherenceCacheFactory();
+        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
         assertEquals("coherence", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new CoherenceCacheFactory();
+        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
         String classname = "org.castor.cache.distributed.CoherenceCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new CoherenceCacheFactory();
+        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof CoherenceCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CoherenceCache from factroy");
@@ -77,7 +77,7 @@ public final class TestCoherenceCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCacheFactory.class);
         Level level = logger.getLevel();
         
-        CoherenceCacheFactory cf = new CoherenceCacheFactory();
+        CoherenceCacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
         try {
             cf.getCache(null);
         } catch (CacheAcquireException ex) {

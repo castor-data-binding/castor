@@ -54,12 +54,12 @@ public final class TestFKCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache c = new FKCache();
+        Cache<String, String> c = new FKCache<String, String>();
         assertTrue(c instanceof FKCache);
     }
 
     public void testGetType() {
-        Cache c = new FKCache();
+        Cache<String, String> c = new FKCache<String, String>();
         assertEquals("fkcache", c.getType());
     }
 
@@ -67,7 +67,7 @@ public final class TestFKCache extends TestCase {
         Logger logger = Logger.getLogger(FKCache.class);
         Level level = logger.getLevel();
         
-        FKCache c = new FKCache();
+        FKCache<String, String> c = new FKCache<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -97,7 +97,7 @@ public final class TestFKCache extends TestCase {
     }
 
     public void testClose() {
-        Cache c = new FKCache();
+        Cache<String, String> c = new FKCache<String, String>();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

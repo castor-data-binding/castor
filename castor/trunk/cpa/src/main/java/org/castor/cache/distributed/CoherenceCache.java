@@ -80,7 +80,7 @@ public final class CoherenceCache<K, V> extends AbstractDistributedCache<K, V> {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class<?> cls = ldr.loadClass(implementation);
-            setCache((Map) invokeStaticMethod(
+            setCache((Map<K, V>) invokeStaticMethod(
                     cls, "getCache", TYPES_GET_CACHE, new Object[] {getName()}));
         } catch (Exception e) {
             String msg = "Error creating Coherence cache: " + e.getMessage();

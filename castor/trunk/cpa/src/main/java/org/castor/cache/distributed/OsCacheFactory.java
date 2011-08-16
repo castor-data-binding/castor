@@ -29,12 +29,15 @@ import org.castor.cache.CacheFactory;
  * Implements {@link org.castor.cache.CacheFactory} for the {@link OsCache}
  * implementation of {@link org.castor.cache.Cache}.
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class OsCacheFactory implements CacheFactory {
+public final class OsCacheFactory<K, V> implements CacheFactory<K, V> {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(OsCacheFactory.class);
@@ -45,7 +48,7 @@ public final class OsCacheFactory implements CacheFactory {
     /**
      * {@inheritDoc}
      */
-    public Cache getCache(final ClassLoader classLoader)
+    public Cache<K, V> getCache(final ClassLoader classLoader)
     throws CacheAcquireException {
         return getCache(OsCache.IMPLEMENTATION, classLoader);
     }
@@ -60,8 +63,9 @@ public final class OsCacheFactory implements CacheFactory {
      * @return A Cache instance.
      * @throws CacheAcquireException Problem instantiating a cache instance.
      */
-    public synchronized Cache getCache(final String implementation, final ClassLoader classLoader)
-    throws CacheAcquireException {
+    @SuppressWarnings("unchecked")
+    public synchronized Cache<K, V> getCache(final String implementation,
+            final ClassLoader classLoader) throws CacheAcquireException {
         ClassLoader loader = classLoader;
         if (loader == null) { loader = Thread.currentThread().getContextClassLoader(); }
         
@@ -83,11 +87,11 @@ public final class OsCacheFactory implements CacheFactory {
             }
         }
         
-        Cache cache = null;
+        Cache<K, V> cache = null;
         try {
             Class<?> cls = loader.loadClass(getCacheClassName());
             Constructor<?> cst = cls.getConstructor(new Class[] {Object.class});
-            cache = (Cache) cst.newInstance(new Object[] {_cache});
+            cache = (Cache<K, V>) cst.newInstance(new Object[] {_cache});
         } catch (ClassNotFoundException cnfe) {
             String msg = "Cannot find class " + getCacheClassName() + ".";
             LOG.error(msg, cnfe);

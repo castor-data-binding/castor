@@ -44,25 +44,25 @@ public final class TestCountLimitedFactory extends TestCase {
     public TestCountLimitedFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new CountLimitedFactory();
+        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
         assertTrue(cf instanceof CountLimitedFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new CountLimitedFactory();
+        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
         assertEquals("count-limited", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new CountLimitedFactory();
+        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
         String classname = "org.castor.cache.simple.CountLimited";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new CountLimitedFactory();
+        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof CountLimited);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CountLimited from factroy");
@@ -70,7 +70,7 @@ public final class TestCountLimitedFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new CountLimitedFactory();
+        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
         cf.shutdown();
     }
 }

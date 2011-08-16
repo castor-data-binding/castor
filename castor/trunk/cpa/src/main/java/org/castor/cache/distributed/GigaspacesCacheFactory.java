@@ -25,11 +25,14 @@ import org.castor.cache.AbstractCacheFactory;
  * Implements {@link org.castor.cache.CacheFactory} for the {@link GigaspacesCache}
  * implementation of {@link org.castor.cache.Cache}.
  *
+ * @param <K> the type of keys maintained by cache
+ * @param <V> the type of cached values
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class GigaspacesCacheFactory extends AbstractCacheFactory {
+public final class GigaspacesCacheFactory<K, V> extends AbstractCacheFactory<K, V> {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(GigaspacesCacheFactory.class);

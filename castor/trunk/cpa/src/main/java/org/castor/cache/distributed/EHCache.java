@@ -203,6 +203,7 @@ public final class EHCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V get(final Object key) {
         Object result = null;
         try {
@@ -226,6 +227,7 @@ public final class EHCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V put(final K key, final V value) {
         Object result = null;
         try {
@@ -243,6 +245,7 @@ public final class EHCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V remove(final Object key) {
         Object oldValue = get(key);
         try {

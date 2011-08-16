@@ -44,25 +44,25 @@ public final class TestNoCacheFactory extends TestCase {
     public TestNoCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new NoCacheFactory();
+        CacheFactory<String, String> cf = new NoCacheFactory<String, String>();
         assertTrue(cf instanceof NoCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new NoCacheFactory();
+        CacheFactory<String, String> cf = new NoCacheFactory<String, String>();
         assertEquals("none", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new NoCacheFactory();
+        CacheFactory<String, String> cf = new NoCacheFactory<String, String>();
         String classname = "org.castor.cache.simple.NoCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new NoCacheFactory();
+        CacheFactory<String, String> cf = new NoCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof NoCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of NoCache from factroy");
@@ -70,7 +70,7 @@ public final class TestNoCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new NoCacheFactory();
+        CacheFactory<String, String> cf = new NoCacheFactory<String, String>();
         cf.shutdown();
     }
 }

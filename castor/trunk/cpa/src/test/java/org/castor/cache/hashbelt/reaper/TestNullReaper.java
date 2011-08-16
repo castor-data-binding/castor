@@ -44,7 +44,7 @@ public final class TestNullReaper extends TestCase {
             container.put(new Integer(i), Integer.toString(i));
         }
 
-        AbstractReaper reaper = new NullReaper();
+        AbstractReaper<Integer, String> reaper = new NullReaper<Integer, String>();
         reaper.handleExpiredContainer(container);
         assertEquals(10, container.size());
     }

@@ -152,7 +152,7 @@ public final class GigaspacesCache<K, V> extends AbstractDistributedCache<K, V> 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class<?> cls = ldr.loadClass(implementation);
-            setCache((Map) invokeStaticMethod(
+            setCache((Map<K, V>) invokeStaticMethod(
                     cls, "find", TYPES_FIND_CACHE, new Object[] {clusterURL.toString()}));
         } catch (Exception e) {
             LOG.error("Problem!", e);

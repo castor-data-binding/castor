@@ -22,13 +22,18 @@ package org.castor.cache;
  * When providing your own cache instance as explained in the JavaDocs for this 
  * package, please make sure that you provide valid values for the <b>name</b> and
  * <b>className</b> properties.  
+ * package, please make sure that you provide valid values for the <b>name</b> and
+ * <b>className</b> properties.  
+ *
+ * @param <K> the type of keys maintained by cache
+ * @param <V> the type of cached values
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface CacheFactory {
+public interface CacheFactory<K, V> {
     /**
      * Instantiates an instance of the cache implementation this factory is responsible
      * for using the given classloader.
@@ -37,7 +42,7 @@ public interface CacheFactory {
      * @return A Cache instance.
      * @throws CacheAcquireException Problem instantiating a cache instance.
      */
-    Cache getCache(ClassLoader classLoader) throws CacheAcquireException;
+    Cache<K, V> getCache(ClassLoader classLoader) throws CacheAcquireException;
 
     /**
      * Returns the short alias cache type for this factory instance.

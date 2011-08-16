@@ -41,13 +41,13 @@ public final class TestMapContainer extends TestCase {
     public TestMapContainer(final String name) { super(name); }
     
     public void testConstructor() {
-        Object container = new MapContainer();
+        Object container = new MapContainer<String, String>();
         assertTrue(container instanceof Container);
         assertTrue(container instanceof MapContainer);
     }
     
     public void testTimestamp() {
-        Container container = new MapContainer();
+        Container<String, String> container = new MapContainer<String, String>();
         assertEquals(0L, container.getTimestamp());
         
         long before = System.currentTimeMillis();

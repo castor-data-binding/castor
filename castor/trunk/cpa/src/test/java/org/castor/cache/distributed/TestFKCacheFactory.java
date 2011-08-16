@@ -44,25 +44,25 @@ public final class TestFKCacheFactory extends TestCase {
     public TestFKCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new FKCacheFactory();
+        CacheFactory<String, String> cf = new FKCacheFactory<String, String>();
         assertTrue(cf instanceof FKCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new FKCacheFactory();
+        CacheFactory<String, String> cf = new FKCacheFactory<String, String>();
         assertEquals("fkcache", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new FKCacheFactory();
+        CacheFactory<String, String> cf = new FKCacheFactory<String, String>();
         String classname = "org.castor.cache.distributed.FKCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new FKCacheFactory();
+        CacheFactory<String, String> cf = new FKCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof FKCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of FKCache from factroy");
@@ -70,7 +70,7 @@ public final class TestFKCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new FKCacheFactory();
+        CacheFactory<String, String> cf = new FKCacheFactory<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         DistributedCacheFactoryMock.setException(null);

@@ -60,12 +60,12 @@ public final class TestGigaspacesCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache c = new GigaspacesCache();
+        Cache<String, String> c = new GigaspacesCache<String, String>();
         assertTrue(c instanceof GigaspacesCache);
     }
 
     public void testGetType() {
-        Cache c = new GigaspacesCache();
+        Cache<String, String> c = new GigaspacesCache<String, String>();
         assertEquals("gigaspaces", c.getType());
     }
 
@@ -73,7 +73,7 @@ public final class TestGigaspacesCache extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCache.class);
         Level level = logger.getLevel();
         
-        GigaspacesCache c = new GigaspacesCache();
+        GigaspacesCache<String, String> c = new GigaspacesCache<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -106,7 +106,7 @@ public final class TestGigaspacesCache extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCache.class);
         Level level = logger.getLevel();
         
-        GigaspacesCache c = new GigaspacesCache();
+        GigaspacesCache<String, String> c = new GigaspacesCache<String, String>();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

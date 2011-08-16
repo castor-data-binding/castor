@@ -44,25 +44,25 @@ public final class TestTimeLimitedFactory extends TestCase {
     public TestTimeLimitedFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new TimeLimitedFactory();
+        CacheFactory<String, String> cf = new TimeLimitedFactory<String, String>();
         assertTrue(cf instanceof TimeLimitedFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new TimeLimitedFactory();
+        CacheFactory<String, String> cf = new TimeLimitedFactory<String, String>();
         assertEquals("time-limited", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new TimeLimitedFactory();
+        CacheFactory<String, String> cf = new TimeLimitedFactory<String, String>();
         String classname = "org.castor.cache.simple.TimeLimited";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new TimeLimitedFactory();
+        CacheFactory<String, String> cf = new TimeLimitedFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof TimeLimited);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of TimeLimited from factroy");
@@ -70,7 +70,7 @@ public final class TestTimeLimitedFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new TimeLimitedFactory();
+        CacheFactory<String, String> cf = new TimeLimitedFactory<String, String>();
         cf.shutdown();
     }
 }

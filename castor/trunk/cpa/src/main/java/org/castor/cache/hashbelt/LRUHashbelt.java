@@ -51,6 +51,7 @@ public final class LRUHashbelt<K, V> extends AbstractHashbelt<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V get(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
         
