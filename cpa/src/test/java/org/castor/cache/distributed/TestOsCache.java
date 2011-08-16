@@ -65,17 +65,17 @@ public final class TestOsCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache c = new OsCache(null);
+        Cache<String, String> c = new OsCache<String, String>(null);
         assertTrue(c instanceof OsCache);
     }
 
     public void testGetType() {
-        Cache c = new OsCache(null);
+        Cache<String, String> c = new OsCache<String, String>(null);
         assertEquals("oscache", c.getType());
     }
 
     public void testUnsupported() {
-        Cache c = new OsCache(null);
+        Cache<String, String> c = new OsCache<String, String>(null);
         
         try {
             c.size();
@@ -138,7 +138,7 @@ public final class TestOsCache extends TestCase {
         
         int counter = DistributedOsCacheMock.getCounter();
 
-        OsCache c = new OsCache("test");
+        OsCache<String, String> c = new OsCache<String, String>("test");
         
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy oscache");
@@ -154,7 +154,7 @@ public final class TestOsCache extends TestCase {
         
         logger.setLevel(level);
         
-        c = new OsCache(new DistributedOsCacheMock());
+        c = new OsCache<String, String>(new DistributedOsCacheMock());
         
         try {
             c.initialize(params);
@@ -166,7 +166,7 @@ public final class TestOsCache extends TestCase {
     }
 
     public void testClose() {
-        Cache c = new OsCache(null);
+        Cache<String, String> c = new OsCache<String, String>(null);
         c.close();
     }
     

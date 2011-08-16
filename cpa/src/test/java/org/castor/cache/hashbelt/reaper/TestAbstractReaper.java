@@ -39,10 +39,10 @@ public final class TestAbstractReaper extends TestCase {
     public TestAbstractReaper(final String name) { super(name); }
     
     public void test() {
-        AbstractReaper reaper = new AbstractReaperMock();
+        AbstractReaper<String, String> reaper = new AbstractReaperMock<String, String>();
         
         assertNull(reaper.getCache());
-        Cache cache = new NoCache();
+        Cache<String, String> cache = new NoCache<String, String>();
         reaper.setCache(cache);
         assertNotNull(reaper.getCache());
         assertTrue(cache == reaper.getCache());

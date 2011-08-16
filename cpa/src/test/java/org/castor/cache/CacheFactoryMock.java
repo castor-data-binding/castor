@@ -19,11 +19,10 @@ package org.castor.cache;
  * Cache to test access to distributed caches (Coherence, FKCache and JCache)
  * without having their implementations available.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class CacheFactoryMock extends AbstractCacheFactory {
+public final class CacheFactoryMock<K, V> extends AbstractCacheFactory<K, V> {
     //--------------------------------------------------------------------------
     
     private String _cacheClassName = CacheMock.class.getName();

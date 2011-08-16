@@ -136,9 +136,11 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
     public static final int DEFAULT_CONTAINERS = 10;
     
     /** Default container class. */
+    @SuppressWarnings("rawtypes")
     public static final Class<? extends Container> DEFAULT_CONTAINER_CLASS = MapContainer.class;
     
     /** Default reaper class. */
+    @SuppressWarnings("rawtypes")
     public static final Class<? extends AbstractReaper> DEFAULT_REAPER_CLASS = NullReaper.class;
     
     /** Default capacity of cache. */
@@ -192,7 +194,7 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
     private int _ttl;
     
     /** The reaper to pass all expired containers to. */
-    private AbstractReaper _reaper;
+    private AbstractReaper<K, V> _reaper;
 
     /** Real monitor interval. */
     private int _monitor;
@@ -209,7 +211,7 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public final void initialize(final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
@@ -279,7 +281,7 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
         if (_ttl > 0) {
             long periode = (_ttl * ONE_SECOND) / _containerTarget;
             _expirationTimer = new Timer(true);
-            _expirationTimer.schedule(new ExpirationTask(this), periode, periode);
+            _expirationTimer.schedule(new ExpirationTask<K, V>(this), periode, periode);
         }
 
         try {
@@ -293,7 +295,7 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
         if (_monitor > 0) {
             long periode = _monitor * ONE_MINUTE;
             _monitoringTimer = new Timer(true);
-            _monitoringTimer.schedule(new MonitoringTask(this), periode, periode);
+            _monitoringTimer.schedule(new MonitoringTask<K, V>(this), periode, periode);
         }
     }
     
@@ -635,16 +637,16 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
      * number of containers in the cache. If ttl has been configured to be 0 the
      * ExpirationTask will never be executed.
      */
-    private static class ExpirationTask extends TimerTask {
+    private static class ExpirationTask<K, V> extends TimerTask {
         /** Reference to the hashbelt this ExpirationTask belongs to. */
-        private AbstractHashbelt _owner;
+        private AbstractHashbelt<K, V> _owner;
         
         /**
          * Construct a new ExpirationTask for the given hashbelt.
          * 
          * @param owner The hashbelt this ExpirationTask belongs to.
          */
-        public ExpirationTask(final AbstractHashbelt owner) { _owner = owner; }
+        public ExpirationTask(final AbstractHashbelt<K, V> owner) { _owner = owner; }
         
         /**
          * @see java.lang.Runnable#run()
@@ -673,16 +675,16 @@ public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
      * interval configured by the monitor parameter. If monitor parameter has been
      * set to 0 the MonitoringTask will never be executed.
      */
-    private static class MonitoringTask extends TimerTask {
+    private static class MonitoringTask<K, V> extends TimerTask {
         /** Reference to the hashbelt this MonitoringTask belongs to. */
-        private AbstractHashbelt _owner;
+        private AbstractHashbelt<K, V> _owner;
         
         /**
          * Construct a new MonitoringTask for the given hashbelt.
          * 
          * @param owner The hashbelt this MonitoringTask belongs to.
          */
-        public MonitoringTask(final AbstractHashbelt owner) { _owner = owner; }
+        public MonitoringTask(final AbstractHashbelt<K, V> owner) { _owner = owner; }
         
         /**
          * @see java.lang.Runnable#run()

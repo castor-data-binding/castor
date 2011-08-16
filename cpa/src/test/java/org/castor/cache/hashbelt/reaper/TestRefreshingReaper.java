@@ -52,7 +52,7 @@ public final class TestRefreshingReaper extends TestCase {
             container.put(new Integer(i), Integer.toString(i));
         }
         
-        AbstractReaper reaper = new RefreshingReaperMock();
+        AbstractReaper<Integer, String> reaper = new RefreshingReaperMock<Integer, String>();
         reaper.setCache(cache);
         reaper.handleExpiredContainer(container);
         assertEquals(10, container.size());

@@ -70,34 +70,34 @@ public final class TestCountLimited extends TestCase {
         assertTrue(cache instanceof CountLimited);
 
         assertEquals("count-limited", cache.getType());
-        assertEquals(30, ((CountLimited) cache).getCapacity());
+        assertEquals(30, ((CountLimited<String, String>) cache).getCapacity());
         assertEquals(Cache.DEFAULT_NAME, cache.getName());
         
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         cache.initialize(params);
-        assertEquals(30, ((CountLimited) cache).getCapacity());
+        assertEquals(30, ((CountLimited<String, String>) cache).getCapacity());
         assertEquals("dummy1", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy2");
         params.put(CountLimited.PARAM_CAPACITY, "-10");
         cache.initialize(params);
-        assertEquals(30, ((CountLimited) cache).getCapacity());
+        assertEquals(30, ((CountLimited<String, String>) cache).getCapacity());
         assertEquals("dummy2", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy3");
         params.put(CountLimited.PARAM_CAPACITY, "0");
         cache.initialize(params);
-        assertEquals(30, ((CountLimited) cache).getCapacity());
+        assertEquals(30, ((CountLimited<String, String>) cache).getCapacity());
         assertEquals("dummy3", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy4");
         params.put(CountLimited.PARAM_CAPACITY, "10");
         cache.initialize(params);
-        assertEquals(10, ((CountLimited) cache).getCapacity());
+        assertEquals(10, ((CountLimited<String, String>) cache).getCapacity());
         assertEquals("dummy4", cache.getName());
         
         assertFalse(cache.containsKey("first key"));

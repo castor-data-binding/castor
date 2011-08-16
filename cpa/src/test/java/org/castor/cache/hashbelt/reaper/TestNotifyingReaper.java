@@ -48,7 +48,7 @@ public final class TestNotifyingReaper extends TestCase {
             container.put(new Integer(i), Integer.toString(i));
         }
         
-        AbstractReaper reaper = new NotifyingReaperMock();
+        AbstractReaper<Integer, String> reaper = new NotifyingReaperMock<Integer, String>();
         reaper.handleExpiredContainer(container);
         assertEquals(10, container.size());
         

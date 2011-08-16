@@ -275,6 +275,7 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * TickThread to remove cache entries whose ttl has been elapsed.
      */
+    @SuppressWarnings("rawtypes")
     private static final class TickThread extends Thread {
         /** The list of all registered caches. */
         private final Set<TimeLimited> _set = new CopyOnWriteArraySet<TimeLimited>();

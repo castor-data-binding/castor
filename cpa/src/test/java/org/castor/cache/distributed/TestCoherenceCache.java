@@ -54,12 +54,12 @@ public final class TestCoherenceCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache c = new CoherenceCache();
+        Cache<String, String> c = new CoherenceCache<String, String>();
         assertTrue(c instanceof CoherenceCache);
     }
 
     public void testGetType() {
-        Cache c = new CoherenceCache();
+        Cache<String, String> c = new CoherenceCache<String, String>();
         assertEquals("coherence", c.getType());
     }
 
@@ -67,7 +67,7 @@ public final class TestCoherenceCache extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCache.class);
         Level level = logger.getLevel();
         
-        CoherenceCache c = new CoherenceCache();
+        CoherenceCache<String, String> c = new CoherenceCache<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -100,7 +100,7 @@ public final class TestCoherenceCache extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCache.class);
         Level level = logger.getLevel();
         
-        CoherenceCache c = new CoherenceCache();
+        CoherenceCache<String, String> c = new CoherenceCache<String, String>();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

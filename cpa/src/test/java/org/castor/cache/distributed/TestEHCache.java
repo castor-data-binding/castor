@@ -55,12 +55,12 @@ public final class TestEHCache extends TestCase {
     }
 
     public void testConstructor() throws Exception {
-        Cache c = new EHCache();
+        Cache<String, String> c = new EHCache<String, String>();
         assertTrue(c instanceof EHCache);
     }
 
     public void testGetType() throws Exception {
-        Cache c = new EHCache();
+        Cache<String, String> c = new EHCache<String, String>();
         assertEquals("ehcache", c.getType());
     }
 
@@ -68,7 +68,7 @@ public final class TestEHCache extends TestCase {
         Logger logger = Logger.getLogger(EHCache.class);
         Level level = logger.getLevel();
         
-        EHCache c = new EHCache();
+        EHCache<String, String> c = new EHCache<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -88,7 +88,7 @@ public final class TestEHCache extends TestCase {
     }
 
     public void testClose() throws Exception {
-        Cache c = new EHCache();
+        Cache<String, String> c = new EHCache<String, String>();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

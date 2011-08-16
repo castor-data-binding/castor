@@ -48,25 +48,25 @@ public final class TestGigaspacesCacheFactory extends TestCase {
     public TestGigaspacesCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new GigaspacesCacheFactory();
+        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
         assertTrue(cf instanceof GigaspacesCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new GigaspacesCacheFactory();
+        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
         assertEquals("gigaspaces", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new GigaspacesCacheFactory();
+        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
         String classname = "org.castor.cache.distributed.GigaspacesCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new GigaspacesCacheFactory();
+        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof GigaspacesCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of GigaspacesCache from factroy");
@@ -77,7 +77,7 @@ public final class TestGigaspacesCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCacheFactory.class);
         Level level = logger.getLevel();
         
-        GigaspacesCacheFactory cf = new GigaspacesCacheFactory();
+        GigaspacesCacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
         try {
             cf.getCache(null);
         } catch (CacheAcquireException ex) {

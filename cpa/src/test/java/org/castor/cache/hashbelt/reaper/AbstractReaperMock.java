@@ -24,6 +24,6 @@ import org.castor.cache.hashbelt.container.Container;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public class AbstractReaperMock extends AbstractReaper {
-    public void handleExpiredContainer(final Container expiredContainer) { }
+public class AbstractReaperMock<K, V> extends AbstractReaper<K, V> {
+    public void handleExpiredContainer(final Container<K, V> expiredContainer) { }
 }

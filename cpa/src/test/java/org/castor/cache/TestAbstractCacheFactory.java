@@ -45,17 +45,17 @@ public final class TestAbstractCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(AbstractCacheFactory.class);
         Level level = logger.getLevel();
         
-        CacheFactory cf = new CacheFactoryMock();
+        CacheFactory<String, String> cf = new CacheFactoryMock<String, String>();
         
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof CacheMock);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CacheMock from factroy");
         }
         
         try {
-            Cache c = cf.getCache(this.getClass().getClassLoader());
+            Cache<String, String> c = cf.getCache(this.getClass().getClassLoader());
             assertTrue(c instanceof CacheMock);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CacheMock from factroy");
@@ -64,7 +64,8 @@ public final class TestAbstractCacheFactory extends TestCase {
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         try {
-            ((CacheFactoryMock) cf).setCacheClassName("org.castor.cache.UnknownCache");
+            ((CacheFactoryMock<String, String>) cf)
+                    .setCacheClassName("org.castor.cache.UnknownCache");
             cf.getCache(null);
             fail("Should have failed to get instance of CacheMock from factroy");
         } catch (CacheAcquireException ex) {
@@ -76,7 +77,7 @@ public final class TestAbstractCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new CacheFactoryMock();
+        CacheFactory<String, String> cf = new CacheFactoryMock<String, String>();
         cf.shutdown();
     }
 }

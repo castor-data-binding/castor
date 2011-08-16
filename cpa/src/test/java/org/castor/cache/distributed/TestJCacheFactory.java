@@ -44,25 +44,25 @@ public final class TestJCacheFactory extends TestCase {
     public TestJCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new JCacheFactory();
+        CacheFactory<String, String> cf = new JCacheFactory<String, String>();
         assertTrue(cf instanceof JCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new JCacheFactory();
+        CacheFactory<String, String> cf = new JCacheFactory<String, String>();
         assertEquals("jcache", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new JCacheFactory();
+        CacheFactory<String, String> cf = new JCacheFactory<String, String>();
         String classname = "org.castor.cache.distributed.JCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new JCacheFactory();
+        CacheFactory<String, String> cf = new JCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof JCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of JCache from factroy");
@@ -70,7 +70,7 @@ public final class TestJCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new JCacheFactory();
+        CacheFactory<String, String> cf = new JCacheFactory<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         DistributedCacheFactoryMock.setException(null);

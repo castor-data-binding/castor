@@ -63,13 +63,13 @@ public final class TestFastIteratingContainer extends TestCase {
     public TestFastIteratingContainer(final String name) { super(name); }
     
     public void testConstructor() {
-        Object container = new FastIteratingContainer();
+        Object container = new FastIteratingContainer<String, String>();
         assertTrue(container instanceof Container);
         assertTrue(container instanceof FastIteratingContainer);
     }
     
     public void testTimestamp() {
-        Container container = new FastIteratingContainer();
+        Container<String, String> container = new FastIteratingContainer<String, String>();
         assertEquals(0L, container.getTimestamp());
         
         long before = System.currentTimeMillis();

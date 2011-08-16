@@ -25,15 +25,16 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class RefreshingReaperMock extends RefreshingReaper {
+public final class RefreshingReaperMock<K, V> extends RefreshingReaper<K, V> {
     private static final List<Object> REFRESHED = new ArrayList<Object>();
     
     public static List<Object> getExpiredObjects() {
         return REFRESHED;
     }
     
-    protected Object refresh(final Object objectToBeRefreshed) {
+    @SuppressWarnings("unchecked")
+    protected V refresh(final V objectToBeRefreshed) {
         REFRESHED.add(objectToBeRefreshed);
-        return ((String) objectToBeRefreshed) + " refreshed";
+        return (V) (((String) objectToBeRefreshed) + " refreshed");
     }
 }

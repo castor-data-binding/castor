@@ -30,6 +30,7 @@ public final class CacheMock<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * Default constructor.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public CacheMock() {
         HashMap map = new HashMap();
         

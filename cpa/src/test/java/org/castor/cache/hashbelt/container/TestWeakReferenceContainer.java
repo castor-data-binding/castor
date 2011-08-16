@@ -65,13 +65,13 @@ public final class TestWeakReferenceContainer extends TestCase {
     public TestWeakReferenceContainer(final String name) { super(name); }
     
     public void testConstructor() {
-        Object container = new WeakReferenceContainer();
+        Object container = new WeakReferenceContainer<String, String>();
         assertTrue(container instanceof Container);
         assertTrue(container instanceof WeakReferenceContainer);
     }
     
     public void testTimestamp() {
-        Container container = new WeakReferenceContainer();
+        Container<String, String> container = new WeakReferenceContainer<String, String>();
         assertEquals(0L, container.getTimestamp());
         
         long before = System.currentTimeMillis();

@@ -172,6 +172,7 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V get(final Object key) {
         try {
             return (V) _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});

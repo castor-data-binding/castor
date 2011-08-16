@@ -45,25 +45,25 @@ public final class TestEHCacheFactory extends TestCase {
     public TestEHCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory cf = new EHCacheFactory();
+        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
         assertTrue(cf instanceof EHCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory cf = new EHCacheFactory();
+        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
         assertEquals("ehcache", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory cf = new EHCacheFactory();
+        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
         String classname = "org.castor.cache.distributed.EHCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory cf = new EHCacheFactory();
+        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
         try {
-            Cache c = cf.getCache(null);
+            Cache<String, String> c = cf.getCache(null);
             assertTrue(c instanceof EHCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of EHCache from factroy");
@@ -71,7 +71,7 @@ public final class TestEHCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory cf = new EHCacheFactory();
+        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         DistributedCacheFactoryMock.setException(null);

@@ -163,6 +163,7 @@ public final class JcsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public V get(final Object key) {
         return (V) invokeCacheMethod(_getMethod, new Object[] {key});
     }

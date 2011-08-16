@@ -63,6 +63,7 @@ import org.castor.jdo.engine.DatabaseContext;
 import org.castor.persist.AbstractTransactionContext;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
+import org.castor.persist.cache.CacheEntry;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.LockNotGrantedException;
@@ -116,7 +117,10 @@ public final class LockEngine {
      */
     private static Log _log = LogFactory.getFactory().getInstance(LockEngine.class);
     
-    private static CacheFactoryRegistry _cacheFactoryRegistry;
+    /**
+     * The cache Factory Registry.
+     */
+    private static CacheFactoryRegistry<OID, CacheEntry> _cacheFactoryRegistry;
 
     /**
      * Mapping of type information to object types. The object's class is used
@@ -163,7 +167,7 @@ public final class LockEngine {
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
             AbstractProperties properties = CPAProperties.getInstance();
-            _cacheFactoryRegistry = new CacheFactoryRegistry(properties);
+            _cacheFactoryRegistry = new CacheFactoryRegistry<OID, CacheEntry>(properties);
         }
         
         _databaseContext = databaseContext;
@@ -187,7 +191,7 @@ public final class LockEngine {
 
                 if (extend == null) {
                     // create new Cache instance for the base type
-                    Cache cache = null;
+                    Cache<OID, CacheEntry> cache = null;
                     try {
                         cache = _cacheFactoryRegistry.getCache(
                                 molder.getCacheParams(),
@@ -953,7 +957,8 @@ public final class LockEngine {
         for (TypeInfo typeInfo : _typeInfos.values()) {
             typeInfo.closeCache();
         }
-        for (CacheFactory cacheFactory : _cacheFactoryRegistry.getCacheFactories()) {
+        for (CacheFactory<OID, CacheEntry> cacheFactory : _cacheFactoryRegistry
+                .getCacheFactories()) {
             cacheFactory.shutdown();
         }
     }
