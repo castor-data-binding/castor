@@ -17,7 +17,6 @@ package org.castor.cache.hashbelt;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -77,7 +76,7 @@ public final class TestLRUHashbelt extends TestCase {
         assertEquals("monitor", AbstractHashbelt.PARAM_MONITOR);
         assertEquals(0, AbstractHashbelt.DEFAULT_MONITOR);
 
-        Cache cache = new LRUHashbelt();
+        Cache<String, String> cache = new LRUHashbelt<String, String>();
         assertTrue(cache instanceof LRUHashbelt);
         assertEquals("lru", cache.getType());
 
@@ -103,8 +102,8 @@ public final class TestLRUHashbelt extends TestCase {
         assertTrue(cache.containsKey("second key"));
     }
 
-    private Cache initialize() throws CacheAcquireException {
-        Cache cache = new LRUHashbelt();
+    private Cache<String, String> initialize() throws CacheAcquireException {
+        Cache<String, String> cache = new LRUHashbelt<String, String>();
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         cache.initialize(params);
@@ -117,7 +116,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
     
     public void testContainsKey() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertTrue(cache.containsKey("first key"));
         assertTrue(cache.containsKey("second key"));
@@ -127,7 +126,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testContainsValue() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertTrue(cache.containsValue("first value"));
         assertTrue(cache.containsValue("second value"));
@@ -137,7 +136,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testClear() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         cache.clear();
 
@@ -149,7 +148,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testSize() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals(3, cache.size());
         cache.clear();
@@ -157,7 +156,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testIsEmpty() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertFalse(cache.isEmpty());
         cache.clear();
@@ -165,7 +164,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testGet() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("first value", cache.get("first key"));
         assertEquals("second value", cache.get("second key"));
@@ -175,7 +174,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testPut() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("third value", cache.put("third key", "alternate third value"));
         assertNull(cache.put("fourth key", "forth value"));
@@ -188,7 +187,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testRemove() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("third value", cache.remove("third key"));
 
@@ -200,7 +199,7 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testPutAll() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -216,9 +215,9 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testKeySet() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Set<Object> set = cache.keySet();
+        Set<String> set = cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -227,9 +226,9 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testValues() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Collection<Object> col = cache.values();
+        Collection<String> col = cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -238,15 +237,14 @@ public final class TestLRUHashbelt extends TestCase {
     }
 
     public void testEntrySet() throws CacheAcquireException {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Set<Map.Entry<Object, Object>> set = cache.entrySet();
+        Set<Map.Entry<String, String>> set = cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (Map.Entry<String, String> entry : set) {
             map.put(entry.getKey(), entry.getValue());
         }
 

@@ -27,18 +27,21 @@ import org.castor.cache.hashbelt.container.Container;
  * At the end, the objects in the container have been expired and there's no
  * record of them in the hashbelt.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public abstract class NotifyingReaper extends AbstractReaper {
+public abstract class NotifyingReaper<K, V> extends AbstractReaper<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final void handleExpiredContainer(final Container expiredContainer) {
-        Iterator<Object> iter = expiredContainer.valueIterator();
+    public final void handleExpiredContainer(final Container<K, V> expiredContainer) {
+        Iterator<V> iter = expiredContainer.valueIterator();
         while (iter.hasNext()) {
-            Object nextValue = iter.next();
+            V nextValue = iter.next();
             handleExpiredObject(nextValue);
         }
     }
@@ -48,5 +51,5 @@ public abstract class NotifyingReaper extends AbstractReaper {
      * 
      * @param expiredObject The object that has expired.
      */
-    protected abstract void handleExpiredObject(final Object expiredObject);
+    protected abstract void handleExpiredObject(final V expiredObject);
 }

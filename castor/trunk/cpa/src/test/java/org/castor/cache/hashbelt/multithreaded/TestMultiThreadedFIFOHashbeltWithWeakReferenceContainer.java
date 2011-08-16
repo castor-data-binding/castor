@@ -54,8 +54,8 @@ public final class TestMultiThreadedFIFOHashbeltWithWeakReferenceContainer
     }
 
     @Override
-    protected Cache initialize() throws CacheAcquireException {
-        Cache cache = new FIFOHashbelt();
+    protected Cache<String, String> initialize() throws CacheAcquireException {
+        Cache<String, String> cache = new FIFOHashbelt<String, String>();
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         params.put(AbstractHashbelt.PARAM_CONTAINER_CLASS, WeakReferenceContainer.class.getName());

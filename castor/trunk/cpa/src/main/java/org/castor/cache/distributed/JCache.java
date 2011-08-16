@@ -29,6 +29,9 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of JCACHE, see http://www.jcp.org/en/jsr/detail?id=107
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @see <a href="http://www.jcp.org/en/jsr/detail?id=107">JSR-107</a>
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -36,7 +39,7 @@ import org.castor.cache.CacheAcquireException;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class JCache extends AbstractDistributedCache {
+public final class JCache<K, V> extends AbstractDistributedCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons

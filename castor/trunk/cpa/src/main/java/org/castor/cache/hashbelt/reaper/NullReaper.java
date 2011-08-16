@@ -28,13 +28,16 @@ import org.castor.cache.hashbelt.container.Container;
  * <p>
  * The point is that, even when we do nothing, the hashbelt changes.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class NullReaper extends AbstractReaper {
+public final class NullReaper<K, V> extends AbstractReaper<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void handleExpiredContainer(final Container expiredContainer) { }
+    public void handleExpiredContainer(final Container<K, V> expiredContainer) { }
 }

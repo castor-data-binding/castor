@@ -20,12 +20,15 @@ import java.util.Properties;
 /**
  * Base implementation of all cache types. 
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public abstract class AbstractBaseCache implements Cache {
+public abstract class AbstractBaseCache<K, V> implements Cache<K, V> {
     //--------------------------------------------------------------------------
 
     /** Virtual name of this cache. Castor sets the cache name to the class name of the

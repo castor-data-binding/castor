@@ -26,20 +26,23 @@ import org.castor.cache.AbstractBaseCache;
  * UnLimited is a Map that holds any object being put into the map until it is removed
  * manually.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class Unlimited extends AbstractBaseCache {
+public final class Unlimited<K, V> extends AbstractBaseCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
     public static final String TYPE = "unlimited";
     
     /** The internal map. */
-    private Map<Object, Object> _map = new ConcurrentHashMap<Object, Object>();
+    private Map<K, V> _map = new ConcurrentHashMap<K, V>();
 
     //--------------------------------------------------------------------------
     // getters/setters for cache configuration
@@ -79,7 +82,7 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         return _map.get(key);
     }
     
@@ -89,14 +92,14 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         return _map.put(key, value);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         return _map.remove(key);
     }
 
@@ -106,7 +109,7 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         _map.putAll (map);
     }
 
@@ -121,17 +124,17 @@ public final class Unlimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() { return _map.keySet(); }
+    public Set<K> keySet() { return _map.keySet(); }
     
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() { return _map.values(); }
+    public Collection<V> values() { return _map.values(); }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() { return _map.entrySet(); }
+    public Set<Entry<K, V>> entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

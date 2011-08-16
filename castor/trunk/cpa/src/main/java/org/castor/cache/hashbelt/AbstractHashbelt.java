@@ -99,12 +99,15 @@ import org.castor.cache.hashbelt.reaper.NullReaper;
  * to be extended by your custom implementation.
  * </dl>
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public abstract class AbstractHashbelt extends AbstractBaseCache {
+public abstract class AbstractHashbelt<K, V> extends AbstractBaseCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -159,10 +162,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     private final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();
     
     /** The internal array of containers building the cache. */
-    private Container[] _cache = new Container[0];
+    private ArrayList<Container<K, V>> _cache = new ArrayList<Container<K, V>>();
     
     /** The internal array of empty conatiners to be used for cache on demand. */
-    private Container[] _pool;
+    private ArrayList<Container<K, V>> _pool = new ArrayList<Container<K, V>>();
     
     /** Number of containers currently available in pool. */
     private int _poolCount;
@@ -229,9 +232,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
             }
 
             _poolCount = 2 * _containerTarget;
-            _pool = new Container[_poolCount];
             for (int i = 0; i < _poolCount; i++) {
-                _pool[i] = cls.newInstance();
+                _pool.add(cls.newInstance());
             }
         } catch (Exception ex) {
             String msg = "Failed to instantiate hashbelt container.";
@@ -378,7 +380,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         _lock.readLock().lock();
         try {
             for (int i = 0; i < _containerCount; i++) {
-                if (_cache[i].containsKey(key)) { 
+                if (_cache.get(i).containsKey(key)) { 
                     return true; 
                 }
             }
@@ -397,7 +399,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         _lock.readLock().lock();
         try {
             for (int i = 0; i < _containerCount; i++) {
-                if (_cache[i].containsValue(value)) { 
+                if (_cache.get(i).containsValue(value)) { 
                     return true; 
                 }
             }
@@ -424,12 +426,12 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set<Object> keySet() {
+    public final Set<K> keySet() {
         _lock.readLock().lock();
         try {
-            Set<Object> set = new HashSet<Object>(_cacheSize);
+            Set<K> set = new HashSet<K>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
-                set.addAll(_cache[i].keySet());
+                set.addAll(_cache.get(i).keySet());
             }
             return set;
         } finally {
@@ -440,12 +442,12 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Collection<Object> values() {
+    public final Collection<V> values() {
         _lock.readLock().lock();
         try {
-            Collection<Object> col = new ArrayList<Object>(_cacheSize);
+            Collection<V> col = new ArrayList<V>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
-                col.addAll(_cache[i].values());
+                col.addAll(_cache.get(i).values());
             }
             return col;
         } finally {
@@ -456,12 +458,12 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public final Set<Entry<Object, Object>> entrySet() {
+    public final Set<Entry<K, V>> entrySet() {
         _lock.readLock().lock();
         try {
-            Map<Object, Object> map = new HashMap<Object, Object>(_cacheSize);
+            Map<K, V> map = new HashMap<K, V>(_cacheSize);
             for (int i = 0; i < _containerCount; i++) {
-                map.putAll(_cache[i]);
+                map.putAll(_cache.get(i));
             }
             return map.entrySet();
         } finally {
@@ -486,10 +488,10 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * @param key The key to return the associated object for.
      * @return The object associated with given key.
      */
-    protected final Object getObjectFromCache(final Object key) {
-        Object result;
+    protected final V getObjectFromCache(final Object key) {
+        V result;
         for (int i = 0; i < _containerCount; i++) {
-            result = _cache[i].get(key);
+            result = _cache.get(i).get(key);
             if (result != null) { return result; }
         }
         return null;
@@ -505,17 +507,17 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * @return The object previously associated with given key. <code>null</code> will
      *         be returned if no value has been associated with key.
      */
-    protected final Object putObjectIntoCache(final Object key, final Object value) {
+    protected final V putObjectIntoCache(final K key, final V value) {
         // We first check if a new container have to be created. This is the case
         // if there is none or if we have a capacity limit and the head container
         // holds the maximum allowed number of entries.
         if ((_containerCount == 0) || ((_cacheCapacity > 0)
-                && (_cache[0].size() >= _containerCapacity))) {
+                && (_cache.get(0).size() >= _containerCapacity))) {
             addCacheContainer();
         }
         
         // Then we can put the new or updated one to the head of the belt.
-        Object result = _cache[0].put(key, value);
+        V result = _cache.get(0).put(key, value);
         
         if (result != null) { return result; }
 
@@ -523,7 +525,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
         // cache if they contain an entry for the key, in which case we have
         // to remove that old entry.
         for (int i = 1; (i < _containerCount) && (result == null); i++) {
-            result = _cache[i].remove(key);
+            result = _cache.get(i).remove(key);
         }
         
         if (result != null) { return null; }
@@ -551,9 +553,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * @return The object previously associated with given key. <code>null</code> will
      *         be returned if no value has been associated with key.
      */
-    protected final Object removeObjectFromCache(final Object key) {
+    protected final V removeObjectFromCache(final Object key) {
         for (int i = 0; i < _containerCount; i++) {
-            Object result = _cache[i].remove(key);
+            V result = _cache.get(i).remove(key);
             if (result != null) {
                 _cacheSize--;
                 return result;
@@ -572,7 +574,7 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
     private void recalcCacheSize() {
         int size = 0; 
         for (int i = 0; i < _containerCount; i++) {
-            size += _cache[i].size();
+            size += _cache.get(i).size();
         }
         _cacheSize = size;
     }
@@ -581,11 +583,9 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * Add an empty container from the pool to the cache.
      */
     private void addCacheContainer() {
-        Container[] temp = new Container[++_containerCount];
-        System.arraycopy(_cache, 0, temp, 1, _cache.length);
-        temp[0] = _pool[--_poolCount];
-        temp[0].updateTimestamp();
-        _cache = temp;
+        Container<K, V> temp = _pool.get(--_poolCount);
+        _cache.add(0, temp);
+        _containerCount++;
     }
     
     /**
@@ -594,18 +594,16 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      * pool for further use.
      */
     private void expireCacheContainer() {
-        Container expired = _cache[--_containerCount];
-        
-        Container[] temp = new Container[_containerCount];
-        System.arraycopy(_cache, 0, temp, 0, _containerCount);
-        _cache = temp;
+        Container<K, V> expired = _cache.get(--_containerCount);
+
+        _cache.remove(expired);
         _cacheSize -= expired.size();
         
         _reaper.handleExpiredContainer(expired);
         
         expired.clear();
         
-        _pool[_poolCount++] = expired;
+        _pool.set(_poolCount++, expired);
     }
     
     /**
@@ -616,7 +614,8 @@ public abstract class AbstractHashbelt extends AbstractBaseCache {
      */
     private void timeoutCacheContainers() {
         long timeout = System.currentTimeMillis() - _ttl;
-        while ((_containerCount > 0) && (_cache[_containerCount - 1].getTimestamp() <= timeout)) {
+        while ((_containerCount > 0)
+                && (_cache.get(_containerCount - 1).getTimestamp() <= timeout)) {
             expireCacheContainer();
         }
     }

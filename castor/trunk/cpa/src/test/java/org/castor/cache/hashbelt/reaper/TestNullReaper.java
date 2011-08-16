@@ -39,7 +39,7 @@ public final class TestNullReaper extends TestCase {
     public TestNullReaper(final String name) { super(name); }
     
     public void test() {
-        Container container = new MapContainer();
+        Container<Integer, String> container = new MapContainer<Integer, String>();
         for (int i = 0; i < 10; i++) {
             container.put(new Integer(i), Integer.toString(i));
         }

@@ -33,22 +33,25 @@ import java.util.Set;
  *     does an expensive remove).</li>
  * </ul>
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class FastIteratingContainer implements Container {
+public final class FastIteratingContainer<K, V> implements Container<K, V> {
     //--------------------------------------------------------------------------
 
     /** The hashmap to store key/value pairs. */
-    private Map<Object, Object> _container = new HashMap<Object, Object>();
+    private Map<K, V> _container = new HashMap<K, V>();
     
     /** List of keys in the container. */
-    private List<Object> _keys = new ArrayList<Object>();
+    private List<K> _keys = new ArrayList<K>();
     
     /** List of values in the container. */
-    private List<Object> _values = new ArrayList<Object>();
+    private List<V> _values = new ArrayList<V>();
     
     /** Timestamp of this container. */
     private long _timestamp = 0;
@@ -69,14 +72,14 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> keyIterator() {
+    public Iterator<K> keyIterator() {
         return _keys.iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> valueIterator() {
+    public Iterator<V> valueIterator() {
         return _values.iterator();
     }
     
@@ -114,7 +117,7 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         return _container.get(key);
     }
     
@@ -124,9 +127,9 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         if (value == null) { throw new IllegalArgumentException(); }
-        Object oldValue = _container.put(key, value);
+        V oldValue = _container.put(key, value);
         if (oldValue == null) {
             _keys.add(key);
             _values.add(value);
@@ -140,8 +143,8 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
-        Object oldValue = _container.remove(key);
+    public V remove(final Object key) {
+        V oldValue = _container.remove(key);
         if (oldValue != null) {
             _keys.remove(key);
             _values.remove(oldValue);
@@ -155,8 +158,8 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
-        for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -176,21 +179,21 @@ public final class FastIteratingContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         return _container.keySet();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
+    public Collection<V> values() {
         return _container.values();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         return _container.entrySet();
     }
 

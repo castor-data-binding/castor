@@ -36,12 +36,15 @@ import org.castor.cache.CacheAcquireException;
  * <b>capacity</b> which defines the maximum number of objects the cache can hold. If not
  * specified a default capacity of 30 objects will be used.
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  */
-public final class CountLimited extends AbstractBaseCache {
+public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
@@ -60,13 +63,13 @@ public final class CountLimited extends AbstractBaseCache {
     private static final int LRU_NEW = 1;
     
     /** Map keys to positions. */
-    private HashMap<Object, Integer> _mapKeyPos = null;
+    private HashMap<K, Integer> _mapKeyPos = null;
     
     /** Array of keys. */
-    private Object[] _keys = null;
+    private K[] _keys = null;
     
     /** Array of values. */
-    private Object[] _values = null;
+    private V[] _values = null;
     
     /** Array with status of the entries. */
     private int[] _status = null;
@@ -86,6 +89,7 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);
         
@@ -97,9 +101,9 @@ public final class CountLimited extends AbstractBaseCache {
             _capacity = DEFAULT_CAPACITY;
         }
 
-        _mapKeyPos = new HashMap<Object, Integer>(_capacity);
-        _keys = new Object[_capacity];
-        _values = new Object[_capacity];
+        _mapKeyPos = new HashMap<K, Integer>(_capacity);
+        _keys = (K[]) new Object[_capacity];
+        _values = (V[]) new Object[_capacity];
         _status = new int[_capacity];
     }
 
@@ -181,7 +185,7 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         try {
             _lock.writeLock().lock();
             Integer pos = _mapKeyPos.get(key);
@@ -200,13 +204,13 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         try {
             _lock.writeLock().lock();
             Integer pos = _mapKeyPos.get(key);
             if (pos != null) {
                 int intPos = pos.intValue();
-                Object old = _values[intPos];
+                V old = _values[intPos];
                 _values[intPos] = value;
                 _status[intPos] = LRU_NEW;
                 return old;
@@ -241,13 +245,13 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         try {
             _lock.writeLock().lock();
             Integer pos = _mapKeyPos.remove(key);
             if (pos == null) { return null; }
             int intPos = pos.intValue();
-            Object old = _values[intPos];
+            V old = _values[intPos];
             _keys[intPos] = null;
             _values[intPos] = null;
             _status[intPos] = LRU_OLD;
@@ -263,8 +267,8 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
-        for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -289,7 +293,7 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         try {
             _lock.readLock().lock();
             return Collections.unmodifiableSet(_mapKeyPos.keySet());
@@ -301,8 +305,8 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
-        Collection<Object> col = new ArrayList<Object>();
+    public Collection<V> values() {
+        Collection<V> col = new ArrayList<V>();
         _lock.readLock().lock();
         for (Integer pos : _mapKeyPos.values()) {
             if (pos != null) {
@@ -316,8 +320,8 @@ public final class CountLimited extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
-        Map<Object, Object> map = new HashMap<Object, Object>();
+    public Set<Entry<K, V>> entrySet() {
+        Map<K, V> map = new HashMap<K, V>();
         _lock.readLock().lock();
         for (Integer pos : _mapKeyPos.values()) {
             if (pos != null) {

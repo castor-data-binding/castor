@@ -38,17 +38,19 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * containers are garbage collected, an put is called with that key or when the
  * value should be accessed through any operation of the Container interface.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class WeakReferenceContainer implements Container {
+public final class WeakReferenceContainer<K, V> implements Container<K, V> {
     //--------------------------------------------------------------------------
 
     /** The hashmap to store key/value pairs. */
-    private HashMap<Object, WeakReference<Object>> _container
-        = new HashMap<Object, WeakReference<Object>>();
+    private HashMap<K, WeakReference<V>> _container = new HashMap<K, WeakReference<V>>();
     
     /** ReadWriteLock to synchronize access to container. */
     private final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();
@@ -72,14 +74,14 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> keyIterator() {
-        return new ArrayList<Object>(keySet()).iterator();
+    public Iterator<K> keyIterator() {
+        return new ArrayList<K>(keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> valueIterator() {
+    public Iterator<V> valueIterator() {
         return values().iterator();
     }
     
@@ -128,13 +130,12 @@ public final class WeakReferenceContainer implements Container {
     public boolean containsValue(final Object value) {
         try {
             _lock.writeLock().lock();
-            Iterator<Entry<Object, WeakReference<Object>>> iter;
-            iter = _container.entrySet().iterator();
+            Iterator<Entry<K, WeakReference<V>>> iter = _container.entrySet().iterator();
             while (iter.hasNext()) {
-                Entry<Object, WeakReference<Object>> entry = iter.next();
-                WeakReference<Object> ref = entry.getValue();
+                Entry<K, WeakReference<V>> entry = iter.next();
+                WeakReference<V> ref = entry.getValue();
                 // check to see if we've got a referenceable object to return.
-                Object found = ref.get();
+                V found = ref.get();
                 if (found != null) {
                     // if we have found an object we test for equality.
                     if (found.equals(value)) { return true; }
@@ -152,14 +153,14 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         try {
             _lock.writeLock().lock();
-            WeakReference<Object> ref = _container.get(key);
+            WeakReference<V> ref = _container.get(key);
             // if we have no ref then there is no entry in the container.
             if (ref == null) { return null; }
             // check to see if we've got a referenceable object to return.
-            Object found = ref.get();
+            V found = ref.get();
             // if we have found an object we return it.
             if (found != null) { return found; }
             // else we lost the referent so we remove the whole entry.
@@ -177,14 +178,14 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         _lock.writeLock().lock();
-        WeakReference<Object> ref = _container.put(key, new WeakReference<Object>(value));
+        WeakReference<V> ref = _container.put(key, new WeakReference<V>(value));
         _lock.writeLock().unlock();
         // if we have no ref then there is no previous entry in the container.
         if (ref == null) { return null; }
         // check to see if we've got a referenceable object to return.
-        Object found = ref.get();
+        V found = ref.get();
         // if we have found an object we return it.
         if (found != null) { return found; }
         // else we lost the referent so we return as haven't found anything.
@@ -194,14 +195,14 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         _lock.writeLock().lock();
-        WeakReference<Object> ref = _container.remove(key);
+        WeakReference<V> ref = _container.remove(key);
         _lock.writeLock().unlock();
         // if we have no ref then there is no previous entry in the container.
         if (ref == null) { return null; }
         // check to see if we've got a referenceable object to return.
-        Object found = ref.get();
+        V found = ref.get();
         // if we have found an object we return it.
         if (found != null) { return found; }
         // else we lost the referent and return as haven't found anything.
@@ -214,10 +215,10 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         _lock.writeLock().lock();
-        for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
-            _container.put(entry.getKey(), new WeakReference<Object>(entry.getValue()));
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+            _container.put(entry.getKey(), new WeakReference<V>(entry.getValue()));
         }
         _lock.writeLock().unlock();
     }
@@ -237,7 +238,7 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         try {
             _lock.readLock().lock();
             return _container.keySet();
@@ -249,16 +250,15 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
-        Collection<Object> col = new ArrayList<Object>();
+    public Collection<V> values() {
+        Collection<V> col = new ArrayList<V>();
         _lock.writeLock().lock();
-        Iterator<Entry<Object, WeakReference<Object>>> iter;
-        iter = _container.entrySet().iterator();
+        Iterator<Entry<K, WeakReference<V>>> iter = _container.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry<Object, WeakReference<Object>> entry = iter.next();
-            WeakReference<Object> ref = entry.getValue();
+            Entry<K, WeakReference<V>> entry = iter.next();
+            WeakReference<V> ref = entry.getValue();
             // check to see if we've got a referenceable object to return.
-            Object found = ref.get();
+            V found = ref.get();
             if (found != null) {
                 // if we have found an object we add it to col.
                 col.add(found);
@@ -274,16 +274,15 @@ public final class WeakReferenceContainer implements Container {
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
+    public Set<Entry<K, V>> entrySet() {
+        HashMap<K, V> map = new HashMap<K, V>();
         _lock.writeLock().lock();
-        Iterator<Entry<Object, WeakReference<Object>>> iter;
-        iter = _container.entrySet().iterator();
+        Iterator<Entry<K, WeakReference<V>>> iter = _container.entrySet().iterator();
         while (iter.hasNext()) {
-            Entry<Object, WeakReference<Object>> entry = iter.next();
-            WeakReference<Object> ref = entry.getValue();
+            Entry<K, WeakReference<V>> entry = iter.next();
+            WeakReference<V> ref = entry.getValue();
             // check to see if we've got a referenceable object to return.
-            Object found = ref.get();
+            V found = ref.get();
             if (found != null) {
                 // if we have found an object we add it to col.
                 map.put(entry.getKey(), found);

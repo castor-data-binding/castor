@@ -18,7 +18,6 @@ package org.castor.cache.distributed;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -32,13 +31,16 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of OSCache, see http://www.opensymphony.com/oscache
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @see <a href="http://www.opensymphony.com/oscache">The OSCache Home page</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class OsCache extends AbstractDistributedCache {
+public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -170,9 +172,9 @@ public final class OsCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         try {
-            return _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});
+            return (V) _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});
         } catch (InvocationTargetException e) {
             String cause = e.getTargetException().getClass().getName(); 
             if (cause.equals(NEEDS_REFRESH_EXCEPTION)) {
@@ -196,8 +198,8 @@ public final class OsCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
-        Object oldValue = get(key);
+    public V put(final K key, final V value) {
+        V oldValue = get(key);
         invokeCacheMethod(_putMethod, new Object[] {String.valueOf(key), value, _groups});
         return oldValue;
     }
@@ -205,8 +207,8 @@ public final class OsCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
-        Object oldValue = get(key);
+    public V remove(final Object key) {
+        V oldValue = get(key);
         invokeCacheMethod(_removeMethod, new Object[] {String.valueOf(key)});
         return oldValue;
     }
@@ -217,11 +219,8 @@ public final class OsCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
-        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
-        iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<? extends Object, ? extends Object> entry = iter.next();
+    public void putAll(final Map<? extends K, ? extends V> map) {
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
             String key = String.valueOf(entry.getKey());
             invokeCacheMethod(_putMethod, new Object[] {key, entry.getValue(), _groups});
         }
@@ -240,21 +239,21 @@ public final class OsCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
+    public Collection<V> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
     

@@ -17,7 +17,6 @@ package org.castor.cache.simple;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -61,7 +60,7 @@ public final class TestUnlimited extends TestCase {
     public void testBasics() {
         assertEquals("unlimited", Unlimited.TYPE);
 
-        Cache cache = new Unlimited();
+        Cache<String, String> cache = new Unlimited<String, String>();
         assertTrue(cache instanceof Unlimited);
 
         assertEquals("unlimited", cache.getType());
@@ -80,8 +79,8 @@ public final class TestUnlimited extends TestCase {
         assertTrue(cache.containsKey("second key"));
     }
 
-    private Cache initialize() {
-        Cache cache = new Unlimited();
+    private Cache<String, String> initialize() {
+        Cache<String, String> cache = new Unlimited<String, String>();
 
         assertNull(cache.put("first key", "first value"));
         assertNull(cache.put("second key", "second value"));
@@ -91,7 +90,7 @@ public final class TestUnlimited extends TestCase {
     }
     
     public void testContainsKey() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertTrue(cache.containsKey("first key"));
         assertTrue(cache.containsKey("second key"));
@@ -101,7 +100,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testContainsValue() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertTrue(cache.containsValue("first value"));
         assertTrue(cache.containsValue("second value"));
@@ -111,7 +110,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testClear() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         cache.clear();
 
@@ -123,7 +122,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testSize() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals(3, cache.size());
         cache.clear();
@@ -131,7 +130,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testIsEmpty() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertFalse(cache.isEmpty());
         cache.clear();
@@ -139,7 +138,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testGet() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("first value", cache.get("first key"));
         assertEquals("second value", cache.get("second key"));
@@ -149,7 +148,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testPut() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("third value", cache.put("third key", "alternate third value"));
         assertNull(cache.put("fourth key", "forth value"));
@@ -162,7 +161,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testRemove() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         assertEquals("third value", cache.remove("third key"));
 
@@ -174,7 +173,7 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testPutAll() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -190,9 +189,9 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testKeySet() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Set<Object> set = cache.keySet();
+        Set<String> set = cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -201,9 +200,9 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testValues() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Collection<Object> col = cache.values();
+        Collection<String> col = cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -212,15 +211,14 @@ public final class TestUnlimited extends TestCase {
     }
 
     public void testEntrySet() {
-        Cache cache = initialize();
+        Cache<String, String> cache = initialize();
 
-        Set<Map.Entry<Object, Object>> set = cache.entrySet();
+        Set<Map.Entry<String, String>> set = cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (Map.Entry<String, String> entry : set) {
             map.put(entry.getKey(), entry.getValue());
         }
 

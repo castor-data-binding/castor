@@ -170,8 +170,8 @@ public final class TestOsCache extends TestCase {
         c.close();
     }
     
-    private Cache initialize() {
-        OsCache c = new OsCache(new DistributedOsCacheMock());
+    private Cache<String, String> initialize() {
+        OsCache<String, String> c = new OsCache<String, String>(new DistributedOsCacheMock());
 
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy oscache");
@@ -189,7 +189,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -221,7 +221,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -247,7 +247,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -277,7 +277,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -306,7 +306,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -339,7 +339,7 @@ public final class TestOsCache extends TestCase {
         Logger logger = Logger.getLogger(OsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 

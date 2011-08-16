@@ -14,7 +14,7 @@ import org.castor.cache.CacheAcquireException;
 public abstract class AbstractTestMultiThreadedHashbelt extends ThreadedTestCase {
     
     /** The cache */
-    private Cache _cache = null;
+    private Cache<String, String> _cache = null;
     
     /** The java object to be synchronized on */
     private static Object _lock = new Object();
@@ -32,7 +32,7 @@ public abstract class AbstractTestMultiThreadedHashbelt extends ThreadedTestCase
         super(name);
     }
 
-    protected abstract Cache initialize() throws CacheAcquireException;
+    protected abstract Cache<String, String> initialize() throws CacheAcquireException;
     
     private void runMultiThreadedTest (final Runnable[] runnables) {
        runTestRunnables(runnables);
@@ -404,7 +404,7 @@ public abstract class AbstractTestMultiThreadedHashbelt extends ThreadedTestCase
                     synchronized (_lock) {
                         _lock.wait();
                     }
-                    Set<Object> set = _cache.keySet();
+                    Set<String> set = _cache.keySet();
                     assertEquals(3, set.size());
                     assertTrue(set.contains("first key"));
                     assertTrue(set.contains("second key"));
@@ -442,7 +442,7 @@ public abstract class AbstractTestMultiThreadedHashbelt extends ThreadedTestCase
                     synchronized (_lock) {
                         _lock.wait();
                     }
-                    Collection<Object> col = _cache.values();
+                    Collection<String> col = _cache.values();
                     assertEquals(3, col.size());
                     assertTrue(col.contains("first value"));
                     assertTrue(col.contains("second value"));
@@ -479,12 +479,12 @@ public abstract class AbstractTestMultiThreadedHashbelt extends ThreadedTestCase
                     synchronized (_lock) {
                         _lock.wait();
                     }
-                    Set<Map.Entry<Object, Object>> set = _cache.entrySet();
+                    Set<Map.Entry<String, String>> set = _cache.entrySet();
                     
                     assertEquals(3, set.size());
                     
-                    HashMap<Object, Object> map = new HashMap<Object, Object>();
-                    for (Map.Entry<Object, Object> entry : set) {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    for (Map.Entry<String, String> entry : set) {
                         map.put(entry.getKey(), entry.getValue());
                     }
 

@@ -45,9 +45,9 @@ public final class TestReinsertingReaper extends TestCase {
     public void test() {
         ReinsertingReaperMock.getExpiredObjects().clear();
         
-        Cache cache = new Unlimited();
+        Cache<Integer, String> cache = new Unlimited<Integer, String>();
         
-        Container container = new MapContainer();
+        Container<Integer, String> container = new MapContainer<Integer, String>();
         for (int i = 0; i < 10; i++) {
             container.put(new Integer(i), Integer.toString(i));
         }
@@ -59,7 +59,7 @@ public final class TestReinsertingReaper extends TestCase {
         
         assertEquals(10, cache.size());
         for (int i = 0; i < 10; i++) {
-            Object key = new Integer(i);
+            Integer key = new Integer(i);
             assertTrue(cache.containsKey(key));
             assertEquals(cache.get(key), Integer.toString(i));
         }

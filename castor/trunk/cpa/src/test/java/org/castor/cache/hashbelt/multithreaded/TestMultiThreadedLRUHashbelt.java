@@ -38,8 +38,8 @@ public final class TestMultiThreadedLRUHashbelt extends AbstractTestMultiThreade
     }
 
     @Override
-    protected Cache initialize() throws CacheAcquireException {
-        Cache cache = new LRUHashbelt();
+    protected Cache<String, String> initialize() throws CacheAcquireException {
+        Cache<String, String> cache = new LRUHashbelt<String, String>();
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         cache.initialize(params);
