@@ -45,7 +45,7 @@ public final class TestNoCache extends TestCase {
     public void test() {
         assertEquals("none", NoCache.TYPE);
 
-        Cache cache = new NoCache();
+        Cache<String, String> cache = new NoCache<String, String>();
         assertTrue(cache instanceof NoCache);
 
         assertEquals("none", cache.getType());
@@ -75,13 +75,13 @@ public final class TestNoCache extends TestCase {
         cache.clear();
         assertEquals(0, cache.size());
         
-        Set<Object> keys = cache.keySet();
+        Set<String> keys = cache.keySet();
         assertEquals(0, keys.size());
 
-        Collection<Object> values = cache.values();
+        Collection<String> values = cache.values();
         assertEquals(0, values.size());
 
-        Set<Map.Entry<Object, Object>> entries = cache.entrySet();
+        Set<Map.Entry<String, String>> entries = cache.entrySet();
         assertEquals(0, entries.size());
     }
 }

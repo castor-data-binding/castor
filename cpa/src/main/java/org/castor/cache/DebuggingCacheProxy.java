@@ -27,15 +27,18 @@ import org.apache.commons.logging.LogFactory;
 /**
  * A debugging cache proxy.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class DebuggingCacheProxy implements Cache {
+public final class DebuggingCacheProxy<K, V> implements Cache<K, V> {
     //--------------------------------------------------------------------------
     
     /** The wrapped cache. */
-    private Cache _cache;
+    private Cache<K, V> _cache;
     
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
@@ -48,7 +51,7 @@ public final class DebuggingCacheProxy implements Cache {
      * 
      * @param cache The wrapped cache.
      */
-    public DebuggingCacheProxy(final Cache cache) { _cache = cache; }
+    public DebuggingCacheProxy(final Cache<K, V> cache) { _cache = cache; }
 
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
@@ -140,7 +143,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         _log.debug(getType() + ".get(" + key + ") [" + getName() + "]");
         return _cache.get(key);
     }
@@ -151,7 +154,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         _log.debug(getType() + ".put(" + key + ", " + value + ") [" + getName() + "]");
         return _cache.put(key, value);
     }
@@ -159,7 +162,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         _log.debug(getType() + ".remove(" + key + ") [" + getName() + "]");
         return _cache.remove(key);
     }
@@ -170,7 +173,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         _log.debug(getType() + ".putAll(" + map + ") [" + getName() + "]");
         _cache.putAll(map);
     }
@@ -189,7 +192,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         _log.debug(getType() + ".keySet() [" + getName() + "]");
         return _cache.keySet();
     }
@@ -197,7 +200,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
+    public Collection<V> values() {
         _log.debug(getType() + ".values() [" + getName() + "]");
         return _cache.values();
     }
@@ -205,7 +208,7 @@ public final class DebuggingCacheProxy implements Cache {
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         _log.debug(getType() + ".entrySet() [" + getName() + "]");
         return _cache.entrySet();
     }

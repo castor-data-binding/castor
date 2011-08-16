@@ -78,6 +78,9 @@ import org.castor.cache.CacheAcquireException;
  *
  * For more details on Gigaspaces in general, please see http://www.gigaspaces.com/.<br>
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ *
  * @see <a href="http://www.gigaspaces.com/">The Gigaspaces Home Page</a>
  * @see <a href="http://www.gigaspaces.com/wiki">The Gigaspaces Wiki</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -85,7 +88,7 @@ import org.castor.cache.CacheAcquireException;
  * @since 1.0
  */
 
-public final class GigaspacesCache extends AbstractDistributedCache {
+public final class GigaspacesCache<K, V> extends AbstractDistributedCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons

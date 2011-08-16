@@ -28,12 +28,15 @@ import java.util.HashMap;
  * iterating at a higher speed, still has a map for accessing hash values, but has
  * a higher removal cost.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class MapContainer extends HashMap<Object, Object> implements Container {
+public final class MapContainer<K, V> extends HashMap<K, V> implements Container<K, V> {
     //--------------------------------------------------------------------------
     
     /** SerialVersionUID. */
@@ -58,15 +61,15 @@ public final class MapContainer extends HashMap<Object, Object> implements Conta
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> keyIterator() {
-        return new ArrayList<Object>(keySet()).iterator();
+    public Iterator<K> keyIterator() {
+        return new ArrayList<K>(keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Iterator<Object> valueIterator() {
-        return new ArrayList<Object>(values()).iterator();
+    public Iterator<V> valueIterator() {
+        return new ArrayList<V>(values()).iterator();
     }
     
     //--------------------------------------------------------------------------

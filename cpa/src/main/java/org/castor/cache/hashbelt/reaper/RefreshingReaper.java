@@ -30,11 +30,14 @@ import org.castor.cache.hashbelt.container.Container;
  * <p>
  * Note that you must supply the implementation of the refresh method.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public abstract class RefreshingReaper extends AbstractReaper {
+public abstract class RefreshingReaper<K, V> extends AbstractReaper<K, V> {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(RefreshingReaper.class);
@@ -42,12 +45,12 @@ public abstract class RefreshingReaper extends AbstractReaper {
     /**
      * {@inheritDoc}
      */
-    public final void handleExpiredContainer(final Container expiredContainer) {
-        Iterator<Object> iter = expiredContainer.keyIterator();
+    public final void handleExpiredContainer(final Container<K, V> expiredContainer) {
+        Iterator<K> iter = expiredContainer.keyIterator();
         while (iter.hasNext()) {
-            Object key = iter.next();
-            Object value = expiredContainer.get(key);
-            Object refreshed = null;
+            K key = iter.next();
+            V value = expiredContainer.get(key);
+            V refreshed = null;
             
             try {
                 refreshed = refresh(value);
@@ -70,5 +73,5 @@ public abstract class RefreshingReaper extends AbstractReaper {
      * @param objectToBeRefreshed The object to be refreshed.
      * @return The refreshed object, or null if the object could not be refreshed.
      */
-    protected abstract Object refresh(final Object objectToBeRefreshed);
+    protected abstract V refresh(final V objectToBeRefreshed);
 }

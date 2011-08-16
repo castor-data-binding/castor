@@ -27,14 +27,14 @@ import java.util.Set;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class CacheMock extends AbstractBaseCache {
+public final class CacheMock<K, V> extends AbstractBaseCache<K, V> {
     //--------------------------------------------------------------------------
     
     /** The type of the cache. */
     public static final String TYPE = "mock";
     
     /** The internal map. */
-    private Map<Object, Object> _map = new HashMap<Object, Object>();
+    private Map<K, V> _map = new HashMap<K, V>();
     
     //--------------------------------------------------------------------------
     
@@ -42,10 +42,6 @@ public final class CacheMock extends AbstractBaseCache {
      * Default constructor.
      */
     public CacheMock() {
-        // put some entries for testing into the cache
-        _map.put("first key", "first value");
-        _map.put("second key", "second value");
-        _map.put("third key", "third value");
     }
     
     //--------------------------------------------------------------------------
@@ -82,7 +78,7 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#get(java.lang.Object)
      */
-    public Object get(final Object key) { return _map.get(key); }
+    public V get(final Object key) { return _map.get(key); }
     
     //--------------------------------------------------------------------------
     // modification operations of map interface
@@ -90,14 +86,14 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         return _map.put(key, value);
     }
 
     /**
      * @see java.util.Map#remove(java.lang.Object)
      */
-    public Object remove(final Object key) { return _map.remove(key); }
+    public V remove(final Object key) { return _map.remove(key); }
 
     //--------------------------------------------------------------------------
     // bulk operations of map interface
@@ -105,7 +101,7 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#putAll(java.util.Map)
      */
-    public void putAll(final Map<? extends Object, ?extends Object> map) { _map.putAll(map); }
+    public void putAll(final Map<? extends K, ? extends V> map) { _map.putAll(map); }
 
     /**
      * @see java.util.Map#clear()
@@ -118,17 +114,17 @@ public final class CacheMock extends AbstractBaseCache {
     /**
      * @see java.util.Map#keySet()
      */
-    public Set<Object> keySet() { return _map.keySet(); }
+    public Set<K> keySet() { return _map.keySet(); }
 
     /**
      * @see java.util.Map#values()
      */
-    public Collection<Object> values() { return _map.values(); }
+    public Collection<V> values() { return _map.values(); }
 
     /**
      * @see java.util.Map#entrySet()
      */
-    public Set<Entry<Object, Object>> entrySet() { return _map.entrySet(); }
+    public Set<Entry<K, V>> entrySet() { return _map.entrySet(); }
 
     //--------------------------------------------------------------------------
 }

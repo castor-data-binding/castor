@@ -27,6 +27,9 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of FKCache, see http://jcache.sourceforge.net 
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @see <a href="http://jcache.sourceforge.net">The FKCache Home Page</a>
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -34,7 +37,7 @@ import org.castor.cache.CacheAcquireException;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class FKCache extends AbstractDistributedCache {
+public final class FKCache<K, V> extends AbstractDistributedCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons

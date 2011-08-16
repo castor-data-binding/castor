@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * @since 1.0
  */
 public final class TestAbstractBaseCache extends TestCase {
-    private Cache _cache;
+    private Cache<String, String> _cache;
     
     public static Test suite() {
         TestSuite suite = new TestSuite("AbstractBaseCache Tests");
@@ -43,7 +43,11 @@ public final class TestAbstractBaseCache extends TestCase {
     public TestAbstractBaseCache(final String name) { super(name); }
 
     protected void setUp() {
-        _cache = new CacheMock();
+        _cache = new CacheMock<String, String>();
+        // put some entries for testing into the cache
+        _cache.put("first key", "first value");
+        _cache.put("second key", "second value");
+        _cache.put("third key", "third value");
     }
 
     protected void tearDown() {

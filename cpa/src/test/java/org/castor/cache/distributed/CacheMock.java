@@ -24,14 +24,14 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class CacheMock extends AbstractDistributedCache {
+public final class CacheMock<K, V> extends AbstractDistributedCache<K, V> {
     //--------------------------------------------------------------------------
     
     /**
      * Default constructor.
      */
     public CacheMock() {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
+        HashMap map = new HashMap();
         
         // put some entries for testing into the cache
         map.put("first key", "first value");

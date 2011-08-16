@@ -38,8 +38,8 @@ public final class TestMultiThreadedFIFOHashbelt extends AbstractTestMultiThread
     }
 
     @Override
-    protected Cache initialize() throws CacheAcquireException {
-        Cache cache = new FIFOHashbelt();
+    protected Cache<String, String> initialize() throws CacheAcquireException {
+        Cache<String, String> cache = new FIFOHashbelt<String, String>();
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         cache.initialize(params);

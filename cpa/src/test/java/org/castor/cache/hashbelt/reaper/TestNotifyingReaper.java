@@ -43,7 +43,7 @@ public final class TestNotifyingReaper extends TestCase {
     public void test() {
         NotifyingReaperMock.getExpiredObjects().clear();
         
-        Container container = new MapContainer();
+        Container<Integer, String> container = new MapContainer<Integer, String>();
         for (int i = 0; i < 10; i++) {
             container.put(new Integer(i), Integer.toString(i));
         }

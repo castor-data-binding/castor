@@ -17,7 +17,6 @@ package org.castor.cache.distributed;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +32,7 @@ import org.castor.cache.Cache;
  * @since 1.0
  */
 public final class TestAbstractDistributedCache extends TestCase {
-    private Cache _cache;
+    private Cache<String, String> _cache;
     
     public static Test suite() {
         TestSuite suite = new TestSuite("AbstractDistributeCache Tests");
@@ -59,7 +58,7 @@ public final class TestAbstractDistributedCache extends TestCase {
     public TestAbstractDistributedCache(final String name) { super(name); }
 
     protected void setUp() {
-        _cache = new CacheMock();
+        _cache = new CacheMock<String, String>();
     }
 
     protected void tearDown() {
@@ -148,7 +147,7 @@ public final class TestAbstractDistributedCache extends TestCase {
     }
 
     public void testKeySet() {
-        Set<Object> set = _cache.keySet();
+        Set<String> set = _cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -157,7 +156,7 @@ public final class TestAbstractDistributedCache extends TestCase {
     }
 
     public void testValues() {
-        Collection<Object> col = _cache.values();
+        Collection<String> col = _cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -166,13 +165,12 @@ public final class TestAbstractDistributedCache extends TestCase {
     }
 
     public void testEntrySet() {
-        Set<Map.Entry<Object, Object>> set = _cache.entrySet();
+        Set<Map.Entry<String, String>> set = _cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
-            Map.Entry<Object, Object> entry = iter.next();
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (Map.Entry<String, String> entry : set) {
             map.put(entry.getKey(), entry.getValue());
         }
 

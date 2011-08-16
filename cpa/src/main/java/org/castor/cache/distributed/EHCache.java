@@ -18,7 +18,6 @@ package org.castor.cache.distributed;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -32,12 +31,15 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of EHCache, see http://ehcache.sourceforge.net 
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @see <a href="http://ehcache.sourceforge.net">the EHCache Home Page</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public class EHCache extends AbstractDistributedCache {
+public final class EHCache<K, V> extends AbstractDistributedCache<K, V> {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(EHCache.class);
@@ -201,7 +203,7 @@ public class EHCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         Object result = null;
         try {
             Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
@@ -215,7 +217,7 @@ public class EHCache extends AbstractDistributedCache {
             LOG.error(msg, e);
             throw new IllegalStateException(e.getMessage());
         }
-        return result;
+        return (V) result;
     }
 
 
@@ -224,9 +226,10 @@ public class EHCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
-        Object result = Boolean.FALSE;
+    public V put(final K key, final V value) {
+        Object result = null;
         try {
+            result = get(key);
             result = _elementConstructor.newInstance(new Object[] {key, value});
             _putMethod.invoke(_cache, new Object[] {result});
         } catch (Exception e) {
@@ -234,13 +237,13 @@ public class EHCache extends AbstractDistributedCache {
             LOG.error(msg, e);
             throw new IllegalStateException(e.getMessage());
         }
-        return result;
+        return (V) result;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         Object oldValue = get(key);
         try {
             _removeMethod.invoke(_cache, new Object[] {String.valueOf(key)});
@@ -249,7 +252,7 @@ public class EHCache extends AbstractDistributedCache {
             LOG.error(msg, e);
             throw new IllegalStateException(e.getMessage());
         }
-        return oldValue;
+        return (V) oldValue;
     }
 
 
@@ -258,13 +261,19 @@ public class EHCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
-        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
-        iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Entry<? extends Object, ? extends Object> entry = iter.next();
-            String key = String.valueOf(entry.getKey());
-            put (key, entry.getValue());
+    public void putAll(final Map<? extends K, ? extends V> map) {
+        try {
+            for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+                String key = String.valueOf(entry.getKey());
+                Object result = _elementConstructor.newInstance(new Object[] {
+                        key, entry.getValue() });
+                _putMethod.invoke(_cache, new Object[] {result});
+            }
+        } catch (Exception e) {
+            String msg = "Failed to call method on EHCache instance: "
+                    + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
     }
 
@@ -287,21 +296,21 @@ public class EHCache extends AbstractDistributedCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
+    public Collection<V> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
 

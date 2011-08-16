@@ -109,8 +109,8 @@ public final class TestJcsCache extends TestCase {
         c.close();
     }
     
-    private Cache initialize() {
-        JcsCache c = new JcsCache();
+    private Cache<String, String> initialize() {
+        JcsCache<String, String> c = new JcsCache<String, String>();
 
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy jcs cache");
@@ -125,7 +125,7 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testUnsupportedMethods() {
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         try {
             c.size();
@@ -174,7 +174,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -200,7 +200,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -226,7 +226,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -256,7 +256,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -285,7 +285,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -318,7 +318,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache c = initialize();
+        Cache<String, String> c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 

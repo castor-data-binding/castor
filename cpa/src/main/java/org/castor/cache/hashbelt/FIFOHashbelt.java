@@ -21,11 +21,14 @@ import java.util.Map;
  * A perfectly ordinary hashbelt. Objects all go into the first container on the
  * belt, and make their way down over time until they fall off the end.
  * 
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public final class FIFOHashbelt extends AbstractHashbelt {
+public final class FIFOHashbelt<K, V> extends AbstractHashbelt<K, V> {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
@@ -45,7 +48,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
         
         lock().readLock().lock();
@@ -62,7 +65,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         if (key == null) { throw new NullPointerException("key"); }
         if (value == null) { throw new NullPointerException("value"); }
             
@@ -77,7 +80,7 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
 
         lock().writeLock().lock();
@@ -94,13 +97,13 @@ public final class FIFOHashbelt extends AbstractHashbelt {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
         lock().writeLock().lock();
         try {
-            for (Entry<? extends Object, ? extends Object> entry : map.entrySet()) {
+            for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
                 putObjectIntoCache(entry.getKey(), entry.getValue());
             }
         } finally {

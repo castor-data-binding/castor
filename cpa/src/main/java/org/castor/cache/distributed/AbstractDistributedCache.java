@@ -27,16 +27,19 @@ import org.castor.cache.AbstractBaseCache;
 /**
  * Base implementation of all distributed cache types. 
  *
+ * @param <K> the type of keys maintained by this cache
+ * @param <V> the type of cached values
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public abstract class AbstractDistributedCache extends AbstractBaseCache {
+public abstract class AbstractDistributedCache<K, V> extends AbstractBaseCache<K, V> {
     //--------------------------------------------------------------------------
 
     /** The cache instance. */
-    private Map<Object, Object> _cache = null;
+    private Map<K, V> _cache = null;
 
     //--------------------------------------------------------------------------
     // getter/setter for cache
@@ -46,14 +49,14 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
      * 
      * @return The cache instance.
      */
-    protected final Map<Object, Object> getCache() { return _cache; }
+    protected final Map<K, V> getCache() { return _cache; }
     
     /**
      * Set the cache instance.
      * 
      * @param cache The cache instance.
      */
-    protected final void setCache(final Map<Object, Object> cache) {
+    protected final void setCache(final Map<K, V> cache) {
         _cache = cache;
     }
     
@@ -87,7 +90,7 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object get(final Object key) {
+    public V get(final Object key) {
         return _cache.get(key);
     }
 
@@ -97,14 +100,14 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Object put(final Object key, final Object value) {
+    public V put(final K key, final V value) {
         return _cache.put(key, value);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object remove(final Object key) {
+    public V remove(final Object key) {
         return _cache.remove(key);
     }
 
@@ -114,7 +117,7 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         _cache.putAll(map);
     }
 
@@ -129,21 +132,21 @@ public abstract class AbstractDistributedCache extends AbstractBaseCache {
     /**
      * {@inheritDoc}
      */
-    public Set<Object> keySet() {
+    public Set<K> keySet() {
         return Collections.unmodifiableSet(_cache.keySet());
     }
     
     /**
      * {@inheritDoc}
      */
-    public Collection<Object> values() {
+    public Collection<V> values() {
         return Collections.unmodifiableCollection(_cache.values());
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<Object, Object>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         return Collections.unmodifiableSet(_cache.entrySet());
     }
 

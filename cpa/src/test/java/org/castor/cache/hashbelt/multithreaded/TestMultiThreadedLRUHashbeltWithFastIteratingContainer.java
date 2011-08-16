@@ -53,8 +53,8 @@ public final class TestMultiThreadedLRUHashbeltWithFastIteratingContainer
     }
 
     @Override
-    protected Cache initialize() throws CacheAcquireException {
-        Cache cache = new LRUHashbelt();
+    protected Cache<String, String> initialize() throws CacheAcquireException {
+        Cache<String, String> cache = new LRUHashbelt<String, String>();
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         params.put(AbstractHashbelt.PARAM_CONTAINER_CLASS, FastIteratingContainer.class.getName());
