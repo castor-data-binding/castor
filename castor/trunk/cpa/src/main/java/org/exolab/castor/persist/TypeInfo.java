@@ -57,15 +57,9 @@ import org.castor.persist.cache.CacheEntry;
 import org.exolab.castor.jdo.LockNotGrantedException;
 
 /**
- * Provides information about an object of a specific type (class's full name).
- * This information includes the object's descriptor and lifecycle interceptor
- * requesting notification about activities that affect an object.
- * <p>
- * It also provides caching for a persistence storage. Different {@link Cache} mechanisms
- * can be specified. 
- * <p>
- * Each class hierarchy gets its own cache, so caches can be
- * controlled on a class-by-class basis.
+ * Provides lock and cache about all the objects of a specific type.
+ * This information includes lifecycle interceptor requesting notification 
+ * about activities that affect an object.
  * 
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
@@ -80,22 +74,20 @@ public final class TypeInfo {
     private static Log _log = LogFactory.getFactory().getInstance(TypeInfo.class);
     
     /** The Map contains all the in-used ObjectLock of the class type, which
-     *  keyed by the OID representing the object. All extends classes share the
-     *  same map as the base class. */
+     *  keyed by the OID representing the object. */
     private final Map<OID, ObjectLock> _locks = new HashMap<OID, ObjectLock>();
     
     /** The Map contains all the freed ObjectLock of the class type, which keyed
      *  by the OID representing the object. ObjectLock put into cache maybe
-     *  disposed by LRU mechanisum. All extends classes share the same map as the
-     *  base class. */
+     *  disposed by LRU mechanism. */
     private final Cache<OID, CacheEntry> _cache;
 
     //-----------------------------------------------------------------------------------    
 
     /**
-     * Constructor for creating base class info.
+     * Constructor for creating class info.
      *
-     * @param cache The new LRU which will be used to store and dispose freed ObjectLock.
+     * @param cache The LRU which may be used to store and dispose freed ObjectLock.
      */
     public TypeInfo(final Cache<OID, CacheEntry> cache) {
         _cache = cache;
@@ -111,7 +103,7 @@ public final class TypeInfo {
     }
     
     /**
-     * Dump all objects in cache or lock to output.
+     * Dump all objects in cache and lock to output.
      * @param name the class's full name
      */
     public void dumpCache(final String name) {
@@ -154,11 +146,10 @@ public final class TypeInfo {
      *
      * @param oid The OID of the lock.
      * @param tx The context of the transaction to acquire lock.
-     * @param lockAction The inital action to be performed on the lock.
+     * @param lockAction The initial action to be performed on the lock.
      * @param timeout    The time limit to acquire the lock.
      * @return The object lock for the OID within this transaction context. 
-     * @throws ObjectDeletedWaitingForLockException
-     * @throws LockNotGrantedException Timeout or deadlock occured attempting
+     * @throws LockNotGrantedException Timeout or deadlock or object deleted occurred attempting
      *         to acquire lock on object
      */
     public ObjectLock acquire(final OID oid, final TransactionContext tx,
@@ -187,8 +178,8 @@ public final class TypeInfo {
             entry.enter();
         }
         
-        // ObjectLock.acquire() may call Object.wait(), so a thread can not
-        // been synchronized with ANY shared object before acquire().
+        // ObjectLock.acquireLock() may call wait(), so a thread can not
+        // been synchronized with ANY shared object before acquireLock().
         // So, it must be called outside synchronized( locks ) block.
         boolean failed = true;
         try {
@@ -231,8 +222,7 @@ public final class TypeInfo {
      * @param  tx The transaction in action.
      * @param  timeout  Time limit.
      * @return The upgraded ObjectLock instance.
-     * @throws ObjectDeletedWaitingForLockException
-     * @throws LockNotGrantedException Timeout or deadlock occured attempting
+     * @throws LockNotGrantedException Timeout or deadlock or object deleted occured attempting
      *         to acquire lock on object.
      */
     public ObjectLock upgrade(final OID oid, final TransactionContext tx, final int timeout)
@@ -414,7 +404,7 @@ public final class TypeInfo {
     }
 
     /**
-     * Indicates whether an object with the specified identifier is curretly cached.
+     * Indicates whether an object with the specified identifier is currently cached.
      *  
      * @param oid     The Object identifier.
      * @return True if the object is cached. 
