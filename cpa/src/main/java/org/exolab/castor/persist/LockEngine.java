@@ -80,8 +80,8 @@ import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * LockEngine is a gateway for all the <tt>ClassMolder</tt>s of a persistence 
- * storage. It mantains dirty checking cache state and lock, and provides a 
- * thread safe enviroment for <tt>ClassMolder</tt>. LockEngine garantees that 
+ * storage. It maintains dirty checking cache state and lock, and provides a 
+ * thread safe environment for <tt>ClassMolder</tt>. LockEngine guarantees that 
  * no two conflicting operations will be let running concurrently for the same object. 
  * <p>
  * For example, it ensures that exactly one transaction may read (load) exclusively
@@ -153,7 +153,7 @@ public final class LockEngine {
 
     /**
      * Construct a new cache engine with the specified mapping table, 
-     * persistence engine and the log interceptor.
+     * persistence engine and the log intercepter.
      *
      * @param databaseContext the databaseContext
      * @param cdResolver the cdResolver
@@ -166,6 +166,7 @@ public final class LockEngine {
             final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
+            @SuppressWarnings("deprecation")
             AbstractProperties properties = CPAProperties.getInstance();
             _cacheFactoryRegistry = new CacheFactoryRegistry<OID, CacheEntry>(properties);
         }
@@ -207,6 +208,7 @@ public final class LockEngine {
                     processedClasses.add(molder);
                 } else if (processedClasses.contains(molder.getExtends())) {
                     // use the base type to construct the new type
+                    // All extends classes share the TypeInfo as the base class
                     TypeInfo baseInfo = _typeInfos.get(extend.getName());
                     _typeInfos.put(molder.getName(), baseInfo);
                     itor.remove();
@@ -231,7 +233,12 @@ public final class LockEngine {
         }
     }
     
-    public DatabaseContext getDatabaseContext() { return _databaseContext; }
+    /**
+     * @return The ConnectionFactory
+     */
+    public DatabaseContext getDatabaseContext() {
+        return _databaseContext;
+    }
     
     /**
      * @return the ClassMolderRegistry for the LockEngine
@@ -240,7 +247,12 @@ public final class LockEngine {
         return _classMolderRegistry;
     }
     
-    public Persistence getPersistence(final Class cls) {
+    /**
+     * Get the persistence of the specified class.
+     * @param cls the specified class
+     * @return the persistence which the class uses.
+     */
+    public Persistence getPersistence(final Class<?> cls) {
         ClassMolder molder = _classMolderRegistry.getClassMolder(cls);
         if (molder != null) {
             return molder.getPersistence();
@@ -369,7 +381,7 @@ public final class LockEngine {
      * @param oid The identity of the object, or null.
      * @param object The newly created object.
      * @throws PersistenceException An error reported by the persistence engine. Timeout or
-     *         deadlock occured attempting to acquire lock on object.
+     *         deadlock occurred attempting to acquire lock on object.
      */
     public void markCreate(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
@@ -396,12 +408,8 @@ public final class LockEngine {
      * @param oid The identity of the object, or null
      * @param object The newly created object
      * @return The object's OID
-     * @throws DuplicateIdentityException An object with this identity
-     *  already exists in persistent storage
      * @throws PersistenceException An error reported by the
      *  persistence engine
-     * @throws ClassNotPersistenceCapableException The class is not
-     *  persistent capable
      */
     public OID create(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
@@ -531,6 +539,14 @@ public final class LockEngine {
         }
     }
 
+    /**
+     * Make the object is deleted.
+     * @param tx The transaction context
+     * @param oid The object's identity
+     * @param object The object
+     * @param timeout The timeout
+     * @throws PersistenceException If the lock is not granted
+     */
     public void markDelete(final TransactionContext tx, final OID oid, final Object object,
             final int timeout) throws PersistenceException {
         TypeInfo typeInfo = getTypeInfo(oid.getTypeName());
@@ -555,19 +571,9 @@ public final class LockEngine {
      * @param suggestedAccessMode The desired access mode
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
-     * @return The object's OID
-     * @throws ObjectNotFoundException The object was not found in
-     *  persistent storage
-     * @throws LockNotGrantedException Timeout or deadlock occured
-     *  attempting to acquire lock on object
+     * @return true if the update succeed
      * @throws PersistenceException An error reported by the
-     *  persistence engine
-     * @throws ClassNotPersistenceCapableException The class is not
-     *  persistent capable
-     * @throws ObjectModifiedException Dirty checking mechanism may immediately
-     *  report that the object was modified in the database during the long
-     *  transaction.
-     * @throws ObjectDeletedWaitingForLockException
+     *  persistence engine, or lock, or concurrent modification
      */
     public boolean update(final AbstractTransactionContext tx, final OID oid, final Object object,
             final AccessMode suggestedAccessMode, final int timeout) throws PersistenceException {
@@ -635,17 +641,8 @@ public final class LockEngine {
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
      * @return The object's OID if stored, null if ignored
-     * @throws LockNotGrantedException Timeout or deadlock occured
-     *  attempting to acquire lock on object
-     * @throws ObjectDeletedException The object has been deleted from
-     *  persistent storage
-     * @throws ObjectModifiedException The object has been modified in
-     *  persistent storage since it was loaded, the memory image is
-     *  no longer valid
-     * @throws DuplicateIdentityException An object with this identity
-     *  already exists in persistent storage
      * @throws PersistenceException An error reported by the
-     *  persistence engine
+     *  persistence engine, lock, or concurrent modification
      */
     public OID preStore(final TransactionContext tx, final OID oid, final Object object,
             final int timeout) throws PersistenceException {
@@ -691,6 +688,14 @@ public final class LockEngine {
         return null;
     }
 
+    /**
+     * Store the object in TransactionContext.
+     * @param tx The transaction context
+     * @param oid The object's OID
+     * @param object the object
+     * @throws PersistenceException n error reported by the
+     *  persistence engine, or lock
+     */
     public void store(final TransactionContext tx, final OID oid, final Object object)
     throws PersistenceException {
         TypeInfo typeInfo = getTypeInfo(oid.getTypeName());
@@ -735,12 +740,8 @@ public final class LockEngine {
      * @param oid The object's OID
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
-     * @throws LockNotGrantedException Timeout or deadlock occured
-     *  attempting to acquire lock on object
-     * @throws ObjectDeletedException The object has been deleted from
-     *  persistent storage
      * @throws PersistenceException An error reported by the
-     *  persistence engine
+     *  persistence engine, or lock
      */
     public void writeLock(final TransactionContext tx, final OID oid, final int timeout)
     throws PersistenceException {
@@ -768,9 +769,8 @@ public final class LockEngine {
      * @param oid The object's OID
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)
-     * @throws LockNotGrantedException Timeout or deadlock occured
-     *  attempting to acquire lock on object
-     *  persistent storage
+     * @throws LockNotGrantedException Timeout or deadlock occurred
+     *  attempting to acquire lock on object persistent storage
      */
     public void softLock(final TransactionContext tx, final OID oid, final int timeout)
     throws LockNotGrantedException {
@@ -870,14 +870,7 @@ public final class LockEngine {
      * @param timeout The max time to wait while acquiring a lock on the
      *  object (specified in seconds)
      * @return True if the object was expired successfully from the cache.
-     * @throws LockNotGrantedException Timeout or deadlock occured attempting to acquire lock
-     *         on object
-     * @throws PersistenceException An error reported by the persistence engine
-     * @throws ClassNotPersistenceCapableException The class is not persistent capable
-     * @throws ObjectModifiedException Dirty checking mechanism may immediately
-     *  report that the object was modified in the database during the long
-     *  transaction.
-     * @throws ObjectDeletedException Object has been deleted from the persistence store.
+     * @throws PersistenceException An error reported by the persistence engine, or lock
      */
     public boolean expireCache(final TransactionContext tx, final OID oid, final int timeout)
     throws PersistenceException {
@@ -923,7 +916,7 @@ public final class LockEngine {
      * all objects of the type represented by ClassMolder.
      * @param cls Class type instance.
      */
-    public void expireCache(final Class cls) {
+    public void expireCache(final Class<?> cls) {
         TypeInfo typeInfo = getTypeInfo(cls);
         if (typeInfo != null) {
             typeInfo.expireCache();
@@ -944,8 +937,7 @@ public final class LockEngine {
         for (String typeName : _typeInfos.keySet()) {
             getTypeInfo(typeName).dumpCache(typeName);
         }
-        for (Iterator<String> iter = _typeInfos.keySet().iterator(); iter.hasNext(); ) {
-            String name = iter.next();
+        for (String name : _typeInfos.keySet()) {
             _typeInfos.get(name).dumpCache(name);
         }
     }
@@ -968,7 +960,7 @@ public final class LockEngine {
      * 
      * @param cls A class type.
      */
-    public void dumpCache(final Class cls) {
+    public void dumpCache(final Class<?> cls) {
         TypeInfo typeInfo = getTypeInfo(cls);
         if (typeInfo != null) {
             typeInfo.dumpCache(cls.getName());
@@ -994,18 +986,35 @@ public final class LockEngine {
      * @param oid Object identity
      * @return True if the specified object is in the cache.
      */
-    public boolean isCached(final Class cls, final OID oid) {
+    public boolean isCached(final Class<?> cls, final OID oid) {
         return getTypeInfo(cls).isCached (oid);
     }
 
-    public boolean isLocked(final Class cls, final OID oid) {
+    /**
+     * Indicates whether an object with the specified OID is currently locked.
+     * 
+     * @param cls Class type.
+     * @param oid Object identity
+     * @return True if the object is locked.
+     */
+    public boolean isLocked(final Class<?> cls, final OID oid) {
         return getTypeInfo(cls).isLocked (oid);
     }
     
+    /**
+     * Get the TypeInfo with the specified class type.
+     * @param type Class type.
+     * @return the TypeInfo
+     */
     private TypeInfo getTypeInfo(final Class<?> type) {
         return getTypeInfo(type.getName());
     }
-
+    
+    /**
+     * Get the TypeInfo with the specified class name.
+     * @param typeName the type name
+     * @return the TypeInfo
+     */
     private TypeInfo getTypeInfo(final String typeName) {
         return _typeInfos.get(typeName);
     }

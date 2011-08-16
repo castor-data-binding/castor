@@ -40,7 +40,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * In order to obtain a lock, the transaction must call one of the
  * acquire, passing itself, the lock type and the lock timeout. The
  * transaction must attempt to obtain only one lock at any given time
- * by synchronizing all calls to one of the <tt>acquire</tt>. If the transaction
+ * by synchronizing all calls to the <tt>acquireLock</tt>. If the transaction
  * has acquired a read lock it may attempt to re-acquire the read
  * lock. If the transaction attempts to acquire a write lock the lock
  * will be upgraded.
@@ -49,9 +49,9 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * object, and a write lock cannot be acquired while there is one or
  * more read locks. If a lock cannot be acquired, the transaction
  * will hold until the lock is available or timeout occurs. If timeout
- * occured (or a dead lock has been detected), {@link
+ * occurred (or a dead lock has been detected), {@link
  * LockNotGrantedException} is thrown. If the object has been delete
- * while waiting for the lock, {@link ObjectDeletedException} is
+ * while waiting for the lock, {@link ObjectDeletedWaitingForLockException} is
  * thrown.
  * <p>
  * When the lock is acquired, the locked object is returned.
@@ -94,6 +94,7 @@ public final class ObjectLock implements DepositBox {
     /** Actual values of the entity locked. */
     private Object[] _object;
 
+    /** The expired values of the entity. */
     private Object[] _expiredObject;
 
     /** Associated version of the entity. */
@@ -102,8 +103,10 @@ public final class ObjectLock implements DepositBox {
     /** If the object is deleted, then it is true. */
     private boolean _deleted;
 
+    /** If some errors happen, then it is true. */
     private boolean _invalidated;
 
+    /** If the entity is expired, then it is true. */
     private boolean _expired;
     
     /** Number of transactions which are interested to invoke method on this lock.
@@ -136,12 +139,15 @@ public final class ObjectLock implements DepositBox {
     /** Set of all transactions waiting for a write lock (including
      *  waiting for upgrade from read lock). Attempts to acquire a
      *  write lock while object has a read lock will be recorded here.
-     *  When read lock is released, the first write lock will acquire. */
+     *  When read lock is released, one of the write lock will acquire. */
     private final Set<TransactionContext> _writeWaitingTransactions =
         new HashSet<TransactionContext>();
 
+    /** Waiting Confirm on the lock. If the object is null, the transaction need to confirm,
+     * then add the transaction to writeTransaction or readTransactions. */
     private TransactionContext _confirmWaitingTransaction;
 
+    /** The LockAtion which the confirmTransaction used.*/
     private LockAction _confirmWaitingAction;
 
     //-----------------------------------------------------------------------------------    
@@ -160,6 +166,12 @@ public final class ObjectLock implements DepositBox {
         _id = _idcount.getAndIncrement();
     }
     
+    /**
+     * Create a new lock for the specified object.
+     * @param oid the object to create a lock for
+     * @param object the values of the entity
+     * @param version the version of the entity
+     */
     protected ObjectLock(final OID oid, final Object[] object, final long version) {
         this(oid);
         
@@ -187,13 +199,20 @@ public final class ObjectLock implements DepositBox {
         _oid = oid;
     }
 
+    /**
+     * @return the actual values of the entity
+     */
     public Object[] getObject() {
         if ((_expiredObject != null) && (_object == null)) {
             return _expiredObject;
         }
         return _object; 
     }
-   
+
+    /**
+     * @param tx The transaction
+     * @return the actual values of the entity, if the tx has the lock
+     */
     public Object[] getObject(final TransactionContext tx) {
         try {
             _lock.readLock().lock();
@@ -206,6 +225,11 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
+    /**
+     * @param tx The TransactionContext which want to set the object
+     * @param object The actual object
+     * @param version the version of the object
+     */
     public void setObject(final TransactionContext tx, final Object[] object, final long version) {
         // initialize cache expiration flag to false
         try {
@@ -236,6 +260,9 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
+    /**
+     * @return the version of the object
+     */
     public long getVersion() {
         try {
             _lock.readLock().lock();
@@ -245,6 +272,10 @@ public final class ObjectLock implements DepositBox {
         }
     }
     
+    /**
+     * Set the version of the object.
+     * @param version the new version
+     */
     public void setVersion(final long version) {
         _lock.writeLock().lock();
         _version = version;
@@ -255,8 +286,8 @@ public final class ObjectLock implements DepositBox {
 
     /**
      * Indicate that a transaction is interested in this lock. A transaction should call
-     * this method if it is going to change the state of this lock (by calling acquire,
-     * update or release.) The method should be synchronized externally to avoid race
+     * this method if it is going to change the state of this lock (by calling acquireLock,
+     * delete, upgrade, release.) The method should be synchronized externally to avoid race
      * condition. enter and leave should be called exactly the same number of time.
      */
     protected void enter() {
@@ -265,7 +296,7 @@ public final class ObjectLock implements DepositBox {
 
     /**
      * Indicate that a transaction is not interested to change the state of this lock
-     * anymore (ie, will not call either acquire, update, release or delete). The
+     * anymore (ie, will not call either acquireLock, delete, upgrade or release). The
      * method should be synchronized externally.
      */
     protected void leave() {
@@ -363,7 +394,6 @@ public final class ObjectLock implements DepositBox {
      * @param endtime when the transaction should end
      * @throws LockNotGrantedException Lock could not be granted in the specified timeout
      *         or a dead lock has been detected
-     * @throws ObjectDeletedWaitingForLockException
      */
     private void waitingForLock(final TransactionContext tx, final boolean write,
             final long endtime) throws LockNotGrantedException {       
@@ -503,6 +533,11 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
+    /**
+     * Confirm the lock.
+     * @param tx The transaction
+     * @param succeed whether the transaction's process is OK 
+     */
     public void confirm(final TransactionContext tx, final boolean succeed) {
         // cases to consider:
         // 1/ not in waitingForConfirmation
@@ -570,9 +605,6 @@ public final class ObjectLock implements DepositBox {
      */
     protected void upgrade(final TransactionContext tx, final int timeout)
         throws LockNotGrantedException {
-        // Note: This method must succeed even if an exception is thrown
-        // in the middle. An exception may be thrown by a Thread.stop().
-        // Must make sure not to lose consistency.
         try {
             _lock.writeLock().lock();
             if (_confirmWaitingTransaction != null) {
@@ -645,7 +677,7 @@ public final class ObjectLock implements DepositBox {
             }
 
             // Notify all waiting transactions that they may attempt to
-            // acquire lock. First one to succeed wins (or multiple if
+            // acquire lock. someone to succeed wins (or multiple if
             // waiting for read lock).
             _conditionForLock.signalAll();
         } catch (ThreadDeath death) {
@@ -660,9 +692,7 @@ public final class ObjectLock implements DepositBox {
 
     /**
      * Informs the lock that the object has been deleted by the
-     * transaction holding the write lock. The lock on the object is
-     * released and all transactions waiting for a lock will
-     * terminate with an {@link ObjectDeletedWaitingForLockException}.
+     * transaction holding the write lock. 
      *
      * @param tx The transaction that holds the lock
      */
@@ -684,7 +714,13 @@ public final class ObjectLock implements DepositBox {
             _lock.writeLock().unlock();
         }
     }
-
+    
+    /**
+     * Informs the lock that the object has been invalidated by the
+     * transaction holding the write lock.
+     * 
+     * @param tx The transaction that holds the lock
+     */
     public void invalidate(final TransactionContext tx) {
         try {
             _lock.writeLock().lock();
@@ -798,6 +834,11 @@ public final class ObjectLock implements DepositBox {
         return false;
     }
 
+    /**
+     * 
+     * @param tx The transaction.
+     * @return <code>true</code> if the transaction has the lock exclusively on this object.
+     */
     protected boolean isExclusivelyOwned(final TransactionContext tx) {
         if (_writeTransaction == tx) { return true; }
         if (_readTransactions.contains(tx) && (_readTransactions.size() == 1)) { return true; }
@@ -805,7 +846,9 @@ public final class ObjectLock implements DepositBox {
     }
     
     //-----------------------------------------------------------------------------------    
-
+    /**
+     * @return the lock's information.
+     */
     public String toString() {
         return _oid.toString() + "/" + _id + " "
                 + (((_readTransactions.isEmpty()) ? "-" : "R") + "/"
