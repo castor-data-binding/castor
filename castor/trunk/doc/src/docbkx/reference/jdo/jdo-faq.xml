@@ -1249,7 +1249,7 @@ Database db = jdo.getDatabase();
            
            <para>
 	           Let us convert one of the classes from the 
-	           <ulink urd="http://castor.org/examples.html"> JDO examples</ulink> 
+	           <ulink url="http://castor.org/examples.html"> JDO examples</ulink> 
 	           to use lazy-loading.
            </para>
 
