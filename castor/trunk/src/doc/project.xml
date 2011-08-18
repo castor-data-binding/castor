@@ -219,105 +219,12 @@
       </navLink>
     </section>
  -->
-    <section name="JDO">
-      <navLink>
-        <url>jdo-introduction.xml</url>
-        <display>Introduction</display>
-      </navLink>
-      <navLink>
-        <url>jdo-starter-tutorial.xml</url>
-        <display>First steps</display>
-      </navLink>
-      <navLink>
-        <url>jdo.xml</url>
-        <display>Using JDO</display>
-      </navLink>
-      <navLink>
-        <url>jdo-database-conf.xml</url>
-        <display>JDO Config</display>
-      </navLink>
-      <navLink>
-        <url>types.xml</url>
-        <display>Types</display>
-      </navLink>
-      <navLink>
-        <url>jdo-mapping.xml</url>
-        <display>JDO Mapping</display>
-      </navLink>
-      <navLink>
-        <url>jdo-faq.xml</url>
-        <display>JDO FAQ</display>
-      </navLink>
-      <navLink>
-        <url>jdo-examples.xml</url>
-        <display>JDO Examples</display>
-      </navLink>
-      <navLink highlighted="true">
-        <url>jdo-howto.xml</url>
-        <display>JDO HOW-TOs</display>
-      </navLink>
-      <navLink highlighted="true">
-        <url>jdo-tips-tricks.xml</url>
-        <display>Tips &amp; Tricks</display>
-      </navLink>
-      <navLink>
-        <url>jdo-other-features.xml</url>
-        <display>Other Features</display>
-      </navLink>
-      <navLink>
-        <url>jdo-self-executable-examples.xml</url>
-        <display>JDO sample JAR</display>
-      </navLink>
-    </section>
 
     <section name="Tools">
         <navLink>
             <url>schemaGen-anttask.xml</url>
             <display>Schema generator</display>
         </navLink>
-    </section>
-    
-    <section name="Advanced JDO">
-      <navLink>
-        <url>jdo-caching-detail.xml</url>
-        <display>Caching</display>
-      </navLink>
-      <navLink>
-        <url>oql.xml</url>
-        <display>OQL</display>
-      </navLink>
-      <navLink>
-        <url>locking.xml</url>
-        <display>Trans. &amp; Locks</display>
-      </navLink>
-      <navLink>
-        <url>design-persist.xml</url>
-        <display>Design</display>
-      </navLink>
-      <navLink>
-        <url>key-generator.xml</url>
-        <display>KeyGen</display>
-      </navLink>
-      <navLink>
-        <url>long-transact.xml</url>
-        <display>Long Trans.</display>
-      </navLink>
-      <navLink>
-        <url>nested-attr.xml</url>
-        <display>Nested Attrs.</display>
-      </navLink>
-      <navLink>
-        <url>jdo-pooling.xml</url>
-        <display>Pooling Examples</display>
-      </navLink>
-      <navLink>
-        <url>postgresql-blobs.xml</url>
-        <display>LOBs</display>
-      </navLink>
-      <navLink>
-        <url>jdo-best-practice.xml</url>
-        <display>Best practice</display>
-      </navLink>
     </section>
 
     <section name="DDL Generator">
