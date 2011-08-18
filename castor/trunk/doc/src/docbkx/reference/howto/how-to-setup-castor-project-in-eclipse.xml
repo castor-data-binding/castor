@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+     
+<section id="jdo.howto.setup-eclipse-castor-project">
+  <sectioninfo>
+    <title>How to setup Castor project in eclipse</title>
+<!--
+    <abstract>
+        <para>
+            Short decription of how to check out the latest Castor code from SVN into 
+            an eclipse project.
+        </para>
+    </abstract>
+    
+    Status: Final
+-->
+  </sectioninfo>
+
+    <title>How to setup Castor project in eclipse</title>
+    
+    <section id="jdo.howto.setup-eclipse-castor-project.introduction">
+      <title>Introduction</title>
+    
+      <para>
+        Are you just interested in how Castor source looks like, want to report a bug 
+        or enhancement request or like to contribute to the project? The first step we 
+        suggest you to do is to setup a Castor project with eclipse IDE. As we use 
+        eclipse to work at Castor, there is everything in place to work with eclipse. 
+        While you are free to use other IDE's, you will need to configure things 
+        yourself with them.
+      </para>
+    </section>
+
+    <section id="jdo.howto.setup-eclipse-castor-project.prerequisites">
+      <title>Prerequisites</title>
+      
+      <itemizedlist>
+        <listitem>
+          <para>
+            Download and install 
+            <ulink url="http://java.sun.com/javase/downloads/index.jsp">JDK 1.5
+            or newer</ulink>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Download and install 
+            <ulink url="http://www.eclipse.org/downloads/index.php">Eclipse 
+            3.x</ulink>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Install the latest 
+            <ulink url="http://subclipse.tigris.org/download.html">Subclipse 
+            eclipse plugin</ulink>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Optionally install the latest 
+            <ulink url="http://eclipse-cs.sourceforge.net/">CheckStyle eclipse 
+            plugin</ulink>
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  
+    <section id="jdo.howto.setup-eclipse-castor-project.create-project">
+      <title>Create Project</title>
+      
+      <itemizedlist>
+        <listitem>
+          <para>
+            Create a New Project in eclipse from 
+            <literal>File -> New -> Projects</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Select <literal>"Checkout Projects from SVN"</literal>
+            in <literal>"SVN"</literal> from 
+            <literal>"Select a wizard"</literal> window 
+            and click <literal>Next</literal> 
+            (this option will only come if you have installed the subclipse plugin)
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Select <literal>"Create a new repository location"</literal>
+            and click <literal>Next</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Enter the URL 
+            <literal>"https://svn.codehaus.org/castor/castor"</literal>
+            and click <literal>Next</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            Select the folder <literal>"trunk"</literal> 
+            from the list and click <literal>Next</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            In <literal>"Check Out As"</literal> 
+            window the name of the project will be 
+            <literal>"castor"</literal> then click 
+            <literal>Next</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            At last, you can choose the workspace and click 
+            <literal>Finish</literal>
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            You can see castor project in your 
+            <literal>"Project Navigator" of eclipse</literal>
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  
+    <section id="jdo.howto.setup-eclipse-castor-project.troubleshooting">
+      <title>Troubleshooting</title>
+      
+      <para>
+        <emphasis role="bold">If you have trouble with Subclipse behind a proxy 
+        server:</emphasis> In Windows development environment, open the file: 
+        <filename>C:\Documents and 
+        Settings\MyUserId\Application Data\Subversion\servers</filename> 
+        in text editor. Near the bottom of that file is a [global] section with 
+        http-proxy-host and http-proxy-port (user and password also) settings. 
+        Uncommented those lines, modified them for your proxy server and go back 
+        to the SVN Repository view in Eclipse. This should solve the problem.
+      </para>  
+    </section>        
+</section>

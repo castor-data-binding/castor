@@ -141,7 +141,7 @@
 
      <para>
        Other features include a type converter for all Java primitive types (see the 
-       info on supported <ulink url="#jdo.types">types</ulink>).
+       info on supported <link linkend="jdo.types">types</link>).
      </para>
 
      <para>

@@ -250,10 +250,10 @@
 	             <para>
 		             <emphasis role="bold">&lt;cache-type></emphasis>: 
 		             For more information on this field please see
-		             <!-- TODO change link when advanced jdo doc is finished -->
-		             <link linkend="advanced-jdo.long-transactions.bounded-dirty-checking"><!--  
-		          -->Bounded Dirty Checking</link>
-		             and <link linkend="jdo.advanced-features.caching">Caching</link>.
+		             <link 
+		             linkend="advanced-jdo.long-transactions.bounded-dirty-checking">Bounded 
+		             Dirty Checking</link> and 
+		             <link linkend="jdo.advanced-features.caching">Caching</link>.
 	             </para>
              </listitem>
 
@@ -764,8 +764,7 @@
 	               'none' or 'all', it is possibel to specify more than one value, using 
 	               whitespace as a delimiter (e.g. 'create update'). For further 
 	               information see 
-	               <!-- TODO change link when HOWTO docs are finished -->
-                   <ulink url="http://castor.codehaus.org/how-to-use-cascading-operations.html">HOW-TO</ulink> 
+                   <link linkend="jdo.howto.use-cascading-operations">HOW-TO</link> 
 	               on using cascading operation.
               </para>
            </listitem>

@@ -48,7 +48,7 @@
 		   is constructed with a two-step approach:
 		</para> 
            
-        <orderedlist>
+        <orderedlist numeration="arabic">
           <listitem>
             <para>
               Statically load the JDO configuration file through one of the 

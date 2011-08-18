@@ -110,7 +110,7 @@
                Currently the OQLQuery checks for correct syntax at the same time as
                it does type checking and other types of error checking. The new code
                will involve a multiple pass strategy, with the following passes:
-               <orderedlist>
+               <orderedlist numeration="arabic">
                   <listitem>
                     <para>
                        Parse the String query checking for syntax errors, and return
