@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-     
-  <section id="jdo.howto">
+
+<section id="jdo.howto"  xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
       <title>Castor JDO - How To's</title>
 
       <section id="jdo.howto.introduction">
@@ -18,231 +18,93 @@
       <section id="jdo.howto.documentation">
 	      <title>Documentation</title>
 		
-		  <itemizedlist>
-	          <listitem>
-		          <para>How to author a HOW-TO document</para>
-	          </listitem>
+		  <section><title>How to author a HOW-TO document</title></section>
 		        
-	          <listitem>
-		          <para>How to author an FAQ entry</para>
-	          </listitem>
+		  <section><title>How to author an FAQ entry</title></section>
 		        
-	          <listitem>
-		          <para>How to author a code snippet</para>
-	          </listitem>
+		  <section><title>How to author a code snippet</title></section>
 		        
-	          <listitem>
-		          <para>How to author core documentation</para>
-	          </listitem>
-		  </itemizedlist>
+		  <section><title>How to author core documentation</title></section>
 	  </section>
 		
 		
 	  <section id="jdo.howto.contribution">
 	      <title>Contribution</title>
-		    
-          <itemizedlist>
-              <listitem>
-	              <para>
-		              <!-- TODO change link when howto section is finished -->
-		              <ulink url="http://castor.org/how-to-setup-castor-project-in-eclipse.html">
-		              How to setup Castor project in eclipse</ulink>
-	              </para>
-              </listitem>
-	            
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-run-jdo-unit-tests.html">How to 
-	                  run Castor JDO's database independend unit tests</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-run-jdo-test-suite.html">How to 
-	                  run Castor JDO's test suite</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-run-jdo-performance-tests.html">How to 
-	                  run Castor JDO's performance tests</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-submit-a-bug.html">How to 
-	                  submit a bug report</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-	              <para>
-                      <!-- TODO change link when howto section is finished -->
-		              <ulink url="http://castor.org/how-to-prepare-a-patch.html">How to 
-		              prepare a patch</ulink>
-	              </para>
-              </listitem>
-	            
-              <listitem>
-	              <para>How to Contribute a Patch via Jira</para>
-              </listitem>
-          </itemizedlist>
+	      
+	      <xi:include href="../howto/how-to-setup-castor-project-in-eclipse.xml" />
+	      
+          <xi:include href="../howto/how-to-run-jdo-unit-tests.xml" />
+          
+          <xi:include href="../howto/how-to-run-jdo-test-suite.xml" />
+          
+          <xi:include href="../howto/how-to-run-jdo-performance-tests.xml" />
+          
+          <xi:include href="../howto/how-to-submit-a-bug.xml" />
+          
+          <xi:include href="../howto/how-to-prepare-a-patch.xml" />
+
+	      <section><title>How to Contribute a Patch via Jira</title></section>
 	  </section>
         
         
       <section id="jdo.howto.oql">
           <title>OQL</title>
-            
-          <itemizedlist>
-              <listitem>
-                <para>
-                      <!-- TODO change link when howto section is finished -->
-                    <ulink url="http://castor.org/how-to-use-limit-clause.html">How to 
-                    use a LIMIT clause</ulink>
-                </para>
-              </listitem>
-          </itemizedlist>
+          
+          <xi:include href="../howto/how-to-use-limit-clause.xml" />
       </section>
 
       <section id="jdo.howto.core-features">
           <title>Core features</title>
-        
-          <itemizedlist>
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-use-a-cache.html">How to 
-	                  use a cache</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-map-enums.html">How to 
-	                  map enums</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-connection-proxies.html">How to 
-	                  log SQL statements</ulink>
-                  </para>
-              </listitem>
-          </itemizedlist>
+
+          <xi:include href="../howto/how-to-use-a-cache.xml" />
+          
+          <xi:include href="../howto/how-to-map-enums.xml" />
+          
+          <xi:include href="../howto/how-to-use-connection-proxies.xml" />
       </section>
         
         
       <section id="jdo.howto.cascading">
           <title>Cascading</title>
-        
-      	  <itemizedlist>
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-use-cascading-operations.html">How to 
-	                  use cascading operations - overview</ulink>
-                  </para>
-              </listitem>
-                
-       		  <listitem>
-        		  <para>
-                      <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="http://castor.org/how-to-cascade-creation.html">How to 
-	        		  use cascading on object creation</ulink>
-        		  </para>
-       		  </listitem>
-        		
-       		  <listitem>
-        		  <para>
-                      <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="http://castor.org/how-to-cascade-deletion.html">How to 
-	        		  cascading on object deletion</ulink>
-        		  </para>
-       		  </listitem>
-        		
-       		  <listitem>
-        		  <para>
-                      <!-- TODO change link when howto section is finished -->
-	        		  <ulink url="http://castor.org/how-to-cascade-update.html">How to 
-	        		  cascading on object updates</ulink>
-        		  </para>
-       		  </listitem>
-          </itemizedlist>
+              
+          <xi:include href="../howto/how-to-use-cascading-operations.xml" />
+          
+          <xi:include href="../howto/how-to-cascade-creation.xml" />
+          
+          <xi:include href="../howto/how-to-cascade-deletion.xml" />
+          
+          <xi:include href="../howto/how-to-cascade-update.xml" />
       </section>
 
 
       <section id="jdo.howto.caches">
           <title>Caches</title>
-        
-          <itemizedlist>
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-create-custom-cache.html">How to 
-	                  create a custom cache provider</ulink>
-                  </para>
-              </listitem>
-                
-              <listitem>
-                  <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-use-castor-in-a-j2ee-cluster.html">
-	                  How to use Castor in a J2EE cluster</ulink>
-                  </para>
-              </listitem>
-          </itemizedlist>
+              
+          <xi:include href="../howto/how-to-use-castor-in-a-j2ee-cluster.xml" />
       </section>
         
         
       <section id="jdo.howto.connection-pooling">
           <title>Connection pooling</title>
         
-          <itemizedlist>
-              <listitem>
-	              <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-use-jakarta-dbcp.html">How to 
-	                  use Jakarta DBCP with Castor</ulink>
-	              </para>
-              </listitem>
-          </itemizedlist>
+          <xi:include href="../howto/how-to-use-jakarta-dbcp.xml" />
       </section>
 
 
       <section id="jdo.howto.castor-in-j2ee-apps">
-            <title>Use of Castor in J2EE applications</title>
-            
-            <itemizedlist>
-                <listitem>
-	                <para>
-                      <!-- TODO change link when howto section is finished -->
-	                  <ulink url="http://castor.org/how-to-use-castor-with-distributed-transactions.html">
-	                  How to use Castor with distributed transaction</ulink>
-	                </para>
-                </listitem>
-            </itemizedlist>
+          <title>Use of Castor in J2EE applications</title>
+
+          <xi:include href="../howto/how-to-use-castor-with-distributed-transactions.xml" />
       </section>
         
         
       <section id="jdo.howto.database-specifica">
           <title>Database specifica</title>
-            
-          <itemizedlist>
-              <listitem>
-	              <para>
-	                  How to connect to a Apache Derby instance in network server mode
-	              </para>
-              </listitem>
-          </itemizedlist>
+
+          <section>
+              <title>
+                  How to connect to a Apache Derby instance in network server mode
+              </title>
+          </section>
       </section>
   </section>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+     
+<section id="jdo.howto.use-jakarta-dbcp">
+    <sectioninfo>
+        <title>How to use Jakarta's DBCP for connection pooling</title>
+<!--
+        <abstract>
+            <para>
+                General information about using Jakarta's DBCP for connection pooling
+            </para>
+        </abstract>
+        Status: Final
+-->
+    </sectioninfo>
+
+    <title>How to use Jakarta's DBCP for connection pooling</title>
+    
+    <section id="jdo.howto.use-jakarta-dbcp.introduction">
+        <title>Introduction</title>
+        
+        <para>
+            This HOW-TO provide users with instructions on hot to configure
+            <application>Castor JDO</application> so that Apache Jakarta's DBCP 
+            package is used as a connection pool.
+        </para>
+    </section>
+    
+    
+    <section id="jdo.howto.use-jakarta-dbcp.intended-audience">
+        <title>Intended audience</title>
+        
+        <para>
+            Anyone who wants to use DBCP as connection pool mechanism with 
+            <application>Castor JDO</application>.
+        </para>
+    </section>
+    
+    
+    <section id="jdo.howto.use-jakarta-dbcp.steps">
+        <title>Steps</title>
+        
+        <para>
+            Below are defined the steps to configure 
+            <application>Castor JDO</application> to use DBCP's 
+            <literal>BasicDataSource</literal> for connection pooling.
+        </para>
+
+        <section id="jdo.howto.use-jakarta-dbcp.steps.configuration">
+            <title>Configuration</title>
+
+            <para>
+                To use a DBCP <literal>BasicDataSource</literal> with 
+                <application>Castor JDO</application>, please provide the following 
+                <literal>&lt;data-source&gt;</literal> entry in the 
+                <filename>jdo-conf.xml</filename> file.
+            </para>
+
+            <programlisting language="xml"><![CDATA[
+            
+  <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+    <param name="driver-class-name" value="com.mysql.jdbc.Driver" />
+    <param name="username" value="test" />
+    <param name="password" value="test" />
+    <param name="url" value="jdbc:mysql://localhost/test" />
+    <param name="min-active" value="10" />
+    <param name="max-active" value="40" />
+  </data-source>]]>
+            </programlisting>
+            
+            <para>
+                Above example makes use of the <emphasis>mySQL</emphasis> JDBC driver 
+                to establish a connection pool to a <application>mySQL</application> 
+                instance named 'test' running on the same machine as Castor itself. 
+                The pool initially holds 10 connections, but is configured to allow 
+                a maximum of 40 active connections at the same time.
+            </para>
+        </section>
+     </section>
+
+
+     <section id="jdo.howto.use-jakarta-dbcp.references">
+        <title>References</title>
+        
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <link linkend="advanced-jdo.pooling">Other pooling examples</link>
+                </para>
+            </listitem>
+        </itemizedlist>
+     </section>
+</section>

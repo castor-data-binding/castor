@@ -700,7 +700,7 @@
        </para>
     
        <para>
-         <orderedlist>
+         <orderedlist numeration="arabic">
             <listitem>
               <para>
                 Create a class that implements 

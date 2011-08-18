@@ -207,7 +207,7 @@
 
       <para>
         The default time zone can be configured in the castor.properties file;
-        see the <ulink url="../../conf-lib.html">configuration section</ulink> for details
+        see the <ulink url="http://www.castor.org/conf-lib.html">configuration section</ulink> for details
         on how to configure Castor with information about your default time zone.
       </para>
 

@@ -45,7 +45,7 @@
 		   that are not aware of them.
 		</para>
           
-        <orderedlist>
+        <orderedlist numeration="arabic">
             <listitem>
                 <para>
                     Switch to version 0.9.9 of Castor as we have fixed some 100+ bugs 
