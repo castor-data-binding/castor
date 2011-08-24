@@ -238,19 +238,19 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
         tab1.addInnerJoin(tab2, col1.equal(col21));
         queryVis.visit(sel);
         assertEquals("SELECT * "
-                + "FROM (\"FOO\" "
+                + "FROM \"FOO\" "
                 + "INNER JOIN \"BAR\" "
-                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")", queryVis.toString());
+                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\"", queryVis.toString());
 
         queryVis = getVisitor();
         tab2.addLeftJoin(tab3, col22.equal(col3));
         queryVis.visit(sel);
         assertEquals("SELECT * "
-                + "FROM (\"FOO\" "
-                + "INNER JOIN (\"BAR\" "
+                + "FROM \"FOO\" "
+                + "INNER JOIN \"BAR\" "
+                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\" "
                 + "LEFT JOIN \"ABC\" \"XYZ\" "
-                + "ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\") "
-                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")", queryVis.toString());
+                + "ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\"", queryVis.toString());
     }
 
     @Test
@@ -281,10 +281,10 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
         tab1.addInnerJoin(tab5);
         queryVis.visit(sel);
         assertEquals("SELECT * FROM "
-                + "((((\"FOO\" INNER JOIN \"BAR\" ON \"FOO\".\"ID\"=\"BAR\".\"ID\") "
-                + "INNER JOIN \"ABC\" \"XYZ\" ON \"FOO\".\"ID\"=\"XYZ\".\"ID\") "
-                + "INNER JOIN \"TAB4\") "
-                + "INNER JOIN \"TAB5\")", queryVis.toString());
+                + "\"FOO\" INNER JOIN \"BAR\" ON \"FOO\".\"ID\"=\"BAR\".\"ID\" "
+                + "INNER JOIN \"ABC\" \"XYZ\" ON \"FOO\".\"ID\"=\"XYZ\".\"ID\" "
+                + "INNER JOIN \"TAB4\" "
+                + "INNER JOIN \"TAB5\"", queryVis.toString());
     }
 
 
@@ -325,16 +325,14 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
 
       queryVis.visit(select);
 
-      assertEquals("SELECT * FROM "
-              + "((\"TABLE1\" INNER JOIN "
-              + "((\"TABLE2\" FULL JOIN \"TABLE3\" ON \"TABLE2\".\"COL2\"=\"TABLE3\".\"COL3\") "
-              + "LEFT JOIN \"TABLE7\" ON \"TABLE2\".\"COL2\"=\"TABLE7\".\"COL7\") "
-              + "ON \"TABLE1\".\"COL1\"=\"TABLE2\".\"COL2\") "
-              + "INNER JOIN (\"TABLE4\" "
-              + "RIGHT JOIN (\"TABLE5\" LEFT JOIN \"TABLE6\" "
-              + "ON \"TABLE5\".\"COL5\"=\"TABLE6\".\"COL6\") "
-              + "ON \"TABLE4\".\"COL4\"=\"TABLE5\".\"COL5\") "
-              + "ON \"TABLE1\".\"COL1\"=\"TABLE4\".\"COL4\")", queryVis.toString());
+      assertEquals("SELECT * FROM \"TABLE1\" "
+              + "INNER JOIN \"TABLE2\" ON \"TABLE1\".\"COL1\"=\"TABLE2\".\"COL2\" "
+              + "FULL JOIN \"TABLE3\" ON \"TABLE2\".\"COL2\"=\"TABLE3\".\"COL3\" "
+              + "LEFT JOIN \"TABLE7\" ON \"TABLE2\".\"COL2\"=\"TABLE7\".\"COL7\" "
+              + "INNER JOIN \"TABLE4\" ON \"TABLE1\".\"COL1\"=\"TABLE4\".\"COL4\" "
+              + "RIGHT JOIN \"TABLE5\" ON \"TABLE4\".\"COL4\"=\"TABLE5\".\"COL5\" "
+              + "LEFT JOIN \"TABLE6\" ON \"TABLE5\".\"COL5\"=\"TABLE6\".\"COL6\"",
+              queryVis.toString());
     }
 
     @Test
@@ -399,13 +397,10 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
         assertEquals(iter.next(), tab5);
         assertFalse(iter.hasNext());
 
-        assertEquals("SELECT * "
-                + "FROM (\"FOO\" "
-                + "INNER JOIN (\"BAR\" "
-                + "LEFT JOIN \"ABC\" \"XYZ\" "
-                + "ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\") "
-                + "ON \"FOO\".\"ID\"=\"BAR\".\"ID\")"
-                + ", \"FN\", (\"ORD\" RIGHT JOIN \"FN\" \"ABC\")", queryVis.toString());
+        assertEquals("SELECT * FROM \"FOO\" "
+                + "INNER JOIN \"BAR\" ON \"FOO\".\"ID\"=\"BAR\".\"ID\" "
+                + "LEFT JOIN \"ABC\" \"XYZ\" ON \"BAR\".\"ABC_ID\"=\"XYZ\".\"ID\""
+                + ", \"FN\", \"ORD\" RIGHT JOIN \"FN\" \"ABC\"", queryVis.toString());
     }
 
   //---------------------------INSERT--------------------------------------------------------
@@ -764,14 +759,14 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
 
         ((SapDbQueryVisitor) queryVis).handleJoinConstruction(table);
 
-        assertEquals("\"TAB1\"", queryVis.toString());
+        assertEquals("", queryVis.toString());
 
         table.addFullJoin(table2, col1.equal(col2));
         queryVis = getVisitor();
 
         ((SapDbQueryVisitor) queryVis).handleJoinConstruction(table);
 
-        assertEquals("(\"TAB1\" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\")",
+        assertEquals(" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\"",
                 queryVis.toString());
     }
 
@@ -792,10 +787,9 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
 
         ((SapDbQueryVisitor) queryVis).handleJoinConstruction(table);
 
-        assertEquals("(\"TAB1\" FULL JOIN "
-                + "(\"TAB2\" FULL JOIN "
-                    + "(\"TAB3\" FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\") "
-                + "ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\") ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\")",
+        assertEquals(" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\" "
+                + "FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\" "
+                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\"",
                 queryVis.toString());
     }
 
@@ -816,10 +810,9 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
 
         ((SapDbQueryVisitor) queryVis).handleJoinConstruction(table);
 
-        assertEquals("((("
-                + "\"TAB1\" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\") "
-                + "FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\") "
-                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\")",
+        assertEquals(" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\" "
+                + "FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\" "
+                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\"",
                 queryVis.toString());
     }
 
@@ -840,11 +833,9 @@ public final class TestSapDbQueryVisitor extends TestDefaultQueryVisitor {
 
         ((SapDbQueryVisitor) queryVis).handleJoinConstruction(table);
 
-        assertEquals("("
-                + "(\"TAB1\" FULL JOIN "
-                    + "(\"TAB2\" FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\")"
-                + " ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\") "
-                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\")",
+        assertEquals(" FULL JOIN \"TAB2\" ON \"TAB1\".\"COL1\"=\"TAB2\".\"COL2\" "
+                + "FULL JOIN \"TAB3\" ON \"TAB2\".\"COL2\"=\"TAB3\".\"COL3\" "
+                + "FULL JOIN \"TAB4\" ON \"TAB3\".\"COL3\"=\"TAB4\".\"COL4\"",
                 queryVis.toString());
     }
 
