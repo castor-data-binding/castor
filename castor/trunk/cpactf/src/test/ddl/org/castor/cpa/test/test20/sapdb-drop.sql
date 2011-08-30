@@ -4,6 +4,8 @@ drop sequence test20_keygen_seq
 //
 drop table test20_keygen_ext
 //
+drop sequence test20_keygen_string_seq
+//
 drop table test20_keygen_string
 //
 drop table test20_keygen_ext_string

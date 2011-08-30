@@ -5,7 +5,8 @@ CREATE TABLE test98_poly_base (
 )
 //
 
-INSERT INTO test98_poly_base VALUES ('100','red');
+INSERT INTO test98_poly_base VALUES ('100','red')
+//
 
 CREATE TABLE test98_poly_derived (
   id varchar(64) NOT NULL default '',

@@ -32,6 +32,8 @@ public final class TestCreate extends CPATestCase {
     }
 
     // Test are only included/excluded for engines that have been tested with this test suite.
+    // TODO: check why SAPDB was marked with the exception: 
+    //        The key generator org.castor.cpa.persistence.sql.keygen.SequenceKeyGeneratorFactory is not compatible with the persistence factory sapdb.
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.POSTGRESQL)
@@ -45,7 +47,8 @@ public final class TestCreate extends CPATestCase {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
     
     public void delete() throws Exception {

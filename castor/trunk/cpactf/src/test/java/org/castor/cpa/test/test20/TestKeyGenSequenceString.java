@@ -29,7 +29,8 @@ public final class TestKeyGenSequenceString extends AbstractTestKeyGenString {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     // DERBY and MYSQL do not support sequence key generator

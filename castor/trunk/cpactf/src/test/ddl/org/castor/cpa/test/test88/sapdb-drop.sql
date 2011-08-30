@@ -11,7 +11,7 @@ drop table test88_pks_address
 drop table test88_pks_contract
 //
 drop table test88_pks_category_contract
-
+//
 drop table test88_pks_category
 //
 drop table test88_nton_a
