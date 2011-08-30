@@ -68,7 +68,8 @@ public final class TestRaceCondition extends CPATestCase {
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     // Test fails on DERBY even if isolation levels and locking are supported

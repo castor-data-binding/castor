@@ -37,7 +37,8 @@ public final class TestKeyGenTrigger extends AbstractTestKeyGenInteger {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     public void testKeyGenTrigger() throws  Exception {

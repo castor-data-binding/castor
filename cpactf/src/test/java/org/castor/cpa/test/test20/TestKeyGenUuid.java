@@ -33,7 +33,8 @@ public final class TestKeyGenUuid extends AbstractTestKeyGenString {
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     public void testKeyGenUuid() throws Exception {

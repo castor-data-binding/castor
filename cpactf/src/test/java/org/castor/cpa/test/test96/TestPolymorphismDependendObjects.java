@@ -35,7 +35,8 @@ public final class TestPolymorphismDependendObjects extends CPATestCase {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {

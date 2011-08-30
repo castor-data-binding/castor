@@ -33,7 +33,8 @@ public class TestKeyGenMax extends AbstractTestKeyGenInteger {
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.SQL_SERVER)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     public void testKeyGenMax() throws Exception {

@@ -37,7 +37,8 @@ public final class TestCircularRef extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL);
+            || (engine == DatabaseEngineType.POSTGRESQL)
+            || (engine == DatabaseEngineType.SAPDB);
     }
     
     // Sequence key generator is not supported by

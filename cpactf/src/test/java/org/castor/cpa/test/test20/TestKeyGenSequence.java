@@ -30,7 +30,8 @@ public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
             || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.DERBY);
+            || (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.SAPDB);
     }
 
     // HSQL and MYSQL do not support sequence key generator
