@@ -21,11 +21,15 @@ import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
+import org.castor.jdo.engine.DatabaseContext;
+import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.persist.GlobalTransactionContext;
+import org.castor.transactionmanager.AtomikosTransactionManagerFactory;
 import org.exolab.castor.jdo.DatabaseNotFoundException;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
@@ -214,6 +218,24 @@ public class GlobalDatabaseImpl extends AbstractDatabaseImpl implements Synchron
             case Status.STATUS_ROLLEDBACK:
                 _ctx.rollback();
                 return;
+            case Status.STATUS_UNKNOWN:
+                _ctx.rollback();
+                try {
+                    DatabaseContext context = DatabaseRegistry.getDatabaseContext(_dbName);
+                    TransactionManager transactionManager = context.getTransactionManager();
+                    if (AtomikosTransactionManagerFactory.MANAGER_CLASS_NAME.equals(
+                            transactionManager.getClass().getName())) {
+                        // Accept 'unknown' as legal state for Atomikos as this state
+                        // is returned for read-only transactions. As nothing has changed
+                        // during the transaction it doesn't matter if we do a commit or
+                        // rollback. The handling of 'unknown' does not comply to J2EE spec.
+                        return;
+                    }
+                } catch (Exception ex) {
+                    _log.fatal(Messages.format("jdo.fatalException", ex));
+                }
+                throw new IllegalStateException(
+                        "Unexpected state: afterCompletion called with status " + status);
             default:
                 _ctx.rollback();
                 throw new IllegalStateException(
