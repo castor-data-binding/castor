@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<entity>
+	<id>1</id>
+	<name>name</name>
+	<queue>entry1</queue>
+	<queue>entry2</queue>
+</entity>

@@ -43,90 +43,79 @@
  * $Id$
  */
 
-
 package org.exolab.castor.mapping;
-
 
 import java.util.Enumeration;
 
-
 /**
- * Collection handler for adding/listing elements of a collection.
- * A collection field will use this handler to add elements when it's
- * value is set, and to enumerate then when it's value is retrieved.
- * A collection handler is instantiated only once, must be thread
- * safe and not use any synchronization.
- *
+ * Collection handler for adding/listing elements of a collection. A collection
+ * field will use this handler to add elements when it's value is set, and to
+ * enumerate then when it's value is retrieved. A collection handler is
+ * instantiated only once, must be thread safe and not use any synchronization.
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar
+ *          2003) $
  */
-public interface CollectionHandler
-{
+public interface CollectionHandler<T> {
 
+   /**
+    * Add an object to the collection. A collection may not allow the same
+    * object to be added more than once. The collection is provided as a
+    * parameter and is returned as the return value if the returned collection
+    * is a different object. That way the handler can create a new collection or
+    * change the collection as necessary (e.g. when resizing an array).
+    * 
+    * @param collection
+    *           The collection, null if no collection has been created yet
+    * @param object
+    *           The object to add to the collection
+    * @return The collection with the new object if a different instance than
+    *         the <tt>collection</tt> parameter, null otherwise
+    * @throws ClassCastException
+    *            The collection handler does not support collections of this
+    *            type
+    */
+   public Object add(Object collection, T object) throws ClassCastException;
 
-    /**
-     * Add an object to the collection. A collection may not allow the
-     * same object to be added more than once. The collection is provided
-     * as a parameter and is returned as the return value if the returned
-     * collection is a different object. That way the handler can create
-     * a new collection or change the collection as necessary (e.g. when
-     * resizing an array).
-     *
-     * @param collection The collection, null if no collection has
-     *  been created yet
-     * @param object The object to add to the collection
-     * @return The collection with the new object if a different
-     *  instance than the <tt>collection</tt> parameter, null otherwise
-     * @throws ClassCastException The collection handler does not
-     *  support collections of this type
-     */
-    public Object add( Object collection, Object object )
-        throws ClassCastException;
+   /**
+    * Returns an enumeration of all the elements in the collection.
+    * 
+    * @param collection
+    *           The collection
+    * @return An enumeration of all the elements in the collection
+    * @throws ClassCastException
+    *            The collection handler does not support collections of this
+    *            type
+    */
+   public Enumeration<T> elements(Object collection) throws ClassCastException;
 
+   /**
+    * Returns the number of elements in the collection.
+    * 
+    * @param collection
+    *           The collection
+    * @return Number of elements in the collection
+    * @throws ClassCastException
+    *            The collection handler does not support collections of this
+    *            type
+    */
+   public int size(Object collection) throws ClassCastException;
 
-    /**
-     * Returns an enumeration of all the elements in the collection.
-     *
-     * @param collection The collection
-     * @return An enumeration of all the elements in the collection
-     * @throws ClassCastException The collection handler does not
-     *  support collections of this type
-     */
-    public Enumeration elements( Object collection )
-        throws ClassCastException;
-
-
-    /**
-     * Returns the number of elements in the collection.
-     *
-     * @param collection The collection
-     * @return Number of elements in the collection
-     * @throws ClassCastException The collection handler does not
-     *  support collections of this type
-     */
-    public int size( Object collection )
-        throws ClassCastException;
-
-
-    /**
-     * Clears the collection of any objects. The collection is provided
-     * as a parameter and is returned as the return value if the returned
-     * collection is a different object. That way the handler can create
-     * a new collection or change the collection as necessary (e.g. when
-     * resizing an array).
-     *
-     * @param collection The collection, null if no collection has
-     *  been created yet
-     * @return The empty collection if a different
-     *  instance than the <tt>collection</tt> parameter, null otherwise
-     * @throws ClassCastException The collection handler does not
-     *  support collections of this type
-     */
-    public Object clear( Object collection )
-        throws ClassCastException;
-
+   /**
+    * Clears the collection of any objects. The collection is provided as a
+    * parameter and is returned as the return value if the returned collection
+    * is a different object. That way the handler can create a new collection or
+    * change the collection as necessary (e.g. when resizing an array).
+    * 
+    * @param collection
+    *           The collection, null if no collection has been created yet
+    * @return The empty collection if a different instance than the
+    *         <tt>collection</tt> parameter, null otherwise
+    * @throws ClassCastException
+    *            The collection handler does not support collections of this
+    *            type
+    */
+   public Object clear(Object collection) throws ClassCastException;
 
 }
-
-
-
