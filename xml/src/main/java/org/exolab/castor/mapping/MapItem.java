@@ -43,87 +43,87 @@
  * $Id$
  */
 
-
 package org.exolab.castor.mapping;
 
-
-
 /**
- * Represents a Mapped Object. This Class allows for more
- * control over the key used in Maps and Hashtables.
- *
+ * Represents a Mapped Object. This Class allows for more control over the key
+ * used in Maps and Hashtables.
+ * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar
+ *          2003) $
  */
-public class MapItem {
-    
-    /**
-     * The key
-     */
-    private Object _key = null;
+public class MapItem<K, V> {
 
-    /**
-     * The value 
-     */
-    private Object _value = null;
-    
-    /**
-     * Creates a new empty MapItem.
-     */
-    public MapItem() {
-        super();
-    } //-- MapItem
-    
-    /**
-     * Creates a new MapItem with the given key and value.
-     *
-     * @param key the key Object for this MapItem.
-     * @param value the value for this MapItem.
-     */
-    public MapItem(Object key, Object value) {
-        _key = key;
-        _value = value;
-    } //-- MapItem
-    
-    /**
-     * Returns the key Object for this MapItem, or null
-     * if no key has been specified.
-     *
-     * @return the key Object for this MapItem.
-     */
-    public Object getKey() {
-        return _key;
-    } //-- getKey
+   /**
+    * The key
+    */
+   private K _key = null;
 
-    /**
-     * Returns the value Object for this MapItem, or null
-     * if no value has yet been specified.
-     *
-     * @return the value Object for this MapItem.
-     */
-    public Object getValue() {
-        return _value;
-    } //-- getValue
-    
-    /**
-     * Sets the key for this MapItem. 
-     *
-     * @param key the key Object for this MapItem.
-     */    
-    public void setKey(Object key) {
-        _key = key;
-    } //-- setKey
-    
-    /**
-     * Sets the value for this MapItem. 
-     *
-     * @param value the value Object for this MapItem.
-     */    
-    public void setValue(Object value) {
-        _value = value;
-    } //-- setValue
-    
-} //-- MapItem
+   /**
+    * The value
+    */
+   private V _value = null;
 
+   /**
+    * Creates a new empty MapItem.
+    */
+   public MapItem() {
+      super();
+   }
 
+   /**
+    * Creates a new MapItem with the given key and value.
+    * 
+    * @param key
+    *           the key Object for this MapItem.
+    * @param value
+    *           the value for this MapItem.
+    */
+   public MapItem(K key, V value) {
+      _key = key;
+      _value = value;
+   }
+
+   /**
+    * Returns the key Object for this MapItem, or null if no key has been
+    * specified.
+    * 
+    * @return the key Object for this MapItem.
+    */
+   public K getKey() {
+      return _key;
+   }
+
+   /**
+    * Returns the value Object for this MapItem, or null if no value has yet
+    * been specified.
+    * 
+    * @return the value Object for this MapItem.
+    */
+   public V getValue() {
+      return _value;
+   }
+
+   /**
+    * Sets the key for this MapItem.
+    * 
+    * @param key
+    *           the key Object for this MapItem.
+    */
+   public void setKey(K key) {
+      _key = key;
+   } // -- setKey
+
+   /**
+    * Sets the value for this MapItem.
+    * 
+    * @param value
+    *           the value Object for this MapItem.
+    */
+   public void setValue(V value) {
+      _value = value;
+   } // -- setValue
+
+} // -- MapItem
 

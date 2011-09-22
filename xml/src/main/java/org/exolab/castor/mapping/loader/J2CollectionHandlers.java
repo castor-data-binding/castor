@@ -43,387 +43,87 @@
  * $Id$
  */
 
-
 package org.exolab.castor.mapping.loader;
 
-
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
-import org.exolab.castor.mapping.CollectionHandler;
-import org.exolab.castor.mapping.MapItem;
-
+import org.exolab.castor.mapping.loader.collection.handler.ArrayListCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.CollectionCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.IteratorCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.ListCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.MapCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.QueueCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.SetCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.SortedMapCollectionHandler;
+import org.exolab.castor.mapping.loader.collection.handler.SortedSetCollectionHandler;
 
 /**
- * Implementation of various collection handlers for the Java 1.2
- * libraries.
- *
+ * Implementation of various collection handlers for the Java 1.2 libraries.
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-26 13:08:15 -0600 (Wed, 26 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-26 13:08:15 -0600 (Wed, 26 Apr
+ *          2006) $
  */
-public final class J2CollectionHandlers
-{
+public final class J2CollectionHandlers {
 
+   /**
+    * List of all the default collection handlers.
+    */
+   private static CollectionHandlers.Info[] collectionHandlers;
 
-    public static CollectionHandlers.Info[] getCollectionHandlersInfo()
-    {
-        return _colHandlers;
-    }
+   static {
+      collectionHandlers = new CollectionHandlers.Info[] {
+            new CollectionHandlers.Info("list", List.class, false, new ListCollectionHandler()),
+            new CollectionHandlers.Info("arraylist", ArrayList.class, false, new ArrayListCollectionHandler()),
+            // For Collection/ArrayList (1.2)
+            new CollectionHandlers.Info("collection", Collection.class, false, new CollectionCollectionHandler()),
+            // For Queue (1.2)
+            new CollectionHandlers.Info("priorityqueue", PriorityQueue.class, false, new QueueCollectionHandler()),
+            // For Set/HashSet (1.2)
+            new CollectionHandlers.Info("set", Set.class, false, new SetCollectionHandler()),
+            // For Map/HashMap (1.2)
+            new CollectionHandlers.Info("map", Map.class, false, new MapCollectionHandler()),
+            // For SortedSet (1.2 aka 1.4)
+            new CollectionHandlers.Info("sortedset", SortedSet.class, false, new SortedSetCollectionHandler()),
+            // For SortedMap (1.2 aka 1.4)
+            new CollectionHandlers.Info("sortedmap", SortedMap.class, false, new SortedMapCollectionHandler()),
+            // For java.util.Iterator
+            new CollectionHandlers.Info("iterator", Iterator.class, false, new IteratorCollectionHandler())
+      };
+   }
 
+   public static CollectionHandlers.Info[] getCollectionHandlersInfo() {
+      return collectionHandlers;
+   }
 
-    /**
-     * List of all the default collection handlers.
-     */
-    private static CollectionHandlers.Info[] _colHandlers = new CollectionHandlers.Info[] {
-       new CollectionHandlers.Info("list", List.class, false, new CollectionHandler() {
-          public Object add(Object collection, final Object object) {
-             if (collection == null) {
-                 collection = new ArrayList();
-                 ((Collection) collection).add(object);
-                 return collection;
-             }
-            ((Collection) collection).add(object);
-             return null;
-          }
-          public Enumeration elements(final Object collection) {
-              if (collection == null) {
-                  return new CollectionHandlers.EmptyEnumerator();
-              }
-              return new IteratorEnumerator(((Collection) collection).iterator());
-          }
-          public int size(final Object collection) {
-             if (collection == null) {
-                return 0;
-             }
-             return ((Collection) collection).size();
-          }
-          public Object clear(final Object collection) {
-             if (collection != null) {
-                ((Collection) collection).clear();
-             }
-             return null;
-          }
-          public String toString() {
-             return "List";
-          }
-       } ),
-        new CollectionHandlers.Info( "arraylist", ArrayList.class, false, new CollectionHandler() {
-            public Object add( Object collection, Object object ) {
-                if ( collection == null ) {
-                    collection = new ArrayList();
-                    ( (Collection) collection ).add( object );
-                    return collection;
-                }
-                ( (Collection) collection ).add( object );
-                return null;
-            }
-            public Enumeration elements( Object collection ) {
-                if ( collection == null )
-                    return new CollectionHandlers.EmptyEnumerator();
-                return new IteratorEnumerator( ( (Collection) collection ).iterator() );
-            }
-            public int size( Object collection )
-            {
-                if ( collection == null )
-                    return 0;
-                return ( (Collection) collection ).size();
-            }
-            public Object clear( Object collection ) {
-                if ( collection != null )
-                    ( (Collection) collection ).clear();
-                return null;
-            }
-            public String toString() {
-                return "ArrayList";
-            }
-        } ),
-        // For Collection/ArrayList (1.2)
-        new CollectionHandlers.Info( "collection", Collection.class, false, new CollectionHandler() {
-            public Object add( Object collection, Object object ) {
-                if ( collection == null ) {
-                    collection = new ArrayList();
-                    ( (Collection) collection ).add( object );
-                    return collection;
-                }
-                ( (Collection) collection ).add( object );
-                return null;
-            }
-            public Enumeration elements( Object collection ) {
-                if ( collection == null )
-                    return new CollectionHandlers.EmptyEnumerator();
-                return new IteratorEnumerator( ( (Collection) collection ).iterator() );
-            }
-            public int size( Object collection )
-            {
-                if ( collection == null )
-                    return 0;
-                return ( (Collection) collection ).size();
-            }
-            public Object clear( Object collection ) {
-                if ( collection != null )
-                    ( (Collection) collection ).clear();
-                return null;
-            }
-            public String toString() {
-                return "Collection";
-            }
-        } ),
-        // For Set/HashSet (1.2)
-        new CollectionHandlers.Info( "set", Set.class, false, new CollectionHandler() {
-            public Object add( Object collection, Object object ) {
-                if ( collection == null ) {
-                    collection = new HashSet();
-                    ( (Set) collection ).add( object );
-                    return collection;
-                }
-                //if ( ! ( (Set) collection ).contains( object ) )
-                ( (Set) collection ).add( object );
-                return null;
-            }
-            public Enumeration elements( Object collection ) {
-                if ( collection == null )
-                    return new CollectionHandlers.EmptyEnumerator();
-                return new IteratorEnumerator( ( (Set) collection ).iterator() );
-            }
-            public int size( Object collection )
-            {
-                if ( collection == null )
-                    return 0;
-                return ( (Set) collection ).size();
-            }
-            public Object clear( Object collection ) {
-                if ( collection != null )
-                    ( (Set) collection ).clear();
-                return null;
-            }
-            public String toString() {
-                return "Set";
-            }
-        } ),
-        // For Map/HashMap (1.2)
-        new CollectionHandlers.Info( "map", Map.class, false, new CollectionHandler() {
-            public Object add( Object collection, Object object ) {
-                
-                Object key = object;
-                Object value = object;
-                
-                if (object instanceof MapItem) {
-                    MapItem item = (MapItem)object;
-                    key = item.getKey();
-                    value = item.getValue();
-                    if (value == null) {
-                        value = object;
-                    }
-                    if (key == null) {
-                        key = value;
-                    }
-                }
-                
-                if ( collection == null ) {
-                    collection = new HashMap();
-                    ( (Map) collection ).put( key, value );
-                    return collection;
-                }
-                ( (Map) collection ).put( key, value );
-                return null;
-            }
-            public Enumeration elements( Object collection ) {
-                if ( collection == null )
-                    return new CollectionHandlers.EmptyEnumerator();
-                return new IteratorEnumerator( ( (Map) collection ).values().iterator() );
-            }
-            public int size( Object collection )
-            {
-                if ( collection == null )
-                    return 0;
-                return ( (Map) collection ).size();
-            }
-            public Object clear( Object collection ) {
-                if ( collection != null )
-                    ( (Map) collection ).clear();
-                return null;
-            }
-            public String toString() {
-                return "Map";
-            }
-        } ),
-        // For SortedSet (1.2 aka 1.4)
-        new CollectionHandlers.Info("sortedset", SortedSet.class, false, new SortedSetCollectionHandler()),
+   /**
+    * Enumerator for an iterator.
+    */
+   public static final class IteratorEnumerator<T> implements Enumeration<T> {
 
-        // For SortedMap (1.2 aka 1.4)
-        new CollectionHandlers.Info("sortedmap", SortedMap.class, false, new SortedMapCollectionHandler()),
-        
-        // For java.util.Iterator
-        new CollectionHandlers.Info( "iterator", Iterator.class, false, new CollectionHandler() {
-            public Object add(Object collection, Object object) {
-                //-- do nothing, cannot add elements to an enumeration
-                return null;
-            }
-            public Enumeration elements(Object collection) {
-                if (collection == null) {
-                    return new CollectionHandlers.EmptyEnumerator();
-                }
-                return new IteratorEnumerator((Iterator) collection);
-            }
-            public int size(Object collection) {
-                //-- Nothing we can do without iterating over the iterator
-                return 0;
-            }
-            public Object clear(Object collection) {
-                return null;
-            }
-            public String toString() {
-                return "Iterator";
-            }
-        } )
+      private final Iterator<T> _iterator;
 
-    };
+      public IteratorEnumerator(Iterator<T> iterator) {
+         _iterator = iterator;
+      }
 
+      public boolean hasMoreElements() {
+         return _iterator.hasNext();
+      }
 
-    private static final class SortedSetCollectionHandler implements CollectionHandler {
-        
-        /**
-         * @inheritDoc
-         */
-        public Object add(Object collection, final Object object) {
-            if (collection == null) {
-                collection = new TreeSet();
-                ((Set) collection).add(object);
-                return collection;
-            }
-            // if (!((Set) collection).contains(object))
-            ((Set) collection).add(object);
-            return null;
-            
-        }
+      public T nextElement() {
+         return _iterator.next();
+      }
 
-        /**
-         * @inheritDoc
-         */
-        public Enumeration elements(final Object collection) {
-            if (collection == null) {
-                return new CollectionHandlers.EmptyEnumerator();
-            }
-            return new IteratorEnumerator(((Set) collection).iterator());
-        }
-
-        /**
-         * @inheritDoc
-         */
-        public int size(final Object collection) {
-            if (collection == null) {
-                return 0;
-            }
-            return ((Set) collection).size();
-        }
-
-        /**
-         * @inheritDoc
-         */
-        public Object clear(final Object collection) {
-            if (collection != null) {
-                ((Set) collection).clear();
-            }
-            return null;
-        }
-
-        /**
-         * @inheritDoc
-         */
-        public String toString() {
-            return "SortedSet";
-        }
-    }
-
-    private static final class SortedMapCollectionHandler implements CollectionHandler {
-        
-        public Object add(Object collection, Object object) {
-
-            Object key = object;
-            Object value = object;
-
-            if (object instanceof MapItem) {
-                MapItem item = (MapItem) object;
-                key = item.getKey();
-                value = item.getValue();
-                if (value == null) {
-                    value = object;
-                }
-                if (key == null) {
-                    key = value;
-                }
-            }
-
-            if (collection == null) {
-                collection = new TreeMap();
-                ((SortedMap) collection).put(key, value);
-                return collection;
-            }
-            ((SortedMap) collection).put(key, value);
-            return null;
-        }
-        
-        public Enumeration elements(final Object collection) {
-            if (collection == null)
-                return new CollectionHandlers.EmptyEnumerator();
-            return new IteratorEnumerator(((SortedMap) collection).values()
-                    .iterator());
-        }
-        
-        public int size(final Object collection) {
-            if (collection == null)
-                return 0;
-            return ((SortedMap) collection).size();
-        }
-        
-        public Object clear(final Object collection) {
-            if (collection != null)
-                ((SortedMap) collection).clear();
-            return null;
-        }
-        
-        public String toString() {
-            return "SortedMap";
-        }
-    }
-    
-
-    /**
-     * Enumerator for an iterator.
-     */
-    static final class IteratorEnumerator
-        implements Enumeration
-    {
-
-        private final Iterator _iterator;
-
-        IteratorEnumerator( Iterator iterator )
-        {
-            _iterator = iterator;
-        }
-
-        public boolean hasMoreElements()
-        {
-            return _iterator.hasNext();
-        }
-
-        public Object nextElement()
-        {
-            return _iterator.next();
-        }
-
-    }
-
+   }
 
 }

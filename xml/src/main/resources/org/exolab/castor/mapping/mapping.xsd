@@ -230,6 +230,7 @@
                <xsd:enumeration value="array"/>
                <xsd:enumeration value="vector"/>
                <xsd:enumeration value="arraylist"/>
+               <xsd:enumeration value="priorityqueue"/>
                <xsd:enumeration value="hashtable"/>
                <xsd:enumeration value="collection"/>
                <xsd:enumeration value="set"/>
