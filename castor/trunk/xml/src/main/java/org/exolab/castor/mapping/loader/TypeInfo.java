@@ -43,262 +43,273 @@
  * $Id$
  */
 
-
 package org.exolab.castor.mapping.loader;
-
 
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.CollectionHandler;
 
-
 /**
  * Type information passed on creation of a {@link FieldHandlerImpl}.
  * 
- *
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
+ *          2005) $
  */
-public class TypeInfo
-{
+public class TypeInfo {
 
+   /**
+    * The field type.
+    */
+   private Class<?> fieldType;
 
-    /**
-     * The field type.
-     */
-    private Class _fieldType;
+   /**
+    * Convertor to the field type from external type.
+    */
+   private TypeConvertor convertorTo;
 
+   /**
+    * Convertor from the field type to external type.
+    */
+   private TypeConvertor convertorFrom;
 
-    /**
-     * Convertor to the field type from external type.
-     */
-    private TypeConvertor _convertorTo;
+   /**
+    * True if the field type is immutable.
+    */
+   private boolean immutable = false;
 
+   /**
+    * True if the field is required.
+    */
+   private boolean required = false;
 
-    /**
-     * Convertor from the field type to external type.
-     */
-    private TypeConvertor _convertorFrom;
+   /**
+    * The default value of the field.
+    */
+   private Object _default;
 
+   /**
+    * The collection handler of the field.
+    */
+   private CollectionHandler _colHandler;
 
-    /**
-     * True if the field type is immutable.
-     */
-    private boolean       _immutable = false;
-
-
-    /**
-     * True if the field is required.
-     */
-    private boolean        _required = false;
-
-
-    /**
-     * The default value of the field.
-     */
-    private Object         _default;
-
-
-    /**
-     * The collection handler of the field.
-     */
-    private CollectionHandler  _colHandler;
-
-
-    /**
-     * Construct new type information for a field. This field
-     * requires no type conversion, and has no default value.
-     *
-     * @param fieldType The field type
+   /**
+    * Construct new type information for a field. This field requires no type
+    * conversion, and has no default value.
+    * 
+    * @param fieldType
+    *           The field type
     **/
-    public TypeInfo(Class<?> fieldType) {
-        this(fieldType, null, null, false, null, null, true );
-    } //-- TypeInfo
+   public TypeInfo(Class<?> fieldType) {
+      this(fieldType, null, null, false, null, null, true);
+   } // -- TypeInfo
 
-    
-    /**
-     * Construct new type information for the field.
-     *
-     * @param fieldType The field type
-     * @param convertorTo Convertor to the field type from external
-     *  type, or null if no conversion is required
-     * @param convertorFrom Convertor from the field type to external
-     *  type, or null if no conversion is required
-     * @param required True if the field is required
-     * @param defaultValue The default value of the field, null to
-     *  use the known Java defaults
-     * @param colHandler The collection handler for this field, or null if
-     *  field is singular
-     */
-    public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
-                    boolean required, Object defaultValue, CollectionHandler colHandler) {
-        this(fieldType, convertorTo, convertorFrom, required, defaultValue, colHandler, true );
-    }
+   /**
+    * Construct new type information for the field.
+    * 
+    * @param fieldType
+    *           The field type
+    * @param convertorTo
+    *           Convertor to the field type from external type, or null if no
+    *           conversion is required
+    * @param convertorFrom
+    *           Convertor from the field type to external type, or null if no
+    *           conversion is required
+    * @param required
+    *           True if the field is required
+    * @param defaultValue
+    *           The default value of the field, null to use the known Java
+    *           defaults
+    * @param colHandler
+    *           The collection handler for this field, or null if field is
+    *           singular
+    */
+   public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
+         boolean required, Object defaultValue, CollectionHandler colHandler) {
+      this(fieldType, convertorTo, convertorFrom, required, defaultValue, colHandler, true);
+   }
 
+   /**
+    * Construct new type information for the field.
+    * 
+    * @param fieldType
+    *           The field type
+    * @param convertorTo
+    *           Convertor to the field type from external type, or null if no
+    *           conversion is required
+    * @param convertorFrom
+    *           Convertor from the field type to external type, or null if no
+    *           conversion is required
+    * @param required
+    *           True if the field is required
+    * @param defaultValue
+    *           The default value of the field, null to use the known Java
+    *           defaults
+    * @param colHandler
+    *           The collection handler for this field, or null if field is
+    *           singular
+    */
+   public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom, boolean required,
+         Object defaultValue, CollectionHandler colHandler, boolean checkForCollection) {
+      if ((colHandler == null) && checkForCollection) {
 
-    /**
-     * Construct new type information for the field.
-     *
-     * @param fieldType The field type
-     * @param convertorTo Convertor to the field type from external
-     *  type, or null if no conversion is required
-     * @param convertorFrom Convertor from the field type to external
-     *  type, or null if no conversion is required
-     * @param required True if the field is required
-     * @param defaultValue The default value of the field, null to
-     *  use the known Java defaults
-     * @param colHandler The collection handler for this field, or null if
-     *  field is singular
-     */
-    public TypeInfo(Class fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
-                    boolean required, Object defaultValue,
-                    CollectionHandler colHandler, boolean checkForCollection) {
-        if ((colHandler == null) && checkForCollection) {
-            
-            if (fieldType.isArray()) {
-                //-- byte[] should not use a CollectionHandler since it
-                //-- needs to be base64 encoded/decoded.
-                if (fieldType.getComponentType() != Byte.TYPE) {
-                    try {
-                        colHandler = CollectionHandlers.getHandler(Object[].class);
-                    } 
-                    catch (Exception e) {
-                        //-- If we make it here, there was probably something wrong
-                        //-- with loading the J1CollectionHandlers class...
-                        throw new NullPointerException("Impossible to locate CollectionHandler for array.");
-                    }
-                }
-                
-            } 
-            else {
-                try {
-                    colHandler = CollectionHandlers.getHandler(fieldType);
-                } 
-                catch (Exception e) {
-                    // NOOP : It just mean that there is not handler for the collection
-                    // and that this fieldType is not a collection
-                }
+         if (fieldType.isArray()) {
+            // -- byte[] should not use a CollectionHandler since it
+            // -- needs to be base64 encoded/decoded.
+            if (fieldType.getComponentType() != Byte.TYPE) {
+               try {
+                  colHandler = CollectionHandlers.getHandler(Object[].class);
+               } catch (Exception e) {
+                  // -- If we make it here, there was probably something wrong
+                  // -- with loading the J1CollectionHandlers class...
+                  throw new NullPointerException("Impossible to locate CollectionHandler for array.");
+               }
             }
-        }
 
-        _fieldType = fieldType;
-        _convertorTo = convertorTo;
-        _convertorFrom = convertorFrom;
-        _immutable = Types.isImmutable( fieldType );
-        _required = required;
-        // Note: must be called with fieldType (might be primitive) and not
-        // _fieldType (never primitive) to get the proper default value
-        _default = ( defaultValue == null ? Types.getDefault( fieldType ) : defaultValue );
-        _colHandler = colHandler;
-    }
+         } else {
+            try {
+               colHandler = CollectionHandlers.getHandler(fieldType);
+            } catch (Exception e) {
+               // NOOP : It just mean that there is not handler for the
+               // collection
+               // and that this fieldType is not a collection
+            }
+         }
+      }
 
+      setFieldType(fieldType);
+      setConvertorTo(convertorTo);
+      setConvertorFrom(convertorFrom);
+      setImmutable(Types.isImmutable(fieldType));
+      setRequired(required);
+      // Note: must be called with fieldType (might be primitive) and not
+      // _fieldType (never primitive) to get the proper default value
+      setDefault((defaultValue == null ? Types.getDefault(fieldType) : defaultValue));
+      setColHandler(colHandler);
+   }
 
-    /**
-     * Returns the field type.
-     *
-     * @return The field type
-     */
-    public Class getFieldType()
-    {
-        return _fieldType;
-    }
+   /**
+    * Returns the field type.
+    * 
+    * @return The field type
+    */
+   public Class<?> getFieldType() {
+      return fieldType;
+   }
 
-    /**
-     * Returns the convertor to the field type from an external type.
-     *
-     * @return Convertor to field type
-     */
-    public TypeConvertor getConvertorTo()
-    {
-        return _convertorTo;
-    }
+   /**
+    * Returns the convertor to the field type from an external type.
+    * 
+    * @return Convertor to field type
+    */
+   public TypeConvertor getConvertorTo() {
+      return convertorTo;
+   }
 
+   /**
+    * Returns the convertor from the field type to an external type.
+    * 
+    * @return Convertor from field type
+    */
+   public TypeConvertor getConvertorFrom() {
+      return convertorFrom;
+   }
 
-    /**
-     * Returns the convertor from the field type to an external type.
-     *
-     * @return Convertor from field type
-     */
-    public TypeConvertor getConvertorFrom()
-    {
-        return _convertorFrom;
-    }
+   /**
+    * Returns true if field type is immutable.
+    * 
+    * @return True if type is immutable
+    */
+   public boolean isImmutable() {
+      return immutable;
+   }
 
+   /**
+    * Returns true if field type is required.
+    * 
+    * @return True if field is required
+    */
+   public boolean isRequired() {
+      return required;
+   }
 
-    /**
-     * Returns true if field type is immutable.
-     *
-     * @return True if type is immutable
-     */
-    public boolean isImmutable()
-    {
-        return _immutable;
-    }
+   /**
+    * Returns the default value for the field.
+    * 
+    * @return The default value
+    */
+   public Object getDefaultValue() {
+      return getDefault();
+   }
 
+   /**
+    * Return the collection handler of this field.
+    * 
+    * @return The collection handler of this field
+    */
+   public CollectionHandler getCollectionHandler() {
+      return getColHandler();
+   }
 
-    /**
-     * Returns true if field type is required.
-     *
-     * @return True if field is required
-     */
-    public boolean isRequired()
-    {
-        return _required;
-    }
+   /**
+    * Sets a flag indictating if the field is required.
+    * 
+    * @param required
+    *           the value of the flag. Should be true if the field is required,
+    *           false otherwise.
+    */
+   public void setRequired(boolean required) {
+      this.required = required;
+   } // -- setRequired
 
+   /**
+    * Sets the CollectionHandler to use for the field described by this
+    * TypeInfo.
+    * 
+    * @param handler
+    *           the CollectionHandler, or null if no CollectionHandler should be
+    *           used.
+    */
+   public void setCollectionHandler(CollectionHandler handler) {
+      setColHandler(handler);
+   }
 
-    /**
-     * Returns the default value for the field.
-     *
-     * @return The default value
-     */
-    public Object getDefaultValue()
-    {
-        return _default;
-    }
+   /**
+    * Sets whether or not the type is immutable
+    * 
+    * @param immutable
+    *           a boolean that when true indicates the type is immutable
+    */
+   void setImmutable(boolean immutable) {
+      this.immutable = immutable;
+   }
 
+   private void setFieldType(Class<?> fieldType) {
+      this.fieldType = fieldType;
+   }
 
-    /**
-     * Return the collection handler of this field.
-     *
-     * @return The collection handler of this field
-     */
-    public CollectionHandler getCollectionHandler()
-    {
-        return _colHandler;
-    }
+   private void setConvertorTo(TypeConvertor convertorTo) {
+      this.convertorTo = convertorTo;
+   }
 
+   private void setConvertorFrom(TypeConvertor convertorFrom) {
+      this.convertorFrom = convertorFrom;
+   }
 
-    /**
-     * Sets a flag indictating if the field is required.
-     *
-     * @param required the value of the flag. Should be true if the 
-     * field is required, false otherwise.
-     */
-    public void setRequired(boolean required) {
-        this._required = required;
-    } //-- setRequired
-    
-    /**
-     * Sets the CollectionHandler to use for the field
-     * described by this TypeInfo.
-     *
-     * @param handler the CollectionHandler, or null if no
-     * CollectionHandler should be used.
-     */
-    public void setCollectionHandler(CollectionHandler handler) {
-        _colHandler = handler;
-    } //-- setCollectionHandler
-    
-    /**
-     * Sets whether or not the type is immutable
-     * 
-     * @param immutable a boolean that when true indicates the type
-     * is immutable
-     */
-    void setImmutable(boolean immutable) {
-    	_immutable = immutable;
-    }
-    
-} 
+   private void setDefault(Object _default) {
+      this._default = _default;
+   }
 
+   private Object getDefault() {
+      return _default;
+   }
 
+   private void setColHandler(CollectionHandler colHandler) {
+      _colHandler = colHandler;
+   }
+
+   private CollectionHandler getColHandler() {
+      return _colHandler;
+   }
+
+}
