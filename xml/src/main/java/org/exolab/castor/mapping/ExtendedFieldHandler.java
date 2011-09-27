@@ -57,28 +57,26 @@ import org.exolab.castor.mapping.loader.FieldHandlerFriend;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class ExtendedFieldHandler extends FieldHandlerFriend {
+public abstract class ExtendedFieldHandler<T> extends FieldHandlerFriend<T> {
 
-    /**
-     * @deprecated No longer supported
-     */
-    public void checkValidity(Object object) throws ValidityException,
-            IllegalStateException {
-        // -- do nothing...deprecated method
-    }
+   /**
+    * @deprecated No longer supported
+    */
+   public void checkValidity(Object object) throws ValidityException, IllegalStateException {
+      // -- do nothing...deprecated method
+   }
 
-    /**
-     * Creates a new instance of the object described by this field.
-     * 
-     * @param parent
-     *            The object for which the field is created
-     * @param args
-     *            the set of constructor arguments
-     * @return A new instance of the field's value
-     * @throws IllegalStateException
-     *             This field is a simple type and cannot be instantiated
-     */
-    public abstract Object newInstance(Object parent, Object[] args)
-            throws IllegalStateException;
+   /**
+    * Creates a new instance of the object described by this field.
+    * 
+    * @param parent
+    *           The object for which the field is created
+    * @param args
+    *           the set of constructor arguments
+    * @return A new instance of the field's value
+    * @throws IllegalStateException
+    *            This field is a simple type and cannot be instantiated
+    */
+   public abstract Object newInstance(Object parent, Object[] args) throws IllegalStateException;
 
 }

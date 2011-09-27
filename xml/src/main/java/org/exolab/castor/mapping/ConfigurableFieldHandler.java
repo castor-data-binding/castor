@@ -54,7 +54,7 @@ import java.util.Properties;
  * @version $Revision:  $
  * @see FieldHandler
  */
-public interface ConfigurableFieldHandler extends FieldHandler {
+public interface ConfigurableFieldHandler<T> extends FieldHandler<T> {
 
     /**
      * Set the configuration data. It will override any previously set configuration.
