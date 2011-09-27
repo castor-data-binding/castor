@@ -43,7 +43,6 @@
  * $Id$
  */
 
-
 package org.exolab.castor.xml;
 
 import org.exolab.castor.mapping.AbstractFieldHandler;
@@ -51,112 +50,113 @@ import org.exolab.castor.mapping.AbstractFieldHandler;
 /**
  * This FieldHandler is used in the generated descriptors.
  * <p>
- * A field handler knows how to perform various operations on the
- * field that require access to the field value.
+ * A field handler knows how to perform various operations on the field that
+ * require access to the field value.
  * </p>
- *
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr
+ *          2006) $
  * @see org.exolab.castor.mapping.FieldDescriptor
  */
-public class XMLFieldHandler
-    extends AbstractFieldHandler
-{
+public class XMLFieldHandler<T> extends AbstractFieldHandler<T> {
 
-    /**
-     * Creates a new default XMLFieldHandler
-     */
-    public XMLFieldHandler() {
-        super();
-    } //-- XMLFieldHandler
-    
-    
-    /**
-     * Returns true if the given object is an XMLFieldHandler that
-     * is equivalent to this one. An equivalent XMLFieldHandler is
-     * an XMLFieldHandler that is an instances of the same class. 
-     * This method can be overwritten to provide more advanced 
-     * equivalence tests.
-     *
-     * @return true if the given object is an XMLFieldHandler that
-     * is equivalent to this one.
+   /**
+    * Creates a new default XMLFieldHandler instance.
+    */
+   public XMLFieldHandler() {
+      super();
+   }
+
+   /**
+    * Returns true if the given object is an XMLFieldHandler that is equivalent
+    * to this one. An equivalent XMLFieldHandler is an XMLFieldHandler that is
+    * an instances of the same class. This method can be overwritten to provide
+    * more advanced equivalence tests.
+    * 
+    * @return true if the given object is an XMLFieldHandler that is equivalent
+    *         to this one.
     **/
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof XMLFieldHandler)) return false;
-        return getClass().isInstance(obj);
-    } //-- equals
-    
-    /**
-     * Returns the value of the field from the object.
-     *
-     * @param object The object
-     * @return The value of the field
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     */
-    public Object getValue( Object object ) 
-        throws IllegalStateException
-    {
-        //-- Do nothing, this method is overloaded by the
-        //-- source code generator
-        return null;
-    } //-- getValue
-    
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public Object newInstance( Object parent )
-        throws IllegalStateException
-    {
-        //-- Do nothing, this method is overloaded by the
-        //-- source code generator
-        return null;
-    } //-- newInstance
-        
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @param args the set of constructor arguments
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public Object newInstance(final Object parent, final Object[] args)
-    throws IllegalStateException {
-        //-- backward compatability...ignore args
-        return newInstance(parent);
-    } //-- newInstance
+   public boolean equals(Object obj) {
+      if (obj == null) {
+         return false;
+      }
+      if (!(obj instanceof XMLFieldHandler)) {
+         return false;
+      }
+      return getClass().isInstance(obj);
+   }
 
-    /**
-     * Sets the value of the field on the object.
-     *
-     * @param object The object.
-     * @param value The new value.
-     * @throws IllegalStateException The Java object has changed and is no longer
-     *         supported by this handler, or the handler is not compatiable with the
-     *         Java object.
-     * @throws IllegalArgumentException The value passed is not of a supported type.
-     */
-    public void setValue(final Object object, final Object value)
-    throws IllegalStateException, IllegalArgumentException {
-        //-- Do nothing, this method is overloaded by the
-        //-- source code generator
-    } //-- setValue
+   /**
+    * Returns the value of the field from the object.
+    * 
+    * @param object
+    *           The object
+    * @return The value of the field
+    * @throws IllegalStateException
+    *            The Java object has changed and is no longer supported by this
+    *            handler, or the handler is not compatiable with the Java object
+    */
+   public T getValue(Object object) throws IllegalStateException {
+      // -- Do nothing, this method is overloaded by the
+      // -- source code generator
+      return null;
+   }
 
+   /**
+    * Creates a new instance of the object described by this field.
+    * 
+    * @param parent
+    *           The object for which the field is created
+    * @return A new instance of the field's value
+    * @throws IllegalStateException
+    *            This field is a simple type and cannot be instantiated
+    */
+   public T newInstance(Object parent) throws IllegalStateException {
+      // -- Do nothing, this method is overloaded by the
+      // -- source code generator
+      return null;
+   }
 
-    public void resetValue(final Object object)
-    throws IllegalStateException, IllegalArgumentException {
-        //-- Do nothing, this method is overloaded by the
-        //-- source code generator
-    }
-} //-- XMLFieldHandler
+   /**
+    * Creates a new instance of the object described by this field.
+    * 
+    * @param parent
+    *           The object for which the field is created
+    * @param args
+    *           the set of constructor arguments
+    * @return A new instance of the field's value
+    * @throws IllegalStateException
+    *            This field is a simple type and cannot be instantiated
+    */
+   public Object newInstance(final Object parent, final Object[] args) throws IllegalStateException {
+      // -- backward compatability...ignore args
+      return newInstance(parent);
+   }
 
+   /**
+    * Sets the value of the field on the object.
+    * 
+    * @param object
+    *           The object.
+    * @param value
+    *           The new value.
+    * @throws IllegalStateException
+    *            The Java object has changed and is no longer supported by this
+    *            handler, or the handler is not compatiable with the Java
+    *            object.
+    * @throws IllegalArgumentException
+    *            The value passed is not of a supported type.
+    */
+   public void setValue(final Object object, final T value) throws IllegalStateException,
+         IllegalArgumentException {
+      // -- Do nothing, this method is overloaded by the
+      // -- source code generator
+   }
+
+   public void resetValue(final Object object) throws IllegalStateException, IllegalArgumentException {
+      // -- Do nothing, this method is overloaded by the
+      // -- source code generator
+   }
+}

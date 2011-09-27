@@ -42,75 +42,72 @@
  *
  * $Id$
  */
- 
+
 package org.exolab.castor.mapping;
 
 import java.util.Properties;
 
 /**
- * An extended version of the FieldHandler interface which is
- * used for adding additional functionality while preserving
- * backward compatability.
- *
+ * An extended version of the FieldHandler interface which is used for adding
+ * additional functionality while preserving backward compatability.
+ * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-08-03 15:11:51 -0600 (Wed, 03 Aug 2005) $
+ * @version $Revision$ $Date: 2005-08-03 15:11:51 -0600 (Wed, 03 Aug
+ *          2005) $
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class AbstractFieldHandler
-extends ExtendedFieldHandler
-implements ConfigurableFieldHandler {
-    
-    /** 
-     * The FieldDescriptor for the field that this handler is responsible for. 
-     */
-    private FieldDescriptor _descriptor = null;
-    
-    /** 
-     * Configuration that can be used by subclasses when needed. 
-     */
-    protected Properties _properties;
+public abstract class AbstractFieldHandler<T> extends ExtendedFieldHandler<T> implements ConfigurableFieldHandler<T> {
 
-    
-    /** 
-     * {@inheritDoc}
-     */
-    protected final FieldDescriptor getFieldDescriptor() {
-        return _descriptor;
-    }
-    
-    /** 
-     * {@inheritDoc}
-     */
-    public void setFieldDescriptor(FieldDescriptor fieldDesc) {
-        _descriptor = fieldDesc;
-    }
+   /**
+    * The FieldDescriptor for the field that this handler is responsible for.
+    */
+   private FieldDescriptor _descriptor = null;
 
-    /**
-     * Returns true if the "handled" field has a value within the 
-     * given object.
-     * <p>
-     * By default this just checks for null. Normally this method
-     * is needed for checking if a value has been set via a call
-     * to the setValue method, or if the primitive value has
-     * been initialised by the JVM. 
-     * </p>
-     * <p>
-     * This method should be overloaded for improved value checking.
-     * </p>
-     *
-     * @return true if the given object has a value for the handled field
-     */
-    public boolean hasValue(final Object object) {
-        return (getValue(object) != null);
-    }
-    
-    /**
-     * Empty implementation of the {@link ConfigurableFieldHandler} interface, for convenience
-     * purpose. Subclasses that want to use any configuration should override this method.
-     * 
-     * @param config The configuration as specified in the mapping file.
-     */
-    public void setConfiguration(final Properties config) throws ValidityException { }
+   /**
+    * Configuration that can be used by subclasses when needed.
+    */
+   protected Properties _properties;
+
+   /**
+    * {@inheritDoc}
+    */
+   protected final FieldDescriptor getFieldDescriptor() {
+      return _descriptor;
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   public void setFieldDescriptor(FieldDescriptor fieldDesc) {
+      _descriptor = fieldDesc;
+   }
+
+   /**
+    * Returns true if the "handled" field has a value within the given object.
+    * <p>
+    * By default this just checks for null. Normally this method is needed for
+    * checking if a value has been set via a call to the setValue method, or if
+    * the primitive value has been initialised by the JVM.
+    * </p>
+    * <p>
+    * This method should be overloaded for improved value checking.
+    * </p>
+    * 
+    * @return true if the given object has a value for the handled field
+    */
+   public boolean hasValue(final Object object) {
+      return (getValue(object) != null);
+   }
+
+   /**
+    * Empty implementation of the {@link ConfigurableFieldHandler} interface,
+    * for convenience purpose. Subclasses that want to use any configuration
+    * should override this method.
+    * 
+    * @param config
+    *           The configuration as specified in the mapping file.
+    */
+   public void setConfiguration(final Properties config) throws ValidityException {
+   }
 }
-

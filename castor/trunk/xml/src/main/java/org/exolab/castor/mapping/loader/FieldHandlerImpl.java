@@ -43,9 +43,7 @@
  * $Id$
  */
 
-
 package org.exolab.castor.mapping.loader;
-
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -68,931 +66,885 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingRuntimeException;
 import org.exolab.castor.util.IteratorEnumeration;
 
-
 /**
- * A field handler that knows how to get/set the values of a field
- * directly or through the get/set methods. Uses reflection.
+ * A field handler that knows how to get/set the values of a field directly or
+ * through the get/set methods. Uses reflection.
  * <p>
  * Note: the field Java type is obtained from {@link TypeInfo#getFieldType()},
- * but if the field is a collection, the actual field/accessor type is
- * obtained from {@link TypeInfo#getCollectionHandler} and the object to create
- * (with {@link #newInstance(Object)}) is the former field type.
- *
+ * but if the field is a collection, the actual field/accessor type is obtained
+ * from {@link TypeInfo#getCollectionHandler} and the object to create (with
+ * {@link #newInstance(Object)}) is the former field type.
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
+ *          2006) $
  */
-public final class FieldHandlerImpl
-    extends AbstractFieldHandler
-{
-    /**
-     * The prefix for an "add" method
+public final class FieldHandlerImpl<T> extends AbstractFieldHandler<T> {
+   /**
+    * The prefix for an "add" method
     **/
-    private static final String ADD_PREFIX = "add";
-    
-    /**
-     * The prefix for an "enum" method
-     */
-    private static final String ENUM_PREFIX = "enum";
+   private static final String ADD_PREFIX = "add";
 
-    /**
-     * The prefix for an "iter" method
-     */
-    private static final String ITER_PREFIX = "iter";
-    
-    /**
-     * The underlying field handler used by this handler.
-     */
-    private final FieldHandler _handler;
+   /**
+    * The prefix for an "enum" method
+    */
+   private static final String ENUM_PREFIX = "enum";
 
+   /**
+    * The prefix for an "iter" method
+    */
+   private static final String ITER_PREFIX = "iter";
 
-    /**
-     * The Java field described and accessed through this descriptor.
-     */
-    private final Field	_field;
+   /**
+    * The underlying field handler used by this handler.
+    */
+   private final FieldHandler<T> _handler;
 
+   /**
+    * The Java field described and accessed through this descriptor.
+    */
+   private final Field _field;
 
-    /**
-     * The sequence of methods used to obtain the nested field. May be null.
-     */
-    private Method[]	_getSequence;
+   /**
+    * The sequence of methods used to obtain the nested field. May be null.
+    */
+   private Method[] _getSequence;
 
+   /**
+    * The sequence of methods used to create the nested object. May be null.
+    */
+   private Method[] _setSequence;
 
-    /**
-     * The sequence of methods used to create the nested object. May be null.
-     */
-    private Method[]	_setSequence;
+   /**
+    * The method used to "incrementally" set the value of this field. This is
+    * only used if the field is a collection
+    */
+   private Method _addMethod;
 
+   /**
+    * The method used to enumerate entries of a container.
+    */
+   private Method _enumMethod;
 
-    /** 
-      * The method used to "incrementally" set the value of this field.  
-      * This is only used if the field is a collection 
-      */ 
-    private Method        _addMethod; 
+   /**
+    * The method used to iterate over a container.
+    */
+   private Method _iterMethod;
 
-    /**
-     * The method used to enumerate entries of a container.
-     */
-    private Method		_enumMethod;
-    
-    /**
-     * The method used to iterate over a container.
-     */
-    private Method		_iterMethod;
-    
-    /**
-     * The method used to obtain the value of this field. May be null.
-     */
-    private Method      _getMethod;
+   /**
+    * The method used to obtain the value of this field. May be null.
+    */
+   private Method _getMethod;
 
+   /**
+    * The method used to set the value of this field. May be null.
+    */
+   private Method _setMethod;
 
-    /**
-     * The method used to set the value of this field. May be null.
-     */
-    private Method        _setMethod;
+   /**
+    * The method used to check if the value of this field exists. May be null.
+    */
+   private Method _hasMethod;
 
+   /**
+    * The method used to delete the value of this field. May be null.
+    */
+   private Method _deleteMethod;
 
-    /**
-     * The method used to check if the value of this field exists. May be null.
-     */
-    private Method		_hasMethod;
+   /**
+    * The method used to create a new instance of the field.
+    */
+   private Method _createMethod;
 
+   /**
+    * The Java field name.
+    */
+   private final String _fieldName;
 
-    /**
-     * The method used to delete the value of this field. May be null.
-     */
-    private Method		_deleteMethod;
+   /**
+    * The Java field type.
+    */
+   private final Class _fieldType;
 
+   /**
+    * True if this field is an immutable type.
+    */
+   private final boolean _immutable;
 
-    /**
-     * The method used to create a new instance of the field.
-     */
-    private Method		_createMethod;
+   /**
+    * The default value for primitive fields. Will be set if the field is null.
+    */
+   private final Object _default;
 
+   /**
+    * Convertor to apply when setting the value of the field. Converts from the
+    * value to the field type. Null if no convertor is required.
+    */
+   private TypeConvertor _convertTo = null;
 
-    /**
-     * The Java field name.
-     */
-    private final String _fieldName;
+   /**
+    * Convertor to apply when reading the value of the field. Converts from the
+    * field type to the return value. Null if no convertor is required.
+    */
+   private TypeConvertor _convertFrom = null;
 
+   /**
+    * The collection handler for multi valued fields.
+    */
+   private final CollectionHandler<T> _colHandler;
 
-    /**
-     * The Java field type.
-     */
-    private final Class  _fieldType;
+   /**
+    * Construct a new field handler for the specified field. The field must be
+    * public, and may not be static or transient. The field name is determined
+    * from the Java field, the type from the type information.
+    * 
+    * @param handler
+    * @param typeInfo
+    *           Type information
+    */
+   public FieldHandlerImpl(FieldHandler<T> handler, TypeInfo typeInfo) {
+      _handler = handler;
+      _field = null;
+      _fieldName = handler.toString();
+      _fieldType = Types.typeFromPrimitive(typeInfo.getFieldType());
+      _immutable = typeInfo.isImmutable();
+      _default = typeInfo.getDefaultValue();
+      _convertTo = typeInfo.getConvertorTo();
+      _convertFrom = typeInfo.getConvertorFrom();
+      _colHandler = typeInfo.getCollectionHandler();
+   }
 
+   /**
+    * Construct a new field handler for the specified field. The field must be
+    * public, and may not be static or transient. The field name is determined
+    * from the Java field, the type from the type information.
+    * 
+    * @param field
+    *           The field being described
+    * @param typeInfo
+    *           Type information
+    * @throws MappingException
+    *            If the field is not public, is static or transient
+    */
+   public FieldHandlerImpl(Field field, TypeInfo typeInfo) throws MappingException {
+      if (field.getModifiers() != Modifier.PUBLIC
+            && field.getModifiers() != (Modifier.PUBLIC | Modifier.VOLATILE))
+         throw new MappingException("mapping.fieldNotAccessible", field.getName(), field.getDeclaringClass()
+               .getName());
+      _handler = null;
+      _field = field;
+      _fieldType = Types.typeFromPrimitive(typeInfo.getFieldType());
+      _fieldName = field.getName() + "(" + field.getType().getName() + ")";
+      _immutable = typeInfo.isImmutable();
+      // If the field is of a primitive type or if it is required
+      // we use the default value
+      if (_field.getType().isPrimitive())
+         _default = typeInfo.getDefaultValue();
+      else
+         _default = null;
+      _convertTo = typeInfo.getConvertorTo();
+      _convertFrom = typeInfo.getConvertorFrom();
+      _colHandler = typeInfo.getCollectionHandler();
+   }
 
-    /**
-     * True if this field is an immutable type.
-     */
-    private final boolean  _immutable;
+   /**
+    * Construct a new field handler for the specified field that is accessed
+    * through the accessor methods (get/set). The accessor methods must be
+    * public and not static. The field name is required for descriptive
+    * purposes. The field type must match the return value of the get method and
+    * the single parameter of the set method. Either get or set methods are
+    * optional.
+    * 
+    * @param fieldName
+    *           The field being described
+    * @param getMethod
+    *           The method used to retrieve the field value, must accept no
+    *           parameters and have a return type castable to the field type
+    * @param setMethod
+    *           The method used to set the field value, must accept a single
+    *           parameter that is castable to the field type
+    * @param typeInfo
+    *           Type information
+    * @throws MappingException
+    *            If the get or set method are not public, are static, or do not
+    *            specify the proper types
+    * 
+    */
+   public FieldHandlerImpl(String fieldName, Method[] getSequence, Method[] setSequence, Method getMethod,
+         Method setMethod, TypeInfo typeInfo) throws MappingException {
+      _handler = null;
+      _field = null;
+      if (fieldName == null)
+         throw new IllegalArgumentException("Argument 'fieldName' is null");
 
+      // Originally commented out by Oleg....not sure why?
+      // if ( getMethod == null && setMethod == null )
+      // throw new IllegalArgumentException(
+      // "Both arguments 'getMethod' and 'setMethod' are null" );
 
-    /**
-     * The default value for primitive fields. Will be set if the field is null.
-     */
-    private final Object   _default;
+      _getSequence = getSequence;
+      _setSequence = setSequence;
 
+      if (setMethod != null) {
+         // -- might be an "add" method
+         if (setMethod.getName().startsWith(ADD_PREFIX)) {
+            Class<?> pType = setMethod.getParameterTypes()[0];
+            if (pType != typeInfo.getFieldType())
+               setAddMethod(setMethod);
+            else
+               setWriteMethod(setMethod);
+         }
 
-    /**
-     * Convertor to apply when setting the value of the field. Converts from
-     * the value to the field type. Null if no convertor is required.
-     */
-    private TypeConvertor  _convertTo = null;
+         // for(Iterator iter = setMethods.iterator(); iter.hasNext(); ) {
+         // Method method = (Method) iter.next();
+         //
+         // if (method.getName().startsWith(ADD_PREFIX)) {
+         // Class paraType = method.getParameterTypes()[0];
+         //
+         // if (paraType != typeInfo.getFieldType()) {
+         // addMethods.add(method);
+         // iter.remove();
+         // }
+         // }
+         // }
+         else
+            setWriteMethod(setMethod);
+      }
 
+      if (getMethod != null) {
+         // getMethod might be an enumeration or iteration.
+         if (getMethod.getName().startsWith(ENUM_PREFIX)) {
+            Class<?> rType = getMethod.getReturnType();
 
-    /**
-     * Convertor to apply when reading the value of the field. Converts from
-     * the field type to the return value. Null if no convertor is required.
-     */
-    private TypeConvertor  _convertFrom = null;
+            // Check if getMethod really returns an enumeration.
+            if (Enumeration.class.isAssignableFrom(rType))
+               setEnumMethod(getMethod);
+            else
+               // If getMethod does not return an enumeration, treat it as a
+               // normal getMethod.
+               setReadMethod(getMethod);
+         } else if (getMethod.getName().startsWith(ITER_PREFIX)) {
+            Class<?> rType = getMethod.getReturnType();
 
+            // Check if getMethod really returns an iterator.
+            if (Iterator.class.isAssignableFrom(rType))
+               setIterMethod(getMethod);
+            else
+               // If getMethod does not return an iterator, treat it as a normal
+               // getMethod.
+               setReadMethod(getMethod);
+         } else
+            setReadMethod(getMethod);
+      }
 
-    /**
-     * The collection handler for multi valued fields.
-     */
-    private final CollectionHandler _colHandler;
+      _fieldType = Types.typeFromPrimitive(typeInfo.getFieldType());
+      _fieldName = fieldName + "(" + _fieldType.getName() + ")";
+      _immutable = typeInfo.isImmutable();
 
+      // If the field is of a primitive type or if it is required
+      // we use the default value
+      if (setMethod != null && setMethod.getParameterTypes()[0].isPrimitive())
+         _default = typeInfo.getDefaultValue();
+      else
+         _default = null;
+      _convertTo = typeInfo.getConvertorTo();
+      _convertFrom = typeInfo.getConvertorFrom();
+      _colHandler = typeInfo.getCollectionHandler();
+   }
 
-    /**
-     * Construct a new field handler for the specified field. The field must
-     * be public, and may not be static or transient. The field name is
-     * determined from the Java field, the type from the type information.
-     *
-     * @param handler
-     * @param typeInfo Type information
-     */
-    public FieldHandlerImpl( FieldHandler handler, TypeInfo typeInfo )
-    {
-        _handler = handler;
-        _field = null;
-        _fieldName = handler.toString();
-        _fieldType = Types.typeFromPrimitive( typeInfo.getFieldType() );
-        _immutable = typeInfo.isImmutable();
-        _default = typeInfo.getDefaultValue();
-        _convertTo = typeInfo.getConvertorTo();
-        _convertFrom = typeInfo.getConvertorFrom();
-        _colHandler = typeInfo.getCollectionHandler();
-    }
+   public TypeConvertor getConvertFrom() {
+      return _convertFrom;
+   }
 
+   public TypeConvertor getConvertTo() {
+      return _convertTo;
+   }
 
-    /**
-     * Construct a new field handler for the specified field. The field must
-     * be public, and may not be static or transient. The field name is
-     * determined from the Java field, the type from the type information.
-     *
-     * @param field The field being described
-     * @param typeInfo Type information
-     * @throws MappingException If the field is not public, is static or
-     *    transient
-     */
-    public FieldHandlerImpl( Field field, TypeInfo typeInfo )
-        throws MappingException
-    {
-        if ( field.getModifiers() != Modifier.PUBLIC &&
-             field.getModifiers() != ( Modifier.PUBLIC | Modifier.VOLATILE ) )
-            throw new MappingException( "mapping.fieldNotAccessible", field.getName(),
-                                        field.getDeclaringClass().getName() );
-        _handler = null;
-        _field = field;
-        _fieldType = Types.typeFromPrimitive( typeInfo.getFieldType() );
-        _fieldName = field.getName() + "(" + field.getType().getName() + ")";
-        _immutable = typeInfo.isImmutable();
-        // If the field is of a primitive type or if it is required
-        // we use the default value
-        if ( _field.getType().isPrimitive() )
-            _default = typeInfo.getDefaultValue();
-        else
-            _default = null;
-        _convertTo = typeInfo.getConvertorTo();
-        _convertFrom = typeInfo.getConvertorFrom();
-        _colHandler = typeInfo.getCollectionHandler();
-    }
+   /**
+    * {@inheritDoc}
+    * 
+    * @see org.exolab.castor.mapping.AbstractFieldHandler#getValue(java.lang.Object)
+    */
+   @SuppressWarnings("unchecked")
+   public T getValue(Object object) {
+      T value;
 
+      try {
+         // If field is accessed directly, get its value. If not, we need to
+         // call
+         // its get method. It's possible to not have a way to access the field.
 
-    /**
-     * Construct a new field handler for the specified field that
-     * is accessed through the accessor methods (get/set). The accessor
-     * methods must be public and not static. The field name is
-     * required for descriptive purposes. The field type must match
-     * the return value of the get method and the single parameter of
-     * the set method. Either get or set methods are optional.
-     *
-     * @param fieldName The field being described
-     * @param getMethod The method used to retrieve the field value,
-     *  must accept no parameters and have a return type castable to
-     *  the field type
-     * @param setMethod The method used to set the field value, must
-     *  accept a single parameter that is castable to the field type
-     * @param typeInfo Type information
-     * @throws MappingException If the get or set method are not public,
-     *   are static, or do not specify the proper types
-     *
-     */
-    public FieldHandlerImpl( String fieldName, Method[] getSequence, Method[] setSequence, 
-                             Method getMethod, Method setMethod, TypeInfo typeInfo )
-        throws MappingException
-    {
-        _handler = null;
-        _field = null;
-        if ( fieldName == null )
-            throw new IllegalArgumentException( "Argument 'fieldName' is null" );
-            
-        // Originally commented out by Oleg....not sure why?
-        // if ( getMethod == null && setMethod == null )
-        //    throw new IllegalArgumentException( "Both arguments 'getMethod' and 'setMethod' are null" );
-        
-        _getSequence = getSequence;
-        _setSequence = setSequence;
-
-        if ( setMethod != null ) {
-            //-- might be an "add" method
-            if ( setMethod.getName().startsWith(ADD_PREFIX) ) {
-                Class pType = setMethod.getParameterTypes()[0];
-                if (pType != typeInfo.getFieldType() )
-                    setAddMethod (setMethod);
-                else 
-                    setWriteMethod(setMethod);
+         if (_handler != null) {
+            value = _handler.getValue(object);
+         } else if (_field != null) {
+            value = (T) _field.get(object);
+         } else if (_enumMethod != null) {
+            // If there is an enumeration method supplied, return the
+            // enumeration.
+            value = (T) _enumMethod.invoke(object, (Object[]) null);
+         } else if (_iterMethod != null) {
+            // If there is an iterator method supplied, wrap it in an
+            // enumeration.
+            value = (T) new IteratorEnumeration((Iterator<T>) _iterMethod.invoke(object, (Object[]) null));
+         } else if (_getMethod != null) {
+            if (_getSequence != null) {
+               for (int i = 0; i < _getSequence.length; i++) {
+                  object = _getSequence[i].invoke(object, (Object[]) null);
+                  if (object == null) {
+                     break;
+                  }
+               }
             }
-            
-//            for(Iterator iter = setMethods.iterator(); iter.hasNext(); ) {
-//                Method method = (Method) iter.next();
-//
-//	            if (method.getName().startsWith(ADD_PREFIX)) {
-//	                Class paraType = method.getParameterTypes()[0];
-//
-//	                if (paraType != typeInfo.getFieldType()) {
-//	                    addMethods.add(method);
-//	                    iter.remove();
-//	                }
-//	            }
-//            }
-            else setWriteMethod( setMethod );
-        }
 
-        if ( getMethod != null ) {
-        	// getMethod might be an enumeration or iteration.
-        	if(getMethod.getName().startsWith(ENUM_PREFIX)) {
-        		Class rType = getMethod.getReturnType();
-        		
-        		// Check if getMethod really returns an enumeration.
-                if (Enumeration.class.isAssignableFrom(rType))
-                    setEnumMethod(getMethod);
-                else 
-                	// If getMethod does not return an enumeration, treat it as a normal getMethod.
-                    setReadMethod(getMethod);
-        	} else if(getMethod.getName().startsWith(ITER_PREFIX)) {
-        		Class rType = getMethod.getReturnType();
+            // Some of the objects in the sequence might be null, then the value
+            // is null.
+            // If field has 'has' method, false means field is null and do not
+            // attempt to
+            // call getValue. Otherwise, ????
+            if (object == null
+                  || (_hasMethod != null && !((Boolean) _hasMethod.invoke(object, (Object[]) null))
+                        .booleanValue())) {
+               value = null;
+            } else {
+               value = (T) _getMethod.invoke(object, (Object[]) null);
+            }
+         } else {
+            value = null;
+         }
+      } catch (IllegalAccessException except) {
+         throw new CastorIllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()),
+               except);
+      } catch (InvocationTargetException except) {
+         throw new CastorIllegalStateException(Messages.format("mapping.schemaChangeInvocation", toString(),
+               except), except);
+      }
 
-        		// Check if getMethod really returns an iterator.
-                if (Iterator.class.isAssignableFrom(rType))
-                    setIterMethod(getMethod);
-                else 
-                	// If getMethod does not return an iterator, treat it as a normal getMethod.
-                    setReadMethod(getMethod);
-            } else
-                setReadMethod(getMethod);
-        }
-        
-        _fieldType = Types.typeFromPrimitive( typeInfo.getFieldType() );
-        _fieldName = fieldName + "(" + _fieldType.getName() + ")";
-        _immutable = typeInfo.isImmutable();
+      // -- If a collection, return an enumeration of it's values.
+      // -- Only use collection handler, if there is no convertor or enum
+      // method.
+      if (_colHandler != null && _enumMethod == null && _iterMethod == null && _convertFrom == null) {
+         if (value == null) {
+            return (T) new CollectionHandlers.EmptyEnumerator<T>();
+         }
+         return (T) _colHandler.elements(value);
+      }
 
-        // If the field is of a primitive type or if it is required
-        // we use the default value 
-        if ( setMethod != null && setMethod.getParameterTypes()[0].isPrimitive() )
-            _default = typeInfo.getDefaultValue();
-        else
-            _default = null;
-        _convertTo = typeInfo.getConvertorTo();
-        _convertFrom = typeInfo.getConvertorFrom();
-        _colHandler = typeInfo.getCollectionHandler();
-    }
+      // If there is a convertor, apply it
+      if (_convertFrom == null || value == null) {
+         return value;
+      }
 
-    public TypeConvertor getConvertFrom() {
-        return _convertFrom;
-    }
+      try {
+         return (T) _convertFrom.convert(value);
+      } catch (ClassCastException except) {
+         String errorMessage = Messages.format("mapping.wrongConvertor", value.getClass().getName());
+         throw new IllegalArgumentException(errorMessage, except);
+      }
+   }
 
-    public TypeConvertor getConvertTo() {
-        return _convertTo;
-    }
+   /**
+    * {@inheritDoc}
+    * 
+    * @see org.exolab.castor.mapping.AbstractFieldHandler#setValue(java.lang.Object,
+    *      java.lang.Object)
+    */
+   @SuppressWarnings("unchecked")
+   public void setValue(Object object, T value) {
+      if (_colHandler == null || _addMethod != null) {
 
-    /**
-     * {@inheritDoc}
-     * @see org.exolab.castor.mapping.AbstractFieldHandler#getValue(java.lang.Object)
-     */
-    public Object getValue(Object object) {
-        Object value;
+         // If there is a convertor, apply conversion here.
+         if (value != null && _convertTo != null) {
+            try {
+               value = (T) _convertTo.convert(value);
+            } catch (ClassCastException except) {
+               String errorMessage = Messages.format("mapping.wrongConvertor", value.getClass().getName());
+               throw new IllegalArgumentException(errorMessage, except);
+            }
+         } else {
+            // -- unwrap MapItem if necessary
+            // if (_colHandler != null) {
+            // if ((value instanceof MapItem) && (_fieldType != MapItem.class))
+            // {
+            // value = ((MapItem)value).getValue();
+            // }
+            // }
+         }
 
-        try {
-            // If field is accessed directly, get its value.  If not, we need to call
-            // its get method. It's possible to not have a way to access the field.
-
+         try {
             if (_handler != null) {
-                value = _handler.getValue(object);
+               _handler.setValue(object, value);
             } else if (_field != null) {
-                value = _field.get(object);
-            } else if (_enumMethod != null) {
-                // If there is an enumeration method supplied, return the enumeration.
-                value = _enumMethod.invoke(object, (Object[]) null);
-            } else if (_iterMethod != null ) {
-                // If there is an iterator method supplied, wrap it in an enumeration.
-                value = new IteratorEnumeration((Iterator) _iterMethod.invoke(object, (Object[]) null));
-            } else if (_getMethod != null) {
-                if (_getSequence != null) {
-                    for (int i = 0; i < _getSequence.length; i++) {
+               _field.set(object, value == null ? _default : value);
+            } else {
+
+               // -- either add or set
+               Method setter = selectWriteMethod(value);
+
+               if (setter != null) {
+                  if (_getSequence != null) {
+                     for (int i = 0; i < _getSequence.length; i++) {
+                        Object last;
+
+                        last = object;
                         object = _getSequence[i].invoke(object, (Object[]) null);
                         if (object == null) {
-                            break;
+                           // if the value is not null, we must instantiate
+                           // the object in the sequence
+                           if (value == null || _setSequence[i] == null) {
+                              break;
+                           }
+                           object = Types.newInstance(_getSequence[i].getReturnType());
+                           _setSequence[i].invoke(last, new Object[] { object });
                         }
-                    }
-                }
-
-                // Some of the objects in the sequence might be null, then the value is null.
-                // If field has 'has' method, false means field is null and do not attempt to
-                // call getValue. Otherwise, ????
-                if (object == null || (_hasMethod != null 
-                        && !((Boolean) _hasMethod.invoke(object, (Object[]) null)).booleanValue())) {
-                    value = null;
-                } else {
-                    value = _getMethod.invoke(object, (Object[]) null);
-                }
-            } else {
-                value = null;
+                     }
+                  }
+                  if (object != null) {
+                     if (value == null && _deleteMethod != null) {
+                        _deleteMethod.invoke(object, (Object[]) null);
+                     } else {
+                        setter.invoke(object, new Object[] { value == null ? _default : value });
+                     }
+                  }
+               }
             }
-        } catch (IllegalAccessException except) {
-            throw new CastorIllegalStateException(
-                    Messages.format("mapping.schemaChangeNoAccess", toString()),
-                    except);
-        } catch (InvocationTargetException except) {
-            throw new CastorIllegalStateException(
-                    Messages.format("mapping.schemaChangeInvocation", toString(), except),
-                    except);
-        }
-
-        //-- If a collection, return an enumeration of it's values.
-        //-- Only use collection handler, if there is no convertor or enum method.
-        if (_colHandler != null && _enumMethod == null 
-                && _iterMethod == null && _convertFrom == null) {
+            // If the field has no set method, ignore it.
+            // If this is a problem, identity it someplace else.
+         } catch (IllegalArgumentException except) {
+            // Graceful way of dealing with unwrapping exception
             if (value == null) {
-                return new CollectionHandlers.EmptyEnumerator();
+               String errorMessage = Messages.format("mapping.typeConversionNull", toString());
+               throw new IllegalArgumentException(errorMessage);
             }
-            return _colHandler.elements(value);
-        }
-
-        // If there is a convertor, apply it
-        if (_convertFrom == null || value == null) {
-            return value;
-        }
-
-        try {
-            return _convertFrom.convert(value);
-        } catch (ClassCastException except) {
-            String errorMessage = Messages.format("mapping.wrongConvertor", 
-                    value.getClass().getName());
+            String errorMessage = Messages.format("mapping.typeConversion", toString(), value.getClass()
+                  .getName());
             throw new IllegalArgumentException(errorMessage, except);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.exolab.castor.mapping.AbstractFieldHandler#setValue(java.lang.Object, java.lang.Object)
-     */
-    public void setValue(Object object, Object value) {
-        if (_colHandler == null || _addMethod != null) {
-
-            // If there is a convertor, apply conversion here.
-            if (value != null && _convertTo != null) {
-                try {
-                    value = _convertTo.convert(value);
-                } catch (ClassCastException except) {
-                    String errorMessage = 
-                        Messages.format("mapping.wrongConvertor", value.getClass().getName());
-                    throw new IllegalArgumentException(errorMessage, except);
-                }
-            } else {
-                //-- unwrap MapItem if necessary
-                //if (_colHandler != null) {
-                //    if ((value instanceof MapItem) && (_fieldType != MapItem.class))
-                //    {
-                //        value = ((MapItem)value).getValue();
-                //    }
-                //}
-            }
-
-
-            try {
-                if (_handler != null) {
-                    _handler.setValue(object, value);
-                } else if (_field != null) {
-                    _field.set(object, value == null ? _default : value);
-                } else {
-                    
-                    //-- either add or set
-                    Method setter = selectWriteMethod(value);
-                    
-                    if (setter != null) {
-                        if (_getSequence != null) {
-                            for (int i = 0; i < _getSequence.length; i++) {
-                                Object last;
-
-                                last = object;
-                                object = _getSequence[i].invoke(object, (Object[]) null);
-                                if (object == null) {
-                                    // if the value is not null, we must instantiate
-                                    // the object in the sequence
-                                    if (value == null || _setSequence[i] == null) {
-                                        break;
-                                    }
-                                    object = Types.newInstance(_getSequence[i].getReturnType());
-                                    _setSequence[ i ].invoke(last, new Object[] {object});
-                                }
-                            }
+         } catch (IllegalAccessException except) {
+            // This should never happen
+            String errorMessage = Messages.format("mapping.schemaChangeNoAccess", toString());
+            throw new CastorIllegalStateException(errorMessage, except);
+         } catch (InvocationTargetException except) {
+            // This should never happen
+            throw new MappingRuntimeException(except.getTargetException());
+         }
+      } else if (value != null) {
+         Object collect;
+         try {
+            // Get the field value (the collection), add the value to it,
+            // possibly yielding a new collection (in the case of an array),
+            // and set that collection back into the field.
+            if (_handler != null) {
+               collect = _handler.getValue(object);
+               collect = _colHandler.add(collect, value);
+               if (collect != null)
+                  _handler.setValue(object, (T) collect);
+            } else if (_field != null) {
+               collect = _field.get(object);
+               if (collect == null) {
+                  // The type of the collection.
+                  Class type = _field.getType();
+                  // -- Handle Arrays, we need to declare the array with
+                  // -- the correct type. The other cases are handled in
+                  // -- the J1CollectionHandler during the
+                  // -- add(collect,value) call
+                  if (type.isArray()) {
+                     Class componentType = type.getComponentType();
+                     Class valueType = value.getClass();
+                     if (componentType.isPrimitive()
+                           || ((!valueType.isArray()) && (valueType != componentType))) {
+                        try {
+                           collect = Array.newInstance(componentType, 0);
+                        } catch (Exception e) {
+                           String err = "Unable to instantiate an array of '" + componentType + "' : " + e;
+                           throw new CastorIllegalStateException(err, e);
                         }
-                        if (object != null) {
-                            if (value == null && _deleteMethod != null) {
-                                _deleteMethod.invoke(object, (Object[]) null);
-                            } else {
-                                setter.invoke(object, 
-                                        new Object[] {value == null ? _default : value});
-                            }
+                     }
+                  }
+               }
+               collect = _colHandler.add(collect, value);
+               if (collect != null)
+                  _field.set(object, collect);
+
+            } else if (_getMethod != null) {
+               if (_getSequence != null)
+                  for (int i = 0; i < _getSequence.length; i++)
+                     object = _getSequence[i].invoke(object, (Object[]) null);
+               collect = _getMethod.invoke(object, (Object[]) null);
+
+               // If we deal with a collection who is an array of primitive
+               // and that has not been instantiated, we have to handle the
+               // instantiation here rather than in J1CollectionHandler,
+               // because we have acces to the Field object here.
+               boolean setCollection = false;
+               if (collect == null) {
+                  // The return type of the get method should be the type of the
+                  // collection.
+                  Class type = _getMethod.getReturnType();
+
+                  // -- Handle Arrays, we need to declare the array with
+                  // -- the correct type. The other cases are handled in
+                  // -- the J1CollectionHandler during the
+                  // -- add(collect,value) call
+                  if (type.isArray()) {
+                     Class componentType = type.getComponentType();
+                     Class valueType = value.getClass();
+                     if (componentType.isPrimitive()
+                           || ((!valueType.isArray()) && (valueType != componentType))) {
+                        try {
+                           collect = Array.newInstance(componentType, 0);
+                        } catch (Exception e) {
+                           String err = "Unable to instantiate an array of '" + componentType + "' : " + e;
+                           throw new CastorIllegalStateException(err, e);
                         }
-                    }
-                }
-                // If the field has no set method, ignore it.
-                // If this is a problem, identity it someplace else.
-            } catch (IllegalArgumentException except) {
-                // Graceful way of dealing with unwrapping exception
-                if (value == null) {
-                    String errorMessage = Messages.format("mapping.typeConversionNull", toString());
-                    throw new IllegalArgumentException(errorMessage);
-                }
-                String errorMessage = Messages.format("mapping.typeConversion", 
-                        toString(), value.getClass().getName());
-                throw new IllegalArgumentException(errorMessage, except);
-            } catch (IllegalAccessException except) {
-                // This should never happen
-                String errorMessage = 
-                    Messages.format("mapping.schemaChangeNoAccess", toString());
-                throw new CastorIllegalStateException(errorMessage, except);
-            } catch (InvocationTargetException except) {
-                // This should never happen
-                throw new MappingRuntimeException(except.getTargetException());
+                     }
+                  }
+                  setCollection = true;
+               } else {
+                  setCollection = collect.getClass().isArray();
+               }
+
+               Object tmp = _colHandler.add(collect, value);
+
+               // -- make sure we do not overwrite collect unless
+               // -- the new collection is not null
+               if (tmp != null)
+                  collect = tmp;
+
+               if (setCollection && (_setMethod != null))
+                  _setMethod.invoke(object, new Object[] { collect });
             }
-        } else if ( value != null ) {
-            Object collect;
-            try {
-                // Get the field value (the collection), add the value to it,
-                // possibly yielding a new collection (in the case of an array),
-                // and set that collection back into the field.
-                if ( _handler != null ) {
-                    collect = _handler.getValue( object );
-                    collect = _colHandler.add( collect, value );
-                    if ( collect != null )
-                        _handler.setValue( object, collect );
-                } else if ( _field != null ) {
-                    collect = _field.get( object );
-                    if (collect == null) {
-                        // The type of the collection.
-                        Class type = _field.getType();
-                        //-- Handle Arrays, we need to declare the array with
-                        //-- the correct type. The other cases are handled in  
-                        //-- the J1CollectionHandler during the 
-                        //-- add(collect,value) call
-                        if (type.isArray()) {
-                            Class componentType = type.getComponentType();
-                            Class valueType = value.getClass();
-                            if (componentType.isPrimitive() || 
-                               ((!valueType.isArray()) && (valueType != componentType))) 
-                            {
-                                try {
-                                    collect = Array.newInstance(componentType, 0);
-                                } 
-                                catch (Exception e) {
-                                    String err = "Unable to instantiate an array of '" + 
-                                        componentType + "' : " + e;
-                                    throw new CastorIllegalStateException(err, e);
-                                }
-                            }
-                        }
-                    }
-                    collect = _colHandler.add( collect, value );
-                    if ( collect != null )
-                        _field.set( object, collect );
-                        
-                } 
-                else if ( _getMethod != null ) {
-                    if ( _getSequence != null ) 
-                        for ( int i = 0; i < _getSequence.length; i++ ) 
-                            object = _getSequence[ i ].invoke( object, (Object[]) null );
-                    collect = _getMethod.invoke( object, (Object[]) null );
+         } catch (IllegalAccessException except) {
+            // This should never happen
+            throw new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+         } catch (InvocationTargetException except) {
+            // This should never happen
+            throw new MappingRuntimeException(except.getTargetException());
+         }
+      }
+   }
 
-                    // If we deal with a collection who is an array of primitive
-                    // and that has not been instantiated, we have to handle the
-                    // instantiation here rather than in J1CollectionHandler,
-                    // because we have acces to the Field object here.
-                    boolean setCollection = false;
-                    if (collect == null) {
-                        // The return type of the get method should be the type of the collection.
-                        Class type = _getMethod.getReturnType();
-                        
-                        //-- Handle Arrays, we need to declare the array with
-                        //-- the correct type. The other cases are handled in  
-                        //-- the J1CollectionHandler during the 
-                        //-- add(collect,value) call
-                        if (type.isArray()) {
-                            Class componentType = type.getComponentType();
-                            Class valueType = value.getClass();
-                            if (componentType.isPrimitive() || 
-                               ((!valueType.isArray()) && (valueType != componentType))) 
-                            {
-                                try {
-                                    collect = Array.newInstance(componentType, 0);
-                                } 
-                                catch (Exception e) {
-                                    String err = "Unable to instantiate an array of '" + 
-                                        componentType + "' : " + e;
-                                    throw new CastorIllegalStateException(err, e);
-                                }
-                            }
-                        }
-                        setCollection = true;
-                    }
-                    else {
-                        setCollection = collect.getClass().isArray();
-                    }
+   public void resetValue(Object object) {
+      if (_colHandler == null) {
 
-                    Object tmp = _colHandler.add(collect, value);
-                    
-                    //-- make sure we do not overwrite collect unless
-                    //-- the new collection is not null
-                    if (tmp != null) collect = tmp;
-
-                    if ( setCollection && (_setMethod != null))
-                        _setMethod.invoke( object, new Object[] { collect } );
-                }                
-            } catch ( IllegalAccessException except ) {
-                // This should never happen
-                throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
-            } catch ( InvocationTargetException except ) {
-                // This should never happen
-                throw new MappingRuntimeException(except.getTargetException());
+         try {
+            if (_handler != null)
+               _handler.resetValue(object);
+            else if (_field != null)
+               _field.set(object, _default);
+            else if (_setMethod != null) {
+               if (_getSequence != null)
+                  for (int i = 0; i < _getSequence.length; i++) {
+                     object = _getSequence[i].invoke(object, (Object[]) null);
+                     if (object == null)
+                        break;
+                  }
+               if (object != null) {
+                  if (_deleteMethod != null)
+                     _deleteMethod.invoke(object, (Object[]) null);
+                  else
+                     _setMethod.invoke(object, new Object[] { _default });
+               }
             }
-        }
-    }
+            // If the field has no set method, ignore it.
+            // If this is a problem, identity it someplace else.
+         } catch (IllegalArgumentException except) {
+            // Graceful way of dealing with unwrapping exception
+            throw new IllegalArgumentException(Messages.format("mapping.typeConversionNull", toString()));
+         } catch (IllegalAccessException except) {
+            // This should never happen
+            throw new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+         } catch (InvocationTargetException except) {
+            // This should never happen
+            throw new MappingRuntimeException(except.getTargetException());
+         }
 
+      } else {
+         Object collect;
 
-    public void resetValue( Object object )
-    {
-        if ( _colHandler == null ) {
-
-            try {
-                if ( _handler != null )
-                    _handler.resetValue( object );
-                else if ( _field != null )
-                    _field.set( object, _default );
-                else if ( _setMethod != null ) {
-                    if ( _getSequence != null ) 
-                        for ( int i = 0; i < _getSequence.length; i++ ) {
-                            object = _getSequence[ i ].invoke( object, (Object[]) null );
-                            if ( object == null )
-                                break;
-                        }
-                    if ( object != null ) {
-                        if ( _deleteMethod != null )
-                            _deleteMethod.invoke( object, (Object[]) null );
-                        else
-                            _setMethod.invoke( object, new Object[] { _default } );
-                    }
-                }
-                // If the field has no set method, ignore it.
-                // If this is a problem, identity it someplace else.
-            } catch ( IllegalArgumentException except ) {
-                // Graceful way of dealing with unwrapping exception
-                throw new IllegalArgumentException( Messages.format( "mapping.typeConversionNull", toString() ) );
-            } catch ( IllegalAccessException except ) {
-                // This should never happen
-                throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
-            } catch ( InvocationTargetException except ) {
-                // This should never happen
-                throw new MappingRuntimeException(except.getTargetException());
+         try {
+            // Get the field value (the collection), add the value to it,
+            // possibly yielding a new collection (in the case of an array),
+            // and set that collection back into the field.
+            if (_handler != null) {
+               _handler.resetValue(object);
+            } else if (_field != null) {
+               collect = _field.get(object);
+               collect = _colHandler.clear(collect);
+               if (collect != null)
+                  _field.set(object, collect);
+            } else if (_getMethod != null) {
+               if (_getSequence != null)
+                  for (int i = 0; i < _getSequence.length; i++)
+                     object = _getSequence[i].invoke(object, (Object[]) null);
+               collect = _getMethod.invoke(object, (Object[]) null);
+               collect = _colHandler.clear(collect);
+               if (collect != null && _setMethod != null)
+                  _setMethod.invoke(object, new Object[] { collect });
             }
+         } catch (IllegalAccessException except) {
+            // This should never happen
+            throw new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+         } catch (InvocationTargetException except) {
+            // This should never happen
+            throw new MappingRuntimeException(except.getTargetException());
+         }
 
-        } else {
-            Object collect;
+      }
+   }
 
-            try {
-                // Get the field value (the collection), add the value to it,
-                // possibly yielding a new collection (in the case of an array),
-                // and set that collection back into the field.
-                if ( _handler != null ) {
-                    _handler.resetValue( object );
-                } else if ( _field != null ) {
-                    collect = _field.get( object );
-                    collect = _colHandler.clear( collect );
-                    if ( collect != null )
-                        _field.set( object, collect );
-                } else if ( _getMethod != null ) {
-                    if ( _getSequence != null ) 
-                        for ( int i = 0; i < _getSequence.length; i++ ) 
-                            object = _getSequence[ i ].invoke( object, (Object[]) null );
-                    collect = _getMethod.invoke( object, (Object[]) null );
-                    collect = _colHandler.clear( collect );
-                    if ( collect != null && _setMethod != null)
-                        _setMethod.invoke( object, new Object[] { collect } );
-                }                
-            } catch ( IllegalAccessException except ) {
-                // This should never happen
-                throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
-            } catch ( InvocationTargetException except ) {
-                // This should never happen
-                throw new MappingRuntimeException(except.getTargetException());
-            }
+   /**
+    * Creates a new instance of the object described by this field.
+    * 
+    * @param parent
+    *           The object for which the field is created
+    * @return A new instance of the field's value
+    * @throws IllegalStateException
+    *            This field is a simple type and cannot be instantiated
+    */
+   public T newInstance(Object parent) throws IllegalStateException {
+      return newInstance(parent, null);
+   }
 
-        }
-    }
+   /**
+    * Creates a new instance of the object described by this field.
+    * 
+    * @param parent
+    *           The object for which the field is created
+    * @param args
+    *           the set of constructor arguments
+    * @return A new instance of the field's value
+    * @throws IllegalStateException
+    *            This field is a simple type and cannot be instantiated
+    */
+   @SuppressWarnings("unchecked")
+   public T newInstance(Object parent, Object[] args) throws IllegalStateException {
+      if (_fieldType.isInterface() && _createMethod == null)
+         return null;
 
+      if ((_immutable) && ((args == null) || (args.length == 0)))
+         throw new IllegalStateException(Messages.format("mapping.classNotConstructable", _fieldType));
 
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public Object newInstance( Object parent )
-        throws IllegalStateException
-    {
-        return newInstance( parent, null);
-    }
+      if (_handler != null) {
+         if (_handler instanceof ExtendedFieldHandler)
+            return (T) ((ExtendedFieldHandler<T>) _handler).newInstance(parent, args);
+         return _handler.newInstance(parent);
+      }
+      // If we have a create method and parent object, call the create method.
+      if (_createMethod != null && parent != null) {
+         try {
+            return (T) _createMethod.invoke(parent, args);
+         } catch (IllegalAccessException except) {
+            // This should never happen
+            throw new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+         } catch (InvocationTargetException except) {
+            // This should never happen
+            throw new MappingRuntimeException(except.getTargetException());
+         }
+      }
+      return (T) Types.newInstance(_fieldType, args);
+   } // -- newInstance
 
-    /**
-     * Creates a new instance of the object described by this field.
-     *
-     * @param parent The object for which the field is created
-     * @param args the set of constructor arguments
-     * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
-     */
-    public Object newInstance( Object parent, Object[] args )
-        throws IllegalStateException
-    {
-        if (_fieldType.isInterface() && _createMethod == null)
-            return null;
-            
-        if (( _immutable ) && ((args == null) || (args.length == 0)))
-            throw new IllegalStateException( Messages.format( "mapping.classNotConstructable", _fieldType ) );
-        
-        if ( _handler != null ) {
-            if (_handler instanceof ExtendedFieldHandler)
-                return ((ExtendedFieldHandler)_handler).newInstance( parent, args );
-            return _handler.newInstance( parent );
-        }
-        // If we have a create method and parent object, call the create method.
-        if ( _createMethod != null && parent != null ) {
-            try {
-                return _createMethod.invoke( parent, args );
-            } catch ( IllegalAccessException except ) {
-                // This should never happen
-                throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
-            } catch ( InvocationTargetException except ) {
-                // This should never happen
-                throw new MappingRuntimeException(except.getTargetException());
-            }
-        }
-        return Types.newInstance( _fieldType, args );
-    } //-- newInstance
+   /**
+    * Mutator method used by {@link AbstractMappingLoader}.
+    */
+   void setRequired(final boolean required) {
+   }
 
-    /**
-     * Mutator method used by {@link AbstractMappingLoader}.
-     */
-    void setRequired(final boolean required) { }
-
-    /**
-     * Sets the TypeConvertor used during calls to getValue
-     *
-     * @param convertor the TypeConvertor to use during calls
-     * to getValue
+   /**
+    * Sets the TypeConvertor used during calls to getValue
+    * 
+    * @param convertor
+    *           the TypeConvertor to use during calls to getValue
     **/
-    public void setConvertFrom(TypeConvertor convertor) {
-        _convertFrom = convertor;
-    } //-- setConvertFrom
-    
-    /**
-     * Sets the TypeConvertor used during calls to setValue
-     *
-     * @param convertor the TypeConvertor to use during calls
-     * to setValue
+   public void setConvertFrom(TypeConvertor convertor) {
+      _convertFrom = convertor;
+   } // -- setConvertFrom
+
+   /**
+    * Sets the TypeConvertor used during calls to setValue
+    * 
+    * @param convertor
+    *           the TypeConvertor to use during calls to setValue
     **/
-    public void setConvertTo(TypeConvertor convertor) {
-        _convertTo = convertor;
-    } //-- setConvertTo
+   public void setConvertTo(TypeConvertor convertor) {
+      _convertTo = convertor;
+   } // -- setConvertTo
 
-    /**
-     * Mutator method used by {@link AbstractMappingLoader} and
-     * {@link org.exolab.castor.xml.Introspector}.
-     * Please understand how this method is used before you start
-     * playing with it! :-)
-     */
-    public void setCreateMethod( Method method )
-        throws MappingException
-    {
-        if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-             ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-            throw new MappingException( "mapping.accessorNotAccessible",
-                                        method, method.getDeclaringClass().getName() );
-        if ( method.getParameterTypes().length != 0 )
-            throw new MappingException( "mapping.createMethodNoParam",
-                                        method, method.getDeclaringClass().getName() );
-        _createMethod = method;
-    }
+   /**
+    * Mutator method used by {@link AbstractMappingLoader} and
+    * {@link org.exolab.castor.xml.Introspector}. Please understand how this
+    * method is used before you start playing with it! :-)
+    */
+   public void setCreateMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 0)
+         throw new MappingException("mapping.createMethodNoParam", method, method.getDeclaringClass()
+               .getName());
+      _createMethod = method;
+   }
 
+   /**
+    * Mutator method used by {@link AbstractMappingLoader} and
+    * {@link org.exolab.castor.xml.Introspector}. Please understand how this
+    * method is used before you start playing with it! :-)
+    */
+   public void setHasDeleteMethod(Method hasMethod, Method deleteMethod) throws MappingException {
+      if (hasMethod != null) {
+         if ((hasMethod.getModifiers() & Modifier.PUBLIC) == 0
+               || (hasMethod.getModifiers() & Modifier.STATIC) != 0)
+            throw new MappingException("mapping.accessorNotAccessible", hasMethod, hasMethod
+                  .getDeclaringClass().getName());
+         if (hasMethod.getParameterTypes().length != 0)
+            throw new MappingException("mapping.createMethodNoParam", hasMethod, hasMethod
+                  .getDeclaringClass().getName());
+         _hasMethod = hasMethod;
+      }
 
-    /**
-     * Mutator method used by {@link AbstractMappingLoader} and
-     * {@link org.exolab.castor.xml.Introspector}.
-     * Please understand how this method is used before you start
-     * playing with it! :-)
-     */
-    public void setHasDeleteMethod( Method hasMethod, Method deleteMethod )
-        throws MappingException
-    {
-        if ( hasMethod != null ) {
-            if ( ( hasMethod.getModifiers() & Modifier.PUBLIC ) == 0 ||
-                 ( hasMethod.getModifiers() & Modifier.STATIC ) != 0 ) 
-                throw new MappingException( "mapping.accessorNotAccessible",
-                                            hasMethod, hasMethod.getDeclaringClass().getName() );
-            if ( hasMethod.getParameterTypes().length != 0 )
-                throw new MappingException( "mapping.createMethodNoParam",
-                                            hasMethod, hasMethod.getDeclaringClass().getName() );
-            _hasMethod = hasMethod;
-        }
+      if (deleteMethod != null) {
+         if ((deleteMethod.getModifiers() & Modifier.PUBLIC) == 0
+               || (deleteMethod.getModifiers() & Modifier.STATIC) != 0)
+            throw new MappingException("mapping.accessorNotAccessible", deleteMethod, deleteMethod
+                  .getDeclaringClass().getName());
+         if (deleteMethod.getParameterTypes().length != 0)
+            throw new MappingException("mapping.createMethodNoParam", deleteMethod, deleteMethod
+                  .getDeclaringClass().getName());
+         _deleteMethod = deleteMethod;
+      }
+   }
 
-        if ( deleteMethod != null ) {
-            if ( ( deleteMethod.getModifiers() & Modifier.PUBLIC ) == 0 ||
-                 ( deleteMethod.getModifiers() & Modifier.STATIC ) != 0 ) 
-                throw new MappingException( "mapping.accessorNotAccessible",
-                                            deleteMethod, deleteMethod.getDeclaringClass().getName() );
-            if ( deleteMethod.getParameterTypes().length != 0 )
-                throw new MappingException( "mapping.createMethodNoParam",
-                                            deleteMethod, deleteMethod.getDeclaringClass().getName() );
-            _deleteMethod = deleteMethod;
-        }
-    }
+   /**
+    * Mutator method used by {@link org.exolab.castor.xml.Introspector}. Please
+    * understand how this method is used before you start playing with it! :-)
+    */
+   public void setReadMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 0)
+         throw new MappingException("mapping.readMethodHasParam", method, method.getDeclaringClass()
+               .getName());
+      _getMethod = method;
+   }
 
+   /**
+    * Mutator method used by {@link org.exolab.castor.xml.Introspector}. Please
+    * understand how this method is used before you start playing with it! :-)
+    */
+   public void setWriteMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 1)
+         throw new MappingException("mapping.writeMethodNoParam", method, method.getDeclaringClass()
+               .getName());
+      _setMethod = method;
+   }
 
-    /**
-     * Mutator method used by {@link org.exolab.castor.xml.Introspector}.
-     * Please understand how this method is used before you start
-     * playing with it! :-)
-     */
-    public void setReadMethod( Method method )
-        throws MappingException
-    {
-        if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-             ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-            throw new MappingException( "mapping.accessorNotAccessible",
-                                        method, method.getDeclaringClass().getName() );
-        if ( method.getParameterTypes().length != 0 )
-            throw new MappingException( "mapping.readMethodHasParam",
-                                        method, method.getDeclaringClass().getName() );
-        _getMethod = method;
-    }
+   /**
+    * Mutator method used by {@link org.exolab.castor.xml.Introspector}. Please
+    * understand how this method is used before you start playing with it! :-)
+    */
+   public void setAddMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 1)
+         throw new MappingException("mapping.writeMethodNoParam", method, method.getDeclaringClass()
+               .getName());
+      _addMethod = method;
 
+      // -- make sure add method is not the same as the set method
+      if (_addMethod == _setMethod)
+         _setMethod = null;
 
-    /**
-     * Mutator method used by {@link org.exolab.castor.xml.Introspector}.
-     * Please understand how this method is used before you start
-     * playing with it! :-)
-     */
-    public void setWriteMethod( Method method )
-        throws MappingException
-    {
-        if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-             ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-            throw new MappingException( "mapping.accessorNotAccessible",
-                                        method, method.getDeclaringClass().getName() );
-        if ( method.getParameterTypes().length != 1 )
-            throw new MappingException( "mapping.writeMethodNoParam",
-                                        method, method.getDeclaringClass().getName() );
-        _setMethod = method;
-    }
+   } // -- setAddMethod
 
+   /**
+    * Sets the enumeration method.
+    */
+   public void setEnumMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 0)
+         throw new MappingException("mapping.readMethodHasParam", method, method.getDeclaringClass()
+               .getName());
 
-    /**
-     * Mutator method used by {@link org.exolab.castor.xml.Introspector}.
-     * Please understand how this method is used before you start
-     * playing with it! :-)
-     */
-    public void setAddMethod( Method method ) 
-        throws MappingException
-    {
-        if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-             ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-            throw new MappingException( "mapping.accessorNotAccessible",
-                                        method, method.getDeclaringClass().getName() );
-        if ( method.getParameterTypes().length != 1 )
-            throw new MappingException( "mapping.writeMethodNoParam",
-                                        method, method.getDeclaringClass().getName() );
-        _addMethod = method;
-        
-        //-- make sure add method is not the same as the set method
-        if (_addMethod == _setMethod) _setMethod = null;
-        
-    } //-- setAddMethod
+      _enumMethod = method;
+   }
 
-    /**
-     * Sets the enumeration method.
-     */
-    public void setEnumMethod( Method method )
-    	throws MappingException
-    {
-        if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-                ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-               throw new MappingException( "mapping.accessorNotAccessible",
-                                           method, method.getDeclaringClass().getName() );
-        if ( method.getParameterTypes().length != 0 )
-               throw new MappingException( "mapping.readMethodHasParam",
-                                           method, method.getDeclaringClass().getName() );
-       
-       _enumMethod = method;
-    }
-    
-    /**
-     * Sets the iteration method.
-     */
-    public void setIterMethod( Method method )
-		throws MappingException
-	{
-	    if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
-	            ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
-	           throw new MappingException( "mapping.accessorNotAccessible",
-	                                       method, method.getDeclaringClass().getName() );
-	    if ( method.getParameterTypes().length != 0 )
-	           throw new MappingException( "mapping.readMethodHasParam",
-	                                       method, method.getDeclaringClass().getName() );
-	   
-	   _iterMethod = method;
-	}
-    
-    /** 
-      * Selects the appropriate "write" method based on the 
-      * value. This is used when there is an "add" method 
-      * and a "set" method. 
-      * 
-      * @return the selected write method 
-     **/ 
-     private Method selectWriteMethod( Object value ) { 
-         if (_setMethod != null) { 
-              
-             if (_addMethod == null) return _setMethod; 
-              
-             if (value == null) { 
-                 if (_default != null) value = _default; 
-                 else return _setMethod; 
-             } 
-              
-             //-- check value's class type 
-             Class paramType = _setMethod.getParameterTypes()[0]; 
-                                  
-             if (paramType.isAssignableFrom(value.getClass())) 
-                 return _setMethod; 
-         } 
-          
-         return _addMethod; 
-          
-     } //-- selectWriteMethod 
-  
-    /**
-     * Return true if the field is a collection.
-     */
-    public boolean isCollection() {
-        return (_colHandler != null); 
-    }
+   /**
+    * Sets the iteration method.
+    */
+   public void setIterMethod(Method method) throws MappingException {
+      if ((method.getModifiers() & Modifier.PUBLIC) == 0 || (method.getModifiers() & Modifier.STATIC) != 0)
+         throw new MappingException("mapping.accessorNotAccessible", method, method.getDeclaringClass()
+               .getName());
+      if (method.getParameterTypes().length != 0)
+         throw new MappingException("mapping.readMethodHasParam", method, method.getDeclaringClass()
+               .getName());
 
-    public String toString()
-    {
-        return _fieldName;
-    }
-    
-    /**
-     * Sets the FieldDescriptor that this FieldHander is
-     * responsibile for. By setting the FieldDescriptor, it
-     * allows the implementation of the FieldHandler methods 
-     * to obtain information about the field itself. This allows
-     * a particular implementation to become more generic and
-     * reusable.
-     *
-     * @param fieldDesc the FieldDescriptor to set
-     */
-    public void setFieldDescriptor(FieldDescriptor fieldDesc) {
-        super.setFieldDescriptor(fieldDesc);
-        if (_handler != null) {
-            if (_handler instanceof GeneralizedFieldHandler) {
-                ((GeneralizedFieldHandler) _handler).setFieldDescriptor(fieldDesc);
-            }
-        }
-    }
-    
+      _iterMethod = method;
+   }
+
+   /**
+    * Selects the appropriate "write" method based on the value. This is used
+    * when there is an "add" method and a "set" method.
+    * 
+    * @return the selected write method
+    **/
+   private Method selectWriteMethod(Object value) {
+      if (_setMethod != null) {
+
+         if (_addMethod == null)
+            return _setMethod;
+
+         if (value == null) {
+            if (_default != null)
+               value = _default;
+            else
+               return _setMethod;
+         }
+
+         // -- check value's class type
+         Class paramType = _setMethod.getParameterTypes()[0];
+
+         if (paramType.isAssignableFrom(value.getClass()))
+            return _setMethod;
+      }
+
+      return _addMethod;
+
+   } // -- selectWriteMethod
+
+   /**
+    * Return true if the field is a collection.
+    */
+   public boolean isCollection() {
+      return (_colHandler != null);
+   }
+
+   public String toString() {
+      return _fieldName;
+   }
+
+   /**
+    * Sets the FieldDescriptor that this FieldHander is responsibile for. By
+    * setting the FieldDescriptor, it allows the implementation of the
+    * FieldHandler methods to obtain information about the field itself. This
+    * allows a particular implementation to become more generic and reusable.
+    * 
+    * @param fieldDesc
+    *           the FieldDescriptor to set
+    */
+   public void setFieldDescriptor(FieldDescriptor fieldDesc) {
+      super.setFieldDescriptor(fieldDesc);
+      if (_handler != null) {
+         if (_handler instanceof GeneralizedFieldHandler) {
+            ((GeneralizedFieldHandler) _handler).setFieldDescriptor(fieldDesc);
+         }
+      }
+   }
+
 }

@@ -56,12 +56,12 @@ import org.exolab.castor.mapping.CollectionHandler;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
  *          2005) $
  */
-public class TypeInfo {
+public class TypeInfo<T> {
 
    /**
     * The field type.
     */
-   private Class<?> fieldType;
+   private Class<T> fieldType;
 
    /**
     * Convertor to the field type from external type.
@@ -91,7 +91,7 @@ public class TypeInfo {
    /**
     * The collection handler of the field.
     */
-   private CollectionHandler _colHandler;
+   private CollectionHandler<T> _colHandler;
 
    /**
     * Construct new type information for a field. This field requires no type
@@ -100,7 +100,7 @@ public class TypeInfo {
     * @param fieldType
     *           The field type
     **/
-   public TypeInfo(Class<?> fieldType) {
+   public TypeInfo(Class<T> fieldType) {
       this(fieldType, null, null, false, null, null, true);
    } // -- TypeInfo
 
@@ -124,8 +124,8 @@ public class TypeInfo {
     *           The collection handler for this field, or null if field is
     *           singular
     */
-   public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
-         boolean required, Object defaultValue, CollectionHandler colHandler) {
+   public TypeInfo(Class<T> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom,
+         boolean required, Object defaultValue, CollectionHandler<T> colHandler) {
       this(fieldType, convertorTo, convertorFrom, required, defaultValue, colHandler, true);
    }
 
@@ -149,8 +149,8 @@ public class TypeInfo {
     *           The collection handler for this field, or null if field is
     *           singular
     */
-   public TypeInfo(Class<?> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom, boolean required,
-         Object defaultValue, CollectionHandler colHandler, boolean checkForCollection) {
+   public TypeInfo(Class<T> fieldType, TypeConvertor convertorTo, TypeConvertor convertorFrom, boolean required,
+         Object defaultValue, CollectionHandler<T> colHandler, boolean checkForCollection) {
       if ((colHandler == null) && checkForCollection) {
 
          if (fieldType.isArray()) {
@@ -247,7 +247,7 @@ public class TypeInfo {
     * 
     * @return The collection handler of this field
     */
-   public CollectionHandler getCollectionHandler() {
+   public CollectionHandler<T> getCollectionHandler() {
       return getColHandler();
    }
 
@@ -270,7 +270,7 @@ public class TypeInfo {
     *           the CollectionHandler, or null if no CollectionHandler should be
     *           used.
     */
-   public void setCollectionHandler(CollectionHandler handler) {
+   public void setCollectionHandler(CollectionHandler<T> handler) {
       setColHandler(handler);
    }
 
@@ -284,7 +284,7 @@ public class TypeInfo {
       this.immutable = immutable;
    }
 
-   private void setFieldType(Class<?> fieldType) {
+   private void setFieldType(Class<T> fieldType) {
       this.fieldType = fieldType;
    }
 
@@ -304,11 +304,11 @@ public class TypeInfo {
       return _default;
    }
 
-   private void setColHandler(CollectionHandler colHandler) {
+   private void setColHandler(CollectionHandler<T> colHandler) {
       _colHandler = colHandler;
    }
 
-   private CollectionHandler getColHandler() {
+   private CollectionHandler<T> getColHandler() {
       return _colHandler;
    }
 
