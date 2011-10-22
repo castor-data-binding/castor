@@ -601,14 +601,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printConstantDefinitions(final JSourceWriter jsw) {
-        if (!_constants.isEmpty()) {
-            jsw.writeln();
-            jsw.writeln("  //--------------------------/");
-            jsw.writeln(" //- Class/Member constants -/");
-            jsw.writeln("//--------------------------/");
-            jsw.writeln();
-        }
-
         for (JConstant constant : _constants.values()) {
             printAbstractJField(jsw, constant);
         }
@@ -658,14 +650,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMemberVariables(final JSourceWriter jsw) {
-        if (!_fields.isEmpty()) {
-            jsw.writeln();
-            jsw.writeln("  //--------------------------/");
-            jsw.writeln(" //- Class/Member Variables -/");
-            jsw.writeln("//--------------------------/");
-            jsw.writeln();
-        }
-
         for (JField field : _fields.values()) {
             printAbstractJField(jsw, field);
         }
@@ -677,10 +661,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printStaticInitializers(final JSourceWriter jsw) {
-        //----------------------/
-        //- Static Initializer -/
-        //----------------------/
-
         if (!_staticInitializer.isEmpty()) {
             jsw.writeln();
             jsw.writeln("static {");
@@ -696,14 +676,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printConstructors(final JSourceWriter jsw) {
-        if (_constructors.size() > 0) {
-            jsw.writeln();
-            jsw.writeln("  //----------------/");
-            jsw.writeln(" //- Constructors -/");
-            jsw.writeln("//----------------/");
-            jsw.writeln();
-        }
-
         for (int i = 0; i < _constructors.size(); i++) {
             JConstructor jConstructor = _constructors.elementAt(i);
             jConstructor.print(jsw);
@@ -717,14 +689,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMethods(final JSourceWriter jsw) {
-        if (_methods.size() > 0) {
-            jsw.writeln();
-            jsw.writeln("  //-----------/");
-            jsw.writeln(" //- Methods -/");
-            jsw.writeln("//-----------/");
-            jsw.writeln();
-        }
-
         for (int i = 0; i < _methods.size(); i++) {
             JMethod jMethod = _methods.elementAt(i);
             jMethod.print(jsw);
@@ -733,13 +697,6 @@ public abstract class AbstractJClass extends JStructure {
     }
     
     protected final void printSourceCodeFragments(final JSourceWriter sourceWriter) {
-        if (!_sourceCodeEntries.isEmpty()) {
-            sourceWriter.writeln();
-            sourceWriter.writeln("  //----------------------------------/");
-            sourceWriter.writeln(" //- Injected source code fragments -/");
-            sourceWriter.writeln("//----------------------------------/");
-            sourceWriter.writeln();
-        }
         for (String sourceCode : _sourceCodeEntries) {
             sourceWriter.writeln(sourceCode);
             sourceWriter.writeln();
@@ -754,12 +711,6 @@ public abstract class AbstractJClass extends JStructure {
      */
     protected final void printInnerClasses(final JSourceWriter jsw) {
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
-            jsw.writeln();
-            jsw.writeln("  //-----------------/");
-            jsw.writeln(" //- Inner Classes -/");
-            jsw.writeln("//-----------------/");
-            jsw.writeln();
-
             for (int i = 0; i < _innerClasses.size(); i++) {
                 JClass jClass = _innerClasses.elementAt(i);
                 jClass.print(jsw, true);
