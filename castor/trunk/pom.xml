@@ -272,11 +272,16 @@
         </plugins>
 
         <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
+			<extension>
+			    <groupId>org.apache.maven.wagon</groupId>
+			    <artifactId>wagon-webdav</artifactId>
+			    <version>1.0-beta-2</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>2.0</version>
+			</extension>
         </extensions>
 
     </build>
@@ -914,9 +919,18 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.2.1</version>
                 <configuration>
+                	<descriptorRefs>
+                		<descriptorRef>project</descriptorRef>
+                		<!-- 
+                		<descriptorRef>bin</descriptorRef>
+                		 -->
+                	</descriptorRefs>
+                	<!-- 
                     <descriptors>
                         <descriptor>src/main/assembly/project.xml</descriptor>
+                        <descriptor>src/main/assembly/bin.xml</descriptor>
                     </descriptors>
+                     -->
                 </configuration>
                 <executions>
                   <execution>
@@ -935,7 +949,7 @@
     </profiles>
 
     <properties>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
         <derby.version>10.6.2.1</derby.version>
         <surefire.print.summary>false</surefire.print.summary>
     </properties>    
