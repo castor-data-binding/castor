@@ -450,7 +450,6 @@
                 <groupId>xmlunit</groupId>
                 <artifactId>xmlunit</artifactId>
                 <version>1.3</version>
-                <scope>test</scope>
             </dependency>
     
             <dependency>
@@ -849,8 +848,15 @@
                 <module>examples</module>
             </modules>            
         </profile>
+		<!--  only generate Javadoc JARs during release  -->
         <profile>
             <id>javadoc</id>
+	        <activation>
+	          <property>
+	            <name>performRelease</name>
+	            <value>true</value>
+	          </property>
+	        </activation>
             <build>
                 <plugins>
                   <plugin>
