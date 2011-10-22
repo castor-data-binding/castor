@@ -652,6 +652,12 @@ public void addPropertyChangeListener (java.beans.PropertyChangeListener pcl)
 # Java class mapping of &lt;xsd:element&gt;'s and &lt;xsd:complexType&gt;'s
 #
 org.exolab.castor.builder.javaclassmapping=type</programlisting>
+
+			<para>
+				Please note that setting this property will not affect class creation when the 
+				<literal>defaultBindingType</literal> is explicitely used in a binding file. In that case,
+				the value set there will take precedence.  				
+			</para>
          </section>
 
          <section id="xml.code.generator.properties.detailed.super.class">
