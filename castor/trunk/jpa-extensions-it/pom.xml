@@ -63,7 +63,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:derby:${basedir}/target/test;create=true</url>
+                            <url>jdbc:derby:${basedir}/target/test;create=true;logDevice=target/derby.log</url>
                             <autocommit>true</autocommit>
                             <srcFiles>
                                 <!--srcFile>src/test/resources/drop-derby.sql</srcFile-->
@@ -91,7 +91,13 @@
                     <includes>
                         <include>**/*.java</include>
                     </includes>
-                </configuration>
+			        <systemProperties>
+			            <property>
+			                <name>derby.stream.error.file</name>
+			                <value>target/derby.log</value>
+			            </property>
+			        </systemProperties>
+ 	            </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -113,6 +119,12 @@
                     <excludes>
                         <exclude>**/*.java</exclude>
                     </excludes>
+			        <systemProperties>
+			            <property>
+			                <name>derby.stream.error.file</name>
+			                <value>target/derby.log</value>
+			            </property>
+			        </systemProperties>
                 </configuration>
             </plugin>
         </plugins>
