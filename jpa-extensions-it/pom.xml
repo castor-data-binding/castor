@@ -26,6 +26,26 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>derby.stream.error.file</name>
+                                    <value>jpa-extension-it/target/derby.log</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
@@ -91,12 +111,9 @@
                     <includes>
                         <include>**/*.java</include>
                     </includes>
-			        <systemProperties>
-			            <property>
-			                <name>derby.stream.error.file</name>
-			                <value>target/derby.log</value>
-			            </property>
-			        </systemProperties>
+                    <systemPropertyVariables>
+                        <derby.stream.error.file>target/derby.log</derby.stream.error.file>
+                    </systemPropertyVariables>
  	            </configuration>
                 <executions>
                     <execution>
@@ -119,12 +136,9 @@
                     <excludes>
                         <exclude>**/*.java</exclude>
                     </excludes>
-			        <systemProperties>
-			            <property>
-			                <name>derby.stream.error.file</name>
-			                <value>target/derby.log</value>
-			            </property>
-			        </systemProperties>
+                    <systemPropertyVariables>
+                        <derby.stream.error.file>target/derby.log</derby.stream.error.file>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>

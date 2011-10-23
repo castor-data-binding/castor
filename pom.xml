@@ -720,12 +720,9 @@
                         <!-- JDO test suite -->
                         <include>Main.java</include>
                     </includes>
-                    <systemProperties>
-                      <property>
-                        <name>test.category</name>
-                        <value>castor.mysql</value>
-                      </property>
-                    </systemProperties>
+                    <systemPropertyVariables>
+                        <test.category>castor.mysql</test.category>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
