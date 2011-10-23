@@ -21,11 +21,6 @@
    <build>
       <plugins>
          <plugin>
-            <!--  avoid deployment to Maven repository -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-         </plugin>
-         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
          </plugin>
