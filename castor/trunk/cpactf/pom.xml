@@ -100,6 +100,12 @@
                     <includes>
                         <include>**/*.java</include>
                     </includes>
+			        <systemProperties>
+			            <property>
+			                <name>derby.stream.error.file</name>
+			                <value>target/derby.log</value>
+			            </property>
+			        </systemProperties>
                 </configuration>
                 <executions>
                     <execution>
@@ -123,6 +129,12 @@
                     <excludes>
                         <exclude>**/*.java</exclude>
                     </excludes>
+			        <systemProperties>
+			            <property>
+			                <name>derby.stream.error.file</name>
+			                <value>target/derby.log</value>
+			            </property>
+			        </systemProperties>
                 </configuration>
              </plugin>
          
