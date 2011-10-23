@@ -63,7 +63,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:derby:${basedir}/target/test;create=true;logDevice=target/derby.log</url>
+                            <url>jdbc:derby:${basedir}/target/test;create=true</url>
                             <autocommit>true</autocommit>
                             <srcFiles>
                                 <!--srcFile>src/test/resources/drop-derby.sql</srcFile-->
