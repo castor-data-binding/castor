@@ -15,6 +15,14 @@
  */
 package org.castor.xml;
 
+import javax.inject.Inject;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -22,6 +30,8 @@ import junit.framework.TestCase;
  * @author Joachim Grueneis, jgrueneis_at_gmail_dot_com
  * @version $Id$
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/application-context-test.xml" })
 public class JavaNamingTest extends TestCase {
     
     private static final String[] VALID_NAMES = {"name", "myName", "my_name", "NAME"};
@@ -30,19 +40,14 @@ public class JavaNamingTest extends TestCase {
     
     private static final String PS = System.getProperty("file.separator");
 
-    private JavaNaming _javaNaming = new JavaNamingImpl();
-
-    /**
-     * @param arg0
-     */
-    public JavaNamingTest(final String arg0) {
-        super(arg0);
-    }
+    @Inject
+    private JavaNaming _javaNaming;
 
     /**
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#isKeyword(java.lang.String)}.
      */
+    @Test
     public final void testIsKeyword() {
         Assert.assertFalse("A null String is no keyword", _javaNaming.isKeyword(null));
         Assert.assertFalse("An empty String is no keyword", _javaNaming.isKeyword(""));
@@ -57,6 +62,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#isValidJavaIdentifier(java.lang.String)}.
      */
+    @Test
     public final void testIsValidJavaIdentifier() {
         Assert.assertFalse(
                 "A null String is no identifier", _javaNaming.isValidJavaIdentifier(null));
@@ -78,6 +84,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#toJavaClassName(java.lang.String)}.
      */
+    @Test
     public final void testToJavaClassName() {
         Assert.assertEquals("For null in and out should be equals", null, _javaNaming.toJavaClassName(null));
         Assert.assertEquals("For an empty string in and out should be equals", "", _javaNaming.toJavaClassName(""));
@@ -87,6 +94,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#toJavaMemberName(java.lang.String)}.
      */
+    @Test
     public final void testToJavaMemberNameString() {
         Assert.assertEquals("For null in and out should be equals", null, _javaNaming.toJavaMemberName(null));
         Assert.assertEquals("For an empty string in and out should be equals", "", _javaNaming.toJavaMemberName(""));
@@ -96,6 +104,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#toJavaMemberName(java.lang.String, boolean)}.
      */
+    @Test
     public final void testToJavaMemberNameStringBoolean() {
         Assert.assertEquals("For null in and out should be equals", null, _javaNaming.toJavaMemberName(null, true));
         Assert.assertEquals("For an empty string in and out should be equals", "", _javaNaming.toJavaMemberName("", true));
@@ -107,6 +116,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#packageToPath(java.lang.String)}.
      */
+    @Test
     public final void testPackageToPath() {
         Assert.assertEquals("For null in and out should be equals", null, _javaNaming.packageToPath(null));
         Assert.assertEquals("For an empty string in and out should be equals", "", _javaNaming.packageToPath(""));
@@ -138,6 +148,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#getQualifiedFileName(java.lang.String,java.lang.String)}.
      */
+    @Test
     public final void testGetQualifiedFileName() {
         Assert.assertEquals("For null in and out should be equals", null, _javaNaming.getQualifiedFileName(null, null));
         Assert.assertEquals("For an empty string in and out should be equals", "", _javaNaming.getQualifiedFileName("", ""));
@@ -177,6 +188,7 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#getPackageName(java.lang.String)}.
      */
+    @Test
     public final void testGetPackageName() {
         Assert.assertEquals("For null in and out should be equals",
                 null, _javaNaming.getPackageName(null));
@@ -194,12 +206,15 @@ public class JavaNamingTest extends TestCase {
      * Test method for
      * {@link org.castor.xml.JavaNamingImpl#isAddMethod(java.lang.reflect.Method)}.
      */
+    @Test
     public final void testIsAddMethod() {
         Assert.assertFalse(_javaNaming.isAddMethod(null));
     }
-    
+
+    @Ignore
     private class ForTestingPurposes {}
 
+    @Test
     public final void testGetClassName() {
         Assert.assertNull(_javaNaming.getClassName(null));
         Assert.assertEquals("JavaNamingTest", _javaNaming.getClassName(JavaNamingTest.class));
