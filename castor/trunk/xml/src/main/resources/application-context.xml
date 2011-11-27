@@ -10,6 +10,6 @@
        default-autowire="byName">
 
   <context:component-scan base-package="org.exolab.castor" />
-  <context:component-scan base-package="org.castor." />
+  <context:component-scan base-package="org.castor" />
 
 </beans>
