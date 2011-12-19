@@ -97,7 +97,23 @@ public class UnmarshalStateStack {
 		parentStateIndex--;
 		return _unmarshalStates.elementAt(tmpParentIndex);
 	}
-	
+
+   public UnmarshalState peekAtState(Integer index) {
+      return _unmarshalStates.elementAt(index);
+   }
+
+   public UnmarshalState getFirstParentState() {
+      return _unmarshalStates.elementAt(getFirstParentStateIndex());
+   }
+
+   public Integer getFirstParentStateIndex() {
+      return (parentStateIndex == null) ? _unmarshalStates.size() -2 : parentStateIndex;
+   }
+   
+   public Integer size() {
+      return _unmarshalStates.size();
+   }
+   
 	public void resetParentState() {
 	    this.parentStateIndex = null;
 	}

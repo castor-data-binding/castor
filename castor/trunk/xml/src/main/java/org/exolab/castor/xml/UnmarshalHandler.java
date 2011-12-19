@@ -1479,38 +1479,39 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- stack and find correct descriptor
                 String path = state.getElementName();
                 StringBuffer pathBuf = null;
-                while (_stateStack.hasAnotherParentState()) {
-                	UnmarshalState targetState = _stateStack.removeParentState();
-                    if (targetState.isWrapper()) {
-                        //path = targetState.elementName + "/" + path;
-                        pathBuf = resetStringBuffer(pathBuf);
-                        pathBuf.append(targetState.getElementName());
-                        pathBuf.append('/');
-                        pathBuf.append(path);
-                        path = pathBuf.toString();
-                        continue;
-                    }
-                    classDesc = targetState.getClassDescriptor();
-                    descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
-                
-                    if (descriptor != null) {
-                        String tmpPath = descriptor.getLocationPath();
-                        if (path.equals(StringUtils.defaultString(tmpPath))) {
-                            _stateStack.resetParentState();
-                            break; //-- found
-                        }
-                    }
-                        
-                    pathBuf = resetStringBuffer(pathBuf);
-                    pathBuf.append(targetState.getElementName());
-                    pathBuf.append('/');
-                    pathBuf.append(path);
-                    path = pathBuf.toString();
-                    //path = targetState.elementName + "/" + path;
-                    //-- reset descriptor to make sure we don't
-                    //-- exit the loop with a reference to a 
-                    //-- potentially incorrect one.
-                    descriptor = null;
+                Integer parentStateIndex = _stateStack.getFirstParentStateIndex(); 
+                while (parentStateIndex >= 0) {
+                   UnmarshalState targetState = _stateStack.peekAtState(parentStateIndex--);
+                   if (targetState.isWrapper()) {
+                      //path = targetState.elementName + "/" + path;
+                      pathBuf = resetStringBuffer(pathBuf);
+                      pathBuf.append(targetState.getElementName());
+                      pathBuf.append('/');
+                      pathBuf.append(path);
+                      path = pathBuf.toString();
+                      continue;
+                   }
+                   classDesc = targetState.getClassDescriptor();
+                   descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
+
+                   if (descriptor != null) {
+                      String tmpPath = descriptor.getLocationPath();
+                      if (path.equals(StringUtils.defaultString(tmpPath))) {
+                         _stateStack.resetParentState();
+                         break; //-- found
+                      }
+                   }
+
+                   pathBuf = resetStringBuffer(pathBuf);
+                   pathBuf.append(targetState.getElementName());
+                   pathBuf.append('/');
+                   pathBuf.append(path);
+                   path = pathBuf.toString();
+                   //path = targetState.elementName + "/" + path;
+                   //-- reset descriptor to make sure we don't
+                   //-- exit the loop with a reference to a 
+                   //-- potentially incorrect one.
+                   descriptor = null;
                 }
             }
             if (descriptor == null) {
