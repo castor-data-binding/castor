@@ -196,6 +196,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
             sourceCode.add("return ");
             
             if (!useJava50) {
+               sourceCode.add("(");
                sourceCode.add(arrayType.toString());
                sourceCode.add(") ");
             }
