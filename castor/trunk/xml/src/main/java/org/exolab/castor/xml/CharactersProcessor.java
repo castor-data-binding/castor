@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -96,7 +97,7 @@ public class CharactersProcessor {
         // -- handle whitespace
         boolean removedTrailingWhitespace = false;
         boolean removedLeadingWhitespace = false;
-        if (!state.isWhitespacePreserving()) {
+        if (!state.isWhitespacePreserving() && !ArrayUtils.isEmpty(ch)) {
         	removedTrailingWhitespace = Character.isWhitespace(ch[start+length-1]);
         	removedLeadingWhitespace = Character.isWhitespace(ch[start]);
         	string = string.trim();
