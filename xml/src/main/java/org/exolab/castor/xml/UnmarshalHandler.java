@@ -67,7 +67,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
-import org.castor.core.util.StringUtil;
 import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
@@ -83,7 +82,6 @@ import org.exolab.castor.xml.parsing.StrictElementHandler;
 import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
 import org.exolab.castor.xml.parsing.UnmarshalStateStack;
 import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
-import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
@@ -2258,7 +2256,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the new primitive {@link Object}
      */
     public static Object toPrimitiveObject(final Class<?> type, String value) {
-		return PrimitiveObjectFactory.getObject(type, value);
+		return PrimitiveObjectFactory.getInstance().getObject(type, value);
     }
     
     /**
