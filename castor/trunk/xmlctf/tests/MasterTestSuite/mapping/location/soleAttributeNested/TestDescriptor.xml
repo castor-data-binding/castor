@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>Mapping-LocationPaths for a sole nested attribute</Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Tests the special handling of the location attribute in the context of a sole nested
+        attribute within an element.
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Hein Stolle</Reporter>
+        <Date_Report>2011-12-17</Date_Report>
+        <Date_Fix>2011-12-19</Date_Fix>
+        <Comment>https://jira.codehaus.org/browse/CASTOR-3201</Comment>
+    </BugFix>
+
+    <MarshallingTest>
+        <Root_Object>ClassA</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>expected-output.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>
