@@ -197,38 +197,37 @@ public class Marshaller extends MarshalFramework {
     private OutputFormat _format = null;
 
     /**
-     * The ContentHandler we are marshalling to.
+     * The ContentHandler we are marshaling to.
     **/
     private ContentHandler  _handler      = null;
 
     /**
-     * flag to indicate whether or not to use xsi:type.
+     * Indicates whether whether or not to use xsi:type declarations in the output.
     **/
     private boolean _marshalExtendedType = true;
 
     /**
-     * The registered MarshalListener to receive
-     * notifications of pre and post marshal for
-     * each object in the tree being marshalled.
+     * The registered {@link MarshalListener} to receive notifications of pre- and post marshal for
+     * each object in the tree being marshaled.
     **/
     private MarshalListener _marshalListener = null;
 
     /**
-     * The namespace stack.
+     * The name space stack.
     **/
     private Namespaces _namespaces = new Namespaces();
 
     /**
-     * Records Java packages being used during marshalling.
+     * Records Java packages being used during marshaling.
     **/
     private List<String> _packages = new ArrayList<String>();
 
     /**
      * A stack of parent objects...to prevent circular
-     * references from being marshalled.
+     * references from being marshaled.
     **/
     private Stack _parents  = new SafeStack();
-
+    
     /**
      * A list of ProcessingInstructions to output
      * upon marshalling of the document.
@@ -261,7 +260,7 @@ public class Marshaller extends MarshalFramework {
      * A flag to allow suppressing the xsi:type attribute.
      */
     private boolean _suppressXSIType = false;
-
+    
     private boolean _useXSITypeAtRoot = false;
 
     /**
@@ -733,7 +732,7 @@ public class Marshaller extends MarshalFramework {
     **/
     public void setMarshalListener(MarshalListener listener) {
         _marshalListener = listener;
-    } //-- setMarshalListener
+    }
 
     /**
      * Sets the mapping for the given Namespace prefix.
@@ -744,21 +743,26 @@ public class Marshaller extends MarshalFramework {
      * @throws IllegalArgumentException if nsURI is null or empty string
     **/
     public void setNamespaceMapping(final String nsPrefix, final String nsURI) {
-
         checkNotEmpty(nsURI, "Namespace URI must be not null.");
+        addNamespaceMapping(nsPrefix, nsURI);
+    }
 
-        _namespaces.addNamespace(nsPrefix, nsURI);
+    private void addNamespaceMapping(final String namespacePrefix, final String namespaceUri) {
+        getNamespaces().addNamespace(namespacePrefix, namespaceUri);
+    }
 
-    } //-- setNamespacePrefix
+    private Namespaces getNamespaces() {
+      return this._namespaces;
+   }
 
-    /**
+   /**
      * Sets the name of the root element to use.
      *
      * @param rootElement The name of the root element to use.
      */
     public void setRootElement(final String rootElement) {
         _rootElement = rootElement;
-    } //-- setRootElement
+    }
 
     /**
      * Returns the name of the root element to use
@@ -918,7 +922,7 @@ public class Marshaller extends MarshalFramework {
      * @exception org.exolab.castor.xml.ValidationException
      */
     public static void marshal(Object object, ContentHandler handler)
-    throws MarshalException, ValidationException, IOException {
+    throws MarshalException, ValidationException {
         staticMarshal(object, new Marshaller(handler));
     } //-- marshal
 
@@ -981,7 +985,7 @@ public class Marshaller extends MarshalFramework {
 
         if (object instanceof AnyNode) {
            try{
-              AnyNode2SAX2.fireEvents((AnyNode)object, _handler, _namespaces);
+              AnyNode2SAX2.fireEvents((AnyNode)object, _handler, getNamespaces());
            } catch(SAXException e) {
                 throw new MarshalException(e);
            }
@@ -1060,7 +1064,7 @@ public class Marshaller extends MarshalFramework {
         //-- handle AnyNode
         if (object instanceof AnyNode) {
            try {
-               AnyNode2SAX2.fireEvents((AnyNode) object, handler, _namespaces);
+               AnyNode2SAX2.fireEvents((AnyNode) object, handler, getNamespaces());
            }catch (SAXException e) {
                throw new MarshalException(e);
            }
@@ -1078,6 +1082,7 @@ public class Marshaller extends MarshalFramework {
         if (_parents.search(object) >= 0) {
             return;
         }
+        
         _parents.push(object);
 
         final boolean isNil = (object instanceof NilObject);
@@ -1426,7 +1431,7 @@ public class Marshaller extends MarshalFramework {
         //-- like xsi:type and xsi:nil will require a namespace
         //-- declaration and cannot be suppressed.
         if (!atRoot) {
-            _namespaces = _namespaces.createNamespaces();
+            setNamespaces(createNamespaces());
         }
 
         String nsPrefix = "";
@@ -1444,14 +1449,14 @@ public class Marshaller extends MarshalFramework {
             if (nsURI == null) nsURI = classDesc.getNameSpaceURI();
 
             if ((nsURI == null) && (nsPrefix != null)) {
-                nsURI = _namespaces.getNamespaceURI(nsPrefix);
+                nsURI = getNamespaceUri(nsPrefix);
             }
             else if ((nsPrefix == null) && (nsURI != null)) {
-                nsPrefix = _namespaces.getNamespacePrefix(nsURI);
+                nsPrefix = getNamespacePrefix(nsURI);
             }
             //-- declare namespace at this element scope?
             if (nsURI != null) {
-                String defaultNamespace = _namespaces.getNamespaceURI("");
+                String defaultNamespace = getNamespaceUri("");
                 if ((nsPrefix == null) && (!nsURI.equals(defaultNamespace)))
                 {
                     if ((defaultNamespace == null) && atRoot) {
@@ -1464,9 +1469,9 @@ public class Marshaller extends MarshalFramework {
             else {
                 nsURI = "";
                 //-- redeclare default namespace as empty
-                String defaultNamespace = _namespaces.getNamespaceURI("");
+                String defaultNamespace = getNamespaceUri("");
                 if ((defaultNamespace != null) && (!"".equals(defaultNamespace)))
-                    _namespaces.addNamespace("", "");
+                    addNamespaceMapping("", "");
             }
         }
 
@@ -1481,8 +1486,9 @@ public class Marshaller extends MarshalFramework {
         //-- user defined attributes
         if (atRoot) {
             //-- declare xsi prefix if necessary
-            if (_topLevelAtts.getSize() > 0)
-                _namespaces.addNamespace(XSI_PREFIX, XSI_NAMESPACE);
+            if (_topLevelAtts.getSize() > 0) {
+                addNamespaceMapping(XSI_PREFIX, XSI_NAMESPACE);
+            }
 
             for (int i = 0; i < _topLevelAtts.getSize(); i++) {
                 String localName = _topLevelAtts.getName(i);
@@ -1492,7 +1498,7 @@ public class Marshaller extends MarshalFramework {
                     ns = _topLevelAtts.getNamespace(i);
                     String prefix = null;
                     if (StringUtils.isNotEmpty(ns)) {
-                        prefix = _namespaces.getNonDefaultNamespacePrefix(ns);
+                        prefix = getNonDefaultNamespacePrefix(ns);
                     }
                     if (StringUtils.isNotEmpty(prefix)) {
                         qName = prefix + ':' + qName;
@@ -1616,7 +1622,7 @@ public class Marshaller extends MarshalFramework {
                     String tns = classDesc.getNameSpaceURI();
                     String prefix = null;
                     if (StringUtils.isNotEmpty(tns)) {
-                        prefix = _namespaces.getNamespacePrefix(tns);
+                        prefix = getNamespacePrefix(tns);
                         if (StringUtils.isNotEmpty(prefix)) {
                             typeName = prefix + ':' + typeName;
                         }
@@ -1626,8 +1632,10 @@ public class Marshaller extends MarshalFramework {
             //-- save type information
             atts.addAttribute(XSI_NAMESPACE, TYPE_ATTR, XSI_TYPE, CDATA, typeName);
             if (useJavaPrefix) {
-                //-- declare Java namespace, if necessary
-                declareNamespace("java", "http://java.sun.com");
+               if (getNamespaceUri("java") == null) {
+                  //-- declare Java namespace, if necessary
+                  declareNamespace("java", "http://java.sun.com");
+               }
             }
         }
 
@@ -1718,7 +1726,7 @@ public class Marshaller extends MarshalFramework {
                 }
 
                 //-- declare all necesssary namespaces
-                _namespaces.sendStartEvents(handler);
+                sendNamespaceStartEvents(handler);
                 //-- Make sure qName is not null
                 if (qName == null) {
                     //-- hopefully this never happens, but if it does, it means
@@ -1947,7 +1955,7 @@ public class Marshaller extends MarshalFramework {
             }
             
             if (obj == null 
-                    || (obj instanceof Enumeration && !((Enumeration) obj).hasMoreElements())) {
+                    || (obj instanceof Enumeration && !((Enumeration<?>) obj).hasMoreElements())) {
                              if (elemDescriptor.isNillable() && (elemDescriptor.isRequired())) {
                     nil = true;
                 } else {
@@ -2078,7 +2086,7 @@ public class Marshaller extends MarshalFramework {
                     if (mapHandler != null) {
                         processCollection = false;
                         MapItem item = new MapItem();
-                        Enumeration keys = mapHandler.keys(obj);
+                        Enumeration<?> keys = mapHandler.keys(obj);
                         while (keys.hasMoreElements()) {
                             item.setKey(keys.nextElement());
                             item.setValue(mapHandler.get(obj, item.getKey()));
@@ -2088,8 +2096,8 @@ public class Marshaller extends MarshalFramework {
 
                 }
                 if (processCollection) {
-                    CollectionHandler colHandler = getCollectionHandler(type);
-                    Enumeration enumeration = colHandler.elements(obj);
+                    CollectionHandler<?> colHandler = getCollectionHandler(type);
+                    Enumeration<?> enumeration = colHandler.elements(obj);
                     while (enumeration.hasMoreElements()) {
                         Object item = enumeration.nextElement();
                         if (item != null) {
@@ -2157,7 +2165,7 @@ public class Marshaller extends MarshalFramework {
             if (!containerField) {
                 handler.endElement(nsURI, name, qName);
                 //-- undeclare all necesssary namespaces
-                _namespaces.sendEndEvents(handler);
+                sendNamespaceEndEvents(handler);
             }
         }
         catch(org.xml.sax.SAXException sx) {
@@ -2166,7 +2174,9 @@ public class Marshaller extends MarshalFramework {
 
         --_depth;
         _parents.pop();
-        if (!atRoot) _namespaces = _namespaces.getParent();
+        if (!atRoot) {
+           setNamespaces(getNamespaceParent());
+        }
 
         //-- notify listener of post marshal
         if (_marshalListener != null) {
@@ -2177,7 +2187,31 @@ public class Marshaller extends MarshalFramework {
             }
         }
 
-    } //-- void marshal(DocumentHandler)
+    }
+
+   private void setNamespaces(Namespaces namespaces) {
+      _namespaces = namespaces;
+   }
+
+   private Namespaces createNamespaces() {
+      return getNamespaces().createNamespaces();
+   }
+
+   private Namespaces getNamespaceParent() {
+      return getNamespaces().getParent();
+   }
+
+   private void sendNamespaceEndEvents(ContentHandler contentHandler) throws SAXException {
+      getNamespaces().sendEndEvents(contentHandler);
+   }
+
+   private void sendNamespaceStartEvents(ContentHandler contentHandler) throws SAXException {
+      getNamespaces().sendStartEvents(contentHandler);
+   }
+
+   private String getNamespaceUri(String namespacePrefix) {
+      return getNamespaces().getNamespaceURI(namespacePrefix);
+   }
 
     private void dealWithNestedAttributes(Object object,
             ContentHandler handler, String nsPrefix, String nsURI,
@@ -2391,7 +2425,7 @@ public class Marshaller extends MarshalFramework {
             XMLFieldDescriptor fieldDesc
                 = (XMLFieldDescriptor) cd.getIdentity();
             if (fieldDesc != null) {
-                FieldHandler fieldHandler = fieldDesc.getHandler();
+                FieldHandler<?> fieldHandler = fieldDesc.getHandler();
                 if (fieldHandler != null) {
                     try {
                         id = fieldHandler.getValue(object);
@@ -2434,13 +2468,13 @@ public class Marshaller extends MarshalFramework {
         //-- make sure it's not already declared...
         if ( (nsURI != null) && (nsURI.length() != 0)) {
 
-            String tmpURI = _namespaces.getNamespaceURI(nsPrefix);
+            String tmpURI = getNamespaceUri(nsPrefix);
             if ((tmpURI != null) && (tmpURI.equals(nsURI))) {
                 return declared;
             }
-            String tmpPrefix = _namespaces.getNamespacePrefix(nsURI);
+            String tmpPrefix = getNamespacePrefix(nsURI);
             if ((tmpPrefix == null) || (!tmpPrefix.equals(nsPrefix))) {
-                _namespaces.addNamespace(nsPrefix, nsURI);
+                addNamespaceMapping(nsPrefix, nsURI);
                 declared = true;
             }
         }
@@ -2621,7 +2655,7 @@ public class Marshaller extends MarshalFramework {
                 Object map = attDescriptor.getHandler().getValue(object);
                 MapHandler mapHandler = MapHandlers.getHandler(map);
                 if (mapHandler != null) {
-                    Enumeration keys = mapHandler.keys(map);
+                    Enumeration<?> keys = mapHandler.keys(map);
                     while (keys.hasMoreElements()) {
                         Object key = keys.nextElement();
                         Object val = mapHandler.get(map, key);
@@ -2642,7 +2676,7 @@ public class Marshaller extends MarshalFramework {
             if (StringUtils.isNotEmpty(namespace)) {
                 String prefix = attDescriptor.getNameSpacePrefix();
                 if ((prefix == null) || (prefix.length() == 0))
-                    prefix = _namespaces.getNonDefaultNamespacePrefix(namespace);
+                    prefix = getNonDefaultNamespacePrefix(namespace);
 
                 if ((prefix == null) || (prefix.length() == 0)) {
                     //-- automatically create namespace prefix?
@@ -2668,12 +2702,12 @@ public class Marshaller extends MarshalFramework {
         if (attDescriptor.isReference() && (value != null)) {
 
             if (attDescriptor.isMultivalued()) {
-                Enumeration enumeration = null;
+                Enumeration<?> enumeration = null;
                 if (value instanceof Enumeration) {
-                    enumeration = (Enumeration)value;
+                    enumeration = (Enumeration<?>)value;
                 }
                 else {
-                    CollectionHandler colHandler = null;
+                    CollectionHandler<?> colHandler = null;
                     try {
                         colHandler = CollectionHandlers.getHandler(value.getClass());
                     }
@@ -2719,16 +2753,19 @@ public class Marshaller extends MarshalFramework {
         }
     } //-- processAttribute
 
+    private String getNonDefaultNamespacePrefix(String namespaceUri) {
+      return getNamespaces().getNonDefaultNamespacePrefix(namespaceUri);
+    }
 
     private Object processXSListType(final Object value, XMLFieldDescriptor descriptor) 
     throws MarshalException {
         Object returnValue = null;
-        Enumeration enumeration = null;
+        Enumeration<?> enumeration = null;
         if (value instanceof Enumeration) {
-            enumeration = (Enumeration)value;
+            enumeration = (Enumeration<?>)value;
         }
         else {
-            CollectionHandler colHandler = null;
+            CollectionHandler<?> colHandler = null;
             try {
                 colHandler = CollectionHandlers.getHandler(value.getClass());
             }
@@ -2823,7 +2860,7 @@ public class Marshaller extends MarshalFramework {
              }
              return;
         } else if (target instanceof Enumeration) {
-            Enumeration enumeration = (Enumeration) target;
+            Enumeration<?> enumeration = (Enumeration<?>) target;
             while (enumeration.hasMoreElements()) {
                 Object item = enumeration.nextElement();
                 if (item != null) {
@@ -2892,7 +2929,7 @@ public class Marshaller extends MarshalFramework {
         String prefix = ((XMLFieldDescriptorImpl)fieldDesc).getQNamePrefix();
         //no prefix provided, check if one has been previously defined
         if (prefix == null)
-            prefix = _namespaces.getNamespacePrefix(nsURI);
+            prefix = getNamespacePrefix(nsURI);
         //if still no prefix, use a naming algorithm (ns+counter).
         if (prefix == null)
             prefix = DEFAULT_PREFIX+(++_namespaceCounter);
@@ -2900,6 +2937,10 @@ public class Marshaller extends MarshalFramework {
         declareNamespace(prefix, nsURI);
         return result;
     }
+
+   private String getNamespacePrefix(String namespaceUri) {
+      return getNamespaces().getNamespacePrefix(namespaceUri);
+   }
 
     private void validate(final Object object) throws ValidationException {
         if  (_validate) {
