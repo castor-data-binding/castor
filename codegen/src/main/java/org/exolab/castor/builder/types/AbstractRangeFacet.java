@@ -26,7 +26,6 @@ import org.exolab.javasource.JSourceCode;
  * @since 1.1
  */
 public abstract class AbstractRangeFacet extends AbstractWhiteSpaceFacet {
-    //--------------------------------------------------------------------------
 
     /** Maximum Date (exclusive). */
     private String _maxExclusive;
@@ -39,9 +38,11 @@ public abstract class AbstractRangeFacet extends AbstractWhiteSpaceFacet {
 
     /** Minimum Date (inclusive). */
     private String _minInclusive;
-    
-    //--------------------------------------------------------------------------
 
+    private String _positiveInfinity;
+
+    private String _negativeInfinity;
+    
     /**
      * Returns true if a maximum (inclusive or exclusive) has been set.
      * 
@@ -138,9 +139,31 @@ public abstract class AbstractRangeFacet extends AbstractWhiteSpaceFacet {
         _minInclusive = min;
         _minExclusive = null;
     }
-
-    //--------------------------------------------------------------------------
     
+    public final void setPositiveInfinity(final String positiveInfity) {
+       _positiveInfinity = positiveInfity;
+    }
+
+    public final void setNegativeInfinity(final String negativeInfity) {
+       _negativeInfinity = negativeInfity;
+    }
+    
+    public final boolean hasPositiveInfinity() {
+       return _positiveInfinity != null;
+    }
+
+    public final boolean hasNegavtiveInfinity() {
+       return _negativeInfinity != null;
+    }
+    
+    public final String getPositiveInfinity() {
+       return _positiveInfinity;
+    }
+
+    public final String getNegativeInfinity() {
+       return _negativeInfinity;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -187,7 +210,14 @@ public abstract class AbstractRangeFacet extends AbstractWhiteSpaceFacet {
         } else if (_minExclusive != null) {
             jsc.add("{0}.setMinExclusive(\"{1}\");", validatorName, getMinExclusive());
         }
+        
+//        if (_positiveInfinity != null) {
+//           jsc.add("{0}.setPositiveInfinity(\"{1}\");", validatorName, getPositiveInfinity());
+//        }
+//        
+//        if (_negativeInfinity != null) {
+//           jsc.add("{0}.setNegativeInfinity(\"{1}\");", validatorName, getNegativeInfinity());
+//        }
     }
 
-    //--------------------------------------------------------------------------
 }
