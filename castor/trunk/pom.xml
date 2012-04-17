@@ -654,6 +654,12 @@
                 <version>1.0.1</version>
             </dependency>
 
+			<dependency>
+				<groupId>net.java.dev.javacc</groupId>
+				<artifactId>javacc</artifactId>
+				<version>5.0</version>
+			</dependency>
+
             <dependency>
                 <groupId>postgresql</groupId>
                 <artifactId>postgresql</artifactId>

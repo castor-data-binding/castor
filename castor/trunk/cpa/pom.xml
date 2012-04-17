@@ -103,6 +103,11 @@
             <artifactId>jta</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>net.java.dev.javacc</groupId>
+			<artifactId>javacc</artifactId>
+		</dependency>
+		
 		<!-- support for JPA annotations -->
         <dependency>
 			<groupId>javax.persistence</groupId>
