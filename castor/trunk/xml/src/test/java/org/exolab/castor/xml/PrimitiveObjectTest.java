@@ -144,6 +144,35 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(value, new Double("4.2"));
     }
 
+    public void testPrimitiveDoubleInfinity() {
+       Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "Infinity");
+       Assert.assertEquals(value, Double.POSITIVE_INFINITY, 0);
+
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.TYPE, "Infinity");
+       Assert.assertEquals(value, Double.POSITIVE_INFINITY, 0);
+       
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "INF");
+       Assert.assertEquals(value, Double.POSITIVE_INFINITY, 0);
+
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.TYPE, "INF");
+       Assert.assertEquals(value, Double.POSITIVE_INFINITY, 0);
+
+   }
+
+    public void testPrimitiveDoubleNegativeInfinity() {
+       Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "-Infinity");
+       Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
+
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.TYPE, "-Infinity");
+       Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
+
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "-INF");
+       Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
+
+       value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.TYPE, "-INF");
+       Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
+}
+
     public void testPrimitiveDoubleNull() {
         Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, null);
         Assert.assertEquals(value, new Double("0.0"));

@@ -32,6 +32,14 @@ class PrimitiveDouble extends PrimitiveObject {
         if (StringUtils.isEmpty(value)) {
             return Double.valueOf(0.0);
         }
+        
+        if (StringUtils.equals(value, "INF") || StringUtils.equals(value, "Infinity")) {
+           return Double.POSITIVE_INFINITY;
+        }
+
+        if (StringUtils.equals(value, "-INF") || StringUtils.equals(value, "-Infinity")) {
+           return Double.NEGATIVE_INFINITY;
+        }
 
         return Double.valueOf(Double.parseDouble(value));
     }

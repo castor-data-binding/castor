@@ -27,7 +27,6 @@ import org.exolab.javasource.JType;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class XSDouble extends AbstractRangeFacet {
-    //--------------------------------------------------------------------------
 
     /** Name of this XSType. */
     public static final String NAME = "double";
@@ -40,8 +39,9 @@ public final class XSDouble extends AbstractRangeFacet {
     
     /** A constant holding the maximum value an xsd:float can have. */
     public static final String MAX_VALUE = Double.toString(Double.MAX_VALUE);
-
-    //--------------------------------------------------------------------------
+    
+    public static final String INFINITY_VALUE = "Double.POSITIVE_INFINITY";
+    public static final String NEGATIVE_INFINITY_VALUE = "Double.NEGATIVE_INFINITY";
 
     /** True if this type is implemented using the wrapper class. */
     private final boolean _asWrapper;
@@ -49,8 +49,6 @@ public final class XSDouble extends AbstractRangeFacet {
     /** The JType represented by this XSType. */
     private final JType   _jType;
     
-    //--------------------------------------------------------------------------
-
     /**
      * No-arg constructor.
      */
@@ -75,9 +73,10 @@ public final class XSDouble extends AbstractRangeFacet {
 
         setMinInclusive(MIN_VALUE);
         setMaxInclusive(MAX_VALUE);
+        
+        setPositiveInfinity(INFINITY_VALUE);
+        setNegativeInfinity(NEGATIVE_INFINITY_VALUE);
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -127,8 +126,6 @@ public final class XSDouble extends AbstractRangeFacet {
         return "((java.lang.Double) " + variableName + ").doubleValue()";
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -156,6 +153,14 @@ public final class XSDouble extends AbstractRangeFacet {
         } else if (getMaxInclusive() != null) {
             jsc.add("typeValidator.setMaxInclusive(" + getMaxInclusive() + ");");
         }
+        
+        if (getPositiveInfinity() != null) {
+           jsc.add("typeValidator.setPositiveInfinity(java.lang." + getPositiveInfinity() + ");");
+        }
+
+        if (getNegativeInfinity() != null) {
+           jsc.add("typeValidator.setNegativeInfinity(java.lang." + getNegativeInfinity() + ");");
+        }
     }
 
     /**
@@ -168,5 +173,4 @@ public final class XSDouble extends AbstractRangeFacet {
         return "java.lang.Double.valueOf(" + variableName + ").doubleValue()";
     }
 
-    //--------------------------------------------------------------------------
 }
