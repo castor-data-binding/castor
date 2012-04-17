@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.3.2-SNAPSHOT</version>
+		<version>1.3.3-SNAPSHOT</version>
 	</parent>
    
 	<packaging>jar</packaging>
@@ -18,29 +18,7 @@
 	<url>http://www.castor.org</url>
 
 	<build>		
-		<!--  redundant; will be removed once we switch to parent structure -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-1</version>
-			</extension>
-		</extensions>
-		
 		<plugins>
-			<!--  redundant; will be removed once we switch to parent structure -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -52,10 +30,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-			
 		</plugins>
-			
-
 	</build>
 
     <scm>
@@ -102,7 +77,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>3.1.12</version>
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
@@ -122,6 +96,7 @@
 	</dependencies>
 
 	<!--  redundant; will be removed once we switch to parent structure -->
+	<!-- 
     <distributionManagement>
         <repository>
           <id>codehaus.org</id>
@@ -138,7 +113,7 @@
           <url>dav:https://dav.codehaus.org/castor/</url>
         </site>
     </distributionManagement>
-
+	-->
 
 </project>
 
