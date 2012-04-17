@@ -33,15 +33,16 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-	    </summary>
-	    <bugs>
-	    </bugs>
-	</release>
+	        </summary>
+	        <bugs>
+	        </bugs>
+	    </release>
 -->
-        <release version="SVN">
-            <description>New and on-going development</description>
-            <date>tbd</date>
+        <release version="1.3.3-RC1">
+            <description>Maintenance release</description>
+            <date>Apr 18, 2012</date>
             <managed-by>Werner Guttmann</managed-by>
+            <summary>
             <summary>
             </summary>
             <bugs>
