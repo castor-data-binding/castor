@@ -67,6 +67,7 @@ import org.castor.xml.AbstractInternalContext;
 import org.castor.core.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ClonableFieldHandler;
+import org.exolab.castor.mapping.ClonableFieldHandlerMarker;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.ConfigurableFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
@@ -606,27 +607,32 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         return fieldDesc;
     }
 
-    private FieldHandler getFieldHandler(final FieldMapping fieldMap) 
+    private FieldHandler<?> getFieldHandler(final FieldMapping fieldMap) 
     throws MappingException {
         
         // If there is a custom field handler present in the mapping, that one
         // is returned.
-        FieldHandler handler = _fieldHandlers.get(fieldMap.getHandler());
+        FieldHandler<?> handler = _fieldHandlers.get(fieldMap.getHandler());
         if (handler != null) {
 
-            if (!(handler instanceof ClonableFieldHandler)) {
+            if (!(handler instanceof ClonableFieldHandler || handler instanceof ClonableFieldHandlerMarker)) {
                 return handler;
             }
             
-            FieldHandler clonedHandler = handler;
+            String methodName = "copyFieldHandler";
+            if (handler instanceof ClonableFieldHandler) {
+               methodName = "copyInstance";
+            }
+            
+            FieldHandler<?> clonedHandler = handler;
             Class<?> classToClone = handler.getClass();
             try {
-                Method method = classToClone.getMethod("copyInstance", new Class[] { FieldHandler.class });
-                clonedHandler = (FieldHandler) method.invoke(handler, handler);
+                Method method = classToClone.getMethod(methodName, (Class[]) null);
+                clonedHandler = (FieldHandler<?>) method.invoke(handler, handler);
                 return clonedHandler;
-            } catch (Exception ex) {
-                String err = "The class '" + classToClone.getName() + "' must implement ClonableFieldHandler.";
-                throw new MappingException(err);
+            } catch (Exception e) {
+                String err = "The class '" + classToClone.getName() + "' must implement the ClonableFieldHandlerMarker interface.";
+                throw new MappingException(err, e);
             }
         }
         
@@ -640,10 +646,10 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         }
 
         // Get default constructor to invoke. We can't use the newInstance method
-        // unfortunately becaue FieldHandler overloads this method
+        // unfortunately because FieldHandler overloads this method
         try {
             Constructor<?> constructor = handlerClass.getConstructor(new Class[0]);
-            return (FieldHandler) constructor.newInstance(new Object[0]);
+            return (FieldHandler<?>) constructor.newInstance(new Object[0]);
         } catch (Exception ex) {
             String err = "The class '" + handlerClass.getName()
                        + "' must have a default public constructor.";
