@@ -16,20 +16,20 @@
 package org.exolab.castor.mapping;
 
 /**
- * A {@link FieldHandler} that allows shallow/deep cloning of its state.
+ * A marker interface that indicates that a {@link FieldHandler} implementaion allows 
+ * shallow/deep cloning of its state.
  *
  * @author Werner Guttmann
  * @version $Revision:  $
  * @see FieldHandler
- * since 1.3.2
- * @deprecated Use {@link ClonableFieldHandlerMarker} instead.
+ * since 1.3.3
  */
-public interface ClonableFieldHandler<T> extends FieldHandler<T> {
+public interface ClonableFieldHandlerMarker {
 
     /**
      * Entry point for shallow/deep 'cloning' of {@link FieldHandler} instances.
      * @return the 'cloned' {@link FieldHandler} instance.
      */
-    public FieldHandler<T> copyInstance();
+    public FieldHandler copyFieldHandler();
     
 }
