@@ -462,6 +462,7 @@ import java.util.Date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -472,7 +473,7 @@ import org.exolab.castor.mapping.ValidityException;
 
 public class FieldHandlerImpl implements FieldHandler, ConfigurableFieldHandler {
 
-    private SimpleDateFormat formatter;
+    private DateFormat formatter;
 
     public void setConfiguration(final Properties config) throws ValidityException {
     	String pattern = config.getProperty("date-format");
@@ -591,6 +592,72 @@ public class FieldHandlerImpl implements FieldHandler, ConfigurableFieldHandler 
             <emphasis role="italic">ConfigurableFieldHandler</emphasis> interface yourself. 
          </para>
          
+    </section>
+    
+    <section>
+    	<title>Reuse a <classname>ConfigurableFieldHandler</classname> for more than one field definition</title>
+    	
+    	<para>
+    		Imagine a scenario where you want to use above <classname>ConfigurableFieldHandler</classname> 
+    		instance for more than one field - a valid use case as it promotes reuse.
+    	</para>
+    	
+    	<programlisting language="xml">
+&lt;?xml version="1.0"?&gt;
+&lt;mapping&gt;
+   
+   &lt;field-handler name="myFirstHandler" class="FieldHandlerImpl"&gt;
+      &lt;param name="date-format" value="yyyyMMddHHmmss"/&gt;
+   &lt;/field-handler&gt;
+
+   &lt;field-handler name="mySecondHandler" class="FieldHandlerImpl"&gt;
+      &lt;param name="date-format" value="yyyy-MM-ddHH:mm:ss"/&gt;
+   &lt;/field-handler&gt;
+   
+   &lt;class name="Root"&gt;
+      &lt;field name="firstDate" type="string" handler="myFirstHandler"/&gt;
+      &lt;field name="secondDate" type="string" handler="myFirstHandler"/&gt;
+      &lt;field name="thirdDate" type="string" handler="mySecondHandler"/&gt;
+   &lt;/class&gt;
+
+&lt;/mapping&gt;
+         </programlisting>
+         	
+    	<para>
+    		For this to work, there's one more thing you will have to do: your 
+    		<classname>ConfigurableFieldHandler</classname> implementation has to implement the 
+    		<classname>ClonableFieldHandlerMarker</classname> interface and implement
+    		the <methodname>copyFieldHandler()</methodname> method. As indicated by the name, 
+    		please return a clone/copy of your <classname>FieldHandler</classname> instance ... and you 
+    		are all set.
+    	</para>
+    	
+    	<para>
+    		A simplified sample implementation could look as follows, extending the 
+    		<classname>FieldHandlerImpl</classname> class from the previous section:
+    	</para>
+    	
+    	<programlisting language="java">
+public class FieldHandlerImpl implements FieldHandler, ConfigurableFieldHandler, ClonableFieldHandlerMarker {
+
+    private DateFormat format;
+
+    ...
+
+    public void setFormat(DateFormat format) {
+        this.format = format;
+    }
+
+    @Override
+    public FieldHandler copyFieldHandler() {
+        FieldHandlerImpl handler = new FieldHandlerImpl();
+        handler.setFormat(this.getFormat());
+        return handler;
+    }
+    
+}    	
+    	</programlisting>
+    	
     </section>
     
     <section><title>No Constructor, No Problem!</title>
