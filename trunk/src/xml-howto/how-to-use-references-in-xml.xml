@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-references-in-xml.xml">
+  <properties>
+    <title>How to use references in XML and Castor</title>
+    <abstract>
+        Describes how to use references to save space and create appropriate object 
+        relations in XML.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use references in XML and Castor</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to model non-hierarchical object relations in XML using
+           Castor.</p>
+        
+        <p>This document helps people to get familiar with the basic concepts
+           and discusses some implementation details.</p>
+
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>None.</p>
+
+    </section>
+
+    <section title="Example: A Simple Graph">
+
+        <p>As a motivating example for this HOW-To, consider a graph consisting of 
+           nodes and branches.  For this example we're going to take a node-centric
+           view of the graph, so each node is a Java object that contains a list of 
+           other nodes it is connected to (thus modeling the branches).  The node 
+           class might look like:</p>
+
+        <code-panel>import java.util.List;
+
+public class Node
+{
+    protected int nodeNum;
+    protected List siblings;
+    
+    /* ... business fields ... */
+            
+    public Node() {};
+    public Node( int nodeNum, List siblings ) { 
+        this.nodeNum = nodeNum;
+        this.siblings = siblings; 
+    }
+    
+    public int getNodeNum() { return nodeNum; }
+    public void setNodeNum( int nodeNum ) { this.nodeNum = nodeNum; }
+    
+    public List getSiblings() { return siblings; }
+    public void setSiblings( List siblings ) { this.siblings = siblings; }
+            
+    /* ... business logic ... */
+}</code-panel>
+
+    </section>
+
+    <section title="Castor and Non-Hierarchical Object Models">
+        
+        <p>The default marshalling behavior in Castor is to create a new element for 
+           each object contained by the object being marshalled.  For a lot of 
+           applications this is acceptable as the Java object model being marshalled 
+           is hierarchical.  The same goes for unmarshalling but in the opposite 
+           direction; i.e. a new object is created for each element in the XML.</p>
+        
+        <p>Now consider the graph example above.  If that model is marshalled or 
+           unmarshalled with the default behavior, all the relations between the 
+           nodes will be broken.  Even using a mapping file like the one below won't 
+           help.</p>
+
+        <code-panel><![CDATA[<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+   <class name="Node">
+        <map-to xml="node" />
+        <field name="nodeNum" type="integer">
+           <bind-xml name="node-num" node="attribute" />
+        </field>
+        <field name="siblings" type="Node" collection="collection">
+           <bind-xml name="sibling" />
+        </field> 
+   </class>
+</mapping>]]></code-panel>
+           
+        <p>After unmarshalling each <tt>Node</tt> object will contain a list of 
+           siblings, but those siblings will be specific to that <tt>Node</tt>. They 
+           may be populated with the right data (<tt>nodeNum</tt> etc.) to begin 
+           with, but any changes won't propogate to the other nodes.</p>
+
+    </section>
+      
+    <section title="Working with Identities and References in Castor XML">
+        
+        <p>Enter identities and references -- using a mapping file, it is possible to
+           tell Castor how to identify specific instances of a class and when to 
+           simply reference an object rather than create a new one.  In the example 
+           above, assume <tt>nodeNum</tt> is unique across all nodes and thus can be 
+           used to identify each node individually.  Once an identity is defined 
+           it is possible to instruct Castor to only reference instances of the class
+           rather than creating new objects.</p>
+        
+        <p>For the graph example above, the correct mapping file would look like 
+           this:</p>
+
+        <code-panel><![CDATA[<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+   <class name="Node"]]> <b>identity="nodeNum"</b>><![CDATA[
+        <map-to xml="node" />
+        <field name="nodeNum" type="integer">
+           <bind-xml name="node-num" node="attribute" />
+        </field>
+        <field name="siblings" type="Node" collection="collection">
+           <bind-xml name="sibling"]]> <b>reference="true"</b><![CDATA[ />
+        </field> 
+   </class>
+</mapping>]]></code-panel>
+
+        <p>The key attributes in the mapping file are <tt>identity</tt> in the 
+           <tt>class</tt> element, and <tt>reference</tt> in the <tt>bind-xml</tt> 
+           element.  When <tt>reference</tt> is set to true, Castor knows to create 
+           only a reference to the object rather than a full object.  This 
+           accomplishes two things: first, it reduces the size of the XML file 
+           created during marshalling because each object is completely written out 
+           only once, and two, on unmarshal, the objects will maintain the correct 
+           relations to each other.</p>
+        
+        <p>Marshalling an ArrayList of these Node objects then looks like:</p>
+        
+        <code-panel><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<array-list>
+    <node node-num="1">
+        <!-- Other fields get marshalled here -->
+        <sibling>2</sibling>
+        <sibling>3</sibling>
+    </nod>
+    <node node-num="2">
+        <!-- Other fields get marshalled here -->
+        <sibling>1</sibling>
+        <sibling>3</sibling>
+    </nod>
+    <node node-num="3">
+        <!-- Other fields get marshalled here -->
+        <sibling>1</sibling>
+        <sibling>2</sibling>
+    </nod>
+</array-list>]]></code-panel>
+
+    </section>
+
+    <section title="References">
+
+        <ul>
+            <li><a href="http://castor.codehaus.org/xml-mapping.html">Castor XML Mapping Documentation</a></li>
+        </ul>
+        
+    </section>
+    
+    </body>
+</document>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+   <description>Castor mapping that doesnt work</description>
+   <class name="ContractDto" auto-complete="true">
+      <map-to xml="getContractRequest" ns-uri="http://dummy.com/services/" />
+   </class>
+</mapping>

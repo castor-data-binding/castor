@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<MyDerivedElement name="attribute">
+     <Element>fixedValue</Element>
+     <OtherElement>true</OtherElement>
+     <OtherElement>false</OtherElement>
+     <OtherElement>true</OtherElement>
+</MyDerivedElement> 

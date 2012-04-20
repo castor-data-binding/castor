@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pre="my.namespace.org">
+	<simpleType name="myType">
+	    <restriction base="int">
+	    	<minExclusive value="0"></minExclusive>
+	    	<maxExclusive value="100"></maxExclusive>
+	    </restriction>
+	</simpleType>
+</schema>

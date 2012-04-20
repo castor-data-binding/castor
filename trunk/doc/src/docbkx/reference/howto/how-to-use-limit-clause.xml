@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.use-limit-clause">
+    <sectioninfo>
+      <title>How to use a LIMIT clause with OQL</title>
+<!--
+      <abstract>
+         <para>General information about using a LIMIT clause with OQL</para>
+      </abstract>
+      Status: Final
+-->
+    </sectioninfo>
+
+    <title>How to use a LIMIT claue with OQL</title>
+
+	<section id="jdo.howto.use-limit-clause.overview">
+	    <title>Overview</title>
+
+        <para></para>
+    </section>
+    
+    <section id="jdo.howto.use-limit-clause.intended-audience">
+        <title>Intended Audience</title>
+
+        <para>
+            Anyone who wants to execute an OQL statement and limit the result size.
+        </para>
+        
+        <para>
+            The example given describes the addition of LIMIT/OFFEST clauses to an 
+            existing OQL statement.
+        </para>
+    </section>
+    
+    <section id="jdo.howto.use-limit-clause.prerequisites">
+        <title>Prerequisites</title>
+
+        <para>
+            You should have a valid class mapping for two Java classes 
+            <classname>Product</classname> and <classname>ProductGroup</classname>, 
+            similar to the following one:
+        </para>
+
+        <programlisting language="java">
+        
+package myapp;
+
+public class Product 
+{
+    private int       _id;
+
+    private String    _name; 
+
+    private float     _price; 
+
+    private ProductGroup _group;
+
+
+    public int getId() { ... }
+    public void setId( int anId ) { ... }
+
+    public String getName() { ... }
+    public void setName( String aName ) { ... }
+
+    public float getPrice() { ... }
+    public void setPrice( float aPrice ) { ... }
+
+    public ProductGroup getProductGroup() { ... }
+    public void setProductGroup( ProductGroup aProductGroup ) { ... }
+}
+        </programlisting>
+
+        <para>
+            The following fragment shows the Java class declaration for the 
+            <classname>ProductGroup</classname> class:
+        </para>
+      
+        <programlisting language="java">
+
+public class ProductGroup
+{
+
+    private int       _id;
+
+    private String    _name;
+
+    public int getId() { ... }
+    public void setId( int id ) { ... }
+
+    public String getName() { ... }
+    public void setName( String name ) { ... }
+
+}
+        </programlisting>
+    </section>
+
+    <section id="jdo.howto.use-limit-clause.steps">
+        <title>Steps</title>
+
+        <para>Here is how to proceed.</para>
+
+        <section id="jdo.howto.use-limit-clause.steps.obtain-all-productgroup-instances">
+            <title>Compose an OQL statement to obtain all ProductGroup instances</title>
+
+            <para>
+                The following code fragment shows an OQL query to select the all 
+                <classname>ProductGroup</classname> instances.
+            </para>
+                
+            <programlisting language="java">
+            
+OQLQuery query = db.getOQLQuery("select product from ProductGroup product");
+query.bind(10);
+OQLResults results = query.execute();
+            </programlisting>
+        </section>
+        
+        <section id="jdo.howto.use-limit-clause.steps.add-limit">
+            <title>Add LIMIT clause to OQL statement</title>
+
+            <para>
+                The following code fragment shows the same OQL query as above, to 
+                this time the LIMIT keyword is added to select the first 10 
+                <classname></classname> instances only.
+            </para>
+
+            <programlisting language="java">
+            
+    OQLQuery query = db.getOQLQuery(
+            "select product from ProductGroup product <emphasis>LIMIT $1</emphasis>");
+    query.bind(10);
+    OQLResults results = query.execute();
+            </programlisting>
+
+        </section>
+
+        <section id="jdo.howto.use-limit-clause.steps.add-offset">
+            <title>Add OFFSET clause to OQL statement</title>
+
+            <para>
+                Below is the same OQL query again, restricting the number of 
+                <classname>ProductGroup</classname> instances returned to 10, though 
+                this time it is specified that the <classname>ProductGroup</classname> 
+                instances 101 to 110 should be returned.
+            </para>
+
+            <programlisting language="java">
+            
+OQLQuery query = db.getOQLQuery(
+        "select product from ProductGroup as product <emphasis>LIMIT $1 OFFSET $2</emphasis>");
+query.bind(10);
+query.bind(100);
+OQLResults results = query.execute();
+            </programlisting>
+        </section>
+    </section>
+    
+    <section id="jdo.howto.use-limit-clause.limitations">
+        <title>Limitations</title>
+        
+        <para>The following RDBMS fully/partially support LIMIT/OFFSET clauses.</para>
+
+            <table cellspacing="1" cellpadding="8">
+                <title>Support for LIMIT in RDBMS</title>
+                
+                <tgroup cols="3">
+                    <thead>
+                        <row>
+                            <entry align="left"><application>RDBMS</application></entry>
+                            <entry>LIMIT</entry>
+                            <entry>OFFSET</entry>
+                        </row>
+                    </thead>
+                    
+                    <tbody>
+                        <row>
+                            <entry><application>postgreSQL</application></entry>
+                            <entry>Yes</entry>
+                            <entry>Yes</entry>
+                        </row>
+                        
+                        <row>
+                            <entry><application>mySQL</application></entry>
+                            <entry>Yes</entry>
+                            <entry>Yes</entry>
+                        </row>
+                        
+                        <row>
+                            <entry><application>Oracle 1) 2)</application></entry>
+                            <entry>Yes</entry>
+                            <entry>Yes</entry>
+                        </row>
+                        
+                        <row>
+                            <entry><application>HSQL</application></entry>
+                            <entry>Yes</entry>
+                            <entry>Yes</entry>
+                        </row>
+                        
+                        <row>
+                            <entry><application>MS SQL</application></entry>
+                            <entry>Yes</entry>
+                            <entry>-</entry>
+                        </row>
+                        
+                        <row>
+                            <entry><application>DB2</application></entry>
+                            <entry>Yes</entry>
+                            <entry>-</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+
+        <para>
+            1) Caster has full support for LIMIT/OFFSET clauses for Oracle 
+            Releases 8.1.6 and later.
+        </para>
+         
+        <para>
+            2) For the LIMIT/OFFSET clauses to work properly the OQL query is required 
+            to include an ORDER BY clause.
+        </para>
+    </section>
+    
+    <section id="jdo.howto.use-limit-clause.tips">
+        <title>Tips</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    In the case a RDBMS does not support LIMIT/OFFSET clauses, a 
+                    <literal>SyntaxNotSupportedException</literal> will be thrown.
+                </para>
+            </listitem>
+        </itemizedlist>    
+    </section>
+
+    <section id="jdo.howto.use-limit-clause.references">
+        <title>References</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <link linkend="advanced-jdo.oql-to-sql-translator">Castor JDO's 
+                    OQL</link>
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+    </section>
+</section>

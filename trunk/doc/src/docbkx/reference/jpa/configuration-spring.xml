@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+    <title>Integration with Spring ORM for Castor JDO</title>
+
+    <para>
+        This guide will show you how to enable the use of JPA annotations 
+        with Castor JDO in the context of Spring, Spring ORM and the
+        existing Spring ORM support for Castor JDO.
+    </para>
+
+    <section>
+        <title>A typical sample</title>
+   
+        <para>
+            Let's look at a typical Spring configuration file
+            that shows how to use Castor JDO with Spring as a 
+            Spring ORM provider.
+        </para>
+
+        <para>spring-config.xml</para>
+        <programlisting language="xml">
+&lt;beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+          http://www.springframework.org/schema/tx 
+          http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"&gt;
+    
+    &lt;!-- Enable transaction support using Annotations --&gt;
+    &lt;tx:annotation-driven transaction-manager="transactionManager" /&gt;
+    
+    &lt;bean id="transactionManager" 
+          class="org.castor.spring.orm.CastorTransactionManager"&gt;
+          &lt;property name="JDOManager" ref="jdoManager" /&gt; 
+    &lt;/bean&gt;
+
+    &lt;bean id="jdoManager"
+        class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+        &lt;property name="databaseName" value="dbName" /&gt;
+        &lt;property name="configLocation" value="jdo-conf.xml" /&gt;
+    &lt;/bean&gt;
+    
+    &lt;bean id="singleDao" class="SingleCastorDao"&gt;
+        &lt;property name="JDOManager"&gt;
+            &lt;ref bean="jdoManager"/&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt; 
+        </programlisting>
+        
+        <para>
+            Above Spring application context configures the following
+            Spring beans:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>A factory bean for JDOManager instantiation</para>
+            </listitem>
+            <listitem>
+                <para>A Castor-specific transaction manager.</para>
+            </listitem>
+            <listitem>
+                <para>The DAO implementation as shown above.</para>
+            </listitem>
+        </itemizedlist>
+      
+        <para>
+            As shown above, the bean definition for the 
+            <classname>JDOManager</classname> factory bean points to
+            a Castor JDO configuration file (<filename>jdo-conf.xml</filename>),
+            whose content is shown below:
+        </para>
+        
+        <para>jdo-conf.xml</para>
+        <programlisting language="xml">
+&lt;!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN""http://castor.org/jdo-conf.dtd"&gt;
+&lt;jdo-conf&gt;
+  &lt;database name="dbName" engine="mysql"&gt;
+     &lt;driver url="jdbc:mysql://localhost:3306/single" 
+             class-name="com.mysql.jdbc.Driver"&gt;
+        &lt;param name="user" value="user" /&gt;
+        &lt;param name="password" value="password" /&gt;
+     &lt;/driver&gt;
+     &lt;mapping href="mapping-empty.xml" /&gt;
+  &lt;/database&gt;
+  &lt;transaction-demarcation mode="local" /&gt;
+&lt;/jdo-conf&gt;
+        </programlisting>
+        
+        <para>
+            More on how to configure the Spring ORM provider for 
+            Castor JDO can be found at TBD.
+        </para>
+    </section>
+    
+    <section>
+        <title>Adding a <classname>JDOClassDescriptorResolver</classname> configuration</title>
+        
+        <para>
+            In order to use JPA-annotated classes with the Spring ORM provider 
+            for Castor JDO, you will have to use and configure a 
+            <classname>JDOClassDescriptorResolver</classname> through an
+            additional bean definition and link it to your 
+            <classname>JDOManager</classname> bean factory definition.
+        </para>
+        
+        <programlistingco>        
+           <areaspec>
+              <area id="jpa.spring.cdr.1" units="linecolumn" coords="10 88"/>
+              <area id="jpa.spring.cdr.2" units="linecolumn" coords="25 88"/>
+           </areaspec>
+           <programlisting language="xml">
+&lt;beans xmlns="http://www.springframework.org/schema/beans" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:tx="http://www.springframework.org/schema/tx"
+          xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"&gt;
+    
+    ...
+
+    &lt;bean id="classDescriptorResolver"
+          class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
+        &lt;property name="classes"&gt;
+            &lt;list&gt;
+                &lt;value&gt;org.castor.jpa.test.Single&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+
+    ...
+    
+    &lt;bean id="jdoManager"
+        class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+        &lt;property name="databaseName" value="dbName" /&gt;
+        &lt;property name="configLocation" value="jdo-conf.xml" /&gt;
+        <emphasis role="bold">&lt;property name="classDescriptorResolver" ref="classDescriptorResolver" /&gt;</emphasis>
+    &lt;/bean&gt;
+    
+    ...
+&lt;/beans&gt; 
+            </programlisting>
+        </programlistingco>
+        
+        <para>
+            where ....
+        </para>
+        
+        <calloutlist>
+            <callout arearefs="jpa.spring.cdr.1">
+                <para>
+                    Defines a <classname>JDOClassDescriptorResolver</classname>
+                    bean enlisting all the Java (domain) classes that
+                    carry JPA annotations.                   
+                </para>
+            </callout>
+            <callout arearefs="jpa.spring.cdr.2">
+                <para>
+                    links the <classname>JDOClassDescriptorResolver</classname>
+                    bean to the <literal>classDescriptorResolver</literal> property 
+                    of the <classname>JDOManager</classname> bean definition.                   
+                </para>
+            </callout>
+        </calloutlist>
+        
+        <para>
+            If your domain classes share a set of packages, it is also 
+            possible to enlist those packages with the 
+            <classname>JDOClassDescriptorResolver</classname> bean, replacing
+            the bean definition shown above as follows:
+        </para> 
+
+        <programlisting language="xml">
+    &lt;bean id="classDescriptorResolver"
+          class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean"&gt;
+        &lt;property name="packages"&gt;
+            &lt;list&gt;
+                &lt;value&gt;org.castor.jpa.test&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+        </programlisting>
+
+
+    </section>
+
+    <section>
+        <title>JPA Callbacks</title>
+
+        <para>
+            In order to enable JPA callbacks handling via Spring ORM following
+            exemplary config snippet is required:
+        </para>
+
+        <programlisting lang="xml">
+&lt;bean id="jdoManager" class="org.castor.spring.orm.LocalCastorFactoryBean"&gt;
+    &lt;property name="databaseName" value="testSimple" /&gt;
+    &lt;property name="configLocation"
+        value="classpath:org/castor/jpa/scenario/callbacks/derby-jdo-conf.xml" /&gt;
+    &lt;property name="classDescriptorResolver" ref="classDescriptorResolver" /&gt;
+    &lt;property name="callbackInterceptor" ref="jpaCallbackHandler" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="jpaCallbackHandler" class="org.castor.jdo.jpa.info.JPACallbackHandler" /&gt;
+        </programlisting>
+    </section>
+
+</section>

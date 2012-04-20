@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-map-a-list-at-root.xml">
+  <properties>
+    <title>How to map an innner class</title>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to map an innner class</title>
+    <header/>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to map an inner class with Castor XML for XML data
+           binding.</p>
+        
+        <p>This document helps people to get familiar with the basic concepts
+           of mapping and shows an example.</p>
+
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>A general understanding about XML data binding and its usage.</p>
+
+    </section>
+
+    <section title="Basic concept">
+        
+        <p>Assume you have the following classes <tt>Outer</tt> and 
+           <tt>Inner</tt>:</p>
+           
+        <code-panel>
+package test;
+
+public class Outer {
+
+   private Inner member;
+   
+   public Inner getMember() { return member; }
+   public void setMember (Inner member) { this.member = member; }
+   
+   public static class Inner {
+   
+      private String innerMember;
+      
+      public String getInnerMember() { return innerMember; }
+      public void setInnerMember(String innerMember) { this.innerMember = innerMember; }
+      
+   }
+}</code-panel>
+
+		<p>Please note that the i
+		nner class needs to be declared <b>public</b>
+		   and <b>static</b>.</p>
+           
+    </section>
+
+    <section title="Mapping file">
+
+        <p>Here's the mapping file for Castor XML, showing the class mapping for the 
+           OrderItem class:</p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+   <class name="test.Outer">
+      <field name="member" type="test.Outer$Inner">
+         <bind-xml name="member" node="element" />
+      </field>
+   </class>
+   <class name="test.Outer$Inner">
+      <field name="innerMember" type="java.lang.String">
+         <bind-xml name="innerMember" node="element" />
+      </field>
+   </class>
+</mapping>]]></code-panel>
+    
+    </section>
+
+    <section title="Unmarshalling">
+        
+        <p>Using the Castor XML Unmarshaller with the mapping file shown above, the code
+           to unmarshal the following XML ...</p>
+
+        <code-panel><![CDATA[
+<?xml version="1.0"?>
+<outer>
+   <member>
+      <innerMember>blah</innerMember>
+   </member>
+</outer>]]></code-panel>
+
+           <p>... into a variable of type <tt>test.Outer</tt> is as follows:</p>
+
+        <code-panel>
+InputSource mappingSource = ...;
+Mapping mapping = new Mapping();
+mapping.loadMapping(mappingSource);        
+
+InputSource inputSource = ...;
+Unmarshaller unmarshaller = new Unmarshaller(test.Outer.class);
+unmarshaller.setMapping(mapping);
+test.Outer outer = (test.Outer) unmarshaller.unmarshal(inputSource);</code-panel>
+
+    </section>
+
+    <section title="References">
+
+        <ul>
+            <li><a href="xml-mapping.html">XML mapping</a></li>
+        </ul>
+        
+    </section>
+
+
+  </body>
+</document>

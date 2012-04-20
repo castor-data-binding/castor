@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="advanced-jdo.key-generator">
+    <title>Castor JDO Key Generator Support</title>
+
+    <section id="advanced-jdo.key-generator.introduction">
+      <title>Introduction</title>
+      
+      <para>
+         The key generator gives a possibility to generate identity field
+         values automatically. During <literal>create</literal> the value of the
+         identity field is set to the value obtained from the key generator.
+         Different algorithms may be used here, both generic and specific
+         for database server.
+      </para>
+
+      <para>
+         The key generator for the given class is set in the mapping specification 
+         file (<filename>mapping.xml</filename>), in the 
+         <literal>key-generator</literal> attribute of the 
+         <literal>class</literal> element, for example:
+      </para>
+         
+      <programlisting language="xml"><![CDATA[
+<class name="myapp.ProductGroup"
+       identity="id" key-generator="MAX">
+  <field name="id">
+  </field>
+</class>]]>
+      </programlisting>
+         
+      <para>
+         The following key generator names are supported in Castor 1.0:
+      </para>
+      
+      <table border="1" cellpadding="4">
+        <title>Supported key generator names</title>
+      
+        <tgroup cols="2">
+          <tbody>
+            <row>
+              <entry>MAX</entry><entry>"MAX( pk ) + 1" generic algorithm</entry>
+            </row>
+           
+            <row>
+              <entry>HIGH-LOW</entry><entry>HIGH-LOW generic algorithm</entry>
+            </row>
+           
+            <row>
+              <entry>UUID</entry><entry>UUID generic algorithm</entry>
+            </row>
+           
+            <row>
+              <entry>IDENTITY</entry>
+              <entry>
+                Supports autoincrement identity fields in Sybase ASE/ASA, 
+                MS SQL Server, MySQL and Hypersonic SQL
+              </entry>
+            </row>
+           
+            <row>
+              <entry>SEQUENCE</entry>
+              <entry>
+                Supports SEQUENCEs in Oracle, PostgreSQL, Interbase and SAP DB
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>
+         Some of these algorithms have parameters, which can be specified 
+         in the <literal>key-generator</literal> element of the mapping
+         specification file, for example:
+      </para>
+      
+      <programlisting language="xml"><![CDATA[
+<key-generator name="HIGH-LOW">
+  <param name="table" value="SEQ"/>
+  <param name="key-column" value="SEQ_TableName"/>
+  <param name="value-column" value="SEQ_MaxPKValue"/>
+  <param name="grab-size" value="1000"/>
+</key-generator>
+
+<class name="myapp.ProductGroup"
+       identity="id" key-generator="HIGH-LOW">
+  <field name="id">
+  </field>
+</class>]]></programlisting>
+
+      <para>
+         It is possible to create several key generators with the same
+         algorithms but different parameters.
+         In this case you have to specify the <literal>alias</literal> attribute
+         in the <literal>key-generator</literal> element, for example:
+      </para>
+      
+      <programlisting language="xml"><![CDATA[
+<key-generator name="SEQUENCE" alias="A">
+  <param name="sequence" value="a_seq"/>
+</key-generator>
+
+<key-generator name="SEQUENCE" alias="RETURNING">
+  <param name="sequence" value="b_seq"/>
+  <param name="returning" value="true"/>
+</key-generator>
+
+<class name="myapp.ProductGroup"
+       identity="id" key-generator="RETURNING">
+  <field name="id">
+  </field>
+</class>]]>
+      </programlisting>
+      
+      <para>
+         Below all supported key generators a described in details.
+      </para>
+    </section>
+
+    <section id="advanced-jdo.key-generator.max">
+      <title>MAX key generator</title>
+    
+      <para>
+         MAX key generator fetches the maximum value of the primary key 
+         and lock the record having this value until the end of transaction.
+         Then the generated value is set to (MAX + 1).
+         Due to the lock concurrent transactions which perform insert 
+         to the same table using the same key generator algorithm will wait 
+         until the end of the transaction and then will fetch new MAX value.
+         Thus, duplicate key exception is almost impossible (see below).
+         Note, that it is still possible to perform multiple inserts during
+         the same transaction.
+      </para>
+      
+      <para>
+         There is one "singular" case of this algorithm: the case when the table 
+         is empty. In this case there is nothing to lock, so duplicate key exception
+         is possible. The generated value in this case is 1.
+      </para>
+         
+      <para>
+         This algorithm has no parameters. Primary key must have type 
+         <type>integer</type>, <type>bigint</type> or <type>numeric</type>.
+      </para>
+      
+    </section>
+
+    <section id="advanced-jdo.key-generator.high-low">
+      <title>HIGH-LOW key generator</title>
+    
+      <para>
+         This key generator uses one of the variants of the generic HIGH-LOW
+         algorithm. It is needed a special auxiliary table ("sequence table")
+         which has the unique column which contains table names (of the type
+         <type>char</type> or <type>varchar</type>) and the column which is used 
+         to reserve values of the primary keys (of the type <type>integer</type>,
+         <type>bigint</type> or <type>numeric</type>).
+         The key generator seeks for the given table name, reads the last
+         reserved value and increases it by some number N, which is called 
+         "grab size". Then the lock on the auxiliary table is released,
+         so that concurrent transactions can perform insert to the same table.
+         The key generator generates the first value from the grabbed 
+         interval.
+         During the next (N - 1) invocations it generates the other grabbed
+         values without database access, and then grabs the next portion.
+         Note, that the auxiliary table must be in the same database as
+         the table for which key is generated. So, if you work with multiple 
+         databases, you must have one auxiliary table in each database.
+      </para>
+      
+      <para>
+         If the grab size is set to 1, the key generator each time stores
+         the true maximum value of the primary key to the auxiliary table.
+         In this case the HIGH-LOW key generator is basically equivalent to
+         the MAX key generator.
+         On you want to have LOW part of the key consisting of 3 decimal
+         digits, set the grab size to 1000. If you want to have 2 LOW bytes in
+         the key, set the grab size to 65536.
+         When you increase the grab size, the speed of 
+         key generation also increases because the average number of 
+         SQL commands that are needed to generate one key is (2 / N).
+         But that average number of key values that will be skipped (N / 2)
+         also increases.
+      </para>
+      
+      <para>
+         The HIGH-LOW key generator has the following parameters:
+      </para>
+      
+      <table cellpadding="4" frame="all">
+        <title>parameters of the HIGH-LOW key generator</title>
+      
+        <tgroup cols="3">
+          <tbody>
+            <row>
+              <entry>table</entry>
+              <entry>The name of the special sequencetable.</entry>
+              <entry>Mandatory</entry>
+            </row>
+            
+            <row>
+              <entry>key-column</entry>
+              <entry>The name of the column which contains table names</entry>
+              <entry>Mandatory</entry>
+            </row>
+            
+            <row>
+              <entry>value-column</entry>
+              <entry>
+                The name of the column which is used to reserve primary key values
+              </entry>
+              <entry>Mandatory</entry>
+            </row>
+            
+            <row>
+              <entry>grab-size</entry>
+              <entry>
+                The number of new keys the key generator should grab from the sequence 
+                table at a time.
+              </entry>
+              <entry>Optional, default="10"</entry>
+            </row>
+            
+            <row>
+              <entry>same-connection</entry>
+              <entry>
+                To use the same Connection for writing to the sequence table, values:
+                "true"/"false". This is needed when working in EJB environment, though 
+                less efficient.
+              </entry>
+              <entry>Optional, default="false"</entry>
+            </row>
+            
+            <row>
+              <entry>global</entry>
+              <entry>To generate globally unique keys, values: "true"/"false".</entry>
+              <entry>Optional, default="false"</entry>
+            </row>
+            
+            <row>
+              <entry>global-key</entry>
+              <entry>
+                The name of key, which is used when globally unique keys are generated.
+              </entry>
+              <entry>Optional, default=<![CDATA["<GLOBAL>"]]></entry>
+            </row> 
+          </tbody>
+        </tgroup>     
+      </table>
+      
+      <para>
+         If the parameter <literal>global</literal> is set to <literal>true</literal>, 
+         the sequence table contains only one row with the value set in parameter 
+         <literal>global-key</literal> (or <![CDATA["<GLOBAL>"]]> if "global-key was not set") 
+         instead of the table name. This row serves for all tables.
+      </para>
+      
+      <para>
+         Don't forget to set same-connection="true" if you are working in 
+         EJB environment!
+      </para>
+      
+      <para>
+         Note, that the class <classname>HighLowKeyGenerator</classname> is not final, 
+         so you can extend it in order to implement other variants of HIGH-LOW
+         algorithm (for example, HIGH/MID/LOW or char key values).
+      </para>
+      
+    </section>
+
+    <section id="advanced-jdo.key-generator.uuid">
+      <title>UUID key generator</title>
+    
+      <para>
+         This key generator generates global unique primary keys.
+         The generated key is a combination of the IP address, the current
+         time in milliseconds since 1970 and a static counter.
+         The complete key consists of a 30 character fixed length string.
+      </para>
+      
+      <para>
+         This algorithm has no parameters. Primary key must have type 
+         <type>char</type>, <type>varchar</type> or <type>longvarchar</type>.
+      </para>
+      
+    </section>
+
+    <section id="advanced-jdo.key-generator.identity">
+      <title>IDENTITY key generator</title>
+    
+      <para>
+         IDENTITY key generator can be used only with autoincrement primary
+         key columns (identities) with Sybase ASE/ASA, MS SQL Server, MySQL and
+         Hypersonic SQL.
+      </para>
+      
+      <para>
+         After the insert the key generator selects system variable
+         <literal>@@identity</literal> which contains the last identity value for
+         the current database connection.
+      </para>
+      
+      <para>
+         In the case of MySQL and Hypersonic SQL the system functions
+         <function>LAST_INSERT_ID()</function> and <function>IDENTITY()</function> 
+         are called, respectively.
+      </para>
+      
+      <para>This algorithm has no parameters.</para>
+      
+    </section>
+
+    <section id="advanced-jdo.key-generator.sequence">
+      <title>SEQUENCE key generator</title>
+      
+      <para>
+         The SEQUENCE key generator type is supported in conjunction with the following
+         DBMS: Derby, Interbase, Oracle, PostgreSQL, and SAP DB.
+      </para>
+      
+      <para>It generates keys using database sequence objects.</para>
+      
+      <para>
+         The key generator has the following parameters:
+      </para>
+      <table border="1" cellpadding="4">
+         <title>parameters of the SEQUENCE key generator</title>
+      
+         <tgroup cols="3">
+            <tbody>
+	           <row>
+	             <entry>sequence</entry>
+	             <entry>The name of the sequence</entry>
+	             <entry>Optional, default="{0}_seq"</entry>
+	           </row>
+	           
+	           <row>
+	             <entry>returning</entry>
+	             <entry>RETURNING mode for Oracle8i, values: "true"/"false"</entry>
+	             <entry>Optional, default="false"</entry>
+	           </row>
+	           
+	           <row>
+	             <entry>increment</entry>
+	             <entry>Increment for Interbase</entry>
+	             <entry>Optional, default="1"</entry>
+	           </row>
+	           
+	           <row>
+	             <entry>trigger</entry>
+	             <entry>
+	               Assume that there is a trigger that already generates key. 
+	               Values: "true"/"false"
+	             </entry>
+	             <entry>Optional, default="false"</entry>
+	           </row>
+            </tbody>
+         </tgroup>
+      </table>
+      
+      <para>
+         Usually one sequence is used for one table, so in general you have to
+         define one key generator per table.
+      </para>
+      
+      <para>
+         But if you use some naming pattern for sequences, you can use one 
+         key generator for all tables.
+      </para>
+      
+      <para>
+         For example, if you always obtain sequence name by adding "_seq" to
+         the name of the correspondent table, you can set "sequence" parameter
+         of the key generator to "{0}_seq" (the default value).
+      </para>
+      
+      <para>
+         In this case the key generator will use sequence "a_seq" for table 
+         "a", "b_seq" for table "b", etc.  Castor also allows for inserting 
+         the primary key into the sequence name as well.  This is accomplished 
+         by including the {1} tag into the "sequence" parameter. Example: 
+         "{0}_{1}_seq"
+      </para>
+      
+      <para>
+         Actually the SEQUENCE key generator is "4 in 1". 
+         With PostgreSQL it performs "SELECT nextval(sequenceName)" before 
+         INSERT and produces identity value that is then used in INSERT.
+         Similarly, with Interbase it performs
+         "select gen_id(sequenceName, increment) from rdb$database" before
+         INSERT.
+      </para>
+      
+      <para>
+         With Oracle by default (returning=false) and with SAP DB it transforms
+         the Castor-generated INSERT statement into the form
+         "INSERT INTO tableName (pkName,...) VALUES 
+         (sequenceName.nextval,...)" and after INSERT it performs "SELECT 
+         seqName.currval FROM tableName" to obtain the identity value. With 
+         Oracle8i it is possible to use more efficient RETURNING mode: to 
+         the above INSERT statement is appened "RETURNING primKeyName INTO 
+         ?" and the identity value is fetched by Castor during INSERT, so 
+         that only one SQL query is needed.
+      </para>
+         
+      <para> 
+         In case when your table has an on_Insert trigger which already generates
+         values for your key, like the following Oracle example: 
+      </para>
+      <programlisting>
+create or replace trigger "trigger_name"
+before insert on "table_name" for each row 
+begin 
+   select "seq_name".nextval into :new."pk_name" from dual;
+end;</programlisting>
+      <para>    
+          you may set the "trigger" parameter to "true". This will prevent the 
+          "Sequence_name".nexval from being pulled twice (first time in the insert 
+          statement (see above), then in the trigger). Also usefull in combination 
+          with the "returning" parameter set to "true" for Oracle (in this case you 
+          may not specify the sequence name).
+       </para>
+         
+    </section>
+</section>
+
+
+
+
+
+
+
+

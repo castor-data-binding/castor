@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-unmarshal-raw-xml.xml">
+  <properties>
+    <title>How to use Castor's XMLContext for un-/marshalling</title>
+    <abstract/>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use Castor's XMLContext for un-/marshalling</title>
+    <header/>
+
+    <section title="Intended Audience">
+
+        <p>
+           Anyone who wants to use Castor XML for XML data binding, namely marshalling and 
+           unmarshalling operations.
+        </p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>
+           You should have downloaded the Castor binaries or included Castor as a dependency in a 
+           Maven project.
+        </p>
+
+    </section>
+    
+    <section title="Domain classes">
+    
+     <p>
+        For the purpose of showcasing the use of the <tt>XMLContext</tt> class, let's assume we 
+        have a simple <tt>Person</tt> class as follows:
+     </p>
+        
+		<code-panel>
+import java.util.Date;
+
+<comment>/** An simple person class */</comment>
+public class Person implements java.io.Serializable {
+
+   <comment>/** The name of the person */</comment>
+   private String name = null;
+
+   <comment>/** The Date of birth */</comment>
+   private Date dob = null;
+
+   <comment>/** Creates a Person with no name */</comment>
+   public Person() {
+      super();
+   }
+
+   <comment>/** Creates a Person with the given name */</comment>
+   public Person(String name) {
+      this.name  = name;
+   }
+
+   <comment>/**
+     * @return date of birth of the person
+     */</comment>
+   public Date getDateOfBirth() {
+      return dob;
+   }
+
+   <comment>/**
+     * @return name of the person
+     */</comment>
+   public String getName() {
+      return name;
+   }
+
+   <comment>/**
+     * Sets the date of birth of the person
+     * @param name the name of the person
+     */</comment>
+   public void setDateOfBirth(Date dob) {
+      this.dob = dob;
+   }
+
+   <comment>/**
+     * Sets the name of the person
+     * @param name the name of the person
+     */</comment>
+   public void setName(String name) {
+      this.name = name;
+   }
+}</code-panel>
+
+    
+    </section>
+
+    <section title="Basic code fragments">
+
+		<p>
+		   Starting with Castor 1.1.2, the <api class="org.exolab.castor.xml.XMLContext">XMLContext</api> 
+		   class provides a bootstrap mechanism for Castor XML, and allows easy (and efficient) 
+		   instantiation of <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> and 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
+		   instances, which can be used to perform basic XML data binding operations.
+		</p>
+		
+		<p>
+		   Below is a code sample that shows how to use the <tt>XMLContext</tt> class for 
+		   umarshalling a <tt>Person</tt> instance using an 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api>. In this example, 
+		   a mapping file is used.
+		</p>
+		
+		<code-panel>
+import org.exolab.castor.xml.XMLContext;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.xml.Unmarshaller;
+		
+<comment>//create a Mapping instance</comment>
+Mapping mapping = <b>XMLContext.createMapping()</b>;
+mapping.loadMapping("mapping.xml");
+
+<comment>// create an XMLContext instance and set mapping</comment>
+XMLContext context = new XMLContext();
+context.addMapping(mapping);
+
+<comment>// create a new Unmarshaller</comment>
+Unmarshaller unmarshaller = <b>context.createUnmarshaller()</b>;
+unmarshaller.setClass(Person.class);
+
+<comment>// Create a Reader to the file to unmarshal from</comment>
+Reader reader = new FileReader("test.xml");
+
+<comment>// Unmarshal the person object</comment>
+Person person = (Person) unmarshaller.unmarshal(reader);</code-panel>
+		   
+		<p>
+		   As shown above, the <api class="org.exolab.castor.xml.XMLContext">XMLContext</api> 
+		   class offers various factory methods to obtain a new 
+		   <api class="org.exolab.castor.xml.Marshaller">Marshaller</api>, 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> or 
+		   <api class="org.exolab.castor.mapping.Mapping">Mapping</api> instance.
+		</p>
+		
+		<p>
+		   When you need more than one <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
+		   instance in your application, please call 
+		   <api class="org.exolab.castor.xml.XMLContext">createUnmarshaller</api> as required. As all 
+		   <tt>Unmarshaller</tt> instances are created from the very same <tt>XMLContext</tt> 
+		   instance, overhead will be minimal. Please note, though, that an 
+		   <tt>Unmarshaller</tt> instance is not thread-safe.
+		</p>
+		
+
+        
+    </section>
+
+  </body>
+</document>

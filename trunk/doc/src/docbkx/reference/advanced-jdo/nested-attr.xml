@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="advanced-jdo.nested-attributes">
+    <title>Nested Attributes</title>
+
+    <section id="advanced-jdo.nested-attributes.introduction">
+	    <title>Introduction</title>
+	     
+	    <para>
+	        In some cases it is desirable to map a plain sequence of fields
+	        in a database record to more complicated structure of attributes
+	        in a Java object, where the target attributes are contained (nested)
+	        in other attributes.
+	        In brief, you can specify a path to the target attribute as a name 
+	        of the field in a configuration file, and Castor is able to handle
+	        such nested attributes.
+	        For example:
+	        <programlisting language="java"><![CDATA[
+<field name="address.country.code"...>
+  <sql name="person_country"/>
+</field>]]>
+	        </programlisting>
+	    </para>
+    </section>
+
+    <section id="advanced-jdo.nested-attributes.application-types">
+	     <title>Application types</title>
+	     
+	     <para>
+	        The first case is an attribute of an application type that is 
+	        a container for some value of a Java type supported by Castor.
+	        Usually the application type also has some business methods. 
+	        Examples are: class Balance that contains a BigDecimal value and 
+	        has some accounting-specific methods; 
+	        class CountryCode that contains a String value and has 
+	        methods validate(), getDisplayName(), etc.; class Signature that 
+	        contains a byte[] value and has some security-specific methods. 
+	        In order to use such type with Castor you should provide 
+	        a pair of methods to get/set the value of the Castor-supported type, 
+	        e.g. getBigDecimal/setBigDecimal, getCode/setCode, getBytes/setBytes. 
+	     </para>
+	     
+	     <para>
+	        Assume that you have the class Address
+	        <programlisting language="java">
+public class Address {
+    private CountryCode _country;
+    private String      _city;
+    private String      _street;
+
+    public CountryCode getCountry() {
+        return _country;
+    }
+
+    public void setCountry(CountryCode country) {
+        _country = country;
+    }
+    ...
+}
+	        </programlisting>
+	        where the class <classname>CountryCode</classname> is like this
+	        <programlisting language="java">
+public class CountryCode {
+    private String _code;
+    private static String[] _allCodes;
+    private static String[] _allDisplayNames;
+
+    public String getCode() {
+        return _code;
+    }
+
+    public void setCode(String code) {
+        _code = code;
+    }
+
+    public void getDisplayName() {
+    ...
+}
+	        </programlisting>
+	        then write in the configuration file:
+	        <programlisting language="xml"><![CDATA[
+<class name="Address"...>
+  <field name="country.code"...>
+    <sql name="addr_country"/>
+  </field>
+  ...
+</class>]]>
+	        </programlisting>
+	        When reading the object from the database Castor will use
+	        <programlisting language="java">
+object.getCountry().setCode(value);
+	        </programlisting>
+	        to set the nested attribute value.
+	        Moreover, if object.getCountry() is null, Castor will create the 
+	        intermediate object of the application type:
+	        <programlisting language="java">
+country = new CountryCode();
+country.setCode(value);
+object.setCountry(country);
+	        </programlisting>
+	        When writing the object to the database Castor will use
+	        <programlisting language="java">
+value = object.getCountry().getCode();
+	        </programlisting>
+	        to get the value of the correspondent database field.
+	     </para>
+    </section>
+
+    <section id="advanced-jdo.nested-attributes.compound-attributes">
+     <title>Compound types</title>
+     
+     <para>
+        The second case is an attribute that is a part of a compound 
+        attribute, which contains several database fields.
+        For example, database fields person_country, person_city, 
+        person_street of the table <database class="table">PERSON</database> 
+        correspond to one compound attribute "address" of the class 
+        <classname>Person</classname>:
+        <programlisting language="java">
+public class Person {
+    private String  _firstName;
+    private String  _lastName;
+    private Address _address;
+
+    public Address getAddress() {
+        return _address;
+    }
+
+    public void setAddress(Address address) {
+        _address = address;
+    }
+    ...
+}
+        </programlisting>
+        where the class <classname>Address</classname> is the same as in the 
+        previous section. Then write in the configuration file:
+        <programlisting language="java"><![CDATA[
+<class name="Person"...>
+  <field name="address.country.code"...>
+    <sql name="person_country"/>
+  </field>
+  <field name="address.city"...>
+    <sql name="person_city"/>
+  </field>
+  <field name="address.street"...>
+    <sql name="person_street"/>
+  </field>
+  ...
+</class>]]>
+        </programlisting>
+        Similarly to the previous section, Castor will use a proper 
+        sequence of get/set methods to access the nested attributes and 
+        will create the intermediate objects when necessary.
+        Don't forget to provide parameterless constructors for the 
+        container classes.
+     </para>
+   </section>
+</section>
+

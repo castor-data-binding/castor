@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	test without redefinition but with annotation.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="foo" 
+		elementFormDefault="qualified">
+	
+	<redefine>
+	    <annotation>
+	        <documentation>
+	            Test for a redefine with one annotation only.
+	        </documentation>
+	    </annotation>
+	</redefine>
+	
+</schema>

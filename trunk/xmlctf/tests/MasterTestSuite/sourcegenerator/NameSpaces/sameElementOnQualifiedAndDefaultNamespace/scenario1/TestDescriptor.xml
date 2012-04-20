@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test for same element on different namespaces, one of them being default</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression test case for bug CASTOR-3093 and CASTOR-3094</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>jmborer@gmail.com</Reporter>
+        <Date_Report>2011-05-22</Date_Report>
+        <Date_Fix>2011-05-31</Date_Fix>
+        <Comment>
+            TBD
+        </Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>bar-bar.xsd</Schema>
+        <Schema>bar.xsd</Schema>
+        <Schema>foo.xsd</Schema>
+        <Schema>nobar.xsd</Schema>
+        <Schema>nofoo.xsd</Schema>
+        <Property_File>builder.properties</Property_File>
+        <Root_Object random="false" dump="true">generated.bar.Bar</Root_Object>
+        <UnitTestCase>
+            <Name>Test 1</Name>
+            <Input>bar.xml</Input>
+            <GoldFile>bar.xml</GoldFile>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

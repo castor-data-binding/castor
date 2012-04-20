@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Restriction (Enumeration) of Extension is not handled properly</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Observed during reorganization of MasterTestSuite</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>bad-input.xml</Input>
+            <Failure>true</Failure>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>good-input-1.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>good-input-2.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

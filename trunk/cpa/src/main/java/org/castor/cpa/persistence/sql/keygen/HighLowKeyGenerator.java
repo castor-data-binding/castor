@@ -1,0 +1,324 @@
+/*
+ * Copyright 2008 Oleg Nitz, Bruce Snyder, Ralf Joachim
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.castor.cpa.persistence.sql.keygen;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.core.util.Messages;
+import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerBigDecimal;
+import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerInteger;
+import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerLong;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.JDBCSyntax;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.persist.spi.QueryExpression;
+
+/**
+ * HIGH-LOW key generators.
+ * 
+ * @see HighLowKeyGeneratorFactory
+ * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
+ * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
+ * @version $Revision$ $Date$
+ */
+public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
+    //-----------------------------------------------------------------------------------
+
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(HighLowKeyGenerator.class);
+
+    /** String constant for table. */
+    private static final String SEQ_TABLE = "table";
+
+    /** String constant for key-column. */
+    private static final String SEQ_KEY = "key-column";
+
+    /** String constant for value-column. */
+    private static final String SEQ_VALUE = "value-column";
+
+    /** String constant for grab-size. */
+    private static final String GRAB_SIZE = "grab-size";
+
+    /** String constant for same-connection. */
+    private static final String SAME_CONNECTION = "same-connection";
+
+    /** String constant for global. */
+    private static final String GLOBAL = "global";
+
+    /** String constant for global key. */
+    private static final String GLOBAL_KEY = "global-key";
+
+    /** Int constant. */
+    private static final int UPDATE_PARAM_MAX = 1;
+
+    /** Int constant. */
+    private static final int UPDATE_PARAM_TABLE = 2;
+
+    /** Int constant. */
+    private static final int UPDATE_PARAM_LAST = 3;
+
+    /** Int constant. */
+    private static final int INSERT_PARAM_TABLE = 1;
+
+    /** Int constant. */
+    private static final int INSERT_PARAM_MAX = 2;
+
+    /** Int constant. */
+    private static final int LOCK_TRIALS = 7;
+
+    /** Map to store value handler. */
+    private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
+        new HashMap<String, HighLowValueHandler<? extends Object>>();
+
+    /** Persistence factory for the database engine the entity is persisted in.
+     *  Used to format the SQL statement. */
+    private final PersistenceFactory _factory;
+    
+    /** Databse engine type. */
+    private final int _sqlType;
+
+    /** Sequence table name. */ 
+    private String _seqTable;
+
+    /** Sequence table key column name. */
+    private String _seqKey;
+
+    /** Sequence table value column name. */
+    private String _seqValue;
+
+    /** Grab size. */
+    private int _grabSize;
+
+    /** Shell the same connection be used?
+     *  <br/>
+     *  Note: This is less efficient, but in EJB envirinment we have no choice for now. */ 
+    private boolean _sameConnection;
+
+    /** Shell globally unique identities be generated? */
+    private boolean _global;
+
+    /** If globally unique identities are generated, then which key needs to be used? */
+    private String _globalKey;
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Initialize the HIGH-LOW key generator.
+     * 
+     * @param factory A PersistenceFactory instance.
+     * @param params Database engine specific parameters. 
+     * @param sqlType A SQLTypidentifier.
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
+     */
+    public HighLowKeyGenerator(final PersistenceFactory factory, final Properties params,
+            final int sqlType) throws MappingException {
+        super(factory);
+        _factory = factory;
+        _sqlType = sqlType;
+        
+        if ((sqlType != Types.INTEGER) && (sqlType != Types.BIGINT)
+                && (sqlType != Types.NUMERIC) && (sqlType != Types.DECIMAL)) {
+            String msg = Messages.format("mapping.keyGenSQLType",
+                    getClass().getName(), new Integer(sqlType));
+            throw new MappingException(msg);
+        }
+        
+        initFromParameters(params);
+    }
+
+    /** Method to init some class variables.
+     * 
+     * @param params Database engine specific parameters. 
+     * @throws MappingException if this key generator is not compatible with the
+     *         persistance factory.
+     */
+    public void initFromParameters(final Properties params) throws MappingException {
+        _seqTable = params.getProperty(SEQ_TABLE);
+        if (_seqTable == null) {
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_TABLE, getClass().getName()));
+        }
+
+        _seqKey = params.getProperty(SEQ_KEY);
+        if (_seqKey == null) {
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_KEY, getClass().getName()));
+        }
+
+        _seqValue = params.getProperty(SEQ_VALUE);
+        if (_seqValue == null) {
+            throw new MappingException(Messages.format(
+                    "mapping.KeyGenParamNotSet", SEQ_VALUE, getClass().getName()));
+        }
+
+        String grabSize = params.getProperty(GRAB_SIZE, "10");
+        try {
+            _grabSize = Integer.parseInt(grabSize);
+        } catch (NumberFormatException except) {
+            _grabSize = 0;
+        }
+        if (_grabSize <= 0) {
+            throw new MappingException(Messages.format(
+                    "mapping.wrongKeyGenParam", grabSize, GRAB_SIZE, getClass().getName()));
+        }
+
+        _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
+        _global = "true".equals(params.getProperty(GLOBAL));
+
+        _globalKey = params.getProperty(GLOBAL_KEY);
+        if (_globalKey == null) {
+            _globalKey = "<GLOBAL>";
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public synchronized Object generateKey(final Connection conn, final String tableName,
+            final String primKeyName) throws PersistenceException {
+        String intTableName = tableName;
+        if (_global) { 
+        	intTableName = _globalKey; 
+        }
+        
+        HighLowValueHandler<? extends Object> handler = _handlers.get(intTableName);
+        if (handler == null) {
+            if (_sqlType == Types.INTEGER) {
+                KeyGeneratorTypeHandlerInteger typeHandler =
+                    new KeyGeneratorTypeHandlerInteger(false);
+                handler = new HighLowValueHandler<Integer>(intTableName, _grabSize, typeHandler);
+            } else if (_sqlType == Types.BIGINT) {
+                KeyGeneratorTypeHandlerLong typeHandler =
+                    new KeyGeneratorTypeHandlerLong(false);
+                handler = new HighLowValueHandler<Long>(intTableName, _grabSize, typeHandler);
+            } else {
+                KeyGeneratorTypeHandlerBigDecimal typeHandler =
+                    new KeyGeneratorTypeHandlerBigDecimal(false);
+                handler = new HighLowValueHandler<BigDecimal>(intTableName, _grabSize, typeHandler);
+            }
+            _handlers.put(intTableName, handler);
+        }
+        
+        if (!handler.hasNext()) {
+            // Create "SELECT seq_val FROM seq_table WHERE seq_key='table'"
+            // with database-dependent keyword for lock
+            // Note: Some databases (InstantDB, HypersonicSQL) don't support such locks.
+            QueryExpression query = _factory.getQueryExpression();
+            query.addColumn(_seqTable, _seqValue);
+            query.addCondition(_seqTable, _seqKey, QueryExpression.OP_EQUALS, JDBCSyntax.PARAMETER);
+            String lockSQL = query.getStatement(true);
+            
+            // For the case that "SELECT FOR UPDATE" is not supported, perform dirty checking
+            String updateSQL = "UPDATE " +  _seqTable
+                + " SET " + _seqValue + "=" + JDBCSyntax.PARAMETER
+                + JDBCSyntax.WHERE + _seqKey + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER
+                + JDBCSyntax.AND + _seqValue + QueryExpression.OP_EQUALS + JDBCSyntax.PARAMETER;
+
+            String maxSQL = JDBCSyntax.SELECT + "MAX(" + primKeyName + ") "
+                + "FROM " + intTableName;
+
+            String insertSQL = "INSERT INTO " + _seqTable
+                + " (" + _seqKey + "," + _seqValue + ") VALUES (?, ?)";
+            
+            PreparedStatement stmt = null;
+            try {
+                // Separate connection should be committed/rolled back at this point
+                if (!_sameConnection) { conn.rollback(); }
+
+                // Retry 7 times (lucky number)
+                boolean success = false;
+                for (int i = 0; !success && (i < LOCK_TRIALS); i++) {
+                    stmt = conn.prepareStatement(lockSQL);
+                    handler.bindTable(stmt, 1);
+                    ResultSet rs = stmt.executeQuery();
+                    handler.init(rs);
+                    boolean found = rs.isFirst();
+                    stmt.close();
+                    
+                    if (found) {
+                        stmt = conn.prepareStatement(updateSQL);
+                        handler.bindMax(stmt, UPDATE_PARAM_MAX);
+                        handler.bindTable(stmt, UPDATE_PARAM_TABLE);
+                        handler.bindLast(stmt, UPDATE_PARAM_LAST);
+                        success = (stmt.executeUpdate() == 1);
+                        stmt.close();
+                    } else {
+                        if (!_global) {
+                            stmt = conn.prepareStatement(maxSQL);
+                            rs = stmt.executeQuery();
+                            handler.init(rs);
+                            stmt.close();
+                        }
+                        
+                        stmt = conn.prepareStatement(insertSQL);
+                        handler.bindTable(stmt, INSERT_PARAM_TABLE);
+                        handler.bindMax(stmt, INSERT_PARAM_MAX);
+                        success = (stmt.executeUpdate() == 1);
+                        stmt.close();
+                    }
+                }
+                
+                if (success) {
+                    if (!_sameConnection) { conn.commit(); }
+                } else {
+                    if (!_sameConnection) { conn.rollback(); }
+                    throw new PersistenceException(Messages.format(
+                            "persist.keyGenFailed", getClass().getName()));
+                }
+            } catch (SQLException ex) {
+                try {
+                    if (!_sameConnection) { conn.rollback(); }
+                } catch (SQLException ex2) {
+                    LOG.warn ("Problem rolling back JDBC transaction.", ex2);
+                }
+                throw new PersistenceException(Messages.format(
+                        "persist.keyGenSQL", getClass().getName(), ex.toString()), ex);
+            } finally {
+                try {
+                    if (stmt != null) { stmt.close(); }
+                } catch (SQLException ex) {
+                    LOG.warn (Messages.message("persist.stClosingFailed"), ex);
+                }
+            }
+        }
+
+        return handler.next();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isInSameConnection() {
+        return _sameConnection;
+    }
+
+    //-----------------------------------------------------------------------------------
+}

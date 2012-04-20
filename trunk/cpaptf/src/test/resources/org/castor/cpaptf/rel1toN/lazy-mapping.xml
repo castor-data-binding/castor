@@ -1,0 +1,341 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="org.castor.cpaptf.rel1toN.OID" identity="id">
+		<description>load only integer identities</description>
+        <map-to table="DUAL" />
+        <field name="id" type="integer">
+        	<sql name="ID" type="numeric"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpaptf.rel1toN.Locked" identity="id">
+        <description>Locked</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_LOCKED" />
+        <field name="id" type="integer">
+            <sql name="ID" type="numeric"/>
+        </field>
+        <field name="name" type="string" >
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="in" type="boolean">
+            <sql name="INPUT" type="char[NY]" />
+        </field>
+        <field name="out" type="boolean">
+            <sql name="OUTPUT" type="char[NY]" />
+        </field>
+		<!-- locked has 1:n reference to state -->
+		<field name ="states" type="org.castor.cpaptf.rel1toN.State"
+			   collection="collection" lazy="true">
+			<sql many-key="LOCKED_ID"/>
+		</field>
+    </class>
+
+    <class name="org.castor.cpaptf.rel1toN.State" identity="id">
+        <description>State</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_STATE" />
+        <field name="id" type="integer">
+            <sql name="ID" type="numeric"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="locked" type="org.castor.cpaptf.rel1toN.Locked">
+            <sql name="LOCKED_ID"/>
+        </field>
+        <field name="input" type="boolean">
+            <sql name="INPUT" type="numeric[-]"/>
+        </field>
+        <field name="output" type="boolean">
+            <sql name="OUTPUT" type="numeric[-]"/>
+        </field>
+        <field name="service" type="boolean">
+            <sql name="SERVICE" type="numeric[-]"/>
+        </field>
+        <field name="changeFrom" type="boolean">
+            <sql name="CHANGE_FROM" type="numeric[-]"/>
+        </field>
+        <field name="changeTo" type="boolean">
+            <sql name="CHANGE_TO" type="numeric[-]"/>
+        </field>
+		<!-- state has 1:n reference to department -->
+		<field name ="departments" type="org.castor.cpaptf.rel1toN.Department" 
+			   collection="collection">
+			<sql many-key="STATE_ID"/>
+		</field>
+		<!-- state has 1:n reference to equipment -->
+		<field name ="equipments" type="org.castor.cpaptf.rel1toN.Equipment" 
+			   collection="collection" lazy="true">
+			<sql many-key="STATE_ID"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpaptf.rel1toN.Department" identity="name">
+        <description>Department</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_DEPARTMENT" />
+        <field name="id" type="integer">
+            <sql name="ID" type="numeric"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="DESCRIPTION" type="char"/>
+        </field>
+        <field name="state" type="org.castor.cpaptf.rel1toN.State">
+            <sql name="STATE_ID"/>
+        </field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+    </class>
+
+	<class name="org.castor.cpaptf.rel1toN.Supplier" identity="id">
+		<description>Supplier</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_SUPPLIER" />
+        <field name="id" type="integer">
+        	<sql name="ID" type="numeric"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="DESCRIPTION" type="char"/>
+        </field>
+		<!-- supplier has 1:n reference to equipment -->
+		<field name ="equipments" type="org.castor.cpaptf.rel1toN.Equipment" 
+			   collection="collection">
+			<sql many-key="SUPPLIER_ID"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+	</class>
+
+    <class name="org.castor.cpaptf.rel1toN.Reason" identity="id">
+        <description>Reason</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_REASON" />
+        <field name="id" type="integer">
+        	<sql name="ID" type="numeric"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="NAME" type="char"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="DESCRIPTION" type="char"/>
+        </field>
+        <field name="failure" type="boolean">
+        	<sql name="FAILURE" type="numeric[-]"/>
+        </field>
+		<!-- reason has 1:n reference to equipment -->
+		<field name ="equipments" type="org.castor.cpaptf.rel1toN.Equipment" 
+			   collection="collection">
+			<sql many-key="REASON_ID"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+    </class>
+
+	<class name="org.castor.cpaptf.rel1toN.Type" identity="id">
+		<description>Type</description>
+		<cache-type type="unlimited"/>
+        <map-to table="PTF_TYPE" />
+		<field name="id" type="integer">
+			<sql name="ID" type="numeric"/>
+		</field>
+		<field name="number" type="string">
+			<sql name="NUMBER" type="char"/>
+		</field>
+		<field name="description" type="string">
+            <sql name="DESCRIPTION" type="char"/>
+        </field>
+		<!-- type has 1:n reference to equipment -->
+		<field name ="equipments" type="org.castor.cpaptf.rel1toN.Equipment" 
+			   collection="collection">
+			<sql many-key="TYPE_ID"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+	</class>
+	
+	<class name="org.castor.cpaptf.rel1toN.Equipment" identity="id">
+		<description>Equipment</description>
+		<cache-type type="unlimited"/>
+        <map-to table="PTF_EQUIPMENT" />
+		<field name="id" type="integer">
+			<sql name="ID" type="numeric"/>
+		</field>
+		<field name="type" type="org.castor.cpaptf.rel1toN.Type">
+			<sql name="TYPE_ID"/>
+		</field>
+		<field name="number" type="string">
+			<sql name="NUMBER" type="char"/>
+		</field>
+		<field name="description" type="string">
+            <sql name="DESCRIPTION" type="char"/>
+        </field>
+		<field name="supplier" type="org.castor.cpaptf.rel1toN.Supplier">
+			<sql name="SUPPLIER_ID"/>
+		</field>
+		<field name="delivery" type="integer">
+			<sql name="DELIVERY" type="numeric"/>
+		</field>
+		<field name="cost" type="double">
+			<sql name="COST" type="numeric"/>
+		</field>
+		<field name="serial" type="string">
+			<sql name="SERIAL" type="char"/>
+		</field>
+		<field name="state" type="org.castor.cpaptf.rel1toN.State">
+			<sql name="STATE_ID"/>
+		</field>
+		<field name="reason" type="org.castor.cpaptf.rel1toN.Reason">
+			<sql name="REASON_ID"/>
+		</field>
+		<field name="count" type="integer">
+			<sql name="COUNT" type="numeric"/>
+		</field>
+		<!-- equipment has 1:n reference to service -->
+		<field name ="services" type="org.castor.cpaptf.rel1toN.Service" 
+			   collection="collection" lazy="true">
+			<sql many-key="EQUIPMENT_ID"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+	</class>
+
+	<class name="org.castor.cpaptf.rel1toN.Service" identity="id">
+		<description>Service</description>
+        <cache-type type="unlimited"/>
+        <map-to table="PTF_SERVICE" />
+        <field name="id" type="integer">
+        	<sql name="ID" type="numeric"/>
+        </field>
+		<field name="equipment" type="org.castor.cpaptf.rel1toN.Equipment">
+			<sql name="EQUIPMENT_ID"/>
+		</field>
+		<field name="number" type="integer">
+			<sql name="NUMBER" type="numeric"/>
+		</field>
+		<field name="name" type="string">
+			<sql name="NAME" type="char"/>
+		</field>
+		<field name="description" type="string">
+			<sql name="DESCRIPTION" type="char"/>
+		</field>
+		<field name="date" type="date">
+			<sql name="DATE" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+		</field>
+		<field name="flag1" type="boolean">
+			<sql name="FLAG_1" type="numeric[-]"/>
+		</field>
+		<field name="flag2" type="boolean">
+			<sql name="FLAG_2" type="numeric[-]"/>
+		</field>
+		<field name="flag3" type="boolean">
+			<sql name="FLAG_3" type="numeric[-]"/>
+		</field>
+		<field name="flag4" type="boolean">
+			<sql name="FLAG_4" type="numeric[-]"/>
+		</field>
+        <field name="note" type="string">
+            <sql name="NOTE" type="char"/>
+        </field>
+        <field name="createdAt" type="date">
+            <sql name="CRD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="createdBy" type="string">
+            <sql name="CRM" type="char"/>
+        </field>
+        <field name="updatedAt" type="date">
+            <sql name="UPD" type="char[yyyy-MM-dd HH:mm:ss.SSS]"/>
+        </field>
+        <field name="updatedBy" type="string">
+            <sql name="UPM" type="char"/>
+        </field>
+	</class>
+</mapping>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="advanced-jdo"  xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Advanced JDO</title>
+
+<!-- 
+    <authorgroup>
+      <author>
+        <firstname>Werner</firstname>
+        <surname>Guttmann</surname>
+        <affiliation>
+            <jobtitle>Partner</jobtitle>
+            <orgname>Indoqa</orgname>
+        </affiliation>        
+        <email>werner.guttmann@indoqa.com</email>
+      </author>
+    </authorgroup>
+ -->
+
+  <xi:include href="advanced-jdo/jdo-caching-detail.xml" />
+  <xi:include href="advanced-jdo/oql.xml" />
+  <xi:include href="advanced-jdo/locking.xml" />
+  <xi:include href="advanced-jdo/design-persist.xml" />
+  <xi:include href="advanced-jdo/key-generator.xml" />
+  <xi:include href="advanced-jdo/long-transact.xml" />
+  <xi:include href="advanced-jdo/nested-attr.xml" />
+  <xi:include href="advanced-jdo/jdo-pooling.xml" />
+  <xi:include href="advanced-jdo/postgresql-blobs.xml" />
+  <xi:include href="advanced-jdo/jdo-best-practice.xml" />
+  
+</chapter>

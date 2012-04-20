@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<mapping>
+   <class name="NCName_Root">
+      
+      <field name="name" type="string">
+            <bind-xml type="NCName"/>
+      </field>
+      
+      <field name="value" type="string">
+          <bind-xml node="attribute" type="NCName"/>
+      </field>
+      
+   </class>
+</mapping>

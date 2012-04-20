@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    
+    <class name="org.castor.cpa.test.test77.Master" key-generator="MAX" identity="id">
+        <map-to table="test77_master" />
+        <field name="depend1" type="org.castor.cpa.test.test77.Depend1">
+            <sql name="depend1_id" />
+            <bind-xml name="depend1" />
+        </field>
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+        <field name="depends2" collection="arraylist" 
+            type="org.castor.cpa.test.test77.Depend2">
+            <sql many-key="master_id" />
+            <bind-xml name="depends2" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test77.Depend2" key-generator="MAX" 
+        depends="org.castor.cpa.test.test77.Master" identity="id">
+        <map-to table="test77_depend2" />
+        <field name="master" type="org.castor.cpa.test.test77.Master">
+            <sql name="master_id" />
+            <bind-xml name="master" />
+        </field>
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test77.Depend1" key-generator="MAX" 
+        depends="org.castor.cpa.test.test77.Master" identity="id">
+        <map-to table="test77_depend1" />
+        <field name="id" type="integer">
+            <sql name="id" />
+            <bind-xml name="id" />
+        </field>
+    </class>
+    
+</mapping>

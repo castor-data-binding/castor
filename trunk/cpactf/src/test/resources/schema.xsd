@@ -1,0 +1,13 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://castor.org/test"
+	xmlns:jdo="http://www.castor.org/binding/persistence"
+	xmlns="http://castor.org/test">
+
+	<xs:import namespace="http://castor.org/cpa/test/test2996/single"
+	           schemaLocation="org/castor/cpa/test/test2996/single/schema.xsd" />
+	<xs:import namespace="http://castor.org/cpa/test/test2996/onetoone"
+	           schemaLocation="org/castor/cpa/test/test2996/onetoone/schema.xsd" />
+	<xs:import namespace="http://castor.org/cpa/test/test2996/onetomany"
+	           schemaLocation="org/castor/cpa/test/test2996/onetomany/schema.xsd" />
+
+</xs:schema>

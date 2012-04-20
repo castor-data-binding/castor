@@ -1,0 +1,27 @@
+<dataset>
+    <table name="test2996_onetomany_house">
+        <column>id</column>
+        <row>
+            <value>100</value>
+        </row>
+        <row>
+            <value>101</value>
+        </row>
+    </table>
+	<table name="test2996_onetomany_flat">
+		<column>id</column>
+        <column>house_id</column>
+		<row>
+			<value>1</value>
+			<value>100</value>
+		</row>
+		<row>
+            <value>2</value>
+            <value>101</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>101</value>
+        </row>
+	</table>
+</dataset>

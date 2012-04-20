@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.use-connection-proxies">
+    <sectioninfo>
+      <title>How to use Castor JDO's connection proxies</title>
+<!--
+      <abstract>
+          <para>General information about using Castor JDO's connection proxies.</para>
+      </abstract>
+      
+      Status: Final
+-->
+    </sectioninfo>
+
+    <title>How to use Castor JDO's connection proxies</title>
+
+    <section id="jdo.howto.use-connection-proxies.introduction">
+        <title>Introduction</title>
+
+        <para>
+            <application>Castor JDO</application> uses the 
+            <application>Jakarta Common's Logging</application> package for output 
+            information relevant to the execution of a specific JDO operations to a 
+            log file. The information output historically included the SQL statements 
+            used by <application>Castor</application> to execute the various 
+            persistence operations such as loading or updating domain entities. 
+            Unfortunately, the SQL statements logged did not include any information 
+            about the parameters being bound to the prepared statements immediately 
+            before execution, and hence made it very hard for users of 
+            <application>Castor JDO</application> to analyze these in the case of an 
+            issue/problem.
+        </para>
+        
+        <para>
+            To improve this situation, proxy classes for the 
+            <interface>java.sql.Connection</interface> and 
+            <interface>java.sql.PreparedStatement</interface> interfaces have been 
+            added, to allow for complete and better JDBC statements to be output to 
+            the log files. As this might impose a performance penalty at run-time, 
+            we have allowed for this to be turned off completely through the standard 
+            Castor property file. 
+        </para>
+        
+        <para>
+            A new property has been added to the Castor property file 
+            (<filename>castor.properties</filename>) to allow configuration of this 
+            feature.
+        </para>
+    </section>
+
+    <section id="jdo.howto.use-connection-proxies.intended-audience">
+        <title>Intended Audience</title>
+
+        <para>
+            Anyone who wants to use the new JDBC proxy classes with 
+            <application>Castor JDO</application> selectively, i.e. enabling and 
+            disabling their use.
+        </para>
+        
+        <para>
+            The example given describes how to turn the use of the proxy classes on/off.
+        </para>
+    </section>
+    
+    <section id="jdo.howto.use-connection-proxies.prerequisites">
+        <title>Prerequisites</title>
+
+        <para>
+            You should have a valid <filename>castor.properties</filename> file as 
+            part of your application.
+        </para>
+    </section>
+
+    <section id="jdo.howto.use-connection-proxies.steps">
+        <title>Steps</title>
+
+        <para>Here is how to proceed.</para>
+
+        <section id="jdo.howto.use-connection-proxies.steps.enable-jdbc-classes">
+            <title>Enable the use of the JDBC proxy classes</title>
+
+            <para>
+                To enable the use of the JDBC proxy classes described above, please 
+                add the following section to your 
+                <filename>castor.properties</filename> file.
+            </para>
+
+            <programlisting>
+            
+  # True if JDBC proxy classes should be used to enable more detailed logging output of SQL
+  # statements; false otherwise (logging of SQL statements will be turned off completely).
+  #
+  org.exolab.castor.persist.useProxy=true
+            </programlisting>
+
+            <para>
+                This instructs <application>Castor JDO</application> to use the JDBC 
+                proxy classes and to output full information about the SQL statements 
+                used at run-time. When disabled, no logging of SQL statements will 
+                occur at all.
+            </para>
+        </section>
+    </section>
+    
+    <section id="jdo.howto.use-connection-proxies.references">
+        <title>References</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <!-- TODO change link when More section is finished -->
+                    <ulink url="http://www.castor.org/conf-lib.html">Configuration 
+                    of Castor</ulink>
+                </para>
+            </listitem>
+            
+            <listitem>
+                <para>
+                    <ulink url="http://jakarta.apache.org/commons/logging/">Jakarta 
+                    Common Logging</ulink>
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+    </section>
+</section>

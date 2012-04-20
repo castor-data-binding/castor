@@ -1,0 +1,2 @@
+DROP TABLE test954_prod
+GO

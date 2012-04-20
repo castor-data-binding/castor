@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+   <title>Build instructions</title>
+
+   <section>
+      <title>Prerequisites</title>
+
+      <para>
+         In order to build the Sping ORM module for Castor JDO, you will have 
+         the following requirements met on your system:
+      </para>
+
+      <itemizedlist>
+         <listitem>
+             <para>Download and install <ulink url="http://maven.apache.org">Maven 2</ulink></para>
+         </listitem>
+         <listitem>
+             <para>Download and install a Subversion client.</para>
+         </listitem>
+      </itemizedlist>
+        
+      <para>
+        As this project uses Maven 2 for build and deployment, all required 
+        compile-time dependencies will automatically be resolved by Maven 2
+        and deployed into your local Maven 2 repository.
+      </para>
+           
+   </section>
+    
+   <section>
+        <title>Building the Spring ORM module</title>
+        
+        <para>
+            This section describes how to build the Spring module from a command 
+            line using Maven 2. Whilst there is support for Maven 2 in various
+            IDEs (including e.g. Eclipse, IDEA, etc.), using the Maven command 
+            line seems to be the most adequate least common denominator.
+        </para>
+           
+        <para>
+            This section assumes that you have ckecked out the latest sources
+            from the SVN repsitory for the Spring ORM module for Castor JDO.
+            Instructions for doing so are provided 
+            <ulink url="source-repository.html">here</ulink>.
+        </para>
+           
+        <para>
+            Open a command line (shell) on your system, and issue the following 
+            commands:
+        </para>
+           
+        <programlisting>
+ > mvn jar            
+        </programlisting>
+        
+        <para>
+            Above command will compile the sources and create the distribution JAR
+            in the <literal>target</literal> directory of the project root.
+        </para>
+           
+        <para>
+           To install the newly created distribution JAR into your local Maven 2
+           repository, please issue the following command:
+        </para>
+           
+        <programlisting>
+ > mvn install            
+        </programlisting>
+        
+        <para>
+           To create the complete project documentation - in addition to
+           the distribution assembly, please issue ...
+        </para>
+           
+        <programlisting>
+ > mvn site            
+        </programlisting>
+        
+    </section>
+    
+</section>

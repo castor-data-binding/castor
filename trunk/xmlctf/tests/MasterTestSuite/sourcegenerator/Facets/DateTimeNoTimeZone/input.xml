@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+
+<DateTimeTests>
+    <dateRanged>2006-04-30</dateRanged>
+    <dateRanged>2006-04-04</dateRanged>
+    <dateRanged>2006-05-04</dateRanged>
+    <timeRanged>07:01:01.999</timeRanged>
+    <timeRanged>07:09:02</timeRanged>
+    <timeRanged>09:00:00</timeRanged>
+    <dateTimeRanged>2006-06-23T00:00:00</dateTimeRanged>
+    <dateTimeRanged>2006-06-30T23:00:00</dateTimeRanged>
+    <dateTimeRanged>2006-06-30T22:23:00</dateTimeRanged>
+    <dateTimeRanged>2006-06-30T22:59:23</dateTimeRanged>
+    <durationRanged>P5DT20S</durationRanged>
+    <durationRanged>P10DT20S</durationRanged>
+    <durationRanged>P50DT20S</durationRanged>
+    <gdayRanged>---04</gdayRanged>
+    <gdayRanged>---14</gdayRanged>
+    <gdayRanged>---24</gdayRanged>
+    <gmonthRanged>--10--</gmonthRanged>
+    <gmonthRanged>--11--</gmonthRanged>
+    <gmonthRanged>--12--</gmonthRanged>
+    <gyearRanged>1979</gyearRanged>
+    <gyearRanged>1997</gyearRanged>
+    <gyearRanged>1999</gyearRanged>
+    <gyearRanged>2009</gyearRanged>
+    <gyearmonthRanged>1965-09</gyearmonthRanged>
+    <gyearmonthRanged>1965-01</gyearmonthRanged>
+    <gyearmonthRanged>1970-12</gyearmonthRanged>
+    <gyearmonthRanged>2001-09</gyearmonthRanged>
+    <gmonthdayRanged>--04-09</gmonthdayRanged>
+    <gmonthdayRanged>--09-04</gmonthdayRanged>
+</DateTimeTests>

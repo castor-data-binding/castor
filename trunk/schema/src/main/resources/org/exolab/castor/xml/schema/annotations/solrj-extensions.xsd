@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jdo="http://www.castor.org/binding/solrj"
+   targetNamespace="http://www.castor.org/binding/solrj" elementFormDefault="qualified"
+   attributeFormDefault="unqualified">
+   <xs:element name="field">
+      <xs:annotation>
+         <xs:documentation>
+				Element 'field' is used to specify the use of the SOLRJ
+                @Field annotation.
+			</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+               <xs:documentation>
+						Attribute 'name' is used to specify the name of
+                        the index field to be mapped against.
+					</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   <!--
+   <xs:element name="id">
+      <xs:annotation>
+         <xs:documentation>
+				Element 'Id' is used to specify the use of a SOLRJ
+                @Id annotation.
+			</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+               <xs:documentation>
+                        Attribute 'name' is used to specify the name of
+                        the index field to be mapped against.
+                    </xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+   -->
+</xs:schema>

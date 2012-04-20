@@ -1,0 +1,490 @@
+<?xml version="1.0" ?>
+<!--DOCTYPE schema PUBLIC "-//W3C/DTD XML Schema Version 1.0//EN"
+                        "http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd"-->
+<!--
+    Castor Object Mapping XML Schema
+
+    Namespace: http://castor.exolab.org/
+    System:    http://castor.exolab.org/mapping.xsd
+    Public:    -//EXOLAB/Castor Object Mapping Schema Version 1.0//EN
+
+    *Note*: This schema is under evolution and subject to change.
+
+ -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://castor.exolab.org/"
+   xmlns="http://castor.exolab.org/"
+   version="0.9.4">
+
+  <xsd:element name="mapping">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description"   type="xsd:string" minOccurs="0" maxOccurs="1" />
+        <xsd:element ref="include"        minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
+        <xsd:element ref="class"          minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element ref="key-generator"  minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="include">
+    <xsd:complexType>
+      <xsd:attribute name="href" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="class">
+     <xsd:annotation>
+        <xsd:documentation>
+            The 'class' element is used to store information about mapping of a class.
+        </xsd:documentation>
+     </xsd:annotation>
+     <xsd:complexType>
+        <xsd:sequence>
+           <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1" />
+           <xsd:element ref="cache-type"   minOccurs="0" maxOccurs="1" />
+           <xsd:element ref="map-to" minOccurs="0" maxOccurs="1" />
+           <xsd:element ref="named-query" minOccurs="0" maxOccurs="unbounded" />
+           <xsd:element ref="named-native-query" minOccurs="0" maxOccurs="unbounded" />
+           <xsd:choice minOccurs="1">
+              <xsd:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
+           </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="name"     type="xsd:ID"         use="required">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Specifies the fully qualified package name of the Java object needed to be mapped.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="extends"  type="xsd:IDREF"      use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    An optional attribute to specify the extension relationship 
+                    between objects. Used only if mapping of the another object 
+                    is provided.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="depends"  type="xsd:IDREF"      use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    An optional attribute to specify that one object depends on 
+                    another object.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="identity" type="xsd:NMTOKENS"   use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    An optional attribute for specifying the unique identificator 
+                    of the object within the persistence storage. 
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>    
+        <xsd:attribute name="access"   default="shared"    use="optional">
+           <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                 <xsd:enumeration value="read-only"/>
+                 <xsd:enumeration value="shared"/>
+                 <xsd:enumeration value="exclusive"/>
+                 <xsd:enumeration value="db-locked"/>
+              </xsd:restriction>
+           </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="key-generator" type="xsd:string"   use="optional"/>
+        <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false">
+            <xsd:annotation>
+                <xsd:documentation>
+                    Specifies whether Castor should use reflection to establish XML data 
+                    binding information at startup time for those fields that are not
+                    mapped explicitly.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="verify-constructable" type="xsd:boolean"  use="optional" default="true"/>
+        <xsd:attribute name="version" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+                    If set to the name of a mapped field, this field will be used for check 
+                    on object modifications during transactions (Castor JDO only).
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element  name="query-hint">
+    <xsd:complexType>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element  name="named-query">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="query" type="xsd:string"/>
+            <xsd:element ref="query-hint" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="named-native-query">
+    <xsd:complexType>
+        <xsd:sequence>
+      	    <xsd:element name="query" type="xsd:string"/>
+            <xsd:element ref="query-hint" minOccurs="0"	maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="result-class" type="xsd:string"/>
+		<xsd:attribute name="result-set-mapping" type="xsd:string"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="map-to">
+    <xsd:annotation>
+        <xsd:documentation>
+            The 'map-to' element is used for specifying the name of the item 
+            that should be associated with the given Java object.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:attribute name="table"     type="xsd:NMTOKEN"  use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute used to specify the name of the table 
+                  to which the given Java object is associated.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="xml"       type="xsd:string"   use="optional"/>
+      <xsd:attribute name="ns-uri"    type="xsd:string"   use="optional"/>
+      <xsd:attribute name="ns-prefix" type="xsd:NMTOKEN"  use="optional"/>
+      <xsd:attribute name="element-definition" type="xsd:boolean" use="optional" default="false"/>
+      <xsd:attribute name="ldap-dn"   type="xsd:string"   use="optional"/>
+      <xsd:attribute name="ldap-oc"   type="xsd:string"   use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="field">
+    <xsd:annotation>
+        <xsd:documentation>
+            The 'field' element is used to describe the property of a Java object.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="description"   type="xsd:string" minOccurs="0" maxOccurs="1" />
+        <xsd:element ref="sql"            minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="bind-xml"       minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="ldap"           minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+
+      <xsd:attribute name="name"          type="xsd:string" use="required">
+          <xsd:annotation>
+              <xsd:documentation>
+                  A required attribute used to identify the name of the property. 
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="type"          type="xsd:string" use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute used to identify the type of the property.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="required"      type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="transient"     type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="nillable"      type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="direct"        type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="lazy"          type="xsd:boolean"  use="optional"   default="false"/>
+      <xsd:attribute name="container"     type="xsd:boolean"  use="optional">
+        <xsd:annotation>
+            <xsd:documentation>
+                Indicates whether the field should be treated as a container, 
+                i.e. only it's fields should be persisted, but not the containing 
+                class itself. In this case, the container attribute should
+                be set to true (supported in Castor XML only).
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="get-method"    type="xsd:string"  use="optional"/>
+      <xsd:attribute name="has-method"    type="xsd:string"  use="optional"/>
+      <xsd:attribute name="set-method"    type="xsd:string"  use="optional"/>
+      <xsd:attribute name="create-method" type="xsd:string"  use="optional"/>
+      <xsd:attribute name="handler"       type="xsd:string"   use="optional"/>
+      <xsd:attribute name="collection"    use="optional">
+         <xsd:annotation>
+            <xsd:documentation>
+                An optional attribute used to specify the type of the collection, if 
+                the property is multi-valued.
+            </xsd:documentation>
+         </xsd:annotation>
+         <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="array"/>
+               <xsd:enumeration value="vector"/>
+               <xsd:enumeration value="arraylist"/>
+               <xsd:enumeration value="priorityqueue"/>
+               <xsd:enumeration value="hashtable"/>
+               <xsd:enumeration value="collection"/>
+               <xsd:enumeration value="set"/>
+               <xsd:enumeration value="map"/>
+               <xsd:enumeration value="enumerate"/>
+               <xsd:enumeration value="sortedset"/>
+               <xsd:enumeration value="iterator"/>
+               <xsd:enumeration value="sortedmap"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="comparator"    type="xsd:string"   use="optional"/>
+      <xsd:attribute name="identity"    type="xsd:boolean"   use="optional" default="false"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="container">
+    <xsd:complexType>
+       <xsd:sequence>
+          <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element ref="field" minOccurs="1"/>
+       </xsd:sequence>
+       <xsd:attribute name="name"          type="xsd:NMTOKEN" use="required"/>
+       <xsd:attribute name="type"          type="xsd:NMTOKEN" use="optional"/>
+       <xsd:attribute name="required"      type="xsd:boolean" use="optional"  default="false"/>
+       <xsd:attribute name="direct"        type="xsd:boolean" use="optional"  default="false"/>
+       <xsd:attribute name="get-method"    type="xsd:NMTOKEN" use="optional"/>
+       <xsd:attribute name="set-method"    type="xsd:NMTOKEN" use="optional"/>
+       <xsd:attribute name="create-method" type="xsd:NMTOKEN" use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="sql">
+    <xsd:annotation>
+        <xsd:documentation>
+            The 'sql' element is used to store information about the database 
+            column to which a Java object is mapped to.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:attribute name="name"       type="xsd:NMTOKENS"   use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute used to store the name of the column in 
+                  the database table.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="type"       type="xsd:string"   use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attibute used to specify the DB-specific type of the column.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="many-table" type="xsd:NMTOKEN"    use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute to specify the name of the bridge table 
+                  containing the primary keys of the object on each side of the 
+                  many to many relationship.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="many-key"   type="xsd:NMTOKENS"   use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute to specidy name of the columns that holds 
+                  the foreign key to this object. That column is in the database 
+                  table that stores objects of the Java type of this field.
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="cascading" type="xsd:string" use="optional">
+          <xsd:annotation>
+              <xsd:documentation>
+                  An optional attribute to specify cascading support; possible values are
+                  'none', 'all', 'create', 'delete' and 'update'; it is possible to use more than one
+                  of those values (when not using 'all' or 'none'), using whitespace as a 
+                  delimiter (as in 'create delete').
+              </xsd:documentation>
+          </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="read-only"  type="xsd:boolean"    use="optional" default="false"/>
+
+      <!-- signals that this field is transient for database mapping (ie should be ignored) -->
+      <xsd:attribute name="transient" type="xsd:boolean" use="optional"/>
+
+
+      <xsd:attribute name="dirty"  default="check"  use="optional">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="check"/>
+            <xsd:enumeration value="ignore"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!--
+       The 'bind-xml' element is used for specifying XML specific databinding
+       properties and behavior for a specific field. 'bind-xml' may only appear
+       as a child of a 'field' element.
+  -->
+  <xsd:element name="bind-xml">
+    <xsd:annotation>
+       <xsd:documentation>
+          The 'bind-xml' element is used for specifying XML specific databinding
+          properties and behavior for a specific field. 'bind-xml' may only appear
+          as a child of a 'field' element.
+       </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+
+      <xsd:sequence>
+         <xsd:element ref="class" minOccurs="0" maxOccurs="1"/>
+         <xsd:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+
+      <!--
+         An optional attribute used for specifying the XML name for the
+         field associated with the 'bind-xml' element.
+       -->
+       <xsd:attribute name="name" type="xsd:QName"  use="optional">
+          <xsd:annotation>
+             <xsd:documentation>
+                An optional attribute used for specifying the XML name for the
+                field associated with the 'bind-xml' element.
+             </xsd:documentation>
+          </xsd:annotation>
+       </xsd:attribute>
+
+      <xsd:attribute name="type" type="xsd:NMTOKEN"  use="optional"/>
+
+      <!--
+           Allows specifying how Castor should automatically determines
+           the XML name of this field when no name has been specified.
+      -->
+      <xsd:attribute name="auto-naming" use="optional">
+         <xsd:annotation>
+            <xsd:documentation>
+               Allows specifying how Castor should automatically determines
+               the XML name of this field when no name has been specified.
+               In most cases the XML name is determined by using the field name,
+               but in some cases the user may want to use the Class name of
+               the field type. This attribute allows choosing between the
+               two approaches. If this attribute is not specified, the field
+               name is used as the XML name.
+            </xsd:documentation>
+         </xsd:annotation>
+         <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="deriveByClass"/>
+               <xsd:enumeration value="deriveByField"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+      </xsd:attribute>
+
+      <!--
+          Allows specifying a nested location path for this field,
+          the value should just be a simplified XPath like value
+          where names are separated by "/".
+       -->
+      <xsd:attribute name="location" type="xsd:string" use="optional">
+         <xsd:annotation>
+            <xsd:documentation>
+               Allows specifying a nested location path for this field,
+               the value should just be a simplified XPath like value
+               where names are separated by "/".
+            </xsd:documentation>
+         </xsd:annotation>
+      </xsd:attribute>
+
+      <!-- Allows overriding the matching rule -->
+      <xsd:attribute name="matches" type="xsd:string" use="optional"/>
+
+
+      <!-- Signal that this field should be marshalled as a reference -->
+      <xsd:attribute name="reference" type="xsd:boolean" use="optional"/>
+
+     <!-- NodeType for the XML node -->
+      <xsd:attribute name="node" use="optional">
+         <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="attribute"/>
+               <xsd:enumeration value="element"/>
+               <xsd:enumeration value="namespace"/>
+               <xsd:enumeration value="text"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+      </xsd:attribute>
+
+      <xsd:attribute name="QName-prefix" type="xsd:NMTOKEN" use="optional"/>
+
+      <!-- Signal that this field is transient for XML (ie should be ignored) -->
+      <xsd:attribute name="transient" type="xsd:boolean" use="optional"/>
+
+    </xsd:complexType>
+  </xsd:element>
+
+
+
+  <xsd:element name="ldap">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:NMTOKEN" use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+   <xsd:element name="field-handler">
+   <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="name"  type="xsd:ID"     use="required"/>
+      <xsd:attribute name="class" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="key-generator">
+    <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="name"  type="xsd:ID"     use="required"/>
+      <xsd:attribute name="alias" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="cache-type">
+     <xsd:complexType>
+        <xsd:sequence>
+           <xsd:element ref="param" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string" use="optional" default="count-limited" />
+        <xsd:attribute name="debug" type="xsd:boolean" use="optional" default="false"/>
+        <xsd:attribute name="capacity" type="xsd:integer" use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="param">
+    <xsd:complexType>
+      <xsd:attribute name="name"  type="xsd:string"  use="required"/>
+      <xsd:attribute name="value" type="xsd:string"  use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <xsd:complexType name="propertyType">
+    <xsd:sequence>
+      <xsd:element name="name"  type="xsd:string"/>
+      <xsd:element name="value" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+</xsd:schema>

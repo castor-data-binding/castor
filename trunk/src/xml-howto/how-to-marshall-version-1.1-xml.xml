@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-unmarshal-raw-xml.xml">
+  <properties>
+    <title>How to marshal XML documents with version 1.1</title>
+    <abstract/>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to marshal XML documents with version 1.1</title>
+    <header/>
+
+    <section title="Intended Audience">
+
+        <p>
+           Anyone who wants to use Castor XML for XML data binding, namely marshalling 
+           operations, and produce XML document instances that carry a the version
+           1.1 in the XML preamble.
+        </p>
+        
+    </section>
+
+    <section title="Context">
+    
+        <p>
+            Before release 1.3.2, Castor was able to produce XML documents upon
+            marshalling that had the following XML preamble (if not omitted on 
+            purpose) only:
+        </p>
+        
+        <code-panel>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;foo/&gt;</code-panel>
+        
+        <p>
+            With the release of the XML document standard version 1.1, it was necessary 
+            to add an option to have the following preamble generated:
+        </p>
+        
+        <code-panel>
+&lt;?xml version="<b>1.1</b>" encoding="UTF-8"?&gt;
+&lt;foo/&gt;</code-panel>
+        
+    </section>
+    
+    <section title="Configuration">
+    
+        <p>
+           To make Castor output version <tt>1.1</tt> in the XML preamble as produced
+           upon marshalling an object instance to XML, the <tt>org.exolab.castor.xml.version</tt> 
+           property has to be overriden in a custom, user-specific 
+           <tt>castor.properties></tt> file.
+        </p>
+
+        <code-panel>
+org.exolab.castor.xml.version=1.1</code-panel>
+           
+        <p>
+            Alternatively, you can set the property directly on the <tt>XMLContext</tt> 
+            instance using ...
+        </p>   
+        
+        <code-panel>
+XMLContext.setProperty(XMLProperties.XML_VERSION, "1.1");</code-panel>
+        
+        <p>
+           before creating Marshaller instances from the <tt>XMLContext</tt> instance
+           using <tt>XMLContext.createMarshaller()</tt>.
+        </p>
+        
+    </section>
+
+  </body>
+</document>

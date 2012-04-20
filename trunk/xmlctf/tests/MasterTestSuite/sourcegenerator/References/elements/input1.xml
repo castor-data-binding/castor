@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<TestReference xmlns="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/References">
+    <element1>
+          <element2>
+               <element2/>
+          </element2>
+          <element3>bar</element3>
+    </element1>
+
+    <topElement1>
+        <topElement2/>
+    </topElement1>
+
+    <topElement2>
+        <topElement1/>
+    </topElement2>
+
+    <topElement3>
+         <element4>abc<topElement3><element4>xyz</element4></topElement3></element4>
+    </topElement3>
+
+    <topElement5>
+          <element2>
+               <element2/>
+          </element2>
+          <element3>foo</element3>
+          <element6>baz</element6>
+    </topElement5>
+
+</TestReference>
