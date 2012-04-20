@@ -9,13 +9,13 @@
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor</artifactId>
-        <version>1.3.3-rc1</version>
+        <version>1.3.3-rc2-SNAPSHOT</version>
     </parent>
 	
     <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.3-rc1/codegen-testcase-archetype</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.3-rc1/codegen-testcase-archetype</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.3-rc1/codegen-testcase-archetype</url>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/codegen-testcase-archetype</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/codegen-testcase-archetype</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/codegen-testcase-archetype</url>
     </scm>
     
     <build>
