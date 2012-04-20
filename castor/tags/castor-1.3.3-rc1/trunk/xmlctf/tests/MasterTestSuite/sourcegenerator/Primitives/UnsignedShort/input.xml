@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<md:AttributeConsumingService 
+	xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:metadata test.xsd "
+	index="2" 
+	isDefault="true">
+</md:AttributeConsumingService>

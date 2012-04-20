@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test2858.FinanceTitle">
+        <description>FinanceTitle</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2858_financetitle"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="date" type="date">
+            <sql name="dt" type="date"/>
+        </field>
+        <field name="value" type="double">
+            <sql name="vl" type="double"/>
+        </field>
+        <field name="myPayments" collection="vector"
+               type="org.castor.cpa.test.test2858.Payment">
+            <sql many-key="myfinancetitlepaid"/>
+        </field>
+        <field name="myTitlesPaid" collection="vector"
+               type="org.castor.cpa.test.test2858.Payment">
+            <sql many-key="myfinancetitle"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2858.BillCollection"
+           extends="org.castor.cpa.test.test2858.FinanceTitle">
+        <description>BillCollection</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2858_billcollection"/>
+        <field name="billCollectionType" type="string">
+            <sql name="billcollectiontype" type="char"/>
+        </field>
+    </class>
+
+
+    <class name="org.castor.cpa.test.test2858.TradeNote"
+           extends="org.castor.cpa.test.test2858.BillCollection">
+        <description>TradeNote</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2858_tradenote"/>
+        <field name="noteNumber" type="integer">
+            <sql name="notenumber" type="integer"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2858.PaymentTitle"
+           extends="org.castor.cpa.test.test2858.FinanceTitle">
+        <description>PaymentTitle</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2858_paymenttitle"/>
+        <field name="paymentType" type="string">
+            <sql name="paymenttype" type="char"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2858.Money"
+           extends="org.castor.cpa.test.test2858.PaymentTitle">
+        <description>Money</description>
+        <cache-type type="count-limited" capacity="20"/>
+        <map-to table="test2858_money"/>
+        <field name="bankNoteValue" type="double">
+            <sql name="banknotevalue" type="double"/>
+        </field>
+        <field name="quantity" type="integer">
+            <sql name="quantity" type="integer"/>
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test2858.Payment">
+        <description>Payment</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2858_payment"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="myFinanceTitle" type="org.castor.cpa.test.test2858.FinanceTitle">
+            <sql name="myfinancetitle"/>
+        </field>
+        <field name="myFinanceTitlePaid" type="org.castor.cpa.test.test2858.FinanceTitle">
+            <sql name="myfinancetitlepaid"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2858.FinanceTitleRelation">
+        <description>org.castor.cpa.test.test2858.FinanceTitleRelation</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2858_financetitlerelation"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="objectType" type="string">
+            <sql name="objecttype" type="char"/>
+        </field>
+        <field name="myObject" type="string">
+            <sql name="myobject" type="char"/>
+        </field>
+        <field name="myFinanceTitle" type="org.castor.cpa.test.test2858.FinanceTitle">
+            <sql name="myfinancetitle"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test2858.InvoiceParcel">
+        <description>org.castor.cpa.test.test2858.InvoiceParcel</description>
+        <cache-type type="count-limited" capacity="50"/>
+        <map-to table="test2858_invoiceparcel"/>
+        <field name="oid" type="string" identity="true">
+            <sql name="oid" type="char"/>
+        </field>
+        <field name="parcelNumber" type="integer">
+            <sql name="parcelnumber" type="integer"/>
+        </field>
+        <field name="value" type="double">
+            <sql name="vl" type="double"/>
+        </field>
+        <field name="myFinanceTitleRelation" collection="vector"
+               type="org.castor.cpa.test.test2858.FinanceTitleRelation">
+            <sql many-key="myobject"/>
+        </field>
+    </class>
+</mapping>

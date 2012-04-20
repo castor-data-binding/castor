@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+    <title>Usage of JPA annotations - Configuration</title>
+    
+    <para>
+        This selection of HOW-TOs will show you how to persist 
+        JPA-annotated classes with Castor JDO, and will outline
+        the required steps for each of the following cases:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>Singular (stand-alone) entities</para>
+        </listitem>
+        <listitem>
+            <para>1:1 relations</para>
+        </listitem>
+        <listitem>
+            <para>1:M relations</para>
+        </listitem>
+        <listitem>
+            <para>M:N relations</para>
+        </listitem>
+    </itemizedlist>
+
+    <section>
+        <title>HOW-TO persist a single class (@Entity, @Table, @Id)</title>
+      
+        <para>
+            The goal is to take an existing JPA-annotated class 
+            <classname>Single</classname> and persist it with 
+            Castor JDO. Let's first have a look at the domain class 
+            itself, first without JPA annotattions.            
+        </para>
+        
+        <programlisting language="java">
+public class Single {
+   private int id;
+   private String name;
+   
+   public int getId() { ... }
+   
+   public void setId(int id ) { ... }
+   
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+}
+        </programlisting>
+   
+        <para>
+            Here's the same class again, this time with JPA
+            annotations.
+        </para>
+   
+        <programlisting language="java">
+@Entity
+@Table(name="mySingleTable")
+public class Single {
+   private int id;
+   private String name;
+   
+   @Id
+   @Column(name="id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+}
+        </programlisting>
+   
+        <para>
+            As shown, the class <classname>Single</classname> is 
+            mapped against the table <literal>mySingleTable</literal>,
+            and its fields <literal>id</literal> and <literal>name</literal> 
+            are mapped to the columns <literal>id</literal> and 
+            <literal>name</literal>, where the column name for the 
+            <literal>id</literal> property is supplied explicitly and 
+            where the column name for the <literal>name</literal>
+            property is derived from the property itself.
+        </para>
+   
+        <para>
+            Next point is to create an DAO interface and 
+            its implementation where we will be using 
+            <classname>CastorDaoSupport</classname> from Castor's 
+            support for Spring ORM to implement the required methods.
+        </para>
+   
+        <programlisting language="java">
+public interface SingleDao {
+	
+    void save(Single single);
+	
+    Single get(int id);
+	
+    void delete(Single single);
+
+}
+   
+public class SingleCastorDao extends CastorDaoSupport implements SingleDao {
+
+    public void delete(Single single) {
+        this.getCastorTemplate().remove(single);
+    }
+
+    public Single get(int id) {
+        return (Single) this.getCastorTemplate().load(Single.class, new Integer(id));
+    }
+
+    public void save(Single single) {
+        this.getCastorTemplate().create(single);
+    }
+}
+   </programlisting>
+   
+        <para>
+            There's one small final code change needed: For Castor to be able to work 
+            with JPA-annotated classes, you have to configure an instance of 
+            <classname>JDOClassDescriptorResolver</classname> and pass 
+            it to your <classname>JDOManager</classname>, else Castor 
+            won't be able to see those class files. Simply add 
+            the individual classes one by one or the package(s)
+            as shown below:
+        </para>
+        
+        <programlisting language="java">
+JDOClassDescriptorResolver resolver = new JDOClassDescriptorResolverImpl();
+resolver.addClass(org.castor.jpa.Single.class);
+// or alternatively you can add the package:
+resolver.addPackage("org.castor.jpa");
+		
+InputSource jdoConfiguration = ...;
+JDOManager.loadConfiguration(jdoConfiguration, null, null, resolver);
+		
+JDOManager jdoManager = JDOManager.createInstance("jpa-extensions");
+...
+        </programlisting>
+        
+    </section>
+
+    <section>
+        <title>HOW-TO persist a 1:1 relation (@OneToOne)</title>
+   
+        <para>
+            The goal is to take the existing JPA-annotated classes 
+            <classname>OneToOne_A</classname> and <classname>OneToOne_B</classname>
+            and persist them with Castor JDO. Let's first have a look 
+            at the domain classes themselves, this time with JPA 
+            annotations already in place.            
+        </para>
+   
+        <programlisting language="java">
+@Entity
+public class OneToOne_A {
+
+   private int id;
+   private String title;
+   
+   @Id
+   @Column(name = "id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   @Column(name = "name")
+   public String getTitle() { ... }
+   
+   public void setTitle(String title) { ... }
+}
+   
+@Entity
+@Table(name="OneToOne_B")
+public class B {
+
+   private int id;
+   private String name;
+   private OneToOne_A objA;
+   
+   @Id
+   @Column(name = "id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   @Column(name = "name")
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+   
+   @OneToOne(optional=false)
+   public OneToOne_A getOneToOne_A() { ... }
+   
+   public void setOneToOne_a(OneToOne_A objA) { ... }
+}
+        </programlisting>
+        
+        <para>
+            As shown, the class <classname>OneToOne_A</classname> is 
+            mapped against the table <literal>OneToOne_A</literal>
+            (implicit mapping), and the <classname>B</classname> 
+            against the table <literal>OneToOne-B</literal> (explicit 
+            mapping). Please note the <literal>@OneToOne</literal> annotation 
+            that specifies the 1:1 relation from class 
+            <classname>B</classname> to class 
+            <classname>OneToOne_A</classname>.
+        </para>
+
+        <para>
+            As with the example shown further above, do not forget to 
+            register all classes involved with the 
+            <classname>JDOClassDescriptorResolver</classname>
+            as shown below:
+        </para>
+   
+        <para>JDOClassDescriptorResolver fragment:</para>
+        <programlisting language="java">
+resolver.addClass(org.castor.jpa.OneToOne_A.class);
+resolver.addClass(org.castor.jpa.B.class);
+        </programlisting>
+   
+        <para>or with the <methodname>addPackage</methodname> method:</para>
+        <programlisting language="java">
+resolver.addPackage("org.castor.jpa");
+        </programlisting>
+
+    </section>
+
+<section>
+
+   <title>Persist one to many relation (@OnetoMany)</title>
+   
+   <para>First we have to annotate our java classes.</para>
+   
+   <programlisting language="java">
+    @Entity
+    @Table(name="OneToMany_actor")
+    public class Actor {
+    
+        private int svnr;
+        private String lastname;
+        private String firstname;
+    
+        @Id
+        public int getSvnr() { ... }
+        
+	public void setSvnr(int svnr) { ... }
+    
+        @Column(name="surname")
+        public String getLastname() { ... }
+        public void setLastname(String lastname) { ... }
+    
+        @Column(name="firstname")
+        public String getFirstname() { ... }
+        public void setFirstname(String firstname) { ... }
+    }
+    
+    @Entity 
+    @Table(name="OneToMany_broadcast") 
+    public class Broadcast { 
+     
+        private int id; 
+        private String name; 
+        private Collection&lt;Actor&gt; actors; 
+     
+        @Id 
+        public int getId() { ... } 
+	
+        public void setId(int id) { ... } 
+     
+        public String getName() { ... } 
+     
+        public void setName(String name) { ... } 
+     
+        @OneToMany(targetEntity=Actor.class, mappedBy="actor_id") 
+        public Collection&lt;Actor&gt;  getActors() { ... } 
+     
+        public void setActors(Collection&lt;Actor&gt; actors) { ... }
+    } 
+   </programlisting>
+   <para>What you see is that with the small modification you can persist one to many relations easily.</para>
+   
+   <para>Last don't forget to change your JDOClassDescriptorResolver accordingly.</para>
+
+</section>
+
+
+    <!-- <section>   
+        <title>Persist many to many relation</title>
+   
+        <para>First we have to annotate our java classes.</para>
+   
+        <programlisting language="java">
+   
+        </programlisting>
+        
+        <para></para>
+   
+    </section> -->
+    
+    <section>
+        <title>HOW-TO create and use a named query (@NamedQuery)</title>
+
+        <para>
+            The <literal>@NamedQuery</literal> annotation is used to specify a
+            named query in castor's own query language (OQL) and it is expressed
+            in metadata. The annotation takes the <literal>name</literal> and
+            an OQL <literal>query</literal> as parameters.
+        </para>
+        <para>
+            To define a named query, we first need a persistence entity where we
+            can attach the <literal>@NamedQuery</literal> annotation.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@NamedQuery(name = "findPersonByName", 
+            query = "SELECT p FROM your.package.Person p WHERE p.name = $1")
+public class Person {
+
+    private long id;
+    private String name;
+
+	@Id
+	public long getId() {...}
+
+	public void setId(final long id) {...}
+
+	public String getName() {...}
+
+	public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>
+            As you can see, we defined a query using the name <literal>
+            findPersonByName</literal>. The query itself uses
+            <literal>$1</literal> as a placeholder in its <literal>WHERE</literal>-clause,
+            which must be bound when executing the query.
+        </para>
+        <para>
+            The following code sample illustrates how to execute the named query defined
+            above:
+        </para>
+        
+        <programlistingco>        
+           <areaspec>
+              <area id="jpa.namedquery.1" units="linecolumn" coords="5 88"/>
+              <area id="jpa.namedquery.2" units="linecolumn" coords="6 88"/>
+              <area id="jpa.namedquery.3" units="linecolumn" coords="7 88"/>
+           </areaspec>
+           <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findPersonByName");
+query.bind("Max Mustermann");
+final QueryResults queryResults = query.execute();
+final Person queriedPerson = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+            </programlisting>
+        </programlistingco>
+        
+        <para>Let's have a closer look on some of the lines from this example.</para>
+        
+        <calloutlist>
+            <callout arearefs="jpa.namedquery.1">
+                <para>... creates an OQL query using the above defined named query.</para>
+            </callout>
+            <callout arearefs="jpa.namedquery.2">
+                <para>.. binds the placeholder <literal>$1</literal> to a value.</para>
+            </callout>
+            <callout arearefs="jpa.namedquery.3">
+                <para>... executes the query and handle the results.</para>
+            </callout>
+        </calloutlist>
+        
+    </section>
+
+    <section>
+        <title>HOW-TO create and use multiple named queries (@NamedQueries)</title>
+
+        <para>The <literal>@NamedQueries</literal> annotation is used to specifiy 
+        multiple named queries.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "findPersonByName",
+                query = "SELECT p FROM your.package.Person p WHERE p.name = $1"),
+    @NamedQuery(name = "findPersonById",
+                query = "SELECT p FROM you.package.Person p WHERE p.id = $1")
+})
+public class Person {
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {...}
+
+    public void setId(final long id) {...}
+
+    public String getName() {...}
+
+    public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>In the obove example we defined two named queries, namly
+        <literal>findPersonByName</literal> and <literal>findPersonById</literal>.
+        The usage of each query is identical to the usasage of a single named query.
+        </para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findPersonById");
+query.bind(1000L);
+final QueryResults queryResults = query.execute();
+final Person queriedPerson = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+            </programlisting>
+
+    </section>
+
+    <section>
+        <title>HOW-TO create and use a named native query (@NamedNativeQuery)</title>
+
+        <para>A named native query is a named query using native SQL syntax
+        instead of castor's own query language. The handling of the annotation
+        is similar to named queries.</para>
+
+        <para>First we need a entity to attach a query.</para>
+        <programlisting language="java">
+@Entity
+@Table(name = personTable)
+@NamedNativeQuery(name = "selectAllPersons",
+                  query = "SELECT * FROM personTable")
+public class Person {
+
+    private long id;
+    private String name;
+
+	@Id
+	public long getId() {...}
+
+	public void setId(final long id) {...}
+
+	public String getName() {...}
+
+	public void setName(final String name) {...}
+}
+        </programlisting>
+        
+        <para>Although the <literal>query</literal> itself is written
+        in native SQL syntax, we - again - use a <classname>OQLQuery</classname> object
+        to execute the query.</para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("selectAllPersons");
+final QueryResults queryResults = query.execute();
+... //process the results
+queryResults.close();
+db.commit();
+        </programlisting>
+    </section>
+
+    <section>
+        <title>HOW-TO create and use multiple named native queries (@NamedNativeQueries)</title>
+
+        <para>The <literal>@NamedNativeQueries</literal> annotation is used to specifiy
+        multiple named native SQL queries.
+        </para>
+
+        <programlisting language="java">
+package your.package;
+
+@Entity
+@Table(name = personTable)
+@NamedNativeQueries({
+    @NamedNativeQuery(name = "selectAllPersons",
+                      query = "SELECT * FROM personTable"),
+    @NamedNativeQuery(name = "findMustermann",
+                      query = "SELECT * FROM personTable WHERE name='Max Mustermann' and id=1000")
+})
+public class Person {
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {...}
+
+    public void setId(final long id) {...}
+
+    public String getName() {...}
+
+    public void setName(final String name) {...}
+}
+        </programlisting>
+
+        <para>As we have already seen, the usage of the two above defined queries
+        is equivalent to the usage of a single named native query.
+        </para>
+
+        <programlisting language="java">
+Database db = jdoManager.getDatabase();
+
+db.begin();
+final OQLQuery query = db.getNamedQuery("findMustermann");
+final QueryResults queryResults = query.execute();
+final Person maxMustermann = (Person) queryResults.next();
+queryResults.close();
+db.commit();
+        </programlisting>
+
+</section>
+
+<section>
+    <title>HOW-TO use persistence callbacks</title>
+
+    <para>
+        The following annotations can be used for handling persistence callbacks via JPA:
+        <itemizedlist>
+            <listitem>PostLoad</listitem>
+            <listitem>PrePersist</listitem>
+            <listitem>PostPersist</listitem>
+            <listitem>PreUpdate</listitem>
+            <listitem>PostUpdate</listitem>
+            <listitem>PreRemove</listitem>
+            <listitem>PostRemove</listitem>
+        </itemizedlist>
+    </para>
+
+    <para>
+        Additionally, there are the following listener-related annotations:
+        <itemizedlist>
+            <listitem>EntityListeners</listitem>
+            <listitem>ExcludeDefaultListeners</listitem>
+            <listitem>ExcludeSuperclassListeners</listitem>
+        </itemizedlist>
+    </para>
+
+    <para>
+        So, here's a basic usage example:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class Person {
+
+    private final Log log = LogFactory.getLog(this.getClass());
+
+    private long id;
+    private String name;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    @PostLoad
+    protected void testPostLoadCallbackHooking() {
+        log.debug(String.format("Hello from `PostLoad`. My name is %s.",
+                this.name));
+    }
+
+    @PrePersist
+    protected void validateCreation() {
+        if (this.name.equals("Max Mustermann")) {
+            throw new PersistenceException(String.format(
+                    "Person mustn't be called %s.", this.name));
+        }
+    }
+
+    @PostPersist
+    protected void validatePersistence() {
+        if (this.name.equals("Manfred Mustermann")) {
+            throw new PersistenceException(String.format(
+                    "Person shouldn't be called %s either.", this.name));
+        }
+    }
+
+    @PreRemove
+    protected void validateRemoval() {
+        if (this.name.equals("Max Musterfrau")) {
+            throw new PersistenceException(this.name + " mustn't be removed.");
+        }
+    }
+
+    @PostRemove
+    protected void validateDeletion() {
+        if (this.name.equals("Manfred Musterfrau")) {
+            throw new PersistenceException(this.name
+                    + " shouldn't be removed either.");
+        }
+    }
+
+    @PreUpdate
+    protected void validateModification() {
+        if (this.name.equals("Max Musterfrau")) {
+            throw new PersistenceException(String.format(
+                    "Person mustn't be renamed to %s.", this.name));
+        }
+    }
+
+    @PostUpdate
+    protected void validateUpdating() {
+        if (this.name.equals("Hans Wurst")) {
+            throw new PersistenceException(String.format(
+                    "Person shouldn't be renamed to %s either.", this.name));
+        }
+    }
+
+}
+    </programlisting>
+
+    <para>
+        As one can see from this example, such callbacks can e.g. be used for
+        handling validation based on CRUD (create, retrieve, update, delete)
+        operation events.
+    </para>
+
+    <para>
+        Furthermore, there are possibilites to define listeners which allow for
+        decoupling callback handling from entities.
+    </para>
+
+    <para>
+        Here's an example for that:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+@EntityListeners(DogListener.class)
+public class Dog extends Animal {
+
+    private long id;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+}
+
+// Corresponding listener.
+public class DogListener {
+
+    @PostPersist
+    protected void postPersistDogListener() {
+        // Do something.
+    }
+
+}
+    </programlisting>
+
+    <para>
+        Apart from that, <literal>ExcludeDefaultListeners</literal> and
+        <literal>ExcludeSuperclassListeners</literal> enable specifying
+        exclusion of listeners within an inheritance chain of entities.
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Enumerated</title>
+
+    <para>
+        <literal>Enumerated</literal> can be used to persist
+        <literal>Enum</literal> types.
+    </para>
+
+    <para>
+        Here's an example:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class EnumEntity {
+
+    private long id;
+    private StringEnum stringEnum;
+    private OrdinalEnum ordinalEnum;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Enumerated(STRING)
+    public StringEnum getStringEnum() {
+        return stringEnum;
+    }
+
+    public void setStringEnum(final StringEnum stringEnum) {
+        this.stringEnum = stringEnum;
+    }
+
+    public OrdinalEnum getOrdinalEnum() {
+        return ordinalEnum;
+    }
+
+    public void setOrdinalEnum(final OrdinalEnum ordinalEnum) {
+        this.ordinalEnum = ordinalEnum;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        So, by default enums are serialized to their corresponding ordinal
+        value representations for persistence. In this case, it's also
+        sufficient to skip explicitly defining so via
+        <literal>Enumerated</literal>. If serialization to respective string
+        name representations is preferred annotating accordingly is required.
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Temporal</title>
+
+    <para>
+        This annotation can be used to specify properties mapped to temporal
+        data structures.
+    </para>
+
+    <para>Example:</para>
+
+    <programlisting lang="java">
+@Entity
+public class Person {
+
+    private long id;
+    private Date birthDate;
+    private Date anotherDate;
+    private Date yetAnotherDate;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Temporal(TIMESTAMP)
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(final Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    @Temporal(TIME)
+    public Date getAnotherDate() {
+        return anotherDate;
+    }
+
+    public void setAnotherDate(final Date anotherDate) {
+        this.anotherDate = anotherDate;
+    }
+
+    @Temporal(DATE)
+    public Date getYetAnotherDate() {
+        return yetAnotherDate;
+    }
+
+    public void setYetAnotherDate(final Date yetAnotherDate) {
+        this.yetAnotherDate = yetAnotherDate;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        So, it's possible to say which underlying DB-based field data structure
+        to use (datetime, date or time).
+    </para>
+</section>
+
+<section>
+    <title>HOW-TO use @Lob</title>
+
+    <para>
+        Here's an example for that:
+    </para>
+
+    <programlisting lang="java">
+@Entity
+public class LobEntity {
+
+    private long id;
+    private String clob;
+    private byte[] blob;
+
+    @Id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    @Lob
+    public String getClob() {
+        return clob;
+    }
+
+    public void setClob(final String clob) {
+        this.clob = clob;
+    }
+
+    @Lob
+    public byte[] getBlob() {
+        return blob;
+    }
+
+    public void setBlob(final byte[] blob) {
+        this.blob = blob;
+    }
+
+}
+    </programlisting>
+
+    <para>
+        Consequently, default behavior here is to serialize to
+        <literal>CLOB</literal> for character-based data and to
+        <literal>BLOB</literal> for data based on byte arrays (i.e., files).
+    </para>
+</section>
+
+</section>

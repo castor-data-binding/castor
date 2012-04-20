@@ -1,0 +1,88 @@
+CREATE TABLE test2527_log (
+            id         INT NOT NULL,
+            time_stamp DATETIME NOT NULL,
+            source     VARCHAR(100) NOT NULL,  
+            llevel     VARCHAR(10) NOT NULL,  
+            message    VARCHAR(500) NULL
+)
+GO
+ALTER TABLE test2527_log ADD PRIMARY KEY (id)
+GO
+
+CREATE TABLE test2527_log_exception (
+            id         INT NOT NULL,
+            entry_id   INT NOT NULL,
+            stacktrace TEXT NOT NULL
+)
+GO
+ALTER TABLE test2527_log_exception ADD PRIMARY KEY (id)
+GO
+ALTER TABLE test2527_log_exception
+ADD CONSTRAINT test2527_log_exception_fk
+FOREIGN KEY (entry_id) REFERENCES test2527_log (id)
+GO
+
+CREATE TABLE test2527_log_reference (
+            id         INT NOT NULL,
+            rtype      VARCHAR(100) NOT NULL,
+            rvalue     VARCHAR(100) NOT NULL
+)
+GO
+ALTER TABLE test2527_log_reference ADD PRIMARY KEY (id)
+GO
+ALTER TABLE test2527_log_reference
+ADD CONSTRAINT test2527_log_reference_fk
+FOREIGN KEY (id) REFERENCES test2527_log (id)
+GO
+
+INSERT INTO test2527_log VALUES (1, '2008-12-31 12:34:56', 'test1', 'level', 'simple log entry 1')
+GO
+INSERT INTO test2527_log VALUES (2, '2008-12-31 12:34:56', 'test1', 'level', 'simple log entry 2')
+GO
+
+INSERT INTO test2527_log VALUES (3, '2008-12-31 12:34:56', 'test2', 'level', 'exception log entry 1')
+GO
+INSERT INTO test2527_log_exception VALUES (1, 3, 'stacktrace for exception log entry 1')
+GO
+INSERT INTO test2527_log VALUES (4, '2008-12-31 12:34:56', 'test2', 'level', 'exception log entry 2')
+GO
+INSERT INTO test2527_log_exception VALUES (2, 4, 'stacktrace for exception log entry 2')
+GO
+
+INSERT INTO test2527_log VALUES (5, '2008-12-31 12:34:56', 'test3', 'level', 'refering log entry 1')
+GO
+INSERT INTO test2527_log_reference VALUES (5, 'type', 'ref 1')
+GO
+INSERT INTO test2527_log VALUES (6, '2008-12-31 12:34:56', 'test3', 'level', 'refering log entry 2')
+GO
+INSERT INTO test2527_log_reference VALUES (6, 'type', 'ref 2')
+GO
+
+INSERT INTO test2527_log VALUES (7, '2008-12-31 12:34:56', 'test4', 'level', 'simple and exception log entry 1')
+GO
+INSERT INTO test2527_log VALUES (8, '2008-12-31 12:34:56', 'test4', 'level', 'simple and exception log entry 2')
+GO
+INSERT INTO test2527_log_exception VALUES (3, 8, 'stacktrace for simple and exception log entry 2')
+GO
+INSERT INTO test2527_log VALUES (9, '2008-12-31 12:34:56', 'test4', 'level', 'simple and exception log entry 3')
+GO
+
+INSERT INTO test2527_log VALUES (10, '2008-12-31 12:34:56', 'test5', 'level', 'simple and refering log entry 1')
+GO
+INSERT INTO test2527_log VALUES (11, '2008-12-31 12:34:56', 'test5', 'level', 'simple and refering log entry 2')
+GO
+INSERT INTO test2527_log_reference VALUES (11, 'type', 's+r 2')
+GO
+INSERT INTO test2527_log VALUES (12, '2008-12-31 12:34:56', 'test5', 'level', 'simple and refering log entry 3')
+GO
+
+INSERT INTO test2527_log VALUES (13, '2008-12-31 12:34:56', 'test6', 'level', 'exception, refering and simple log entry 1')
+GO
+INSERT INTO test2527_log_exception VALUES (4, 13, 'stacktrace for exception, refering and simple log entry 1')
+GO
+INSERT INTO test2527_log VALUES (14, '2008-12-31 12:34:56', 'test6', 'level', 'exception, refering and simple log entry 2')
+GO
+INSERT INTO test2527_log_reference VALUES (14, 'type', 'e+r+s 2')
+GO
+INSERT INTO test2527_log VALUES (15, '2008-12-31 12:34:56', 'test6', 'level', 'exception, refering and simple log entry 3')
+GO

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test1503.Entity" identity="id">
+    <description>Named native query entity</description>
+    <map-to table="test1503_entity"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char"/>
+    </field>
+    <named-native-query name="nativeSelectEntity">
+      <query>SELECT * FROM test1503_entity</query>
+    </named-native-query>
+  </class>
+</mapping>
+

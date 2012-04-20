@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="Entity">
+    <map-to xml="entity" />
+    <field name="id" type="integer" >
+      <bind-xml name="id" />
+    </field>
+    <field name="name" type="string">
+      <bind-xml name="name" />
+    </field>
+    <field name="entries" type="string" collection="priorityqueue">
+    	<bind-xml name="queue" />
+    </field>
+  </class>
+
+</mapping>
+

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+   <class name="org.castor.cpa.test.test85.ProductEnumStyleClassNoName" identity="id">
+        <cache-type type="none"/>
+        <map-to table="test85_enum_prod"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
+        </field>
+        <field name="kind" type="org.castor.cpa.test.test85.KindEnumStyleClassNoName" required="true">
+            <sql name="kind" type="varchar"/>
+        </field>
+    </class>
+
+   <class name="org.castor.cpa.test.test85.ProductEnumStyleClassSameName" identity="id">
+        <cache-type type="none"/>
+        <map-to table="test85_enum_prod"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
+        </field>
+        <field name="kind" type="org.castor.cpa.test.test85.KindEnumStyleClassSameName" required="true">
+            <sql name="kind" type="varchar"/>
+        </field>
+    </class>
+
+   <class name="org.castor.cpa.test.test85.ProductEnumStyleClassDiffName" identity="id">
+        <cache-type type="none"/>
+        <map-to table="test85_enum_prod"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
+        </field>
+        <field name="kind" type="org.castor.cpa.test.test85.KindEnumStyleClassDiffName" required="true">
+            <sql name="kind" type="varchar"/>
+        </field>
+    </class>
+
+   <class name="org.castor.cpa.test.test85.ProductJavaEnumSameName" identity="id">
+        <cache-type type="none"/>
+        <map-to table="test85_enum_prod"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
+        </field>
+        <field name="kind" type="org.castor.cpa.test.test85.KindJavaEnumSameName" required="true">
+            <sql name="kind" type="varchar"/>
+        </field>
+    </class>
+
+   <class name="org.castor.cpa.test.test85.ProductJavaEnumDiffName" identity="id">
+        <cache-type type="none"/>
+        <map-to table="test85_enum_prod"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
+        </field>
+        <field name="kind" type="org.castor.cpa.test.test85.KindJavaEnumDiffName" required="true">
+            <sql name="kind" type="varchar"/>
+        </field>
+    </class>
+</mapping>

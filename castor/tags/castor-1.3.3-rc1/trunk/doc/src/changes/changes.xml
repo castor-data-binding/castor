@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Find usage details at http://maven.apache.org/plugins/maven-changes-plugin/usage.html
+-->
+<document>
+  <body>
+    <release version="1.2.1-SNAPSHOT" date="2008-??-??" 
+             description="Release of corona-pipeline, corona-sitemap, corona-servlet, corona-controller">
+      <action dev="wguttmn" type="add">
+        Add doc module.
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.cascade-update">
+	<sectioninfo>
+		<title>How to cascade update</title>
+<!--
+		<abstract>
+		    <para>
+			    Describes the various possibilities Castor provides to cascade update
+			</para>
+		</abstract>
+		
+		Status: Draft
+-->
+    </sectioninfo>
+
+	<title>How to cascade update</title>
+
+	<section id="jdo.howto.cascade-update.overview">
+	    <title>Overview</title>
+
+		<para>
+			When working with long transactions, you can cascade the 
+			<methodname>db.update()</methodname> operation, so that, for example, 
+			updating the root of a large object graph causes all connected entities 
+			to update as well (provided cascading update is enabled on the particular 
+			relationships, of course).
+        </para>
+	</section>
+
+	<section id="jdo.howto.cascade-update.enable">
+	    <title>Enabling cascading update</title>
+
+		<para>
+		    To enable cascading update on a relationship you simply set the cascading 
+		    attribute of the <literal>&lt;sql&gt;</literal> field describing the 
+		    relation to "<literal>update</literal>" (or "<literal>all</literal>"):
+		</para>
+
+		<programlisting language="xml"><![CDATA[
+		
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" cascading="update" />
+</field>
+]]>     </programlisting>
+
+        <para>
+            In case of bidirectional relationships, be aware that it matters on which 
+            end you enable cascading update. It is also possible to enable it on both 
+            ends.
+        </para>
+	</section>
+
+	<section id="jdo.howto.cascade-update.scenarios">
+	    <title>Scenarios</title>
+
+		<para></para>
+
+		<section id="jdo.howto.cascade-update.scenarios.db-update">
+	        <title>db.update()</title>
+
+			<para>
+			    Let's say we have the objects Author and Book and they are in a 
+			    one-to-one relationship, with every <classname>Book</classname> 
+			    having exactly one <classname>Author</classname>. The database looks 
+			    like this:
+			</para>
+
+			<table cellspacing="0" cellpadding="6">
+			    <?dbhtml bgcolor="#ededed" ?>
+			    
+			    <title>Author</title>
+						
+				<tgroup cols="2">
+				    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2" ?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE" ?>
+							<entry>1</entry>
+							<entry>"John Jackson"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table cellspacing="0" cellpadding="6">
+			    <?dbhtml bgcolor="#ededed" ?>
+			    
+				<title>Book</title>
+						
+				<tgroup cols="3">
+				    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2" ?>
+							<entry>id</entry>
+							<entry>title</entry>
+							<entry>author_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE" ?>
+							<entry>1</entry>
+							<entry>"My Life"</entry>
+							<entry>1</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+				
+			<para>
+			    Now let's change the book's title. Note that we never directly load 
+			    the book and that the change happens outside of any transaction:
+			</para>
+
+			<programlisting language="java"><![CDATA[
+			
+db.begin();
+Author a1 = db.load(Author.class, 1);
+db.commit();
+
+a1.getBook().setName("My Fantastic Life");
+
+db.begin();
+db.update(a1);
+db.commit();]]>
+            </programlisting>
+
+			<para>Afterwards, the database looks like this:</para>
+
+			<table cellspacing="0" cellpadding="6">
+			    <?dbhtml bgcolor="#ededed" ?>
+			    
+				<title>Author</title>
+						
+			    <tgroup cols="2">
+			        <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2" ?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE" ?>
+							<entry>1</entry>
+							<entry>"John Jackson"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table cellspacing="0" cellpadding="6">
+			    <?dbhtml bgcolor="#ededed" ?>
+			    
+				<title>Book</title>
+						
+				<tgroup cols="3">
+				    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2" ?>
+							<entry>id</entry>
+							<entry>title</entry>
+							<entry>author_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE" ?>
+							<entry>1</entry>
+							<entry>"My Fantastic Life"</entry>
+							<entry>1</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+		</section>
+				
+	</section>
+
+	<section id="jdo.howto.cascade-update.limitations">
+	    <title>Limitations</title>
+	    
+		<itemizedlist>
+			<listitem>
+				<para>To-many relationships are currently not supported (except many-to-one).</para>
+			</listitem>
+			<listitem>
+				<para>As it is now, enabling cascading update will cause db.update() to also create any entities 
+					that have not yet been persisted. (In other words: setting cascading to "update" has the same 
+					effect as setting it to "update create", but only when invoking db.update().)</para>
+			</listitem>
+		</itemizedlist>
+			
+	</section>
+
+	<section id="jdo.howto.cascade-update.see-also">
+	    <title>See also</title>
+
+		<itemizedlist>
+			<listitem>
+			    <para>
+					<link linkend="jdo.howto.use-cascading-operations.overview">How 
+					to use cascading operations - overview</link>
+			    </para>
+			</listitem>
+		</itemizedlist>
+
+	</section>
+</section>

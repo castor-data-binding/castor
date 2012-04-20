@@ -1,0 +1,14 @@
+#Sun Feb 17 16:21:38 CET 2008
+org.castor.xmlctf.bestpractise.genpackage.PartyTwo=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyTwoDescriptor
+org.castor.xmlctf.bestpractise.genpackage.UnwindCashflow=org.castor.xmlctf.bestpractise.genpackage.descriptors.UnwindCashflowDescriptor
+org.castor.xmlctf.bestpractise.genpackage.CBMTransactionEvent=org.castor.xmlctf.bestpractise.genpackage.descriptors.CBMTransactionEventDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartialTermination=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartialTerminationDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyReference=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyReferenceDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyThree=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyThreeDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyId=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyIdDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyType=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyTypeDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyOne=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyOneDescriptor
+org.castor.xmlctf.bestpractise.genpackage.UnderlyerAdjustment=org.castor.xmlctf.bestpractise.genpackage.descriptors.UnderlyerAdjustmentDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartialTerminationChoice=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartialTerminationChoiceDescriptor
+org.castor.xmlctf.bestpractise.genpackage.AssignmentNotification=org.castor.xmlctf.bestpractise.genpackage.descriptors.AssignmentNotificationDescriptor
+org.castor.xmlctf.bestpractise.genpackage.PartyThreeHref=org.castor.xmlctf.bestpractise.genpackage.descriptors.PartyThreeHrefDescriptor

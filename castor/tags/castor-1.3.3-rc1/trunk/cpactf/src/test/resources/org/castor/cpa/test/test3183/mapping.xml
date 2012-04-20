@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+
+<mapping>
+    <class name="org.castor.cpa.test.test3183.PolyDoc" identity="id" key-generator="MAX">
+        <map-to table="test3183_poly_doc"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+	    <field name="name" type="string" required="true">
+	        <sql name="name" type="varchar" />
+	    </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test3183.PolyOrderDoc"
+           extends="org.castor.cpa.test.test3183.PolyDoc" identity="id">
+        <map-to table="test3183_poly_order_doc"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="price" type="double">
+            <sql name="price" type="double"/>
+        </field>
+    </class>
+  
+    <class name="org.castor.cpa.test.test3183.SingleOrderDoc" identity="id" key-generator="MAX">
+        <map-to table="test3183_single_order_doc"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar" />
+        </field>
+        <field name="price" type="double">
+            <sql name="price" type="double"/>
+        </field>
+    </class>
+</mapping>

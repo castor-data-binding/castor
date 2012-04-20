@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+
+    <Name>
+        Test unmarshalling &amp; marshalling of AnyNode where the same namespace URI is
+        used for two elements, but assigned to different prefices.
+    </Name>
+    <Author>Werner Guttmann</Author>
+
+    <Comment>
+        Tests that the unmarshaller will correctly handle situations where a namespace URI
+        is bound to more than one prefix on sibling elements, i.e. preserve the namespace
+        prefices.
+    </Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>Vikas Rawat</Reporter>
+        <Date_Report>2008-01-18</Date_Report>
+        <Date_Fix>2008-01-18</Date_Fix>
+        <Comment>http://jira.codehaus.org/browse/CASTOR-2265</Comment>
+    </BugFix>
+    
+
+    <MarshallingTest>
+
+        <Root_Object>Entity</Root_Object>
+
+        <UnitTestCase>
+            <Name>Simple Test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+
+    </MarshallingTest>
+
+</TestDescriptor>

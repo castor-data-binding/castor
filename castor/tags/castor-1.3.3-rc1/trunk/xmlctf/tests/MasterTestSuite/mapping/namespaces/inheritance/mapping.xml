@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.codehaus.org/mapping.dtd">
+<mapping>
+   <class name="TextContainer">
+      <map-to ns-uri="http://www.w3.org/2005/Atom" xml="textcontainer" />
+      <field name="text" set-method="setText" get-method="getText" required="true" type="string">
+         <bind-xml node="text" />
+      </field>
+      <field name="type" set-method="setType" get-method="getType" type="string">
+         <bind-xml name="type" node="attribute" />
+      </field>
+   </class>
+   <class name="Feed">
+      <map-to ns-uri="http://www.w3.org/2005/Atom" xml="feed" />
+      <field name="title" set-method="setTitle" get-method="getTitle" type="TextContainer">
+         <bind-xml name="title" node="element" />
+      </field>
+      <field name="subtitle" set-method="setSubtitle" get-method="getSubtitle" type="TextContainer">
+         <bind-xml name="subtitle" node="element" />
+      </field>
+      <field name="summary" set-method="setSummary" get-method="getSummary" type="TextContainer">
+         <bind-xml name="summary" node="element" />
+      </field>
+      <field name="rights" set-method="setRights" get-method="getRights" type="TextContainer">
+         <bind-xml name="rights" node="element" />
+      </field>
+   </class>
+</mapping>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xacml="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="Expression" type="xacml:ExpressionType" abstract="true" />
+    <xs:complexType name="ExpressionType" abstract="true" />
+    <xs:element name="Condition" type="xacml:ConditionType" />
+    <xs:complexType name="ConditionType">
+        <xs:sequence>
+            <xs:element ref="xacml:Expression" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Apply" type="xacml:ApplyType" substitutionGroup="xacml:Expression" />
+    <xs:complexType name="ApplyType">
+        <xs:complexContent>
+            <xs:extension base="xacml:ExpressionType">
+                <xs:sequence>
+                    <xs:element ref="xacml:Expression" minOccurs="0"
+                        maxOccurs="unbounded" />
+                </xs:sequence>
+                <xs:attribute name="FunctionId" type="xs:anyURI" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

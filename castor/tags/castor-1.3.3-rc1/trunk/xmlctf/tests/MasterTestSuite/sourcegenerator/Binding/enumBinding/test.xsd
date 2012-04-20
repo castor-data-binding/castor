@@ -1,0 +1,24 @@
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+
+	<xs:element name='processDefinition'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='durUnit' type='DurUnitType' />
+			</xs:sequence>
+			<xs:attribute name='name' />
+			<xs:attribute name='description' />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name='DurUnitType'>
+		<xs:restriction base='xs:string'>
+			<xs:enumeration value='Y' />
+			<xs:enumeration value='M' />
+			<xs:enumeration value='D' />
+			<xs:enumeration value='h' />
+			<xs:enumeration value='m' />
+			<xs:enumeration value='s' />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
