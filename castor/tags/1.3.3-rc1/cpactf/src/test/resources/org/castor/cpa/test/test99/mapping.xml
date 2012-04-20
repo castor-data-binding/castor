@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	
+  <class name="org.castor.cpa.test.test99.Accommodation" identity="id" 
+         extends="org.castor.cpa.test.test99.Product1893" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="test99_poly_actproduct"/>
+    <field name="id" type="integer">
+      <sql name="idact" type="integer"/>
+    </field>
+    <field name="bestSeason" type="string">
+      <sql name="bestseason" type="varchar"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test99.ComposedProduct" identity="id" 
+         extends="org.castor.cpa.test.test99.Product1893" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="test99_poly_composedoffer"/>
+    <field name="id" type="integer">
+      <sql name="idcoffer" type="integer"/>
+    </field>
+    <field name="extraName" type="string">
+      <sql name="nameco" type="varchar"/>
+    </field>
+    <field name="extraDescription" type="string">
+      <sql name="descco" type="varchar"/>
+    </field>
+    <field name="subProducts" type="org.castor.cpa.test.test99.Product1893" collection="vector">
+      <sql name="product" many-key="offer" many-table="test99_poly_offercomposition"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test99.Craft" identity="id" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="test99_poly_product"/>
+    <field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="org.castor.cpa.test.test99.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="test99_poly_offercomposition"/>
+    </field>
+  </class>
+  
+  <class name="org.castor.cpa.test.test99.Culture" identity="id" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="test99_poly_product"/>
+    <field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="org.castor.cpa.test.test99.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="test99_poly_offercomposition"/>
+    </field>
+  </class>
+  
+  
+  <class name="org.castor.cpa.test.test99.Product1893" identity="id" key-generator="MAX">
+	<cache-type type="count-limited"/>
+	<map-to table="test99_poly_product"/>
+	<field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="org.castor.cpa.test.test99.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="test99_poly_offercomposition"/>
+    </field>
+  </class>
+  
+</mapping>

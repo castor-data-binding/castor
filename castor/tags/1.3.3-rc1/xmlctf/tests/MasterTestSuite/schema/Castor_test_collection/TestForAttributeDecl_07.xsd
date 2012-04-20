@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for basic attribute declaration with use='optional' -->
+   <!-- this needs to be moved into a separate test, because
+         the SchemaWriter does not print use='optional' as it's
+         the default use value
+   <xsd:attribute name="attr1" use="optional" type="xsd:integer"/>
+   -->
+   <xsd:attribute name="attr1" type="xsd:integer"/>
+
+</xsd:schema>

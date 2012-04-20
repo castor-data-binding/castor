@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-jdo</artifactId>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3.3-rc1</version>
+    </parent>
+
+	<packaging>jar</packaging>
+
+	<name>Castor JDO - Persistence framework</name>
+	<description>TBD</description>
+
+	<developers>
+		<developer>
+			<name>Ralf Joachim</name>
+			<email>ralf.joachim@syscon-world.de</email>
+			<organization>Syscon</organization>
+			<roles>
+				<role>Castor JDO committer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>wguttmn</id>
+			<name>Werner Guttmann</name>
+			<email>wguttmn@codehaus.org</email>
+			<roles>
+				<role>Castor JDO committer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+    <scm>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/1.3.3-rc1/cpa</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/1.3.3-rc1/cpa</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/1.3.3-rc1/cpa</url>
+    </scm>
+
+    <build>
+       <plugins>
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>castor-maven-plugin</artifactId>
+             <configuration>
+                <schema>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf.xsd</schema>
+                <properties>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf.builder.properties</properties>
+                <packaging>org.castor.jdo.conf</packaging>
+                <bindingfile>${basedir}/src/main/resources/org/castor/jdo/conf/jdo-conf-binding.xml</bindingfile>
+             </configuration>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                </execution>
+             </executions>
+          </plugin>
+          
+          <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>javacc-maven-plugin</artifactId>
+             <executions>
+                <execution>
+                   <id>jjtree-javacc</id>
+                   <goals>
+                      <goal>jjtree-javacc</goal>
+                   </goals>
+                </execution>
+             </executions>
+          </plugin>
+       </plugins>
+    </build>
+
+	<dependencies>
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-core</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-xml-schema</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>net.java.dev.javacc</groupId>
+			<artifactId>javacc</artifactId>
+		</dependency>
+		
+		<!-- support for JPA annotations -->
+        <dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
+
+	   <!--  check why this is needed  -->
+        <dependency>
+            <groupId>tyrex</groupId>
+            <artifactId>tyrex</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+            <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+  
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency> 
+	</dependencies>
+    
+    <reporting>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-surefire-plugin</artifactId>
+    			<configuration>
+    				<excludes>
+    					<exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
+    					<exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
+    					<exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
+    					<exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
+    					<exclude>org/castor/cache/TestCacheFactoryRegistry.java</exclude>
+    				</excludes>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </reporting>
+
+</project>
+
+

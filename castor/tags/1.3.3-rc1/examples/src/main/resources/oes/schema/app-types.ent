@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Global product identifier (SKU using GTIN) -->
+<xsd:datatype name="sku" source="ID" length="14">
+  <xsd:annotation>
+    <xsd:info>Global product identifier (based on GTIN):
+              length set to 14 characters;
+              globally unique; value has no business meaning</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<xsd:datatype name="skuRef" source="IDREF">
+  <xsd:annotation>
+    <xsd:info>Global product identifier (SKU) referece</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<!-- Category identifier -->
+<xsd:datatype name="categoryId" source="ID">
+  <xsd:annotation>
+    <xsd:info>Category identifier:
+              unique in the system</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<xsd:datatype name="categoryRef" source="IDREF">
+  <xsd:annotation>
+    <xsd:info>Category identifier reference</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<!-- Purchase order identifier -->
+<xsd:datatype name="orderId" source="ID">
+  <xsd:annotation>
+    <xsd:info>Purchase order identifier:
+              unique in the system</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<!-- Short name -->
+<xsd:datatype name="short" source="NMTOKEN">
+  <xsd:annotation>
+    <xsd:info>Short name: unique name in the system;
+              up to 20 characters long; non descriptive</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+<!-- Description -->
+<xsd:datatype name="description" source="string">
+  <xsd:annotation>
+    <xsd:info>Description: up to 200 characters long</xsd:info>
+  </xsd:annotation>
+</xsd:datatype>
+
+
+
+
+
+
+
+
+
+

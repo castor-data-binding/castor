@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:oasis:names:tc:wsrp:v1:types"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <xs:complexType name="Extension">
+    <xs:sequence>
+      <xs:any namespace="##other"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test14.RollbackObject" access="shared" identity="id">
+    <description>primitive rollback testing</description>
+    <map-to table="test14_rollback" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+    <field name="number" type="long">
+      <sql name="numb" type="numeric" />
+    </field>
+  </class>
+</mapping>

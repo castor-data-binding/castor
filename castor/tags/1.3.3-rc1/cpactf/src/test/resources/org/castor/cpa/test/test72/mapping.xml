@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test72.SortedContainer" identity="id">
+        <map-to table="test72_sorted_container" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char" />
+        </field>
+        <field name="twos" type="org.castor.cpa.test.test72.SortedContainerItem" 
+            collection="sortedset" comparator="org.castor.cpa.test.test72.CustomComparator">
+            <sql many-key="id_1" />
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test72.SortedContainerItem" identity="id">
+        <map-to table="test72_sorted_item" />
+        <field name="id" type="integer" >
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="id1" type="integer" >
+            <sql name="id_1" type="integer"/>
+        </field>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="char" />
+        </field>
+    </class>
+</mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<!--
+4.3.10.4 Constraints on minInclusive Schema Components
+  Schema Component Constraint: minInclusive < maxExclusive
+    It is an error for the value specified for minInclusive
+    to be greater than or equal to the value specified for
+    maxExclusive for the same datatype.
+
+http://www.w3.org/TR/xmlschema-2/#minInclusive-less-than-maxExclusive
+-->
+
+	<xsd:simpleType name="st1">
+		<xsd:restriction base="xsd:long">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxExclusive value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ct1">
+		<xsd:attribute name="a1" type="st1" use="optional"/>
+	</xsd:complexType>
+
+</xsd:schema>

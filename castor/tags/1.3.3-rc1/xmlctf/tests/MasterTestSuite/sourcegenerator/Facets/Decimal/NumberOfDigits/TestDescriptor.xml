@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>bug913i</Name>
+    <Author>Keith Visco</Author>
+    <Comment>
+        Regression Test for Bug 913 (Intalio CVS)
+    </Comment>
+    <Category>basic capability</Category>
+
+    <BugFix>
+        <Reporter>Arnaud Blandin</Reporter>
+        <Date_Report>2001-10-01</Date_Report>
+        <Date_Fix>2002-01-07</Date_Fix>
+        <Comment>Bug 913 (Intalio CVS)</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false">Foo</Root_Object>
+        <UnitTestCase>
+             <Name>Test Validation</Name>
+             <Input>input1.xml</Input>
+        </UnitTestCase>
+
+        <UnitTestCase>
+             <Name>Test Validation - failure with too many digits</Name>
+             <Input>input2.xml</Input>
+             <Failure exception="org.exolab.castor.xml.MarshalException"
+                      FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

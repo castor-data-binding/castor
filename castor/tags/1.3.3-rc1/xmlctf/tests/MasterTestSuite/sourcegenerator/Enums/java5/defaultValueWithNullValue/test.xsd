@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://foo.org/foo" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:foo="http://foo.org/foo" elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+    
+    <xs:element name="FooElement" id="foo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="FooSub" default="bar">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="foo" />
+                            <xs:enumeration value="bar" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

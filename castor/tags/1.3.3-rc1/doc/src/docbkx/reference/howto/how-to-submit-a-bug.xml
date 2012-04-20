@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.submit-a-bug">
+    <sectioninfo>
+    <title>Submitting a bug report</title>
+<!--
+    <abstract>
+       <para>General information about submitting a bug report</para>
+    </abstract>
+    
+    Status: Final
+-->
+    </sectioninfo>
+
+    <title>Submitting a bug report</title>
+
+    <section id="jdo.howto.submit-a-bug.problem-report">
+        <title>Submitting a problem report</title>
+
+		<section id="jdo.howto.submit-a-bug.problem-report.driver">
+		    <title>Driver</title>
+		    
+			<para>
+			   Most of the traffic on the Castor Users mailing list is about people 
+			   asking for help on various features of Castor (whether JDO or XML). 
+			   Whilst there is nothing wrong about asking questions and looking for 
+			   help if you are stuck, it seems that there is room to improve the 
+			   structure of this 'conversation'.
+			</para>
+				
+			<para>
+			   If you have a look at some of these threads (e.g. at the 
+			   <ulink url="http://www.mail-archive.com/castor-dev%40exolab.org">searchable 
+			   mailing list archive</ulink>), it's quite easy to see that most 
+			   of the time ...
+			</para>
+					
+			<orderedlist numeration="arabic">
+				<listitem><para>An initial question is posted.</para></listitem>
+				
+				<listitem>
+				  <para>
+				    An initial reply is posted with some follow-up questions, 
+				    e.g. request for code fragments, mapping files, etc.
+				  </para>
+				</listitem>
+				
+				<listitem>
+				  <para>
+				    One or more code fragments, mapping files, etc. are being posted.
+				  </para>
+				</listitem>
+				
+				<listitem><para>etc.</para></listitem>
+			</orderedlist>
+			
+			<para>
+			  This document will establish guidelines with regards to step 3) above.
+			</para>
+		</section>
+		
+		<section id="jdo.howto.submit-a-bug.problem-report.introduction">
+		    <title>Introduction</title>
+			
+			<para>
+			    This document provides step-by-step instructions on how to submit a 
+			    problem report (when being asked to do so). It does so by walking you 
+			    through a fictive problem and its resulting bug report, and providing 
+			    instructions based upon this scenario.
+			</para>
+				
+			<para>
+			    Per definition, any problem report submitted (in other words, most 
+			    likely attached to a bug report at 
+			    <ulink url="http://jira.codehaus.org/browse/CASTOR">http://jira.codehaus.org/browse/CASTOR</ulink>)
+			    by the means of a patch has to include the following artefacts:
+			</para>
+				
+			<itemizedlist>
+				<listitem>
+				  <para>A JUnit test case that 'showcases' your problem.</para>
+				</listitem>
+				
+				<listitem><para>Castor JDO configuration file.</para></listitem>
+				
+				<listitem><para>Castor JDO mapping file.</para></listitem>
+				
+				<listitem>
+				  <para>
+				    One or more 'entity' classes required to run your test case.
+				  </para>
+				</listitem>
+				
+				<listitem>
+				  <para>
+				    A SQL schema file (to help in the creation of required tables).
+				  </para>
+				</listitem>
+				
+				<listitem>
+				  <para>
+				    A <literal>README</literal> file (with any additional 
+				    information/instructions required to understand /run your test case.
+				  </para>
+				</listitem>
+			</itemizedlist>
+	
+	        <note>
+			  <para>
+			    Whilst we can and will not impose these guidelines in their strictest 
+			    sense, I think that the use of technologies such as JUnit will simplify problem 
+			    resolution and as a result lead to shorter turn-around times. Which is ultimately where 
+			    you, the user, gains..
+			  </para>
+			</note>
+			   
+		</section>			
+			
+		<section id="jdo.howto.submit-a-bug.problem-report.templates">
+		    <title>Templates</title>
+				
+			<para>
+		        To facilitate creation of a fully featured patch as discussed above, 
+		        we have provided you with an already existing bug template at 
+		        '<filename class="directory">src/bugs/jdo/template</filename>'.
+			</para>
+				  
+            <note>
+			    <para>
+			        Please note that this directory is distributed only as part of the 
+				    source archive(s).
+				</para>
+		    </note>
+					
+			<para>
+			    This directory holds all artefacts mentioned above, as is structured 
+			    as follows:
+			</para>
+				   
+			<table cellpadding="3">	
+			    <title>bug template artefacts</title>
+			
+			    <tgroup cols="2">
+			      <tbody>
+                    <row>
+                        <entry><filename class="directory">src</filename></entry>
+                        <entry>Source code</entry>
+                    </row>
+                    
+                    <row>
+                        <entry><filename class="directory">src/bugs</filename></entry>
+                        <entry>Common root for bug reports</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs/jdo</filename>
+                        </entry>
+                        <entry>Common root for JDO bug reports</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs/jdo/template</filename>
+                        </entry>
+                        <entry>Patch template</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/TestTemplate.java</filename>
+                        </entry>
+                        <entry>JUnit test case.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/EntityOne.java</filename>
+                        </entry>
+                        <entry>Entity required by the test case</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/jdo-conf.xml</filename>
+                        </entry>
+                        <entry>Castor JDO configuration</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/mapping.xml</filename>
+                        </entry>
+                        <entry>Castor mapping file</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/create.sql</filename>
+                        </entry>
+                        <entry>SQL schema to create database table(s)</entry>
+                    </row>
+                    
+                    <row>
+                        <entry><filename>src/bugs/jdo/template/README</filename></entry>
+                        <entry>Test instructions</entry>
+                    </row>
+                  </tbody>
+                </tgroup>
+			</table>
+				
+			<para>
+			    To create you own bug report, please copy 
+			    '<filename class="directory">template</filename>'
+			    to e.g. <filename class="directory">bug1820</filename>, 
+			    assuming that 1820 is the number assigned to your BugZilla 
+			    problem report). Subsequently, please amend the files provided to 
+			    match your own requirements. After you have consolidated your changes, 
+			    the original directory structure in 
+			    <filename class="directory">src/bugs</filename> could look as follows:
+			</para>
+				   
+			<table cellpadding="3">	
+			    <title>
+			        directory structure of 
+			        <filename class="directory">src/bugs</filename>
+			    </title>
+			    
+			    <tgroup cols="2">
+			      <tbody>
+                    <row>
+                        <entry>
+                            <filename class="directory">src</filename>
+                        </entry>
+                        <entry>Source code</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs</filename>
+                        </entry>
+                        <entry>Common root for bug reports</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs/jdo</filename>
+                        </entry>
+                        <entry>Common root for JDO bug reports</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs/jdo/template</filename>
+                        </entry>
+                        <entry>Patch template</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/TestTemplate.java</filename>
+                        </entry>
+                        <entry>JUnit test case.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/EntityOne.java</filename>
+                        </entry>
+                        <entry>Entity required by the test case</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/jdo-conf.xml</filename>
+                        </entry>
+                        <entry>Castor JDO configuration</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/mapping.xml</filename>
+                        </entry>
+                        <entry>Castor mapping file</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/create.sql</filename>
+                        </entry>
+                        <entry>SQL schema to create database table(s)</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/template/README</filename>
+                        </entry>
+                        <entry>Test instructions</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename class="directory">src/bugs/jdo/bug1820</filename>
+                        </entry>
+                        <entry>Your specific bug (as per BugZilla bug number)</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/TestCase.java</filename>
+                        </entry>
+                        <entry>JUnit test case.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/Entity1.java</filename>
+                        </entry>
+                        <entry>Entity required</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/Entity2.java</filename>
+                        </entry>
+                        <entry>Entity required</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/jdo-conf.xml</filename>
+                        </entry>
+                        <entry>Castor JDO configuration</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/mapping.xml</filename>
+                        </entry>
+                        <entry>Castor mapping file</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/schema.sql</filename>
+                        </entry>
+                        <entry>SQL schema to create database table(s)</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>
+                            <filename>src/bugs/jdo/bug1820/README</filename>
+                        </entry>
+                        <entry>Test instructions</entry>
+                    </row>
+                  </tbody>
+                </tgroup>
+			</table>
+				
+		</section>
+			
+		<section id="jdo.howto.submit-a-bug.problem-report.add-test-case">
+		    <title>Add your test case to the master test suite</title>
+				
+			<para>
+		        Once you have successfully executed your JUnit test case, please add 
+		        this test to the master test suite available in 
+		        <filename>src/bugs/AllTests.java</filename> as follows. To add 
+			    a test to this suite, please duplicate the line
+			</para>
+				
+			<programlisting language="java">
+			
+    suite.addTestSuite(template.TestTemplate.class);
+			</programlisting> 
+				
+			<para>
+			    and replace the term 
+			    '<literal>jdo.template.TestTemplate.class</literal>' with 
+			    '<literal>jdo.bug1820.TestCase</literal>'.
+			</para>
+				
+			<para>
+		        This will allow us to run all tests related to all open bugs in one go by executing
+			    just this test suite.
+			</para>  
+		</section>
+			
+		<section id="jdo.howto.submit-a-bug.creating-the-patch">
+		    <title>Creating the patch</title>
+			    
+			<para>
+		        As explained in 
+		        <ulink url="http://www.castor.org/contributing.html#Guidelines-For-Code-Contribution"> 
+		        Guidelines For Code Contribution</ulink>, we ask you to submit your code
+                changes in the form of a unified patch by attaching it to the relevant
+                bug report.
+            </para>
+				   
+			<para>
+		        To create a <emphasis role="bold">unified</emphasis> patch for 
+		        submission, you can either use the command line SVN client 
+		        (which you find instructions to download for at 
+                <ulink url="http://subversion.tigris.org/">http://subversion.tigris.org/</ulink> 
+                or any IDE that offers support or SVN 
+                (such as Eclipse with Subclipse plugin)
+            </para>
+				   
+			<para>
+		        In any case, please note that we are trying to standardize on the use
+                of <emphasis role="bold">unified</emphasis> patches only, and that 
+                you should <emphasis role="bold">always</emphasis> update your code 
+                (against the SVN repository) before creating the patch. 
+                If you have never used SVN before, there will be ways to
+                convince us to accept e.g. a Zip file includig your changes.
+            </para>
+		</section>
+			
+		<section id="jdo.howto.submit-a-bug.problem-report.references">
+		    <title>References</title>
+			    
+			<para>
+		        Whilst we cannot assume that every Castor (JDO) user is an expert in
+                the use of JUnit, we do believe that they are quite easy to get
+                acquainted with. As a starting point, please find below some
+                references:
+            </para>
+	
+			<itemizedlist>
+				<listitem>
+				    <para>
+				        <ulink url="http://www.junit.org/">JUnit</ulink> - A well-known
+                        framework for writing integration-level and functional tests.
+                    </para>
+                </listitem>
+                
+				<listitem>
+				    <para>
+				        <ulink url="http://subversion.tigris.org/">SVN Home</ulink>
+				         - many usefulSVN related items
+                    </para>
+                </listitem>
+			</itemizedlist>
+        </section>
+    </section>
+</section>

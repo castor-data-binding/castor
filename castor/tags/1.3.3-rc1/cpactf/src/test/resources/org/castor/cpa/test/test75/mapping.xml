@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test75.ManyGroup" access="shared" identity="id" >
+        <description>Table used for testing many to many relation</description>
+        <map-to table="test75_group" />
+        <field name="id" type="integer">
+            <sql name="gid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="people" type="org.castor.cpa.test.test75.ManyPerson" 
+            collection="collection" required="false" set-method="setPeople" 
+            get-method="getPeople">
+            <sql many-table="test75_group_person" many-key="gid"/>
+        </field>
+    </class>
+    
+    <class name="org.castor.cpa.test.test75.ManyPerson" access="shared" identity="id" >
+        <description>Table used for testing many to many relation</description>
+        <map-to table="test75_person" />
+        <field name="id" type="integer">
+            <sql name="pid" type="integer" />
+        </field>
+        <field name="value1" type="string" required="true">
+            <sql name="value1" type="varchar" />
+        </field>
+        <field name="helloworld" type="string" >
+            <sql name="helloworld" type="varchar" />
+        </field>
+        <field name="sthelse" type="string" >
+            <sql name="sthelse" type="varchar" />
+        </field>
+        <field name="group" type="org.castor.cpa.test.test75.ManyGroup" 
+            collection="collection" required="false">
+            <sql many-table="test75_group_person" many-key="pid"/>
+        </field>
+    </class>
+</mapping>

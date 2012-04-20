@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	wrong simpleType redefinition
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="foo" xmlns="foo"
+		elementFormDefault="qualified">
+	
+	<xsd:redefine schemaLocation="xsd003.xsdmod">
+		
+		<xsd:simpleType name="simpleType">
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="yes" />
+				<xsd:enumeration value="no" />
+			</xsd:restriction>
+		</xsd:simpleType>
+		
+	</xsd:redefine>
+	
+</xsd:schema>

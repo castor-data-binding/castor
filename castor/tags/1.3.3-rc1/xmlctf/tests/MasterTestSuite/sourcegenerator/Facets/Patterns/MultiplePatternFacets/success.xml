@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<PatternedItems>
+    <item>100</item>
+    <item>100.2</item>
+    <item>100.22</item>
+    <item>100.222</item>
+    <item>100.2222</item>
+    <item>-</item>
+    <item>A-z</item>
+    <item>ABC-abc</item>
+    <item>EEIIEEII-oooo</item>
+    <item>###</item>
+    <item>;;;</item>
+    <item>```</item>
+    <item>======</item>
+</PatternedItems>

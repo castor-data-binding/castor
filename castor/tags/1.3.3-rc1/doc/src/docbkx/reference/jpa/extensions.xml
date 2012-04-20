@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jpa.extensions">
+    <title>Castor JPA Extensions</title>
+
+    <para>
+        This section describes all JPA-extensions provided by Castor.
+    </para>
+
+    <section id="jpa.extensions.cache">
+        <title>@Cache and @CacheProperty</title>
+        <para>
+            In order to get the maximum out of the chosen built-in or
+            external cache engine Castor provides a generic way to
+            specify properties in a vendor-independent way.
+            Castor allows for cache-tuning on a per-entity basis by
+            simply providing key-value pairs with the <interfacename>@CacheProperty</interfacename>
+            annotation in the <interface>@Cache</interface> container annnotation.
+        </para>
+
+
+        <programlisting language="java">
+            @Entity
+            @Cache({
+                @CacheProperty(key="type", value="ehcache"),
+                @CacheProperty(key="capacity", value="50")
+            })
+            @Table(name="Cache_limited")
+            public class LimitedCachingEntity implements CacheTestEntity {
+            
+                private long id;
+                private String name;
+            
+                @Id
+                public long getId() {
+                    return id;
+                }
+            
+                public void setId(final long id) {
+                    this.id = id;
+                }
+            
+                public String getName() {
+                    return name;
+                }
+            
+                public void setName(final String name) {
+                    this.name = name;
+                }
+            
+            }
+        </programlisting>
+
+        <para>
+            <interface>@Cache</interface> is based on Castor JDO and uses its default
+            settings: 'count-limited' as cache type with a capacity of 30 entries.
+        </para>
+
+    </section>
+
+</section>

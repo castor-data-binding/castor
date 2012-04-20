@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<entity>
+    <name>
+        <f:firstname xmlns:f="http://name.namespace">
+            <f:text>John</f:text>
+        </f:firstname>
+        <l:lastname xmlns:l="http://name.namespace">
+            <l:text>Right</l:text>
+        </l:lastname>
+    </name>
+</entity>

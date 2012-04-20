@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FooElement xmlns="http://foo.org/foo">
+    <FooSub>bar</FooSub>
+</FooElement>

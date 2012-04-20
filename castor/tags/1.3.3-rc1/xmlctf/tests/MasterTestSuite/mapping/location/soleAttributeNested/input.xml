@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<classA xmlns="castorTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<classB>
+		<parameter name="p1" value="aaa" />
+		<parameter name="p2" value="bbb" /> 
+		<parameter name="p3" value="ccc" mandatory="true" />
+	</classB>
+
+	<classC>
+		<classD id="test" />
+	</classC>
+</classA>

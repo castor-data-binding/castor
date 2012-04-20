@@ -1,0 +1,39 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test the correct reading/writing of unions in complexType</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Regression testing</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>Holger</Reporter>
+        <Date_Report>2009-03-23</Date_Report>
+        <Date_Fix>2009-03-31</Date_Fix>
+        <Comment>Name space declarations omitted for member types.</Comment>
+    </BugFix>
+
+    <SchemaTest>
+
+        <UnitTestCase>
+            <Schema>test-built-in.xsd</Schema>
+            <Comment>Schema using "xs" prefix.</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>test-built-in-default.xsd</Schema>
+            <Comment>Schema using "default" prefix.</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>test-mixed.xsd</Schema>
+            <Comment>Schema using "xs" prefix.</Comment>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>test-mixed-default.xsd</Schema>
+            <Comment>Schema using "default" prefix.</Comment>
+        </UnitTestCase>
+
+    </SchemaTest>
+</TestDescriptor>

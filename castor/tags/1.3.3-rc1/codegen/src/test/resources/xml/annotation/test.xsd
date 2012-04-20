@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="web-appType">
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+         <xsd:group ref="javaee:descriptionGroup" />
+         <xsd:element name="distributable" type="javaee:emptyType" />
+         <xsd:element name="context-param" type="javaee:param-valueType">
+            <xsd:annotation>
+               <xsd:documentation>
+                        The context-param element contains the
+                        declaration of a web application's servlet
+                        context initialization parameters.
+                    </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="filter" type="javaee:filterType" />
+         <xsd:element name="filter-mapping" type="javaee:filter-mappingType" />
+         <xsd:element name="listener" type="javaee:listenerType" />
+         <xsd:element name="servlet" type="javaee:servletType" />
+         <xsd:element name="servlet-mapping" type="javaee:servlet-mappingType" />
+         <xsd:element name="session-config" type="javaee:session-configType" />
+         <xsd:element name="mime-mapping" type="javaee:mime-mappingType" />
+         <xsd:element name="welcome-file-list" type="javaee:welcome-file-listType" />
+         <xsd:element name="error-page" type="javaee:error-pageType" />
+         <xsd:element name="jsp-config" type="javaee:jsp-configType" />
+         <xsd:element name="security-constraint" type="javaee:security-constraintType" />
+         <xsd:element name="login-config" type="javaee:login-configType" />
+         <xsd:element name="security-role" type="javaee:security-roleType" />
+         <xsd:group ref="javaee:jndiEnvironmentRefsGroup" />
+         <xsd:element name="message-destination" type="javaee:message-destinationType" />
+         <xsd:element name="locale-encoding-mapping-list" type="javaee:locale-encoding-mapping-listType" />
+      </xsd:choice>
+      <xsd:attribute name="version" type="javaee:web-app-versionType" use="required" />
+      <xsd:attribute name="id" type="xsd:ID" />
+      <xsd:attribute name="metadata-complete" type="xsd:boolean">
+         <xsd:annotation>
+            <xsd:documentation>
+                The metadata-complete attribute defines whether this
+                deployment descriptor is complete, or whether the class
+                files of the jar file should be examined for annotations
+                that specify deployment information. If
+                metadata-complete is set to "true", the deployment tool
+                must ignore any Servlet annotations present in the class
+                files of the application. If metadata-complete is not
+                specified or is set to "false", the deployment tool must
+                examine the class files of the application for
+                annotations, as specified by the Servlet specifications.
+            </xsd:documentation>
+         </xsd:annotation>
+      </xsd:attribute>
+   </xsd:complexType>
+   <xsd:schema>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp1 (http://www.altova.com) by test (EMBRACE) -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Karina Abayeva (MERRIL LYNCH) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:fpml="http://www.fpml.org/2005/FpML-4-2" xmlns="http://www.ml.com/FpML/2006/ML-1-0" targetNamespace="http://www.ml.com/FpML/2006/ML-1-0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.fpml.org/2005/FpML-4-2" schemaLocation="fpml-main-4-2.xsd"/>
+	<xsd:simpleType name="ActivityType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="New"/>
+			<xsd:enumeration value="Assignment"/>
+			<xsd:enumeration value="Partial Termination"/>
+			<xsd:enumeration value="Full Termination"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Book">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Defines book information</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="bookId" type="BookId"/>
+			<xsd:element name="bookAcronym" type="xsd:normalizedString"/>
+			<xsd:element name="bookName" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="bookVersion" type="xsd:nonNegativeInteger"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="BookId">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="bookIdScheme" type="xsd:anyURI" use="optional"/>
+				<xsd:attribute name="id" type="xsd:ID"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Branch">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Defines branch information</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="branchId" type="BranchId"/>
+			<xsd:element name="branchCode" type="xsd:normalizedString"/>
+			<xsd:element name="branchName" type="xsd:normalizedString"/>
+			<xsd:element name="branchVersion" type="xsd:nonNegativeInteger"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	<xsd:complexType name="BranchId">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="branchIdScheme" type="xsd:anyURI" use="optional"/>
+				<xsd:attribute name="id" type="xsd:ID"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="LegalEntity">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Defines entity information</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="fpml:LegalEntity">
+				<xsd:sequence>
+					<xsd:element name="entityAcronym" type="xsd:normalizedString"/>
+					<xsd:element name="entityVersion" type="xsd:nonNegativeInteger"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MarketData" abstract="true"/>
+	<xsd:complexType name="Party">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				A type that refines the generic party to add additional fields required by ML
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="fpml:Party">
+				<xsd:sequence>
+					<xsd:element name="partyAcronym" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="partyVersion" type="xsd:nonNegativeInteger" minOccurs="0"/>
+					<xsd:element name="partyBranch" type="Branch" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PCCreditPayment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Stores information about pc credit fee</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="salesPerson" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="aeNumber" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="salesCreditIndicator" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="tradeQualityIndicator" type="TradeQualityIndicator" default="C" minOccurs="0"/>
+			<xsd:element name="productCode" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="activityType" type="ActivityType" minOccurs="0"/>
+			<xsd:element name="dateProcessed" type="fpml:IdentifiedDate" minOccurs="0"/>
+			<xsd:element name="paymentAmount" type="fpml:Money" minOccurs="0"/>
+			<xsd:element name="adjustedPaymentDate" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="accountNumber" type="xsd:normalizedString" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Strategy">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Defines different strategy levels for the trade
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="superstrategy" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="strategy" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="substrategy" type="xsd:normalizedString" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TerminationPayment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Stores additional information about termination fee</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="fpml:Payment">
+				<xsd:sequence>
+					<xsd:element name="unwindAmount" type="fpml:Money" minOccurs="0"/>
+					<xsd:element name="terminationType" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="terminationTradeDate" type="fpml:IdentifiedDate" minOccurs="0"/>
+					<xsd:element name="terminationEffectiveDate" type="fpml:IdentifiedDate" minOccurs="0"/>
+					<xsd:element name="terminationSettlementDate" type="fpml:IdentifiedDate" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Trade">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				A type that refines the generic trade to add additional fields required by ML
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="fpml:Trade">
+				<xsd:sequence>
+					<xsd:element name="pcCreditPayment" type="PCCreditPayment" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="tradeComments" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="marketData" type="MarketData" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TradeHeader">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				A type that refines the generic trade header to add additional fields required by ML
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="fpml:TradeHeader">
+				<xsd:sequence>
+					<xsd:element name="tradeRegion" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="tradeType" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="tradeStatus" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="tradeVersion" type="xsd:nonNegativeInteger" minOccurs="0"/>
+					<xsd:element name="sourceSystemTradeId" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="sourceSystemId" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="lastModifiedTime" type="xsd:dateTime" minOccurs="0"/>
+					<xsd:element name="lastModifiedBy" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="MLPartyRefId" type="fpml:Reference" minOccurs="0"/>
+					<xsd:element name="CptyPartyRefId" type="fpml:Reference" minOccurs="0"/>
+					<xsd:element name="MLStrategy" type="Strategy" minOccurs="0"/>
+					<xsd:element name="CptyStrategy" type="Strategy" minOccurs="0"/>
+					<xsd:element name="creditCode" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="collateralExtensions" type="xsd:normalizedString" minOccurs="0"/>
+					<xsd:element name="book" type="Book"/>
+					<xsd:element name="intermediatedBook" type="Book" minOccurs="0"/>
+					<xsd:element name="riskEntity" type="fpml:LegalEntity" minOccurs="0"/>
+					<xsd:element name="legalEntity" type="fpml:LegalEntity" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="TradeQualityIndicator">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="B"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="D"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class identity="id" name="org.castor.cpa.test.test71.Container">
+        <map-to table="test71_container"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="prop" type="org.castor.cpa.test.test71.ContainerItem" 
+            collection="arraylist">
+            <sql many-key="item" />
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="varchar"/>
+        </field>
+    </class>
+    
+    <class identity="id" name="org.castor.cpa.test.test71.ContainerItem">
+        <map-to table="test71_container_item"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="item" type="org.castor.cpa.test.test71.Container">
+            <sql name="item"/>
+        </field>
+        <field name="value" type="string">
+            <sql name="ivalue" type="varchar"/>
+        </field>
+    </class>
+</mapping>
