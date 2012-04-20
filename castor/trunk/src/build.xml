@@ -1037,6 +1037,7 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
+<!--
         <copy todir="${build}/${archive.name}/jdo-extensions-it">
           <fileset dir="${basedir}/jdo-extensions-it">
               <exclude name="build/" />
@@ -1044,6 +1045,7 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
+-->
         <copy todir="${build}/${archive.name}/jpa-extensions-it">
           <fileset dir="${basedir}/jpa-extensions-it">
               <exclude name="build/" />
