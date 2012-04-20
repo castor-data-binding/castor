@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test96.BaseObject" identity="id">
+    <cache-type type="unlimited"/>
+    <map-to table="test96_poly_base_object" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description" type="varchar"/>
+    </field>
+    <field name="saved" type="boolean">
+      <sql name="saved" type="char[01]" />
+    </field>
+  </class>
+    
+  <class name="org.castor.cpa.test.test96.ExtendedObject" identity="id" extends="org.castor.cpa.test.test96.BaseObject">
+    <cache-type type="unlimited"/>
+    <map-to table="test96_poly_extend_object" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description2" type="string">
+      <sql name="description2" type="varchar"/>
+    </field>
+    <field name="dependent" type="org.castor.cpa.test.test96.DependentObject">
+      <sql many-key="parentId"/>
+    </field>
+  </class>
+    
+  <class name="org.castor.cpa.test.test96.DependentObject" identity="id" depends="org.castor.cpa.test.test96.ExtendedObject">
+    <cache-type type="unlimited"/>
+    <map-to table="test96_poly_depend_object"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="parent" type="org.castor.cpa.test.test96.ExtendedObject">
+      <sql name="parentId"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description" type="varchar"/>
+    </field>
+  </class>
+</mapping>

@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.cascade-creation">
+	<sectioninfo>
+		<title>How to cascade creation</title>
+<!--
+		<abstract>
+		    <para>
+			    Describes the various possibilities Castor provides to cascade object 
+			    creation
+			</para>
+		</abstract>
+		
+		Status: Draft
+-->
+	</sectioninfo>
+
+    <title>How to cascade object creation</title>
+
+    <section id="jdo.howto.cascade-creation.overview">
+        <title>Overview</title>
+
+		<para>
+		    Cascading creation allows you to transfer some of the responsibilities 
+		    of creating objects to <application>Castor JDO</application>. 
+		    To be more precise: if you enable cascading creation on a relation between 
+		    two classes, all objects on one end of that relation that have not yet 
+		    been created will be created when the other end gets persisted.
+		    This saves you from manually creating every single object, which is 
+		    especially useful when dealing with large object graphs that have 1:M 
+		    (one to many) relations or many objects in a single relationship.
+		</para>			  
+    </section>
+
+	<section id="jdo.howto.cascade-creation.enable">
+        <title>Enabling cascading creation</title>
+
+		<para>
+            To enable cascading creation on a relation, you simply set the cascading 
+            attribute of the <literal>&lt;sql&gt;</literal> field describing the 
+            relation to "<literal>create</literal>" (or "<literal>all</literal>"):
+        </para>
+
+        <para>
+            In other words, the field mapping for the Java property 
+            <emphasis>book</emphasis> ...
+        </para>
+            
+		<programlisting language="xml"><![CDATA[
+		
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" />
+</field>
+]]>     </programlisting>
+
+        <para>becomes</para>
+
+        <programlisting language="xml"><![CDATA[
+        
+<field name="book" type="myapp.Book" >
+  <sql name="book_id" cascading="create" />
+</field>
+]]>     </programlisting>
+
+        <para>
+            In case of bidirectional relations, it does matters on which end you 
+            enable cascading creation. It is also possible to enable it on both ends.
+        </para>
+	</section>
+
+	<section id="jdo.howto.cascade-creation.scenarios">
+        <title>Scenarios</title>
+
+		<section id="jdo.howto.cascade-creation.scenarios.db-create">
+            <title>db.create()</title>
+
+			<para>
+                The most intuitive case is when you explicitly call 
+                <methodname>db.create()</methodname> on an object that has cascading 
+                creation enabled on one or more of his relations. If the objects in 
+                those relationships have not yet been created, they will be as part 
+                of the <methodname>create()</methodname> execution.
+            </para>
+
+			<para>
+                Here is a simple example, where the objects Author and Book are in a 
+                one-to-one relation (i.e. every Book has exactly one Author):
+            </para>
+
+			<programlisting language="java"><![CDATA[
+			
+db.begin();
+
+Author author = new Author();
+author.setId(1);
+author.setName("John Jackson");
+
+Book book = new Book();
+book.setId(1);
+book.setTitle("My Life");
+book.setAuthor(author);
+
+db.create(book);
+
+db.commit();]]>
+            </programlisting>
+
+            <para>
+                Once the commit operation has successfully completed, both the 
+                <classname>Author</classname> and the <classname>Book</classname> 
+                instance will have been persisted to your data store. To highlight 
+                this, lets's have a look at the corresponding database tables 
+                <emphasis>before</emphasis> and <emphasis>after</emphasis> the 
+                execution of above code fragment.
+            </para>
+
+			<para><emphasis role="bold">Before</emphasis></para>
+			
+			<para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#7270c2"?>
+					<title>Author</title>
+						
+					<tgroup cols="2">
+					    <colspec colname="c1" />
+					    <colspec colname="c2" />
+					    
+						<thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>name</entry>
+							</row>
+					    </thead>
+					    
+					    <tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry namest="c1" nameend="c2">(empty table)</entry>
+							</row>
+				        </tbody>
+					</tgroup>
+				</table>
+            </para>
+
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Book</title>
+				                    
+				    <tgroup cols="3">
+                        <colspec colname="c1" />
+                        <colspec colname="c2" />
+                        <colspec colname="c3" />
+                        
+                        <thead>
+							<row>
+								<?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>title</entry>
+								<entry>author_id</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+								<?dbhtml bgcolor="#DEDEDE"?>
+								<entry namest="c1" nameend="c3">(empty table)</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+				
+			<para><emphasis role="bold">After</emphasis></para>
+
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Author</title>
+				    
+                    <tgroup cols="2">
+                        <thead>
+							<row>
+								<?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>name</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+								<?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"John Jackson"</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+                
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Book</title>
+				    
+                    <tgroup cols="3">
+                        <thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>title</entry>
+								<entry>author_id</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"My Life"</entry>
+								<entry>1</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+		</section>
+
+		<section id="jdo.howto.cascade-creation.scenarios.db-commit">
+            <title>db.commit()</title>
+
+			<para>
+                Cascading creation also works implicitly: any objects that are on the 
+                receiving end of a cascaded relation will be created upon transaction 
+                commit, provided they do not exist yet and that the object on the 
+                primary end of that relation does. In other words: if you modify a 
+                relation property of a loaded object, any new objects that now need 
+                to be created will be created.
+            </para>
+
+			<para>
+                To demonstrate, let's continue the example from the previous section.
+				We, again, have a <database class="table">Book</database> and an 
+				<database class="table">Author</database>, in a one-to-one relation, 
+				both already persisted. If we now change the book's author to someone 
+				new, any object that is not yet in the database will be persisted 
+				automatically. Just call <methodname>db.commit()</methodname> after 
+				setting the new author, and the new author will be persisted as well.
+            </para>
+
+			<programlisting language="java"><![CDATA[
+			
+db.begin();
+
+Author author = new Author();
+author.setId(2);
+author.setName("Bruce Willis");
+
+Book book = db.load(Book.class, 1);
+book.setAuthor(author);
+
+db.commit();]]>
+        </programlisting>
+
+            <para>
+                In terms of unit test assertions, the current state of the author and 
+                book instances can be expressed as follows:
+            </para>
+                
+            <programlisting language="java">
+            
+db.begin();
+
+Book book = db.load(Book.class, 1);
+assertNotNull(book);
+assertEquals(1, book.getId());
+
+Author author = book.getAuthor();
+assertNotNull(author);
+assertEquals(2, book.getId());
+
+db.commit();</programlisting>
+                
+            <para>
+                As above, let's have a look at the corresponding database tables for 
+                the entities <classname>Author</classname> and 
+                <classname>Book</classname>: 
+            </para>
+
+    		<para><emphasis role="bold">Before</emphasis></para>
+
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Author</title>
+				    
+                    <tgroup cols="2">
+                        <thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>name</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"John Jackson"</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+		    </para>
+                
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Book</title>
+				    
+                    <tgroup cols="3">
+                        <thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>title</entry>
+								<entry>author_id</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"My Life"</entry>
+								<entry>1</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+				
+			<para><emphasis role="bold">After</emphasis></para>
+
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Author</title>
+				    
+                    <tgroup cols="2">
+                        <thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>name</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"John Jackson"</entry>
+							</row>
+							<row>
+								<entry>2</entry>
+								<entry>"Bruce Willis"</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+                
+            <para>
+				<table frame="all" cellspacing="0" cellpadding="6">
+					<?dbhtml bgcolor="#ededed"?>
+				    <title>Book</title>
+				    
+                    <tgroup cols="3">
+                        <thead>
+							<row>
+							    <?dbhtml bgcolor="#7270c2"?>
+								<entry>id</entry>
+								<entry>title</entry>
+								<entry>author_id</entry>
+							</row>
+						</thead>
+						
+						<tbody>
+							<row>
+							    <?dbhtml bgcolor="#DEDEDE"?>
+								<entry>1</entry>
+								<entry>"My Life"</entry>
+								<entry>2</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+                
+            <para>
+                Please note that we now have two authors stored, and that the book 
+                with an id value of '1' now has a foreign key relationship to the 
+                author with the id value '2'.
+            </para>
+		</section>
+
+		<section id="jdo.howto.cascade-creation.scenarios.collections">
+            <title>Cascading create and collections</title>
+
+			<para>
+                The real benefit of using cascading for object creation shows when 
+                dealing with 1:M relations, usually expressed through Java collections 
+                in your entity classes.
+            </para>
+
+			<para>
+                For the remainder of this secction, we will use the Java classes 
+                <classname>Department</classname> and <classname>Employee</classname>, 
+                which have a 1:M relationship (in other words, every department has 
+                one or more employees). On the Java side, this is expressed as the 
+                <classname>Department</classname> having a collection of 
+                <classname>Employee</classname> objects in form of a Java collection. 
+                In the database, this will obviously be the other way around, with the 
+                <database class="table">emp</database> table referencing the 
+                <database class="table">dept</database> table. Every example in this 
+                section will use the same database state as a starting point, as 
+                shown here:
+            </para>
+				
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>dept</title>
+			    
+                <tgroup cols="2">
+                    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>23</entry>
+							<entry>"Accounting"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>emp</title>
+			    
+                <tgroup cols="3">
+                    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+							<entry>dept_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>1</entry>
+							<entry>"John"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>"Paul"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>3</entry>
+							<entry>"Ringo"</entry>
+							<entry>23</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+				
+			<para><emphasis role="bold">Example 1: Adding objects</emphasis></para>
+
+			<programlisting language="java">
+			
+db.begin();
+
+Employee employee = new Employee();
+employee.setId(4);
+employee.setName("George");
+
+Department department = db.load(Department.class, 23);
+department.getEmployees().add(employee);
+
+db.commit();
+        </programlisting>
+			
+			<para><emphasis role="bold">After</emphasis></para>
+			
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>dept</title>
+			    
+                <tgroup cols="2">
+                    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>23</entry>
+							<entry>"Accounting"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>emp</title>
+			    
+                <tgroup cols="3">
+                    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+							<entry>dept_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>1</entry>
+							<entry>"John"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>"Paul"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>3</entry>
+							<entry>"Ringo"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<entry>4</entry>
+							<entry>"George"</entry>
+							<entry>23</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<para><emphasis role="bold">Example 2: Removing objects</emphasis></para>
+				
+			<programlisting language="java">
+			
+db.begin();
+
+Department department = db.load(Department.class, 23);
+department.getEmployees().remove(2);
+
+db.commit();
+            </programlisting>
+			
+			<para><emphasis role="bold">After</emphasis></para>
+			
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>dept</title>
+			    
+                <tgroup cols="2">
+                    <thead>
+						<row>
+						    <?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>23</entry>
+							<entry>"Accounting"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>emp</title>
+			    
+                <tgroup cols="3">
+                    <thead>
+						<row>
+							<?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+							<entry>dept_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+							<?dbhtml bgcolor="#DEDEDE"?>
+							<entry>1</entry>
+							<entry>"John"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>"Paul"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+						    <?dbhtml bgcolor="#DEDEDE"?>
+							<entry>3</entry>
+							<entry>"Ringo"</entry>
+							<entry>NULL</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>				
+				
+            <note>
+			    <para>
+                    this of course only works if you allow the employee's foreign 
+                    key <database class="foreignkey">dept_id</database> to be 
+                    <literal>NULL</literal> or, alternatively, also delete the Employee 
+                    when you remove the relationship (either by manually calling 
+                    <methodname>db.remove()</methodname> or <emphasis>TODO</emphasis>)
+                </para>
+            </note>
+				
+			<para>
+			    <emphasis role="bold">Example 3: Adding &amp; removing 
+			    objects</emphasis>
+			</para>
+				
+			<programlisting language="java"><![CDATA[
+			
+db.begin();
+
+Employee e4 = new Employee();
+e4.setId(4);
+e4.setName("George");
+
+Employee e5 = new Employee();
+e5.setId(5);
+e5.setName("Joe");
+
+Employee e6 = new Employee();
+e6.setId(6);
+e6.setName("Jack");
+
+Department dep = db.load(Department.class, 23);
+dep.setEmployees(Arrays.asList(e4, e5, e6));
+
+db.commit();]]>
+            </programlisting>
+			
+			<para>Database after:</para>
+			
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>dept</title>
+			    
+                <tgroup cols="2">
+                    <thead>
+						<row>
+							<?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+							<?dbhtml bgcolor="#DEDEDE"?>
+							<entry>23</entry>
+							<entry>"Accounting"</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<table frame="all" cellspacing="0" cellpadding="6">
+				<?dbhtml bgcolor="#ededed"?>
+			    <title>emp</title>
+			    
+                <tgroup cols="3">
+                    <thead>
+						<row>
+							<?dbhtml bgcolor="#7270c2"?>
+							<entry>id</entry>
+							<entry>name</entry>
+							<entry>dept_id</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+							<?dbhtml bgcolor="#DEDEDE"?>
+							<entry>1</entry>
+							<entry>"John"</entry>
+							<entry>NULL</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>"Paul"</entry>
+							<entry>NULL</entry>
+						</row>
+						<row>
+							<?dbhtml bgcolor="#DEDEDE"?>
+							<entry>3</entry>
+							<entry>"Ringo"</entry>
+							<entry>NULL</entry>
+						</row>
+						<row>
+							<entry>4</entry>
+							<entry>"George"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<?dbhtml bgcolor="#DEDEDE"?>
+							<entry>5</entry>
+							<entry>"Joe"</entry>
+							<entry>23</entry>
+						</row>
+						<row>
+							<entry>6</entry>
+							<entry>"Jack"</entry>
+							<entry>23</entry>
+						</row>
+				</tbody>
+				</tgroup>
+			</table>	
+				
+			<para>The note to example 2 also applies here.</para>
+				
+		</section>			
+	</section>
+
+	<section id="jdo.howto.cascade-creation.see-also">
+        <title>See also</title>
+
+		<itemizedlist>
+			<listitem>
+			   <para>
+					<link linkend="jdo.howto.use-cascading-operations.overview">How to use 
+					cascading operations - overview</link>
+		       </para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</section>

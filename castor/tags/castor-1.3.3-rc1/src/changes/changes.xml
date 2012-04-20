@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xi="http://www.w3.org/2001/XInclude"
+   xsi:schemaLocation="http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+   <properties>
+      <title>Castor - Release Notes</title>
+      <author email="wguttmn@codehaus.org">Werner Guttmann</author>
+   </properties>
+   <body>
+ 
+ <!-- 
+      <xi:include href="changes.1.3.1.xml" />
+ -->
+      
+      <release version="1.3.1" date="2009-11-11" description="Feature release">
+         <action dev="wguttmn" type="add">
+            Refactored reporting tools usage in Maven POM.
+         </action>
+         <action dev="rjoachim" type="fix" issue="CASTOR-2857">
+            Tbd.
+         </action>
+      </release>
+ 
+      <release version="1.3.0.1" date="2009-09-04" description="Maintenance release">
+         <action dev="wguttmn" type="fix">
+            Fixed problem with source distro files that prevented users from being able to build Castor themselves.
+         </action>
+         <action dev="wguttmn" type="fix">
+            Removed any references to 'maven.net' Maven repositories.
+         </action>
+      </release>
+   </body>
+</document>

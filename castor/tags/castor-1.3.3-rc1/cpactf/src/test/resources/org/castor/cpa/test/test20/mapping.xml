@@ -1,0 +1,226 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test20.MaxObject" identity="id" key-generator="MAX">
+    <description>Table used for MAX key generator testing</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.MaxExtends" extends="org.castor.cpa.test.test20.MaxObject">
+    <description>Table used for MAX key generator testing</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowObject" identity="id" key-generator="HIGH-LOW">
+    <description>Table used for HIGH-LOW key generator testing</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowExtends" extends="org.castor.cpa.test.test20.HighLowObject">
+    <description>Table used for HIGH-LOW key generator testing</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowObjectSameConnection" identity="id" key-generator="HLSC">
+    <description>Table used for HIGH-LOW key generator testing with same-connection=true</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowExtendsSameConnection" extends="org.castor.cpa.test.test20.HighLowObjectSameConnection">
+    <description>Table used for HIGH-LOW key generator testing with same-connection=true</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowObjectGlobal" identity="id" key-generator="HLG">
+    <description>Table used for HIGH-LOW key generator testing with global=true</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.HighLowExtendsGlobal" extends="org.castor.cpa.test.test20.HighLowObjectGlobal">
+    <description>Table used for HIGH-LOW key generator testing with global=true</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.SequenceObjectString" identity="id" key-generator="SEQUENCE">
+    <description>Table used for SEQUENCE key generator testing with Strings</description>
+    <map-to table="test20_keygen_string" />
+    <field name="id" type="string">
+      <sql name="id" type="varchar" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.SequenceExtendsString" extends="org.castor.cpa.test.test20.SequenceObjectString">
+    <description>Table used for SEQUENCE key generator testing with Strings</description>
+    <map-to table="test20_keygen_ext_string" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.IdentityObject" identity="id" key-generator="IDENTITY">
+    <description>Table used for IDENTITY key generator testing</description>
+    <map-to table="test20_identity" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.IdentityExtends" extends="org.castor.cpa.test.test20.IdentityObject">
+    <description>Table used for IDENTITY key generator testing</description>
+    <map-to table="test20_identity_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.SequenceObject" identity="id" key-generator="SEQUENCE">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.SequenceExtends" extends="org.castor.cpa.test.test20.SequenceObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.ReturningObject" identity="id" key-generator="RETURNING">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.ReturningExtends" extends="org.castor.cpa.test.test20.ReturningObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.TriggerObject" identity="id" key-generator="TRIGGER">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_trigger" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.TriggerExtends" extends="org.castor.cpa.test.test20.TriggerObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test20_trigger_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.UuidObject" identity="id" key-generator="UUID">
+    <description>Table used for UUID key generator testing</description>
+    <map-to table="test20_uuid" />
+    <field name="id" type="string">
+      <sql name="id" type="char" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test20.UuidExtends" extends="org.castor.cpa.test.test20.UuidObject">
+    <description>Table used for UUID key generator testing</description>
+    <map-to table="test20_uuid_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <key-generator name="HIGH-LOW">
+    <param name="table" value="test20_seqtable"/>
+    <param name="key-column" value="table_name"/>
+    <param name="value-column" value="max_id"/>
+    <param name="grab-size" value="1000"/>
+  </key-generator>
+  
+  <key-generator name="HIGH-LOW" alias="HLSC">
+    <param name="table" value="test20_seqtable"/>
+    <param name="key-column" value="table_name"/>
+    <param name="value-column" value="max_id"/>
+    <param name="grab-size" value="1000"/>
+    <param name="same-connection" value="true"/>
+  </key-generator>
+
+  <key-generator name="HIGH-LOW" alias="HLG">
+    <param name="table" value="test20_seqtable"/>
+    <param name="key-column" value="table_name"/>
+    <param name="value-column" value="max_id"/>
+    <param name="grab-size" value="1000"/>
+    <param name="global" value="true"/>
+    <param name="global-key" value="KEY"/>
+  </key-generator>
+
+  <key-generator name="SEQUENCE" alias="RETURNING">
+    <param name="returning" value="true"/>
+  </key-generator>
+
+  <key-generator name="SEQUENCE" alias="TRIGGER">
+    <param name="trigger" value="true"/>
+  </key-generator>
+</mapping>

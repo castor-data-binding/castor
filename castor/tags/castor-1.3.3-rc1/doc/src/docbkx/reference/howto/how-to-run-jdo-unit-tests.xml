@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+     
+<section id="jdo.howto.jdo-unit-tests">
+    <sectioninfo>
+	    <title>How to run Castor JDO's database independend unit tests</title>
+<!--
+	    <abstract>
+	       <para>
+	         General information about running Castor JDO's database independend unit tests
+	       </para>
+	    </abstract>
+	    
+	    Status: Final
+-->
+    </sectioninfo>
+
+    <title>How to run Castor JDO's database independend unit tests</title>
+    
+	<section id="jdo.howto.jdo-unit-tests.overview">
+	  <title>Overview</title>
+	  
+      <para>At the time of this writing Castor JDO has 3 kinds of test suites:</para>
+      
+      <itemizedlist>
+        <listitem><para>Database independend plan unit tests.</para></listitem>
+        
+        <listitem>
+          <para>
+            A JUnit based test suite that is used to test various functional areas 
+            against different database engines to give developers/committers some 
+            reassurance when changing the codebase.
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            A Junit based test suite to evaluate impact of changes on performance.
+          </para>
+        </listitem>
+      </itemizedlist>
+      
+      <para>
+        This document provides general information about running Castor JDO's database 
+        independend unit tests.
+      </para>
+    </section>
+    
+    <section id="jdo.howto.jdo-unit-tests.prerequisites">
+      <title>Prerequisites</title>
+      
+      <para>
+        See: <link linkend="jdo.howto.setup-eclipse-castor-project">How to setup Castor 
+        project in eclipse</link>
+      </para>
+    </section>
+
+    <section id="jdo.howto.jdo-unit-tests.execute-in-eclipse">
+      <title>Execute tests in eclipse</title>
+      
+      <para>
+        To execute tests in eclipse, go and right click on 
+        <filename class="directory">cpa/src/test/java</filename> source folder and select 
+        <literal>"Run As -> JUnit Test"</literal>.
+      </para>
+    </section>
+    
+    <section id="jdo.howto.jdo-unit-tests.references">
+      <title>References</title>
+      
+      <itemizedlist>
+        <listitem>
+          <para>
+            <link linkend="jdo.howto.setup-eclipse-castor-project">How to setup Castor 
+            project in eclipse</link>
+          </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+</section>

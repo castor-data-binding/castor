@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<!--
+4.3.7.4 Constraints on maxInclusive Schema Components
+  Schema Component Constraint: maxInclusive valid restriction
+    It is an error if any of the following conditions is true:
+    [3] minInclusive is among the members of {facets}
+        of {base type definition} and {value} is less than
+        the {value} of the parent minInclusive 
+
+http://www.w3.org/TR/xmlschema-2/#maxInclusive-valid-restriction
+-->
+
+	<xsd:simpleType name="st1">
+		<xsd:restriction base="xsd:long">
+			<xsd:minInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="st2">
+		<xsd:restriction base="st1">
+			<xsd:maxInclusive value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ct1">
+		<xsd:attribute name="a1" type="st2" use="optional"/>
+	</xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://elementa.net/elementa"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="ROOT">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ELEMENTA" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ELEMENTA">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="a" />
+                <xs:enumeration value="b" />
+                <xs:enumeration value="c" />
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+</xs:schema>

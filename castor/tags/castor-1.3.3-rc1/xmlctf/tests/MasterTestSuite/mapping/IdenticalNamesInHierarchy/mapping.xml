@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="a.TestClass">
+        <map-to xml="test-classa" />
+    </class>
+    <class name="b.TestClass" extends="a.TestClass">
+        <map-to xml="test-classb" />
+        <field name="additionalData" type="string"/>
+    </class>
+    <class name="Container">
+        <field name="list" type="a.TestClass" collection="arraylist"/>
+    </class>
+</mapping>

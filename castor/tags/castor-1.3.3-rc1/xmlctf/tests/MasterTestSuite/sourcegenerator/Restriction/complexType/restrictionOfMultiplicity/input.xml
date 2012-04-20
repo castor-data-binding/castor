@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SampleRq xmlns="http://castortest/sample/" reqID="1">
+    <Email>
+        <Create EmailID="1111">
+            <UsageContext>application1</UsageContext>
+            <EmailAddress>test@test.com</EmailAddress>
+        </Create>
+    </Email>
+</SampleRq>

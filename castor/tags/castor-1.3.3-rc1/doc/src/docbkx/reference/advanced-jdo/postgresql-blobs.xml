@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="advanced-jdo.postgresql-blobs">
+    <title>Blobs in PostgreSQL</title>
+
+    <section id="advanced-jdo.postgresql-blobs.oid-support">
+	     <title>OID Support</title>
+	      
+	     <para>
+		     PostgreSQL's blob support has evolved over the years. Today
+		     PostgreSQL fields can be of unlimited length. And there are
+		     specific data types for character and binary large objects. 
+		     The current Castor support for blobs, however, uses an earlier
+		     PostgreSQL blob support. This support places the blob data in
+		     the pg_largeobject table and a object id in the referring
+		     table. For most practical purposes using this earlier support
+		     does not matter.
+	     </para>
+	      
+	     <para>
+		     Database version and the JDBC driver version matter greatly. To get
+		     everything to work I eventually built and installed PostgreSQL 7.2.2 and
+		     used the JDBC driver from this build (i.e. not the one from
+		     <ulink url="http://jdbc.postgresql.org/">http://jdbc.postgresql.org</ulink>.
+	     </para>
+	
+	     <para>
+		     Since Castor is using the earlier blob support the JDBC has to be
+		     placed in PostgreSQL 7.1 comparability mode. To do this use the
+		     following JDBC URL
+	     </para>
+	
+	     <programlisting>
+	      jdbc:postgresql://host:port/database?compatible=7.1<!--  
+-->      </programlisting>
+	
+	     <para>
+		     Once you have resolved the PostgreSQL version issues Castor
+		     works as documented.
+	     </para>
+      </section>
+      
+      <section id="advanced-jdo.postgresql-blobs.oid-example">
+        <title>OID Example</title>
+        
+	    <para>
+	      Here are the details of an example configuration.
+	    </para>
+	
+	    <programlisting>
+	      Client Windows 2000, Sun Java Standard Edition 1.3.1_03, Castor 0.9.3.21
+	      Server RedHat 7.2, PostgreSQL 7.2.2<!--  
+-->     </programlisting>
+	
+	    <para>
+	      The interface I am using is
+	    </para>
+	
+	    <programlisting language="java">
+	    
+	    public interface Document {
+	        String      getTitle();
+	        void        setTitle( String title );
+	        Date        getCreatedOn();
+	        void        setCreatedOn( Date createdOn );
+	        String      getContentType();
+	        void        setContentType( String contentType );
+	        InputStream getContent();
+	        void        setContent( InputStream content );
+	    }
+	    </programlisting>
+	
+	    <para>
+	      and this is implemented by the class <classname>DocumentImpl</classname>.
+	    </para>
+	
+	    <para>The mapping file is</para>
+	
+	    <programlisting language="xml">
+	    <![CDATA[
+  <?xml version="1.0"?>
+    <mapping>
+     <class
+         name="com.ingenta.DocumentImpl"
+         identity="id"
+         key-generator="SEQUENCE" >
+         <description />
+         <cache-type type="none" />  
+         <map-to table="documents" />
+         <field name="id" type="integer" >
+             <sql name="id" type="integer" dirty="check" required="true"/>
+         </field>
+         <field name="title" type="string">
+             <sql name="title" type="longvarchar" dirty="check" />
+         </field>
+         <field name="createdOn" type="date">
+             <sql name="createdon" type="date" dirty="check" />
+         </field>
+         <field name="contentType" type="string">
+             <sql name="contenttype" type="longvarchar" dirty="check" />
+         </field>
+         <field name="content" type="stream">
+             <sql name="content" type="blob" dirty="ignore" />
+         </field>
+     </class>
+ </mapping>
+	 ]]></programlisting>
+	
+	    <para>Note that the blob is not dirty checked.</para>
+	
+	    <para>And the SQL is</para>
+	
+	    <programlisting>
+	    
+    create table documents (
+        id          serial    not null,
+        title       text      null,
+        createdon   timestamp null,
+        contenttype text      null,
+        content     oid       null,
+        primary key ( id )
+    );
+	    </programlisting>
+	
+	    <para>
+		    Castor caches objects between transactions for performance. With
+		    a blob however the cached object's InputStream is not
+		    reusable. To workaround this I have told the cache to not cache
+		    any objects of this class by adding to the class mapping, as
+		    noted above.
+	    </para>
+    </section>
+</section>
+
+
+
+

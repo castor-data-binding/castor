@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/srcgen-maven-plugin.xml">
+
+  <properties>
+    <title>The Maven plugin for the Castor XML Code Generator</title>
+    <abstract>
+       Describes how to use the Maven 2 plugin for the Castor XML Code Generator.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>Using the Maven 2 plugin for the Castor XML Code Generator</title>
+
+    <section title="Maven 2 plugin for the Castor XML code generator">
+
+      <p>
+        For those of you working with Maven 2 instead of Ant, the Maven 2 plugin for Castor 
+        can be used to integrate source code generation from XML schemas with the Castor XML
+        code generator as part of the standard Maven build life-cycle. The following sections
+        show how to configure the Maven 2 Castor plugin and hwo to instruct Maven 2
+        to generate sources from your XML schemas.</p>
+
+		<section title="Configuration">
+
+        	<p>To be able to start source code generation from XML schema from within Maven, 
+        	   you will have to configure the Maven 2 Castor plugin as follows:</p>
+
+	        <code-panel><![CDATA[
+<plugin>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>castor-maven-plugin</artifactId>
+   <version>1.0</version>
+</plugin>
+]]></code-panel>
+
+			<p>Above configuration will trigger source generation using the default
+			   values as explained at the 
+			   <a href="http://mojo.codehaus.org/castor-maven-plugin/howto.html">Castor plugin page</a>, 
+			   assuming that the XML schema(s) are located at <tt>src/main/castor</tt>, and code will 
+			   be saved at <tt>target/generated-sources/castor</tt>. When generating sources
+			   for multiple schemas at the same time, you can put namespace to 
+			   package mappings into <tt>src/main/castor/castorbuilder.properties</tt>.</p>
+			   
+			<p>To e.g. change some of these default locations, please add a 
+			   &lt;configuration&gt; section to the plugin configuration as 
+			   follows:</p>
+
+	        <code-panel><![CDATA[
+<plugin>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>castor-maven-plugin</artifactId>
+   <version>1.0</version>
+   <configuration>
+      <schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
+      <packaging>org.exolab.castor.builder.binding</packaging>
+      <properties>src/main/resources/org/exolab/castor/builder/binding.generation.properties</properties>
+   </configuration>
+ </plugin>		
+]]></code-panel>
+
+			<p>Details on the available configuration properties can be found 
+			<a href="http://mojo.codehaus.org/castor-maven-plugin/generate-mojo.html">here</a>.</p>
+
+			<p>By default, the Maven Castor plugin has been built and tested against 
+			   a particular version of Castor. To switch to a newer version of Castor (not the
+			   plugin itself), please use a &lt;dependencies&gt; section as shown below
+			   to point the plugin to e.g. a newer version of Castor:</p>
+			   
+	        <code-panel><![CDATA[
+<plugin>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>castor-maven-plugin</artifactId>
+   <version>1.0</version>
+   <dependencies>
+     <dependency> 
+       <groupId>org.codehaus.castor</groupId>
+       <artifactId>castor</artifactId>
+       <version>1.1-M3-SNAPSHOT</version>
+     </dependency>
+   </dependencies>
+ </plugin>		
+]]></code-panel>
+
+		</section>
+
+		<section title="Integration into build life-cycle">%
+		
+			<p>To integrate source code generation from XML schema into your standard
+               build life-cycle, you will have to add an &lt;executions&gt; section 
+               to your standard plugin configuration as follows:</p>
+
+	        <code-panel><![CDATA[
+<plugin>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>castor-maven-plugin</artifactId>
+   <version>1.0</version>
+   <executions>
+      <execution>
+    	 <goals>
+     		<goal>generate</goal>
+    	 </goals>
+      </execution>
+   </executions>	        
+</plugin>		
+]]></code-panel>
+               
+        </section>
+
+		<section title="Example">
+
+        	<p>Below command shows how to instruct Maven (manually) to generate Java sources
+               from the XML schemas as configured above.</p>
+
+	        <code-panel><![CDATA[
+> mvn castor:generate]]></code-panel>
+
+		</section>
+		
+
+    </section>
+
+  </body>
+
+</document>

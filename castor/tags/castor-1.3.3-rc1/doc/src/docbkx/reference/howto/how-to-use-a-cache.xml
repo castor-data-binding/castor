@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+     
+<section id="jdo.howto.use-a-cache">
+    <sectioninfo>
+      <title>How to use a (performance) cache with Castor</title>
+<!--
+      <abstract>
+         <para>General information about using performance caches with Castor</para>
+      </abstract>
+      Status: Final
+-->
+    </sectioninfo>
+
+    <title>How to use a (performance) cache with Castor</title>
+
+    <section id="jdo.howto.use-a-cache.intended-audience">
+        <title>Intended Audience</title>
+
+        <para>
+            Anyone who wants to enable caching for classes already mapped with 
+            <application>Castor JDO</application>.
+        </para>
+        
+        <para>
+            This document addresses the basics to get people familiar with the basic 
+            concepts and discusses some implementation details.
+        </para>
+
+        <para>
+            The example given describes the addition of a 
+            <literal>&lt;cache-type&gt;</literal> element to an existing class mapping.
+        </para>
+    </section>
+    
+    <section id="jdo.howto.use-a-cache.prerequisites">
+        <title>Prerequisites</title>
+
+        <para>
+            You should have a valid class mapping for a Java class, similar to the 
+            following one:
+        </para>
+
+        <programlisting language="xml">
+        
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+        </programlisting>
+    </section>
+
+    <section id="jdo.howto.use-a-cache.steps">
+        <title>Steps</title>
+
+        <para>Here is how to proceed.</para>
+
+        <section id="jdo.howto.use-a-cache.steps.add-cache-type-element-to-mapping">
+            <title>Add &lt;cache-type&gt; element to class mapping</title>
+
+            <para>
+                Add a &lt;cache-type&gt; element as shown below, specifying the cache 
+                provider to use in the 'type' attribute.
+            </para>
+
+            <programlisting language="xml">
+            
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        <emphasis>&lt;cache-type type="time-limited"/&gt;</emphasis>
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+            </programlisting>
+
+            <para>
+                This, for example, defines the 'time-limited' cache provider to be 
+                used for the <classname>com.xyz.MyOtherObject</classname>. This cache 
+                provider applies internally a time-limited least-recently-used 
+                algorithm for <classname>com.xyz.MyObject</classname> instances.
+            </para>
+        </section>
+    </section>
+    
+    <section id="jdo.howto.use-a-cache.tips">
+        <title>Tips</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    With the current release, performance caches also serve a dual 
+                    purpose as dirty checking caches for 
+                    <link linkend="advanced-jdo.long-transactions">long-transactions</link>. 
+                    This limitation implies that the object's duration in the 
+                    performance cache determines the allowed time span of a long 
+                    transaction. This might become an issue when performance caches 
+                    of type '<literal>count-limited</literal>' or 
+                    '<literal>time-limited</literal>' are being used, as objects will 
+                    eventually be disposed. If an application tries to update an 
+                    object that has been disposed from the dirty checking cache, an 
+                    ObjectModifedException will be thrown.
+                </para>
+            </listitem>
+        </itemizedlist>    
+    </section>
+
+
+    <section id="jdo.howto.use-a-cache.references">
+        <title>References</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <link linkend="advanced-jdo.long-transactions">Long 
+                    transactions</link>
+                </para>
+            </listitem>
+            
+            <listitem>
+                <para><link linkend="advanced-jdo.caching">Caching</link></para>
+            </listitem>
+            
+            <listitem>
+                <para>
+                    <link linkend="advanced-jdo.caching.configuration.clustered-environments">Caching 
+                    and clustered environments</link>
+                </para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</section>

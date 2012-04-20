@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <!-- Enable transaction support using Annotations -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="classDescriptorResolver"
+        class="org.castor.spring.orm.ClassDescriptorResolverFactoryBean">
+        <property name="classes">
+            <list>
+                <value>org.castor.jpa.scenario.callbacks.LifeForm</value>
+                <value>org.castor.jpa.scenario.callbacks.Martian</value>
+                <value>org.castor.jpa.scenario.callbacks.Animal</value>
+                <value>org.castor.jpa.scenario.callbacks.Pet</value>
+                <value>org.castor.jpa.scenario.callbacks.Dog</value>
+                <value>org.castor.jpa.scenario.callbacks.GoldenRetriever</value>
+                <value>org.castor.jpa.scenario.callbacks.Foo</value>
+                <value>org.castor.jpa.scenario.callbacks.Bar</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+    </bean>
+
+    <bean id="transactionManager" class="org.castor.spring.orm.CastorTransactionManager">
+        <property name="JDOManager" ref="jdoManager" />
+    </bean>
+
+    <bean id="jdoManager" class="org.castor.spring.orm.LocalCastorFactoryBean">
+        <property name="databaseName" value="testSimple" />
+        <property name="configLocation"
+            value="classpath:org/castor/jpa/scenario/callbacks/derby-jdo-conf.xml" />
+        <property name="classDescriptorResolver" ref="classDescriptorResolver" />
+        <property name="callbackInterceptor" ref="jpaCallbackHandler" />
+    </bean>
+
+    <bean id="jpaCallbackHandler" class="org.castor.cpa.jpa.info.JPACallbackHandler" />
+
+</beans>

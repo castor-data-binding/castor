@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE schema PUBLIC "-//W3C/DTD XML Schema Version 1.0//EN"
+                        "http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd"-->
+<!-- Schema for Order Entry System import -->
+<xsd:schema xmlns:xsd="http://www.w3.org/1999/XMLSchema"
+            targetNamespace="http://castor.exolab.org/OES"
+            oes:xmlns="http://castor.exolab.org/OES"
+            version="0.1">
+
+<!--
+  schema
+    type ( name, content, source )
+      annotation
+      group ( name, collection, maxOccurs, minOccurs, order )
+        element
+        group
+      element
+      attribute ( name, default, type, minOccurs )
+        annotation
+    element ( ref, name, type, minOccurs, maxOccurs, schemaAbbrev, schemaName )
+      annotation
+      type
+      datetype
+    datatype ( name, source )
+      annotation
+      enumeration ( value )
+      maxExclusive ( value )
+      minExclusive ( value )
+      maxInclusive ( value )
+      minInclusive ( value )
+
+  annotation
+    info ( source )
+    appinfo ( source )
+ -->
+
+</xsd:schema>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<class name="ClassA">
+		<map-to xml="classA" ns-uri="castorTest" />
+		<field name="b" type="ClassB">
+			<bind-xml name="classB" node="element" />
+		</field>
+		<field name="c" type="ClassC">
+			<bind-xml name="classC" node="element" />
+		</field>
+	</class>
+
+	<class name="ClassB">
+		<map-to xml="classB" ns-uri="castorTest" />
+		<field name="parameters" collection="map">
+			<bind-xml name="parameter" node="element">
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="string">
+						<bind-xml name="name" node="attribute" />
+					</field>
+					<field name="value" type="string">
+						<bind-xml name="value" node="attribute" />
+					</field>
+				</class>
+			</bind-xml>
+		</field>
+	</class>
+
+
+	<class name="ClassC">
+		<map-to xml="classC" ns-uri="castorTest" />
+		<field name="id" type="string">
+			<bind-xml location="classD" name="id" node="attribute" />
+		</field>
+	</class>
+
+</mapping>

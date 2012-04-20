@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="jdo.extensions">
+  <title>SOLRJ extensions for the Castor XML code generator</title>
+
+<!-- 
+    <section id="jdo.extensions.news">
+        <title>News</title>
+
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Castor 1.3</emphasis>: JDO extensions released.</para>
+            </listitem>
+        </itemizedlist>    
+    </section>
+ -->
+   
+  <section id="solrj.extensions.why">
+    <title>SOLRJ extensions - Motivation</title>
+    
+    <para>
+        With Castor 1.2 and previous releases it was already possible to 
+        generate Java classes from an XML schema and use these classes 
+        for XML data binding <emphasis role="bold">without</emphasis> having 
+        to write a mapping file. 
+    </para>
+    
+    <para>
+        This is possible because the Castor XML code generator generated - in 
+        addition to the domain classes - a set of XML descriptor classes as well,
+        with one descriptor class generated per generated domain class. It's this 
+        XML descriptor class that holds all the information required to map Java 
+        classes and/or field members to XML artifacts, as set out in the original
+        XML schema definitions. This includes ....    
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>artefact names</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace URIs</para>
+        </listitem>
+        <listitem>
+            <para>XML namespace prefix</para>
+        </listitem>
+        <listitem>
+            <para>validation code</para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        The <emphasis role="italic">SOLRJ extensions for the Castor XML code generator</emphasis>
+        extend the code generator in such a way that the set of domain classes is
+        augmented with SOLRJ-specific <literal>@Field</literal> annotations.
+    </para>
+    
+    <para>
+        The following sections introduce the general principles, define the XML schema 
+        artifacts available to annotate an existing XML schema and highlight the 
+        usage of these artifacts by providing examples.
+    </para>  
+    
+  </section>
+  
+  <section id="solrj.extensions.prerequisites">
+    <title>Prerequisites</title>
+    
+    <para>
+        To facilitate the detailed explanations in the following 
+        sections, we now define a few &lt;complexType&gt; definitions
+        that we want to be able to store in a SOLR index in addition to vanilla XML
+        data binding funtionality.
+    </para>
+                
+    <section id="solrj.extensions.prerequisites.xml.schemas">
+        <title>Sample XML schemas</title>
+           
+       <programlisting language="xml">
+       <![CDATA[
+<complexType name="bookType">
+   <sequence>
+      <element name="isbn" type="xs:string" />
+      <element name="pages" type="xs:integer" />
+   </sequence>
+</complexType>]]>
+        </programlisting>
+            
+       </section>
+
+    </section>
+        
+    <section id="solrj.extensions.schema.elements">
+        <title>The SOLRJ annotations for XML schemas</title>
+      
+        <para>
+            This section enlists the XML artifacts available to annotate an existing XML schema
+            with SOLRJ extension-specific information. These constructs are defined themselves
+            in an XML schema <literal>solrj-extensions.xsd</literal> that has a target 
+            namespace of <uri>http://www.castor.org/binding/solrj</uri>. 
+        </para>
+        
+        <para>
+            To enable proper validation of your XML schemas when editing SOLRJ
+            annotations, and to enable XML completion in your preferred XML 
+            editor, please add <literal>schemaLocation</literal> information to 
+            your XML schema definition as follows:
+        </para>
+        
+        <programlistingco>        
+              <areaspec>
+                 <area id="solrj.extensions.schema.location.1" units="linecolumn" coords="6 95"/>
+              </areaspec>
+            <programlisting language="xml"><![CDATA[
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://your/target/namespace"
+    xmlns:solr="http://www.castor.org/binding/solrj"
+    xmlns="http://your/target/namespace"
+    xsi:schemaLocation="http://www.castor.org/binding/solrj http://www.castor.org/solrj-extensions.xsd">
+    
+...
+
+</xs:schema>]]>        
+            </programlisting>
+        </programlistingco> 
+
+        <para>
+          where ...
+        </para>
+
+        <calloutlist>
+           <!-- <title>Mapping a type to a table - Main artifacts</title>  -->
+           <callout arearefs="solrj.extensions.schema.location.1">
+               <para>
+                  The values supplied in the <literal>schemaLocation</literal> attribute
+                  define the location of the XML schema for any XML artefacts bound to
+                  the <literal>http://www.castor.org/binding/solrj</literal> namespace.
+               </para>
+           </callout>
+        </calloutlist>
+        
+        <section id="solrj.extensions.schema.elements.field">
+           <title>&lt;field&gt; element</title>
+
+            <para>
+                The &lt;field&gt; element allows you to map a member of the content model 
+                of a <literal>&lt;complexType&gt;</literal> definition to SOLRJ field.
+            </para>
+
+           <programlistingco>
+              <areaspec>
+                 <area id="solrj.extensions.schema.elements.field.1" units="linecolumn" coords="7 80"/>
+                 <area id="solrj.extensions.schema.elements.field.2" units="linecolumn" coords="14 80"/>
+              </areaspec>
+              <programlisting language="xml"><![CDATA[
+<complexType name="bookType">
+   <sequence>
+      <element name="isbn" type="xs:string">
+         <xs:annotation>
+            <xs:appinfo>
+                <solrj:field name="id" />
+            </xs:appinfo>
+         </xs:annotation>
+      </element>
+      <element name="pages" type="xs:integer">
+         <xs:annotation>
+            <xs:appinfo>
+                <solrj:field />
+            </xs:appinfo>
+         </xs:annotation>
+      </element>
+   </sequence>
+</complexType>]]>
+              </programlisting>
+            </programlistingco>
+            
+            <para>
+                where ....
+            </para>
+            
+            <calloutlist>
+                 <callout arearefs="solrj.extensions.schema.elements.field.1">
+                     <para>
+                        Defines that the element definition <literal>isbn</literal>
+                        be mapped against the SOLRJ field <literal>id</literal>.
+                     </para>
+                 </callout>
+                 <callout arearefs="solrj.extensions.schema.elements.field.2">
+                     <para>
+                        Defines that the element definition <literal>name</literal>
+                        be mapped to the SOLRJ field <literal>name</literal>.
+                     </para>
+                 </callout>
+            </calloutlist>
+
+            <para>
+                Above example maps the element <literal>isbn</literal> to
+                the SOLR index field <literal>id</literal>, and the element 
+                <literal>name</literal> to the identically-named SOLR index
+                field. Please note that a SOLR index field name does not have 
+                to be specified if the field name and the Java property name
+                are identical.
+            </para>
+            
+            <para>
+                Above complex type definition will be transformed to the 
+                corresponding Java property definitions (within a class):
+            </para>
+            
+            <programlisting>
+public class BookType {
+
+    @Field("id")
+    private String isbn;
+    
+    @Field
+    private long pages;
+    
+}
+            </programlisting>
+            
+            <para>
+                The XML schema definition for <literal>&lt;field&gt;</literal> is 
+                defined as follows:
+            </para>
+            
+            <programlisting language="xml"><![CDATA[
+<xs:element name="field">
+  <xs:annotation>
+     <xs:documentation>
+            Element 'field' is used to specify the use of the SOLRJ
+            @Field annotation.
+        </xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+     <xs:attribute name="name" type="xs:string" use="optional">
+        <xs:annotation>
+           <xs:documentation>
+                    Attribute 'name' is used to specify the name of
+                    the index field to be mapped against; if not used,
+                    the name of the Java property will be used as filed 
+                    name.
+                </xs:documentation>
+        </xs:annotation>
+     </xs:attribute>
+  </xs:complexType>
+</xs:element>]]>
+            </programlisting>
+
+            <para>
+                where the content is described as follows:
+            </para>
+
+            <table id="solrj.extensions.schema.elements.field.grammar" align="center">
+             <title>&lt;field&gt; - Definitions</title>
+             <tgroup cols="3">
+               <colspec colname="c1"/>
+               <colspec colname="c2"/>
+               <colspec colname="c3"/>
+               <thead>
+                 <row>
+                   <entry>Name</entry>
+                   <entry>Description</entry>
+                   <entry>Optional?</entry>
+                 </row>
+               </thead>
+               <tbody>
+                 <row>
+                   <entry>name</entry>
+                   <entry>Name of the SOLR index field.</entry>
+                   <entry>Yes</entry>
+                 </row>
+               </tbody>
+             </tgroup>
+           </table>        
+        
+        </section>
+        
+     </section>
+        
+     <section id="solrj.extensions.usage">
+        <title>Using the generated domain classes with SOLR</title>
+        
+        <para>
+            Once you have generated domain classes (and descriptor classes 
+            for the XML binding) from your set of XML schemas, you'll be 
+            able to use them as are.  
+        </para>
+        
+     </section>
+      
+</section>

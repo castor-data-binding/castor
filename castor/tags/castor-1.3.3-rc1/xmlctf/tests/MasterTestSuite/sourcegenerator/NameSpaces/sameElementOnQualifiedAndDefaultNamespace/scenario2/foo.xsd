@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+           xmlns="http://www.example.org/foo" targetNamespace="http://www.example.org/foo"
+           xmlns:bar="http://www.example.org/bar" >
+    <xs:import namespace="http://www.example.org/bar" schemaLocation="bar.xsd"/>
+    <xs:element name="foo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="color" type="xs:string"/>
+                <xs:element name="size" type="xs:string"/>
+                <xs:element ref="bar:bar" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" use="optional" default="1.0"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
+
+
+
+
+
+
+

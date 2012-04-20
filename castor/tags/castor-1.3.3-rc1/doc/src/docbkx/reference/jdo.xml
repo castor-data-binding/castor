@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="jdo" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Castor JDO</title>
+  
+  <!-- 
+    <authorgroup>
+      <author>
+        <firstname>Werner</firstname>
+        <surname>Guttmann</surname>  
+        <email>werner DOT guttmann AT gmx DOT net</email>
+      </author>
+    </authorgroup>
+ -->
+ 
+  <xi:include href="jdo/jdo-introduction.xml" />
+  <xi:include href="jdo/jdo-starter-tutorial.xml" />
+  <xi:include href="jdo/jdo.xml" />
+  <xi:include href="jdo/jdo-database-conf.xml" />
+  <xi:include href="jdo/types.xml" />
+  <xi:include href="jdo/jdo-mapping.xml" />
+  <xi:include href="jdo/jdo-faq.xml" />
+  <xi:include href="jdo/jdo-examples.xml" />
+  <xi:include href="jdo/jdo-howto.xml" />
+  <xi:include href="jdo/jdo-tips-tricks.xml" />
+  <xi:include href="jdo/jdo-other-features.xml" />
+  <xi:include href="jdo/jdo-self-executable-examples.xml" />
+  
+</chapter>

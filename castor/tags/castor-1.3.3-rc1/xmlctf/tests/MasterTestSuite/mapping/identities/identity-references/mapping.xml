@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+
+   <class name="Node" identity="nodeNum">
+        <map-to xml="node" />
+        <field name="nodeNum" type="integer">
+           <bind-xml name="node-num" node="attribute" />
+        </field>
+        <field name="siblings" type="Node" collection="collection">
+           <bind-xml name="sibling" reference="true" />
+        </field> 
+   </class>
+
+   <class name="NodeList">
+        <map-to xml="node-list" />
+        <field name="nodes" type="Node" collection="arraylist">
+           <bind-xml name="node" />
+        </field> 
+   </class>
+   
+</mapping>

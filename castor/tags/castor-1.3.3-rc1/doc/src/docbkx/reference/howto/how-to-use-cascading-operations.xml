@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<section id="jdo.howto.use-cascading-operations">
+    <sectioninfo>
+      <title>How to use cascading operations</title>
+<!--
+      <abstract>
+        <para>
+          Describes the kind of cascading operations supported by Castor and provides 
+          examples of their use
+        </para>
+      </abstract>
+      
+      Status: Draft
+-->
+    </sectioninfo>
+
+    <title>How to use cascading operations</title>
+
+	<section id="jdo.howto.use-cascading-operations.overview">
+	    <title>Overview</title>
+
+        <para>
+            Up to Castor 1.3.1, users of Castor JDO have been able to automatically 
+            store/update or delete objects across relations by issuing ...
+        </para>
+        
+        <programlisting language="java">
+        
+  Database.setAutostore(true)
+        </programlisting>
+        
+        <para>
+            before going starting a transaction. This feature was useful, indeed, but 
+            on a second look its limitation (global definition across all entities) 
+            became obvious, especially on big projects. You might want to have 
+            cascading operations activated selectively (activated for one object, 
+            but not for another). Or even more tricky, you might like to automatically 
+            track changes across one relation from a starting object, but but not 
+            across another relation from the very same object.
+        </para>
+
+        <para>
+		    As of <application>Castor 1.3.2</application>, a new 
+		    <literal>cascading</literal> attribute has been introduced 
+		    to the <literal>&lt;sql&gt;</literal> tag of the JDO mapping file.
+		</para>
+    </section>
+    
+    <section id="jdo.howto.use-cascading-operations.intended-audience">
+        <title>Intended Audience</title>
+
+        <para>
+            This and all other cascading documents address people familiar with the 
+            basic concepts of mapping domain entities to database tables and defining 
+            relations between objects (on database level as well as on object level). 
+            But in particular, this document applies to the following user groups:
+        </para>
+        
+        <orderedlist>
+            <listitem>
+                <para>
+                    Everyone who wants to cascade operations across (any type of) 
+                    object relation(s).
+                </para>
+            </listitem>
+            
+            <listitem>
+                <para>
+                    Everyone who now uses 
+                    <methodname>Database.setAutoStore(boolean)</methodname> to have 
+                    persistence operations cascaded across relations.
+                </para>
+            </listitem>
+        </orderedlist>
+        
+        <note>
+            <para>
+                Especially the second user group should change their approach towards 
+                using cascading operations, and switch to using the new cascading 
+                attribute. As of <application>Castor 1.3.2</application>, the current 
+                <methodname>Database.setAutoStore(boolean)</methodname> methods will 
+                be <emphasis>deprecated</emphasis>, and in the long run, 
+                this operations will be removed from the JDO interfaces.
+            </para>
+        </note>
+    </section>
+    
+    <section id="jdo.howto.use-cascading-operations.prerequisites">
+        <title>Prerequisites</title>
+
+        <para>
+        	You should have a valid mapping file, containing at least two objects, 
+        	being in relation with each other. For the remainder of this document, 
+        	we'll be using the following example mapping file as a starting point. 
+		</para>
+
+        <programlisting language="xml">
+        
+&lt;mapping&gt;
+  &lt;class name="org.castor.cascading.Author" identity="id"&gt;
+    &lt;cache-type type="none" /&gt;
+    &lt;map-to table="OneToOne_Author" /&gt;
+    &lt;field name="id" type="integer"&gt;
+      &lt;sql name="id" type="integer" /&gt;
+    &lt;/field&gt;
+    &lt;field name="timestamp" type="long"&gt;
+      &lt;sql name="time_stamp" type="numeric" /&gt;
+    &lt;/field&gt;
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char" /&gt;
+    &lt;/field&gt;
+  &lt;/class&gt;
+  &lt;class name="org.castor.cascading.Book" identity="id"&gt;
+    &lt;cache-type type="none" /&gt;
+    &lt;map-to table="OneToOne_Book" /&gt;
+    &lt;field name="id" type="integer"&gt;
+      &lt;sql name="id" type="integer" /&gt;
+    &lt;/field&gt;
+    &lt;field name="timestamp" type="long"&gt;
+      &lt;sql name="time_stamp" type="numeric" /&gt;
+    &lt;/field&gt;
+    &lt;field name="name" type="string"&gt;
+      &lt;sql name="name" type="char" /&gt;
+    &lt;/field&gt;
+    &lt;field name="author" type="org.castor.cascading.Author"&gt;
+      &lt;sql name="author_id"/&gt;
+    &lt;/field&gt;
+  &lt;/class&gt;
+&lt;/mapping&gt;
+        </programlisting>
+    </section>
+    
+    <section id="jdo.howto.use-cascading-operations.attribute">
+        <title>Use of the cascading attribute</title>
+    
+		<para>
+			In order to activate cascading for create operations for the 
+			<database class="table">author</database> relation defined in the mapping 
+			file above, you have to add the following attribute to the field mapping 
+			of the <literal>author</literal> property:
+        </para>
+        
+	  <programlisting language="xml">
+	  
+&lt;class name="org.castor.cascading.one_to_one.Book" identity="id"&gt;
+   &lt;cache-type type="none" /&gt;
+   ...
+	
+   &lt;field name="author" type="org.castor.cascading.one_to_one.Author"&gt;
+      &lt;sql name="author_id" cascading="create"/&gt;
+   &lt;/field&gt;
+&lt;/class&gt;
+        </programlisting>
+				
+		<para>
+			Remember that the code above adding a cascading attribute with a value 
+			of <literal>create</literal> is only an example. You can define any 
+			combination of cascading attributes, delimiting those values by spaces, 
+			as shown in the following example:
+		</para>
+
+        <programlisting language="xml">
+        
+&lt;field name="author" type="org.castor.cascading.one_to_one.Author"&gt;
+   &lt;sql name="author_id" cascading="create update"/&gt;
+&lt;/field&gt;
+        </programlisting>
+    </section>
+
+    <section id="jdo.howto.use-cascading-operations.attribute-values">
+        <title>Values for the cascading attribute</title>
+
+        <para>
+        	In order to achieve an optimal granulation of activating and de-activating
+        	functionality, there are 5 possible values, out of which 3 can be activated 
+        	separately or in any combination.
+        </para>            
+        	
+        <para>
+        	In general, what you have to keep in mind is that some cascading types 
+        	do not only affect the the (coincidentally) identically named database 
+        	operation, but also other persistence operations. For more details please 
+        	read the following references carefully. 
+       	</para>
+
+    	<itemizedlist>
+    		<listitem>
+    		    <para>
+    		        <emphasis role="bold">create</emphasis>: 
+    		        <link linkend="jdo.howto.cascade-creation">details on create 
+    		        operation</link>
+    		    </para>
+    		</listitem>
+    		
+    		<listitem>
+    		    <para>
+    		        <emphasis role="bold">delete</emphasis>: 
+    		        <link linkend="jdo.howto.cascade-deletion">details on delete 
+    		        operation</link>
+    		    </para>
+    		</listitem>
+    		
+    		<listitem>
+    		    <para>
+    		        <emphasis role="bold">update</emphasis>: 
+    		        <link linkend="jdo.howto.cascade-update">details on update 
+    		        operation</link>
+    		    </para>
+    		</listitem>
+    		
+            <listitem>
+                <para>
+                    <emphasis role="bold">none</emphasis>: cascading operations are disabled.
+                </para>
+            </listitem>
+            
+            <listitem>
+                <para>
+                    <emphasis role="bold">all</emphasis>: Using the value 
+                    <literal>all</literal>, you are providing a shortcut specifying 
+                    that all three basic operations should be defined at the same 
+                    moment. This basically equals to a value of 
+                    <literal>'create delete update'</literal>.
+                </para>
+            </listitem>
+		</itemizedlist>
+        
+        <para>
+            If no cascading attribute is defined, its default value will be 
+            <literal>none</literal>.            
+        </para>
+    </section>
+    
+    <section id="jdo.howto.use-cascading-operations.references">
+        <title>References</title>
+        
+        <itemizedlist>
+            <listitem>
+                <para><link linkend="jdo.mapping">JDO Mapping</link></para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</section>

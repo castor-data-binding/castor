@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.example.org/complex-content"
+    xmlns:tns="http://www.example.org/complex-content"
+    xmlns:jdo="http://www.castor.org/binding/persistence"
+    elementFormDefault="qualified"
+>
+    <xs:complexType name="person">
+        <xs:annotation>
+            <xs:appinfo>
+                <jdo:table name="person">
+                    <primaryKey>
+                        <key>ssn</key>
+                    </primaryKey>
+                </jdo:table>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ssn" type="xs:long">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="ssn" type="bigint" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="firstName" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="firstName" type="varchar" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastName" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="lastName" type="varchar" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="birthdate" type="xs:date">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <jdo:column name="birthdate" type="date" />
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="insurant">
+        <xs:annotation>
+            <xs:appinfo>
+                <jdo:table name="insurant">
+                    <primaryKey>
+                        <key>ssn</key>
+                        <key>policyNumber</key>
+                    </primaryKey>
+                </jdo:table>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:person">
+                    <xs:sequence>
+                        <xs:element name="policyNumber"
+                            type="xs:long"
+                        >
+                            <xs:annotation>
+                                <xs:appinfo>
+                                    <jdo:column name="policyNumber"
+                                        type="bigint"
+                                    />
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

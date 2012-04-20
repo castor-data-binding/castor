@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://data"
+    xmlns:data="http://data">
+   <xs:simpleType name="WeightValue">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Right" />
+         <xs:enumeration value="Wrong" />
+         <xs:enumeration value="Neutral" />
+         <xs:enumeration value="MoreRightThanWrong" />
+         <xs:enumeration value="MoreWrongThanRight" />
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="WeightValueList">
+      <xs:list itemType="data:WeightValue" />
+   </xs:simpleType>
+   <xs:complexType name="FollowOnQuestionDef">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="usedForWeight" type="data:WeightValueList" use="required">
+            </xs:attribute>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:element name="followOn" type="data:FollowOnQuestionDef" />"
+</xs:schema>
