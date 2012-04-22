@@ -318,6 +318,7 @@
             <property name="release" value="${release}"/>
         </ant>
     	<!-- compile artifacts in XML module -->
+    	<!--
         <javac srcdir="${basedir}/xml/target/generated-sources/castor" destdir="${classes}" excludes="${excludes}"
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
@@ -331,6 +332,7 @@
         	   <fileset dir="${basedir}/newlib"/>
         	</classpath>
         </javac>
+        -->
         <copy todir="${classes}">
             <fileset dir="${basedir}/xml/target/generated-sources/castor">
                 <include name="**/*.cdr"/>
