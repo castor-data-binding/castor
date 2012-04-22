@@ -30,7 +30,17 @@
              </includes>
           </resource>
           <resource>
-             <directory>src/main/resources</directory>
+            <directory>src/main/resources</directory>
+            <excludes>
+              <exclude>META-INF/MANIFEST.MF</exclude>
+            </excludes>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+              <include>META-INF/MANIFEST.MF</include>
+            </includes>
           </resource>
        </resources>
        <plugins>
