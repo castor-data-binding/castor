@@ -234,24 +234,16 @@ Unmarshaller.unmarshal(Person.class, reader);
 			</para>
 
 			<para>
-				When you are using a mapping file, create an instance of
-				the
-				<classname>org.exolab.castor.xml.XMLContext</classname>
-				class and use the
+				When you are using a mapping file, create an instance of the
+				<classname>org.exolab.castor.xml.XMLContext</classname> class and use the
 				<methodname>org.exolab.castor.xml.XMLContext.addMapping(Mapping)</methodname>
-				method to provide Castor XML with one of more mapping
-				files.
+				method to provide Castor XML with one of more mapping files.
 			</para>
 
-
 			<para>
-				To start using Castor XML for marshalling and/or
-				unmarshalling based upon your custom mapping, create
-				instances of
-				<classname>org.exolab.castor.xml.Marshaller</classname>
-				and
-				<classname>org.exolab.castor.xml.Unmarshaller</classname>
-				as needed using one of the following methods:
+				To start using Castor XML for marshalling and/or unmarshalling based upon your custom mapping, create
+				instances of <classname>org.exolab.castor.xml.Marshaller</classname> and
+				<classname>org.exolab.castor.xml.Unmarshaller</classname>as needed using one of the following methods:
 			</para>
 
 			<table align="center">
