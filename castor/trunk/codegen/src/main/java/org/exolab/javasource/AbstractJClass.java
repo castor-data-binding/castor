@@ -665,7 +665,7 @@ public abstract class AbstractJClass extends JStructure {
             jsw.writeln();
             jsw.writeln("static {");
             jsw.writeln(_staticInitializer.toString());
-            jsw.writeln("};");
+            jsw.writeln("}");
             jsw.writeln();
         }
     }
