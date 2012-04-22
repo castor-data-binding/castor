@@ -169,57 +169,6 @@
         </navLink>
     </section>
 
-    <section name="XML">
-       <navLink>
-        <url>xml-link.xml</url>
-        <display>XML</display>
-       </navLink>
-    </section>
-
-    <section name="XML Code Generator">
-       <navLink>
-        <url>srcgen-link.xml</url>
-        <display>XML Code Generator</display>
-       </navLink>
-    </section>
-
-<!-- 
-    <section name="XML Code Generator">
-      <navLink>
-        <url>sourcegen.xml</url>
-        <display>Introduction</display>
-      </navLink>
-      <navLink>
-        <url>srcgen-properties.xml</url>
-        <display>Properties</display>
-      </navLink>
-      <navLink>
-        <url>srcgen-binding.xml</url>
-        <display>Custom bindings</display>
-      </navLink>
-      <navLink>
-        <url>srcgen-anttask.xml</url>
-        <display>Ant task</display>
-      </navLink>
-      <navLink highlighted="true">
-        <url>srcgen-maven-plugin.xml</url>
-        <display>Maven 2 plugin</display>
-      </navLink>
-      <navLink>
-        <url>srcgen-cline.xml</url>
-        <display>Command line</display>
-      </navLink>
-      <navLink>
-        <url>xmlschema.xml</url>
-        <display>Schema Support</display>
-      </navLink>
-      <navLink>
-        <url>srcgen-example.xml</url>
-        <display>Example</display>
-      </navLink>
-    </section>
- -->
-
     <section name="Tools">
         <navLink>
             <url>schemaGen-anttask.xml</url>
@@ -227,6 +176,7 @@
         </navLink>
     </section>
 
+<!-- 
     <section name="DDL Generator">
       <navLink>
         <url>ddlgen.xml</url>
@@ -245,6 +195,7 @@
         <display>Type Mapping</display>
       </navLink>
     </section>
+     -->
 
     <section name="More">
       <navLink>
