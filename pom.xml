@@ -248,8 +248,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-                        <!-- 
+                		<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                	<!-- 
 			            <manifestEntries>
 			              <Specification-Version>${project.version}</Specification-Version>
 						  <Specification-Title>Castor XML</Specification-Title> 
@@ -1049,6 +1049,8 @@
         <spring.version>3.0.6.RELEASE</spring.version>
         <derby.version>10.8.2.2</derby.version>
         <surefire.print.summary>false</surefire.print.summary>
+        <VERSION>${project.version}</VERSION>
+        <RELEASE></RELEASE>    
     </properties>
     
     <prerequisites>

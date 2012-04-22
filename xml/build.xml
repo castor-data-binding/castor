@@ -74,7 +74,7 @@
             <fileset dir="${main.generated}">
                 <include name="**/*.cdr"/>
             </fileset>
-            <filterset begintoken="$$" endtoken="$$">
+            <filterset begintoken="$${" endtoken="}">
 	            <filter token="VERSION" value="${version}"/>
 	            <filter token="RELEASE" value="${release}"/>
             </filterset>

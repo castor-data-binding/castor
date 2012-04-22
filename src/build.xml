@@ -575,6 +575,10 @@
 
         <copy todir="${build}/tests">
             <fileset dir="${source}/etc" includes="MANIFEST.MF" />
+        	<filterset begintoken="$${" endtoken="}">
+        		<filter token="VERSION" value="${version}"/>
+        		<filter token="RELEASE" value="${release}"/>
+        	</filterset>
         </copy>
 
         <jar jarfile="${dist}/${archive.name}-tests.jar" basedir="${build}/tests"
@@ -618,11 +622,12 @@
 
         <!-- copy and filter MANIFEST file for Castor JDO -->
         <delete file="${classes}/MANIFEST.MF"/>
-        <copy file="${source}/etc/MANIFEST.JDO.MF" tofile="${classes}/MANIFEST.MF"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
-
-        <!-- need to find a similar mechanism for filtering Maven 2 for MANIFEST.MF -->
+        <copy file="${source}/etc/MANIFEST.JDO.MF" tofile="${classes}/MANIFEST.MF">
+        	<filterset begintoken="$${" endtoken="}">
+        		<filter token="VERSION" value="${version}"/>
+        		<filter token="RELEASE" value="${release}"/>
+        	</filterset>
+        </copy>
 
         <!-- create CASTOR JDO JAR -->
         <jar jarfile="${dist}/${archive.name}.jar" basedir="${classes}"
@@ -632,9 +637,12 @@
 
         <!-- copy and filter MANIFEST file for Castor XML -->
         <delete file="${classes}/MANIFEST.MF" />
-        <copy file="${source}/etc/MANIFEST.XML.MF" tofile="${classes}/MANIFEST.MF"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
+        <copy file="${source}/etc/MANIFEST.XML.MF" tofile="${classes}/MANIFEST.MF">
+        	<filterset begintoken="$${" endtoken="}">
+        		<filter token="VERSION" value="${version}"/>
+        		<filter token="RELEASE" value="${release}"/>
+        	</filterset>
+        </copy>
 
         <!-- create Castor XML Only Jar -->
         <jar jarfile="${dist}/${archive.name}-xml.jar" basedir="${classes}"
@@ -659,9 +667,12 @@
 
         <!-- copy and filter MANIFEST file for Castor COMMONS -->
         <delete file="${classes}/MANIFEST.MF" />
-        <copy file="${source}/etc/MANIFEST.COMMONS.MF" tofile="${classes}/MANIFEST.MF"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
+        <copy file="${source}/etc/MANIFEST.COMMONS.MF" tofile="${classes}/MANIFEST.MF">
+        	<filterset begintoken="$${" endtoken="}">
+        		<filter token="VERSION" value="${version}"/>
+        		<filter token="RELEASE" value="${release}"/>
+        	</filterset>
+        </copy>
 
         <!-- create Castor COMMONS Only Jar -->
         <jar jarfile="${dist}/${archive.name}-commons.jar" basedir="${classes}"
@@ -726,9 +737,11 @@
         <delete file="${dist}/CTF-${version}.jar"/>
         <copy todir="${classes}">
             <fileset dir="${source}/etc" includes="MANIFEST.MF" />
+        	<filterset begintoken="$${" endtoken="}">
+        		<filter token="VERSION" value="${version}"/>
+        		<filter token="RELEASE" value="${release}"/>
+        	</filterset>
         </copy>
-        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
-        <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
         <copy todir="${classes}">
             <fileset dir="${source}/etc" includes="LICENSE,README" />
         </copy>

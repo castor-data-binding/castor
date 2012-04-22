@@ -56,7 +56,7 @@
             <fileset dir="${main.resources}">
                 <include name="**"/>
             </fileset>
-            <filterset begintoken="$$" endtoken="$$">
+            <filterset begintoken="$${" endtoken="}">
 	            <filter token="VERSION" value="${version}"/>
 	            <filter token="RELEASE" value="${release}"/>
             </filterset>

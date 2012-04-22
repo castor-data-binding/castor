@@ -33,6 +33,16 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+                <excludes>
+                	<exclude>META-INF/MANIFEST.MF</exclude>
+                </excludes>
+            </resource>
+            <resource>
+            	<directory>src/main/resources</directory>
+            	<filtering>true</filtering>
+            	<includes>
+            		<include>META-INF/MANIFEST.MF</include>
+            	</includes>
             </resource>
         </resources>
         <plugins>
@@ -55,6 +65,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-jar-plugin</artifactId>
+            	<configuration>
+            		<archive>
+            			<addMavenDescriptor>false</addMavenDescriptor>
+            			<manifestFile></manifestFile>
+            			<manifestEntries>
+            				<Specification-Title>Castor XML</Specification-Title>
+            				<Specification-Vendor>${project.organization.name}</Specification-Vendor>
+            				<Specification-Version>${project.version}</Specification-Version>
+            				<Implementation-Title>Castor</Implementation-Title>
+            				<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+            				<Implementation-Version>${project.version}</Implementation-Version>
+            				<Sealed>true</Sealed>
+            			</manifestEntries>
+            		</archive>
+            		<useDefaultManifestFile>false</useDefaultManifestFile>
+            	</configuration>
+            </plugin>
+            -->
         </plugins>
     </build>
     <dependencies>
