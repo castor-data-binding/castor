@@ -38,29 +38,6 @@
 
   <navSections>
 
-    <section name="Old releases">
-      <navLink>
-        <url>releases-old.xml</url>
-        <display>General</display>
-      </navLink>
-      <navLink>
-        <url>http://www.castor.org/1.3.2/index.html</url>
-        <display>Release 1.3.2</display>
-      </navLink>
-      <navLink>
-        <url>http://www.castor.org/1.3.1/index.html</url>
-        <display>Release 1.3.1</display>
-      </navLink>
-      <navLink>
-        <url>http://www.castor.org/1.3/index.html</url>
-        <display>Release 1.3</display>
-      </navLink>
-      <navLink>
-        <url>http://www.castor.org/1.2/index.html</url>
-        <display>Release 1.2</display>
-      </navLink>
-    </section>
-    
     <section name="Main">
       <navLink>
         <url>index.xml</url>
@@ -82,18 +59,6 @@
         <url>dependencies.xml</url>
         <display>Dependencies</display>
       </navLink>
-      <navLink highlighted="true">
-        <url>reference-guide.xml</url>
-        <display>Reference guide</display>
-      </navLink>
-      <navLink>
-        <url>presentations.xml</url>
-        <display>Publications</display>
-      </navLink>
-      <navLink>
-        <url>javadoc/overview-summary.html</url>
-        <display>JavaDoc</display>
-      </navLink>
       <navLink>
         <url>maven-integration.xml</url>
         <display>Maven 2 support</display>
@@ -105,10 +70,6 @@
       <navLink>
         <url>schema.xml</url>
         <display>DTD &amp; Schemas</display>
-      </navLink>
-      <navLink>
-        <url>changes.xml</url>
-        <display>Recent HTML changes</display>
       </navLink>
       <navLink>
         <url>news.xml</url>
@@ -124,11 +85,30 @@
          <display>Castor Forums</display>
       </navLink>
 -->
+    </section>
+    
+    <section name="Documentation">
+      <navLink highlighted="true">
+        <url>reference-guide.xml</url>
+        <display>Reference guide</display>
+      </navLink>
+      <navLink>
+        <url>presentations.xml</url>
+        <display>Publications</display>
+      </navLink>
+      <navLink>
+        <url>javadoc/overview-summary.html</url>
+        <display>JavaDoc</display>
+      </navLink>
       <navLink highlighted="true">
          <url>http://docs.codehaus.org/display/CASTOR/</url>
          <display>Project Wiki</display>
       </navLink>
-  </section>
+      <navLink>
+        <url>changes.xml</url>
+        <display>Recent changes</display>
+      </navLink>
+	</section>    
 
     <section name="Development/Support">
 
