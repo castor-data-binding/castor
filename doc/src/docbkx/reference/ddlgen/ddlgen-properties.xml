@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="ddlgen.introduction">
+	<title>Castor DDL Generator - Properties</title>
+	<para>
+		Describes the properties available on the Castor DDL Generator.
+	</para>
+
+    <section>
+    	<title>Overview</title>
+
+		<para>
+		  At startup, the DDL Generator first evaluates the command line options.
+		  Next it loads the global properties on the command line if specified,
+		  otherwise the default properties included with the DDL Generator.
+		  There are two important properties loaded at startup:
+		</para>
+		
+		<variablelist>
+			<varlistentry>
+				<term>org.castor.ddlgen.Generators</term>
+				<listitem>
+					<para>tells the DDL Generator about the supported database engines.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>org.castor.ddlgen.DefaultEngine</term>
+				<listitem>
+					<para>The database engine for which to generate a SQL script. Can be overridden on the command line</para>
+		    </listitem>
+			</varlistentry>
+		</variablelist>
+		
+		<para>
+		  The last step at startup is to read the specific configuration of the
+		  database engine being used.  A custom configuration can be provided on
+		  the command line to override the default.
+		</para>
+
+    </section>
+
+   	<section>
+   		<title>Global properties</title>
+
+		<para>
+		  Please find below a list of global properties to control various advanced
+		  options of the DDL Generator.
+		</para>
+
+        <table frame="all">
+            <title>Command line options</title>
+            <tgroup cols="5">
+	        	<thead>
+	        	    <row>
+		        		<entry>Option</entry>
+		        		<entry>Description</entry>
+		        		<entry>Values</entry>
+		        		<entry>Default</entry>
+		        		<entry>Since</entry>
+	        		</row>
+	        	</thead>
+	        	<tbody>
+					<row>
+					  <entry></entry>
+					  <entry></entry>
+					  <entry></entry>
+					  <entry></entry>
+					</row>
+			        <row>
+			          <entry>org.castor.ddlgen.Generators</entry>
+			          <entry>Generator classes of supported database engines.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.DefaultEngine</entry>
+			          <entry>Name of default database engine. Will be overwritten by engine specified on commandline.</entry>
+			          <entry>db2, derby, hsql, mssql, mysql, oracle, pointbase, postgresql, sapdb or sybase</entry>
+			          <entry>mysql</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.SchemaName</entry>
+			          <entry>Name of the database schema.</entry>
+			          <entry></entry>
+			          <entry>test</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GroupStatements</entry>
+			          <entry>How to group generated DDL statements?</entry>
+			          <entry>TABLE or DDLTYPE</entry>
+			          <entry>TABLE</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.CharFormat</entry>
+			          <entry>How to format characters of generated DDL statements?</entry>
+			          <entry>SENSITIVE, UPPER or LOWER</entry>
+			          <entry>SENSITIVE</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.Newline</entry>
+			          <entry>Character sequence to write for newline.</entry>
+			          <entry></entry>
+			          <entry>\n</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.Indention</entry>
+			          <entry>Character sequence to write for indented lines.</entry>
+			          <entry></entry>
+			          <entry>\t</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateSchema</entry>
+			          <entry>Generate SCHEMA statements.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateDrop</entry>
+			          <entry>Generate DROP statements.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateCreate</entry>
+			          <entry>Generate CREATE statements.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GeneratePrimaryKey</entry>
+			          <entry>Generate PRIMARYKEY statement.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateForeignKey</entry>
+			          <entry>Generate FOREIGNKEY statement.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateIndex</entry>
+			          <entry>Generate INDEX statements (Not supported yet).</entry>
+			          <entry>true or false</entry>
+			          <entry>false</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>org.castor.ddlgen.GenerateKeyGenerator</entry>
+			          <entry>Generate KEYGENERATOR statements.</entry>
+			          <entry>true or false</entry>
+			          <entry>true</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_tinyint_precision</entry>
+			          <entry>Default precision of tinyint values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_smallint_precision</entry>
+			          <entry>Default precision of smallint values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_integer_precision</entry>
+			          <entry>Default precision of integer values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_bigint_precision</entry>
+			          <entry>Default precision of bigint values.</entry>
+			          <entry></entry>
+			          <entry>19</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_bigint_decimals</entry>
+			          <entry>Default decimals of bigint values.</entry>
+			          <entry></entry>
+			          <entry>0</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_float_precision</entry>
+			          <entry>Default precision of float values.</entry>
+			          <entry></entry>
+			          <entry>38</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry></entry>
+			          <entry>Default precision of tinyint values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_float_decimals</entry>
+			          <entry>Default decimals of float values.</entry>
+			          <entry></entry>
+			          <entry>7</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_double_precision</entry>
+			          <entry>Default precision of double values.</entry>
+			          <entry></entry>
+			          <entry>53</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_double_decimals</entry>
+			          <entry>Default decimals of double values.</entry>
+			          <entry></entry>
+			          <entry>15</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_real_precision</entry>
+			          <entry>Default precision of real values.</entry>
+			          <entry></entry>
+			          <entry>38</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_real_decimals</entry>
+			          <entry>Default decimals of real values.</entry>
+			          <entry></entry>
+			          <entry>7</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_numeric_precision</entry>
+			          <entry>Default precision of numeric values.</entry>
+			          <entry></entry>
+			          <entry>65</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_numeric_decimals</entry>
+			          <entry>Default decimals of numeric values.</entry>
+			          <entry></entry>
+			          <entry>30</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_decimal_precision</entry>
+			          <entry>Default precision of decimal values.</entry>
+			          <entry></entry>
+			          <entry>65</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_decimal_decimals</entry>
+			          <entry>Default decimals of decimal values.</entry>
+			          <entry></entry>
+			          <entry>30</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_char_length</entry>
+			          <entry>Default length of char values.</entry>
+			          <entry></entry>
+			          <entry>256</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_varchar_length</entry>
+			          <entry>Default length of varchar values.</entry>
+			          <entry></entry>
+			          <entry>256</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_longvarchar_length</entry>
+			          <entry>Default length of longvarchar values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_date_precision</entry>
+			          <entry>Default precision of date values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_time_precision</entry>
+			          <entry>Default precision of time values.</entry>
+			          <entry></entry>
+			          <entry></entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_timestamp_precision</entry>
+			          <entry>Default precision of timestamp values.</entry>
+			          <entry></entry>
+			          <entry>19</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_binary_length</entry>
+			          <entry>Default length of binary values.</entry>
+			          <entry></entry>
+			          <entry>256</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_varbinary_length</entry>
+			          <entry>Default length of varbinary values.</entry>
+			          <entry></entry>
+			          <entry>256</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_longvarbinary_length</entry>
+			          <entry>Default length of longvarbinary values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_other_length</entry>
+			          <entry>Default length of other values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_javaobject_length</entry>
+			          <entry>Default length of javaobject values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_blob_length</entry>
+			          <entry>Default length of blob values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			        <row>
+			          <entry>default_clob_length</entry>
+			          <entry>Default length of clob values.</entry>
+			          <entry></entry>
+			          <entry>1024</entry>
+			          <entry>1.1</entry>
+			        </row>
+			    </tbody>
+			</tgroup>
+		</table>
+     
+      	<section>
+      		<title>Supported database engines</title>
+
+	        <para>
+	          The supported database engines are defined as follows:
+	        </para>
+
+			<programlisting>
+#
+# generator classes of supported database engines
+#
+org.castor.ddlgen.Generators=\
+  org.castor.ddlgen.engine.db2.Db2Generator,\
+  org.castor.ddlgen.engine.derby.DerbyGenerator,\
+  org.castor.ddlgen.engine.hsql.HsqlGenerator,\
+  org.castor.ddlgen.engine.mssql.MssqlGenerator,\
+  org.castor.ddlgen.engine.mysql.MysqlGenerator,\
+  org.castor.ddlgen.engine.oracle.OracleGenerator,\
+  org.castor.ddlgen.engine.pointbase.PointBaseGenerator,\
+  org.castor.ddlgen.engine.postgresql.PostgresqlGenerator,\
+  org.castor.ddlgen.engine.sapdb.SapdbGenerator,\
+  org.castor.ddlgen.engine.sybase.SybaseGenerator
+			</programlisting>
+	
+      </section>
+
+      <section>
+      	<title>Grouping of DDL statements</title>
+
+        <para>
+          There are 2 supported modes to group DDL statements. For a simple example, the
+          output of both modes is:
+        </para>
+
+		<figure>
+			<title>org.castor.ddlgen.GroupStatements=TABLE</title>
+			<programlisting>
+drop A if exist
+create A(IDA int);
+alter table A add primary key (IDA)
+
+drop B if exist
+create B(IDB int);
+alter table B add primary key (IDB)
+			</programlisting>
+		</figure>
+
+		<figure>
+			<title>org.castor.ddlgen.GroupStatements=DDLTYPE</title>
+			<programlisting>
+drop A if exist
+drop B if exist
+
+create A(IDA int);
+create B(IDB int);
+
+alter table A add primary key (IDA)
+alter table B add primary key (IDB)
+			</programlisting>
+		</figure>
+
+      </section>
+   
+   	</section>  	
+
+    <section>
+    	<title>Specific properties</title>
+
+		<para>
+		  Below you can find a list of specific properties to control various advanced
+		  options of the DDL Generator.
+		</para>
+
+		<section>
+			<title>Properties common for all database engines</title>
+
+	        <table frame="all">
+	            <title>Common properties for all databases</title>
+	            <tgroup cols="5">
+		        	<thead>
+		        	    <row>
+			        		<entry>Option</entry>
+			        		<entry>Description</entry>
+			        		<entry>Values</entry>
+			        		<entry>Default</entry>
+			        		<entry>Since</entry>
+		        		</row>
+		        	</thead>
+		        	<tbody>
+						<row>
+						  <entry>org.castor.ddlgen.KeyGeneratorFactories</entry>
+						  <entry>Key generator factory classes supported by DB/2.</entry>
+						  <entry></entry>
+						  <entry></entry>
+						  <entry>1.1</entry>
+						</row>
+						<row>
+						  <entry>org.castor.ddlgen.HeaderComment</entry>
+						  <entry>Comment to add to head of generated script.</entry>
+						  <entry></entry>
+						  <entry></entry>
+						  <entry>1.1</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<section>
+				<title>Key generators</title>
+	
+				<para>
+				  The key generators supported by a database engine are defined as follows
+				  (example taken from Oracle):
+				</para>
+
+				<programlisting>
+#
+# key generator factory classes of supported database engines
+#
+org.castor.ddlgen.KeyGeneratorFactories=\
+  org.castor.ddlgen.keygenerator.HighLowKeyGeneratorFactory,\
+  org.castor.ddlgen.keygenerator.MaxKeyGeneratorFactory,\
+  org.castor.ddlgen.keygenerator.UUIDKeyGeneratorFactory,\
+  org.castor.ddlgen.engine.oracle.OracleSequenceKeyGeneratorFactory
+				</programlisting>
+				
+			</section>	
+
+        </section>
+
+		<section>
+			<title>Properties for db2, hsql, Oracle, Postgresql and sapdb</title>
+
+	        <table frame="all">
+	            <title>Common properties for all databases</title>
+	            <tgroup cols="5">
+		        	<thead>
+		        	    <row>
+			        		<entry>Option</entry>
+			        		<entry>Description</entry>
+			        		<entry>Values</entry>
+			        		<entry>Default</entry>
+			        		<entry>Since</entry>
+		        		</row>
+		        	</thead>
+		        	<tbody>
+						<row>
+						  <entry>org.castor.ddlgen.TriggerTemplate</entry>
+						  <entry>Template to create TRIGGER statements.</entry>
+						  <entry></entry>
+						  <entry></entry>
+						  <entry>1.1</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+
+			<section>
+				<title>Trigger template</title>
+
+				<para>
+				  Below you can take a look at the default trigger template defined for Oracle.
+				  The DDL Generator will replace the parameters in brackets with appropriate
+				  values (e.g. &lt;table_name&gt;).
+				</para>
+	
+				<figure>
+					<title>Default trigegr template for Oracle</title>			
+					<programlisting>
+#
+# trigger template
+#
+org.castor.ddlgen.TriggerTemplate=\
+CREATE TRIGGER &lt;trigger_name>
+  BEFORE INSERT OR UPDATE ON &lt;table_name>
+  FOR EACH ROW
+  DECLARE
+    iCounter &lt;table_name>.&lt;pk_name>%TYPE;
+    cannot_change_counter EXCEPTION;
+  BEGIN
+    IF INSERTING THEN
+      Select &lt;sequence_name>.NEXTVAL INTO iCounter FROM Dual;
+      :new.&lt;pk_name> := iCounter;
+    END IF;
+
+    IF UPDATING THEN
+      IF NOT (:new.&lt;pk_name> = :old.&lt;pk_name>) THEN
+        RAISE cannot_change_counter;
+      END IF;
+    END IF;
+
+EXCEPTION
+  WHEN cannot_change_counter THEN
+    raise_application_error(-20000, 'Cannot Change Counter Value');
+END;
+					</programlisting>
+				</figure>
+
+			</section>
+
+      </section>
+
+      <section>
+      	<title>Properties for MySQL only</title>
+
+        <table frame="all">
+            <title>Common properties for all databases</title>
+            <tgroup cols="5">
+	        	<thead>
+	        	    <row>
+		        		<entry>Option</entry>
+		        		<entry>Description</entry>
+		        		<entry>Values</entry>
+		        		<entry>Default</entry>
+		        		<entry>Since</entry>
+	        		</row>
+	        	</thead>
+	        	<tbody>
+					<row>
+					  <entry>org.castor.ddlgen.engine.mysql.StorageEngine</entry>
+					  <entry>Storage engine to be used. If left empty the default configured at the database server will be used.</entry>
+					  <entry>MYISAM, InnoDB, MERGE, MEMORY, BDB or ISAM</entry>
+					  <entry></entry>
+					  <entry>1.1</entry>
+					</row>
+					<row>
+					  <entry>org.castor.ddlgen.engine.mysql.ForeignKeyOnDeleteStrategy</entry>
+					  <entry>Delete strategy for foreign keys. If not specified NO ACTION will be used by default.</entry>
+					  <entry>CASCADE, RESTRICT, SET NULL, NO ACTION</entry>
+					  <entry></entry>
+					  <entry>1.1</entry>
+					</row>
+					<row>
+					  <entry>org.castor.ddlgen.engine.mysql.ForeignKeyOnUpdateStrategy</entry>
+					  <entry>Update strategy for foreign keys. If not specified NO ACTION will be used by default.</entry>
+					  <entry>CASCADE, RESTRICT, SET NULL, NO ACTION</entry>
+					  <entry></entry>
+					  <entry>1.1</entry>
+					</row>
+	        	</tbody>
+	        </tgroup>
+	    </table>
+
+      </section>
+
+	</section>
+	
+</section>

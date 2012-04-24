@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="ddlgen.introduction">
+	<section>
+		<title>Castor DDL Generator - An Introduction</title>
+		<para>
+			Describes how to use the DDL Generator, and what features and options are
+			currently supported.
+		</para>
+
+	    <section>
+	    	<title>Introduction</title>
+	
+			<para>
+			  Castor DDL Generator creates SQL scripts to drop/create tables, unique keys,
+			  sequences and so on based on the input of a Castor JDO mapping file.
+			</para>
+
+			<programlisting>
+java org.castor.ddlgen.Main -m mapping.xml
+			</programlisting>
+
+			<para>
+				This will generate the SQL script <methodname>mapping.sql</methodname> in the same directory
+				<emphasis>mapping.xml</emphasis> is located.
+			</para>
+	
+	    </section>
+
+		<section>
+			<title>DDL Generator Options</title>
+
+			<para>
+			  The DDL Generator has a number of different options which may be set. Some of
+			  them are specified at the command line while others need to be configured through
+			  a property file. Most of the options are located in global properties file
+			  <filename>org/castor/ddlgen/ddlgen.properties</filename>, but there are also some 
+			  options that are specific for one database engine. These DB-specific properties can 
+			  be found at <filename>org/castor/ddlgen/engine/&lt;database&gt;/&lt;database&gt;.properties</filename>.
+			</para>
+
+			<section>
+				<title>Command Line Options</title>
+
+		        <table frame="all">
+		            <title>Command line options</title>
+		            <tgroup cols="4">
+			        	<thead>
+			        	    <row>
+				        		<entry>Option</entry>
+				        		<entry>Args</entry>
+				        		<entry>Description</entry>
+				        		<entry>Optional?</entry>
+			        		</row>
+			        	</thead>
+			        	<tbody>
+							<row>
+							  <entry>m</entry>
+							  <entry>filename</entry>
+							  <entry>Castor JDO mapping file to generate DDL for.</entry>
+							  <entry>Required</entry>
+							</row>
+							<row>
+							  <entry>o</entry>
+							  <entry>filename</entry>
+							  <entry>Name of file the generated DDL will be written to. If not specified the
+							      generated DDL will be written to a file named similar as the Castor JDO
+							      mapping source file with <emphasis>xml</emphasis> extension being replaced by
+							      <emphasis>sql</emphasis>.</entry>
+							  <entry>Optional</entry>
+							</row>
+							<row>
+							  <entry>e</entry>
+							  <entry>database engine</entry>
+							  <entry>Name of database engine to generate DDL for. The engine used as default
+							      can be specified with <filename>org.castor.ddlgen.DefaultEngine</filename> option of
+							      global properties file.</entry>
+							  <entry>Optional</entry>
+							</row>
+							<row>
+							  <entry>c</entry>
+							  <entry>filename</entry>
+							  <entry>Alternative global properties file to be used when generating DDL.</entry>
+							  <entry>Optional</entry>
+							</row>
+							<row>
+							  <entry>d</entry>
+							  <entry>filename</entry>
+							  <entry>Alternative database specific properties file to be used when generating DDL.</entry>
+							  <entry>Optional</entry>
+							</row>
+							<row>
+							  <entry>h</entry>
+							  <entry></entry>
+							  <entry>Shows help/usage information.</entry>
+							  <entry>Optional</entry>
+							</row>
+				        </tbody>
+				    </tgroup>
+				</table>
+				
+
+			</section>
+      
+		</section>
+		
+		<section>
+			<title>Database Engines</title>
+
+			<para>
+				The DDL Generator supports generation of SQL scripts for the following
+				database engines:
+			</para>
+
+	        <table frame="all">
+	            <title>Description of the attributes</title>
+	            <tgroup cols="3">
+		        	<thead>
+		        	    <row>
+			        		<entry>Name</entry>
+			        		<entry>Database engine</entry>
+			        		<entry>Property file</entry>
+		        		</row>
+		        	</thead>
+		        	<tbody>
+			        	<row>
+			        		<entry><emphasis role="bold">db2</emphasis></entry>
+			        		<entry>DB/2</entry>
+			        		<entry>org/castor/ddlgen/engine/db2/db2.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">derby</emphasis></entry>
+			        		<entry>Apache Derby</entry>
+			        		<entry>org/castor/ddlgen/engine/derby/derby.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">hsql</emphasis></entry>
+			        		<entry>Hypersonic SQL</entry>
+			        		<entry>org/castor/ddlgen/engine/hsql/hsql.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">mssql</emphasis></entry>
+			        		<entry>Microsoft SQL Server</entry>
+			        		<entry>org/castor/ddlgen/engine/mssql/mssql.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">mysql</emphasis></entry>
+			        		<entry>MySQL</entry>
+			        		<entry>org/castor/ddlgen/engine/mysql/mysql.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">oracle</emphasis></entry>
+			        		<entry>Oracle</entry>
+			        		<entry>org/castor/ddlgen/engine/oracle/oracle.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">pointbase</emphasis></entry>
+			        		<entry>Borland Pointbase</entry>
+			        		<entry>org/castor/ddlgen/engine/pointbase/pointbase.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">postgresql</emphasis></entry>
+			        		<entry>PostgreSQL</entry>
+			        		<entry>org/castor/ddlgen/engine/postgresql/postgresql.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">sapdb</emphasis></entry>
+			        		<entry>SAP DB / MaxDB</entry>
+			        		<entry>org/castor/ddlgen/engine/sapdb/sapdb.properties</entry>
+			        	</row>
+			        	<row>
+			        		<entry><emphasis role="bold">sybase</emphasis></entry>
+			        		<entry>Sybase</entry>
+			        		<entry>org/castor/ddlgen/engine/sybase/sybase.properties</entry>
+			        	</row>
+		        	</tbody>
+		        </tgroup>
+			</table>
+
+		</section>
+      
+	</section>
+</section>
+
+
