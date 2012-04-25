@@ -1,89 +1,83 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<section id="ddlgen.introduction">
-	<section>
-		<title>Using the Ant task for the Castor DDL Generator</title>
-		<para>
-			Describes how to use the Ant task for the Castor DDL Generator and its features.
-		</para>
+<section id="ddlgen.ant.task">
+	<title>Using the Ant task for the Castor DDL Generator</title>
+	<para>
+		Describes how to use the Ant task for the Castor DDL Generator and its features.
+	</para>
 
-	</section>
+	<para>
+	  An alternative to using the command line as shown in the previous section,
+	  the Castor DDL Generator Ant Task can be used to call the DDL
+	  generator for class generation. The only requirement is that the
+	  castor-&lt;version&gt;-anttasks.jar must be made available to your Ant 
+	  installation.
+	</para>
 
     <section>
-    	<title>Castor DDL generator Ant task</title>
+      	<title>Configuration</title>
 
-		<para>
-		  An alternative to using the command line as shown in the previous section,
-		  the Castor DDL Generator Ant Task can be used to call the DDL
-		  generator for class generation. The only requirement is that the
-		  castor-&lt;version&gt;-anttasks.jar must be made available to your Ant 
-		  installation.
-		</para>
+        <para>
+          Please find below the complete list of parameters that can be set on the Castor
+          source generator.
+        </para>
+	
+		<table frame="all">
+		    <tgroup cols="3">
+				<thead>
+					<row>
+						<entry>Attribute</entry>
+						<entry>Description</entry>
+						<entry>Required?</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><emphasis style="bold">file</emphasis></entry>
+						<entry>The name of the Castor JDO mapping file to use as input for DDL generation.</entry>
+						<entry>Yes</entry>
+					</row>
+					<row>
+					  <entry>ddlFileName</entry>
+					  <entry>The name of the DDL file to be generated.</entry>
+					  <entry>Yes</entry>
+					</row>
+					<row>
+					  <entry>databaseEngine</entry>
+					  <entry>The name of database engine to generate DDL for.</entry>
+					  <entry>Yes</entry>
+					</row>
+					<row>
+					  <entry>globalProperties</entry>
+					  <entry>Name of a custom (global) properties file to be used during DDL generation.</entry>
+					  <entry>No</entry>
+					</row>
+					<row>
+					  <entry>databaseEngineProperties</entry>
+					  <entry>Name of a custom database specific properties file to be used during DDL generation.</entry>
+					  <entry>No</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
 
-	      <section>
-	      	<title>Configuration</title>
+        <para>
+          Alternatively to specifying the <emphasis>file</emphasis> property, it is possible to work 
+          with a nested &lt;FileSet&gt; element or with the <emphasis>dir</emphasis> property.
+        </para>
+
+      </section>
 	
-	        <para>
-	          Please find below the complete list of parameters that can be set on the Castor
-	          source generator.
-	        </para>
-	
-			<table frame="all">
-			    <tgroup cols="3">
-					<thead>
-						<row>
-							<entry>Attribute</entry>
-							<entry>Description</entry>
-							<entry>Required?</entry>
-						</row>
-					</thead>
-					<tbody>
-						<row>
-							<entry><emphasis style="bold">file</emphasis></entry>
-							<entry>The name of the Castor JDO mapping file to use as input for DDL generation.</entry>
-							<entry>Yes</entry>
-						</row>
-						<row>
-						  <entry>ddlFileName</entry>
-						  <entry>The name of the DDL file to be generated.</entry>
-						  <entry>Yes</entry>
-						</row>
-						<row>
-						  <entry>databaseEngine</entry>
-						  <entry>The name of database engine to generate DDL for.</entry>
-						  <entry>Yes</entry>
-						</row>
-						<row>
-						  <entry>globalProperties</entry>
-						  <entry>Name of a custom (global) properties file to be used during DDL generation.</entry>
-						  <entry>No</entry>
-						</row>
-						<row>
-						  <entry>databaseEngineProperties</entry>
-						  <entry>Name of a custom database specific properties file to be used during DDL generation.</entry>
-						  <entry>No</entry>
-						</row>
-					</tbody>
-				</tgroup>
-			</table>
-	
-	        <para>
-	          Alternatively to specifying the <emphasis>file</emphasis> property, it is possible to work 
-	          with a nested &lt;FileSet&gt; element or with the <emphasis>dir</emphasis> property.
-	        </para>
-	
-	      </section>
-	
-	      <section>
-	      	<title>Example</title>
-	
-	        <para>
-	        	Below is an example of how to use this task from within an Ant target
-	          	definition named 'castor:ddl:src':
-	        </para>
-	
-			<programlisting language="xml">
+      <section>
+      	<title>Example</title>
+
+        <para>
+        	Below is an example of how to use this task from within an Ant target
+          	definition named 'castor:ddl:src':
+        </para>
+
+		<programlisting language="xml">
 &lt;target name="castor:ddl:src" depends="init"
            description="Generate a DDL script from a JDO mapping file.">
 
@@ -95,10 +89,8 @@
                  ddlFileName="target/generated/ddl/mapping.sql"
                  databaseEngine="mysql"/>
 &lt;/target>
-			</programlisting>
+		</programlisting>
 	
-	      </section>
-	     
-	</section>	     
+    </section>
 	
 </section>
