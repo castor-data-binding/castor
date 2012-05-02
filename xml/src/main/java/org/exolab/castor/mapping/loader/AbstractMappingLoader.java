@@ -627,12 +627,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             FieldHandler<?> clonedHandler = handler;
             Class<?> classToClone = handler.getClass();
             try {
-                Method method = classToClone.getMethod(methodName, (Class[]) null);
-                clonedHandler = (FieldHandler<?>) method.invoke(handler, handler);
-                return clonedHandler;
+               Method method;
+               method = classToClone.getMethod(methodName, (Class[]) null);
+               clonedHandler = (FieldHandler<?>) method.invoke(handler, (Object[]) null);
+               return clonedHandler;
             } catch (Exception e) {
-                String err = "The class '" + classToClone.getName() + "' must implement the ClonableFieldHandlerMarker interface.";
-                throw new MappingException(err, e);
+               String err = "The class '" + classToClone.getName() + "' must implement the ClonableFieldHandlerMarker interface.";
+               throw new MappingException(err, e);
             }
         }
         
