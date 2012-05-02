@@ -31,5 +31,5 @@ public interface ClonableFieldHandler<T> extends FieldHandler<T> {
      * @return the 'cloned' {@link FieldHandler} instance.
      */
     public FieldHandler<T> copyInstance();
-    
+
 }
