@@ -16,6 +16,7 @@
 package org.castor.xml;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,7 +33,7 @@ import junit.framework.TestCase;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/application-context-test.xml" })
-public class JavaNamingTest extends TestCase {
+public class JavaNamingImplTest extends TestCase {
     
     private static final String[] VALID_NAMES = {"name", "myName", "my_name", "NAME"};
 
@@ -41,6 +42,7 @@ public class JavaNamingTest extends TestCase {
     private static final String PS = System.getProperty("file.separator");
 
     @Inject
+    @Named("javaNamingImpl")
     private JavaNaming _javaNaming;
 
     /**
@@ -217,7 +219,7 @@ public class JavaNamingTest extends TestCase {
     @Test
     public final void testGetClassName() {
         Assert.assertNull(_javaNaming.getClassName(null));
-        Assert.assertEquals("JavaNamingTest", _javaNaming.getClassName(JavaNamingTest.class));
-        Assert.assertEquals("JavaNamingTest$ForTestingPurposes", _javaNaming.getClassName(ForTestingPurposes.class));
+        Assert.assertEquals("JavaNamingImplTest", _javaNaming.getClassName(JavaNamingImplTest.class));
+        Assert.assertEquals("JavaNamingImplTest$ForTestingPurposes", _javaNaming.getClassName(ForTestingPurposes.class));
     }
 }

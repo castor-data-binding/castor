@@ -42,6 +42,8 @@
  */
 package org.exolab.javasource;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * A class which holds information about a field. Modeled closely after the
  * Java Reflection API. This class is part of package which is used to create
@@ -51,6 +53,7 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JField extends AbstractJField {
+   
     /**
      * Creates a new JField.
      * 
@@ -58,13 +61,20 @@ public final class JField extends AbstractJField {
      * @param name Name of this new field.
      */
     public JField(final JType type, final String name) {
-        super(type, name);
-
-        JModifiers modifiers = getModifiers();
-        modifiers.makePrivate();
-        
-        JDocComment comment = new JDocComment();
-        comment.appendComment("Field " + name + ".");
-        setComment(comment);
+       this(type, name, "Field " + name + ".");
     }
+
+    public JField(final JType type, final String name, String comment) {
+       super(type, name);
+
+       JModifiers modifiers = getModifiers();
+       modifiers.makePrivate();
+       
+       if (StringUtils.isNotEmpty(comment)) {
+          JDocComment jDocComment = new JDocComment();
+          jDocComment.appendComment(comment);
+          setComment(jDocComment);
+       }
+   }
+
 }

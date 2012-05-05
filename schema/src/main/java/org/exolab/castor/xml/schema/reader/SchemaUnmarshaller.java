@@ -366,7 +366,7 @@ public class SchemaUnmarshaller extends ComponentReader {
         while (enumeration.hasMoreElements()) {
 
             String ns = (String) enumeration.nextElement();
-            String[] prefixes = namespaces.getNamespacePrefixes(ns, true);
+            String[] prefixes = namespaces.getNamespacePrefixes(ns);
 
             if (prefixes.length == 0) {
                 //-- this should never happen, but report error just

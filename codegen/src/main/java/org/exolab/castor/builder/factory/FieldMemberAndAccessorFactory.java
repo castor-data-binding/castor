@@ -29,16 +29,32 @@ public class FieldMemberAndAccessorFactory {
     /**
      * The {@link JavaNaming} to use.
      */
-    private JavaNaming _javaNaming;;
+    private JavaNaming javaNaming;
+    
 
     /**
+     * Whether to use old field naming convention with '_' prefix.
+     */
+    private boolean useOldFieldNaming;
+    
+   /**
      * Creates a factory that offers public methods to create the 
      * field initialization code as well as the getter/setter methods.
      * 
-     * @param naming JavaNaming to use
+     * @param javaNaming JavaNaming to use
      */
-    public FieldMemberAndAccessorFactory(final JavaNaming naming) {
-        _javaNaming = naming;
+    public FieldMemberAndAccessorFactory(final JavaNaming javaNaming) {
+        this(javaNaming, false);
+    }
+
+    /**
+     * Creates an instance of this class. 
+     * 
+     * @param javaNaming JavaNaming to use
+     */
+    public FieldMemberAndAccessorFactory(final JavaNaming javaNaming, boolean useOldFieldNaming) {
+        this.javaNaming = javaNaming;
+        this.useOldFieldNaming = useOldFieldNaming;
     }
 
     /**
@@ -100,7 +116,13 @@ public class FieldMemberAndAccessorFactory {
         XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
         XSType type = xmlNature.getSchemaType();
         JType jType = type.getJType();
-        JField field = new JField(type.getJType(), fieldInfo.getName());
+        
+        JField field = null;
+        if (useOldFieldNaming()) {
+           field = new JField(type.getJType(), fieldInfo.getName());
+        } else {
+           field = new JField(type.getJType(), fieldInfo.getName(), null);
+        }
 
         if (xmlNature.getSchemaType().isDateTime()) {
             field.setDateTime(true);
@@ -163,9 +185,13 @@ public class FieldMemberAndAccessorFactory {
 
         //-- has_field
         if ((!type.isEnumerated()) && (jType.isPrimitive())) {
-            field = new JField(JType.BOOLEAN, "_has" + fieldInfo.getName());
-            field.setComment("keeps track of state for field: " + fieldInfo.getName());
-            jClass.addField(field);
+           if (useOldFieldNaming()) {
+              field = new JField(JType.BOOLEAN, "_has" + fieldInfo.getName());
+           } else {
+              field = new JField(JType.BOOLEAN, "has" + fieldInfo.getName());
+           }
+           field.setComment("Keeps track of whether primitive field " + fieldInfo.getName() + " has been set already.");
+           jClass.addField(field);
         }
 
         //-- save default value for primitives
@@ -183,7 +209,7 @@ public class FieldMemberAndAccessorFactory {
             jClass.addField(field);
         }
         */
-    } //-- createJavaField
+    }
 
     /**
      * Adds the getter/setter for this field to the jClass.
@@ -203,7 +229,7 @@ public class FieldMemberAndAccessorFactory {
         if (fieldInfo.requiresHasAndDeleteMethods()) {
             createHasAndDeleteMethods(fieldInfo, jClass);
         }
-    } //-- createAccessMethods
+    }
 
     /**
      * Creates the Javadoc comments for the getter method associated with this
@@ -309,11 +335,14 @@ public class FieldMemberAndAccessorFactory {
         xsType.getJType();
 
         //-- create hasMethod
-        method = new JMethod(fieldInfo.getHasMethodName(), JType.BOOLEAN,
-                             "true if at least one " + mname + " has been added");
+        method = new JMethod(fieldInfo.getHasMethodName(), JType.BOOLEAN, "true if at least one " + mname + " has been added");
         jClass.addMethod(method);
         jsc = method.getSourceCode();
-        jsc.add("return this._has");
+        jsc.add("return this.");
+        if (useOldFieldNaming()) {
+           jsc.append("_");
+        }
+        jsc.append("has");
         String fieldName = fieldInfo.getName();
         jsc.append(fieldName);
         jsc.append(";");
@@ -322,7 +351,11 @@ public class FieldMemberAndAccessorFactory {
         method = new JMethod(fieldInfo.getDeleteMethodName());
         jClass.addMethod(method);
         jsc = method.getSourceCode();
-        jsc.add("this._has");
+        jsc.add("this.");
+        if (useOldFieldNaming()) {
+           jsc.append("_");
+        }
+        jsc.append("has");
         jsc.append(fieldName);
         jsc.append("= false;");
         //-- bound properties
@@ -414,7 +447,7 @@ public class FieldMemberAndAccessorFactory {
         //-- simply for aesthetic beauty
         if (paramName.indexOf('_') == 0) {
             String tempName = paramName.substring(1);
-            if (_javaNaming.isValidJavaIdentifier(tempName)) {
+            if (javaNaming.isValidJavaIdentifier(tempName)) {
                 paramName = tempName;
             }
         }
@@ -469,7 +502,11 @@ public class FieldMemberAndAccessorFactory {
 
         //-- hasProperty
         if (fieldInfo.requiresHasAndDeleteMethods()) {
-            jsc.add("this._has");
+            jsc.add("this.");
+            if (useOldFieldNaming()) {
+               jsc.append("_");
+            }
+            jsc.append("has");
             jsc.append(fieldName);
             jsc.append(" = true;");
         }
@@ -498,8 +535,14 @@ public class FieldMemberAndAccessorFactory {
       * @return the javaNaming instance
       */
     public JavaNaming getJavaNaming() {
-        return _javaNaming;
+        return javaNaming;
     }
 
+    public void setUseOldFieldNaming(boolean useOldFieldNaming) {
+       this.useOldFieldNaming = useOldFieldNaming;
+    }
 
+    private boolean useOldFieldNaming() {
+       return this.useOldFieldNaming;
+    }
 }

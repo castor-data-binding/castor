@@ -72,6 +72,18 @@ public class JClass extends AbstractJClass {
     }
 
     /**
+     * Creates a new JClass with the given name.
+     *
+     * @param name The name of the JClass to create.
+     * @param useOldFieldNaming Whether to use old field naming conventions
+     */
+    public JClass(final String name, boolean useOldFieldNaming) {
+        super(name, useOldFieldNaming);
+    
+        _superClass = null;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public final void addImport(final String className) {

@@ -125,8 +125,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         _header = null;
         _packageName = JNaming.getPackageFromClassName(name);
         _imports = new Vector<String>();
-        _jdc = new JDocComment(JDocDescriptor
-                .createVersionDesc(DEFAULT_VERSION));
+        _jdc = new JDocComment(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
         _annotatedElement = new JAnnotatedElementHelper();
         _modifiers = new JModifiers();
         _interfaces = new Vector<String>();

@@ -155,7 +155,10 @@ public final class CastorCodeGenTask extends MatchingTask {
     
     /** If true, marshaling code will not be generated. */
     private boolean _nomarshal;
-    
+
+    /** If true, old Java field naming conventions will be used. */
+    private boolean _useOldFieldNaming = true;
+
     /**
      * If true, a mapping file will be generated (additionally).
      */
@@ -334,6 +337,15 @@ public final class CastorCodeGenTask extends MatchingTask {
     }
 
     /**
+     * Sets whether or not the old Java field naming conventions should be used.
+     * 
+     * @param useOldFieldNaming If true, the old Java field naming conventions will be used.
+     */
+    public void setUseOldFieldNaming(final boolean useOldFieldNaming) {
+        _useOldFieldNaming = useOldFieldNaming;
+    }
+
+    /**
      * Sets whether or not class descriptors are generated.
      * 
      * @param b If true, class descriptors are generated.
@@ -434,8 +446,13 @@ public final class CastorCodeGenTask extends MatchingTask {
         if (_types != null) {
             FieldInfoFactory factory;
             try {
-                factory = new FieldInfoFactory(_types);
-                _sgen = new CastorSourceGeneratorWrapper(factory);
+               if (_useOldFieldNaming) {
+                  factory = new FieldInfoFactory(_types);
+               } else {
+                  factory = new FieldInfoFactory(_types, false);
+               }
+
+               _sgen = new CastorSourceGeneratorWrapper(factory);
             } catch (Exception e) {
                 try {
                     factory = (FieldInfoFactory) Class.forName(_types).newInstance();

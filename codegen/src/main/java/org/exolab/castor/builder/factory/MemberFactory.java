@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.ClassInfoResolver;
 import org.exolab.castor.builder.GroupNaming;
@@ -140,8 +141,11 @@ public final class MemberFactory extends BaseFactory {
             return null;
         }
 
-        XSType xsType    = new XSClass(SGTypes.OBJECT, "any");
-        String vName     = "_anyObject";
+        XSType xsType = new XSClass(SGTypes.OBJECT, "any");
+        String vName = "_anyObject";
+//        if (getConfig().useOldFieldNaming()) {
+//           StringUtils.leftPad(vName, 1, '_');
+//        }
         String xmlName   = null;
         FieldInfo result = null;
 
@@ -193,6 +197,9 @@ public final class MemberFactory extends BaseFactory {
      */
     public FieldInfo createFieldInfoForChoiceValue() {
         String fieldName = "_choiceValue";
+//        if (getConfig().useOldFieldNaming()) {
+//           StringUtils.leftPad(fieldName, 1, '_');
+//        }
         XSType xsType = new XSClass(SGTypes.OBJECT, "any");
         FieldInfo fInfo = null;
         fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
@@ -219,9 +226,11 @@ public final class MemberFactory extends BaseFactory {
      *
      * @return the new FieldInfo
      */
-    public FieldInfo createFieldInfoForContent(final XMLBindingComponent component, 
-            final XSType xsType, final boolean useJava50) {
-        String fieldName = "_content"; //new xsType()???
+    public FieldInfo createFieldInfoForContent(final XMLBindingComponent component, final XSType xsType, final boolean useJava50) {
+        String fieldName = "content";//new xsType()??? 
+        if (getConfig().useOldFieldNaming()) {
+           StringUtils.leftPad(fieldName, 1, '_');
+        }
         if (component.getContentMemberName() != null) {
             fieldName = component.getContentMemberName();
         }
@@ -257,8 +266,10 @@ public final class MemberFactory extends BaseFactory {
             final ClassInfoResolver resolver, final boolean useJava50) {
         String xmlName = component.getXMLName();
         String memberName = component.getJavaMemberName();
-        if (!memberName.startsWith("_")) {
-            memberName = "_" + memberName;
+        if (getConfig().useOldFieldNaming()) {
+           if (!memberName.startsWith("_")) {
+              memberName = "_" + memberName;
+           }
         }
 
         XMLType xmlType = component.getXMLType();
@@ -326,7 +337,7 @@ public final class MemberFactory extends BaseFactory {
                             } else {
                                 packageName = SourceGeneratorConstants.TYPES_PACKAGE;
                             }
-                            JClass tempClass = new JClass(packageName+ "." + temp.getJavaClassName());
+                            JClass tempClass = new JClass(packageName+ "." + temp.getJavaClassName(), getConfig().useOldFieldNaming());
                             xsType = new XSClass(tempClass);
                             xsType.setAsEnumerated(true);
                         }
@@ -365,7 +376,7 @@ public final class MemberFactory extends BaseFactory {
                     } else {
                         String className = temp.getQualifiedName();
                         if (className != null) {
-                            JClass jClass = new JClass(className);
+                            JClass jClass = new JClass(className,getConfig().useOldFieldNaming());
                             if (((ComplexType) xmlType).isAbstract()) {
                                 jClass.getModifiers().setAbstract(true);
                             }
@@ -406,7 +417,7 @@ public final class MemberFactory extends BaseFactory {
         // is the XSType found?
         if (xsType == null) {
             String className = component.getQualifiedName();
-            JClass jClass = new JClass(className);
+            JClass jClass = new JClass(className, getConfig().useOldFieldNaming());
             if (component.isAbstract()) {
                 jClass.getModifiers().setAbstract(true);
             }

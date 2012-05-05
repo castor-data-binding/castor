@@ -6,11 +6,7 @@ import java.util.HashMap;
 import org.apache.commons.lang.StringUtils;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
-import org.exolab.castor.xml.Namespaces;
-import org.exolab.castor.xml.NodeType;
-import org.exolab.castor.xml.UnmarshalHandler;
-import org.exolab.castor.xml.XMLClassDescriptor;
-import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.*;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,9 +22,9 @@ import org.xml.sax.SAXException;
 public class NamespaceHandling {
 
     /**
-     * The name space stack.
+     * Represents the namespace stack.
      */
-    private Namespaces _namespaces = new Namespaces();
+    private NamespacesStack namespacesStack = new NamespacesStack();
 
     /**
      * A map of name space URIs to package names.
@@ -93,12 +89,12 @@ public class NamespaceHandling {
         if (nsDescriptor != null) {
             FieldHandler handler = nsDescriptor.getHandler();
             if (handler != null) {
-                Enumeration<String> enumeration = _namespaces
+                Enumeration<String> enumeration = namespacesStack
                         .getLocalNamespacePrefixes();
                 while (enumeration.hasMoreElements()) {
                     String nsPrefix = StringUtils.defaultString(enumeration
                             .nextElement());
-                    String nsURI = StringUtils.defaultString(_namespaces
+                    String nsURI = StringUtils.defaultString(namespacesStack
                             .getNamespaceURI(nsPrefix));
                     MapItem mapItem = new MapItem(nsPrefix, nsURI);
                     handler.setValue(object, mapItem);
@@ -153,7 +149,7 @@ public class NamespaceHandling {
      * Pops the current namespace instance
      */
     public void removeCurrentNamespaceInstance() {
-        _namespaces = _namespaces.getParent();
+        namespacesStack.removeNamespaceScope();
     }
 
     /**
@@ -163,7 +159,7 @@ public class NamespaceHandling {
      *            Namespace URI
      */
     public void addDefaultNamespace(String namespaceURI) {
-        _namespaces.addNamespace("", namespaceURI);
+        namespacesStack.addDefaultNamespace(namespaceURI);
     }
 
     /**
@@ -175,7 +171,7 @@ public class NamespaceHandling {
      *            XML name space URI.
      */
     public void addNamespace(String prefix, String namespaceURI) {
-        _namespaces.addNamespace(prefix, namespaceURI);
+        namespacesStack.addNamespace(prefix, namespaceURI);
 
     }
 
@@ -187,7 +183,7 @@ public class NamespaceHandling {
      * @return prefix
      */
     public String getNamespacePrefix(String namespaceURI) {
-        return _namespaces.getNamespacePrefix(namespaceURI);
+        return namespacesStack.getNamespacePrefix(namespaceURI);
     }
 
     /**
@@ -198,7 +194,7 @@ public class NamespaceHandling {
      * @return namespaceURI The corresponding namespace URI.
      */
     public String getNamespaceURI(String prefix) {
-        return _namespaces.getNamespaceURI(prefix);
+        return namespacesStack.getNamespaceURI(prefix);
     }
 
     /**
@@ -207,22 +203,22 @@ public class NamespaceHandling {
      * @return namespaceURI The namespace URI bound to the default namespace.
      */
     public String getDefaultNamespaceURI() {
-        return _namespaces.getNamespaceURI("");
+        return namespacesStack.getDefaultNamespaceURI();
     }
 
     /**
      * Creates a new name space.
      */
     public void createNamespace() {
-        _namespaces = _namespaces.createNamespaces();
+        namespacesStack.addNewNamespaceScope();
     }
 
     /**
-     * Returns the current name space context.
-     * @return The current name space stack (context).
+     * Returns the namespace stack.
+     * @return the namespace stack.
      */
-    public Namespaces getNamespaceContext() {
-        return _namespaces;
+    public NamespacesStack getNamespaceStack() {
+        return namespacesStack;
     }
 
     /**

@@ -15,15 +15,16 @@
  */
 package org.exolab.castor.xml.util;
 
-import org.castor.core.util.Assert;
-import org.exolab.castor.xml.Namespaces;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import java.util.Enumeration;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.util.Enumeration;
+
+import org.castor.core.util.Assert;
+import org.exolab.castor.xml.NamespacesStack;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * A document handler that uses internally a instance of {@link XMLStreamWriter} to output the result xml.
@@ -42,7 +43,7 @@ public class StaxStreamHandler extends DefaultHandler {
     /**
      * Instance of {@link org.exolab.castor.xml.Namespaces} used for handling the namespace.
      */
-    private Namespaces namespaces = new Namespaces();
+    private NamespacesStack namespacesStack = new NamespacesStack();
 
     /**
      * Flag indicating whether the new namespace scope is required to create.
@@ -84,11 +85,11 @@ public class StaxStreamHandler extends DefaultHandler {
     @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         if (createNamespaceScope) {
-            namespaces = namespaces.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
             createNamespaceScope = false;
         }
 
-        namespaces.addNamespace(prefix, uri);
+        namespacesStack.addNamespace(prefix, uri);
     }
 
     @Override
@@ -104,18 +105,18 @@ public class StaxStreamHandler extends DefaultHandler {
             }
 
             // retrieves the default namespace
-            String defaultNamespace = namespaces.getNamespaceURI("");
+            String defaultNamespace = namespacesStack.getDefaultNamespaceURI();
             if(defaultNamespace != null && defaultNamespace.length() > 0) {
                 xmlStreamWriter.setDefaultNamespace(defaultNamespace);
             }
 
             // iterates over all namespaces declared in current scope
-            Enumeration enumeration = namespaces.getLocalNamespacePrefixes();
+            Enumeration enumeration = namespacesStack.getLocalNamespacePrefixes();
             String prefix;
             while(enumeration.hasMoreElements()) {
                 prefix = (String)enumeration.nextElement();
                 xmlStreamWriter.writeNamespace(prefix,
-                        namespaces.getNamespaceURI(prefix));
+                        namespacesStack.getNamespaceURI(prefix));
             }
         } catch (XMLStreamException e) {
             convertToSAXException("Error occurred when writing the element start.", e);

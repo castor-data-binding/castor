@@ -48,6 +48,7 @@ package org.exolab.castor.xml.schema.reader;
 //-- imported classes and packages
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.NamespacesStack;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.xml.sax.AttributeList;
@@ -79,7 +80,10 @@ public final class Sax2ComponentReader
 
     private ComponentReader _compReader = null;
 
-    private Namespaces _namespaces = null;
+    /**
+     * Represents the namespaces stack.
+     */
+    private NamespacesStack namespacesStack = null;
 
       //----------------/
      //- Constructors -/
@@ -88,7 +92,7 @@ public final class Sax2ComponentReader
     public Sax2ComponentReader(ComponentReader compReader) {
         super();
         _compReader = compReader;
-        _namespaces = new Namespaces();
+        namespacesStack = new NamespacesStack();
     } //-- Sax2ComponentReader
 
 
@@ -113,11 +117,11 @@ public final class Sax2ComponentReader
         for (int i = 0; i < validAtts.length; i++) {
             String attName = atts.getName(i);
             if (attName.equals(XMLNS)) {
-                _namespaces.addNamespace("", atts.getValue(i));
+                namespacesStack.addNamespace("", atts.getValue(i));
             }
             else if (attName.startsWith(XMLNS_PREFIX)) {
                 String prefix = attName.substring(XMLNS_PREFIX.length());
-                _namespaces.addNamespace(prefix, atts.getValue(i));
+                namespacesStack.addNamespace(prefix, atts.getValue(i));
             }
             else {
                 validAtts[i] = true;
@@ -137,7 +141,7 @@ public final class Sax2ComponentReader
                     String prefix = attName.substring(0, idx);
                     if (!prefix.equals(XML_PREFIX)) {
                         attName = attName.substring(idx+1);
-                        namespace = _namespaces.getNamespaceURI(prefix);
+                        namespace = namespacesStack.getNamespaceURI(prefix);
                         if (namespace == null) {
                             String error = "The namespace associated with "+
                                 "the prefix '" + prefix +
@@ -187,14 +191,12 @@ public final class Sax2ComponentReader
         if (idx >= 0 ) {
             String prefix = name.substring(0,idx);
             name = name.substring(idx+1);
-            namespace = _namespaces.getNamespaceURI(prefix);
+            namespace = namespacesStack.getNamespaceURI(prefix);
         }
-        else namespace = _namespaces.getNamespaceURI("");
+        else namespace = namespacesStack.getDefaultNamespaceURI();
 
         //-- remove namespaces
-        if (_namespaces.getParent() != null) {
-            _namespaces = _namespaces.getParent();
-        }
+        namespacesStack.removeNamespaceScope();
 
         try {
             _compReader.endElement(name, namespace);
@@ -236,8 +238,7 @@ public final class Sax2ComponentReader
         throws org.xml.sax.SAXException
     {
         //-- create new Namespace scope
-        Namespaces nsDecls = _namespaces.createNamespaces();
-        _namespaces = nsDecls;
+        namespacesStack.addNewNamespaceScope();
 
         //-- handle namespaces
         AttributeSet attSet = processAttributeList(atts);
@@ -247,12 +248,14 @@ public final class Sax2ComponentReader
         if (idx >= 0 ) {
             String prefix = name.substring(0,idx);
             name = name.substring(idx+1);
-            namespace = _namespaces.getNamespaceURI(prefix);
+            namespace = namespacesStack.getNamespaceURI(prefix);
         }
-        else namespace = _namespaces.getNamespaceURI("");
+        else {
+            namespace = namespacesStack.getNamespaceURI("");
+        }
 
         try {
-            _compReader.startElement(name, namespace, attSet, nsDecls);
+            _compReader.startElement(name, namespace, attSet, namespacesStack.getCurrentNamespaceScope());
         }
         catch(XMLException ex) {
             throw new SAXException(ex);

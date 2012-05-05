@@ -14,6 +14,35 @@
       <section id="xml.code.generator.introduction.news">
         <title>News</title>
 
+        <section id="xml.code.generator.introduction.news.newFieldNamingConventions">
+            <title>Source generation &amp; Java field naming conventions</title>
+
+           <para>
+               Starting with <emphasis role="bold">release 1.3.3</emphasis>, the Castor 
+               source generator supports a new naming scheme for Java field names, which 
+               will be enabled by default. As such, Java field names as generated will follow more closely the standard 
+               Java property naming conventions. Should there be a need to keep using the old naming schema,
+			   please amend the following property in your custom <literal>castorbuilder.properties</literal> file:
+			</para>
+
+	        <programlisting language="xml">
+#
+# Property specifying whether for Java field names the old naming conventions
+# should be used.
+#
+# Possible values:
+# - true
+# - false (default)
+# 
+# <pre>
+# org.exolab.castor.builder.field-naming.old = false
+# </pre>
+#
+org.exolab.castor.builder.field-naming.old=true
+	        </programlisting>
+
+		</section>
+
         <section id="xml.code.generator.introduction.news.java50">
             <title>Source generation &amp; Java 5.0</title>
 
