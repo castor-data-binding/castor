@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mapping>
+   
+   <field-handler name="myHandler" class="org.castor.xmlctf.fieldhandler.FieldHandlerOldImpl">
+      <param name="date-format" value="yyyyMMdd"/>
+   </field-handler>
+
+   <class name="org.castor.xmlctf.fieldhandler.Root">
+      <field name="date" type="string" handler="myHandler"/>
+   </class>
+
+</mapping>
