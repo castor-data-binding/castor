@@ -187,8 +187,7 @@ public final class SourceFactory extends BaseFactory {
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this._memberFactory =
-            new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
+        this._memberFactory = new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
         this._typeConversion = new TypeConversion(getConfig());
         this._enumerationFactory =
             new EnumerationFactory(getConfig(), getGroupNaming(), sourceGenerator);
@@ -2017,8 +2016,7 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            FieldInfo fieldInfo = _memberFactory.createFieldInfo(
-                    component, state, getConfig().useJava50());
+            FieldInfo fieldInfo = _memberFactory.createFieldInfo(component, state, getConfig().useJava50());
             handleField(fieldInfo, state, component);
         }
     }
@@ -2423,8 +2421,7 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            fieldInfo.getMemberAndAccessorFactory().createJavaField(
-                    fieldInfo, state.getJClass());
+            fieldInfo.getMemberAndAccessorFactory().createJavaField(fieldInfo, state.getJClass());
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
                 fieldInfo.getMemberAndAccessorFactory().createAccessMethods(
