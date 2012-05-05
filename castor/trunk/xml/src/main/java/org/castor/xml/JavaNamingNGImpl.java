@@ -40,7 +40,7 @@
  *
  * Copyright 1999-2003 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id$
+ * $Id: JavaNamingImpl.java 9078 2011-11-03 20:50:10Z wguttmn $
  */
 
 package org.castor.xml;
@@ -61,12 +61,13 @@ import org.springframework.stereotype.Component;
  * but had been changed radically since.
  * 
  * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
- * @version $Id$
+ * @version $Id: JavaNamingImpl.java 9078 2011-11-03 20:50:10Z wguttmn $
  */
-@Component("javaNamingImpl")
-public class JavaNamingImpl implements JavaNaming {
+@Component("javaNamingNG")
+public class JavaNamingNGImpl implements JavaNaming {
+   
     /** Logger of this class. */
-    private static final Log LOG = LogFactory.getLog(JavaNamingImpl.class);
+    private static final Log LOG = LogFactory.getLog(JavaNamingNGImpl.class);
 
     /**
      * The property name to use in the castor.properties file to specify the
@@ -91,14 +92,14 @@ public class JavaNamingImpl implements JavaNaming {
             "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package",
             "private", "protected", "public", "return", "short", "static", "super", "switch",
             "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
-            "volatile", "while"}; // -- KEYWORDS
+            "volatile", "while"};
 
     /**
      * private constructor.
      */
-    public JavaNamingImpl() {
+    public JavaNamingNGImpl() {
         super();
-    } // -- JavaNaming
+    }
 
     /**
      * Returns true if the given String is a Java keyword which will cause a
@@ -117,7 +118,7 @@ public class JavaNamingImpl implements JavaNaming {
             }
         }
         return false;
-    } // -- isKeyword
+    }
 
     /**
      * Returns true if the given String matches the production of a valid Java
@@ -164,7 +165,7 @@ public class JavaNamingImpl implements JavaNaming {
             return false;
         }
         return true;
-    } // -- isValidJavaIdentifier
+    }
 
     /**
      * Cuts away a leading namespace prefix (if there is one in place).
@@ -186,23 +187,23 @@ public class JavaNamingImpl implements JavaNaming {
         }
         return toJavaName(name, true);
 
-    } // -- toJavaClassName
+    }
 
     /**
-     * Appends a leading '_' and converts the given name to a java name.
+     * Converts the given name to a valid Java name.
      * @param name the XML name to convert
-     * @return a Java member name starting with a leading _
+     * @return a valid Java member name
      * @see org.castor.xml.JavaNaming#toJavaMemberName(java.lang.String)
      */
     public final String toJavaMemberName(final String name) {
         return toJavaMemberName(name, true);
-    } // -- toJavaMemberName
+    }
 
     /**
-     * Appends a leading '_' and converts the given name to a java name.
+     * Converts the given name to a valid Java name.
      * @param name the XML name to convert
      * @param useKeywordSubstitutions set to true to turn on keyword substitution 
-     * @return a Java member name starting with a leading _
+     * @return a valid Java member name
      * @see org.castor.xml.JavaNaming#toJavaMemberName(java.lang.String,boolean)
      */
     public final String toJavaMemberName(final String name, final boolean useKeywordSubstitutions) {
@@ -217,15 +218,13 @@ public class JavaNamingImpl implements JavaNaming {
             String mappedName = (String) SUBST.get(memberName);
             if (mappedName != null) {
                 memberName = mappedName;
-            } else {
-                memberName = FIELD_UNDERSCORE_PREFIX + memberName;
             }
         }
         return memberName;
-    } // -- toJavaMemberName
+    }
 
     /**
-     * Checks if the given pacckage name is valid or not. Empty pacakge names
+     * Checks if the given package name is valid or not. Empty package names
      * are considered valid!
      * 
      * @param packageName
@@ -269,7 +268,7 @@ public class JavaNamingImpl implements JavaNaming {
             throw new IllegalArgumentException(message);
         }
         return packageName.replace('.', File.separatorChar);
-    } // -- packageToPath
+    }
 
     /**
      * To initialize the keyword map.
@@ -279,7 +278,7 @@ public class JavaNamingImpl implements JavaNaming {
         Hashtable ht = new Hashtable();
         ht.put("class", "clazz");
         return ht;
-    } // -- keywordMap
+    }
 
     /**
      * Converts the given xml name to a Java name.
@@ -350,7 +349,7 @@ public class JavaNamingImpl implements JavaNaming {
             }
         }
         return new String(ncChars, 0, next);
-    } // -- toJavaName
+    }
 
     /**
      * Qualifies the given <code>fileName</code> with the given
@@ -374,8 +373,8 @@ public class JavaNamingImpl implements JavaNaming {
         result.append('/');
         result.append(fileName);
         return result.toString();
-    } // -- getQualifiedFileName
-
+    }
+    
     /**
      * Gets the package name of the given class name.
      * 
@@ -395,7 +394,7 @@ public class JavaNamingImpl implements JavaNaming {
             return className.substring(0, idx);
         }
         return "";
-    } // -- getPackageName
+    }
 
     /**
      * Extracts the filed name part from the methods name. Mostly it cuts
@@ -421,7 +420,7 @@ public class JavaNamingImpl implements JavaNaming {
             fieldName = method.getName().substring(METHOD_PREFIX_ADD.length());
         }
         return toJavaMemberName(fieldName);
-    } //FIELD_UNDERSCORE_PREFIX
+    }
     
     /**
      * Extracts the field name part from the Field. Mostly it cuts away
@@ -619,4 +618,4 @@ public class JavaNamingImpl implements JavaNaming {
         }
         return name;
     }
-} // -- JavaNaming
+}

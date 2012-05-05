@@ -65,6 +65,15 @@ public abstract class AbstractJClass extends JStructure {
      * @param name The name of the AbstractJClass to create.
      */
     protected AbstractJClass(final String name) {
+       this(name, false);
+    }
+
+    /**
+     * Creates a new AbstractJClass with the given name.
+     *
+     * @param name The name of the AbstractJClass to create.
+     */
+    protected AbstractJClass(final String name, boolean useOldFieldNaming) {
         super(name);
         
         _staticInitializer = new JSourceCode();
@@ -72,8 +81,10 @@ public abstract class AbstractJClass extends JStructure {
         _methods = new Vector<JMethod>();
         _innerClasses = null;
         
-        //-- initialize default Java doc
-        getJDocComment().appendComment("Class " + getLocalName() + ".");
+        if (useOldFieldNaming) {
+           //-- initialize default Java doc
+           getJDocComment().appendComment("Class " + getLocalName() + ".");
+        }
     }
 
     //--------------------------------------------------------------------------
@@ -615,7 +626,9 @@ public abstract class AbstractJClass extends JStructure {
     private void printAbstractJField(final JSourceWriter jsw, final AbstractJField field) {
         //-- print Java comment
         JDocComment comment = field.getComment();
-        if (comment != null) { comment.print(jsw); }
+        if (comment != null && comment.getLength() > 0) { 
+           comment.print(jsw); 
+        }
 
         //-- print Annotations
         field.printAnnotations(jsw);

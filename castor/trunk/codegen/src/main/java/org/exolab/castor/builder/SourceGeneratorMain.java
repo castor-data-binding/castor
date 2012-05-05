@@ -97,6 +97,7 @@ public final class SourceGeneratorMain {
     private static final String ARGUMENT_FAIL_ON_ERROR             = "fail";
     private static final String ARGUMENT_NAME_CONFLICT_STRATEGY    = "nameConflictStrategy";
     private static final String ARGUMENT_NAME_JCLASSPRINTER        = "classPrinter";    
+    private static final String ARGUMENT_USE_OLD_FIELD_NAMING      = "useOldFieldNaming";
 
     private static final String ARG_VALUE_LINE_SEPARATION_MAC      = "mac";
     private static final String ARG_VALUE_LINE_SEPARATION_UNIX     = "unix";
@@ -177,9 +178,15 @@ public final class SourceGeneratorMain {
     private static final String USING_SEPARATE_RESOURCES_DIRECTORY =
         "Using a separate destination for resources.";
 
+    private static final String USE_OLD_FIELD_NAMING_MSG = 
+          "Using old Java field naming conventions";
+
+    private static final String USE_NEW_FIELD_NAMING_MSG = 
+          "Using new Java field naming conventions";
+
     /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
-
+    
     /**
      * As a static utility class, we want a private constructor.
      */
@@ -376,7 +383,14 @@ public final class SourceGeneratorMain {
 
         FieldInfoFactory factory = null;
         try {
-            factory = new FieldInfoFactory(typeFactory);
+           System.out.print("-- ");
+           if (Boolean.valueOf(options.getProperty(ARGUMENT_USE_OLD_FIELD_NAMING, "true"))) {
+              System.out.println(USE_OLD_FIELD_NAMING_MSG);
+              factory = new FieldInfoFactory(typeFactory);
+           } else {
+              System.out.println(USE_NEW_FIELD_NAMING_MSG);
+              factory = new FieldInfoFactory(typeFactory, false);
+           }
         } catch (IllegalArgumentException e) {
             try {
                 // Allow someone to provide their own FieldInfoFactory implementation
@@ -518,6 +532,9 @@ public final class SourceGeneratorMain {
         
         desc = "Selects the JClass printer type (default 'standard')";
         allOptions.addFlag(ARGUMENT_NAME_JCLASSPRINTER, "<mode>", desc, true);
+
+        desc = "Whether to use old Java field naming conventions (default to 'true')";
+        allOptions.addFlag(ARGUMENT_USE_OLD_FIELD_NAMING, "", desc, true);
 
         return allOptions;
     }

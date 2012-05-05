@@ -44,7 +44,7 @@ public class AnyNodeUnmarshalHandler {
 	public Object commonStartElement(String name, String namespace,
 			boolean wsPreserve) throws SAXException {
 		// 1- creates a new SAX2ANY handler
-		_anyUnmarshaller = new SAX2ANY(_namespaceHandling.getNamespaceContext(), wsPreserve);
+		_anyUnmarshaller = new SAX2ANY(_namespaceHandling.getNamespaceStack(), wsPreserve);
 		// 2- delegates the element handling
 		if (_elemInfo._attributeList != null) {
 			// -- SAX 1

@@ -294,6 +294,16 @@ public class BuilderConfiguration {
          * </pre>
          */
         public static final String USE_CYCLE_BREAKER = "org.exolab.castor.builder.useCycleBreaker";
+
+        /**
+         * Property specifying whether for Java field names the old naming conventions
+         * should be used; defaults to <i>true</i>.
+         * 
+         * <pre>
+         * org.exolab.castor.builder.field-naming.old = true
+         * </pre>
+         */
+        public static final String USE_OLD_FIELD_NAMING = "org.exolab.castor.builder.field-naming.old";
         
     } //--Property
 
@@ -949,4 +959,8 @@ public class BuilderConfiguration {
 
         return properties;
     }
+
+   public boolean useOldFieldNaming() {
+      return "true".equalsIgnoreCase(_localProps.getProperty(Property.USE_OLD_FIELD_NAMING, FALSE));
+   }
 }

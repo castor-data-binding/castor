@@ -254,7 +254,15 @@ public class SourceGenerator extends BuilderConfiguration {
 
         setJavaNaming(_internalContext.getJavaNaming());
         _dialog = new ConsoleDialog();
-        _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
+        if (infoFactory == null) {
+           if (useOldFieldNaming()) {
+              _infoFactory = new FieldInfoFactory();
+           } else {
+              _infoFactory = new FieldInfoFactory(false);
+           }
+        } else {
+           _infoFactory = infoFactory;
+        }
 
         super.load();
 

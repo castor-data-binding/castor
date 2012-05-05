@@ -45,6 +45,7 @@
 package org.exolab.castor.xml.util;
 
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.NamespacesStack;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
@@ -66,7 +67,11 @@ public class DocumentHandlerAdapter implements ContentHandler {
     private static final String CDATA = "CDATA";
 
     private DocumentHandler _handler = null;
-    private Namespaces _namespaces = null;
+
+    /**
+     * Represents the namespaces stack.
+     */
+    private NamespacesStack namespacesStack = null;
 
     private boolean _createNamespaceScope = true;
 
@@ -80,7 +85,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
             throw new IllegalArgumentException("The argument 'handler' must not be null.");
         }
         _handler = handler;
-        _namespaces = new Namespaces();
+        namespacesStack = new NamespacesStack();
     }
 
     /**
@@ -109,9 +114,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
         throws SAXException
     {
         _handler.endElement(qName);
-        if (_namespaces.getParent() != null) {
-            _namespaces = _namespaces.getParent();
-        }
+        namespacesStack.removeNamespaceScope();
     }
 
     /**
@@ -182,11 +185,11 @@ public class DocumentHandlerAdapter implements ContentHandler {
         if (_createNamespaceScope) {
             //-- no current namespaces, but we create a new scope
             //-- to make things easier in the endElement method
-            _namespaces = _namespaces.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
         }
         else {
             _createNamespaceScope = true;
-            _namespaces.declareAsAttributes(attList, true);
+            namespacesStack.declareAsAttributes(attList, true);
         }
 
         //-- copy Attributes to AttributeList
@@ -205,10 +208,10 @@ public class DocumentHandlerAdapter implements ContentHandler {
         throws SAXException
     {
         if (_createNamespaceScope) {
-            _namespaces = _namespaces.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
             _createNamespaceScope = false;
         }
 
-        _namespaces.addNamespace(prefix, uri);
+        namespacesStack.addNamespace(prefix, uri);
     }
 }

@@ -45,499 +45,465 @@
 
 package org.exolab.castor.xml;
 
-import org.xml.sax.ContentHandler;
-import org.xml.sax.helpers.AttributeListImpl;
-import org.xml.sax.SAXException;
-
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.castor.core.util.Assert;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributeListImpl;
 
 /**
  * A class for handling Namespace declaration and scoping
- *
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2004-09-09 23:04:08 -0600 (Thu, 09 Sep 2004) $
-**/
+ * @version $Revision$ $Date: 2004-09-09 23:04:08 -0600 (Thu, 09 Sep
+ *          2004) $
+ **/
 public final class Namespaces {
 
-    /**
-     * The reserved XML Namespace Prefix 
-     */
-    public static final String XML_NAMESPACE_PREFIX = "xml";
-    
-    /**
-     * The reserved XML 1.0 Namespace URI 
-     */
-    public static final String XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
-    
-    
-    /**
-     * The first namespace in this set of Namespaces
+   /**
+    * The reserved XML Namespace Prefix
+    */
+   public static final String XML_NAMESPACE_PREFIX = "xml";
+
+   /**
+    * The reserved XML 1.0 Namespace URI
+    */
+   public static final String XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
+
+   /**
+    * The CDATA type..uses for SAX attributes
+    */
+   private static final String CDATA = "CDATA";
+
+   /**
+    * The namespace declaration String
     **/
-    private Namespace _first = null;
+   private static final String XMLNS = "xmlns";
 
-    /**
-     * The last namespace in this set of Namespaces
+   /**
+    * Represents a collection of all registered namespaces.
+    */
+   private final List<Namespace> namespaces = new ArrayList<Namespace>();
+
+   /**
+    * Represents a {@link Map} instance that contains all registered namespaces.
+    */
+   private final Map<String, Namespace> namespaceMap = new HashMap<String, Namespace>();
+
+   public Namespaces() {
+      super();
+      namespaceMap.put(XML_NAMESPACE_PREFIX, new Namespace(XML_NAMESPACE_PREFIX, XML_NAMESPACE));
+   }
+   /**
+    * Adds the given namespace declaration to this Namespaces instance
+    * 
+    * @param prefix
+    *           the namespace prefix
+    * @param uri
+    *           the namespace URI to be associated with the given prefix
+    * 
+    * @throws IllegalArgumentException
+    *            if uri is null
     **/
-    private Namespace _last  = null;
+   public synchronized void addNamespace(String prefix, String uri) {
 
+      // checks the input parameter
+      Assert.notNull(uri, "Namespace URI must not be null");
 
-    private Namespaces _parent = null;
+      // -- adjust prefix to prevent null value
+      if (prefix == null)
+         prefix = "";
 
-    /**
-     * The CDATA type..uses for SAX attributes
-     */
-    private static final String CDATA = "CDATA";
-
-    /**
-     * The namespace declaration String
-    **/
-    private static final String XMLNS  = "xmlns";
-
-
-    /**
-     * Creates a new Namespaces instance
-    **/
-    public Namespaces() {
-        super();
-    } //-- Namespaces
-
-    /**
-     * Creates a new Namespaces instance
-    **/
-    public Namespaces(Namespaces parent) {
-        super();
-        _parent = parent;
-    } //-- Namespaces
-
-    /**
-     * Adds the given namespace declaration to this Namespaces
-     *
-     * @param prefix the namespace prefix
-     * @param uri the namespace URI to be associated with the given prefix
-    **/
-    public synchronized void addNamespace(String prefix, String uri) {
-
-        if (uri == null) {
-            throw new IllegalArgumentException("Namespace URI must not be null");
-        }
-
-        //-- adjust prefix to prevent null value
-        if (prefix == null) prefix = "";
-
-        //-- Make sure prefix is not equal to "xml"
-        if (XML_NAMESPACE_PREFIX.equalsIgnoreCase(prefix)) {
-            if (!XML_NAMESPACE.equals(uri)) {
-                String err = "The prefix 'xml' is reserved (XML 1.0 Specification) " +
-                    "and cannot be declared.";
-                throw new IllegalArgumentException(err);
-            }
-            //-- if we make it here, just ignore it (it's already supported internally)
-            return;
-        }
-        //-- make sure URI is not equal to the XML 1.0 namespace
-        else if (XML_NAMESPACE.equals(uri)) {
-            String err = "The namespace '" + XML_NAMESPACE;
-            err += "' is reserved (XML 1.0 Specification) and cannot be declared.";
+      // -- Make sure prefix is not equal to "xml"
+      if (XML_NAMESPACE_PREFIX.equalsIgnoreCase(prefix)) {
+         if (!XML_NAMESPACE.equals(uri)) {
+            String err = "The prefix 'xml' is reserved (XML 1.0 Specification) " + "and cannot be declared.";
             throw new IllegalArgumentException(err);
-        }
-        
-        if (_first == null) {
-            _first = new Namespace(prefix, uri);
-            _last  = _first;
-        }
+         }
+         // -- if we make it here, just ignore it (it's already supported
+         // internally)
+         return;
+      }
+      // -- make sure URI is not equal to the XML 1.0 namespace
+      else if (XML_NAMESPACE.equals(uri)) {
+         String err = "The namespace '" + XML_NAMESPACE;
+         err += "' is reserved (XML 1.0 Specification) and cannot be declared.";
+         throw new IllegalArgumentException(err);
+      }
 
-        //-- check for existing namespace declaration for
-        //-- prefix
-        else {
-            boolean found = false;
-            Namespace ns = _first;
-            while (ns != null) {
-                if (ns.prefix.equals(prefix)) {
-                    found = true;
-                    ns.uri = uri;
-                    break;
-                }
-                ns = ns.next;
+      // adds the namespace
+      Namespace namespace;
+      if (namespaceMap.containsKey(prefix)) {
+         namespaceMap.get(prefix).setUri(uri);
+      } else {
+         namespace = new Namespace(prefix, uri);
+         namespaces.add(namespace);
+         namespaceMap.put(prefix, namespace);
+      }
+   }
+
+   /**
+    * Returns an Enumeration of local namespace URIs for this Namespaces.
+    * 
+    * @return an Enumeration of local namespace URIs.
+    **/
+   public Enumeration<String> getLocalNamespaces() {
+      return new NamespaceEnumerator(namespaces.iterator());
+   }
+
+   /**
+    * Returns the Namespace URI associated with the given prefix
+    * 
+    * @param prefix
+    *           the namespace prefix to lookup
+    * @return the namespace URI associated with the given prefix; null if the
+    *         given namespace prefix is not bound.
+    **/
+   public String getNamespaceURI(String prefix) {
+      // -- adjust prefix to prevent null value
+      if (prefix == null)
+         prefix = "";
+
+//      // -- handle built-in namespace URIs
+//      if (XML_NAMESPACE_PREFIX.equals(prefix)) {
+//         return XML_NAMESPACE;
+//      }
+
+      Namespace namespace = namespaceMap.get(prefix);
+
+      if (namespace != null) {
+         return namespace.getUri();
+      }
+
+      return null;
+   }
+
+   /**
+    * Returns the Namespace prefix associated with the given URI. If multiple
+    * namespace prefixes have been declared, then the first one found is
+    * returned. To obtain all prefixes see <code>#getNamespacePrefixes</code>.
+    * 
+    * @param nsURI
+    *           the namespace URI to lookup
+    * @return the namespace prefix associated with the given URI
+    * 
+    * @throws IllegalArgumentException
+    *            if nsURI is null
+    **/
+   public String getNamespacePrefix(String nsURI) {
+
+      // check the input parameter
+      Assert.notNull(nsURI, "Namespace URI must not be null.");
+
+      for (Namespace namespace : namespaces) {
+
+         if (nsURI.equals(namespace.getUri())) {
+            return namespace.getPrefix();
+         }
+      }
+
+      // -- handle built-in namespace prefixes
+      if (XML_NAMESPACE.equals(nsURI)) {
+         return XML_NAMESPACE_PREFIX;
+      }
+
+      return null;
+
+   }
+
+   /**
+    * Returns all namespace prefixes declared locally
+    * 
+    * @return an Enumeration of locally declared namespace prefixes
+    */
+   public Enumeration<String> getLocalNamespacePrefixes() {
+      return new NamespaceEnumerator(namespaces.iterator(), NamespaceEnumerator.PREFIX);
+   }
+
+   /**
+    * Returns the Namespace prefixes associated with the given URI.
+    * 
+    * @param nsURI
+    *           the namespace URI to lookup
+    * @param local
+    *           a boolean that when true indicates only the local scope is
+    *           searched.
+    * @return the namespace prefixes associated with the given URI
+    * 
+    * @throws IllegalArgumentException
+    *            if nsURI is null
+    **/
+   public String[] getNamespacePrefixes(String nsURI) {
+
+      // check the result
+      Assert.notNull(nsURI, "Namespace URI must not be null.");
+
+      List<String> prefixes = new ArrayList<String>();
+      for (Namespace namespace : namespaces) {
+         if (namespace.getUri().equals(nsURI)) {
+            prefixes.add(namespace.getPrefix());
+         }
+      }
+
+      return prefixes.toArray(new String[0]);
+   }
+
+   /**
+    * Returns the Namespace prefix associated with the given URI. Or null if no
+    * prefix has been declared. This method will ignore the default namespace.
+    * This is useful when dealing with attributes that do not use the default
+    * namespace.
+    * 
+    * @param nsURI
+    *           the namespace URI to lookup
+    * @return the namespace prefix associated with the given URI
+    * 
+    * @throws IllegalArgumentException
+    *            if nsURI is null
+    **/
+   public String getNonDefaultNamespacePrefix(String nsURI) {
+      Assert.notNull(nsURI, "Namespace URI must not be null.");
+      for (Namespace namespace : namespaces) {
+         if (nsURI.equals(namespace.getUri()) && namespace.getPrefix().length() > 0) {
+            return namespace.getPrefix();
+         }
+      }
+
+      // -- handle built-in namespace prefixes
+      if (XML_NAMESPACE.equals(nsURI)) {
+         return XML_NAMESPACE_PREFIX;
+      }
+
+      return null;
+
+   }
+
+   /**
+    * Removes the namespace declaration for the given prefix. This is a local
+    * action only, the namespace declaration will not be removed from any parent
+    * Namespaces object.
+    * 
+    * @param prefix
+    *           the namespace prefix to remove the binding of
+    * @return true if the namespace declaration was removed, otherwise false.
+    */
+   public synchronized boolean removeNamespace(String prefix) {
+      if (prefix == null) {
+         return false;
+      }
+
+      if (namespaceMap.containsKey(prefix)) {
+         Namespace namespace = namespaceMap.get(prefix);
+         namespaceMap.remove(prefix);
+         namespaces.remove(namespace);
+
+         return true;
+      }
+
+      return false;
+   }
+
+   /**
+    * Calls the given ContentHandler's endPrefixMapping method for each locally
+    * declared namespace
+    * 
+    * @param handler
+    *           the ContentHandler
+    */
+   public void sendEndEvents(ContentHandler handler) throws SAXException {
+      for (Namespace namespace : namespaces) {
+         handler.endPrefixMapping(namespace.getPrefix());
+      }
+   }
+
+   /**
+    * Calls the given ContentHandler's startPrefixMapping method for each
+    * locally declared namespace
+    * 
+    * @param handler
+    *           the ContentHandler
+    */
+   public void sendStartEvents(ContentHandler handler) throws SAXException {
+      for (Namespace namespace : namespaces) {
+         handler.startPrefixMapping(namespace.getPrefix(), namespace.getUri());
+      }
+   }
+
+   /**
+    * Declare the namespaces of this stack in as attributes.
+    * 
+    * @param atts
+    *           the Attribute List to fill in.
+    */
+   @SuppressWarnings("deprecation")
+   public void declareAsAttributes(AttributeListImpl atts) {
+
+      String attName = null;
+      for (Namespace ns : namespaces) {
+         if (ns.prefix != null) {
+            int len = ns.prefix.length();
+            if (len > 0) {
+               StringBuffer buf = new StringBuffer(6 + len);
+               buf.append(XMLNS);
+               buf.append(':');
+               buf.append(ns.prefix);
+               attName = buf.toString();
+               atts.addAttribute(attName, CDATA, ns.uri);
             }
-            if (!found) {
-                _last.next = new Namespace(prefix, uri);
-                _last = _last.next;
-            }
-        }
-    } //-- method: addNamespace
-
-    /**
-     * Creates a new Namespaces instance with this Namespaces as the parent
-    **/
-    public Namespaces createNamespaces() {
-        return new Namespaces(this);
-    } //-- method: createNamespaces
-
-    /**
-     * Returns an Enumeration of local namespace URIs for this Namespaces.
-     *
-     * @return an Enumeration of local namespace URIs.
-    **/
-    public Enumeration getLocalNamespaces() {
-        return new NamespaceEnumerator(_first);
-    } //-- getLocalNamespace
-
-    /**
-     * Returns the Namespace URI associated with the given prefix
-     *
-     * @param prefix the namespace prefix to lookup
-     * @return the namespace URI associated with the given prefix
-    **/
-    public String getNamespaceURI(String prefix) {
-        //-- adjust prefix to prevent null value
-        if (prefix == null) prefix = "";
-
-        Namespace ns = _first;
-
-        while (ns != null) {
-            if (ns.prefix.equals(prefix)) {
-                return ns.uri;
-            }
-            ns = ns.next;
-        }
-
-        if (_parent != null) {
-            return _parent.getNamespaceURI(prefix);
-        }
-        
-        //-- handle built-in namespace URIs
-        if (XML_NAMESPACE_PREFIX.equals(prefix)) {
-            return XML_NAMESPACE;
-        }
-        
-        return null;
-
-    } //-- method: getNamespaceURI
-
-    /**
-     * Returns the Namespace prefix associated with the given URI.
-     * If multiple namespace prefixes have been declared, then
-     * the first one found is returned. To obtain all prefixes see
-     * <code>#getNamespacePrefixes</code>.
-     *
-     * @param nsURI the namespace URI to lookup
-     * @return the namespace prefix associated with the given URI
-    **/
-    public String getNamespacePrefix(String nsURI) {
-        //-- prevent null value
-        if (nsURI == null)
-            throw new IllegalArgumentException("Namespace URI must not be null.");
-
-        Namespace ns = _first;
-        while (ns != null) {
-            if (ns.uri.equals(nsURI)) {
-                return ns.prefix;
-            }
-            ns = ns.next;
-        }
-
-        if (_parent != null) {
-            return _parent.getNamespacePrefix(nsURI);
-        }
-        
-        //-- handle built-in namespace prefixes
-        if (XML_NAMESPACE.equals(nsURI)) {
-            return XML_NAMESPACE_PREFIX;
-        }
-        
-        return null;
-
-    } //-- method: getNamespacePrefix
-
-    /**
-     * Returns all namespace prefixes declared locally
-     * 
-     * @return an Enumeration of locally declared namespace prefixes
-     */
-    public Enumeration getLocalNamespacePrefixes() {
-        return new NamespaceEnumerator(_first, NamespaceEnumerator.PREFIX);
-    } //-- method: getLocalNamespacePrefixes
-
-    /**
-     * Returns all namespace prefixes associated with the given URI,
-     * including those from parent scopes. 
-     * 
-     * @param nsURI the namespace URI to lookup
-     * @return the namespace prefixes associated with the given URI
-    **/
-    public String[] getNamespacePrefixes(String nsURI) {
-        return getNamespacePrefixes(nsURI, false);
-    } //-- method: getNamespacePrefixes
-
-    /**
-     * Returns the Namespace prefixes associated with the given URI.
-     *
-     * @param nsURI the namespace URI to lookup
-     * @param local a boolean that when true indicates only the local
-     * scope is searched. 
-     * @return the namespace prefixes associated with the given URI
-    **/
-    public String[] getNamespacePrefixes(String nsURI, boolean local) {
-        //-- prevent null value
-        if (nsURI == null)
-            throw new IllegalArgumentException("Namespace URI must not be null.");
-
-        Vector prefixes = new Vector(3);
-        getNamespacePrefixes(nsURI, local, prefixes);
-        
-        String[] pArray = new String[prefixes.size()];
-        prefixes.copyInto(pArray);
-        return pArray;
-
-    } //-- method: getNamespacePrefixes
-
-    /**
-     * Returns the Namespace prefix associated with the given URI.
-     * Or null if no prefix has been declared. This method will
-     * ignore the default namespace. This is useful when dealing
-     * with attributes that do not use the default namespace.
-     *
-     * @param nsURI the namespace URI to lookup
-     * @return the namespace prefix associated with the given URI
-    **/
-    public String getNonDefaultNamespacePrefix(String nsURI) {
-        //-- adjust prefix to prevent null value
-        if (nsURI == null)
-            throw new IllegalArgumentException("Namespace URI must not be null.");
-
-        Namespace ns = _first;
-        while (ns != null) {
-            if (ns.uri.equals(nsURI)) {
-                if (ns.prefix.length() > 0) {
-                    return ns.prefix;
-                }
-            }
-            ns = ns.next;
-        }
-
-        if (_parent != null) {
-            return _parent.getNonDefaultNamespacePrefix(nsURI);
-        }
-        
-        //-- handle built-in namespace prefixes
-        if (XML_NAMESPACE.equals(nsURI)) {
-            return XML_NAMESPACE_PREFIX;
-        }
-        
-        return null;
-
-    } //-- method: getNonDefaultNamespacePrefix
-
-    /**
-     * Returns the parent Namespaces for this Namespaces instance.
-     *
-     * @return the parent Namespaces for this Namespaces instance.
-    **/
-    public Namespaces getParent() {
-        return _parent;
-    } //-- method: getParent
-
-    /**
-     * Removes the namespace declaration for the given prefix.
-     * This is a local action only, the namespace declaration
-     * will not be removed from any parent Namespaces object.
-     *
-     * @param prefix the namespace prefix to remove the binding of
-     * @return true if the namespace declaration was removed, 
-     * otherwise false.
-     */
-    public synchronized boolean removeNamespace(String prefix) {
-        if (prefix == null) return false;
-        
-        Namespace ns = _first;
-        Namespace previous = null;
-        
-        while (ns != null) {
-            if (ns.prefix.equals(prefix)) {
-                if (ns == _first) {
-                    _first = _first.next;
-                    if (_last == ns) {
-                        _last = null;
-                    }
-                }
-                else {
-                    previous.next = ns.next;
-                    if (_last == ns) {
-                        _last = previous;
-                    }
-                }
-                return true;
-            }
-            previous = ns;
-            ns = ns.next;
-        }
-
-        return false;
-        
-    } //-- method: removeNamespace
-
-    /**
-     * Sets the parent Namespaces for this Namespaces instance.
-     *
-     * @param namespaces the parent Namespaces
-    **/
-    public void setParent(Namespaces namespaces) {
-        _parent = namespaces;
-    } //-- method: setParent
-
-    /**
-     * Calls the given ContentHandler's endPrefixMapping method
-     * for each locally declared namespace
-     * 
-     * @param handler the ContentHandler
-     */
-    public void sendEndEvents(ContentHandler handler) 
-        throws SAXException
-    {
-        Namespace ns = _first;
-        while (ns != null) {
-            handler.endPrefixMapping(ns.prefix);
-            ns = ns.next;
-        }
-    } //-- sendEndEvents
-    
-    
-    /**
-     * Calls the given ContentHandler's startPrefixMapping method
-     * for each locally declared namespace
-     * 
-     * @param handler the ContentHandler
-     */
-    public void sendStartEvents(ContentHandler handler) 
-        throws SAXException
-    {
-        Namespace ns = _first;
-        while (ns != null) {
-            handler.startPrefixMapping(ns.prefix, ns.uri);
-            ns = ns.next;
-        }
-    } //-- sendStartEvents
-
-    /**
-     * Declare the namespaces of this stack in as attributes.
-     * @param atts the Attribute List to fill in.
-     */
-    public void declareAsAttributes(AttributeListImpl atts, boolean localOnly) {
-
-        Namespace ns = _first;
-        String attName = null;
-        while (ns != null) {
-            if (ns.prefix != null) {
-                int len = ns.prefix.length();
-                if (len > 0) {
-                    StringBuffer buf = new StringBuffer(6+len);
-                    buf.append(XMLNS);
-                    buf.append(':');
-                    buf.append(ns.prefix);
-                    attName = buf.toString();
-                    atts.addAttribute(attName, CDATA, ns.uri);
-                }
-                //case with no prefix but a nsURI
-                else {
-                   atts.addAttribute(XMLNS, CDATA, ns.uri);
-                }
-            } //ns.prefix!=null
+            // case with no prefix but a nsURI
             else {
-                atts.addAttribute(XMLNS, CDATA, ns.uri);
+               atts.addAttribute(XMLNS, CDATA, ns.uri);
             }
+         } // ns.prefix!=null
+         else {
+            atts.addAttribute(XMLNS, CDATA, ns.uri);
+         }
+      }
+   }
 
-            ns = ns.next;
-        }
-
-        if ((!localOnly) && (_parent != null)) {
-            _parent.declareAsAttributes(atts, false);
-        }
-    } //method:declareAsAttributes
-
-
-    /**
-     * Adds the namespace prefixes associated with the given URI to the
-     * given Vector.
-     *
-     * @param nsURI the namespace URI to lookup
-     * @param local a boolean that when true indicates only the local
-     * scope is searched. 
-     * @param prefixes the Vector to add the prefixes to
+   /**
+    * An internal class used to represent an XML namespace.
     **/
-    private void getNamespacePrefixes(String nsURI, boolean local, Vector prefixes) {
+   class Namespace {
 
-        Namespace ns = _first;
-        while (ns != null) {
-            if (ns.uri.equals(nsURI)) {
-                prefixes.addElement(ns.prefix);
-            }
-            ns = ns.next;
-        }
+      /**
+       * The namespace uri.
+       */
+      private String uri;
+      
+      /**
+       * The namespace prefix bound to the uri.
+       */
+      private String prefix;
 
-        if ((_parent != null) && (!local)) {
-            _parent.getNamespacePrefixes(nsURI, local, prefixes);
-        }
 
-    } //-- method: getNamespacePrefixes
+      /**
+       * Creates new {@link Namespace} instance, the namespace prefix and uri
+       * remains uninitialized.
+       */
+      Namespace() {
+         super();
+      }
 
-    /**
-     * An internal class used to represent a namespace
-    **/
-    class Namespace {
+      Namespace(String prefix, String uri) {
+         this.prefix = prefix;
+         this.uri = uri;
+      }
 
-        String prefix = null;
-        String uri    = null;
+      /**
+       * Retrieves the namespace prefix.
+       * 
+       * @return the namespace prefix
+       */
+      public String getPrefix() {
+         return prefix;
+      }
 
-        Namespace next = null;
+      /**
+       * Sets the namespace prefix
+       * 
+       * @param prefix
+       *           the namespace prefix
+       */
+      public void setPrefix(String prefix) {
+         this.prefix = prefix;
+      }
 
-        Namespace() {
-            super();
-        }
+      /**
+       * Retrieves the namespace uri.
+       * 
+       * @return the namespace uri
+       */
+      public String getUri() {
+         return uri;
+      }
 
-        Namespace(String prefix, String uri) {
-            this.prefix = prefix;
-            this.uri    = uri;
-        }
-    } //-- class: Namespace
+      /**
+       * Sets the namespace uri
+       * 
+       * @param uri
+       *           the namespace uri
+       */
+      public void setUri(String uri) {
+         this.uri = uri;
+      }
 
-    /**
-     * A simple Enumeration for Namespace objects
-     */
-    static class NamespaceEnumerator
-        implements java.util.Enumeration
-    {
-        public static final int URI = 0;
-        public static final int PREFIX = 1;
+      /**
+       * {@inheritDoc}
+       */
+      @Override
+      public boolean equals(Object object) {
+         if (this == object) {
+            return true;
+         }
+         if (object == null || getClass() != object.getClass()) {
+            return false;
+         }
 
-        private Namespace _namespace = null;
-        private int _returnType = URI;
+         Namespace namespace = (Namespace) object;
 
-        NamespaceEnumerator(Namespace namespace) {
-            _namespace = namespace;
-        }
-        
-        NamespaceEnumerator(Namespace namespace, int returnType) {
-            _namespace = namespace;
-            _returnType = returnType;
-        }
+         if (prefix != null ? !prefix.equals(namespace.prefix) : namespace.prefix != null)
+            return false;
+         if (uri != null ? !uri.equals(namespace.uri) : namespace.uri != null)
+            return false;
 
-        public boolean hasMoreElements() {
-            return (_namespace != null);
-        }
+         return true;
+      }
 
-        public Object nextElement() {
-            String obj = null;
-            if (_namespace != null) {
-                if (_returnType == URI)
-                    obj = _namespace.uri;
-                else 
-                    obj = _namespace.prefix;
-                _namespace = _namespace.next;
-            }
-            return obj;
-        }
-        
-    } //-- class: NamespaceEnumerator
+      /**
+       * {@inheritDoc}
+       */
+      @Override
+      public int hashCode() {
+         int result = prefix != null ? prefix.hashCode() : 0;
+         result = 31 * result + (uri != null ? uri.hashCode() : 0);
+         return result;
+      }
+   }
 
-} //-- class: Namespaces
+   /**
+    * A simple Enumeration for Namespace objects
+    */
+   static class NamespaceEnumerator implements java.util.Enumeration<String> {
+      public static final int URI = 0;
+      public static final int PREFIX = 1;
+
+      private int _returnType = URI;
+
+      private Iterator<Namespace> namespaceIterator;
+
+      NamespaceEnumerator(Iterator<Namespace> namespaceIterator) {
+         this.namespaceIterator = namespaceIterator;
+      }
+
+      NamespaceEnumerator(Iterator<Namespace> namespaceIterator, int returnType) {
+         this.namespaceIterator = namespaceIterator;
+         _returnType = returnType;
+      }
+
+      public boolean hasMoreElements() {
+         return namespaceIterator.hasNext();
+      }
+
+      public String nextElement() {
+
+         String result;
+         Namespace ns = namespaceIterator.next();
+
+         if (_returnType == URI) {
+            result = ns.getUri();
+         } else {
+            result = ns.getPrefix();
+         }
+
+         return result;
+      }
+
+   }
+
+}

@@ -50,6 +50,7 @@ import java.util.Stack;
 
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.NamespacesStack;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -106,9 +107,9 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     private boolean _character = false;
 
     /**
-     * The namespace context of this handler
+     * Represents the namespaces stack.
      */
-    private Namespaces _context;
+    private NamespacesStack namespacesStack;
 
     private boolean _wsPreserve = false;
 
@@ -123,18 +124,18 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Constructs a SAX2ANY given a namespace context.
      *
-     * @param context the namespace context in which this handler acts.
+     * @param namespacesStack the namespace stack
      * @param wsPreserve if white spaces whould be preserved
      */
-    public SAX2ANY(Namespaces context, boolean wsPreserve) {
-        _context = context;
+    public SAX2ANY(NamespacesStack namespacesStack, boolean wsPreserve) {
+        this.namespacesStack = namespacesStack;
         _wsPreserve = wsPreserve;
         init();
     }
 
     private void init() {
-        if (_context == null)
-            _context = new Namespaces();
+        if (this.namespacesStack == null)
+            this.namespacesStack = new NamespacesStack();
     }
 
     /**
@@ -170,14 +171,14 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         AnyNode temp = new AnyNode(AnyNode.NAMESPACE, null, prefix, uri, null);
        _namespaces.push(temp);
        if (_processNamespace) {
-           _context = _context.createNamespaces();
+           namespacesStack.addNewNamespaceScope();
            _processNamespace = true;
        }
-       _context.addNamespace(prefix, uri);
+       namespacesStack.addNamespace(prefix, uri);
     }
 
     public void endPrefixMapping(String prefix) throws SAXException {
-        _context.removeNamespace(prefix);
+        namespacesStack.removeNamespace(prefix);
     }
 
     //--startElement methods SAX1 and SAX2
@@ -194,14 +195,14 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         //Namespace handling code to be moved once we integrate
         //the new event API
         /////////////////NAMESPACE HANDLING/////////////////////
-        _context = _context.createNamespaces();
+        namespacesStack.addNewNamespaceScope();
         String prefix = "";
         String namespaceURI = null;
         int idx = name.indexOf(':');
         if (idx >= 0) {
              prefix = name.substring(0,idx);
         }
-        namespaceURI = _context.getNamespaceURI(prefix);
+        namespaceURI = namespacesStack.getNamespaceURI(prefix);
         //--Overhead here since we process attributes twice
         for (int i=0; i<atts.getLength(); ++i) {
             qName = atts.getName(i);
@@ -213,7 +214,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
                 // Extract the prefix if any
                 nsPrefix = (qName.equals(XMLNS_PREFIX))?null:qName.substring(XMLNS_PREFIX_LENGTH);
                 tempNode = new AnyNode(AnyNode.NAMESPACE, getLocalPart(qName), nsPrefix, value, null);
-                _context.addNamespace(nsPrefix, value);
+                namespacesStack.addNamespace(nsPrefix, value);
                 _namespaces.push(tempNode);
                 if (prefix.equals(nsPrefix))
                     namespaceURI = value;
@@ -254,13 +255,13 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
             //Namespace handling code to be moved once we integrate
             //the new event API
             /////////////////NAMESPACE HANDLING/////////////////////
-            _context = _context.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
             String prefix = "";
             int idx = qName.indexOf(':');
             if (idx >= 0) {
                  prefix = qName.substring(0,idx);
             }
-            namespaceURI = _context.getNamespaceURI(prefix);
+            namespaceURI = namespacesStack.getNamespaceURI(prefix);
             //--Overhead here since we process attributes twice
             for (int i=0; i<atts.getLength(); ++i) {
                 String attrqName = atts.getQName(i);
@@ -271,7 +272,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
                     // Extract the prefix if any
                     nsPrefix = (attrqName.equals(XMLNS_PREFIX))?null:attrqName.substring(XMLNS_PREFIX_LENGTH);
                     tempNode = new AnyNode(AnyNode.NAMESPACE, getLocalPart(attrqName), nsPrefix, value, null);
-                    _context.addNamespace(nsPrefix, value);
+                    namespacesStack.addNamespace(nsPrefix, value);
                     _namespaces.push(tempNode);
                     if (prefix.equals(nsPrefix))
                         namespaceURI = value;
@@ -304,7 +305,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
             if (_processNamespace ) {
                 // attribute namespace
                 if(prefix!=null)
-                    uri = _context.getNamespaceURI(prefix);
+                    uri = namespacesStack.getNamespaceURI(prefix);
             }
             //--add attribute
             tempNode = new AnyNode(AnyNode.ATTRIBUTE, getLocalPart(attqName), prefix, uri, value);
@@ -324,9 +325,9 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     public void endElement(String name) throws SAXException {
         int idx = name.indexOf(':');
         String prefix = (idx >= 0) ? name.substring(0,idx) : "";
-        String namespaceURI = _context.getNamespaceURI(prefix);
+        String namespaceURI = namespacesStack.getNamespaceURI(prefix);
         endElement(namespaceURI,getLocalPart(name), name);
-        _context = _context.getParent();
+        namespacesStack.removeNamespaceScope();
     }
 
     public void endElement(String namespaceURI, String localName, String qName)
@@ -399,36 +400,10 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
-     * Get the namespace context of this SAX2ANY handler. If the SAX2ANY handler
-     * is called during the processing of an XML document, it may happen that
-     * the XML fragment parsed by the SAX2ANY handler contains references to
-     * namespaces declared in the given context.
-     *
-     * @return the namespace context to interact with while parsing an XML
-     *         fragment with the SAX2ANY handler
-     */
-    public Namespaces getNamespaceContext() {
-        return _context;
-    }
-
-    /**
-     * Set the namespace context in which this handler acts.
-     * If this handler is called during the processing of an XML document, it
-     * may happen that the XML fragment parsed by the SAX2ANY handler contains
-     * references to namespaces declared in the given context.
-     *
-     * @param context the namespace context to interact with while parsing an
-     * XML fragment with the SAX2ANY handler.
-     */
-    public void setNamespaceContext(Namespaces context) {
-        _context = context;
-    }
-
-    /**
      * Checks the given String to determine if it only
      * contains whitespace.
      *
-     * @param sb the String to check
+     * @param string the String to check
      * @return true if the only whitespace characters were
      * found in the given StringBuffer
      */
@@ -466,7 +441,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         String prefix = null;
         //retrieves the prefix if any
         if (namespaceURI != null) {
-            prefix = _context.getNamespacePrefix(namespaceURI);
+            prefix = namespacesStack.getNamespacePrefix(namespaceURI);
         }
         else if (qName != null) {
             if ((qName.length() != 0) && (qName.indexOf(':') != -1 ))

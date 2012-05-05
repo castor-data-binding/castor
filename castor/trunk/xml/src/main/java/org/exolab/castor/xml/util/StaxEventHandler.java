@@ -17,6 +17,7 @@ package org.exolab.castor.xml.util;
 
 import org.castor.core.util.Assert;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.NamespacesStack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -53,7 +54,7 @@ public class StaxEventHandler extends DefaultHandler {
     /**
      * Instance of {@link Namespaces} used for handling the namespace.
      */
-    private Namespaces namespaces = new Namespaces();
+    private NamespacesStack namespacesStack = new NamespacesStack();
 
     /**
      * Flag indicating whether the new namespace scope is required to create.
@@ -96,11 +97,11 @@ public class StaxEventHandler extends DefaultHandler {
     @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         if (createNamespaceScope) {
-            namespaces = namespaces.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
             createNamespaceScope = false;
         }
 
-        namespaces.addNamespace(prefix, uri);
+        namespacesStack.addNamespace(prefix, uri);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class StaxEventHandler extends DefaultHandler {
         try {
             // writes the start of element
             xmlEventWriter.add(eventFactory.createStartElement(new QName(qName),
-                    new AttributeIterator(attributes), new NamespaceIterator(namespaces)));
+                    new AttributeIterator(attributes), new NamespaceIterator(namespacesStack)));
         } catch (XMLStreamException e) {
             convertToSAXException("Error occurred when writing element start.", e);
         }
@@ -223,12 +224,12 @@ public class StaxEventHandler extends DefaultHandler {
      * @version 1.3.3
      * @since 1.3.3
      */
-    private class NamespaceIterator implements Iterator {
+    private class NamespaceIterator implements Iterator<Namespace> {
 
         /**
          * Represents the current namespace context.
          */
-        private final Namespaces namespaces;
+        private final NamespacesStack namespaces;
 
         /**
          * Represents the current namespace context.
@@ -250,12 +251,12 @@ public class StaxEventHandler extends DefaultHandler {
          *
          * @param namespaces the list of attributes to use
          */
-        private NamespaceIterator(Namespaces namespaces) {
+        private NamespaceIterator(NamespacesStack namespaces) {
             this.namespaces = namespaces;
             this.namespaceEnumerator = namespaces.getLocalNamespacePrefixes();
 
             // retrieves the default namespace
-            String defaultNamespace = namespaces.getNamespaceURI("");
+            String defaultNamespace = namespaces.getDefaultNamespaceURI();
             if (defaultNamespace != null && defaultNamespace.length() > 0) {
                 hasDefaultNamespace = true;
             }
@@ -265,14 +266,14 @@ public class StaxEventHandler extends DefaultHandler {
             return hasDefaultNamespace && !defaultNamespaceWritten || namespaceEnumerator.hasMoreElements();
         }
 
-        public Object next() {
+        public Namespace next() {
             Namespace namespace;
 
             // creates namespace instance
             if(hasDefaultNamespace && !defaultNamespaceWritten) {
 
                 // creates a default namespace instance
-                namespace = eventFactory.createNamespace(namespaces.getNamespaceURI(""));
+                namespace = eventFactory.createNamespace(namespaces.getDefaultNamespaceURI());
                 defaultNamespaceWritten = true;
             } else {
 

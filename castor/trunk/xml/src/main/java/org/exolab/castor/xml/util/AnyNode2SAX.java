@@ -51,6 +51,7 @@ import java.util.HashSet;
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.EventProducer;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.NamespacesStack;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributeListImpl;
@@ -68,8 +69,11 @@ public class AnyNode2SAX implements EventProducer {
     private DocumentHandler _handler;
     /** The stack to store the elements. */
     private HashSet _elements;
-    /** The namespace context. */
-    private Namespaces _context;
+
+    /**
+     * Represents the namespace stack.
+     */
+    private NamespacesStack namespacesStack;
 
     /**
      * No-arg constructor.
@@ -89,12 +93,12 @@ public class AnyNode2SAX implements EventProducer {
     /**
      * Creates a AnyNode2SAX for the given node and the namespace context.
      * @param node the AnyNode to create AnyNode2SAX for.
-     * @param context a namespace context
+     * @param namespacesStack the namespace stack
      */
-    public AnyNode2SAX(final AnyNode node, final Namespaces context) {
+    public AnyNode2SAX(final AnyNode node, final NamespacesStack namespacesStack) {
         _elements = new HashSet();
         _node     = node;
-        _context  = (context == null) ? new Namespaces() : context;
+        this.namespacesStack  = namespacesStack != null ? namespacesStack : new NamespacesStack();
     }
 
     /**
@@ -113,8 +117,8 @@ public class AnyNode2SAX implements EventProducer {
     }
 
     public static void fireEvents(final AnyNode node,
-            final DocumentHandler handler, final Namespaces context) throws SAXException {
-        AnyNode2SAX eventProducer = new AnyNode2SAX(node, context);
+            final DocumentHandler handler, final NamespacesStack namespacesStack) throws SAXException {
+        AnyNode2SAX eventProducer = new AnyNode2SAX(node, namespacesStack);
         eventProducer.setDocumentHandler(handler);
         eventProducer.start();
     }
@@ -154,7 +158,7 @@ public class AnyNode2SAX implements EventProducer {
                 //--retrieve a prefix?
                 attUri = tempNode.getNamespaceURI();
                 if (attUri != null) {
-                    attPrefix = _context.getNamespacePrefix(attUri);
+                    attPrefix = namespacesStack.getNamespacePrefix(attUri);
                 }
                 if (attPrefix != null && attPrefix.length() > 0) {
                     xmlName = attPrefix + ':' + xmlName;
@@ -165,7 +169,7 @@ public class AnyNode2SAX implements EventProducer {
             } //attributes
 
             //-- namespace management
-            _context = _context.createNamespaces();
+            namespacesStack.addNewNamespaceScope();
             String nsPrefix = node.getNamespacePrefix();
             String nsURI = node.getNamespaceURI();
 
@@ -176,7 +180,7 @@ public class AnyNode2SAX implements EventProducer {
                 prefix = tempNode.getNamespacePrefix();
                 value = tempNode.getNamespaceURI();
                 if (value != null && value.length() > 0) {
-                    _context.addNamespace(prefix, value);
+                    namespacesStack.addNamespace(prefix, value);
                 }
                 tempNode = tempNode.getNextSibling();
             } //namespaceNode
@@ -185,11 +189,11 @@ public class AnyNode2SAX implements EventProducer {
             //maybe the namespace is already bound to a prefix in the
             //namespace context
             if (nsURI != null && nsURI.length() > 0) {
-                String tempPrefix = _context.getNamespacePrefix(nsURI);
+                String tempPrefix = namespacesStack.getNamespacePrefix(nsURI);
                 if (tempPrefix != null) {
                     nsPrefix = tempPrefix;
                 } else {
-                    _context.addNamespace(nsPrefix, nsURI);
+                    namespacesStack.addNamespace(nsPrefix, nsURI);
                 }
             }
 
@@ -209,7 +213,7 @@ public class AnyNode2SAX implements EventProducer {
             }
 
             try {
-                _context.declareAsAttributes(atts,true);
+                namespacesStack.declareAsAttributes(atts,true);
                 handler.startElement(qName, atts);
             } catch (SAXException sx) {
                 throw new SAXException(sx);
@@ -225,7 +229,7 @@ public class AnyNode2SAX implements EventProducer {
             //-- finish element
             try {
                 handler.endElement(qName);
-                _context = _context.getParent();
+                namespacesStack.removeNamespaceScope();
             } catch(org.xml.sax.SAXException sx) {
                 throw new SAXException(sx);
             }

@@ -35,7 +35,7 @@ public class AbstractJField extends JAnnotatedElementHelper implements JMember {
     private String _name = null;
     
     /** JavaDoc for this field. */
-    private JDocComment _comment = null;
+    private JDocComment _comment = new JDocComment();
     
     /** Initialization string for this field. */
     private String _initString = null;
@@ -131,9 +131,6 @@ public class AbstractJField extends JAnnotatedElementHelper implements JMember {
      * @param comment The JavaDoc comment for this JField.
      */
     public void setComment(final String comment) {
-        if (_comment == null) {
-            _comment = new JDocComment();
-        }
         _comment.setComment(comment);
     }
 
