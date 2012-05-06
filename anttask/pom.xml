@@ -23,6 +23,7 @@
     
     <build>
     	<resources>
+      <!-- 
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
@@ -36,6 +37,7 @@
             		<include>META-INF/MANIFEST.MF</include>
             	</includes>
             </resource>
+             -->
         </resources>
     </build>
 
@@ -47,14 +49,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-ddlgen</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.6</version>
 		</dependency>
 
 		<dependency>
