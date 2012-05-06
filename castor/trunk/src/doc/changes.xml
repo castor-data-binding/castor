@@ -13,6 +13,37 @@
 
         <title>Recent changes to the HTML documentation</title>
 
+        <section title="Castor 1.3.3">
+
+            <section title="Additions">
+            
+               <ul>
+                  <li>
+                     Moved documentation for the Castor JDO DDLGen to the <a href="reference-guide.xml">reference guide</a>, 
+                     and deleted the corresponding HTML pages.
+                  </li>
+                  <li>
+                     Created a new menu section named 'Documentation' and moved all related menu items there.
+                  </li>
+               </ul>
+               
+            </section>
+
+            <section title="Changes/Improvements">
+            
+               <ul>
+                  <li>
+                     Removed links to old releases from 'Main' menu section, and added links to old reference guide versions 
+                     to the <a href="reference-guide.xml">reference guide</a> page.
+                  </li>
+                  <li>
+                     Reworked <a href="reference-guide.xml">reference guide</a> page to refer to old reference guide releases.
+                  </li>
+               </ul>
+               
+            </section>
+
+        </section>
         <section title="Castor 1.1.3">
         
         	<section title="Additions">

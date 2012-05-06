@@ -6,7 +6,7 @@
     <abstract>
        The index page for the Castor Project
     </abstract>
-    <status>Draft</status>
+    <status>Final</status>
   </properties>
   <body>
     <title>The Castor Project</title>
@@ -25,15 +25,7 @@
 
     </section>
 
-    <section title="Recent documentation changes">
-
-        <p>Please check <a href="changes.html">here</a> for any information
-           related to changes of the HTML documentation.</p>
-
-    </section>
-
     <section title="Recent News">
-      <!-- include the latest news -->
       <include href="news.xml" select-node="news" max-nodes="8"/>
     </section>
 
