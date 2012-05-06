@@ -26,6 +26,7 @@
     
     <build>
     	<resources>
+      <!-- 
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
@@ -39,6 +40,7 @@
             		<include>META-INF/MANIFEST.MF</include>
             	</includes>
             </resource>
+             -->
         </resources>
     </build>
 

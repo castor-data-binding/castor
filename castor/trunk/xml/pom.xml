@@ -33,6 +33,10 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+            </resource>
+            <!-- 
+            <resource>
+                <directory>src/main/resources</directory>
                 <excludes>
                 	<exclude>META-INF/MANIFEST.MF</exclude>
                 </excludes>
@@ -44,6 +48,7 @@
             		<include>META-INF/MANIFEST.MF</include>
             	</includes>
             </resource>
+             -->
         </resources>
         <plugins>
             <plugin>
