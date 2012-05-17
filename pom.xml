@@ -525,13 +525,23 @@
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
          </dependency>
-
          <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
          </dependency>
-
+         <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+         </dependency>
+         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <!-- 2.3 would require Java 6 -->
+            <version>2.2</version>
+         </dependency>
+         
          <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
@@ -541,12 +551,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.19</version>
-         </dependency>
-         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <!-- 2.3 would require Java 6 -->
-            <version>2.2</version>
          </dependency>
 
          <dependency>
