@@ -25,11 +25,11 @@ import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
 
 /**
  * As the name already expresses: this class is there for backward compatibility
- * and should be removed from Castor with a future release. 
+ * and should be removed from Castor with a future release.
  * 
- * Normally the internal context is created by XMLContext exclusivly and then handed down
- * the call chain. This very class is used in all cases, which fail to be on a call
- * chain started with {@link XMLContext}.
+ * Normally the internal context is created by XMLContext exclusivly and then
+ * handed down the call chain. This very class is used in all cases, which fail
+ * to be on a call chain started with {@link XMLContext}.
  * 
  * Ideally, all usage of this class should disappear and be replaced with proper
  * usage of {@link XMLContext}.
@@ -38,25 +38,26 @@ import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
  * @author Joachim Grueneis, jgrueneis_at_gmail_dot_com
  * @version $Id$
  */
-public class BackwardCompatibilityContext extends AbstractInternalContext implements InternalContext{
-    /**
-     * Initializes InternalContext with default values.
-     */
-    public BackwardCompatibilityContext() {
-        setClassLoader(getClass().getClassLoader());
-        
-        XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
-            .createClassDescriptorResolver(BindingType.XML);
-        cdr.setInternalContext(this);
-        setXMLClassDescriptorResolver(cdr);
+public class BackwardCompatibilityContext extends AbstractInternalContext implements InternalContext {
+   /**
+    * Initializes InternalContext with default values.
+    */
+   public BackwardCompatibilityContext() {
+      super();
+      setClassLoader(getClass().getClassLoader());
 
-        Introspector introspector = new Introspector();
-        introspector.setInternalContext(this);
-        setIntrospector(introspector);
-        cdr.setIntrospector(introspector);
-        
-        ResolverStrategy resolverStrategy = new CastorXMLStrategy();
-        setResolverStrategy(resolverStrategy);
-        cdr.setResolverStrategy(resolverStrategy);
-    }
+      XMLClassDescriptorResolver cdr = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+            .createClassDescriptorResolver(BindingType.XML);
+      cdr.setInternalContext(this);
+      setXMLClassDescriptorResolver(cdr);
+
+      Introspector introspector = new Introspector();
+      introspector.setInternalContext(this);
+      setIntrospector(introspector);
+      cdr.setIntrospector(introspector);
+
+      ResolverStrategy resolverStrategy = new CastorXMLStrategy();
+      setResolverStrategy(resolverStrategy);
+      cdr.setResolverStrategy(resolverStrategy);
+   }
 }
