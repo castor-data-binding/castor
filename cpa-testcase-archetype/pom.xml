@@ -3,6 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-archetype-cpa-testcase</artifactId>
+    <version>1.3.3-rc2-SNAPSHOT</version>
+
 	<packaging>jar</packaging>
     <name>Castor CPA - JUnit test archetype</name>
 
