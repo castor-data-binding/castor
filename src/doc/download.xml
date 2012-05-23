@@ -469,8 +469,7 @@
     <section title="Dependent Libraries">
 
       <p>
-        JARs required to build Castor and dependencies for various packages are
-        contained in the <tt>lib</tt> directory. For details, please see
+        Castor and its modules relies on various other software libraries. For details, please see 
         <a href="dependencies.html">dependencies</a>.
       </p>
 
