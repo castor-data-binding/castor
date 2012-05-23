@@ -3,7 +3,7 @@
   <body>
     <title>Release notes</title>
     <section title="Releases">
-    
+
     	<note>
     		Starting with release 1.3.3 RC1, release notes will be maintained in 
     		<a href="http://jira.codehaus.org/browse/CASTOR">Jira </a> only. For convenience, 
@@ -36,7 +36,6 @@
                 </bug>
 
 -->
-<!--
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
@@ -46,7 +45,7 @@
 	        <bugs>
 	        </bugs>
 	    </release>
--->
+
         <release version="1.3.3-RC1">
             <description>1st release candidate for Castor 1.3.3 - A maintenance release</description>
             <date>Apr 18, 2012</date>
