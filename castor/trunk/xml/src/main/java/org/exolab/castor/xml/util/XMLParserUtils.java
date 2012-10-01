@@ -130,7 +130,42 @@ public class XMLParserUtils {
         }
         return saxParser;
     }
-    
+
+    /**
+     * To get a SAXParser instance from a given {@link SAXParserFactory}, which is then used to obtain either
+     * {@link Parser} or {@link XMLReader}.
+     * @return the {@link SAXParser} for further use
+     */
+    public static SAXParser getSAXParser(SAXParserFactory saxParserFactory) {
+        SAXParser saxParser = null;
+
+        try {
+            saxParser = saxParserFactory.newSAXParser();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Successfully instantiated a JAXP SAXParser instance.");
+            }
+        } catch (ParserConfigurationException pcx) {
+            LOG.error(Messages.format("conf.configurationError", pcx));
+        } catch (org.xml.sax.SAXException sx) {
+            LOG.error(Messages.format("conf.configurationError", sx));
+        }
+        return saxParser;
+    }
+
+    /**
+     * To get a SAXParserFactory instance which is then used to obtain an
+     * {@link SAXParser} instance.
+     * @param namespaces Whether to provide namespace support.
+     * @param validation Whether to produce a validating SAX parser.
+     * @return the SAXParserFactory for further use
+     */
+    public static SAXParserFactory getSAXParserFactory(final boolean validation, final boolean namespaces) {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(namespaces);
+        factory.setValidating(validation);
+        return factory;
+    }
+
     /**
      * Instantiates an {@link XMLReader} instance directly, using {@link Class#forName(String)}
      * to obtain the {@link Class} instance, and uses {@link Class#newInstance()}
