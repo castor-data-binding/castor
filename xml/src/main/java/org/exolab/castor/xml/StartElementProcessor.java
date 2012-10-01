@@ -400,7 +400,7 @@ public class StartElementProcessor {
                         .removeCurrentNamespaceInstance();
                 if (LOG.isDebugEnabled()) {
                     String debug = MessageFormat.format(resourceBundle
-                            .getString("LOG.debug.ignore.extra.element"),
+                            .getString("unmarshalHandler.log.debug.ignore.extra.element"),
                             new Object[] { error });
                     LOG.debug(debug);
                 }
@@ -780,7 +780,7 @@ public class StartElementProcessor {
         if (descriptor.isIncremental()) {
             if (LOG.isDebugEnabled()) {
                 String debug = MessageFormat.format(resourceBundle
-                        .getString("LOG.debug.process.incrementally"),
+                        .getString("unmarshalHandler.log.debug.process.incrementally"),
                         new Object[] { name });
                 LOG.debug(debug);
             }
@@ -814,7 +814,7 @@ public class StartElementProcessor {
             if (atts != null) {
                 _unmarshalHandler.processWrapperAttributes(atts);
                 String warn = MessageFormat.format(resourceBundle
-                        .getString("LOG.warn.process.attribute.as.location"),
+                        .getString("unmarshalHandler.log.warn.process.attribute.as.location"),
                         new Object[] { name });
                 LOG.warn(warn);
             }
