@@ -121,7 +121,7 @@ public abstract class BaseSax2EventFromStaxProducer implements
         }
     }
 
-    /**
+   /**
      * Invoke {@link #handleDocumentLocator()} and {@link
      * getContentHandler().startDocument()};
      * 
