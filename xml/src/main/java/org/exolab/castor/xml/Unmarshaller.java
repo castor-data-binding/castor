@@ -737,8 +737,9 @@ public class Unmarshaller {
         //-- First try XMLReader
         try {
             reader = _internalContext.getXMLReader();
-            if (entityResolver != null)
-                reader.setEntityResolver(entityResolver);
+            if (entityResolver != null) {
+               reader.setEntityResolver(entityResolver);
+            }
         } catch (RuntimeException rx) {
         	LOG.debug("Unable to create SAX XMLReader, attempting SAX Parser.");
         }
