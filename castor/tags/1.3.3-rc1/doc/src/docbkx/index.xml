@@ -2,9 +2,9 @@
 <book xmlns="http://docbook.org/ns/docbook"
       xmlns:xi="http://www.w3.org/2001/XInclude">
   <bookinfo>
-    <title>Castor 1.3.2 - Reference documentation</title>
+    <title>Castor 1.3.3 RC1 - Reference documentation</title>
 
-    <releaseinfo>1.3.2</releaseinfo>
+    <releaseinfo>1.3.3 RC1</releaseinfo>
 
 <!-- 
     <authorgroup>
