@@ -1359,9 +1359,9 @@ public final class SourceFactory extends BaseFactory {
 
         JSourceCode jsc = jMethod.getSourceCode();
         if (jclass.getSuperClassQualifiedName() == null) {
-            jsc.add("int result = 17;");
+            jsc.add("int resultHc = 17;");
         } else {
-            jsc.add("int result = super.hashCode();");
+            jsc.add("int resultHc = super.hashCode();");
         }
         jsc.add("");
         jsc.add("long tmp;");
@@ -1377,17 +1377,17 @@ public final class SourceFactory extends BaseFactory {
                     // Skip the _has_* variables only if they represent
                     // a primitive that may or may not be present
                     if (!name.startsWith("_has_") || jclass.getField(name.substring(5)) != null) {
-                        jsc.add("result = 37 * result + (" + name + "?0:1);");
+                        jsc.add("resultHc = 37 * resultHc + (" + name + "?0:1);");
                     }
                 } else if (type == JType.BYTE || type == JType.INT || type == JType.SHORT) {
-                    jsc.add("result = 37 * result + " + name + ";");
+                    jsc.add("resultHc = 37 * resultHc + " + name + ";");
                 } else if (type == JType.LONG) {
-                    jsc.add("result = 37 * result + (int)(" + name + "^(" + name + ">>>32));");
+                    jsc.add("resultHc = 37 * resultHc + (int)(" + name + "^(" + name + ">>>32));");
                 } else if (type == JType.FLOAT) {
-                    jsc.add("result = 37 * result + java.lang.Float.floatToIntBits(" + name + ");");
+                    jsc.add("resultHc = 37 * resultHc + java.lang.Float.floatToIntBits(" + name + ");");
                 } else if (type == JType.DOUBLE) {
                     jsc.add("tmp = java.lang.Double.doubleToLongBits(" + name + ");");
-                    jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");
+                    jsc.add("resultHc = 37 * resultHc + (int)(tmp^(tmp>>>32));");
                 }
             } else {
                 if (getConfig().useCycleBreaker()) {
@@ -1398,7 +1398,7 @@ public final class SourceFactory extends BaseFactory {
                     // Calculates hashCode in a recursive manner
                     jsc.add("if (" + name + " != null) {");
                 }
-                jsc.add("   result = 37 * result + " + name + ".hashCode();");
+                jsc.add("   resultHc = 37 * resultHc + " + name + ".hashCode();");
 
                 if (getConfig().useCycleBreaker()) {
                     // Calculates hashCode in an acyclic recursive manner
@@ -1408,7 +1408,7 @@ public final class SourceFactory extends BaseFactory {
             }
         }
         jsc.add("");
-        jsc.add("return result;");
+        jsc.add("return resultHc;");
     }   //createHashCodeMethod
 
     /**
@@ -1696,7 +1696,7 @@ public final class SourceFactory extends BaseFactory {
         jMethod.setComment("implementation of org.castor.xmlctf.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
-        jsc.add("StringBuffer result = new StringBuffer(\"DumpFields() for element: ");
+        jsc.add("StringBuffer stringBuffer = new StringBuffer(\"DumpFields() for element: ");
         jsc.append(jclass.getName());
         jsc.append("\\n\");");
 
@@ -1708,7 +1708,7 @@ public final class SourceFactory extends BaseFactory {
                     || temp.getType().getName().startsWith("java.lang.")) {
                 //hack when using the option 'primitivetowrapper'
                 //this should not interfere with other cases
-                jsc.add("result.append(\"Field ");
+                jsc.add("stringBuffer.append(\"Field ");
                 jsc.append(name);
                 jsc.append(":\" +");
                 jsc.append(name);
@@ -1718,17 +1718,17 @@ public final class SourceFactory extends BaseFactory {
                 jsc.append(name);
                 jsc.append(" != null) {");
                 jsc.indent();
-                jsc.add("result.append(\"[\");");
+                jsc.add("stringBuffer.append(\"[\");");
                 jsc.add("for (int i = 0; i < ");
                 jsc.append(name);
                 jsc.append(".length; i++) {");
                 jsc.indent();
-                jsc.add("result.append(");
+                jsc.add("stringBuffer.append(");
                 jsc.append(name);
                 jsc.append("[i] + \" \");");
                 jsc.unindent();
                 jsc.add("}");
-                jsc.add("result.append(\"]\");");
+                jsc.add("stringBuffer.append(\"]\");");
                 jsc.unindent();
                 jsc.add("}");
             } else {
@@ -1738,11 +1738,11 @@ public final class SourceFactory extends BaseFactory {
                 jsc.append(name);
                 jsc.append(".getClass().isAssignableFrom(CastorTestable.class)))");
                 jsc.indent();
-                jsc.add("result.append(((CastorTestable)");
+                jsc.add("stringBuffer.append(((CastorTestable)");
                 jsc.append(name);
                 jsc.append(").dumpFields());");
                 jsc.unindent();
-                jsc.add("else result.append(\"Field ");
+                jsc.add("else stringBuffer.append(\"Field ");
                 jsc.append(name);
                 jsc.append(":\" +");
                 jsc.append(name);
@@ -1751,7 +1751,7 @@ public final class SourceFactory extends BaseFactory {
             jsc.add("");
         }
         jsc.add("");
-        jsc.add("return result.toString();");
+        jsc.add("return stringBuffer.toString();");
     }
 
     /**
