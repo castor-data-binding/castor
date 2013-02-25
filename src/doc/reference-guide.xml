@@ -9,10 +9,10 @@
 
 		<ctable>
 			<crow>
-				<td><b>Release 1.3.3</b></td>
-				<td><a href="reference/1.3.3/html-single/index.html">HTML (single page)</a></td>
-				<td><a href="reference/1.3.3/html/index.html">Chunked HTML</a></td>
-				<td><a href="reference/1.3.3/pdf/castor-reference-guide.pdf">PDF</a></td>
+				<td><b>Release 1.3.3rc1</b></td>
+				<td><a href="reference/1.3.3rc1/html-single/index.html">HTML (single page)</a></td>
+				<td>Chunked HTML <!-- <a href="reference/1.3.3rc1/html/index.html">Chunked HTML</a> --></td>
+				<td>PDF <!-- <a href="reference/1.3.3rc1/pdf/castor-reference-guide.pdf">PDF</a> --></td>
 			</crow>
 		</ctable>
     
