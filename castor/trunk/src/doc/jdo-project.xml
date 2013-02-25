@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.org/jdo-project.xml">
+<document url="http://castor.codehaus.org/jdo-project.xml">
   <properties>
     <title>Castor JDO Project Plan</title>
     <author email="ferret@frii.com">Bruce Snyder</author>
@@ -29,7 +29,7 @@
       like to work on please let us know. I you see a task that you would 
       like to work on but has already been assigned to someone, that doesn't 
       mean that you can't help out or even take it over. Simply contact the 
-      JDO project leader (available <a href="http://www.castor.org/contributors.html">
+      JDO project leader (available <a href="contributors.html">
       here</a>). 
       </p>
 
@@ -443,7 +443,7 @@ SELECT p FROM myapp.Product p]]>
         <b>Notes:</b><br />
         Currently Castor requires all objects involved in a long transaction
         to implement the <a
-        href="http://www.castor.org/javadoc/org/exolab/castor/jdo/TimeStampable.html">Timestampable</a>
+        href="javadoc/org/exolab/castor/jdo/TimeStampable.html">Timestampable</a>
         interface. This requirement can easily be removed via a dymanic proxy
         implementation. 
         </p>
