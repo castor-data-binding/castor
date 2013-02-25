@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.org/release-notes.xml">
+<document url="http://castor.codehaus.org/release-notes.xml">
   <body>
     <title>Release notes</title>
     <section title="Releases">
@@ -2330,7 +2330,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
 
                 <h3>Improved 'caching' of Castor DTDs/XML Schemas</h3>
 
-                <p>Added code to DTDResolver so that any URL/URIs against http://castor.org/... will
+                <p>Added code to DTDResolver so that any URL/URIs against http://castor.codehaus.org/... will
                    be resolved against (local) files from within the Castor JAR(s).</p>
 
                 <h3>Problem obtaining underlying JDBC connections</h3>
@@ -2568,7 +2568,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1220" tool="jira">
                     <description>
-                        Added config entries for http://castor.org/* to DTDResolver.
+                        Added config entries for http://castor.codehaus.org/* to DTDResolver.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2588,7 +2588,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1219" tool="jira">
                     <description>
-                        Changed many references to http://castor.exolab.org to http://castor.org
+                        Changed many references to http://castor.exolab.org to http://castor.codehaus.org
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>

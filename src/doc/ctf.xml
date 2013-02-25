@@ -1237,9 +1237,9 @@ public class Builder implements ObjectBuilder {
         <li>Create a jar or a directory tree (which you can ZIP up).</li>
         <li>
           Send it to the <a href="http://jira.codehaus.org/browse/CASTOR">Exolab JIRA</a> or
-          to a <a href="http://www.castor.org/contributors.html">contributor:</a><br/>
+          to a <a href="http://castor.codehaus.org/contributors.html">contributor:</a><br/>
           Exolab JIRA: http://jira.codehaus.org/browse/CASTOR<br/>
-          Committer list: http://www.castor.org/contributors.html
+          Committer list: http://castor.codehaus.org/contributors.html
         </li>
       </ul>
     </section>
@@ -1899,13 +1899,13 @@ CTFRun -verbose ../xmlctf/tests/MasterTestSuite/sourcegenerator/PrimitivesWithou
         <li>
           Castor XML<br/>
           Exolab Castor XML Team<br/>
-          See <a href="http://www.castor.org/">http://www.castor.org/</a>
+          See <a href="http://castor.codehaus.org/">http://castor.codehaus.org/</a>
         </li>
         <li>
           Source Generator User Documentation<br/>
           Exolab Castor XML Team<br/>
-          See <a href="http://www.castor.org/SourceGeneratorUser.pdf">
-                 http://www.castor.org/SourceGeneratorUser.pdf </a>
+          See <a href="http://castor.codehaus.org/SourceGeneratorUser.pdf">
+                 http://castor.codehaus.org/SourceGeneratorUser.pdf </a>
         </li>
       </ol>
     </section>

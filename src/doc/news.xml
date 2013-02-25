@@ -117,7 +117,7 @@
                 <a href="http://snapshots.repository.codehaus.org/org/codehaus/castor">Codehaus snapshot repository</a>.<br/><br/>
                 
                 Please find the documentation available as part of the 
-                <a href="http://www.castor.org/reference/html/jdo.extensions.html">reference guide</a>
+                <a href="reference/html/jdo.extensions.html">reference guide</a>
                 with detailed information about the XML schema artifacts 
                 available to annotate an existing XML schema, small examples to 
                 highlight the their usage and the current product 

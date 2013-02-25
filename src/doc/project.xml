@@ -79,12 +79,6 @@
         <url>http://castor.codehaus.org/rss/castor-announce.xml</url>
         <display>RSS news feed</display>
       </navLink>
-<!--
-      <navLink>
-         <url>http://castor.org/phpBB2</url>
-         <display>Castor Forums</display>
-      </navLink>
--->
     </section>
     
     <section name="Documentation">

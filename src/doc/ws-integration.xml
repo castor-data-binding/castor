@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<document url="http://castor.org/ws-integration.xml">
+<document url="http://castor.codehaus.org/ws-integration.xml">
 
     <properties>
         <title>Castor and its integration into web service frameworks</title>
