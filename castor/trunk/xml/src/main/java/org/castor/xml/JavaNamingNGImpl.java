@@ -83,7 +83,9 @@ public class JavaNamingNGImpl implements JavaNaming {
     public static boolean _upperCaseAfterUnderscore = false;
     
     /** the map of substition words for all keywords. */
-    private static final Hashtable SUBST = keywordMap();
+    private static final Hashtable<String, String> SUBST = keywordMap();
+    
+    private InternalContext context;
 
     /** all known Java keywords. */
     private static final String[] KEYWORDS = {"abstract", "boolean", "break", "byte", "case",
@@ -100,6 +102,11 @@ public class JavaNamingNGImpl implements JavaNaming {
     public JavaNamingNGImpl() {
         super();
     }
+
+    public JavaNamingNGImpl(InternalContext context) {
+       super();
+       this.context = context;
+   }
 
     /**
      * Returns true if the given String is a Java keyword which will cause a
@@ -274,8 +281,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * To initialize the keyword map.
      * @return an initialized keyword map
      */
-    private static Hashtable keywordMap() {
-        Hashtable ht = new Hashtable();
+    private static Hashtable<String, String> keywordMap() {
+        Hashtable<String, String> ht = new Hashtable<String, String>();
         ht.put("class", "clazz");
         return ht;
     }
@@ -304,7 +311,11 @@ public class JavaNamingNGImpl implements JavaNaming {
         boolean lowercase = (!uppercase);
         if ((size > 1) && lowercase) {
             if (Character.isUpperCase(ncChars[0]) && Character.isUpperCase(ncChars[1])) {
-                lowercase = false;
+               if (context != null && context.getBooleanProperty(XMLProperties.MEMBER_NAME_CAPITALISATION_STRICT)) {
+                  lowercase = true;
+               } else {
+                  lowercase = false;
+               }
             }
         }
 
