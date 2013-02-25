@@ -127,7 +127,7 @@ public abstract class AbstractInternalContext implements InternalContext {
    public AbstractInternalContext() {
       _properties = XMLProperties.newInstance();
       // TODO[WG]: remove once injection works
-      _javaNaming = new JavaNamingImpl();
+      _javaNaming = new JavaNamingImpl(this);
    }
 
    /**
@@ -473,7 +473,7 @@ public abstract class AbstractInternalContext implements InternalContext {
 
    public void setJavaNaming(final String javaNamingProperty) {
       if (javaNamingProperty == null || javaNamingProperty.length() == 0) {
-         _javaNaming = new JavaNamingImpl();
+         _javaNaming = new JavaNamingImpl(this);
       } else {
          try {
             Class<JavaNaming> cls = (Class<JavaNaming>) Class.forName(javaNamingProperty);

@@ -382,7 +382,9 @@ public final class Introspector implements PropertyChangeListener {
 
             //-- read methods
             if (methodName.startsWith(JavaNaming.METHOD_PREFIX_GET)) {
-                if (method.getParameterTypes().length != 0) continue;
+                if (method.getParameterTypes().length != 0) {
+                  continue;
+                }
                 //-- disable direct field access
                 ++methodCount;
                 //-- make sure return type is "descriptable"
@@ -446,7 +448,9 @@ public final class Introspector implements PropertyChangeListener {
             }
             //-- write method (singleton or collection)
             else if (methodName.startsWith(JavaNaming.METHOD_PREFIX_SET)) {
-                if (method.getParameterTypes().length != 1) continue;
+                if (method.getParameterTypes().length != 1) {
+                  continue;
+                }
                 //-- disable direct field access
                 ++methodCount;
                 //-- make sure parameter type is "descriptable"

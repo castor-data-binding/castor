@@ -189,7 +189,9 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                         ClassDescriptor clsDesc = 
                             getInternalContext()
                             .getXMLClassDescriptorResolver().resolve(classMapping.getName());
-                        if (clsDesc != null) { return clsDesc; }
+                        if (clsDesc != null) {
+                           return clsDesc;
+                        }
                     } catch (ResolverException e) {
                         if (LOG.isDebugEnabled()) {
                             String message =

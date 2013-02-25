@@ -473,7 +473,7 @@ public class XMLProperties extends AbstractProperties {
 
     /**
      * Property that allows to specify the XML document version
-     * number to be used during marshalling; defaulta to 1.0.
+     * number to be used during marshalling; defaults to 1.0.
      * 
      * Possible values:
      * - 1.0  (default)
@@ -484,5 +484,22 @@ public class XMLProperties extends AbstractProperties {
      * </pre>
      */
     public static final String XML_VERSION = 
-        "org.exolab.castor.xml.version";    
+        "org.exolab.castor.xml.version";
+    
+    /**
+     * Property that allows to override Castor's introspector conversion rules for 
+     * member names; if enabled, even member names such as 'XMLMember' will be 
+     * camel-cased to 'xMLMember'; defaults to false.
+     * 
+     * Possible values:
+     * - false  (default)
+     * - true
+     * 
+     * <pre>
+     * org.exolab.castor.xml.member.naming.capitalisation.strict=false
+     * </pre>
+     */
+    public static final String MEMBER_NAME_CAPITALISATION_STRICT = 
+        "org.exolab.castor.xml.member.naming.capitalisation.strict";
+
 }
