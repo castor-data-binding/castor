@@ -260,6 +260,7 @@
         <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="clean.schema" inheritAll="false" />
         <ant antfile="${basedir}/diff/build.xml" target="clean.diff" inheritAll="false" />
+        <ant antfile="${basedir}/xml/build.xml" target="clean.xml" inheritAll="false" />
     </target>
 
     <target name="clean.libs" description="Removes the dependency libs">
@@ -286,6 +287,7 @@
         <ant antfile="${basedir}/codegen/build.xml" target="clean.tests.codegen" inheritAll="false" />
         <ant antfile="${basedir}/schema/build.xml" target="clean.tests.schema" inheritAll="false" />
         <ant antfile="${basedir}/diff/build.xml" target="clean.tests.diff" inheritAll="false" />
+        <ant antfile="${basedir}/xml/build.xml" target="clean.tests.xml" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -422,6 +424,11 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+    	<!-- build Castor XML -->
+    	<ant antfile="${basedir}/xml/build.xml" target="compile.xml" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     	<!-- build examples -->
         <ant antfile="${basedir}/examples/build.xml" target="compile.examples" inheritAll="false">
             <property name="version" value="${version}"/>
@@ -526,6 +533,7 @@
             </fileset>
         </copy>
         	
+        <ant antfile="${basedir}/xml/build.xml" target="compile.bugs.xml" inheritAll="false"/>
         <ant antfile="${basedir}/codegen/build.xml" target="compile.bugs.codegen" inheritAll="false"/>
 
         <ant antfile="${basedir}/cpa/build.xml" 
@@ -685,6 +693,12 @@
 
         <!-- create JAR for DDL generator, calling module build file recursively -->
         <ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for XML, calling module build file recursively -->
+        <ant antfile="${basedir}/xml/build.xml" target="jar.xml" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>

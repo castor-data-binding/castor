@@ -1,4 +1,4 @@
-<project name="Castor XML - Core module" default="compile" basedir="."
+<project name="Castor XML - Core module" default="compile.xml" basedir="."
 	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env" />
@@ -11,8 +11,21 @@
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
 	<property name="test.classes"         value="${build}/test"/>
-    <property name="archive"              value="${project}-${version}${release}"/>
+    <property name="archive"              value="${project}-${version}${release}-xml"/>
     <property name="gen.src"              value="${build}/generated-sources"/>
+
+    <property name="castor.xml.files"
+          value="**/org/exolab/castor/*,
+                 org/exolab/castor/mapping/**/*.java,
+                 org/exolab/castor/net/**/*.java,
+                 org/exolab/castor/tools/**/*.java,
+                 org/exolab/castor/types/**/*.java,
+                 org/exolab/castor/util/**/*.java,
+                 org/exolab/castor/xml/**/*.java,
+                 org/castor/xml/**/*.java"/>
+
+    <property name="excludes"             
+    	      value="**/package.html,**/dax/**,**/dax/engine/**, org/exolab/castor/xml/schema/**,org/exolab/castor/xml/dtd/**"/>
 
 	<artifact:dependencies filesetId="dependency.fileset" useScope="test">
 	    <artifact:pom id="core" file="${basedir}/pom.xml" />
@@ -20,10 +33,7 @@
 	
     <path id="build.classpath">
         <pathelement location="${basedir}/build/classes"/>
-<!--    	
-    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
-    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
--->    	
+        <pathelement location="${basedir}/../core/build/classes"/>
     </path>
 
     <path id="test.classpath">
@@ -39,34 +49,32 @@
 	    </copy>
 	</target>	
 
-    <target name="prepare" unless="prepare.executed">
+    <target name="prepare.xml" unless="prepare.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <property name="prepare.executed" value="true"/>
     </target>
 
-    <target name="clean" description="Removes build directory">
+    <target name="clean.xml" description="Removes build directory">
         <delete dir="${build}"/>
     </target>
 
-    <target name="clean.tests" description="Removes test build directory">
+    <target name="clean.tests.xml" description="Removes test build directory">
         <delete dir="${test.classes}"/>
     </target>
 
-    <target name="compile" depends="prepare,derive.xml.libs" description="Compile sources">
-        <javac srcdir="${main.java}" destdir="${classes}" 
+    <target name="compile.xml" depends="prepare.xml,derive.xml.libs" description="Compile sources">
+        <javac srcdir="${main.generated}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="false"
-        	   source="1.5" target="1.5">
+               source="1.5" target="1.5" includes="${castor.xml.files}" excludes="${excludes}">
+        	<src path="${main.generated}" />
+        	<src path="${main.java}" />
             <classpath refid="build.classpath"/>
         	<classpath>
         		<fileset dir="${basedir}/lib"/>
         	</classpath>
         </javac>
-        <javac srcdir="${main.generated}" destdir="${classes}" 
-               debug="on" encoding="ISO-8859-1" deprecation="false"
-               source="1.5" target="1.5">
-            <classpath refid="build.classpath"/>
-        </javac>
+    	
         <copy todir="${classes}">
             <fileset dir="${main.resources}">
                 <include name="**"/>
@@ -81,7 +89,7 @@
         </copy>
     </target>
 
-    <target name="jar" depends="compile" description="Build JAR file">
+    <target name="jar.xml" depends="compile.xml" description="Build JAR file">
         <jar jarfile="${build}/${archive}.jar" 
              manifest="${classes}/META-INF/MANIFEST.MF">
         	<fileset dir="${classes}">
@@ -91,7 +99,7 @@
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
-    <target name="compile.bugs" depends="compile" 
+    <target name="compile.bugs.xml" depends="compile.xml" 
     	    description="Build the tests packages">
         <mkdir dir="${test.classes}"/>
         <javac srcdir="${test.java}" destdir="${test.classes}"
@@ -105,7 +113,7 @@
         </copy>
     </target>
 	
-	<target name="tests" description="Runs JUnit tests" depends="compile.bugs">
+	<target name="tests.xml" description="Runs JUnit tests" depends="compile.bugs.xml">
 		<junit printsummary="true">
 			<formatter type="plain" />
 			<batchtest>
