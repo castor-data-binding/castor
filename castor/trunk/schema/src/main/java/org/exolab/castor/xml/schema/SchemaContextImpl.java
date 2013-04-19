@@ -1,7 +1,5 @@
 package org.exolab.castor.xml.schema;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.xml.XMLProperties;
 import org.exolab.castor.xml.Serializer;
@@ -18,11 +16,9 @@ import org.xml.sax.Parser;
 public class SchemaContextImpl implements SchemaContext {
     
     /**
-     * {@link Log} instance used for logging.
+     * {@link Resolver} instance used for resolving XML Schema definitions. 
      */
-    private final Log LOG = LogFactory.getLog(SchemaContextImpl.class);
-
-    private Resolver _schemaResolver;
+   private Resolver _schemaResolver;
     
     /**
      * {@link AbstractProperties} instance for retrieving property values related  to XML parsers
@@ -53,14 +49,12 @@ public class SchemaContextImpl implements SchemaContext {
         return XMLParserUtils.getParser(_properties, features);
     }
 
-
     /**
      * {@inheritDoc}
      * @see org.exolab.castor.xml.schema.SchemaContext#setSchemaResolver(org.exolab.castor.xml.schema.Resolver)
      */
     public void setSchemaResolver(Resolver resolver) {
         _schemaResolver = resolver;
-
     }
 
     /**
