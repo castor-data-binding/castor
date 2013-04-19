@@ -56,6 +56,7 @@
                <version>2.8</version>
                <configuration>
                   <downloadSources>true</downloadSources>
+                  <projectNameTemplate>castor133-[artifactId]</projectNameTemplate>
                </configuration>
             </plugin>
             <plugin>

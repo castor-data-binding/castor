@@ -48,340 +48,331 @@ package org.exolab.castor.xml.schema.reader;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
+import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.Resolver;
 import org.xml.sax.Locator;
 
 /**
- * The base class for separate component unmarshallers for
- * reading an XML Schema component.
- *
+ * The base class for separate component unmarshallers for reading an XML Schema
+ * component.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
-**/
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr
+ *          2006) $
+ **/
 public abstract class ComponentReader {
 
-      //--------------------/
-     //- Member Variables -/
-    //--------------------/
-    /** The Castor XML context to use. */
-    private SchemaContext _schemaContext;
-    
-    private Locator _documentLocator;
+   /** The Castor XML context to use. */
+   private SchemaContext _schemaContext;
 
-    /**
-     * The resolver to be used for resolving href.
-     */
-    private URIResolver _uriResolver;
+   private Locator _documentLocator;
 
-      //----------------/
-     //- Constructors -/
-    //----------------/
+   /**
+    * The resolver to be used for resolving hrefs.
+    */
+   private URIResolver _uriResolver;
 
-    private ComponentReader() {
-        super();
-    } //-- ComponentReader
-    
-    /**
-     * To hand down a couple of configuration items to all Unmarshaller classes.
-     * @param schemaContext the {@link SchemaContext} to use
-     */
-    protected ComponentReader(final SchemaContext schemaContext) {
-        this();
-        _schemaContext = schemaContext;
-    }
+   private ComponentReader() {
+      super();
+   }
 
-      //-----------/
-     //- Methods -/
-    //-----------/
+   /**
+    * To hand down a couple of configuration items to all {@link Unmarshaller} classes.
+    * 
+    * @param schemaContext
+    *           the {@link SchemaContext} to use
+    */
+   protected ComponentReader(final SchemaContext schemaContext) {
+      this();
+      _schemaContext = schemaContext;
+   }
 
-    /**
-     * Returns the name of the element that this ComponentReader
-     * handles
-     * @return the name of the element that this ComponentReader
-     * handles
+   /**
+    * Returns the name of the element that this ComponentReader handles
+    * 
+    * @return the name of the element that this ComponentReader handles
     **/
-    public abstract String elementName();
+   public abstract String elementName();
 
-    /**
-     * Returns the Object created by this Unmarshaller
-     * @return the Object created by this Unmarshaller
+   /**
+    * Returns the Object created by this {@link Unmarshaller}
+    * 
+    * @return the Object created by this {@link Unmarshaller}
     **/
-    public abstract Object getObject();
+   public abstract Object getObject();
 
-    /**
-     * Called to signal an end of unmarshalling. This method should
-     * be overridden to perform any necessary clean up by an unmarshaller
+   /**
+    * Called to signal an end of unmarshalling. This method should be overridden
+    * to perform any necessary clean up by an {@link Unmarshaller}
     **/
-    public void finish() throws XMLException {}
+   public void finish() throws XMLException {
+   }
 
-    /**
-     * Returns the resolver used for resolving id references.
-     * @return the resolver used for resolving id references.
+   /**
+    * Returns the resolver used for resolving id references.
+    * 
+    * @return the resolver used for resolving id references.
     **/
-    public Resolver getResolver() {
-        return _schemaContext.getSchemaResolver();
-    } //-- getResolver
+   public Resolver getResolver() {
+      return _schemaContext.getSchemaResolver();
+   }
 
-    /**
-     * Returns the URIresolver used for resolving hrefs.
-     *
-     * @return the URIresolver used for resolving hrefs.
+   /**
+    * Returns the URIresolver used for resolving hrefs.
+    * 
+    * @return the URIresolver used for resolving hrefs.
     **/
-    public URIResolver getURIResolver() {
-        return _uriResolver;
-    } //-- getResolver
+   public URIResolver getURIResolver() {
+      return _uriResolver;
+   }
 
-    /**
-     * Sets the Resolver to be used for resolving id references
-     * @param resolver the Resolver to be used for resolving
-     * id references
+   /**
+    * Sets the Resolver to be used for resolving id references
+    * 
+    * @param resolver
+    *           the Resolver to be used for resolving id references
     **/
-    public void setResolver(Resolver resolver) {
-        _schemaContext.setSchemaResolver(resolver);
-    } //-- setResolver
+   public void setResolver(Resolver resolver) {
+      _schemaContext.setSchemaResolver(resolver);
+   }
 
-
-    /**
-     * Sets the URIResolver to be used for resolving hrefs.
-     *
-     * @param uriResolver the URIResolver to be used for resolving hrefs.
+   /**
+    * Sets the URIResolver to be used for resolving hrefs.
+    * 
+    * @param uriResolver
+    *           the URIResolver to be used for resolving hrefs.
     **/
-    public void setURIResolver(URIResolver uriResolver) {
-        _uriResolver = uriResolver;
-    } //-- setResolver
+   public void setURIResolver(URIResolver uriResolver) {
+      _uriResolver = uriResolver;
+   }
 
-    /**
-     * Determines if the given sequence of characters consists
-     * of whitespace characters
-     * @param chars an array of characters to check for whitespace
-     * @param start the start index into the character array
-     * @param length the number of characters to check
-     * @return true if the characters specficied consist only
-     * of whitespace characters
+   /**
+    * Determines if the given sequence of characters consists of whitespace
+    * characters
+    * 
+    * @param chars
+    *           an array of characters to check for whitespace
+    * @param start
+    *           the start index into the character array
+    * @param length
+    *           the number of characters to check
+    * @return true if the characters specficied consist only of whitespace
+    *         characters
     **/
-    public static boolean isWhiteSpace(char[] chars, int start, int length) {
-        int max = start+length;
-        for (int i = start; i < max; i++) {
-            char ch = chars[i];
-            switch(ch) {
-                case ' ':
-                case '\n':
-                case '\t':
-                case '\r':
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return true;
-    } //-- isWhiteSpace
+   public static boolean isWhiteSpace(char[] chars, int start, int length) {
+      int max = start + length;
+      for (int i = start; i < max; i++) {
+         char ch = chars[i];
+         switch (ch) {
+         case ' ':
+         case '\n':
+         case '\t':
+         case '\r':
+            break;
+         default:
+            return false;
+         }
+      }
+      return true;
+   }
 
-    /**
-     * This method is called for a general error.
-     * @param err the error message to report
+   /**
+    * This method is called for a general error.
+    * 
+    * @param err
+    *           the error message to report
     **/
-    public void error(String err)
-        throws XMLException
-    {
+   public void error(String err) throws XMLException {
+      if (getDocumentLocator() != null) {
+         err += "\n   line: " + getDocumentLocator().getLineNumber();
+      }
 
-        if (getDocumentLocator() != null) {
-            err += "\n   line: " + getDocumentLocator().getLineNumber();
-        }
+      throw new XMLException(err);
+   }
 
-        throw new XMLException(err);
-    } //-- error
-    
-    /**
-     * This method is called for a general error.
-     *
-     * @param ex the Exception that caused the error.
-     */
-    public void error(Exception ex)
-        throws XMLException
-    {
+   /**
+    * This method is called for a general error.
+    * 
+    * @param ex
+    *           the Exception that caused the error.
+    */
+   public void error(Exception ex) throws XMLException {
+      if (getDocumentLocator() != null) {
+         String err = "An error occured at line: " + getDocumentLocator().getLineNumber();
+         throw new XMLException(err, ex);
+      }
+      throw new XMLException(ex);
+   }
 
-        if (getDocumentLocator() != null) {
-            String err =  "An error occured at line: " + getDocumentLocator().getLineNumber();
-            throw new XMLException(err, ex);
-        }
-        throw new XMLException(ex);
-    } //-- error
-    
-
-    /**
-     * This method is called when an illegal Attribute is encountered.
-     * @param attName the name of the illegal attribute.
+   /**
+    * This method is called when an illegal Attribute is encountered.
+    * 
+    * @param attName
+    *           the name of the illegal attribute.
     **/
-    public void illegalAttribute(String attName)
-        throws XMLException
-    {
-        String err = "Illegal attribute '" + attName +
-            "' found on element <" + elementName() + ">.";
+   public void illegalAttribute(String attName) throws XMLException {
+      String err = "Illegal attribute '" + attName + "' found on element <" + elementName() + ">.";
 
-        if (getDocumentLocator() != null) {
-            err += "\n   line: " + getDocumentLocator().getLineNumber();
-        }
+      if (getDocumentLocator() != null) {
+         err += "\n   line: " + getDocumentLocator().getLineNumber();
+      }
 
-        throw new XMLException(err);
-    } //-- illegalAttribute
+      throw new XMLException(err);
+   }
 
-    /**
-     * This method is called when an illegal Element is encountered.
-     * @param name the name of the illegal element
+   /**
+    * This method is called when an illegal Element is encountered.
+    * 
+    * @param name
+    *           the name of the illegal element
     **/
-    public void illegalElement(String name)
-        throws XMLException
-    {
-        String err = "Illegal element '" + name +
-            "' found as child of <" + elementName() + ">.";
+   public void illegalElement(String name) throws XMLException {
+      String err = "Illegal element '" + name + "' found as child of <" + elementName() + ">.";
 
-        if (getDocumentLocator() != null) {
-            err += "\n   line: " + getDocumentLocator().getLineNumber();
-        }
+      if (getDocumentLocator() != null) {
+         err += "\n   line: " + getDocumentLocator().getLineNumber();
+      }
 
-        throw new XMLException(err);
-    } //-- illegalElement
+      throw new XMLException(err);
+   }
 
-
-    /**
-     * This method is called when an element which may only
-     * be defined once, is redefined.
-     * @param name the name of the element
+   /**
+    * This method is called when an element which may only be defined once, is
+    * redefined.
+    * 
+    * @param name
+    *           the name of the element
     **/
-    public void redefinedElement(String name)
-        throws XMLException
-    {
-        redefinedElement(name, null);
-    } //-- redefinedElement
+   public void redefinedElement(String name) throws XMLException {
+      redefinedElement(name, null);
+   }
 
-    /**
-     * This method is called when an element which may only
-     * be defined once, is redefined.
-     * @param name the name of the element
+   /**
+    * This method is called when an element which may only be defined once, is
+    * redefined.
+    * 
+    * @param name
+    *           the name of the element
     **/
-    public void redefinedElement(String name, String xtraInfo)
-        throws XMLException
-    {
-        String err = "redefintion of element '" + name +
-            "' within element <" + elementName() + ">.";
+   public void redefinedElement(String name, String xtraInfo) throws XMLException {
+      String err = "redefintion of element '" + name + "' within element <" + elementName() + ">.";
 
-        if (getDocumentLocator() != null) {
-            err += "\n   line: " + getDocumentLocator().getLineNumber();
-        }
+      if (getDocumentLocator() != null) {
+         err += "\n   line: " + getDocumentLocator().getLineNumber();
+      }
 
-        if (xtraInfo != null) {
-            err += "\n   " + xtraInfo;
-        }
+      if (xtraInfo != null) {
+         err += "\n   " + xtraInfo;
+      }
 
-        throw new XMLException(err+"\n");
-    } //-- redefinedElement
+      throw new XMLException(err + "\n");
+   }
 
-    /**
-     * This method is called when an out of order element is encountered
+   /**
+    * This method is called when an out of order element is encountered
     **/
-    public void outOfOrder(String name)
-        throws XMLException
-    {
-        StringBuffer err = new StringBuffer("out of order element <");
-        err.append(name);
-        err.append("> found in <");
-        err.append(elementName());
-        err.append(">.");
-        throw new XMLException(err.toString());
-    }
+   public void outOfOrder(String name) throws XMLException {
+      StringBuffer err = new StringBuffer("out of order element <");
+      err.append(name);
+      err.append("> found in <");
+      err.append(elementName());
+      err.append(">.");
+      throw new XMLException(err.toString());
+   }
 
-    /**
-     * Converts the given String to an int
-     * @param str the String to convert to an int
-     * @return the int derived from the given String
-     * @exception IllegalArgumentException when the given
-     * String does not represent a valid int
+   /**
+    * Converts the given String to an int
+    * 
+    * @param str
+    *           the String to convert to an int
+    * @return the int derived from the given String
+    * @exception IllegalArgumentException
+    *               when the given String does not represent a valid int
     **/
-    public static int toInt(String str)
-        throws IllegalArgumentException
-    {
-        try {
-            return Integer.parseInt(str);
-        }
-        catch(NumberFormatException nfe) {
-            String err = str+" is not a valid integer. ";
-            throw new IllegalArgumentException(err);
-        }
-    } //-- toInt
+   public static int toInt(String str) throws IllegalArgumentException {
+      try {
+         return Integer.parseInt(str);
+      } catch (NumberFormatException nfe) {
+         String err = str + " is not a valid integer. ";
+         throw new IllegalArgumentException(err);
+      }
+   }
 
-    public Locator getDocumentLocator() {
-        return _documentLocator;
-    } //-- getDocumentLocator
+   public Locator getDocumentLocator() {
+      return _documentLocator;
+   }
 
-    public void setDocumentLocator(Locator documentLocator) {
-        _documentLocator = documentLocator;
-    } //-- setDocumentLocator
+   public void setDocumentLocator(Locator documentLocator) {
+      _documentLocator = documentLocator;
+   }
 
-    /**
-     * Signals to recieve charactes
-     *
-     * @param chars the character array containing the characters
-     * @param start the starting index into the character array
-     * @param length the number of characters to recieve
+   /**
+    * Signals to recieve charactes
+    * 
+    * @param chars
+    *           the character array containing the characters
+    * @param start
+    *           the starting index into the character array
+    * @param length
+    *           the number of characters to recieve
     **/
-    public void characters(char[] chars, int start, int length)
-        throws XMLException
-    {
-        //-- do nothing, this method is overwritten by subclasses
+   public void characters(char[] chars, int start, int length) throws XMLException {
+      // -- do nothing, this method is overwritten by subclasses
+   }
 
-    } //-- characters
-
-
-    /**
-     * Signals to end of the element with the given name.
-     *
-     * @param name the NCName of the element. It is an error
-     * if the name is a QName (ie. contains a prefix).
-     * @param namespace the namespace of the element.
+   /**
+    * Signals to end of the element with the given name.
+    * 
+    * @param name
+    *           the NCName of the element. It is an error if the name is a QName
+    *           (ie. contains a prefix).
+    * @param namespace
+    *           the namespace of the element.
     **/
-    public void endElement(String name, String namespace)
-        throws XMLException
-    {
-        //-- do nothing, this method is overwritten by subclasses
-    } //-- endElement
+   public void endElement(String name, String namespace) throws XMLException {
+      // -- do nothing, this method is overwritten by subclasses
+   }
 
-    /**
-     * Signals the start of an element with the given name.
-     *
-     * @param name the NCName of the element. It is an error
-     * if the name is a QName (ie. contains a prefix).
-     * @param namespace the namespace of the element. This may be null.
-     * Note: A null namespace is not the same as the default namespace unless
-     * the default namespace is also null.
-     * @param atts the AttributeSet containing the attributes associated
-     * with the element.
-     * @param nsDecls the namespace declarations being declared for this
-     * element. This may be null.
+   /**
+    * Signals the start of an element with the given name.
+    * 
+    * @param name
+    *           the NCName of the element. It is an error if the name is a QName
+    *           (ie. contains a prefix).
+    * @param namespace
+    *           the namespace of the element. This may be null. Note: A null
+    *           namespace is not the same as the default namespace unless the
+    *           default namespace is also null.
+    * @param atts
+    *           the AttributeSet containing the attributes associated with the
+    *           element.
+    * @param nsDecls
+    *           the namespace declarations being declared for this element. This
+    *           may be null.
     **/
-    public void startElement(String name, String namespace, AttributeSet atts,
-        Namespaces nsDecls)
-        throws XMLException
-    {
-        //-- do nothing, this method is overwritten by subclasses
+   public void startElement(String name, String namespace, AttributeSet atts, Namespaces nsDecls) throws XMLException {
+      // -- do nothing, this method is overwritten by subclasses
+   }
 
-    } //-- startElement
+   /**
+    * To set the Castor XML schema context to be used.
+    * 
+    * @param schemaContext
+    *           the Castor XML schema context to be used
+    */
+   public void setSchemaContext(final SchemaContext schemaContext) {
+      _schemaContext = schemaContext;
+   }
 
-    /**
-     * To set the Castor XML schema context to be used.
-     * @param schemaContext the Castor XML schema context to be used
-     */
-    public void setSchemaContext(final SchemaContext schemaContext) {
-        _schemaContext = schemaContext;
-    }
-    
-    /**
-     * To get the Castor XML schema context used.
-     * @return the Castor XML schema context used
-     */
-    public SchemaContext getSchemaContext() {
-        return _schemaContext;
-    }
-} //-- ComponentReader
+   /**
+    * To get the Castor XML schema context used.
+    * 
+    * @return the Castor XML schema context used
+    */
+   public SchemaContext getSchemaContext() {
+      return _schemaContext;
+   }
 
+}
