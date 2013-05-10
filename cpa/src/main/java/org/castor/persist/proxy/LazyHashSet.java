@@ -33,6 +33,7 @@ import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
@@ -73,18 +74,21 @@ public final class LazyHashSet<E> implements LazyCollection<E>, Set<E> {
     /** Number of elements in this collection. */
     private int _size;
 
+    /** Suggested access mode */
+    private AccessMode _accessMode;
+
     /**
      * Creates an instance of LazyHashSet.
      * 
      * @param tx Current transaction context
      * @param molder Associated ClassMolder
      * @param ids Set of identifiers.
+    * @param suggestedAccessMode 
      */
-    public LazyHashSet(final TransactionContext tx,
-            final ClassMolder molder,
-            final List<Identity> ids) {
+    public LazyHashSet(final TransactionContext tx, final ClassMolder molder, final List<Identity> ids, AccessMode accessMode) {
         _tx = tx;
         _molder = molder;
+        _accessMode = accessMode;
         
         if (ids != null) { _current.addAll(ids); }
         _size = _current.size();
@@ -360,7 +364,7 @@ public final class LazyHashSet<E> implements LazyCollection<E>, Set<E> {
 
             try {
                 ProposedEntity proposedValue = new ProposedEntity(_parent._molder);
-                o = (E) _parent._tx.load(ids, proposedValue, null);
+                o = (E) _parent._tx.load(ids, proposedValue, _accessMode);
                 _parent._loaded.put(ids, o);
                 return o;
             } catch (LockNotGrantedException e) {

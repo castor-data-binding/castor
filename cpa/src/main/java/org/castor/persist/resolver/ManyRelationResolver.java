@@ -190,8 +190,7 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
             List<Identity> list = (List<Identity>) field;
             ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
 
-            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
-                    fieldClassMolder, list);
+            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx, fieldClassMolder, list, null);
             _fieldMolder.setValue(object, relcol, tx.getClassLoader());
         }
     }
@@ -265,8 +264,7 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
             // A lazy collection with all the identity of the related object
             // will constructed and set as the data object's field.
             List<Identity> list = (List<Identity>) proposedObject.getField(_fieldIndex);
-            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
-                    fieldClassMolder, list);
+            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx, fieldClassMolder, list, suggestedAccessMode);
             _fieldMolder.setValue(proposedObject.getEntity(), relcol, tx
                     .getClassLoader());
         }
