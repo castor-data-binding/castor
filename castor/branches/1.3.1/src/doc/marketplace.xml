@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/projects.xml">
+  <properties>
+    <title>Castor - A marketplace</title>
+    <abstract>
+       Useful information about commercial support for Castor.</abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Castor - A marketplace</title>
+    <header>
+    </header>
+
+    <section title="Introduction">
+
+       <p>As <a href="support.html">already</a> explained, Castor is an 
+          open-source product. This means that the source code is available at 
+          no charge and may be obtained using <a href="scm.xml">SVN</a> or
+         <a href="download.xml">downloaded</a> via 
+         <url>http://dist.codehaus.org/castor</url>.</p>
+
+       <p>Due to the nature of the project, there is no guaranteed level of 
+          support (of commercial quality) offered by the project and its 
+          community. As outlined <a href="support.html">here</a>, the online
+          <a href="index.html">documentation</a> is the best place to 
+          start.</p>
+
+       <p>Having said that, it is noteworthy to mention that there's plenty of 
+        companies out there that offer ...</p>
+        
+        <ul>
+            <li>(commercial) products based on Castor</li>
+            <li>consulting services related to various aspects of Castor</li>
+            <li>commercial support related to Castor</li>
+        </ul>
+
+        <p>This page provides you with various reference points, addressing 
+           most of the above areas.</p>      
+           
+        <p>We hope that the information provided is of value to you, our customers,
+           and we are more than happy to discuss any suggestions/recommendations
+           related to this offering.</p>
+
+    </section>
+
+    <section title="Use of Castor in other open source projects">
+        
+        <p>This section identifies various (mainly) open source projects where 
+           Castor is used and/or that offer tight integration with Castor or
+           parts thereof.</p>
+           
+        <h3><a href="http://cocoon.apache.org">Apache Cocoon</a></h3>
+            
+            <p>Apache Cocoon is a web publishing framework built around the 
+               concepts of separation of concerns and component-based web 
+               development.</p>
+
+            <p>As part of this framework, Cocoon provides a component, the 
+               <b>CastorTransformer</b>, that marshalls an object hierarchy (for 
+               which a mapping file or a class descriptor hierarchy exists) to 
+               XML and inserts it as a stream of SAX events into a Cocoon 
+               pipeline.</p>
+
+            <p>Further information on the integration of Apache Cocoon and
+               Castor can be found <a href="projects.xml">here</a>.</p>
+        
+    </section>
+    
+    <section title="Professional services">
+        
+        <p>Please find information about professional services related to
+           Castor, as well as a registry of individuals/companies and their offerings 
+           in this area <a href="professional-services.html">here</a>.</p>
+           
+    </section>
+
+  </body>
+</document>

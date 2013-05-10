@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+<class name="org.castor.cpa.test.test10.TypeHandling" identity="id">
+    <description>Test type handling</description>
+    <cache-type type="none"/>
+    <map-to table="test10_handling" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="intValue" type="integer" required="false" >
+      <sql name="int_val" type="integer" />
+    </field>
+    <field name="longValue" type="long" required="false" >
+      <sql name="long_val" type="numeric" />
+    </field>
+    <field name="charValue" type="char" required="false" >
+      <sql name="char_val" type="char" />
+    </field>
+    <field name="boolValue" type="boolean" required="true" >
+      <sql name="bool_val" type="char[01]" />
+    </field>
+    <field name="boolIsMethod" type="boolean" required="true" >
+      <sql name="bool_is_method" type="char[01]" />
+    </field>
+    <field name="date2" type="date" >
+      <sql name="int_date" type="integer[YMD]" />
+    </field>
+    <field name="time2" type="date" >
+      <sql name="str_time" type="char[yyyy/MM/dd HH:mm:ss.SSS]" />
+    </field>
+    <field name="timestamp2" type="date" >
+      <sql name="num_date" type="numeric[YMDhmsS]" />
+    </field>
+    <field name="doubleValue" type="double" >
+      <sql name="real_val" type="real" />
+    </field>
+    <field name="floatValue" type="float" >
+      <sql name="float_val" type="float" />
+    </field>
+  </class>
+</mapping>

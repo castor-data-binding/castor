@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pre="my.namespace.org">
+   <complexType name="myType">
+      <all>
+         <element name="myAttr" />
+         <element name="myAttr3" />
+         <element name="myAttr2" />
+      </all>
+   </complexType>
+</schema>

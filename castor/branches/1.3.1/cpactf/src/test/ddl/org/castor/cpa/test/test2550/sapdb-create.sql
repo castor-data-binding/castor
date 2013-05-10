@@ -1,0 +1,11 @@
+CREATE TABLE test2550_entity (
+    id      INT           NOT NULL,
+    name    VARCHAR(200)  NOT NULL
+)
+//
+ALTER TABLE test2550_entity
+ADD PRIMARY KEY (id)
+//
+CREATE SEQUENCE test2550_entity_seq
+MAXVALUE 2147483647 INCREMENT BY 1 START WITH 1
+//

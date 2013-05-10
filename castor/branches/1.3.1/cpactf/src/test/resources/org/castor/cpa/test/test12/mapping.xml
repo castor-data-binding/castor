@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+<class name="org.castor.cpa.test.test12.TypeConversion" access="shared" identity="id">
+    <description>Test various type conversions</description>
+    <cache-type type="none"/>
+    <map-to table="test12_conv"/>
+    <field name="id" type="integer" >
+      <sql name="id" type="integer" />
+    </field>
+    <field name="boolInt" type="boolean">
+      <sql name="bool_int" type="integer" />
+    </field>
+    <field name="boolIntMinus" type="boolean">
+      <sql name="bool_int_minus" type="integer[-]" />
+    </field>
+    <field name="boolBigdec" type="boolean">
+      <sql name="bool_bigdec" type="numeric" />
+    </field>
+    <field name="boolBigdecMinus" type="boolean">
+      <sql name="bool_bigdec_minus" type="numeric[-]" />
+    </field>
+    <field name="byteInt" type="byte">
+      <sql name="byte_int" type="integer" />
+    </field>
+    <field name="shortInt" type="short">
+      <sql name="short_int" type="integer" />
+    </field>
+    <field name="longInt" type="long">
+      <sql name="long_int" type="integer" />
+    </field>
+    <field name="doubleInt" type="double">
+      <sql name="double_int" type="integer" />
+    </field>
+    <field name="floatInt" type="float">
+      <sql name="float_int" type="integer" />
+    </field>
+    <field name="intBigdec" type="integer">
+      <sql name="int_bigdec" type="numeric" />
+    </field>
+    <field name="floatBigdec" type="float">
+      <sql name="float_bigdec" type="numeric" />
+    </field>
+    <field name="doubleBigdec" type="double">
+      <sql name="double_bigdec" type="numeric" />
+    </field>
+    <field name="intString" type="integer">
+      <sql name="int_string" type="varchar" />
+    </field>
+    <field name="longString" type="long">
+      <sql name="long_string" type="varchar" />
+    </field>
+    <field name="bigdecString" type="big-decimal">
+      <sql name="bigdec_string" type="varchar" />
+    </field>
+    <field name="floatString" type="float">
+      <sql name="float_string" type="varchar" />
+    </field>
+    <field name="doubleString" type="double">
+      <sql name="double_string" type="varchar" />
+    </field>
+  </class>
+</mapping>

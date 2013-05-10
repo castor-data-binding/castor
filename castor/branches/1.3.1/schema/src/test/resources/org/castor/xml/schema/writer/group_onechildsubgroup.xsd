@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <complexType name="myType">
+        <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="myStringType" type="string" />
+        </choice>
+    </complexType>
+</schema>

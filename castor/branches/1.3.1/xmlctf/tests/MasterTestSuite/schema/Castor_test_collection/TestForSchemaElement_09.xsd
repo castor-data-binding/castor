@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <!-- Test for schema element with group definitions(s) -->
+   <!--
+        Please see TestsForGroupElement_** for more complex tests
+        regarding group definitions
+    -->
+
+   <!-- basic group definition : all -->
+   <xsd:group name="group1">
+      <xsd:all>
+          <xsd:element name="elem1" type="xsd:string"/>
+          <xsd:element name="elem2" type="xsd:string"/>
+      </xsd:all>
+   </xsd:group>
+
+   <!-- basic group definition : choice -->
+   <xsd:group name="group2">
+      <xsd:choice>
+          <xsd:element name="elem1" type="xsd:string"/>
+          <xsd:element name="elem2" type="xsd:string"/>
+      </xsd:choice>
+   </xsd:group>
+
+   <!-- basic group definition : sequence -->
+   <xsd:group name="group3">
+      <xsd:sequence>
+          <xsd:element name="elem1" type="xsd:string"/>
+          <xsd:element name="elem2" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:group>
+
+
+
+</xsd:schema>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://localhost/CastorTest"
+           xmlns:gc="http://localhost/CastorTest"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified" version="2.2.2">
+
+<xs:complexType name="Result" abstract="true"/>
+
+<xs:complexType name="ServiceProperties">
+  <xs:complexContent>
+    <xs:extension base="gc:Result">
+      <xs:sequence>
+      <xs:element name="supportedLanguages" type="gc:LanguageListType"/>
+      <xs:element name="defaultLanguage" type="gc:Language"/>
+      </xs:sequence>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+
+<xs:simpleType name="LanguageListType">
+  <xs:list itemType="gc:Language"/>
+</xs:simpleType>
+
+<xs:complexType name="Locale">
+  <xs:sequence>
+    <xs:element name="languageCode" type="gc:Language"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="Language">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="([a-z]{2,3})|([a-z]{2,3}-[a-z]{2})|(x-[a-z]{3})"/>
+  </xs:restriction>
+</xs:simpleType>
+
+</xs:schema>

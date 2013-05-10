@@ -1,0 +1,7 @@
+<expected>
+	<match method="regexp" index="0">create table prod \( id integer not null, name char\({1}\) \); create table category \( id char\({1}\) not null, name char\({1}\) \); create table category_prod \( prod_id integer not null, category_id char\({1}\) not null \);</match>
+	<match method="regexp" index="1">alter table category_prod add constraint category_prod_prod foreign key \(prod_id\) references prod \(id\); alter table category_prod add constraint category_prod_category foreign key \(category_id\) references category \(id\);</match>
+
+	<match method="regexp" index="0" engine="mysql">create table prod \( id integer\({0}\) not null, name char\({1}\) \); create table category \( id char\({1}\) not null, name char\({1}\) \); create table category_prod \( prod_id integer\({0}\) not null, category_id char\({1}\) not null \);</match>
+	<match method="regexp" index="1" engine="mysql">alter table category_prod add constraint category_prod_prod foreign key category_prod_prod \(prod_id\) references prod \(id\) on delete cascade on update restrict; alter table category_prod add constraint category_prod_category foreign key category_prod_category \(category_id\) references category \(id\) on delete cascade on update restrict;</match>
+</expected>

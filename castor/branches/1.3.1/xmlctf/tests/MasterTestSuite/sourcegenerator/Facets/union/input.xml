@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:HomeZip abc="string value" xmlns:p="http://castor.org/home/zip"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://castor.org/home/zip test.xsd ">
+    pp
+</p:HomeZip>

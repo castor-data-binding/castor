@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+    <class name="org.castor.cpa.test.test2567.Entity">
+        <cache-type type="none"/>
+        <map-to table="test2567_entity"/>
+        <field name="partName" type="string" identity="true">
+            <sql name="partname" type="varchar"/>
+        </field>
+        <field name="loadDate" type="date" identity="true">
+            <sql name="loaddate" type="date"/>
+        </field>
+        <field name="requestDate" type="date" identity="true">
+            <sql name="origdatereqd" type="date"/>
+        </field>
+        <field name="orderNumberText" type="string">
+            <sql name="custordernumber" type="varchar"/>
+        </field>
+    </class>
+</mapping>

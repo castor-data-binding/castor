@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                               "http://castor.org/mapping.dtd">
+<mapping>
+	
+	<!-- Mapping Document -->
+	<class name="Document">
+		<map-to xml="document"/>
+		<field name="version" type="DocumentVersion" required="false">
+			<bind-xml name="version" node="attribute"/>
+		</field>		
+		<field name="versionWithHandler" type="DocumentVersion" 
+			handler="DocumentVersionHandler" required="false">
+			<bind-xml name="version-with-handler" node="attribute"/>
+		</field>				
+	</class>
+		
+</mapping>

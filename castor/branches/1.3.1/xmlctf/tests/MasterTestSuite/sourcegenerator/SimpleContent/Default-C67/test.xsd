@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+  <xsd:element name="defaultedString" default="default-12345">
+    <xsd:complexType>
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:string"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="defaultedString">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:element name="defaultedInt" default="12345">
+    <xsd:complexType>
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:int"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="defaultedInt">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:int"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:element name="root">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="defaultedString"/>
+        <xsd:element name="defaultedStringByType" type="defaultedString" default="default-23456"/>
+        <xsd:element name="defaultedStringEasy"   type="xsd:string"      default="default-34567"/>
+        <xsd:element ref="defaultedInt"/>
+        <xsd:element name="defaultedIntByType"    type="defaultedInt"    default="23456"/>
+        <xsd:element name="defaultedIntEasy"      type="xsd:int"         default="34567"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

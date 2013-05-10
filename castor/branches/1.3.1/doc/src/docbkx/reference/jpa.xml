@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter id="jpa" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Castor JDO - Support for the JPA specification</title>
+
+    <section id="jpa.why">
+        <title>JPA annotations - Motivation</title>
+    
+        <para>
+            It has always been a goal of the Castor JDO project to 
+            eventually fully support the JPA specification and become a 
+            first class JPA provider that can e.g. be easily integrated
+            with Spring ORM. Whilst full compliance is still work 
+            in progress, there is several small areas where sufficient 
+            progress has been made, and where partial support 
+            will be made available to the user community.
+        </para>
+        
+        <para>
+            One such area is (partial) support for JPA annotations. This chapter 
+            highlights how JPA-annotated Java classes can be used with 
+            Castor JDO to persist such classes through the existing persistence 
+            framework part of Castor, without little additional requirements.
+        </para>
+        
+        <para>
+            The following sections describe ...
+        </para>
+        
+        <orderedlist>
+            <listitem>
+                <para>The prerequisites.</para>
+            </listitem>
+            <listitem>
+                <para>The current limitations.</para>
+            </listitem>
+            <listitem>
+                <para>The supported JPA annotations.</para>
+            </listitem>
+            <listitem>
+                <para>How to use Castor JDO to persist JPA-annotated classes.</para>
+            </listitem>
+            <listitem>
+                <para>How to use Castor JDO as Spring ORM provider to persist JPA-annotated classes.</para>
+            </listitem>
+        </orderedlist>   
+    
+    </section>
+    
+    <section>
+        <title>Prerequisites and outline</title>
+        
+        <para>
+            The following sections assume that you have a (set of) JPA-annotated
+            domain classes which you would like to persist using
+            Castor JDO.
+        </para>
+        
+        <para>
+            As such, we explain how to enlist those classes with
+            Castor JDO (through the <classname>JDOClassDescriptorResolver</classname>
+            interface, so that Castor JDO will be able to find and work with your
+            JPA-annotated classes. In addition, we explain how to achieve the same
+            with Spring ORM and the Spring ORM provider for Castor JDO.
+        </para>
+        
+        <para>
+            By the end of this chapter is should become obvious that 
+            Castor JDO is well-prepared to integrate with the annotation part of the
+            JPA specification, although support for JPA annotations is 
+            currently limited.
+        </para>
+        
+    </section>
+  
+    <section id="jpa.annotations.limitations">
+        <title>Limitations and Basic Information</title>
+    
+        <section>
+            <title>persistence.xml</title>
+            <para>
+                 In Castor JPA there is no use or support for a JPA
+                 <filename>persistence.xml</filename> configuration file for 
+                 now. All required configuration needs to be supplied by one 
+                 of the following means:
+            </para>
+                
+            <itemizedlist>
+                 <listitem><para>Castor JDO configuration file.</para></listitem>
+                 <listitem><para><classname>JDOClassDescriptorResolver</classname> configuration.</para></listitem>
+                 <listitem><para>Spring configuration file for the Spring ORM provider for Castor JDO.</para></listitem>
+            </itemizedlist>
+            
+        </section>
+    
+        <section>
+            <title>JPA access type and the placing of JPA annotations</title>
+            
+            <para>
+                Because Castor does not support direct field access, this 
+                feature is not supported by Castor JPA. Thus all annotations have 
+                to be defined on the getter methods of the fields. If JPA related 
+                annotations are found on fields, Castor will throw an 
+                exception.
+            </para>
+            
+        </section>
+
+        <section>
+            <title>Primary Keys</title>
+            
+            <para>		
+                Primary keys made of single fields are supported by Castor as defined 
+                in the JPA specification (through the use of the <literal>@Id</literal> annotation). If 
+                you need to define composite primary keys, please note that that 
+                Castor does <emphasis role="bold">not</emphasis> support relations 
+                with composite primary keys.
+            </para>
+            
+            <para>
+                If you still want to persist single classes with the use of 
+                composite primary keys, none of the available JPA annotations 
+                (<literal>@EmbeddedId</literal> or <literal>@IdClass</literal>) is supported as such. Instead Castor 
+                uses a kind of ad-hoc <literal>IdClass</literal> mechanism. Simply 
+                define multiple <literal>@Id</literal> annotations on the fields that make up your 
+                composite primary key, and Castor JDO will internally create the 
+                relevant constructs.
+            </para>
+            
+        </section>
+
+        <section>
+            <title>Inheritance, mapped superclasses, etc.</title>
+            
+            <para>
+                These JPA annotations are currently <emphasis role="bold">not</emphasis>
+                supported by Castor JDO. For now, you can only define entities.
+            </para>
+            
+        </section>
+    
+        <section>
+            <title>Relations</title>
+            
+            <para>
+                Besides the fact, that Castor does not support composite primary keys 
+                in relations, there are some limitations on the different kinds of 
+                relations between entities. For detailed information, please read the 
+                documentation about the different relations types further below.
+            </para>
+            
+        </section>
+    
+  </section>
+  
+  <xi:include href="jpa/annotations.xml"/>
+  <xi:include href="jpa/configuration.xml"/>
+  <xi:include href="jpa/configuration-spring.xml"/>
+
+</chapter>

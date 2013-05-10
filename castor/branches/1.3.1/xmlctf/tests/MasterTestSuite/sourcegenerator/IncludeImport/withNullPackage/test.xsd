@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns="http://www.camline.com/castor/bug" 
+		targetNamespace="http://www.camline.com/castor/bug" 
+		elementFormDefault="qualified">
+	<xs:element name="enumTest">
+		<xs:complexType>
+			<xs:attribute name="enumAttr" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="a"/>
+						<xs:enumeration value="b"/>
+						<xs:enumeration value="c"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

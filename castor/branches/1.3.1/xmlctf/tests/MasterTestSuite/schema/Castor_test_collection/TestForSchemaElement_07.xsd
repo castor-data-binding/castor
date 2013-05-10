@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <!-- Test for schema element with simpleType definitions(s) -->
+   <!--
+        Please see TestsForSimpleTypeElement_** for more complex tests
+        regarding simpleType definitions
+    -->
+
+   <!-- basic simpleType definition -->
+   <xsd:simpleType name="primaryColor">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="blue"/>
+         <xsd:enumeration value="red"/>
+         <xsd:enumeration value="yellow"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+</xsd:schema>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/xml-configuration.xml">
+  <body>
+    <title>Configuring Castor XML (Un)Marshaller</title>
+
+    <section title="Introduction">
+
+      <p>
+        To be defined ...
+      </p>
+
+      </section>
+      
+      <section title="Configuring the Marshaller">
+      
+      	<p>Before using the <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> class
+      	   for marshalling Java objects to XML, the 
+      	   <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> can be fine-tuned 
+      	   according to your needs by calling a variety of set-methods on this class. This
+      	   section enlists the available properties and provides you with information about 
+      	   their meaning, possible values and the default value.</p>
+      	   
+      	<ctable>
+      		<cheader>
+      			<td>Name</td>
+      			<td>Description</td>
+      			<td>Values</td>
+      			<td>Default</td>
+      			<td>Since</td>
+      		</cheader>
+      		<crow>
+      			<td>suppressNamespaces</td>
+      			<td></td>
+      			<td><tt>true</tt> or <tt>false</tt></td>
+      			<td><tt>false</tt></td>
+      			<td> - </td>
+      		</crow>
+      	</ctable>
+      
+    </section>
+
+      <section title="Configuring the Unmarshaller">
+      
+      	<p>Before using the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> class
+      	   for unmarshalling Java objects from XML, the 
+      	   <api class="org.exolab.castor.xml.Marshaller">Unmarshaller</api> can be fine-tuned 
+      	   according to your needs by calling a variety of set-methods on this class. This
+      	   section enlists the available properties and provides you with information about 
+      	   their meaning, possible values and the default value.</p>
+      	   
+      	<ctable>
+      		<cheader>
+      			<td>Name</td>
+      			<td>Description</td>
+      			<td>Values</td>
+      			<td>Default</td>
+      			<td>Since</td>
+      		</cheader>
+      		<crow>
+      			<td>rootObject</td>
+      			<td></td>
+      			<td>A Class instance identifying the root class to use for unmarshalling.</td>
+      			<td> - </td>
+      			<td> - </td>
+      		</crow>
+      	</ctable>
+      
+    </section>
+
+
+  </body>
+
+</document>

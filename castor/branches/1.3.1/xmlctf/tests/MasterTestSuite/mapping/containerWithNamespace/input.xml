@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<g:ServiceResponse xmlns:g="http://www.globallink.com/v1/service">
+	<g:items>
+		<g:item>
+			<g:id>1</g:id>
+		</g:item>
+	</g:items>
+</g:ServiceResponse>

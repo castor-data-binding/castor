@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section>
+    <title>Usage of JPA annotations - Configuration</title>
+    
+    <para>
+        This selection of HOW-TOs will show you how to persist 
+        JPA-annotated classes with Castor JDO, and will outline
+        the required steps for each of the following cases:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+            <para>Singular (stand-alone) entities</para>
+        </listitem>
+        <listitem>
+            <para>1:1 relations</para>
+        </listitem>
+        <listitem>
+            <para>1:M relations</para>
+        </listitem>
+        <listitem>
+            <para>M:N relations</para>
+        </listitem>
+    </itemizedlist>
+
+    <section>
+        <title>HOW-TO persist a single class</title>
+      
+        <para>
+            The goal is to take an existing JPA-annotated class 
+            <classname>Single</classname> and persist it with 
+            Castor JDO. Let's first have a look at the domain class 
+            itself, first without JPA annotattions.            
+        </para>
+        
+        <programlisting language="java">
+public class Single {
+   private int id;
+   private String name;
+   
+   public int getId() { ... }
+   
+   public void setId(int id ) { ... }
+   
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+}
+        </programlisting>
+   
+        <para>
+            Here's the same class again, this time with JPA
+            annotations.
+        </para>
+   
+        <programlisting language="java">
+@Entity
+@Table(name="mySingleTable")
+public class Single {
+   private int id;
+   private String name;
+   
+   @Id
+   @Column(name="id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+}
+        </programlisting>
+   
+        <para>
+            As shown, the class <classname>Single</classname> is 
+            mapped against the table <literal>mySingleTable</literal>,
+            and its fields <literal>id</literal> and <literal>name</literal> 
+            are mapped to the columns <literal>id</literal> and 
+            <literal>name</literal>, where the column name for the 
+            <literal>id</literal> property is supplied explicitly and 
+            where the column name for the <literal>name</literal>
+            property is derived from the property itself.
+        </para>
+   
+        <para>
+            Next point is to create an DAO interface and 
+            its implementation where we will be using 
+            <classname>CastorDaoSupport</classname> from Castor's 
+            support for Spring ORM to implement the required methods.
+        </para>
+   
+        <programlisting language="java">
+public interface SingleDao {
+	
+    void save(Single single);
+	
+    Single get(int id);
+	
+    void delete(Single single);
+
+}
+   
+public class SingleCastorDao extends CastorDaoSupport implements SingleDao {
+
+    public void delete(Single single) {
+        this.getCastorTemplate().remove(single);
+    }
+
+    public Single get(int id) {
+        return (Single) this.getCastorTemplate().load(Single.class, new Integer(id));
+    }
+
+    public void save(Single single) {
+        this.getCastorTemplate().create(single);
+    }
+}
+   </programlisting>
+   
+        <para>
+            There's one small final code change needed: For Castor to be able to work 
+            with JPA-annotated classes, you have to configure an instance of 
+            <classname>JDOClassDescriptorResolver</classname> and pass 
+            it to your <classname>JDOManager</classname>, else Castor 
+            won't be able to see those class files. Simply add 
+            the individual classes one by one or the package(s)
+            as shown below:
+        </para>
+        
+        <programlisting language="java">
+JDOClassDescriptorResolver resolver = new JDOClassDescriptorResolverImpl();
+resolver.addClass(org.castor.jpa.Single.class);
+// or alternatively you can add the package:
+resolver.addPackage("org.castor.jpa");
+		
+InputSource jdoConfiguration = ...;
+JDOManager.loadConfiguration(jdoConfiguration, null, null, resolver);
+		
+JDOManager jdoManager = JDOManager.createInstance("jpa-extensions");
+...
+        </programlisting>
+        
+    </section>
+
+    <section>
+        <title>HOW-TO persist a 1:1 relation</title>
+   
+        <para>
+            The goal is to take the existing JPA-annotated classes 
+            <classname>OneToOne_A</classname> and <classname>OneToOne_B</classname>
+            and persist them with Castor JDO. Let's first have a look 
+            at the domain classes themselves, this time with JPA 
+            annotations already in place.            
+        </para>
+   
+        <programlisting language="java">
+@Entity
+public class OneToOne_A {
+
+   private int id;
+   private String title;
+   
+   @Id
+   @Column(name = "id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   @Column(name = "name")
+   public String getTitle() { ... }
+   
+   public void setTitle(String title) { ... }
+}
+   
+@Entity
+@Table(name="OneToOne_B")
+public class B {
+
+   private int id;
+   private String name;
+   private OneToOne_A objA;
+   
+   @Id
+   @Column(name = "id")
+   public int getId() { ... }
+   
+   public void setId(int id) { ... }
+   
+   @Column(name = "name")
+   public String getName() { ... }
+   
+   public void setName(String name) { ... }
+   
+   @OneToOne(optional=false)
+   public OneToOne_A getOneToOne_A() { ... }
+   
+   public void setOneToOne_a(OneToOne_A objA) { ... }
+}
+        </programlisting>
+        
+        <para>
+            As shown, the class <classname>OneToOne_A</classname> is 
+            mapped against the table <literal>OneToOne_A</literal>
+            (implicit mapping), and the <classname>B</classname> 
+            against the table <literal>OneToOne-B</literal> (explicit 
+            mapping). Please note the <literal>@OneToOne</literal> annotation 
+            that specifies the 1:1 relation from class 
+            <classname>B</classname> to class 
+            <classname>OneToOne_A</classname>.
+        </para>
+
+        <para>
+            As with the example shown further above, do not forget to 
+            register all classes involved with the 
+            <classname>JDOClassDescriptorResolver</classname>
+            as shown below:
+        </para>
+   
+        <para>JDOClassDescriptorResolver fragment:</para>
+        <programlisting language="java">
+resolver.addClass(org.castor.jpa.OneToOne_A.class);
+resolver.addClass(org.castor.jpa.B.class);
+        </programlisting>
+   
+        <para>or with the <methodname>addPackage</methodname> method:</para>
+        <programlisting language="java">
+resolver.addPackage("org.castor.jpa");
+        </programlisting>
+
+    </section>
+
+<section>
+
+   <title>Persist one to many relation</title>
+   
+   <para>First we have to annotate our java classes.</para>
+   
+   <programlisting language="java">
+    @Entity
+    @Table(name="OneToMany_actor")
+    public class Actor {
+    
+        private int svnr;
+        private String lastname;
+        private String firstname;
+    
+        @Id
+        public int getSvnr() { ... }
+        
+	public void setSvnr(int svnr) { ... }
+    
+        @Column(name="surname")
+        public String getLastname() { ... }
+        public void setLastname(String lastname) { ... }
+    
+        @Column(name="firstname")
+        public String getFirstname() { ... }
+        public void setFirstname(String firstname) { ... }
+    }
+    
+    @Entity 
+    @Table(name="OneToMany_broadcast") 
+    public class Broadcast { 
+     
+        private int id; 
+        private String name; 
+        private Collection&lt;Actor&gt; actors; 
+     
+        @Id 
+        public int getId() { ... } 
+	
+        public void setId(int id) { ... } 
+     
+        public String getName() { ... } 
+     
+        public void setName(String name) { ... } 
+     
+        @OneToMany(targetEntity=Actor.class, mappedBy="actor_id") 
+        public Collection&lt;Actor&gt;  getActors() { ... } 
+     
+        public void setActors(Collection&lt;Actor&gt; actors) { ... }
+    } 
+   </programlisting>
+   <para>What you see is that with the small modification you can persist one to many relations easily.</para>
+   
+   <para>Last don't forget to change your JDOClassDescriptorResolver accordingly.</para>
+
+</section>
+
+
+    <!-- <section>   
+        <title>Persist many to many relation</title>
+   
+        <para>First we have to annotate our java classes.</para>
+   
+        <programlisting language="java">
+   
+        </programlisting>
+        
+        <para></para>
+   
+    </section> -->
+    
+</section>

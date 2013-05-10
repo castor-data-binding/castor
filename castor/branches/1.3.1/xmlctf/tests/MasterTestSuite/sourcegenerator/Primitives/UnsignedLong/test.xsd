@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="rootObject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="firstInteger" type="xs:unsignedLong" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="firstString" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

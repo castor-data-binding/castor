@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/tutorial/how-to-run-do-ctf-suite.xml">
+  <properties>
+    <title>How to run Castor JDO's test suite</title>
+    <abstract>
+       General information about running Castor JDO's test suite
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to run Castor JDO's test suite</title>
+    <header>
+    </header>
+    
+	<section title="Overview">
+      <p>At the time of this writing Castor JDO has 3 kinds of test suites:</p>
+      
+      <ul>
+        <li>Database independend plan unit tests.</li>
+        <li>A JUnit based test suite (CTF) that is used to test various functional areas against different
+          database engines to give developers/committers some reassurance when changing the codebase.</li>
+        <li>A Junit based test suite (PTF) to evaluate impact of changes on performance.</li>
+      </ul>
+      
+      <p>This document provides general information about running Castor JDO's test suite (CTF).</p>
+    </section>
+    
+    <section title="Intended Audience">
+      <p>Anyone who wants to run the CTF test suite. This document outlines the basic steps to get people
+        unfamiliar with this area started.</p>
+    </section>
+    
+    <section title="Prerequisites">
+      <p>Anybody wishing to run the CTF test suite should have access to the source code of Castor. This can
+        be obtained in one of the following ways:</p>
+
+      <ul>
+        <li>Download the sources distribution from the <a href="download.html">download page</a></li>
+            
+        <li>Download the latest snapshot from SVN from
+          <a href="http://svn.castor.codehaus.org/viewrep/castor/castor/trunk">Fisheye</a>
+          (see links on the bottom left corner)</li>
+          
+        <li>Check out the latest code from SVN into your prefered developement environment. For instructions on
+          this task, take a look at <a href="scm.html#Subversion-access">Subversion access</a>. For eclipse
+          <a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a> provides
+          a detailed description of this task.</li>
+      </ul>
+    </section>
+
+    <section title="2 versions of CTF">
+      <p>At the moment we are in the middle of replacing the old CTF with a new one. While the old CTF still is our
+        reference for refactorings of Castor does the new CTF contain some tests which could not be added to the old
+        one due to its limitations. On the other hand are not all tests ported to the new CTF yet.</p>
+
+      <p>In the next sections we describe how to setup the environment to execute both CTF versions. While both versions
+        of CTF are designed to be executed against every supported database engine, we will describe things with regard
+        to mysql. Having said that there are only scripts for mysql at the new CTF at the moment. At a later step of the
+        CTF refactoring we will add scripts for other databases as well. In addition we intend to allow its execution
+        with an embedded derby database out of the box, but this have not been implemented yet.</p>
+        
+      <p>For those who might be wondering about the numbering of tests, the numbers of the old tests are just random. The
+        numbers of the new tests are the jira issue numbers.</p>
+    </section>
+
+    <section title="Steps to setup environment for old CTF">
+      <p>To execute tests against mysql database you probably need access to a mysql server. To create a database for CTF,
+        you have to execute the following commands on mysql consol.</p>
+        
+      <code-panel>
+# create database test;
+# grant all on test.* at "localhost" to "test" identified by "test";
+# use test;
+# source [path-to-script];</code-panel>
+
+      <p>If the server is not installed on your local maschine (the one you execute the tests on) you have to replace
+        "localhost" with the IP of the maschine the tests get executed on. The script to execute can be found in
+        "cpactf/src/old/ddl/" directory. For mysql it's "mysql.sql". If you like to use a different name for the database
+        or use other user credential you can adjust them at "cpactf/src/old/resources/jdo/mysql.xml".</p>
+
+      <p>As we do not include JDBC drivers for every database with Castor you also have to add the driver you like to use
+        to your classpath to execute the tests. The easiest way is to copy the driver to "lib/" directory as all jar's
+        contained therein are added automatically. Another option is to modify "bin/test.sh" or "bin/test.bat" script
+        depended on your operating system.</p>
+
+      <p>For mysql we still use "mysql-connector-java-3.1.13-bin", also for mysql server of version 5. This version has proven
+        to be stable. While other versions of mysql connector may also work, some of them have bugs from our experience.</p>
+        
+      <p>As already explained you will find JDO configurations for every supported database in "cpactf/src/old/resources/jdo".
+        The JDO configurations are named mysql.xml, oracle.xml etc. In the same directory you will also find main mapping file
+        "mapping.xml" that includes all other mappings which are located in the "cpactf/src/old/resources/ctf/jdo/..." directories.
+        There is one more important file for the old tests "cpactf/src/old/resources/tests.xml", it is the main config file which
+        defines which test should be executed against which database engine. As mentioned previously not every test works with
+        every database engine as some missing some features or castor does not support everything of every engine.</p>
+    </section>
+
+    <section title="Steps to run old CTF from commandline">
+      <p>From a command line (e.g a shell), please execute the following commands to run the whole test suite against mysql
+        (where &lt;castor-root&gt; points to the directory where you installed the Castor sources:</p>
+           
+      <code-panel>
+cd &lt;castor-root&gt;/bin
+build clean
+build tests
+test castor.mysql</code-panel>
+
+      <p>To execute just one of the many tests of the complete test suite, please change this to:</p>
+           
+      <code-panel>
+cd &lt;castor-root&gt;/bin
+build clean
+build tests
+test castor.mysql.TC30</code-panel>
+
+	  <p>NOTE: You have to execute "build clean" and "build tests" again if you have changed anything within eclipse (e.g. a
+	    configuration file or a class).</p>
+    </section>
+
+    <section title="Steps to run old CTF out of eclipse">
+      <p>Now, let's see how we can run these old CPACTF tests through eclipse.</p>
+      
+      <ul>
+        <li>Go to "/cpacft/src/old/java" and right click</li>
+        <li>Select <b>Run As -> Run...</b></li>
+        <li>Select <b>"Java Application"</b> from the left side menu and double click on it to create <b>"New_configuration"</b>.</li>
+        <li>Select <b>Project</b> -> castor</li>
+        <li>Enter <b>Main class</b> -> MainApp</li>
+        <li>Select Arguments Tab</li>
+        <li>Enter <b>Program Arguments</b> for example: "castor.mysql.TC31" or "castor.mysql"</li>
+        <li>Now "Run"</li>
+      </ul>
+    </section>
+
+    <section title="Short description of the old CTF tests">
+      <p>As some features are not supported by all database engines (e.g. sequence keygenerator) or a test have not been
+        verified against a database, only a subset of the following tests will be executed if you run CTF.</p>
+        
+      <ul>
+        <li>TC01 Duplicate key detection tests.</li>
+        <li>TC02 Concurrent access tests.</li>
+        <li>TC03 Read only tests.</li>
+        <li>TC04 Deadlock detection tests.</li>
+        <li>TC05 Update rollback tests.</li>
+        <li>TC06 Race tests.</li>
+        <li>TC07 Cache leakage tests.</li>
+        <li>TC08 Cache expiry measure.</li>
+        <li>TC09 TxSynchronizable interceptor tests.</li>
+        <li>TC10 Type handling tests.</li>
+        <li>TC11 Type handling of LOB tests.</li>
+        <li>TC12 Type Conversion tests.</li>
+        <li>TC13 Serializable object tests.</li>
+        <li>TC14 Rollback primitive tests.</li>
+        <li>TC15 Multiple columns primary keys tests.</li>
+        <li>TC15a Multiple columns primary keys only tests.</li>
+        <li>TC16 Nested fields tests.</li>
+        <li>TC17 Timestamp tests.</li>
+        <li>TC18 Persistence interface tests.</li>
+        <li>TC19 InstanceFactory interface tests.</li>
+        <li>TC20 Key generators: MAX, HIGH-LOW.</li>
+        <li>TC23 Key generator: IDENTITY.</li>
+        <li>TC24 Key generator: UUID.</li>
+        <li>TC25 Dependent objects tests.</li>
+        <li>TC26 Dependent objects tests.</li>
+        <li>TC27 Dependent update objects tests.</li>
+        <li>TC28 Dependent update objects tests.</li>
+        <li>TC30 OQL-supported syntax.</li>
+        <li>TC31 OQL queries for extends.</li>
+        <li>TC32 Test limit clause.</li>
+        <li>TC33 Test limit clause with offset.</li>
+        <li>TC34 Test limit clause with offset at extended object.</li>
+        <li>TC36 SizeOracle.</li>
+        <li>TC37 Absolute.</li>
+        <li>TC38 CALL SQL with parameters.</li>
+        <li>TC38a Named query support.</li>
+        <li>TC70 Collections.</li>
+        <li>TC71 Test special collections.</li>
+        <li>TC72 Test sorted collections.</li>
+        <li>TC73 ManyToMany.</li>
+        <li>TC74 ManyToManyKeyGen.</li>
+        <li>TC75 Expire Many-To-Many.</li>
+        <li>TC76 Cached OID with db-locked.</li>
+        <li>TC77 Query garbage collected.</li>
+        <li>TC78 JDBC connection.</li>
+        <li>TC79 Test the use of Database.isLocked().</li>
+        <li>TC79a Test auto-store attribute.</li>
+        <li>TC79aa Test auto-store attribute for 1:M relations.</li>
+        <li>TC79b Test the use of Database.isPersistent().</li>
+        <li>TC80 self-referential relation test with extend hierarchies.</li>
+        <li>TC81 Dependent relation test.</li>
+        <li>TC82 Dependent relation test (using no key generators).</li>
+        <li>TC83 Identity definition through identity attribute in field mapping.</li>
+        <li>TC84 Transient attribute.</li>
+        <li>TC85 TestEnum.</li>
+        <li>TC87 TestLazy1to1.</li>
+        <li>TC88 Lazy Loading.</li>
+        <li>TC89 Expire Lazy Employee.</li>
+        <li>TC93 Polymorphism Degenerated tests.</li>
+        <li>TC94 Polymorphism tests.</li>
+        <li>TC95 Polymorphism tests with key generator.</li>
+        <li>TC96 Polymorphism tests for depend relations.</li>
+        <li>TC97 Polymorphism tests.</li>
+        <li>TC98 Polymorphism tests in a threaded environment.</li>
+        <li>TC99 Polymorphism tests (many 2 many).</li>
+        <li>TC200 Self-referential relation tests.</li>
+        <li>TC201 Self-referential relation tests with extend hierarchy.</li>
+        <li>TC202 ForeignKeyFirst tests.</li>
+        <li>TC203 Timezone tests.</li>
+      </ul>
+    </section>
+
+    <section title="Steps to setup environment for new CTF">
+      <p>To execute tests against mysql database you probably need access to a mysql server. To create a database for CTF,
+        you have to execute the following commands on mysql consol.</p>
+        
+      <code-panel>
+# create database cpactf;
+# grant all on cpactf.* at "localhost" to "test" identified by "test";
+# use cpactf;
+# source &lt;path-to-script&gt;;</code-panel>
+
+      <p>If the server is not installed on your local maschine (the one you execute the tests on) you have to replace
+        "localhost" with the IP of the maschine the tests get executed on. For mysql execute every "mysql.sql"
+        script found in subdirectories of "cpactf/src/test/ddl/" directory. If you like to use a different name for the
+        database or use other user credential you can adjust them at "cpactf/src/test/resources/cpactf-conf.xml".</p>
+
+      <p>As we do not include JDBC drivers for every database with Castor you also have to add the driver you like to use
+        to your classpath to execute the tests. The easiest way is to copy the driver to "lib/" directory as all jar's
+        contained therein are added automatically. Another option is to modify "bin/test.sh" or "bin/test.bat" script
+        depended on your operating system.</p>
+
+      <p>For mysql we still use "mysql-connector-java-3.1.13-bin", also for mysql server of version 5. This version has proven
+        to be stable. While other versions of mysql connector may also work, some of them have bugs from our experience.</p>
+    </section>
+
+    <section title="Steps to run new CTF out of eclipse">
+      <p>Execution of the new test suite from within eclipse against mysql is very simple.</p>
+      
+      <ul>
+        <li>Select "cpactf/src/test/java" and right click</li>
+        <li>Select "Run as" -> "JUnit tests"</li>
+      </ul>
+
+      <p>In in the configuration file "cpactf-conf.xml" mysql is configuerd as default database. To execute tests against
+        another database engine or to force execution of tests that have been excluded you can pass VM parameter to the test
+        framework. VM Arguments can also be specified in eclipse.</p>
+        
+      <ul>
+        <li>Select "Run as" -> "Run.." from main menu</li>
+        <li>Select Arguments Tab</li>
+        <li>Enter <b>VM Arguments</b> for example: "-Dname=value"</li>
+        <li>Now "Run"</li>
+      </ul>
+      
+      <p>The following VM parameters are supported by CTF.</p>
+      
+      <dl>
+        <dt>config</dt><dd>Path to an alternate configuration file.</dd>
+        <dt>database</dt><dd>Name of the database configuration.</dd>
+        <dt>transaction</dt><dd>Name of the transaction manager configuration.</dd>
+        <dt>force</dt><dd>Force execution of excluded tests (true/false).</dd>
+      </dl>
+    </section>
+
+    <section title="Troubleshooting">
+      <p><b>For those who face the following problem in eclipse while executing the tests</b></p>
+      
+      <code-panel>
+#An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x7c918fea, pid=2460, tid=3712
+#
+#Java VM: Java HotSpot(TM) Client VM (1.5.0-b64 mixed mode)
+#Problematic frame:
+#C [ntdll.dll+0x18fea]
+#
+#An error report file with more information is saved as hs_err_pid2460.log
+#
+#            If you would like to submit a bug report, please visit:
+#              http://java.sun.com/webapps/bugreport/crash.jsp
+#</code-panel>
+
+      <p>It is a problem with memory configured for eclipse. It can be changed in <b>eclipse.ini</b> file which 
+        can be found in installation directory of Eclipse. By default it is -Xmx256m, just increase it and problem go away.</p>
+    </section>        
+    
+    <section title="References">
+      <ul>
+        <li><a href="how-to-setup-castor-project-in-eclipse.html">How to setup Castor project in eclipse</a></li>
+        <li><a href="scm.html#Subversion-access">Subversion access</a></li>
+        <li><a href="test-framework.html">The testing framework</a></li>
+      </ul>
+    </section>
+  </body>
+</document>

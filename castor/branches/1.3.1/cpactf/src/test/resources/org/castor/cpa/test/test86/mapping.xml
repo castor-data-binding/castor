@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" 
+    "http://castor.org/mapping.dtd">
+<mapping>
+
+   <class name="org.castor.cpa.test.test86.CircBrother" identity="id" key-generator="SEQUENCE">
+        <map-to table="test86_circ_brother" />
+        <field name="id" type="long">
+            <sql name="brother_id" type="integer" />
+        </field>
+        <field name="sister" type="org.castor.cpa.test.test86.CircSister">
+            <sql name="brother_sibling" />
+        </field>
+    </class>
+
+    <class name="org.castor.cpa.test.test86.CircSister" identity="id" key-generator="SEQUENCE">
+        <map-to table="test86_circ_sister" />
+        <field name="id" type="long">
+            <sql name="sister_id" type="integer" />
+        </field>
+        <field name="brother" type="org.castor.cpa.test.test86.CircBrother">
+            <sql name="sister_sibling" />
+        </field>
+    </class>
+
+</mapping>

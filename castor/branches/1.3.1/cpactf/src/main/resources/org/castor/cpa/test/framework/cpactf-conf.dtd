@@ -1,0 +1,248 @@
+<!--
+    The CPA Castor Test Framework configuration file DTD
+
+    <!DOCTYPE cpactf-conf PUBLIC "-//EXOLAB/CPA Castor Test Framework DTD Version 1.0//EN"
+                                 "http://castor.org/cpactf-conf.dtd">
+
+    Note: This DTD is under evolution and subject to change.
+
+    Defines default database and transaction definitions if not specifed by other
+    means at execution time of the test suite.
+ -->
+
+<!ELEMENT cpactf-conf ( configuration+, database+, transaction+ ) >
+<!ATTLIST cpactf-conf
+          default-database IDREF #REQUIRED
+          default-transaction IDREF #REQUIRED>
+
+
+<!--
+    The named test suite configurations specify the mapping between Java classes
+    and tables in that database server.
+
+    The class mapping is included from an external mapping file, allowing
+    multiple mappings to be included in the same configuration, as well as two
+    configurations to share the same mappings. For concurrency and integrity
+    reasons, two configurations should never attempt to use overlapping mappings.
+
+    A real database configuration to be used by castor is build by combining
+    the mappings of the test suite configuration with one of the database
+    definitions and one of the transaction definitions. The test suite
+    configuration to be used is loaded by the test case by its name while
+    database and transaction definitions are defined by the default element or
+    specified at command line.
+ -->
+
+<!ELEMENT configuration ( description?, mapping+ )>
+<!ATTLIST configuration
+          name ID #REQUIRED>
+
+
+
+<!--
+    Includes class mapping from the specified mapping file.
+
+    The href attribute may be an absolute URL (typically a file: URL)
+    or a name relative to the base URL of the test suite configuration
+    file (typically in the same path).
+ -->
+
+<!ELEMENT mapping EMPTY>
+<!ATTLIST mapping
+          href CDATA #REQUIRED>
+
+
+
+<!--
+    The named database configurations specify the means to obtain a connection
+    to the database server. The test suite will access the database by its given
+    name.
+
+    The means to acquire a database connection is specified in one of three ways:
+    as a JDBC 2.0 driver and URL, as a JDBC 2.0 DataSource, or as a DataSource
+    to lookup through JNDI. When Castor is used inside a J2EE application server
+    it is recommended to use the JNDI lookup, allowing the application server to
+    manage connection pooling and distributed transaction.
+
+    The engine attribute specifies the persistence engine for this database
+    server. Different database servers vary in the SQL syntax and capabilites
+    they support, and this attribute names the service provider to use.
+
+    The following names are supported in Castor:
+
+    db2          DB/2
+    derby        Derby
+    hsql         Hypersonic SQL
+    mysql        MySQL
+    oracle       Oracle 7 - Oracle 9i
+    pointbase    Pointbase
+    postgresql   PostgreSQL 7.1
+    progress     Progress
+    sapdb        SAP DB / MaxDB
+    sql-server   Microsoft SQL Server
+    sybase       Sybase 11
+ -->
+
+<!ELEMENT database ( description?, ( driver | data-source | jndi ) )>
+<!ATTLIST database
+          name ID #REQUIRED
+          engine ( db2 | derby | hsql | mysql | oracle | pointbase |
+                   postgresql | progress | sapdb | sql-server | sybase ) #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 driver for obtaining new connections to the database
+    server. The driver is obtained from the JDBC DriverManager and must be
+    located in the class path.
+
+    The JDBC URL locates the driver and provides the access properties.
+    Additional properties may be specified using the param element (e.g. buffer
+    size, network protocol, etc).
+
+    Use the class-name attribute to specify the driver class for automatic
+    registration with the JDBC DriverManager. If missing, the driver must be
+    registered in any other means, including properties file, Class.forName(),
+    etc.
+
+    For example, to configure an Oracle 8 thin driver, use:
+
+    <driver class-name="oracle.jdbc.driver.OracleDriver"
+            url="jdbc:oracle:thin:@machine:port:SID">
+      <param name="user" value="scott" />
+      <param name="password" value="tiger" />
+    </driver>
+
+    When running Castor inside a J2EE application server, it is recommended to
+    use jndi.
+ -->
+
+<!ELEMENT driver ( param* )>
+<!ATTLIST driver
+          url CDATA #REQUIRED
+          class-name CDATA #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 DataSource for obtaining new connections to the
+    database server. DataSources are defined in the JDBC 2.0 standard extension
+    API which is included with Castor, and implement the interface
+    javax.sql.DataSource.
+
+    The DataSource implementation class name is specified in the class-name
+    attribute and configured through Bean-like accessor methods specified by
+    the param elements.
+
+    For example, to configure a PostgreSQL 7.0 DataSource, use:
+
+    <data-source class-name="org.postgresql.PostgresqlDataSource">
+      <param name="host" value="host" />
+      <param name="database" value="db" />
+      <param name="user" value="user" />
+      <param name="password" value="secret" />
+    </data-source>
+
+    When running Castor inside a J2EE application server, it is recommended to
+    use jndi.
+ -->
+
+<!ELEMENT data-source ( param* )>
+<!ATTLIST data-source
+          class-name CDATA #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 DataSource for obtaining new connections to the
+    database server through JNDI lookup. The JNDI environment naming context is
+    used to obtain a suitable DataSource.
+
+    When running inside a J2EE application server, this is the preferred method
+    for obtaining database connections. It enables the J2EE application server
+    to configure the connection, maintain a connection pool, and manage
+    distributed transactions.
+
+    For example, to specify a J2EE DataSource, use:
+
+      <jndi name="java:comp/env/jdbc/mydb" />
+ -->
+
+<!ELEMENT jndi EMPTY>
+<!ATTLIST jndi
+          name CDATA #REQUIRED>
+
+
+
+<!--
+    Specifies the named transaction definitions available. The mode can either
+    be 'local' or 'global'. When using 'local' mode a 'manager' element will be
+    ignored, while it is required for 'global' mode. A 'description' element
+    telling what the transaction definition is intended for can optionally be
+    specified once.
+    
+    When using Castor JDO stand-alone and you want Castor to control transaction
+    demarcation, please use this element as follows:
+
+       <transaction name="local" mode="local"/>
+       
+    When running inside a J2EE application server, and you want to use container
+    managed transactions, please make sure you use this element as follows:
+    
+       <transaction name="jndi" mode="global">
+         <manager name="jndi">
+           <param name="jndiEnc" value="java:comp/env/TransactionManager" />
+         </manager>
+       </transaction>
+    
+ -->
+ 
+<!ELEMENT transaction ( description?, manager? )>
+<!ATTLIST transaction
+          name ID #REQUIRED
+          mode ( local | global ) #REQUIRED>
+
+
+<!--
+    Specifies the transaction manager to use. This should be used together with
+    global transaction demarcation only.
+
+    The following transaction manager (tm) names are supported in Castor:
+
+    jndi         TM looked up in the JNDI ENC.
+	jotm         JOTM
+    websphere    WebSphere 4 and previous releases.
+    websphere5   WebSphere 5.
+    websphere51  WebSphere 5.1.
+
+	In addition to specifying the transaction manager name, it is possible to
+    pass arbitrary name/value pairs to the transaction manager instance. This
+	can be used to e.g. specify what JNDI ENC to use to lookup the transaction 
+	manager.
+	
+       <transaction mode="global">
+         <manager name="jndi">
+           <param name="jndiEnc" value="java:comp/env/TransactionManager" />
+         </manager>
+       </transaction>
+ -->
+ 
+<!ELEMENT manager ( param* )>
+<!ATTLIST manager
+          name CDATA #REQUIRED>
+
+
+
+<!--
+    A textual description.
+ -->
+<!ELEMENT description ( #PCDATA )>
+
+
+<!--
+    Specifies parameters to be passed to JDBC driver, JDBC datasource or
+	transaction manager dependend on where they have been specified.
+ -->
+ 
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+          name  CDATA #REQUIRED
+          value CDATA #REQUIRED>
+   

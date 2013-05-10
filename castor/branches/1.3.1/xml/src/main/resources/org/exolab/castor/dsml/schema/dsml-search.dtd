@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!ELEMENT dsml (search)>
+<!ELEMENT search (return-attr*)>
+<!ATTLIST search base CDATA #REQUIRED
+                 scope (subtree|onelevel|base) "base"
+                 filter CDATA #IMPLIED>
+<!ELEMENT return-attr (#PCDATA)>

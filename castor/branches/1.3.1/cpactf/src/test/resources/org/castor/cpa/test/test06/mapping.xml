@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="org.castor.cpa.test.test06.RaceCount" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <cache-type type="count-limited" capacity="10"/>
+    <map-to table="test06_race" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer" required="true">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test06.RaceTime" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <cache-type type="time-limited" capacity="5"/>
+    <map-to table="test06_race" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer" required="true">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test06.RaceUnlimited" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <cache-type type="unlimited"/>
+    <map-to table="test06_race" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer" >
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="org.castor.cpa.test.test06.RaceNone" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <cache-type type="none"/>
+    <map-to table="test06_race" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+</mapping>

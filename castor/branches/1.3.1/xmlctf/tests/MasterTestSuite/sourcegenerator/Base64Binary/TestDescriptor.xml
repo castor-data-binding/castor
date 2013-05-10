@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Test equals() with xsd:base64binary</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Regression test case for bug CASTOR-716</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>derek.sayeau@cognos.com</Reporter>
+        <Date_Report>2004-03-26</Date_Report>
+        <Date_Fix>2008-08-05</Date_Fix>
+        <Comment>Test equals() with xsd:base64binary</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>castor-bug-1575.xsd</Schema>
+        <Root_Object random="true" dump="true">RegistrationState</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>
