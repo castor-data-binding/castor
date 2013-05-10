@@ -31,11 +31,13 @@ import org.castor.cpa.persistence.sql.connection.JNDIConnectionFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.conf.DatabaseChoice;
+import org.castor.jdo.conf.JdoConf;
 
 public final class Test954 extends CPATestCase {
     private static final Log LOG = LogFactory.getLog(Test954.class);
     
     private static final String DBNAME = "test954";
+    private static final String MAPPING = "/org/castor/cpa/test/test954/mapping.xml";
 
     private Connection _connection;
     
@@ -69,8 +71,8 @@ public final class Test954 extends CPATestCase {
 
         ConnectionFactory factory = null;
         
-        org.castor.jdo.conf.Database dbConfig = getDbConfig(DBNAME);
-        DatabaseChoice choice = dbConfig.getDatabaseChoice();
+        JdoConf jdoConf = getJdoConf(DBNAME, MAPPING);
+        DatabaseChoice choice = jdoConf.getDatabase(0).getDatabaseChoice();
         ClassLoader loader = getProperties().getApplicationClassLoader();
         if (choice.getDriver() != null) {
             factory = new DriverConnectionFactory(choice.getDriver(), true);
@@ -80,7 +82,7 @@ public final class Test954 extends CPATestCase {
             factory = new JNDIConnectionFactory(choice.getJndi(), true);
         }
         
-        factory.initializeFactory(null);
+        factory.initializeFactory();
         
         _connection = factory.createConnection();
     }

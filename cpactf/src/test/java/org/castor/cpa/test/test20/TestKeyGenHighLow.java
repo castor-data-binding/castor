@@ -30,19 +30,16 @@ public class TestKeyGenHighLow extends AbstractTestKeyGenInteger {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.ORACLE);
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void testKeyGenHighLow() throws Exception {
         testOneKeyGen(HighLowObject.class, HighLowExtends.class);
         testOneKeyGen(HighLowObjectSameConnection.class, HighLowExtendsSameConnection.class);
-        testOneKeyGen(HighLowObjectGlobal.class, HighLowExtendsGlobal.class);
     }
 }

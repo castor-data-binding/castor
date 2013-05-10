@@ -60,7 +60,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
 /**
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class JDBCQueryExpression implements QueryExpression {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -119,13 +119,12 @@ public class JDBCQueryExpression implements QueryExpression {
         _tables.put(tableAlias, tableName);
     }
 
-    public final void addParameter(final String tableName, final String columnName,
-            final String condOp) {
+    public final void addParameter(final String tableName, final String columnName, final String condOp) {
         addCondition(tableName, columnName, condOp, JDBCSyntax.PARAMETER);
     }
 
-    public final void addCondition(final String tableName, final String columnName,
-            final String condOp, final String value) {
+    public final void addCondition(final String tableName, final String columnName, final String condOp,
+            final String value) {
         _tables.put(tableName, tableName);
         _conds.addElement(_factory.quoteName(
                 tableName + JDBCSyntax.TABLE_COLUMN_SEPARATOR + columnName) + condOp + value);

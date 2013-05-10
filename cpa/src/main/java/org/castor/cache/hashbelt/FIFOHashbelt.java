@@ -15,20 +15,18 @@
  */
 package org.castor.cache.hashbelt;
 
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * A perfectly ordinary hashbelt. Objects all go into the first container on the
  * belt, and make their way down over time until they fall off the end.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class FIFOHashbelt<K, V> extends AbstractHashbelt<K, V> {
+public final class FIFOHashbelt extends AbstractHashbelt {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
@@ -48,15 +46,26 @@ public final class FIFOHashbelt<K, V> extends AbstractHashbelt<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V get(final Object key) {
+    public Object get(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
         
-        lock().readLock().lock();
+        Object result = null;
+
         try {
-            return getObjectFromCache(key);
-        } finally {
-            lock().readLock().unlock();
+            lock().readLock().acquire();
+        } catch (InterruptedException ex) {
+            return null;
         }
+        
+        try {
+            result = getObjectFromCache(key);
+        } catch (RuntimeException ex) {
+            throw ex;
+        } finally {
+            lock().readLock().release();
+        }
+
+        return result;
     }
     
     //--------------------------------------------------------------------------
@@ -65,30 +74,52 @@ public final class FIFOHashbelt<K, V> extends AbstractHashbelt<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V put(final K key, final V value) {
+    public Object put(final Object key, final Object value) {
         if (key == null) { throw new NullPointerException("key"); }
         if (value == null) { throw new NullPointerException("value"); }
-            
-        lock().writeLock().lock();
+        
+        Object result = null;
+
         try {
-            return putObjectIntoCache(key, value);
-        } finally {
-            lock().writeLock().unlock();
+            lock().writeLock().acquire();
+        } catch (InterruptedException ex) {
+            return null;
         }
+        
+        try {
+            result = putObjectIntoCache(key, value);
+        } catch (RuntimeException ex) {
+            throw ex;
+        } finally {
+            lock().writeLock().release();
+        }
+        
+        return result;
     }
 
     /**
      * {@inheritDoc}
      */
-    public V remove(final Object key) {
+    public Object remove(final Object key) {
         if (key == null) { throw new NullPointerException("key"); }
 
-        lock().writeLock().lock();
+        Object result = null;
+
         try {
-            return removeObjectFromCache(key);
-        } finally {
-            lock().writeLock().unlock();
+            lock().writeLock().acquire();
+        } catch (InterruptedException ex) {
+            return null;
         }
+        
+        try {
+            result = removeObjectFromCache(key);
+        } catch (RuntimeException ex) {
+            throw ex;
+        } finally {
+            lock().writeLock().release();
+        }
+
+        return result;
     }
 
     //--------------------------------------------------------------------------
@@ -97,17 +128,29 @@ public final class FIFOHashbelt<K, V> extends AbstractHashbelt<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends K, ? extends V> map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         if (map.containsKey(null)) { throw new NullPointerException("key"); }
         if (map.containsValue(null)) { throw new NullPointerException("value"); }
 
-        lock().writeLock().lock();
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
+        iter = map.entrySet().iterator();
+        Entry<? extends Object, ? extends Object> entry;
+
         try {
-            for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+            lock().writeLock().acquire();
+        } catch (InterruptedException ex) {
+            return;
+        }
+        
+        try {
+            while (iter.hasNext()) {
+                entry = iter.next();
                 putObjectIntoCache(entry.getKey(), entry.getValue());
             }
+        } catch (RuntimeException ex) {
+            throw ex;
         } finally {
-            lock().writeLock().unlock();
+            lock().writeLock().release();
         }
     }
 

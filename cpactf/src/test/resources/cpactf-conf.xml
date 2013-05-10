@@ -1,5 +1,10 @@
 <cpactf-conf default-database="derby-embedded" default-transaction="local">
 
+    <configuration name="default">
+        <description>Default mapping configuration used at script execution</description>
+        <mapping href="/default-mapping.xml"/>
+    </configuration>
+
     <database name="db2-drv" engine="db2">
         <description>Database configuration for DB2</description>
         <driver url="jdbc:db2:cpactf"
@@ -41,7 +46,7 @@
         <data-source class-name="com.microsoft.sqlserver.jdbc.SQLServerDataSource">  
             <param name="user" value="test"/>
             <param name="password" value="test"/>
-            <param name="serverName" value="192.168.0.4"/>
+            <param name="serverName" value="localhost"/>
             <param name="databaseName" value="cpactf"/>
             <param name="portNumber" value="1433"/>
         </data-source>
@@ -115,10 +120,10 @@
     <database name="postgresql-ds" engine="postgresql">
         <description>Database configuration for PostgreSQL</description>
         <data-source class-name="org.postgresql.ds.PGSimpleDataSource">
-            <param name="serverName" value="192.168.1.223"/>
+            <param name="serverName" value="localhost"/>
             <param name="portNumber" value="5432"/>
-            <param name="databaseName" value="castor"/>
-            <param name="user" value="castoradmin"/>
+            <param name="databaseName" value="cpactf"/>
+            <param name="user" value="test"/>
             <param name="password" value="test"/>
         </data-source>
     </database>

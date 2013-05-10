@@ -71,6 +71,13 @@
     private Perl5Pattern _regexp = null;
     
     /**
+     * Creates a new JakartaOroEvaluator
+    **/
+    public JakartaOroEvaluator() {
+        super();
+    } //-- JakartaOroEvaluator
+    
+    /**
      * Sets the regular expression to match against during
      * a call to #matches
      *

@@ -24,19 +24,15 @@ import java.util.Map;
  * grouping that allows the container to be efficiently dealt with as a group of
  * objects to be expired.
  * <p>
- * According to the AbstractHashblet's implementations, if the container can't
- * be protected by AbstractHashblet.lock(), the implementations of this interface need 
- * to be appropriately synchronized.
- * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
+ * Implementations of this interface need to be appropriately synchronized --
+ * the implementations of the hashbelt rely on this object to be threadsafe.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public interface Container<K, V> extends Map<K, V> {
+public interface Container extends Map<Object, Object> {
     /**
      * Set the timestamp of this container to System.currentTimeMillis().
      */
@@ -56,7 +52,7 @@ public interface Container<K, V> extends Map<K, V> {
      *
      * @return An iterator over the keys currently contained in the container.
      */
-    Iterator<K> keyIterator();
+    Iterator<Object> keyIterator();
     
     /**
      * Returns an iterator over the values contained in this container. If the container
@@ -65,5 +61,5 @@ public interface Container<K, V> extends Map<K, V> {
      *
      * @return An iterator over the values currently contained in the container.
      */
-    Iterator<V> valueIterator();
+    Iterator<Object> valueIterator();
 }

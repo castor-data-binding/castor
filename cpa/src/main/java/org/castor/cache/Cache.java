@@ -45,15 +45,12 @@ import org.castor.cache.simple.CountLimited;
  * of the different cache types. It needs to be noted that only string keys and values
  * are allowed.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public interface Cache<K, V> extends Map<K, V> {
+public interface Cache extends Map<Object, Object> {
     //--------------------------------------------------------------------------
     
     /** Mapped initialization parameter <code>type</code>. */

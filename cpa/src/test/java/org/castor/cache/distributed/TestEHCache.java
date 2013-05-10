@@ -28,7 +28,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-06 13:10:47 0100 (Fr, 06 Jän 2006) $
  * @since 1.0
  */
 public final class TestEHCache extends TestCase {
@@ -55,12 +55,12 @@ public final class TestEHCache extends TestCase {
     }
 
     public void testConstructor() throws Exception {
-        Cache<String, String> c = new EHCache<String, String>();
+        Cache c = new EHCache();
         assertTrue(c instanceof EHCache);
     }
 
     public void testGetType() throws Exception {
-        Cache<String, String> c = new EHCache<String, String>();
+        Cache c = new EHCache();
         assertEquals("ehcache", c.getType());
     }
 
@@ -68,7 +68,7 @@ public final class TestEHCache extends TestCase {
         Logger logger = Logger.getLogger(EHCache.class);
         Level level = logger.getLevel();
         
-        EHCache<String, String> c = new EHCache<String, String>();
+        EHCache c = new EHCache();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -88,7 +88,7 @@ public final class TestEHCache extends TestCase {
     }
 
     public void testClose() throws Exception {
-        Cache<String, String> c = new EHCache<String, String>();
+        Cache c = new EHCache();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

@@ -52,33 +52,48 @@ import org.exolab.castor.mapping.AbstractFieldHandler;
 
 /**
  * A dummy FieldHandler for "transient" fields. This allows us
- * to create a FieldDescriptor, but not use a real FieldHandler.
+ * to create a FieldDescriptor, but not use a real FieldHandler
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">kvisco</a>
  * @version $Revision$ $Date: 2005-01-17 14:35:07 -0700 (Mon, 17 Jan 2005) $
  */
-public class TransientFieldHandler<T> extends AbstractFieldHandler<T> {
+public class TransientFieldHandler extends AbstractFieldHandler {
     
     public TransientFieldHandler() {
     	super();
     }
     
-    public T getValue(Object target) {
+    /**
+     * @see org.exolab.castor.mapping.FieldHandler#getValue(java.lang.Object)
+     */
+    public Object getValue(Object target) {
     	return null;
     }
     
-    public T newInstance(Object target) {
+    /**
+     * @see org.exolab.castor.mapping.FieldHandler#newInstance(java.lang.Object)
+     */
+    public Object newInstance(Object target) {
        return null; 
     }
     
+    /**
+     * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object,
+     *      java.lang.Object[])
+     */
     public Object newInstance(Object target, Object[] args) {
     	return null;
     }
-    
+    /**
+     * @see org.exolab.castor.mapping.FieldHandler#setValue(java.lang.Object, java.lang.Object)
+     */
     public void setValue(Object target, Object value) {
     	//-- do nothing
     }
     
+    /**
+     * @see org.exolab.castor.mapping.FieldHandler#resetValue(java.lang.Object)
+     */
     public void resetValue(Object target) {
     	//-- do nothing
     }

@@ -45,9 +45,7 @@ public final class TestPolymorphismInAThreadedEnv extends CPATestCase {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public static Container loadContainer() throws Exception {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Lukas Lang, Werner Guttmann
+ * Copyright 2008 Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,15 @@ import org.castor.core.nature.PropertyHolder;
 
 /**
  * A {@link ClassLoaderNature} provides a ClassLoader.
- * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
- * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @author Lukas Lang
  * @since 1.2.1
  */
 public final class ClassLoaderNature extends BaseNature {
-    //-----------------------------------------------------------------------------------
 
     /**
      * Nature property name for {@link ClassLoader}.
      */
     private static final String CLASS_LOADER = "classloader";
-    
-    //-----------------------------------------------------------------------------------
 
     /**
      * Constructor takes the {@link PropertyHolder} in use.
@@ -42,8 +37,6 @@ public final class ClassLoaderNature extends BaseNature {
     public ClassLoaderNature(final PropertyHolder holder) {
         super(holder);
     }
-    
-    //-----------------------------------------------------------------------------------
 
     /** 
      * Returns the Nature Id.
@@ -70,5 +63,4 @@ public final class ClassLoaderNature extends BaseNature {
         return (ClassLoader) getProperty(CLASS_LOADER);
     }
 
-    //-----------------------------------------------------------------------------------
 }

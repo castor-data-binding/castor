@@ -52,7 +52,6 @@ import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * This class converts XML Names to proper Java names. As Java names are not
@@ -63,7 +62,6 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
  * @version $Id$
  */
-@Component("javaNamingImpl")
 public class JavaNamingImpl implements JavaNaming {
     /** Logger of this class. */
     private static final Log LOG = LogFactory.getLog(JavaNamingImpl.class);
@@ -82,9 +80,7 @@ public class JavaNamingImpl implements JavaNaming {
     public static boolean _upperCaseAfterUnderscore = false;
     
     /** the map of substition words for all keywords. */
-    private static final Hashtable<String, String> SUBST = keywordMap();
-
-    private InternalContext context;
+    private static final Hashtable SUBST = keywordMap();
 
     /** all known Java keywords. */
     private static final String[] KEYWORDS = {"abstract", "boolean", "break", "byte", "case",
@@ -100,12 +96,7 @@ public class JavaNamingImpl implements JavaNaming {
      */
     public JavaNamingImpl() {
         super();
-    }
-
-    public JavaNamingImpl(InternalContext context) {
-       super();
-       this.context = context;
-   }
+    } // -- JavaNaming
 
     /**
      * Returns true if the given String is a Java keyword which will cause a
@@ -282,8 +273,8 @@ public class JavaNamingImpl implements JavaNaming {
      * To initialize the keyword map.
      * @return an initialized keyword map
      */
-    private static Hashtable<String, String> keywordMap() {
-        Hashtable<String, String> ht = new Hashtable<String, String>();
+    private static Hashtable keywordMap() {
+        Hashtable ht = new Hashtable();
         ht.put("class", "clazz");
         return ht;
     } // -- keywordMap
@@ -308,15 +299,11 @@ public class JavaNamingImpl implements JavaNaming {
 
         // -- initialize lowercase, this is either (!uppercase) or
         // -- false depending on if the first two characters
-        // -- are uppercase (unless override is specified by means of property)
+        // -- are uppercase
         boolean lowercase = (!uppercase);
         if ((size > 1) && lowercase) {
             if (Character.isUpperCase(ncChars[0]) && Character.isUpperCase(ncChars[1])) {
-               if (context != null && context.getBooleanProperty(XMLProperties.MEMBER_NAME_CAPITALISATION_STRICT)) {
-                  lowercase = true;
-               } else {
-                  lowercase = false;
-               }
+                lowercase = false;
             }
         }
 

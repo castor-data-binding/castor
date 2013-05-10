@@ -53,7 +53,7 @@ import org.exolab.castor.mapping.AccessMode;
  * called on the objects.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public interface CallbackInterceptor {
     /**
@@ -66,14 +66,6 @@ public interface CallbackInterceptor {
      * @throws Exception An exception occured, the object cannot be loaded
      */
     Class<?> loaded(Object object, AccessMode accessMode) throws Exception;
-
-    /**
-     * Called to indicate that an object has been modified and is up to storing.
-     *
-     * @param object The object
-     * @throws Exception An exception occured, the object cannot be stored
-     */
-    void modifying(Object object) throws Exception;
 
     /**
      * Called to indicate that an object is to be stored in persistent
@@ -147,5 +139,4 @@ public interface CallbackInterceptor {
      * @param object The object
      */
     void updated(Object object) throws Exception;
-
 }

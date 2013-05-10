@@ -25,12 +25,9 @@ import org.exolab.castor.xml.ResolverException;
  * JDO-specific {@link ClassDescriptorResolver} instance that provides functionality
  * to find or "resolve" {@link ClassDescriptor}s from a given class (name).
  *
- * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
- * @version $Revision$ $Date$
  * @since 1.2.1
  */
 public interface JDOClassDescriptorResolver extends ClassDescriptorResolver {
-    //-----------------------------------------------------------------------------------
 
     /**
      * Returns the ClassDescriptor for the given class.
@@ -80,6 +77,4 @@ public interface JDOClassDescriptorResolver extends ClassDescriptorResolver {
      * @param classDescriptor The {@link ClassDescriptor} to register with the cache.
      */
     void registerDescriptor(Class<?> type, ClassDescriptor classDescriptor);
-    
-    //-----------------------------------------------------------------------------------
 }

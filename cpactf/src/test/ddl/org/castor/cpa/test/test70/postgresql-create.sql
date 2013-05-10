@@ -13,7 +13,7 @@ create unique index test70_item_pk on test70_item( iid );
 
 create table test70_comp_item (
   iid integer not null,
-  id integer
+  id integer  not null
 );
 
 create unique index test70_comp_item_pk on test70_comp_item( iid );

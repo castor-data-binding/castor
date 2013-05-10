@@ -1,2 +1,1 @@
-drop table test06_race
-go
+drop table test06_race;

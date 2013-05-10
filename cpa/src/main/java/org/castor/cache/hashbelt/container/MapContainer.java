@@ -17,7 +17,7 @@ package org.castor.cache.hashbelt.container;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A very basic, HashMap-based implementation of the hashmap container strategy,
@@ -28,15 +28,14 @@ import java.util.HashMap;
  * iterating at a higher speed, still has a map for accessing hash values, but has
  * a higher removal cost.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class MapContainer<K, V> extends HashMap<K, V> implements Container<K, V> {
+public final class MapContainer
+extends ConcurrentHashMap<Object, Object>
+implements Container {
     //--------------------------------------------------------------------------
     
     /** SerialVersionUID. */
@@ -61,15 +60,15 @@ public final class MapContainer<K, V> extends HashMap<K, V> implements Container
     /**
      * {@inheritDoc}
      */
-    public Iterator<K> keyIterator() {
-        return new ArrayList<K>(keySet()).iterator();
+    public Iterator<Object> keyIterator() {
+        return new ArrayList<Object>(keySet()).iterator();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Iterator<V> valueIterator() {
-        return new ArrayList<V>(values()).iterator();
+    public Iterator<Object> valueIterator() {
+        return new ArrayList<Object>(values()).iterator();
     }
     
     //--------------------------------------------------------------------------

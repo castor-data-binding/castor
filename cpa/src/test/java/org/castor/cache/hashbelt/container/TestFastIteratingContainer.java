@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestFastIteratingContainer extends TestCase {
@@ -63,13 +63,13 @@ public final class TestFastIteratingContainer extends TestCase {
     public TestFastIteratingContainer(final String name) { super(name); }
     
     public void testConstructor() {
-        Object container = new FastIteratingContainer<String, String>();
+        Object container = new FastIteratingContainer();
         assertTrue(container instanceof Container);
         assertTrue(container instanceof FastIteratingContainer);
     }
     
     public void testTimestamp() {
-        Container<String, String> container = new FastIteratingContainer<String, String>();
+        Container container = new FastIteratingContainer();
         assertEquals(0L, container.getTimestamp());
         
         long before = System.currentTimeMillis();
@@ -80,7 +80,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
     
     public void testBasics() {
-        Container<String, String> container = new FastIteratingContainer<String, String>();
+        Container container = new FastIteratingContainer();
 
         assertFalse(container.containsKey("first key"));
         assertFalse(container.containsKey("second key"));
@@ -96,8 +96,8 @@ public final class TestFastIteratingContainer extends TestCase {
         assertTrue(container.containsKey("second key"));
     }
 
-    private Container<String, String> initialize() {
-        Container<String, String> container = new FastIteratingContainer<String, String>();
+    private Container initialize() {
+        Container container = new FastIteratingContainer();
 
         assertNull(container.put("first key", "first value"));
         assertNull(container.put("second key", "second value"));
@@ -107,7 +107,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
     
     public void testContainsKey() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertTrue(container.containsKey("first key"));
         assertTrue(container.containsKey("second key"));
@@ -117,7 +117,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testContainsValue() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertTrue(container.containsValue("first value"));
         assertTrue(container.containsValue("second value"));
@@ -127,7 +127,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testClear() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         container.clear();
 
@@ -139,7 +139,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testSize() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertEquals(3, container.size());
         container.clear();
@@ -147,7 +147,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testIsEmpty() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertFalse(container.isEmpty());
         container.clear();
@@ -155,7 +155,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testGet() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertEquals("first value", container.get("first key"));
         assertEquals("second value", container.get("second key"));
@@ -165,7 +165,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testPut() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertEquals("third value", container.put("third key", "alternate third value"));
         assertNull(container.put("fourth key", "forth value"));
@@ -178,7 +178,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testRemove() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         assertEquals("third value", container.remove("third key"));
 
@@ -190,7 +190,7 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testPutAll() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -206,9 +206,9 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testKeySet() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
-        Set<String> set = container.keySet();
+        Set<Object> set = container.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -217,9 +217,9 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testValues() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
-        Collection<String> col = container.values();
+        Collection<Object> col = container.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -228,14 +228,15 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testEntrySet() {
-        Container<String, String> container = initialize();
+        Container container = initialize();
 
-        Set<Map.Entry<String, String>> set = container.entrySet();
+        Set<Map.Entry<Object, Object>> set = container.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<String, String> map = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : set) {
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
+        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
+            Map.Entry<Object, Object> entry = iter.next();
             map.put(entry.getKey(), entry.getValue());
         }
 
@@ -250,8 +251,8 @@ public final class TestFastIteratingContainer extends TestCase {
     }
 
     public void testKeyIterator() {
-        Container<Integer, String> container = new FastIteratingContainer<Integer, String>();
-        Iterator<Integer> iter = container.keyIterator();
+        Container container = new FastIteratingContainer();
+        Iterator<Object> iter = container.keyIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         
@@ -271,8 +272,8 @@ public final class TestFastIteratingContainer extends TestCase {
     }
     
     public void testValueIterator() {
-        Container<String, Integer> container = new FastIteratingContainer<String, Integer>();
-        Iterator<Integer> iter = container.valueIterator();
+        Container container = new FastIteratingContainer();
+        Iterator<Object> iter = container.valueIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         

@@ -29,7 +29,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestJcsCache extends TestCase {
@@ -62,12 +62,12 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache<String, String> c = new JcsCache<String, String>();
+        Cache c = new JcsCache();
         assertTrue(c instanceof JcsCache);
     }
 
     public void testGetType() {
-        Cache<String, String> c = new JcsCache<String, String>();
+        Cache c = new JcsCache();
         assertEquals("jcs", c.getType());
     }
 
@@ -75,7 +75,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        JcsCache<String, String> c = new JcsCache<String, String>();
+        JcsCache c = new JcsCache();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -105,12 +105,12 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testClose() {
-        Cache<String, String> c = new JcsCache<String, String>();
+        Cache c = new JcsCache();
         c.close();
     }
     
-    private Cache<String, String> initialize() {
-        JcsCache<String, String> c = new JcsCache<String, String>();
+    private Cache initialize() {
+        JcsCache c = new JcsCache();
 
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy jcs cache");
@@ -125,7 +125,7 @@ public final class TestJcsCache extends TestCase {
     }
 
     public void testUnsupportedMethods() {
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         try {
             c.size();
@@ -174,7 +174,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -200,7 +200,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -226,7 +226,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -256,7 +256,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -285,7 +285,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -318,7 +318,7 @@ public final class TestJcsCache extends TestCase {
         Logger logger = Logger.getLogger(JcsCache.class);
         Level level = logger.getLevel();
         
-        Cache<String, String> c = initialize();
+        Cache c = initialize();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 

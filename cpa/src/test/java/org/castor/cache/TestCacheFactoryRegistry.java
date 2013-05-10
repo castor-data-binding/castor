@@ -54,19 +54,17 @@ import org.castor.cache.simple.UnlimitedFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.PropertiesException;
 import org.castor.cpa.CPAProperties;
-import org.junit.Ignore;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
-@Ignore
 public final class TestCacheFactoryRegistry extends TestCase {
     private static final boolean DISABLE_LOGGING = true;
     
-    private CacheFactoryRegistry<String, String> _registry;
+    private CacheFactoryRegistry _registry;
     
     public static Test suite() {
         TestSuite suite = new TestSuite("CacheFactoryRegistry Tests");
@@ -91,19 +89,19 @@ public final class TestCacheFactoryRegistry extends TestCase {
         String memF = properties.getString(CPAProperties.CACHE_FACTORIES);
         
         properties.remove(CPAProperties.CACHE_FACTORIES);
-        new CacheFactoryRegistry<String, String>(properties);
+        new CacheFactoryRegistry(properties);
         
         properties.put(CPAProperties.CACHE_FACTORIES, "");
-        new CacheFactoryRegistry<String, String>(properties);
+        new CacheFactoryRegistry(properties);
         
         properties.put(CPAProperties.CACHE_FACTORIES, UnlimitedFactory.class.getName());
-        new CacheFactoryRegistry<String, String>(properties);
+        new CacheFactoryRegistry(properties);
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         properties.put(CPAProperties.CACHE_FACTORIES, "org.castor.cache.simple.UnknownFactory");
         try {
-            new CacheFactoryRegistry<String, String>(properties);
+            new CacheFactoryRegistry(properties);
             fail("Should have failed to create unknown class.");
         } catch (PropertiesException ex) {
             assertTrue(true);
@@ -116,8 +114,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
 
     public void testGetCacheNames() {
         AbstractProperties properties = CPAProperties.newInstance();
-        Collection<String> col = new CacheFactoryRegistry<String, String>(
-                properties).getCacheNames();
+        Collection<String> col = new CacheFactoryRegistry(properties).getCacheNames();
         assertEquals(13, col.size());
         assertTrue(col.contains(CountLimited.TYPE));
         assertTrue(col.contains(NoCache.TYPE));
@@ -136,8 +133,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
 
     public void testGetCacheFactories() {
         AbstractProperties properties = CPAProperties.newInstance();
-        Collection<CacheFactory<String, String>> col = new CacheFactoryRegistry<String, String>(
-                properties).getCacheFactories();
+        Collection<CacheFactory> col = new CacheFactoryRegistry(properties).getCacheFactories();
         assertEquals(13, col.size());
         assertTrue(containsInstanceOf(col, CountLimitedFactory.class));
         assertTrue(containsInstanceOf(col, NoCacheFactory.class));
@@ -154,12 +150,11 @@ public final class TestCacheFactoryRegistry extends TestCase {
         assertTrue(containsInstanceOf(col, GigaspacesCacheFactory.class));
     }
     
-    @SuppressWarnings("rawtypes")
-    private boolean containsInstanceOf(final Collection<CacheFactory<String, String>> col,
+    private boolean containsInstanceOf(final Collection<CacheFactory> col,
             final Class<? extends CacheFactory> cls) {
-        Iterator<CacheFactory<String, String>> iter = col.iterator();
+        Iterator<CacheFactory> iter = col.iterator();
         while (iter.hasNext()) {
-            CacheFactory<String, String> factory = iter.next();
+            CacheFactory factory = iter.next();
             if (cls.isInstance(factory)) { return true; }
         }
         return false;
@@ -170,9 +165,9 @@ public final class TestCacheFactoryRegistry extends TestCase {
         Level level = logger.getLevel();
         
         AbstractProperties properties = CPAProperties.newInstance();
-        _registry = new CacheFactoryRegistry<String, String>(properties);
+        _registry = new CacheFactoryRegistry(properties);
         
-        Cache<String, String> cache = null;
+        Cache cache = null;
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
@@ -187,8 +182,8 @@ public final class TestCacheFactoryRegistry extends TestCase {
         
         cache = getCache("count-limited", 3); 
         assertEquals("count-limited", cache.getType());
-//        assertTrue(cache instanceof CountLimited);
-        assertEquals(3, ((CountLimited<String, String>) cache).getCapacity());
+        assertTrue(cache instanceof CountLimited);
+        assertEquals(3, ((CountLimited) cache).getCapacity());
         
         cache = getCache("none", 10); 
         assertEquals("none", cache.getType());
@@ -197,7 +192,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
         cache = getCache("time-limited", 10);
         assertEquals("time-limited", cache.getType());
         assertTrue(cache instanceof TimeLimited);
-        assertEquals(10, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(10, ((TimeLimited) cache).getTTL());
         
         cache = getCache("unlimited", 10); 
         assertEquals("unlimited", cache.getType());
@@ -227,7 +222,7 @@ public final class TestCacheFactoryRegistry extends TestCase {
 //        assertTrue(cache instanceof JcsCache);
     }
     
-    private Cache<String, String> getCache(final String type, final int capacity)
+    private Cache getCache(final String type, final int capacity)
     throws CacheAcquireException {
         Properties props = new Properties();
         props.put(Cache.PARAM_TYPE, type);

@@ -276,12 +276,4 @@ public class XMLContext {
     public InternalContext getInternalContext() {
         return _internalContext;
     }
-    
-    /**
-     * Sets a custom {@link ClassLoader} to be used for loading classes.
-     * @param classLoader A custom {@link ClassLoader}.
-     */
-    public void setClassLoader(ClassLoader classLoader) {
-        this._internalContext.setClassLoader(classLoader);
-    }
 }

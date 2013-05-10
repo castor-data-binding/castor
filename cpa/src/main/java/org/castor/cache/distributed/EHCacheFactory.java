@@ -19,17 +19,13 @@ import org.castor.cache.AbstractCacheFactory;
 
 /**
  * Implements {@link org.castor.cache.CacheFactory} for the {@link EHCache}
- * Implements {@link org.castor.cache.CacheFactory} for the {@link EHCache}
  * implementation of {@link org.castor.cache.Cache}.
  *
- * @param <K> the type of keys maintained by cache
- * @param <V> the type of cached values
- *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 00:09:10 0200 (Mi, 26 Apr 2006) $
  * @since 1.0.1
  */
-public final class EHCacheFactory<K, V> extends AbstractCacheFactory<K, V> {
+public final class EHCacheFactory extends AbstractCacheFactory {
     /**
      * {@inheritDoc}
      */

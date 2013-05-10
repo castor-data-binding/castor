@@ -1,14 +1,10 @@
 package org.exolab.castor.builder.factory;
 
-import org.apache.commons.lang.StringUtils;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.nature.SolrjFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.javasource.JAnnotation;
-import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
@@ -19,6 +15,7 @@ import org.exolab.javasource.JParameter;
 import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
+import org.exolab.javasource.Java5HacksHelper;
 
 /**
  * This factory takes a FieldInfo and generates the suitable JFields
@@ -29,32 +26,16 @@ public class FieldMemberAndAccessorFactory {
     /**
      * The {@link JavaNaming} to use.
      */
-    private JavaNaming javaNaming;
-    
+    private JavaNaming _javaNaming;;
 
     /**
-     * Whether to use old field naming convention with '_' prefix.
-     */
-    private boolean useOldFieldNaming;
-    
-   /**
      * Creates a factory that offers public methods to create the 
      * field initialization code as well as the getter/setter methods.
      * 
-     * @param javaNaming JavaNaming to use
+     * @param naming JavaNaming to use
      */
-    public FieldMemberAndAccessorFactory(final JavaNaming javaNaming) {
-        this(javaNaming, false);
-    }
-
-    /**
-     * Creates an instance of this class. 
-     * 
-     * @param javaNaming JavaNaming to use
-     */
-    public FieldMemberAndAccessorFactory(final JavaNaming javaNaming, boolean useOldFieldNaming) {
-        this.javaNaming = javaNaming;
-        this.useOldFieldNaming = useOldFieldNaming;
+    public FieldMemberAndAccessorFactory(final JavaNaming naming) {
+        _javaNaming = naming;
     }
 
     /**
@@ -116,13 +97,7 @@ public class FieldMemberAndAccessorFactory {
         XMLInfoNature xmlNature = new XMLInfoNature(fieldInfo);
         XSType type = xmlNature.getSchemaType();
         JType jType = type.getJType();
-        
-        JField field = null;
-        if (useOldFieldNaming()) {
-           field = new JField(type.getJType(), fieldInfo.getName());
-        } else {
-           field = new JField(type.getJType(), fieldInfo.getName(), null);
-        }
+        JField field = new JField(type.getJType(), fieldInfo.getName());
 
         if (xmlNature.getSchemaType().isDateTime()) {
             field.setDateTime(true);
@@ -145,9 +120,7 @@ public class FieldMemberAndAccessorFactory {
 
         //-- set init String
         if (fieldInfo.getDefaultValue() != null) {
-            if (!xmlNature.isMultivalued()) {
-                field.setInitString(fieldInfo.getDefaultValue());
-            } 
+            field.setInitString(fieldInfo.getDefaultValue());
         }
 
         if (fieldInfo.getFixedValue() != null && !xmlNature.getSchemaType().isDateTime()) {
@@ -158,40 +131,16 @@ public class FieldMemberAndAccessorFactory {
         if (fieldInfo.getComment() != null) {
             field.setComment(fieldInfo.getComment());
         }
-        
-        // deal with SOLRJ annotations
-        if (fieldInfo.hasNature(SolrjFieldInfoNature.class.getName())) {
-            SolrjFieldInfoNature solrjNature =  new SolrjFieldInfoNature(fieldInfo);
-            
-            JAnnotationType annotationType = null;
-            if (solrjNature.isIdDefinition()) {
-                annotationType = new JAnnotationType("org.apache.solr.client.solrj.beans.Id");
-                jClass.addImport("org.apache.solr.client.solrj.beans.Id");
-            } else {
-                annotationType = new JAnnotationType("org.apache.solr.client.solrj.beans.Field");
-                jClass.addImport("org.apache.solr.client.solrj.beans.Field");
-            }
-            JAnnotation annotation = new JAnnotation(annotationType);
-            field.addAnnotation(annotation);
-            String fieldName = solrjNature.getFieldName();
-            if (StringUtils.isNotBlank(fieldName)) {
-                annotation.setValue("\"" + fieldName + "\"");
-            }
-        }
-        
+
         jClass.addField(field);
 
         //-- special supporting fields
 
         //-- has_field
         if ((!type.isEnumerated()) && (jType.isPrimitive())) {
-           if (useOldFieldNaming()) {
-              field = new JField(JType.BOOLEAN, "_has" + fieldInfo.getName());
-           } else {
-              field = new JField(JType.BOOLEAN, "has" + fieldInfo.getName());
-           }
-           field.setComment("Keeps track of whether primitive field " + fieldInfo.getName() + " has been set already.");
-           jClass.addField(field);
+            field = new JField(JType.BOOLEAN, "_has" + fieldInfo.getName());
+            field.setComment("keeps track of state for field: " + fieldInfo.getName());
+            jClass.addField(field);
         }
 
         //-- save default value for primitives
@@ -209,7 +158,7 @@ public class FieldMemberAndAccessorFactory {
             jClass.addField(field);
         }
         */
-    }
+    } //-- createJavaField
 
     /**
      * Adds the getter/setter for this field to the jClass.
@@ -229,7 +178,7 @@ public class FieldMemberAndAccessorFactory {
         if (fieldInfo.requiresHasAndDeleteMethods()) {
             createHasAndDeleteMethods(fieldInfo, jClass);
         }
-    }
+    } //-- createAccessMethods
 
     /**
      * Creates the Javadoc comments for the getter method associated with this
@@ -335,14 +284,11 @@ public class FieldMemberAndAccessorFactory {
         xsType.getJType();
 
         //-- create hasMethod
-        method = new JMethod(fieldInfo.getHasMethodName(), JType.BOOLEAN, "true if at least one " + mname + " has been added");
+        method = new JMethod(fieldInfo.getHasMethodName(), JType.BOOLEAN,
+                             "true if at least one " + mname + " has been added");
         jClass.addMethod(method);
         jsc = method.getSourceCode();
-        jsc.add("return this.");
-        if (useOldFieldNaming()) {
-           jsc.append("_");
-        }
-        jsc.append("has");
+        jsc.add("return this._has");
         String fieldName = fieldInfo.getName();
         jsc.append(fieldName);
         jsc.append(";");
@@ -351,11 +297,7 @@ public class FieldMemberAndAccessorFactory {
         method = new JMethod(fieldInfo.getDeleteMethodName());
         jClass.addMethod(method);
         jsc = method.getSourceCode();
-        jsc.add("this.");
-        if (useOldFieldNaming()) {
-           jsc.append("_");
-        }
-        jsc.append("has");
+        jsc.add("this._has");
         jsc.append(fieldName);
         jsc.append("= false;");
         //-- bound properties
@@ -447,7 +389,7 @@ public class FieldMemberAndAccessorFactory {
         //-- simply for aesthetic beauty
         if (paramName.indexOf('_') == 0) {
             String tempName = paramName.substring(1);
-            if (javaNaming.isValidJavaIdentifier(tempName)) {
+            if (_javaNaming.isValidJavaIdentifier(tempName)) {
                 paramName = tempName;
             }
         }
@@ -502,11 +444,7 @@ public class FieldMemberAndAccessorFactory {
 
         //-- hasProperty
         if (fieldInfo.requiresHasAndDeleteMethods()) {
-            jsc.add("this.");
-            if (useOldFieldNaming()) {
-               jsc.append("_");
-            }
-            jsc.append("has");
+            jsc.add("this._has");
             jsc.append(fieldName);
             jsc.append(" = true;");
         }
@@ -535,14 +473,8 @@ public class FieldMemberAndAccessorFactory {
       * @return the javaNaming instance
       */
     public JavaNaming getJavaNaming() {
-        return javaNaming;
+        return _javaNaming;
     }
 
-    public void setUseOldFieldNaming(boolean useOldFieldNaming) {
-       this.useOldFieldNaming = useOldFieldNaming;
-    }
 
-    private boolean useOldFieldNaming() {
-       return this.useOldFieldNaming;
-    }
 }

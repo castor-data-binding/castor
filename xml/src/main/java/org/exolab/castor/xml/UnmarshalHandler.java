@@ -49,39 +49,41 @@ package org.exolab.castor.xml;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Locale;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Base64Decoder;
 import org.castor.core.util.HexDecoder;
 import org.castor.xml.InternalContext;
+import org.castor.xml.UnmarshalListenerAdapter;
+import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
+import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.util.DefaultObjectFactory;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
 import org.exolab.castor.xml.descriptors.StringClassDescriptor;
-import org.exolab.castor.xml.parsing.AnyNodeUnmarshalHandler;
-import org.exolab.castor.xml.parsing.AttributeSetBuilder;
-import org.exolab.castor.xml.parsing.NamespaceHandling;
-import org.exolab.castor.xml.parsing.StrictElementHandler;
-import org.exolab.castor.xml.parsing.UnmarshalListenerDelegate;
-import org.exolab.castor.xml.parsing.UnmarshalStateStack;
-import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
+import org.exolab.castor.xml.util.AttributeSetImpl;
+import org.exolab.castor.xml.util.ContainerElement;
+import org.exolab.castor.xml.util.SAX2ANY;
+import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.xml.sax.AttributeList;
 import org.xml.sax.Attributes;
@@ -106,16 +108,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Logger from commons-logging.
      */
-    static final Log LOG = LogFactory.getLog(UnmarshalHandler.class);
+    private static final Log LOG = LogFactory.getLog(UnmarshalHandler.class);
 
-    /** resource bundle */
-    protected static ResourceBundle resourceBundle;
-    
-    static {
-        resourceBundle = ResourceBundle.getBundle("UnmarshalHandlerMessages", Locale
-                .getDefault());
-    }
-    
     //---------------------------/
     //- Private Class Variables -/
     //---------------------------/
@@ -140,9 +134,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private static final String   XMLNS             = "xmlns";
 
     /**
-     * Attribute prefix for prefixed namespace declaration.
-     **/
-    private final static String XMLNS_PREFIX = "xmlns:";
+     * Attribute prefix for prefixed namespace declaration
+    **/
+    private final static String XMLNS_PREFIX        = "xmlns:";
+    private final static int    XMLNS_PREFIX_LENGTH = XMLNS_PREFIX.length();
 
     /**
      * The type attribute (xsi:type) used to denote the
@@ -150,16 +145,17 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     **/
     private static final String XSI_TYPE = "type";
     
-    static final String XML_SPACE = "space";
-    static final String XML_SPACE_WITH_PREFIX = "xml:space";
-    static final String PRESERVE = "preserve";
+    private static final String XML_SPACE = "space";
+    private static final String XML_SPACE_WITH_PREFIX = "xml:space";
+    private static final String PRESERVE = "preserve";
 
     //----------------------------/
     //- Private Member Variables -/
     //----------------------------/
 
+    private Stack            _stateInfo    = null;
     private UnmarshalState   _topState     = null;
-    private Class<?>         _topClass     = null;
+    private Class            _topClass     = null;
 
     /**
      * The top-level instance object, this may be set by the user
@@ -184,17 +180,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     **/
     private IDResolver _idResolver = null;
 
+   /**
+    * The unmarshaller listener.
+    */
+    private org.castor.xml.UnmarshalListener _unmarshalListener = null;
+    
     /**
      * A flag indicating whether or not to perform validation.
      **/
     private boolean _validate = true;
 
-    /**
-     * Hashtable to store idReference and ReferenceInfo
-     */
-    private Hashtable<String, ReferenceInfo> _resolveTable = new Hashtable<String, ReferenceInfo>();
+    private Hashtable _resolveTable = new Hashtable();
     
-    private Map<Class<?>, String> _javaPackages = null;    
+    private Map _javaPackages = null;    
 
     private ClassLoader _loader = null;
 
@@ -202,9 +200,29 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         = new StringClassDescriptor();
 
     /**
+     * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}.
+     */
+     private SAX2ANY _anyUnmarshaller = null;
+
+    /**
+     * The any branch depth.
+     */
+    private int _depth = 0;
+
+    /**
      * The AnyNode to add (if any).
      */
-    private org.exolab.castor.types.AnyNode _node = null;
+     private org.exolab.castor.types.AnyNode _node = null;
+
+    /**
+     * The namespace stack.
+     */
+    private Namespaces _namespaces = null;
+
+    /**
+     * A map of namespace URIs to Package Names.
+     */
+    private HashMap _namespaceToPackage = null;
 
     /**
      * A reference to the ObjectFactory used to create instances
@@ -224,32 +242,41 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * extra attributes exist.
     **/
     private boolean _strictAttributes = false;
+
+    /**
+     * A boolean that indicates element processing should
+     * be strict and an error should be flagged if any
+     * extra elements exist.
+    **/
+    private boolean _strictElements = true;
+
+    /**
+     * A depth counter that increases as we skip elements ( in startElement )
+     * and decreases as we process and endElement. Only active if _strictElemnts
+     */
+    private int     _ignoreElementDepth = 0;
+
+    /**
+     * A flag to keep track of when a new namespace scope is needed.
+     */
+    private boolean _createNamespaceScope = true;
+    
+    /**
+     * Keeps track of the current element information
+     * as passed by the parser.
+     */
+    private ElementInfo _elemInfo = null;
+    
+    /**
+     * A "reusable" AttributeSet, for use when handling
+     * SAX 2 ContentHandler.
+     */
+    private AttributeSetImpl _reusableAtts = null;
     
     /**
      * The top-level xml:space value.
      */
     private boolean _wsPreserve = false;
-    
-    /**
-     * {@link StrictElementHandler} that deals with (potentially) ignorable content.
-     */
-    private StrictElementHandler _strictElementHandler = new StrictElementHandler();
-    
-    /**
-     * {@link UnmarshalStateStack} that saves UnmarshalStates on a stack.
-     */
-    private UnmarshalStateStack _stateStack = new UnmarshalStateStack();
-    
-    /**
-     * {@link UnmarshalListenerDelegate} that deals with UnmarshalListener calls.
-     */
-    private UnmarshalListenerDelegate _delegateUnmarshalListener = new UnmarshalListenerDelegate();
-    
-    private AnyNodeUnmarshalHandler _anyNodeHandler = null;
-    
-    private NamespaceHandling _namespaceHandling = new NamespaceHandling();
-
-    private AttributeSetBuilder _attributeSetFactory = null;
     
     //----------------/
     //- Constructors -/
@@ -280,11 +307,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     protected UnmarshalHandler(final InternalContext internalContext, final Class<?> topClass) {
         super(internalContext);
+        _stateInfo          = new Stack();
         _idResolver         = new IDResolverImpl();
-        _javaPackages       = new HashMap<Class<?>, String>();
+        _javaPackages       = new HashMap();
         _topClass           = topClass;
-        _anyNodeHandler		= new AnyNodeUnmarshalHandler(_namespaceHandling);
-        _attributeSetFactory = new AttributeSetBuilder(_namespaceHandling);
+        _namespaces         = new Namespaces();
+        _namespaceToPackage = new HashMap();
     }
     
     /**
@@ -296,7 +324,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void addNamespaceToPackageMapping(String nsURI, String packageName) 
     {
-    	_namespaceHandling.addNamespaceToPackageMapping(nsURI, packageName);
+        if (nsURI == null) nsURI = "";
+        if (packageName == null) packageName = "";
+    	_namespaceToPackage.put(nsURI, packageName);
         
     } //-- addNamespaceToPackageMapping
 
@@ -309,13 +339,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * current element is a simpleType.
      */
     public Object getCurrentObject() {
-    	if (!_stateStack.isEmpty()) {
-			UnmarshalState state = _stateStack.getLastState();
-			if (state != null) {
-				return state.getObject();
-			}
-		}
-		return null;
+        if (!_stateInfo.isEmpty()) {
+            UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+            if (state != null)  {
+                return state._object;
+            }
+        }
+        return null;
     } //-- getCurrentObject
 
     /**
@@ -325,11 +355,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the root Object being unmarshalled.
     **/
     public Object getObject() {
-        if (_topState != null) {
-            return _topState.getObject();
-        }
+        if (_topState != null) return _topState._object;
         return null;
-    }
+    } //-- getObject
+
+
 
     /**
      * Sets the ClassLoader to use when loading classes
@@ -399,7 +429,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * allow non-matched attributes to simply be ignored.
     **/
     public void setIgnoreExtraElements(boolean ignoreExtraElems) {
-        _strictElementHandler.setIgnoreExtraElements(ignoreExtraElems);
+        _strictElements = (!ignoreExtraElems);
     } //-- setIgnoreExtraElements
 
     /**
@@ -450,7 +480,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @deprecated please move to the new {@link org.castor.xml.UnmarshalListener} interface
      */
     public void setUnmarshalListener (org.exolab.castor.xml.UnmarshalListener listener) {
-    	_delegateUnmarshalListener.setUnmarshalListener(listener);
+        if (listener == null) {
+            listener = null;
+        } else {
+            UnmarshalListenerAdapter adapter = new UnmarshalListenerAdapter();
+            adapter.setOldListener(listener);
+            _unmarshalListener = adapter;
+        }
     }
 
     /**
@@ -460,7 +496,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * of the UnmarshalHandler.
      */
     public void setUnmarshalListener (org.castor.xml.UnmarshalListener listener) {
-    	_delegateUnmarshalListener.setUnmarshalListener(listener);
+        _unmarshalListener = listener;
     }
 
     /**
@@ -494,20 +530,605 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     //-----------------------------------/
 
     public void characters(char[] ch, int start, int length)
-        throws SAXException {
-    	new CharactersProcessor(this).compute(ch, start, length);
+        throws SAXException
+    {
+    	if (LOG.isTraceEnabled()) {
+            StringBuffer sb = new StringBuffer(21 + length);
+            sb.append("#characters: ");
+            sb.append(ch, start, length);
+            LOG.trace(sb.toString());
+    	}
+        
+        //-- If we are skipping elements that have appeared in the XML but for
+        //-- which we have no mapping, skip the text and return
+        if ( _ignoreElementDepth > 0) {
+            return;
+        }
+
+        if (_stateInfo.empty()) {
+            return;
+        }
+        if (_anyUnmarshaller != null)
+           _anyUnmarshaller.characters(ch, start, length);
+        else {
+             UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+             //-- handle whitespace
+             boolean removedTrailingWhitespace = false;
+             boolean removedLeadingWhitespace = false;
+             if (!state._wsPreserve) {
+                //-- trim leading whitespace characters
+                while (length > 0) {
+                    boolean whitespace = false;
+                    switch(ch[start]) {
+                        case ' ':
+                        case '\r':
+                        case '\n':
+                        case '\t':
+                        	whitespace = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!whitespace) break;
+                    removedLeadingWhitespace = true;
+                    ++start;
+                    --length;
+                }
+                
+                if (length == 0) {
+                    //-- we also need to mark trailing whitespace removed
+                    //-- when we received only whitespace characters
+                    removedTrailingWhitespace = removedLeadingWhitespace;
+                }
+                else {
+                    //-- trim trailing whitespace characters
+                    while (length > 0) {
+                        boolean whitespace = false;
+                        switch(ch[start+length-1]) {
+                            case ' ':
+                            case '\r':
+                            case '\n':
+                            case '\t':
+                                whitespace = true;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (!whitespace) break;
+                        removedTrailingWhitespace = true;
+                        --length;
+                    }
+                }
+             }
+             
+             if (state._buffer == null) state._buffer = new StringBuffer();
+             else {
+                //-- non-whitespace content exists, add a space
+                if ((!state._wsPreserve) && (length > 0)) {
+                	if (state._trailingWhitespaceRemoved || removedLeadingWhitespace)
+                    {
+                		state._buffer.append(' ');
+                    }
+                }
+             }
+             state._trailingWhitespaceRemoved = removedTrailingWhitespace;
+             state._buffer.append(ch, start, length);
+        }
     } //-- characters
 
 
-    public void endDocument() throws org.xml.sax.SAXException {
+    public void endDocument()
+        throws org.xml.sax.SAXException
+    {
         //-- I've found many application don't always call
         //-- #endDocument, so I usually never put any
         //-- important logic here
+
     } //-- endDocument
 
 
-    public void endElement(String name) throws org.xml.sax.SAXException {
-        new EndElementProcessor(this).compute(name);
+    public void endElement(String name)
+        throws org.xml.sax.SAXException
+    {
+        
+        if (LOG.isTraceEnabled()) {
+        	LOG.trace("#endElement: " + name);
+        }
+        
+        //-- If we are skipping elements that have appeared in the XML but for
+        //-- which we have no mapping, decrease the ignore depth counter and return
+        if ( _ignoreElementDepth > 0) {
+            --_ignoreElementDepth;
+            return;
+        }
+
+        //-- Do delagation if necessary
+        if (_anyUnmarshaller != null) {
+            _anyUnmarshaller.endElement(name);
+            --_depth;
+            //we are back to the starting node
+            if (_depth == 0) {
+               _node = _anyUnmarshaller.getStartingNode();
+               _anyUnmarshaller = null;
+            }
+            else return;
+        }
+
+        if (_stateInfo.empty()) {
+            throw new SAXException("missing start element: " + name);
+        }
+
+        //-- * Begin Namespace Handling
+        //-- XXX Note: This code will change when we update the XML event API
+
+         int idx = name.indexOf(':');
+         if (idx >= 0) {
+             name = name.substring(idx+1);
+         }
+        //-- * End Namespace Handling
+
+        UnmarshalState state = (UnmarshalState) _stateInfo.pop();
+
+        //-- make sure we have the correct closing tag
+        XMLFieldDescriptor descriptor = state._fieldDesc;
+        
+        if (!state._elementName.equals(name)) {
+            
+            //maybe there is still a container to end
+            if (descriptor.isContainer()) {
+                _stateInfo.push(state);
+                //-- check for possible characters added to
+                //-- the container's state that should
+                //-- really belong to the parent state
+                StringBuffer tmpBuffer = null;
+                if (state._buffer != null) {
+                    if (!isWhitespace(state._buffer)) {
+                        if (state._classDesc.getContentDescriptor() == null) {
+                            tmpBuffer = state._buffer;
+                            state._buffer = null;
+                        }
+                    }
+                }
+                //-- end container
+                endElement(state._elementName);
+                
+                if (tmpBuffer != null) {
+                    state = (UnmarshalState) _stateInfo.peek();
+                    if (state._buffer == null)
+                        state._buffer = tmpBuffer;
+                    else
+                        state._buffer.append(tmpBuffer.toString());
+                }
+                endElement(name);
+                return;
+            }
+            String err = "error in xml, expecting </" + state._elementName;
+            err += ">, but received </" + name + "> instead.";
+            throw new SAXException(err);
+        }
+        
+        
+        //-- clean up current Object
+        Class type = state._type;
+
+        if ( type == null ) {
+            if (!state._wrapper) {
+                //-- this message will only show up if debug
+                //-- is turned on...how should we handle this case?
+                //-- should it be a fatal error?
+                LOG.info("Ignoring " + state._elementName + " no descriptor was found");
+            }
+            
+            //-- handle possible location text content
+            //-- TODO: cleanup location path support.
+            //-- the following code needs to be improved as 
+            //-- for searching descriptors in this manner can
+            //-- be slow
+            StringBuffer tmpBuffer = null;
+            if (state._buffer != null) {
+                if (!isWhitespace(state._buffer)) {
+                    tmpBuffer = state._buffer;
+                    state._buffer = null;
+                }
+            }
+            if (tmpBuffer != null) {
+                UnmarshalState targetState = state;
+                String locPath = targetState._elementName;
+                while ((targetState = targetState._parent) != null) {
+                    if ((targetState._wrapper) || 
+                        (targetState._classDesc == null))
+                    {
+                        locPath = targetState._elementName + "/" + locPath;
+                        continue;
+                    }
+                    
+                    XMLFieldDescriptor tmpDesc = targetState._classDesc.getContentDescriptor();
+                    if (tmpDesc != null && locPath.equals(tmpDesc.getLocationPath())) {
+                        if (targetState._buffer == null)
+                            targetState._buffer = tmpBuffer;
+                        else
+                            targetState._buffer.append(tmpBuffer.toString());
+                    }
+                }
+            }
+            
+            //-- remove current namespace scoping
+            _namespaces = _namespaces.getParent();
+            return;
+        }
+
+        //-- check for special cases
+        boolean byteArray = false;
+        if (type.isArray()) {
+            byteArray = (type.getComponentType() == Byte.TYPE);
+        }
+
+        //-- If we don't have an instance object and the Class type
+        //-- is not a primitive or a byte[] we must simply return
+        if ((state._object == null) && (!state._primitiveOrImmutable)) {
+            //-- remove current namespace scoping
+            _namespaces = _namespaces.getParent();
+            return;
+        }
+        
+        /// DEBUG System.out.println("end: " + name);
+
+        if (state._primitiveOrImmutable) {
+            
+            String str = null;
+
+            if (state._buffer != null) {
+                str = state._buffer.toString();
+                state._buffer.setLength(0);
+            }
+
+            if (type == String.class && !((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
+                if (str != null)
+                    state._object = str;
+                else if (state._nil) {
+                    state._object = null;
+                }
+                else {
+                    state._object = "";
+                }
+            }
+            //-- special handling for byte[]
+            else if (byteArray && !descriptor.isDerivedFromXSList()) {
+                if (str == null)
+                    state._object = new byte[0];
+                else {
+                    state._object = decodeBinaryData(descriptor, str);
+                }
+            }
+            else if (state._args != null) {
+            	state._object = createInstance(state._type, state._args);
+            }
+            else if (descriptor.isMultivalued()
+                    && descriptor.getSchemaType() != null
+                    && descriptor.getSchemaType().equals("list")
+                    && ((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
+                StringTokenizer attrValueTokenizer = new StringTokenizer(str);
+                List primitives = new ArrayList();
+                while (attrValueTokenizer.hasMoreTokens()) {
+                    String tokenValue = attrValueTokenizer.nextToken();
+                    if (isPrimitive(descriptor.getFieldType())) {
+                        primitives.add(toPrimitiveObject(type, tokenValue, state._fieldDesc));
+                    } else {
+                        Class valueType = descriptor.getFieldType();
+                        //-- handle base64/hexBinary
+                        if (valueType.isArray()
+                                && (valueType.getComponentType() == Byte.TYPE)) {
+                            primitives.add(decodeBinaryData(descriptor, tokenValue));
+                        }
+                    }
+                    
+                }
+                state._object = primitives;
+            } else {
+                if (state._nil) {
+                    state._object = null;
+                } else {
+                    state._object = toPrimitiveObject(type,str,state._fieldDesc);
+                }
+            }
+        }
+        else if (ArrayHandler.class.isAssignableFrom(state._type)) {
+            state._object = ((ArrayHandler)state._object).getObject();
+            state._type = state._object.getClass();
+            
+        }
+
+        //-- check for character content
+        if ((state._buffer != null) &&
+            (state._buffer.length() > 0) &&
+            (state._classDesc != null)) {
+            XMLFieldDescriptor cdesc = state._classDesc.getContentDescriptor();
+            if (cdesc != null) {
+                Object value = state._buffer.toString();
+                if (isPrimitive(cdesc.getFieldType()))
+                    value = toPrimitiveObject(cdesc.getFieldType(), (String)value, state._fieldDesc);
+                else {
+                    Class valueType = cdesc.getFieldType();
+                    //-- handle base64/hexBinary
+                    if (valueType.isArray()
+                            && (valueType.getComponentType() == Byte.TYPE)) {
+                        value = decodeBinaryData(descriptor, (String) value);
+                    }
+                }
+
+
+                try {
+                    FieldHandler handler = cdesc.getHandler();
+                    boolean addObject = true;
+                    if (_reuseObjects) {
+                        //-- check to see if we need to
+                        //-- add the object or not
+                        Object tmp = handler.getValue(state._object);
+                        if (tmp != null) {
+                            //-- Do not add object if values
+                            //-- are equal
+                            addObject = (!tmp.equals(value));
+                        }
+                    }
+                    if (addObject) handler.setValue(state._object, value);
+                }
+                catch(java.lang.IllegalStateException ise) {
+                    String err = "unable to add text content to ";
+                    err += descriptor.getXMLName();
+                    err += " due to the following error: " + ise;
+                    throw new SAXException(err, ise);
+                }
+            }
+            //-- Handle references
+            else if (descriptor.isReference()) {
+                UnmarshalState pState = (UnmarshalState) _stateInfo.peek();
+                processIDREF(state._buffer.toString(), descriptor, pState._object);
+                _namespaces = _namespaces.getParent();
+                return;
+            } else {
+                //-- check for non-whitespace...and report error
+                if (!isWhitespace(state._buffer)) {
+                    String err = "Illegal Text data found as child of: "
+                        + name;
+                    err += "\n  value: \"" + state._buffer + "\"";
+                    throw new SAXException(err);
+                }
+            }
+        }
+        
+        //-- We're finished processing the object, so notify the
+        //-- Listener (if any).
+        if (_unmarshalListener != null && state._object != null) {
+            _unmarshalListener.unmarshalled(state._object, 
+                    (state._parent == null) ? null : state._parent._object);
+        }
+
+        //-- if we are at root....just validate and we are done
+         if (_stateInfo.empty()) {
+             if (isValidating()) {
+                ValidationException first = null;
+                ValidationException last = null;
+                
+                //-- check unresolved references
+                if (_resolveTable != null && !getInternalContext().getLenientIdValidation()) {
+                    Enumeration enumeration = _resolveTable.keys();
+                    while (enumeration.hasMoreElements()) {
+                        Object ref = enumeration.nextElement();
+                        //if (ref.toString().startsWith(MapItem.class.getName())) continue;
+                        String msg = "unable to resolve reference: " + ref;                        
+                        if (first == null) {
+                            first = new ValidationException(msg);
+                            last = first;
+                        }
+                        else {
+                            last.setNext(new ValidationException(msg));
+                            last = last.getNext();
+                        }                            
+                    }
+                }
+                try {
+                    Validator validator = new Validator();
+                    ValidationContext context = new ValidationContext();
+                    context.setInternalContext(getInternalContext());
+                    validator.validate(state._object, context);
+                    if (!getInternalContext().getLenientIdValidation()) {
+                        validator.checkUnresolvedIdrefs(context);
+                    }
+                    context.cleanup();
+                }
+                catch(ValidationException vEx) {
+                    if (first == null)
+                        first = vEx;
+                    else 
+                        last.setNext(vEx);
+                }
+                if (first != null) {
+                    throw new SAXException(first);
+                }
+            }
+            return;
+        }
+         
+        //-- Add object to parent if necessary
+
+        if (descriptor.isIncremental()) {
+            //-- remove current namespace scoping
+           _namespaces = _namespaces.getParent();
+           return; //-- already added
+        }
+
+        Object val = state._object;
+        
+        //--special code for AnyNode handling
+        if (_node != null) {
+           val = _node;
+           _node = null;
+        }
+
+        //-- save fieldState
+        UnmarshalState fieldState = state;
+
+        //-- have we seen this object before?
+        boolean firstOccurance = false;
+
+        //-- get target object
+        state = (UnmarshalState) _stateInfo.peek();
+        if (state._wrapper) {
+            state = fieldState._targetState;
+        }
+        
+        //-- check to see if we have already read in
+        //-- an element of this type. 
+        //-- (Q: if we have a container, do we possibly need to 
+        //--     also check the container's multivalued status?)
+        if ( ! descriptor.isMultivalued() ) {
+
+            if (state.isUsed(descriptor)) {
+                
+                String err = "element \"" + name;
+                err += "\" occurs more than once. (parent class: " + state._type.getName() + ")";
+                
+                String location = name;
+                while (!_stateInfo.isEmpty()) {
+                    UnmarshalState tmpState = (UnmarshalState)_stateInfo.pop();
+                    if (!tmpState._wrapper) {
+                        if (tmpState._fieldDesc.isContainer()) continue;
+                    }
+                    location = state._elementName + "/" + location;
+                }
+                
+                err += "\n location: /" + location;
+                
+                ValidationException vx =
+                    new ValidationException(err);
+                
+            	throw new SAXException(vx);
+            }
+            state.markAsUsed(descriptor);
+            //-- if this is the identity then save id
+            if (state._classDesc.getIdentity() == descriptor) {
+                state._key = val;
+            }
+        }
+        else {
+            //-- check occurance of descriptor
+            if (!state.isUsed(descriptor)) {
+                firstOccurance = true;
+            }
+                
+            //-- record usage of descriptor
+            state.markAsUsed(descriptor);            
+        }
+
+        try {
+            FieldHandler handler = descriptor.getHandler();
+            //check if the value is a QName that needs to
+            //be resolved (ns:value -> {URI}value)
+            String valueType = descriptor.getSchemaType();
+            if ((valueType != null) && (valueType.equals(QNAME_NAME))) {
+                 val = resolveNamespace(val);
+            }
+
+            boolean addObject = true;
+            if (_reuseObjects && fieldState._primitiveOrImmutable) {
+                 //-- check to see if we need to
+                 //-- add the object or not
+                 Object tmp = handler.getValue(state._object);
+                 if (tmp != null) {
+                     //-- Do not add object if values
+                     //-- are equal
+                     addObject = (!tmp.equals(val));
+                 }
+            }
+            
+            //-- special handling for mapped objects
+            if (descriptor.isMapped()) {
+                if (!(val instanceof MapItem)) {
+                    MapItem mapItem = new MapItem(fieldState._key, val);
+                    val = mapItem;
+                }
+                else {
+                    //-- make sure value exists (could be a reference)
+                    MapItem mapItem = (MapItem)val;
+                    if (mapItem.getValue() == null) {
+                        //-- save for later...
+                        addObject = false;
+                        addReference(mapItem.toString(), state._object, descriptor);
+                    }
+                }
+            }
+            
+            if (addObject) {
+                //-- clear any collections if necessary
+                if (firstOccurance && _clearCollections) {
+                    handler.resetValue(state._object);
+                }
+
+                if (descriptor.isMultivalued() 
+                        && descriptor.getSchemaType() != null
+                        && descriptor.getSchemaType().equals("list")
+                        && ((XMLFieldDescriptorImpl) descriptor).isDerivedFromXSList()) {
+                    List values = (List) val;
+                    for (Iterator iterator = values.iterator(); iterator.hasNext();) {
+                        //-- finally set the value!!
+                        Object value = iterator.next();
+                        handler.setValue(state._object, value);
+                        
+                        // If there is a parent for this object, pass along
+                        // a notification that we've finished adding a child
+                        if ( _unmarshalListener != null ) {
+                            _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
+                        }
+                    }
+                } else {
+                
+                    //-- finally set the value!!
+                    handler.setValue(state._object, val);
+
+                    // If there is a parent for this object, pass along
+                    // a notification that we've finished adding a child
+                    if ( _unmarshalListener != null ) {
+                        _unmarshalListener.fieldAdded(descriptor.getFieldName(), state._object, fieldState._object);
+                    }
+                }                
+            }
+
+        }
+        /*
+        catch(java.lang.reflect.InvocationTargetException itx) {
+
+            Throwable toss = itx.getTargetException();
+            if (toss == null) toss = itx;
+
+            String err = "unable to add '" + name + "' to <";
+            err += state.descriptor.getXMLName();
+            err += "> due to the following exception: " + toss;
+            throw new SAXException(err);
+        }
+        */
+        catch(Exception ex) {
+            StringWriter sw = new StringWriter();
+            PrintWriter  pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            pw.flush();
+            String err = "unable to add '" + name + "' to <";
+            err += state._fieldDesc.getXMLName();
+            err += "> due to the following exception: \n";
+            err += ">>>--- Begin Exception ---<<< \n";
+            err += sw.toString();
+            err += ">>>---- End Exception ----<<< \n";
+            throw new SAXException(err, ex);
+        }
+
+        //-- remove current namespace scoping
+        _namespaces = _namespaces.getParent();
+
+        // remove additional (artifical aka container) state introduced for single-valued (iow maxOccurs="1") choices.
+        if (state._fieldDesc.isContainer() 
+                && state._classDesc.isChoice() 
+                && !state._fieldDesc.isMultivalued()) {
+            this.endElement(state._elementName);
+        }
     } //-- endElement
 
     /**
@@ -516,7 +1137,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param binaryData The binary data value to be decoded
      * @return Decode data.
      */
-    byte[] decodeBinaryData(final XMLFieldDescriptor descriptor,
+    private byte[] decodeBinaryData(final XMLFieldDescriptor descriptor,
             final String binaryData) {
         //-- Base64/HexBinary decoding
         byte[] decodedValue;
@@ -539,17 +1160,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void endElement(String namespaceURI, String localName, String qName)
     throws org.xml.sax.SAXException {        
-        if (StringUtils.isEmpty(qName)) {
-            if (StringUtils.isEmpty(localName)) {
-				String error = resourceBundle
-						.getString("unmarshalHandler.error.localName.and.qName.null");
+        if ((qName == null) || (qName.length() == 0)) {
+            if ((localName == null) || (localName.length() == 0)) {
+                String error = "Missing either 'qName' or 'localName', both cannot be null or emtpy.";
                 throw new SAXException(error);
             }
             qName = localName;
-            if (StringUtils.isNotEmpty(namespaceURI)) {
+            if ((namespaceURI != null) && (namespaceURI.length() > 0)) {
                 //-- rebuild qName, for now
-                String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
-                if (StringUtils.isEmpty(prefix))
+                String prefix = _namespaces.getNamespacePrefix(namespaceURI);
+                if ((prefix != null) && (prefix.length() > 0))
                     qName = prefix + ":" + localName;
             }
         }
@@ -569,42 +1189,44 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- nothing to do , already taken care of in 
         //-- endElement except if we are unmarshalling an 
         //-- AnyNode
-    	if (_anyNodeHandler.hasAnyUnmarshaller()) {
-    		_anyNodeHandler.endPrefixMapping(prefix);
-		}
+        if (_anyUnmarshaller != null) {
+            _anyUnmarshaller.endPrefixMapping(prefix);
+        }
         
     } //-- endPrefixMapping
 
 
     public void ignorableWhitespace(char[] ch, int start, int length)
-            throws org.xml.sax.SAXException {
-
-        // -- If we are skipping elements that have appeared in the XML but for
-        // -- which we have no mapping, skip the text and return
-        if (_strictElementHandler.skipElement()) {
+        throws org.xml.sax.SAXException
+    {
+        
+        //-- If we are skipping elements that have appeared in the XML but for
+        //-- which we have no mapping, skip the text and return
+        if ( _ignoreElementDepth > 0) {
             return;
         }
 
-        if (_stateStack.isEmpty()) {
+        if (_stateInfo.empty()) {
             return;
         }
-
-        if (_anyNodeHandler.hasAnyUnmarshaller()) {
-            _anyNodeHandler.ignorableWhitespace(ch, start, length);
-        } else {
-            UnmarshalState state = _stateStack.getLastState();
-            if (state.isWhitespacePreserving()) {
-                if (state.getBuffer() == null)
-                    state.setBuffer(new StringBuffer());
-                state.getBuffer().append(ch, start, length);
-            }
+        
+        if (_anyUnmarshaller != null)
+           _anyUnmarshaller.ignorableWhitespace(ch, start, length);
+        else {
+             UnmarshalState state = (UnmarshalState)_stateInfo.peek();
+             if (state._wsPreserve) {
+                if (state._buffer == null) state._buffer = new StringBuffer();
+                state._buffer.append(ch, start, length);
+             }
         }
-    } // -- ignorableWhitespace
+    } //-- ignorableWhitespace
 
     public void processingInstruction(String target, String data)
-            throws org.xml.sax.SAXException {
-        // -- do nothing for now
-    } // -- processingInstruction
+        throws org.xml.sax.SAXException
+    {
+        //-- do nothing for now
+    } //-- processingInstruction
+
 
     public void setDocumentLocator(Locator locator) {
         this._locator = locator;
@@ -629,7 +1251,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Signals the start of a new document
      */
-    public void startDocument() throws org.xml.sax.SAXException {
+    public void startDocument()
+        throws org.xml.sax.SAXException
+    {
 
         //-- I've found many application don't always call
         //-- #startDocument, so I usually never put any
@@ -637,33 +1261,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     } //-- startDocument
     
-    private void extractNamespaceInformation(Attributes attributes) {
-
-        if (attributes == null || attributes.getLength() == 0) {
-            return;
-        }
-
-        // look for any potential namespace declarations in case namespace 
-        // processing was disabled on the XML parser
-        for (int i = 0; i < attributes.getLength(); i++) {
-            String attributeName = attributes.getQName(i);
-            if (StringUtils.isNotEmpty(attributeName)) {
-                if (attributeName.equals(XMLNS)) {
-                    _namespaceHandling.addDefaultNamespace(attributes.getValue(i));
-                } else if (attributeName.startsWith(XMLNS_PREFIX)) {
-                    String prefix = attributeName.substring(XMLNS_PREFIX.length());
-                    _namespaceHandling.addNamespace(prefix, attributes.getValue(i));
-                }
-            } else {
-                // -- if qName is null or empty, just process as a normal
-                // -- attribute
-                attributeName = attributes.getLocalName(i);
-                if (XMLNS.equals(attributeName)) {
-                    _namespaceHandling.addDefaultNamespace(attributes.getValue(i));
-                }
-            }
-        }
-    }
     
     /**
      * <p>ContentHandler#startElement</p>
@@ -676,97 +1273,170 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
     throws org.xml.sax.SAXException {
         if (LOG.isTraceEnabled()) {
-        	String trace;
-            if (StringUtils.isNotEmpty(qName))
-            	trace = MessageFormat
-				.format(
-						resourceBundle
-								.getString("unmarshalHandler.log.trace.startElement"),
-						new Object[] { qName });
+            if ((qName != null) && (qName.length() > 0))
+                LOG.trace("#startElement: " + qName);
             else
-            	trace = MessageFormat
-				.format(
-						resourceBundle
-								.getString("unmarshalHandler.log.trace.startElement"),
-						new Object[] { localName });
-            LOG.trace(trace);
+            	LOG.trace("#startElement: " + localName);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, increase the ignore depth counter and return
-        if(_strictElementHandler.skipStartElement()) {
-        	return;
+        if ((!_strictElements) && (_ignoreElementDepth > 0)) {
+            ++_ignoreElementDepth;
+            return;
         }
 
         //-- if we are in an <any> section
         //-- we delegate the event handling
-        if (_anyNodeHandler.hasAnyUnmarshaller()) {
-        	_anyNodeHandler.startElement(namespaceURI, localName, qName, atts);
-			return;
-		}
+        if (_anyUnmarshaller != null) {
+            _depth++;
+           _anyUnmarshaller.startElement(namespaceURI, localName, qName, atts);
+           return;
+        }
         
         //-- Create a new namespace scope if necessary and
         //-- make sure the flag is reset to true
-        if(_namespaceHandling.isNewNamespaceScopeNecessary()) {
-        	_namespaceHandling.startNamespaceScope();
-        } else {
-            _namespaceHandling.setNewNamespaceScopeNecessary(true);
+        if (_createNamespaceScope)
+            _namespaces = _namespaces.createNamespaces();
+        else
+            _createNamespaceScope = true;
+            
+        
+        if (_reusableAtts == null) {
+            if (atts != null) 
+                _reusableAtts = new AttributeSetImpl(atts.getLength());
+            else {
+                //-- we can't pass a null AttributeSet to the
+                //-- startElement
+                _reusableAtts = new AttributeSetImpl();
+            }
         }
-
-        // extract namespace information
-        extractNamespaceInformation(atts);
+        else {
+            _reusableAtts.clear();
+        }
         
-        // preserve parser passed arguments for any potential delegation
-        String tmpQName = null;
+        //-- process attributes
+        boolean hasQNameAtts = false;
+        if ((atts != null) && (atts.getLength() > 0)) {
+            //-- look for any potential namespace declarations
+            //-- in case namespace processing was disable
+            //-- on the parser
+            for (int i = 0; i < atts.getLength(); i++) {
+                String attName = atts.getQName(i);
+                if ((attName != null) && (attName.length() > 0)) {
+                    if (attName.equals(XMLNS)) {
+                        _namespaces.addNamespace("", atts.getValue(i));
+                    }
+                    else if (attName.startsWith(XMLNS_PREFIX)) {
+                        String prefix = attName.substring(XMLNS_PREFIX.length());
+                        _namespaces.addNamespace(prefix, atts.getValue(i));
+                    }
+                    else {
+                        //-- check for prefix
+                        if (attName.indexOf(':') < 0) {
+                            _reusableAtts.setAttribute(attName,
+                                atts.getValue(i), atts.getURI(i));
+                        }
+                        else hasQNameAtts = true;
+                    }
+                }
+                else {
+                    //-- if attName is null or empty, just process as a normal
+                    //-- attribute
+                    attName = atts.getLocalName(i);
+                    if (XMLNS.equals(attName)) {
+                        _namespaces.addNamespace("", atts.getValue(i));
+                    }
+                    else {
+                        _reusableAtts.setAttribute(attName, atts.getValue(i), atts.getURI(i));
+                    }
+                }
+            }
+        }
+        //-- if we found any qName-only atts, process those
+        if (hasQNameAtts) {
+            for (int i = 0; i < atts.getLength(); i++) {
+                String attName = atts.getQName(i);
+                if ((attName != null) && (attName.length() > 0)) {
+                    //-- process any non-namespace qName atts
+                    if ((!attName.equals(XMLNS)) && (!attName.startsWith(XMLNS_PREFIX))) 
+                    {
+                        int idx = attName.indexOf(':');
+                        if (idx >= 0) {
+                            String prefix = attName.substring(0, idx);
+                            attName = attName.substring(idx+1);
+                            String nsURI = atts.getURI(i);
+                            if ((nsURI == null) || (nsURI.length() == 0)) {
+                                nsURI = _namespaces.getNamespaceURI(prefix);
+                            }
+                            _reusableAtts.setAttribute(attName, atts.getValue(i), nsURI);
+                        }
+                    }
+                }
+                //-- else skip already processed in previous loop
+            }
+        }
         
-        if (StringUtils.isEmpty(localName)) {
-            if (StringUtils.isEmpty(qName)) {
-                String error = resourceBundle.getString("unmarshalHandler.error.localName.and.qName.null");
+        //-- preserve parser passed arguments for any potential
+        //-- delegation
+        if (_elemInfo == null) {
+            _elemInfo = new ElementInfo(null, atts);
+        }
+        else {
+            _elemInfo.clear();
+            _elemInfo._attributes = atts;
+        }
+        
+        if ((localName == null) || (localName.length() == 0)) {
+            if ((qName == null) || (qName.length() == 0)) {
+                String error = "Missing either 'localName' or 'qName', both cannot be emtpy or null.";
                 throw new SAXException(error);
             }
             localName = qName;
-            tmpQName = qName;
-        } else {
-            if (StringUtils.isEmpty(qName)) {
-                if (StringUtils.isEmpty(namespaceURI)) {
-                	tmpQName = localName;
-                } else {
-                    String prefix = _namespaceHandling.getNamespacePrefix(namespaceURI);
-                    if (StringUtils.isNotEmpty(prefix)) {
-                    	tmpQName = prefix + ":" + localName;
+            _elemInfo._qName = qName;
+        }
+        else {
+            if ((qName == null) || (qName.length() == 0)) {
+                if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
+                    _elemInfo._qName = localName;
+                }
+                else {
+                    String prefix = _namespaces.getNamespacePrefix(namespaceURI);
+                    if ((prefix != null) && (prefix.length() > 0)) {
+                        _elemInfo._qName = prefix + ":" + localName;
                     }
                 }
                 
-            } else {
-            	tmpQName = qName;
+            }
+            else {
+                _elemInfo._qName = qName;
             }
         }
-        _anyNodeHandler.preservePassedArguments(tmpQName, atts);
         
         int idx = localName.indexOf(':');
         if (idx >= 0) {
             String prefix = localName.substring(0, idx);
             localName = localName.substring(idx+1);
-            if (StringUtils.isEmpty(namespaceURI)) {
-                namespaceURI = _namespaceHandling.getNamespaceURI(prefix);
+            if ((namespaceURI == null) || (namespaceURI.length() == 0)) {
+                namespaceURI = _namespaces.getNamespaceURI(prefix);
             }
         } else {
             // check for default namespace declaration 
-            String defaultNamespace = _namespaceHandling.getDefaultNamespaceURI();
+            String defaultNamespace = _namespaces.getNamespaceURI("");
             // TODO[WG]: remove unnecessary check as it simply is wrong
             if (defaultNamespace != null && !defaultNamespace.equals("http://castor.exolab.org")) {
                 namespaceURI = defaultNamespace;
             }
             //-- adjust empty namespace
-            if (StringUtils.isEmpty(namespaceURI))
+            if ((namespaceURI != null) && (namespaceURI.length() == 0))
                 namespaceURI = null;
         }
         
         //-- call private startElement
-        startElementProcessing(localName, namespaceURI, _attributeSetFactory.getAttributeSet(atts));
+        startElement(localName, namespaceURI, _reusableAtts);
         
     } //-- startElement
- 
+    
     /**
      * <p>DocumentHandler#startElement</p>
      *
@@ -775,30 +1445,36 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param name The name of the element.
      * @param attList The AttributeList containing the associated attributes for the
      *        element.
-     * @deprecated
      */
     public void startElement(String name, AttributeList attList)
     throws org.xml.sax.SAXException {
         if (LOG.isTraceEnabled()) {
-            String trace = MessageFormat.format(resourceBundle.getString("unmarshalHandler.log.trace.startElement"),
-                    new Object[] { name });
-            LOG.trace(trace);
+        	LOG.trace("#startElement: " + name);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, increase the ignore depth counter and return
-        if (_strictElementHandler.skipStartElement()) {
-        	return;
+        if ((!_strictElements) && (_ignoreElementDepth > 0)) {
+            ++_ignoreElementDepth;
+            return;
         }
 
         //-- if we are in an <any> section
         //-- we delegate the event handling
-        if (_anyNodeHandler.hasAnyUnmarshaller()) {
-        	_anyNodeHandler.startElement(name, attList);
-			return;
+        if (_anyUnmarshaller != null) {
+            _depth++;
+           _anyUnmarshaller.startElement(name,attList);
+           return;
         }
         
-        _anyNodeHandler.preservePassedArguments(name, attList);
+        if (_elemInfo == null) {
+            _elemInfo = new ElementInfo(name, attList);
+        }
+        else {
+            _elemInfo.clear();
+            _elemInfo._qName = name;
+            _elemInfo._attributeList = attList;
+        }
         
         //-- The namespace of the given element
         String namespace = null;
@@ -806,7 +1482,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- Begin Namespace Handling :
         //-- XXX Note: This code will change when we update the XML event API
 
-        _namespaceHandling.createNamespace();
+        _namespaces = _namespaces.createNamespaces();
+
+        //-- convert AttributeList to AttributeSet and process
+        //-- namespace declarations
+        AttributeSet atts = processAttributeList(attList);
 
         String prefix = "";
         //String qName = name;
@@ -816,12 +1496,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              name = name.substring(idx+1);
         }
 
-        namespace = _namespaceHandling.getNamespaceURI(prefix);
+        namespace = _namespaces.getNamespaceURI(prefix);
         
         //-- End Namespace Handling
         
         //-- call private startElement method
-        startElementProcessing(name, namespace, _attributeSetFactory.getAttributeSet(attList));
+        startElement(name, namespace, atts);
         
     } //-- startElement
         
@@ -836,18 +1516,32 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param atts the AttributeSet containing the attributes associated
      * with the element.
      */
-    void startElementProcessing(String name, String namespace, AttributeSet atts)
-            throws SAXException {
-        new StartElementProcessor(this).compute(name, namespace, atts);
-    }
- 
-	void processFirstElement(String name, String namespace,
-			AttributeSet atts, String xmlSpace) throws SAXException {
-		if (_topClass == null) {
-		    if (_topObject != null) {
-		        _topClass = _topObject.getClass();
-		    }
-		}
+    private void startElement
+        (String name, String namespace, AttributeSet atts) 
+        throws SAXException
+    {
+
+        UnmarshalState state = null;
+        String xmlSpace = null;
+
+
+        //-- handle special atts
+        if (atts != null) {
+            //-- xml:space
+            xmlSpace = atts.getValue(XML_SPACE, Namespaces.XML_NAMESPACE);
+            if (xmlSpace == null) {
+                xmlSpace = atts.getValue(XML_SPACE_WITH_PREFIX, "");
+            }
+        }
+
+        if (_stateInfo.empty()) {
+            //-- Initialize since this is the first element
+
+            if (_topClass == null) {
+                if (_topObject != null) {
+                    _topClass = _topObject.getClass();
+                }
+            }
 //            if (_cdResolver == null) {
 //                if (_topClass == null) {
 //                    String err = "The class for the root element '" +
@@ -857,220 +1551,894 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 //                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 //                _cdResolver.setClassLoader(_loader);
 //            }
-		if (getInternalContext().getXMLClassDescriptorResolver() == null) {
-		    // Joachim 2007-09-04 check is new
-		    String message = resourceBundle.getString("unmarshalHandler.log.warn.class.descriptor.not.set");
-		    LOG.warn(message);
-		    throw new IllegalStateException(message);
-		}
-
-		_topState = new UnmarshalState();            
-		_topState.setElementName(name);
-		_topState.setWhitespacePreserving((xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve);
-		
-		XMLClassDescriptor classDesc = null;
-		//-- If _topClass is null, then we need to search
-		//-- the resolver for one
-		String instanceClassname = null;
-		if (_topClass == null) {
-
-		    //-- check for xsi:type
-		    instanceClassname = getInstanceType(atts, null);
-		    if (instanceClassname != null) {
-		        //-- first try loading class directly
-		        try {
-		            _topClass = loadClass(instanceClassname, null);
-		        }
-		        catch(ClassNotFoundException cnfe) {}
-		            
-		        if (_topClass == null) {
-		            classDesc = getClassDescriptor(instanceClassname);
-		            if (classDesc != null) {
-		                _topClass = classDesc.getJavaClass();
-		            }
-		            if (_topClass == null) {
-						String error = MessageFormat
-								.format(
-										resourceBundle
-												.getString("unmarshalHandler.error.class.not.found"),
-										new Object[] { instanceClassname });
-		                throw new SAXException(error);
-		            }
-		        }
-		    }
-		    else {
-		        classDesc = resolveByXMLName(name, namespace, null);
-		        if (classDesc == null) {
-		            classDesc = getClassDescriptor(name, _loader);
-		            if (classDesc == null) {
-		                classDesc = getClassDescriptor(getJavaNaming().toJavaClassName(name));
-		            }
-		        }
-		        if (classDesc != null) {
-		            _topClass = classDesc.getJavaClass();
-		        }
-		    }
-
-		    if (_topClass == null) {
-		    	String err = MessageFormat
-				.format(
-						resourceBundle
-								.getString("unmarshalHandler.error.class.root.not.found"),
-						new Object[] { name });
-		        throw new SAXException(err);
-		    }
-		}
-
-		//-- create a "fake" FieldDescriptor for the root element
-		XMLFieldDescriptorImpl fieldDesc
-		    = new XMLFieldDescriptorImpl(_topClass,
-		                                 name,
-		                                 name,
-		                                 NodeType.Element);
-
-		_topState.setFieldDescriptor(fieldDesc);
-		//-- look for XMLClassDescriptor if null
-		//-- always check resolver first
-		if (classDesc == null) {
-            classDesc = getClassDescriptor(_topClass);
-        }
-		    
-		//-- check for top-level primitives 
-		if (classDesc == null) {
-		    if (isPrimitive(_topClass)) {
-		        classDesc = new PrimitivesClassDescriptor(_topClass);
-		        fieldDesc.setIncremental(false);
-		        _topState.setPrimitiveOrImmutable(true);
-		    }
-		}
-		
-		fieldDesc.setClassDescriptor(classDesc);
-		if (classDesc == null) {
-		    //-- report error
-		    if ((!isPrimitive(_topClass)) &&
-		            (!Serializable.class.isAssignableFrom( _topClass ))) {
-                throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+            if (getInternalContext().getXMLClassDescriptorResolver() == null) {
+                // Joachim 2007-09-04 check is new
+                String message = "XMLClassDescriptorResolver is not set!";
+                LOG.warn(message);
+                throw new IllegalStateException(message);
             }
 
-			String err = MessageFormat
-					.format(
-							resourceBundle
-									.getString("unmarshalHandler.error.create.class.descriptor"),
-							new Object[] { _topClass.getName() });
-        
-			throw new SAXException(err);
-		}
-		_topState.setClassDescriptor(classDesc);
-		_topState.setType(_topClass);
+            _topState = new UnmarshalState();            
+            _topState._elementName = name;
+            _topState._wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
+            
+            XMLClassDescriptor classDesc = null;
+            //-- If _topClass is null, then we need to search
+            //-- the resolver for one
+            String instanceClassname = null;
+            if (_topClass == null) {
 
-		if  ((_topObject == null) && (!_topState.isPrimitiveOrImmutable())) {
-		    // Retrieving the xsi:type attribute, if present
-		    String topPackage = getJavaPackage(_topClass);
-		    
-		    if (instanceClassname == null) {
-                instanceClassname = getInstanceType(atts, topPackage);
-            } else {
-		        //-- instance type already processed above, reset
-		        //-- to null to prevent entering next block
-		        instanceClassname = null;
-		    }
-		        
-		    if (instanceClassname != null) {
-		        Class<?> instanceClass = null;
-		        try {
+                //-- check for xsi:type
+                instanceClassname = getInstanceType(atts, null);
+                if (instanceClassname != null) {
+                    //-- first try loading class directly
+                    try {
+                        _topClass = loadClass(instanceClassname, null);
+                    }
+                    catch(ClassNotFoundException cnfe) {}
+                        
+                    if (_topClass == null) {
+                        classDesc = getClassDescriptor(instanceClassname);
+                        if (classDesc != null) {
+                            _topClass = classDesc.getJavaClass();
+                        }
+                        if (_topClass == null) {
+                            throw new SAXException("Class not found: " +
+                                instanceClassname);
+                        }
+                    }
+                }
+                else {
+                    classDesc = resolveByXMLName(name, namespace, null);
+                    if (classDesc == null) {
+                        classDesc = getClassDescriptor(name, _loader);
+                        if (classDesc == null) {
+                            classDesc = getClassDescriptor(getJavaNaming().toJavaClassName(name));
+                        }
+                    }
+                    if (classDesc != null) {
+                        _topClass = classDesc.getJavaClass();
+                    }
+                }
 
-		            XMLClassDescriptor xcd = getClassDescriptor(instanceClassname);
+                if (_topClass == null) {
+                    String err = "The class for the root element '" +
+                        name + "' could not be found.";
+                    throw new SAXException(err);
+                }
+            }
 
-		            boolean loadClass = true;
-		            if (xcd != null) {
-		                instanceClass = xcd.getJavaClass();
-		                if (instanceClass != null) {
-		                    loadClass = (!instanceClassname.equals(instanceClass.getName()));
-		                }
-		            }
-		            
-		            if (loadClass) {
-		                try {
-		                    instanceClass = loadClass(instanceClassname, null);
-		                }
-		                catch(ClassNotFoundException cnfe) {
-		                    //-- revert back to ClassDescriptor's associated
-		                    //-- class
-		                    if (xcd != null) {
-                                instanceClass = xcd.getJavaClass();
+            //-- create a "fake" FieldDescriptor for the root element
+            XMLFieldDescriptorImpl fieldDesc
+                = new XMLFieldDescriptorImpl(_topClass,
+                                             name,
+                                             name,
+                                             NodeType.Element);
+
+            _topState._fieldDesc = fieldDesc;
+            //-- look for XMLClassDescriptor if null
+            //-- always check resolver first
+            if (classDesc == null)
+                classDesc = getClassDescriptor(_topClass);
+                
+            //-- check for top-level primitives 
+            if (classDesc == null) {
+                if (isPrimitive(_topClass)) {
+                    classDesc = new PrimitivesClassDescriptor(_topClass);
+                    fieldDesc.setIncremental(false);
+                    _topState._primitiveOrImmutable = true;
+                }
+            }
+            
+            fieldDesc.setClassDescriptor(classDesc);
+            if (classDesc == null) {
+                //-- report error
+			    if ((!isPrimitive(_topClass)) &&
+             (!Serializable.class.isAssignableFrom( _topClass )))
+             throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+          String err = "unable to create XMLClassDescriptor " +
+                       "for class: " + _topClass.getName();
+          throw new SAXException(err);
+            }
+            _topState._classDesc = classDesc;
+            _topState._type = _topClass;
+
+            if  ((_topObject == null) && (!_topState._primitiveOrImmutable)) {
+                // Retrieving the xsi:type attribute, if present
+                String topPackage = getJavaPackage(_topClass);
+                
+                if (instanceClassname == null)
+                    instanceClassname = getInstanceType(atts, topPackage);
+                else {
+                    //-- instance type already processed above, reset
+                    //-- to null to prevent entering next block
+                    instanceClassname = null;
+                }
+                    
+                if (instanceClassname != null) {
+                    Class instanceClass = null;
+                    try {
+
+                        XMLClassDescriptor xcd =
+                            getClassDescriptor(instanceClassname);
+
+                        boolean loadClass = true;
+                        if (xcd != null) {
+                            instanceClass = xcd.getJavaClass();
+                            if (instanceClass != null) {
+                                loadClass = (!instanceClassname.equals(instanceClass.getName()));
                             }
-		                }
-		            }
+                        }
+                        
+                        if (loadClass) {
+                            try {
+                                instanceClass = loadClass(instanceClassname, null);
+                            }
+                            catch(ClassNotFoundException cnfe) {
+                                //-- revert back to ClassDescriptor's associated
+                                //-- class
+                                if (xcd != null)
+                                    instanceClass = xcd.getJavaClass();
+                            }
+                        }
 
-		            if (instanceClass == null) {
-		            	String error = MessageFormat
-						.format(
-								resourceBundle
-										.getString("unmarshalHandler.error.class.not.found"),
-								new Object[] { instanceClassname });
-		                throw new SAXException(error);
-		            }
+                        if (instanceClass == null) {
+                            throw new SAXException("Class not found: " +
+                                instanceClassname);
+                        }
 
-		            if (!_topClass.isAssignableFrom(instanceClass)) {
-		            	String err = MessageFormat
-						.format(
-								resourceBundle
-										.getString("unmarshalHandler.error.not.subclass"),
-								new Object[] { instanceClass, _topClass });
-		                throw new SAXException(err);
-		            }
+                        if (!_topClass.isAssignableFrom(instanceClass)) {
+                            String err = instanceClass + " is not a subclass of "
+                                + _topClass;
+                            throw new SAXException(err);
+                        }
 
-		        }
-		        catch(Exception ex) {
-		        	String err = MessageFormat
-					.format(
-							resourceBundle
-									.getString("unmarshalHandler.error.unable.instantiate"),
-							new Object[] { instanceClassname });
-		            throw new SAXException(err, ex);
-		        }
+                    }
+                    catch(Exception ex) {
+                        String msg = "unable to instantiate " +
+                            instanceClassname + "; ";
+                        throw new SAXException(msg + ex, ex);
+                    }
 
-		        //-- try to create instance of the given Class
-		        Arguments args = processConstructorArgs(atts, classDesc);
-		        _topState.setObject(createInstance(instanceClass, args));
-		    } else {
-		        //-- no xsi type information present
-		        //-- try to create instance of the given Class
-		        Arguments args = processConstructorArgs(atts, classDesc);
-		        _topState.setObject(createInstance(_topClass, args));
-		    }
-		} else {
-		    //-- otherwise use _topObject
-		    _topState.setObject(_topObject);
-		}
-		
-		_stateStack.pushState(_topState);
-		
-		if (!_topState.isPrimitiveOrImmutable()) {
-		    //--The top object has just been initialized
-		    //--notify the listener
-			Object stateObject = _topState.getObject();
-			Object parentObject = (_topState.getParent() == null) ? null
-					: _topState.getParent().getObject();
-			
-			_delegateUnmarshalListener.initialized(stateObject, parentObject);  
-		    processAttributes(atts, classDesc);
-		    _delegateUnmarshalListener.attributesProcessed(stateObject, parentObject);
-		    _namespaceHandling.processNamespaces(classDesc,_stateStack.getLastState().getObject());
-		}
-		
-		String pkg = getJavaPackage(_topClass);
-		if (getMappedPackage(namespace) == null) {
-		    addNamespaceToPackageMapping(namespace, pkg);
-		}
-	}
+                    //-- try to create instance of the given Class
+                    Arguments args = processConstructorArgs(atts, classDesc);
+                    _topState._object = createInstance(instanceClass, args);
+                }
+                //-- no xsi type information present
+                else {
+                    //-- try to create instance of the given Class
+                    Arguments args = processConstructorArgs(atts, classDesc);
+                    _topState._object = createInstance(_topClass, args);
+                }
+            }
+            //-- otherwise use _topObject
+            else {
+                _topState._object = _topObject;
+            }
+            
+            _stateInfo.push(_topState);
+            
+            if (!_topState._primitiveOrImmutable) {
+                //--The top object has just been initialized
+                //--notify the listener
+                if ( _unmarshalListener != null )
+                    _unmarshalListener.initialized(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
+                    
+                processAttributes(atts, classDesc);
+                if ( _unmarshalListener != null )
+                    _unmarshalListener.attributesProcessed(_topState._object, (_topState._parent==null)?null:_topState._parent._object);
+                processNamespaces(classDesc);
+            }
+            
+            String pkg = getJavaPackage(_topClass);
+            if (getMappedPackage(namespace) == null) 
+            {
+                addNamespaceToPackageMapping(namespace, pkg);
+            }
+            return;
+        } //--rootElement
+
+
+        //-- get MarshalDescriptor for the given element
+        UnmarshalState parentState = (UnmarshalState)_stateInfo.peek();
+
+        //Test if we can accept the field in the parentState
+        //in case the parentState fieldDesc is a container
+        //-- This following logic tests to see if we are in a
+        //-- container and we need to close out the container
+        //-- before proceeding:
+        boolean canAccept = false;
+        while ((parentState._fieldDesc != null) &&
+               (parentState._fieldDesc.isContainer() && !canAccept) )
+        {
+            XMLClassDescriptor tempClassDesc = parentState._classDesc;
+
+            //-- Find ClassDescriptor for Parent
+            if (tempClassDesc == null) {
+               tempClassDesc = (XMLClassDescriptor)parentState._fieldDesc.getClassDescriptor();
+               if (tempClassDesc == null)
+                  tempClassDesc = getClassDescriptor(parentState._object.getClass());
+            }
+            
+            canAccept = tempClassDesc.canAccept(name, namespace, parentState._object);
+
+            if (!canAccept) {
+                //-- Does container class even handle this field?
+                if (tempClassDesc.getFieldDescriptor(name, namespace, NodeType.Element) != null) {
+                    if (!parentState._fieldDesc.isMultivalued()) { 
+                        String error = "The container object (" + tempClassDesc.getJavaClass().getName();
+                        error += ") cannot accept the child object associated with the element '" + name + "'";
+                        error += " because the container is already full!";
+                        ValidationException vx = new ValidationException(error);
+                        throw new SAXException(vx);    
+                    }
+                }
+                endElement(parentState._elementName);
+                parentState = (UnmarshalState)_stateInfo.peek();
+            }
+            tempClassDesc = null;
+        }
+        
+        
+        
+
+
+        //-- create new state object
+        state = new UnmarshalState();
+        state._elementName = name;
+        state._parent = parentState;
+        
+        if (xmlSpace != null)        
+            state._wsPreserve = PRESERVE.equals(xmlSpace);
+        else
+            state._wsPreserve = parentState._wsPreserve;
+        
+        _stateInfo.push(state);
+
+        //-- make sure we should proceed
+        if (parentState._object == null) {
+            if (!parentState._wrapper) return;
+        }
+
+        Class cls = null;
+
+        //-- Find ClassDescriptor for Parent
+        XMLClassDescriptor classDesc = parentState._classDesc;
+        if (classDesc == null) {
+            classDesc = (XMLClassDescriptor)parentState._fieldDesc.getClassDescriptor();
+            if (classDesc == null)
+                classDesc = getClassDescriptor(parentState._object.getClass());
+        } else {
+            // classDesc.resetElementCount();
+        }
+
+        //----------------------------------------------------/
+        //- Find FieldDescriptor associated with the element -/
+        //----------------------------------------------------/
+        
+        //-- A reference to the FieldDescriptor associated
+        //-- the the "current" element
+        XMLFieldDescriptor descriptor = null; 
+        
+        //-- inherited class descriptor 
+        //-- (only needed if descriptor cannot be found directly)
+        XMLClassDescriptor cdInherited = null;
+        
+        
+        //-- loop through stack and find correct descriptor
+        //int pIdx = _stateInfo.size() - 2; //-- index of parentState
+        UnmarshalState targetState = parentState;
+        String path = "";
+        StringBuffer pathBuf = null;
+        int count = 0;
+        boolean isWrapper = false;
+        XMLClassDescriptor oldClassDesc = classDesc;
+        while (descriptor == null) {
+            
+            //-- NOTE (kv 20050228): 
+            //-- we need to clean this code up, I made this
+            //-- fix to make sure the correct descriptor which
+            //-- matches the location path is used
+            if (path.length() > 0) {
+                String tmpName = path + "/" + name;
+                descriptor = classDesc.getFieldDescriptor(tmpName, namespace, NodeType.Element);
+            }
+            //-- End Patch
+            
+            if (descriptor == null) { 
+                descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Element);
+            }
+            
+            //-- Namespace patch, should be moved to XMLClassDescriptor, but
+            //-- this is the least intrusive patch at the moment. kv - 20030423
+            if ((descriptor != null) && (!descriptor.isContainer())) {
+                if ((namespace != null) && (namespace.length() > 0)) {
+                    if (!namespaceEquals(namespace, descriptor.getNameSpaceURI())) {
+                        //-- if descriptor namespace is not null, then we must
+                        //-- have a namespace match, so set descriptor to null,
+                        //-- or if descriptor is not a wildcard we can also
+                        //-- set to null. 
+                        if ((descriptor.getNameSpaceURI() != null) || (!descriptor.matches("*"))) {
+                            descriptor = null;
+                        }
+                        
+                    }
+                }
+            }
+            //-- end namespace patch
+            
+            
+            /*
+               If descriptor is null, we need to handle possible inheritence,
+               which might not be described in the current ClassDescriptor.
+               This can be a slow process...for speed use the match attribute
+               of the xml element in the mapping file. This logic might
+               not be completely necessary, and perhaps we should remove it.
+            */
+            // handle multiple level locations (where count > 0) (CASTOR-1039)
+            // if ((descriptor == null) && (count == 0) && (!targetState.wrapper)) {
+            if ((descriptor == null) && (!targetState._wrapper)) {
+                MarshalFramework.InheritanceMatch[] matches = null;
+                try {
+                    matches = searchInheritance(name, namespace, classDesc); // TODO: Joachim, _cdResolver);
+                }
+                catch(MarshalException rx) {
+                    //-- TODO: 
+                }
+                if (matches.length != 0) {
+                    InheritanceMatch match = null;
+                    // It may be the case that this class descriptor can
+                    // appear under multiple parent field descriptors.  Look
+                    // for the first match whose parent file descriptor XML
+                    // name matches the name of the element we are under
+                    for(int i = 0; i < matches.length; i++) {
+                        if(parentState._elementName.equals(matches[i].parentFieldDesc.getLocationPath())) {
+                            match = matches[i];
+                            break;
+                        }
+                    }
+                    if(match == null) match = matches[0];                    
+                    descriptor  = match.parentFieldDesc;
+                    cdInherited = match.inheritedClassDesc;
+                    break; //-- found
+                }
+                /* */
+                
+                // handle multiple level locations (where count > 0) (CASTOR-1039)
+                // isWrapper = (isWrapper || hasFieldsAtLocation(name, classDesc));
+                String tmpLocation = name;
+                if (count > 0) { tmpLocation = path + "/" + name; }
+                isWrapper = (isWrapper || hasFieldsAtLocation(tmpLocation, classDesc));
+            }
+            else if (descriptor != null) {
+                String tmpPath = descriptor.getLocationPath();
+                if (tmpPath == null) tmpPath = "";
+                if (path.equals(tmpPath))break; //-- found
+                descriptor = null; //-- not found, try again
+            }
+            else {
+                if (pathBuf == null) 
+                    pathBuf = new StringBuffer();
+                else 
+                    pathBuf.setLength(0);
+                pathBuf.append(path);
+                pathBuf.append('/');
+                pathBuf.append(name);
+                isWrapper = (isWrapper || hasFieldsAtLocation(pathBuf.toString(), classDesc));
+            }
+            
+            //-- Make sure there are more parent classes on stack
+            //-- otherwise break, since there is nothing to do
+            //if (pIdx == 0) break;
+            if (targetState == _topState) break;
+            
+            //-- adjust name and try parent
+            if (count == 0)
+                path = targetState._elementName;
+            else {
+                if (pathBuf == null) 
+                    pathBuf = new StringBuffer();
+                else 
+                    pathBuf.setLength(0);
+                pathBuf.append(targetState._elementName);
+                pathBuf.append('/');
+                pathBuf.append(path);
+                path = pathBuf.toString();
+            }
+                
+            //-- get 
+            //--pIdx;
+            //targetState = (UnmarshalState)_stateInfo.elementAt(pIdx);
+            targetState = targetState._parent;
+            classDesc = targetState._classDesc;
+            count++;
+        }
+        
+        if (descriptor != null && isValidating() && !getInternalContext().getLenientSequenceOrder()) {
+            try {
+                classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
+            } catch (ValidationException e) {
+                throw new SAXException(e);
+            }
+        }
+        
+        
+        //-- The field descriptor is still null, we face a problem
+        if (descriptor == null) {
+            
+            //-- reset classDesc
+            classDesc = oldClassDesc;
+            
+            //-- isWrapper?
+            if (isWrapper) {
+                state._classDesc = new XMLClassDescriptorImpl(ContainerElement.class, name);
+                state._wrapper = true;
+                if (LOG.isDebugEnabled()) {
+                	LOG.debug("wrapper-element: " + name);
+                }
+                //-- process attributes
+                processWrapperAttributes(atts);
+                return;
+            }
+            
+            String mesg = "unable to find FieldDescriptor for '" + name;
+            mesg += "' in ClassDescriptor of " + classDesc.getXMLName();
+
+            //-- unwrap classDesc, if necessary, for the check
+            //-- Introspector.introspected done below
+            if (classDesc instanceof InternalXMLClassDescriptor) {
+                classDesc = ((InternalXMLClassDescriptor)classDesc).getClassDescriptor();
+            }
+
+            //-- If we are skipping elements that have appeared in the XML but for
+            //-- which we have no mapping, increase the ignore depth counter and return
+            boolean lenientElementStrictnessForIntrospection = 
+                getInternalContext()
+                .getBooleanProperty(XMLProperties.LENIENT_INTROSPECTED_ELEMENT_STRICTNESS)
+                .booleanValue();
+            if (! _strictElements) {
+                ++_ignoreElementDepth;
+                //-- remove the StateInfo we just added
+                _stateInfo.pop();
+                // drop Namespace instance as well
+                _namespaces = _namespaces.getParent();
+                if (LOG.isDebugEnabled()) {
+                	LOG.debug(mesg + " - ignoring extra element.");
+                }
+                return;
+            }
+            //if we have no field descriptor and
+            //the class descriptor was introspected
+            //just log it
+            else if (lenientElementStrictnessForIntrospection && Introspector.introspected(classDesc)) {
+                LOG.warn(mesg);
+                return;
+            }
+            //-- otherwise report error since we cannot find a suitable 
+            //-- descriptor
+            else {
+                throw new SAXException(mesg);
+            }
+        } //-- end null descriptor
+        
+        /// DEBUG: System.out.println("path: " + path);
+
+        //-- Save targetState (used in endElement)
+        if (targetState != parentState) {
+            state._targetState = targetState;
+            parentState = targetState; //-- reassign
+        }
+
+        Object object = parentState._object;
+        //--container support
+        if (descriptor.isContainer()) {
+            //create a new state to set the container as the object
+            //don't save the current state, it will be recreated later
+            
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("#container: " + descriptor.getFieldName());
+            }
+            
+            //-- clear current state and re-use for the container
+            state.clear();
+            //-- inherit whitespace preserving from the parentState
+            state._wsPreserve = parentState._wsPreserve;
+            state._parent = parentState;
+            
+            //here we can hard-code a name or take the field name
+            state._elementName = descriptor.getFieldName();
+            state._fieldDesc = descriptor;
+            state._classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
+            Object containerObject = null;
+
+            //1-- the container is not multivalued (not a collection)
+            if (!descriptor.isMultivalued()) {
+                // Check if the container object has already been instantiated
+                FieldHandler handler = descriptor.getHandler();
+                containerObject = handler.getValue(object);
+                if (containerObject != null){
+                    if (state._classDesc != null) {
+                    	if (state._classDesc.canAccept(name, namespace, containerObject)) {
+                            //remove the descriptor from the used list
+                            parentState.markAsNotUsed(descriptor);
+                        }
+                    }
+                    else {
+                        //remove the descriptor from the used list
+                        parentState.markAsNotUsed(descriptor);
+                    }
+                }
+                else {
+                    containerObject = handler.newInstance(object);
+                }
+
+            }
+            //2-- the container is multivalued
+            else {
+                Class containerClass = descriptor.getFieldType();
+                try {
+                     containerObject = containerClass.newInstance();
+                }
+                catch(Exception ex) {
+                    throw new SAXException(ex);
+                }
+            }
+            state._object = containerObject;
+            state._type = containerObject.getClass();
+
+            //we need to recall startElement()
+            //so that we can find a more appropriate descriptor in for the given name
+            _namespaces = _namespaces.createNamespaces();
+            startElement(name, namespace, atts);
+            return;
+        }
+        //--End of the container support
+        
+        
+
+        //-- Find object type and create new Object of that type
+        state._fieldDesc = descriptor;
+
+        /* <update>
+            *  we need to add this code back in, to make sure
+            *  we have proper access rights.
+            *
+        if (!descriptor.getAccessRights().isWritable()) {
+            if (debug) {
+                buf.setLength(0);
+                buf.append("The field for element '");
+                buf.append(name);
+                buf.append("' is read-only.");
+                message(buf.toString());
+            }
+            return;
+        }
+        */
+
+        //-- Find class to instantiate
+        //-- check xml names to see if we should look for a more specific
+        //-- ClassDescriptor, otherwise just use the one found in the
+        //-- descriptor
+        classDesc = null;
+        if (cdInherited != null) classDesc = cdInherited;
+        else if (!name.equals(descriptor.getXMLName()))
+            classDesc = resolveByXMLName(name, namespace, null);
+
+        if (classDesc == null)
+            classDesc = (XMLClassDescriptor)descriptor.getClassDescriptor();
+        FieldHandler handler = descriptor.getHandler();
+        boolean useHandler = true;
+
+        try {
+
+            //-- Get Class type...first use ClassDescriptor,
+            //-- since it could be more specific than
+            //-- the FieldDescriptor
+            if (classDesc != null) {
+                cls = classDesc.getJavaClass();
+
+                //-- XXXX This is a hack I know...but we
+                //-- XXXX can't use the handler if the field
+                //-- XXXX types are different
+                if (descriptor.getFieldType() != cls) {
+                    state._derived = true;
+                }
+            }
+            else {
+                cls = descriptor.getFieldType();
+            }
+            
+            //-- This *shouldn't* happen, but a custom implementation
+            //-- could return null in the XMLClassDesctiptor#getJavaClass
+            //-- or XMLFieldDescriptor#getFieldType. If so, just replace
+            //-- with java.lang.Object.class (basically "anyType").
+            if (cls == null) {
+                cls = java.lang.Object.class;
+            }
+
+            // Retrieving the xsi:type attribute, if present
+            String currentPackage = getJavaPackage(parentState._type);
+            String instanceType = getInstanceType(atts, currentPackage);
+            if (instanceType != null) {
+                
+                Class instanceClass = null;
+                try {
+
+                    XMLClassDescriptor instanceDesc
+                        = getClassDescriptor(instanceType, _loader);
+
+                    boolean loadClass = true;
+
+                    if (instanceDesc != null) {
+                        instanceClass = instanceDesc.getJavaClass();
+                        classDesc = instanceDesc;
+                        if (instanceClass != null) {
+                            loadClass = (!instanceClass.getName().equals(instanceType));
+                        }
+                    }
+
+                    if (loadClass) {
+                        instanceClass = loadClass(instanceType, null);
+                        //the FieldHandler can be either an XMLFieldHandler
+                        //or a FieldHandlerImpl
+                        FieldHandler tempHandler = descriptor.getHandler();
+
+                        boolean collection = false;
+                        if (tempHandler instanceof FieldHandlerImpl) {
+                            collection = ((FieldHandlerImpl) tempHandler).isCollection(); 
+                        }
+                        else {
+                            collection = Introspector.isCollection(instanceClass);
+                        }
+
+                        if ((!collection) && !cls.isAssignableFrom(instanceClass))
+                        {
+                            if (!isPrimitive(cls)) {
+                                String err = instanceClass.getName()
+                                    + " is not a subclass of " + cls.getName();
+                                throw new SAXException(err);
+                            }
+                        }
+                    }
+                    cls = instanceClass;
+                    useHandler = false;
+                }
+                catch(Exception ex) {
+                    String msg = "unable to instantiate " + instanceType;
+                    throw new SAXException(msg + "; " + ex, ex);
+                }
+
+            }
+
+            //-- Handle ArrayHandler
+            if (cls == Object.class) {
+                if (parentState._object instanceof ArrayHandler)
+                    cls = ((ArrayHandler)parentState._object).componentType();
+            }
+            
+            //-- Handle support for "Any" type
+
+            if (cls == Object.class) {
+                Class pClass = parentState._type;
+                ClassLoader loader = pClass.getClassLoader();
+                //-- first look for a descriptor based
+                //-- on the XML name
+                classDesc = resolveByXMLName(name, namespace, loader);
+                //-- if null, create classname, and try resolving
+                String cname = null;
+                if (classDesc == null) {
+                    //-- create class name
+                    cname = getJavaNaming().toJavaClassName(name);
+                    classDesc = getClassDescriptor(cname, loader);
+                }
+                //-- if still null, try using parents package
+                if (classDesc == null) {
+                    //-- use parent to get package information
+                    String pkg = pClass.getName();
+                    int idx = pkg.lastIndexOf('.');
+                    if (idx > 0) {
+                        pkg = pkg.substring(0,idx+1);
+                        cname = pkg + cname;
+                        classDesc = getClassDescriptor(cname, loader);
+                    }
+                }
+
+                if (classDesc != null) {
+                    cls = classDesc.getJavaClass();
+                    useHandler = false;
+                }
+                else {
+                    //we are dealing with an AnyNode
+                    //1- creates a new SAX2ANY handler
+                    _anyUnmarshaller = new SAX2ANY(_namespaces, state._wsPreserve);
+                    //2- delegates the element handling
+                    if (_elemInfo._attributeList != null) {
+                        //-- SAX 1
+                        _anyUnmarshaller.startElement(_elemInfo._qName, 
+                            _elemInfo._attributeList);
+                    }
+                    else {
+                        //-- SAX 2
+                        _anyUnmarshaller.startElement(namespace, name, _elemInfo._qName, 
+                            _elemInfo._attributes);
+                    }
+                    //first element so depth can only be one at this point
+                    _depth = 1;
+                    state._object = _anyUnmarshaller.getStartingNode();
+                    state._type = cls;
+                    //don't need to continue
+                     return;
+                }
+            }
+            
+            boolean byteArray = false;
+            if (cls.isArray())
+                byteArray = (cls.getComponentType() == Byte.TYPE);
+
+            //-- check for immutable
+            if (isPrimitive(cls) ||
+                descriptor.isImmutable() ||
+                byteArray)
+            {
+                state._object = null;
+                state._primitiveOrImmutable = true;  
+                //-- handle immutable types, such as java.util.Locale
+                if (descriptor.isImmutable()) {
+                    if (classDesc == null)
+                        classDesc = getClassDescriptor(cls);
+                    state._classDesc = classDesc;
+                    Arguments args = processConstructorArgs(atts, classDesc);
+                    if ((args != null) && (args.size() > 0)) {
+                    	state._args = args;
+                    }
+                }
+            }
+            else {
+                if (classDesc == null)
+                    classDesc = getClassDescriptor(cls);
+                    
+                //-- XXXX should remove this test once we can
+                //-- XXXX come up with a better solution
+                if ((!state._derived) && useHandler) {
+
+                    boolean create = true;
+                    if (_reuseObjects) {
+                        state._object = handler.getValue(parentState._object);
+                        create = (state._object == null);
+                    }
+                    if (create) {
+                        Arguments args = processConstructorArgs(atts, classDesc);
+                        if ((args._values != null) && (args._values.length > 0)) {
+                            if (handler instanceof ExtendedFieldHandler) {
+                                ExtendedFieldHandler efh = 
+                                    (ExtendedFieldHandler)handler;
+                                state._object = efh.newInstance(parentState._object, args._values);
+                            }
+                            else {
+                                String err = "constructor arguments can only be " +
+                                    "used with an ExtendedFieldHandler.";
+                                throw new SAXException(err);
+                            }
+                        }
+                        else {
+                            state._object = handler.newInstance(parentState._object);
+                        }
+                    }
+                }
+                //-- reassign class in case there is a conflict
+                //-- between descriptor#getFieldType and
+                //-- handler#newInstance...I should hope not, but
+                //-- who knows
+                if (state._object != null) {
+                    cls = state._object.getClass();
+                    if (classDesc != null) {
+                        if (classDesc.getJavaClass() != cls) {
+                            classDesc = null;
+                        }
+                    }
+                }
+                else {
+                    try {
+                        if (cls.isArray()) {
+                            state._object = new ArrayHandler(cls.getComponentType());
+                            cls = ArrayHandler.class;
+                        }
+                        else {
+                            Arguments args = processConstructorArgs(atts, classDesc);
+                            state._object = createInstance(cls, args);
+                            //state.object = _class.newInstance();
+                        }
+                    }
+                    catch(java.lang.Exception ex) {
+                        String err = "unable to instantiate a new type of: ";
+                        err += className(cls);
+                        err += "; " + ex.getMessage();
+                        //storing causal exception using SAX non-standard method...
+                        SAXException sx = new SAXException(err, ex);
+                        //...and also using Java 1.4 method
+                        //sx.initCause(ex);
+                        throw sx;
+                    }
+                }
+            }
+            state._type = cls;
+        }
+        catch (java.lang.IllegalStateException ise) {
+            LOG.error(ise.toString());
+            throw new SAXException(ise);
+        }
+
+        //-- At this point we should have a new object, unless
+        //-- we are dealing with a primitive type, or a special
+        //-- case such as byte[]
+        if (classDesc == null) {
+            classDesc = getClassDescriptor(cls);
+        }
+        state._classDesc = classDesc;
+
+        if ((state._object == null) && (!state._primitiveOrImmutable))
+        {
+            String err = "unable to unmarshal: " + name + "\n";
+            err += " - unable to instantiate: " + className(cls);
+            throw new SAXException(err);
+        }
+
+        //-- assign object, if incremental
+
+        if (descriptor.isIncremental()) {
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("debug: Processing incrementally for element: " + name);
+            }
+            try {
+                handler.setValue(parentState._object, state._object);
+            }
+            catch(java.lang.IllegalStateException ise) {
+                String err = "unable to add \"" + name + "\" to ";
+                err += parentState._fieldDesc.getXMLName();
+                err += " due to the following error: " + ise;
+                throw new SAXException(err, ise);
+            }
+        }
+
+        if (state._object != null) {
+            //--The object has just been initialized
+            //--notify the listener
+            if ( _unmarshalListener != null )
+                _unmarshalListener.initialized(state._object, (state._parent==null)?null:state._parent._object);
+            processAttributes(atts, classDesc);
+            if ( _unmarshalListener != null )
+                _unmarshalListener.attributesProcessed(state._object, (state._parent==null)?null:state._parent._object);
+            processNamespaces(classDesc);
+        }
+        else if ((state._type != null) && (!state._primitiveOrImmutable)) {
+            if (atts != null) {
+                processWrapperAttributes(atts);
+                StringBuffer buffer = new StringBuffer();
+                buffer.append("The current object for element '");
+                buffer.append(name);
+                buffer.append("\' is null. Processing attributes as location");
+                buffer.append("/wrapper only and ignoring all other attribtes.");
+                LOG.warn(buffer.toString());
+            }
+        }
+        else {
+        	//-- check for special attributes, such as xsi:nil
+            if (atts != null) {
+            	String nil = atts.getValue(NIL_ATTR, XSI_NAMESPACE);
+                state._nil = "true".equals(nil);
+                processWrapperAttributes(atts);
+            }
+        }
+
+    } //-- void startElement(String, AttributeList)
+
 
 
     /**
      * Indicates whether validation is enabled or not.
      * @return True if validation is enabled.
      */
-    boolean isValidating() {
+    private boolean isValidating() {
         return _validate;
     }
 
@@ -1098,13 +2466,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- Forward the call to SAX2ANY 
         //-- or create a namespace node
-        if (_anyNodeHandler.hasAnyUnmarshaller()) {
-        	_anyNodeHandler.startPrefixMapping(prefix, uri);
+        if (_anyUnmarshaller != null) {
+            _anyUnmarshaller.startPrefixMapping(prefix, uri);
         }
-        else if(_namespaceHandling.isNewNamespaceScopeNecessary()) {
-        	_namespaceHandling.stopNamespaceScope();
+        else if (_createNamespaceScope) {
+            _namespaces = _namespaces.createNamespaces();
+            _createNamespaceScope = false;
         }
-        _namespaceHandling.addNamespace(prefix, uri);
+        
+        _namespaces.addNamespace(prefix, uri);
         
         /*
         //-- add namespace declarations to set of current attributes        
@@ -1127,18 +2497,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void error(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-		String error = MessageFormat
-				.format(resourceBundle
-						.getString("unmarshalHandler.error.sax.exception"),
-						new Object[] { exception.getMessage(),
-								exception.getLineNumber(), exception.getColumnNumber()});
-        throw new SAXException (error, exception);
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        throw new SAXException (err, exception);
     } //-- error
 
     public void fatalError(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-    	this.error(exception);
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        throw new SAXException (err, exception);
 
     } //-- fatalError
 
@@ -1146,7 +2517,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void warning(SAXParseException exception)
         throws org.xml.sax.SAXException
     {
-    	this.error(exception);
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        throw new SAXException (err, exception);
 
     } //-- warning
 
@@ -1181,11 +2555,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param parent the target/parent object for the field
      * @param descriptor the XMLFieldDescriptor for the field
      */
-    void addReference(final String idRef, final Object parent, 
+    private void addReference(final String idRef, final Object parent, 
             final XMLFieldDescriptor descriptor) {
         
         ReferenceInfo refInfo = new ReferenceInfo(idRef, parent, descriptor);
-        refInfo.setNext(_resolveTable.get(idRef));
+        refInfo.setNext((ReferenceInfo) _resolveTable.get(idRef));
         _resolveTable.put(idRef, refInfo);
     }
     
@@ -1195,22 +2569,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param type The class type to be used during instantiation
      * @param args (Optional) arguments to be used during instantiation
      */
-     Object createInstance(final Class<?> type, final Arguments args)
+     private Object createInstance(final Class type, final Arguments args)
             throws SAXException {
         Object instance = null;
         try {
             if (args == null) {
                 instance = _objectFactory.createInstance(type);
             } else {
-                instance = _objectFactory.createInstance(type, args.getTypes(),
-                        args.getValues());
+                instance = _objectFactory.createInstance(type, args._types,
+                        args._values);
             }
         } catch (Exception ex) {
-        	String error = MessageFormat
-			.format(resourceBundle
-					.getString("unmarshalHandler.error.unable.instantiate"),
-					new Object[] { type.getName() });
-            throw new SAXException(error, ex);
+            String msg = "Unable to instantiate " + type.getName() + "; ";
+            throw new SAXException(msg, ex);
         }
         return instance;
     } // -- createInstance
@@ -1226,7 +2597,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * the instance type attribute, or null if no instance type
      * attribute exists in the given AttributeList.
      */
-    String getInstanceType(AttributeSet atts, String currentPackage) 
+    private String getInstanceType(AttributeSet atts, String currentPackage) 
         throws SAXException
     {
 
@@ -1248,7 +2619,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 // there is a namespace prefix
                 String prefix = type.substring(0, idx);
                 type = type.substring(idx + 1);
-                typeNamespaceURI = _namespaceHandling.getNamespaceURI(prefix);
+                typeNamespaceURI = _namespaces.getNamespaceURI(prefix);
             }
 
             //-- Retrieve the type corresponding to the schema name and
@@ -1277,7 +2648,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     return classDesc.getJavaClass().getName();
 
                 //-- try to use "current Package"
-                if (StringUtils.isNotEmpty(currentPackage)) {
+                if ((currentPackage != null) && currentPackage.length() > 0) {
                 	adjClassName = currentPackage + '.' + className;
                 }
                 
@@ -1308,7 +2679,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the package name or null.
      */
     private String getMappedPackage(final String namespace) {
-        return _namespaceHandling.getMappedPackage(namespace);
+        String lookUpKey = (namespace != null) ? namespace : "";
+        return (String) _namespaceToPackage.get(lookUpKey);
     }
 
     /**
@@ -1318,7 +2690,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param atts the AttributeSet to process
      * @param classDesc the classDesc to use during processing
     **/
-    void processAttributes(final AttributeSet atts, XMLClassDescriptor classDesc)
+    private void processAttributes(final AttributeSet atts, XMLClassDescriptor classDesc)
         throws SAXException {
 
         //-- handle empty attributes
@@ -1335,28 +2707,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- fields, we add an extra validation check here
                     //-- in case the class doesn't have a "has-method".
                     if (descriptor.isRequired() && (isValidating() || LOG.isDebugEnabled())) {
-                    	String errorMsg;
-						if (_locator != null) {
-							errorMsg = MessageFormat
-									.format(
-											resourceBundle
-													.getString("unmarshalHandler.error.attribute.missing.location"),
-											classDesc.getXMLName(), descriptor
-													.getXMLName(), _locator
-													.getLineNumber(), _locator
-													.getColumnNumber());
-						} else {
-							errorMsg = MessageFormat
-									.format(
-											resourceBundle
-													.getString("unmarshalHandler.error.attribute.missing"),
-											classDesc.getXMLName(), descriptor
-													.getXMLName());
-						}
-                        if (isValidating()) {
-                            throw new SAXException(errorMsg);
+                        String err = classDesc.getXMLName() + " is missing " 
+                            + "required attribute: " + descriptor.getXMLName();
+                        if (_locator != null) {
+                            err += "\n  - line: " + _locator.getLineNumber() 
+                                + " column: " + _locator.getColumnNumber();
                         }
-                        LOG.debug(errorMsg);
+                        if (isValidating()) {
+                            throw new SAXException(err);
+                        }
+                        LOG.debug(err);
                     }
                 }
             }
@@ -1364,11 +2724,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
 
 
-        UnmarshalState state = _stateStack.getLastState();
-        Object object = state.getObject();
+        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+        Object object = state._object;
 
         if (classDesc == null) {
-            classDesc = state.getClassDescriptor();
+            classDesc = state._classDesc;
             if (classDesc == null) {
                 //-- no class desc, cannot process atts
                 //-- except for wrapper/location atts
@@ -1389,15 +2749,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String name      = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
             String path = descriptor.getLocationPath();
-            StringBuffer fullAttributePath = new StringBuffer();
+            String fullAttributePath = "";
             
-            if (StringUtils.isNotEmpty(path)) {
-                fullAttributePath.append(path + "/"); 
+            if (path != null && path.length() > 0) {
+                fullAttributePath += path + "/"; 
             }
             
-            fullAttributePath.append(name);
+            fullAttributePath += name;
             
-            if (!name.equals(fullAttributePath.toString())) {
+            if (fullAttributePath != null && !name.equals(fullAttributePath)) {
                 int index = atts.getIndex(name, namespace);
                 if (index >= 0) {
                     processedAtts[index] = true;
@@ -1416,11 +2776,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             try {
                 processAttribute(name, namespace, attValue, descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
-            	String error = MessageFormat
-    			.format(resourceBundle
-    					.getString("unmarshalHandler.error.unable.add.attribute"),
-    					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
-                throw new SAXException(error, ise);
+                String err = "unable to add attribute \"" + name + "\" to '";
+                err += state._classDesc.getJavaClass().getName();
+                err += "' due to the following error: " + ise;
+                throw new SAXException(err, ise);
             }
         }
 
@@ -1445,7 +2804,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (XSI_NAMESPACE.equals(namespace)) {
                 if (NIL_ATTR.equals(name)) {
                     String value = atts.getValue(i);
-                    state.setNil(("true".equals(value)));
+                    state._nil = ("true".equals(value));
                 }
                 continue;
             }
@@ -1457,11 +2816,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- It should be safe to ignore these...but
                 //-- if you think otherwise...let use know!
                 if (LOG.isDebugEnabled()) {
-                	String debugMsg = MessageFormat
-        			.format(resourceBundle
-        					.getString("unmarshalHandler.log.debug.ignore.extra.attribute"),
-        					new Object[] { name, state.getClassDescriptor().getJavaClass().getName() });
-                    LOG.debug(debugMsg);
+                    String msg = "ignoring attribute '" + name + "' for class: "
+                               + state._classDesc.getJavaClass().getName();
+                    LOG.debug(msg);
                 }
                 continue;
             }
@@ -1475,51 +2832,61 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor == null) {
                 //-- check for nested attribute...loop through
                 //-- stack and find correct descriptor
-                String path = state.getElementName();
+                int pIdx = _stateInfo.size() - 2; //-- index of parentState
+                String path = state._elementName;
                 StringBuffer pathBuf = null;
-                Integer parentStateIndex = _stateStack.getFirstParentStateIndex(); 
-                while (parentStateIndex >= 0) {
-                   UnmarshalState targetState = _stateStack.peekAtState(parentStateIndex--);
-                   if (targetState.isWrapper()) {
-                      //path = targetState.elementName + "/" + path;
-                      pathBuf = resetStringBuffer(pathBuf);
-                      pathBuf.append(targetState.getElementName());
-                      pathBuf.append('/');
-                      pathBuf.append(path);
-                      path = pathBuf.toString();
-                      continue;
-                   }
-                   classDesc = targetState.getClassDescriptor();
-                   descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
-
-                   if (descriptor != null) {
-                      String tmpPath = descriptor.getLocationPath();
-                      if (path.equals(StringUtils.defaultString(tmpPath))) {
-                         _stateStack.resetParentState();
-                         break; //-- found
-                      }
-                   }
-
-                   pathBuf = resetStringBuffer(pathBuf);
-                   pathBuf.append(targetState.getElementName());
-                   pathBuf.append('/');
-                   pathBuf.append(path);
-                   path = pathBuf.toString();
-                   //path = targetState.elementName + "/" + path;
-                   //-- reset descriptor to make sure we don't
-                   //-- exit the loop with a reference to a 
-                   //-- potentially incorrect one.
-                   descriptor = null;
+                while (pIdx >= 0) {
+                    UnmarshalState targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
+                    --pIdx;
+                    if (targetState._wrapper) {
+                        //path = targetState.elementName + "/" + path;
+                        if (pathBuf == null) {
+                            pathBuf = new StringBuffer();
+                        } else {
+                            pathBuf.setLength(0);
+                        }
+                        pathBuf.append(targetState._elementName);
+                        pathBuf.append('/');
+                        pathBuf.append(path);
+                        path = pathBuf.toString();
+                        continue;
+                    }
+                    classDesc = targetState._classDesc;
+                    descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Attribute);
+                
+                    if (descriptor != null) {
+                        String tmpPath = descriptor.getLocationPath();
+                        if (tmpPath == null) {
+                            tmpPath = "";
+                        }
+                        if (path.equals(tmpPath)) {
+                            break; //-- found
+                        }
+                    }
+                        
+                    if (pathBuf == null) {
+                        pathBuf = new StringBuffer();
+                    } else {
+                        pathBuf.setLength(0);
+                    }
+                    pathBuf.append(targetState._elementName);
+                    pathBuf.append('/');
+                    pathBuf.append(path);
+                    path = pathBuf.toString();
+                    //path = targetState.elementName + "/" + path;
+                    //-- reset descriptor to make sure we don't
+                    //-- exit the loop with a reference to a 
+                    //-- potentially incorrect one.
+                    descriptor = null;
                 }
             }
             if (descriptor == null) {
                 if (_strictAttributes) {
                     //-- handle error
-                	String errorMsg = MessageFormat
-        			.format(resourceBundle
-        					.getString("unmarshalHandler.error.strict.attribute.error"),
-        					new Object[] { name, state.getElementName() });
-                    throw new SAXException(errorMsg);
+                    String error = "The attribute '" + name 
+                        + "' appears illegally on element '" 
+                        + state._elementName + "'.";
+                    throw new SAXException(error);
                 }
                 continue;
             }
@@ -1527,31 +2894,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             try {
                 processAttribute(name, namespace, atts.getValue(i), descriptor, classDesc, object);
             } catch (IllegalStateException ise) {
-            	String errorMsg = MessageFormat
-    			.format(resourceBundle
-    					.getString("unmarshalHandler.error.unable.add.attribute"),
-    					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
-                throw new SAXException(errorMsg, ise);
+                String err = "unable to add attribute \"" + name + "\" to '";
+                err += state._classDesc.getJavaClass().getName();
+                err += "' due to the following error: " + ise;
+                throw new SAXException(err, ise);
             }
         }
 
     }
-
-	/**
-	 * Returns either the passed in StringBuffer and sets its length to 0, or if
-	 * the StringBuffer is null, an empty StringBuffer
-	 * 
-	 * @param buffer
-	 *            a StringBuffer, can be null
-	 * @return returns an empty StringBuffer
-	 */
-	private StringBuffer resetStringBuffer(StringBuffer buffer) {
-		if (buffer == null)
-		    return new StringBuffer();
-		
-		buffer.setLength(0);
-		return buffer;
-	}
 
     /**
      * Processes the given AttributeSet for wrapper elements.
@@ -1559,10 +2909,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param atts the AttributeSet to process
      * @throws SAXException If the AttributeSet cannot be processed
      */
-    void processWrapperAttributes(final AttributeSet atts)
+    private void processWrapperAttributes(final AttributeSet atts)
         throws SAXException {
         
-        UnmarshalState state = _stateStack.getLastState();
+        UnmarshalState state = (UnmarshalState) _stateInfo.peek();
         
         //-- loop through attributes and look for the
         //-- ancestor objects that they may belong to
@@ -1579,20 +2929,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             XMLClassDescriptor classDesc = null;
             //-- check for nested attribute...loop through
             //-- stack and find correct descriptor
-            String path = state.getElementName();
+            int pIdx = _stateInfo.size() - 2; //-- index of parentState
+            String path = state._elementName;
             StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
-            while (_stateStack.hasAnotherParentState()) {
-                targetState = _stateStack.removeParentState();
-                if (targetState.isWrapper()) {
-                    pathBuf = resetStringBuffer(pathBuf);
-                    pathBuf.append(targetState.getElementName());
+            while (pIdx >= 0) {
+                targetState = (UnmarshalState) _stateInfo.elementAt(pIdx);
+                --pIdx;
+                if (targetState._wrapper) {
+                    //path = targetState.elementName + "/" + path;
+                    if (pathBuf == null) {
+                        pathBuf = new StringBuffer();
+                    } else {
+                        pathBuf.setLength(0);
+                    }
+                    pathBuf.append(targetState._elementName);
                     pathBuf.append('/');
                     pathBuf.append(path);
                     path = pathBuf.toString();
                     continue;
                 }
-                classDesc = targetState.getClassDescriptor();
+                classDesc = targetState._classDesc;
                 
                 XMLFieldDescriptor[] descriptors = classDesc.getAttributeDescriptors();
                 boolean found = false;
@@ -1603,19 +2960,26 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     if (descriptor.matches(name)) {
                         String tmpPath = descriptor.getLocationPath();
-                        if (path.equals(StringUtils.defaultString(tmpPath))) {
+                        if (tmpPath == null) {
+                            tmpPath = "";
+                        }
+                        if (path.equals(tmpPath)) {
                             found = true;
                             break;
                         }
                     }
                 }
                 if (found) {
-                    _stateStack.resetParentState();
                     break;
                 }
                         
-                pathBuf = resetStringBuffer(pathBuf);
-                pathBuf.append(targetState.getElementName());
+                //path = targetState.elementName + "/" + path;
+                if (pathBuf == null) {
+                    pathBuf = new StringBuffer();
+                } else {
+                    pathBuf.setLength(0);
+                }
+                pathBuf.append(targetState._elementName);
                 pathBuf.append('/');
                 pathBuf.append(path);
                 path = pathBuf.toString();
@@ -1628,13 +2992,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (descriptor != null) {
                 try {
                     processAttribute(name, namespace, atts.getValue(i),
-                            descriptor, classDesc, targetState.getObject());
+                            descriptor, classDesc, targetState._object);
                 } catch (IllegalStateException ise) {
-                	String errorMsg = MessageFormat
-        			.format(resourceBundle
-        					.getString("unmarshalHandler.error.unable.add.attribute"),
-        					new Object[] { name, state.getClassDescriptor().getJavaClass().getName(), ise });
-                    throw new SAXException(errorMsg, ise);
+                    String err = "unable to add attribute \"" + name + "\" to '";
+                    err += state._classDesc.getJavaClass().getName();
+                    err += "' due to the following error: " + ise;
+                    throw new SAXException(err, ise);
                 }
             }
         }
@@ -1672,24 +3035,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              //-- fields, we add an extra validation check here
              //-- in case the class doesn't have a "has-method".
              if (descriptor.isRequired() && isValidating()) {
-				String errorMsg;
-				if (_locator != null) {
-					errorMsg = MessageFormat
-							.format(
-									resourceBundle
-											.getString("unmarshalHandler.error.attribute.missing.location"),
-									new Object[] { classDesc.getXMLName(),
-											attName, _locator.getLineNumber(),
-											_locator.getColumnNumber() });
-				} else {
-					errorMsg = MessageFormat
-							.format(
-									resourceBundle
-											.getString("unmarshalHandler.error.attribute.missing"),
-									new Object[] { classDesc.getXMLName(),
-											attName });
-				}
-                throw new SAXException(errorMsg);
+                String err = classDesc.getXMLName() + " is missing " 
+                    + "required attribute: " + attName;
+                if (_locator != null) {
+                    err += "\n  - line: " + _locator.getLineNumber() 
+                        + " column: " + _locator.getColumnNumber();
+                }
+                throw new SAXException(err);
             }
             return;
         }
@@ -1701,16 +3053,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 ((IDResolverImpl) _idResolver).bind(attValue, parent, 
                         isValidating() && !getInternalContext().getLenientIdValidation());
             } catch (ValidationException e) {
-            	String errorMsg = MessageFormat
-    			.format(resourceBundle
-    					.getString("unmarshalHandler.error.duplicated.id"),
-    					new Object[] { attValue });
-                throw new SAXException(errorMsg, e);
+                throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
 
             //-- save key in current state
-            UnmarshalState state = _stateStack.getLastState();
-            state.setKey(attValue);
+            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+            state._key = attValue;
 
             //-- resolve waiting references
             resolveReferences(attValue, parent);
@@ -1742,10 +3090,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
         //-- attribute field type
-        Class<?> type = descriptor.getFieldType();
+        Class type = descriptor.getFieldType();
         String valueType = descriptor.getSchemaType();
         boolean isPrimative = isPrimitive(type);
-        boolean isQName = StringUtils.equals(valueType, QNAME_NAME);
+        boolean isQName = (valueType != null && valueType.equals(QNAME_NAME));
         
         boolean isByteArray = false;
         if (type.isArray()) {
@@ -1784,7 +3132,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             final XMLFieldDescriptor descriptor, 
             final Object parent, 
             final FieldHandler handler,
-            final Class<?> type, 
+            final Class type, 
             final boolean isPrimitive, 
             final boolean isQName,
             final boolean isByteArray) throws SAXException {
@@ -1811,7 +3159,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         
         //-- QName resolution (ns:value -> {URI}value), if required
         if (isQName) {
-            value = _namespaceHandling.resolveNamespace(value);
+            value = resolveNamespace(value);
         }
         //-- set value
         handler.setValue(parent, value);
@@ -1826,7 +3174,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the array of constructor argument values.
      * @throws SAXException If there's a problem creating the constructor argument set. 
      */
-    Arguments processConstructorArgs
+    private Arguments processConstructorArgs
         (final AttributeSet atts, final XMLClassDescriptor classDesc)
         throws SAXException {
         
@@ -1858,8 +3206,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return args;
         }
         
-        args.setValues(new Object[count]);
-        args.setTypes(new Class[count]);
+        args._values = new Object[count];
+        args._types  = new Class[count];
         
         for (XMLFieldDescriptor descriptor : descriptors) {
             
@@ -1872,14 +3220,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             int argIndex = descriptor.getConstructorArgumentIndex();
             if (argIndex >= count) {
-            	String errorMsg = MessageFormat
-    			.format(resourceBundle
-    					.getString("unmarshalHandler.error.index.out.of.bound"),
-    					new Object[] { argIndex });
-                throw new SAXException(errorMsg);
+                String err = "argument index out of bounds: " + argIndex;
+                throw new SAXException(err);
             }
 
-            args.setType(argIndex, descriptor.getFieldType());
+            args._types[argIndex] = descriptor.getFieldType();
             String name = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
 
@@ -1889,8 +3234,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 Object value = atts.getValue(index);
                 //-- check for proper type and do type
                 //-- conversion
-                if (isPrimitive(args.getType(argIndex))) {
-                    value = toPrimitiveObject(args.getType(argIndex), (String) value, descriptor);
+                if (isPrimitive(args._types[argIndex])) {
+                    value = toPrimitiveObject(args._types[argIndex], (String) value, descriptor);
                 } else {
                     // check whether we are looking at an enum-style object, and if so,
                     // convert the (string) value
@@ -1900,15 +3245,16 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //check if the value is a QName that needs to
                 //be resolved (ns:value -> {URI}value)
                 String valueType = descriptor.getSchemaType();
-                if (StringUtils.equals(valueType, QNAME_NAME)) {
-                        value = _namespaceHandling.resolveNamespace(value);
+                if ((valueType != null) && (valueType.equals(QNAME_NAME))) {
+                        value = resolveNamespace(value);
                 }
-                args.setValue(argIndex, value);
+                args._values[argIndex] = value;
             } else {
-                if (isPrimitive(args.getType(argIndex))) {
-                    args.setValue(argIndex, toPrimitiveObject(args.getType(argIndex), null, descriptor));
+                if (isPrimitive(args._types[argIndex])) {
+                    args._values[argIndex] = 
+                        toPrimitiveObject(args._types[argIndex], null, descriptor);
                 } else {
-                    args.setValue(argIndex, null);
+                    args._values[argIndex] = null;
                 }
             }
         }
@@ -1924,13 +3270,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return The value, potentially converted to an enum-style class.
      */
     private Object convertToEnumObject(final XMLFieldDescriptor descriptor, Object value) {
-        Class<?> fieldType = descriptor.getFieldType();
+        Class fieldType = descriptor.getFieldType();
         Method valueOfMethod;
         try {
             valueOfMethod = fieldType.getMethod("valueOf", new Class[] {String.class});
             if (valueOfMethod != null 
                     && Modifier.isStatic(valueOfMethod.getModifiers())) {
-                Class<?> returnType = valueOfMethod.getReturnType();
+                Class returnType = valueOfMethod.getReturnType();
                 if (returnType.isAssignableFrom(fieldType)) {
                     Object enumObject = valueOfMethod.invoke(null, new Object[] {value});
                     value = enumObject;
@@ -1958,7 +3304,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param parent the current parent object
      * @return true if the ID was found and resolved properly
      */
-    boolean processIDREF (final String idRef, final XMLFieldDescriptor descriptor, 
+    private boolean processIDREF (final String idRef, final XMLFieldDescriptor descriptor, 
             final Object parent) {
         Object value = _idResolver.resolve(idRef);
         if (value == null) {
@@ -1974,6 +3320,141 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
+     * Processes the attributes and namespace declarations found
+     * in the given SAX AttributeList. The global AttributeSet
+     * is cleared and updated with the attributes. Namespace
+     * declarations are added to the set of namespaces in scope.
+     *
+     * @param atts the AttributeList to process.
+    **/
+    private AttributeSet processAttributeList(AttributeList atts)
+        throws SAXException
+    {
+
+        if (atts == null) return new AttributeSetImpl(0);
+
+
+        //-- process all namespaces first
+        int attCount = 0;
+        boolean[] validAtts = new boolean[atts.getLength()];
+        for (int i = 0; i < validAtts.length; i++) {
+            String attName = atts.getName(i);
+            if (attName.equals(XMLNS)) {
+                _namespaces.addNamespace("", atts.getValue(i));
+            }
+            else if (attName.startsWith(XMLNS_PREFIX)) {
+                String prefix = attName.substring(XMLNS_PREFIX_LENGTH);
+                _namespaces.addNamespace(prefix, atts.getValue(i));
+            }
+            else {
+                validAtts[i] = true;
+                ++attCount;
+            }
+        }
+        //-- process validAtts...if any exist
+        AttributeSetImpl attSet = null;
+        if (attCount > 0) {
+            attSet = new AttributeSetImpl(attCount);
+            for (int i = 0; i < validAtts.length; i++) {
+                if (!validAtts[i]) continue;
+                String namespace = null;
+                String attName = atts.getName(i);
+                int idx = attName.indexOf(':');
+                if (idx > 0) {
+                    String prefix = attName.substring(0, idx);
+                    if (!prefix.equals(XML_PREFIX)) {
+                        attName = attName.substring(idx+1);
+                        namespace = _namespaces.getNamespaceURI(prefix);
+                        if (namespace == null) {
+                            String error = "The namespace associated with "+
+                                "the prefix '" + prefix +
+                                "' could not be resolved.";
+                            throw new SAXException(error);
+
+                        }
+                    }
+                }
+                attSet.setAttribute(attName, atts.getValue(i), namespace);
+            }
+        }
+        else attSet = new AttributeSetImpl(0);
+
+        return attSet;
+
+    } //-- method: processAttributeList
+
+    /**
+     * Saves local namespace declarations to the object
+     * model if necessary.
+     *
+     * @param classDesc the current ClassDescriptor.
+    **/
+    private void processNamespaces(XMLClassDescriptor classDesc) {
+
+
+        if (classDesc == null) return;
+
+        //-- process namespace nodes
+        XMLFieldDescriptor nsDescriptor =
+            classDesc.getFieldDescriptor(null, null, NodeType.Namespace);
+
+        if (nsDescriptor != null) {
+            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
+            FieldHandler handler = nsDescriptor.getHandler();
+            if (handler != null) {
+                Enumeration enumeration = _namespaces.getLocalNamespacePrefixes();
+                while (enumeration.hasMoreElements()) {
+                    String nsPrefix = (String)enumeration.nextElement();
+                    if (nsPrefix == null) nsPrefix = "";
+                    String nsURI = _namespaces.getNamespaceURI(nsPrefix);
+                    if (nsURI == null) nsURI = "";
+                    MapItem mapItem = new MapItem(nsPrefix, nsURI);
+                    handler.setValue(state._object, mapItem);
+                }
+            }
+        }
+    } //-- processNamespaces
+
+    /**
+     * Extracts the prefix and resolves it to it's associated namespace.
+     * If the prefix is 'xml', then no resolution will occur, however
+     * in all other cases the resolution will change the prefix:value
+     * as {NamespaceURI}value
+     *
+     * @param value the QName to resolve.
+     */
+    private Object resolveNamespace(Object value)
+        throws SAXException
+    {
+
+        if ( (value == null) || !(value instanceof String))
+            return value;
+
+        String result = (String)value;
+        int idx = result.indexOf(':');
+        String prefix = null;
+        if (idx > 0) {
+            prefix = result.substring(0,idx);
+            if (XML_PREFIX.equals(prefix)) {
+                //-- Do NOT Resolve the 'xml' prefix.
+                return value;
+            }
+            result = result.substring(idx+1);
+        }
+        String namespace = _namespaces.getNamespaceURI(prefix);
+        if  ((namespace != null) && (namespace.length() > 0)) {
+            result = '{'+namespace+'}'+result;
+            return result;
+        }
+        else if ((namespace == null) && (prefix!=null))
+             throw new SAXException("The namespace associated with the prefix: '" + 
+                prefix + "' is null.");
+        else
+            return result;
+
+    }
+
+    /**
      * Finds and returns an XMLClassDescriptor for the given class name.
      * If a ClassDescriptor could not be found one will attempt to
      * be generated.
@@ -1982,7 +3463,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private XMLClassDescriptor getClassDescriptor (String className)
         throws SAXException
     {
-        Class<?> type = null;
+        Class type = null;
         try {
             //-- use specified ClassLoader if necessary
 		    if (_loader != null) {
@@ -2004,7 +3485,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * be generated.
      * @param cls the Class to get the ClassDescriptor for
     **/
-    XMLClassDescriptor getClassDescriptor(final Class<?> cls)
+    private XMLClassDescriptor getClassDescriptor(final Class cls)
     throws SAXException {
         if (cls == null) { return null; }
 
@@ -2047,7 +3528,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * be generated.
      * @param className the name of the class to get the Descriptor for
     **/
-    XMLClassDescriptor getClassDescriptor
+    private XMLClassDescriptor getClassDescriptor
         (String className, ClassLoader loader)
         throws SAXException
     {
@@ -2080,7 +3561,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * Returns the XMLClassLoader
      */
-    XMLClassDescriptor resolveByXMLName
+    private XMLClassDescriptor resolveByXMLName
         (String name, String namespace, ClassLoader loader) 
         throws SAXException
     {
@@ -2100,11 +3581,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param type the Class to return the package of
      * @return the package for the given Class
     **/
-	String getJavaPackage(Class<?> type)
+	private String getJavaPackage(Class type)
 	{
 		if (type == null)
 			return null;
-		String pkg = _javaPackages.get(type);
+		String pkg = (String)_javaPackages.get(type);
 		if(pkg == null)
 		{
 			pkg = type.getName();
@@ -2122,7 +3603,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * Returns the name of a class, handles array types
      * @return the name of a class, handles array types
     **/
-    String className(Class<?> type) {
+    private String className(Class type) {
         if (type.isArray()) {
             return className(type.getComponentType()) + "[]";
         }
@@ -2138,7 +3619,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return true if the only whitespace characters were
      * found in the given StringBuffer
     **/
-    static boolean isWhitespace(StringBuffer sb) {
+    private static boolean isWhitespace(StringBuffer sb) {
         for (int i = 0; i < sb.length(); i++) {
             char ch = sb.charAt(i);
             switch (ch) {
@@ -2160,7 +3641,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param className the name of the class to load
      * @param loader the ClassLoader to use, this may be null.
     **/
-    Class<?> loadClass(String className, ClassLoader loader)
+    private Class loadClass(String className, ClassLoader loader)
         throws ClassNotFoundException
     {
         //-- use passed in loader
@@ -2188,7 +3669,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return;
         }
 
-        ReferenceInfo refInfo = _resolveTable.remove(id);
+        ReferenceInfo refInfo = (ReferenceInfo) _resolveTable.remove(id);
         while (refInfo != null) {
             try {
                 FieldHandler handler = refInfo.getDescriptor().getHandler();
@@ -2201,11 +3682,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     resolveReferences(refInfo.getTarget().toString(), refInfo.getTarget());
                 }
             } catch (java.lang.IllegalStateException ise) {
-            	String errorMsg = MessageFormat
-    			.format(resourceBundle
-    					.getString("unmarshalHandler.error.resolving.idRef"),
-    					new Object[] { id, ise.toString() });
-                throw new SAXException(errorMsg, ise);
+                String err = "Attempting to resolve an IDREF: " +
+                        id + "resulted in the following error: " +
+                        ise.toString();
+                throw new SAXException(err, ise);
             }
             refInfo = refInfo.getNext();
         }
@@ -2221,28 +3701,24 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return the new primitive Object
      * @exception SAXException If the String cannot be converted to a primitive object type
      */
-    Object toPrimitiveObject
-        (final Class<?> type, final String value, final XMLFieldDescriptor fieldDesc) 
+    private Object toPrimitiveObject
+        (final Class type, final String value, final XMLFieldDescriptor fieldDesc) 
         throws SAXException {
         try {
             return toPrimitiveObject(type, value);
         } catch (Exception ex) {
-            UnmarshalState state = _stateStack.getLastState();
+            String err = "The following error occured while trying to ";
+            err += "unmarshal field " + fieldDesc.getFieldName();
+            UnmarshalState state = (UnmarshalState) _stateInfo.peek();
             if (state != null) {
-                if (state.getObject() != null) {
-					String errorMsg = MessageFormat
-							.format(
-									resourceBundle
-											.getString("unmarshalHandler.error.unmarshal.field.of.class"),
-									new Object[] { fieldDesc.getFieldName(),
-											state.getObject().getClass().getName() });
-					throw new SAXException(errorMsg, ex);
+                if (state._object != null) {
+                    err += " of class " + state._object.getClass().getName();
                 }
             }
-			String errorMsg = MessageFormat.format(resourceBundle
-					.getString("unmarshalHandler.error.unmarshal.field"),
-					new Object[] { fieldDesc.getFieldName() });
-			throw new SAXException(errorMsg, ex);
+            err += ".";
+            SAXException saxException = new SAXException(err);
+            saxException.initCause(ex);
+            throw saxException;
         }
     }
 
@@ -2255,9 +3731,175 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @param value the {@link String} to convert to a primitive
      * @return the new primitive {@link Object}
      */
-    public static Object toPrimitiveObject(final Class<?> type, String value) {
-		return PrimitiveObjectFactory.getInstance().getObject(type, value);
+    public static Object toPrimitiveObject(final Class type, String value) {
+
+        Object primitive = value;
+
+        if (value != null) {
+            //-- trim any numeric values
+            if ((type != Character.TYPE) && (type != Character.class)) {
+                value = value.trim();
+            }
+        }
+        
+        boolean isNull = ((value == null) || (value.length() == 0));
+        
+        //-- I tried to order these in the order in which
+        //-- (I think) types are used more frequently
+        
+        // int
+        if ((type == Integer.TYPE) || (type == Integer.class)) {
+            if (isNull) {
+                primitive = new Integer(0);
+            } else {
+                primitive = new Integer(value);
+            }
+        } else if ((type == Boolean.TYPE) || (type == Boolean.class)) {
+            // boolean
+            if (isNull) {
+                primitive = Boolean.FALSE;
+            } else {
+                if (value.equals("1") || value.toLowerCase().equals("true")) {
+                    primitive = Boolean.TRUE;
+                } else if (value.equals("0") || value.toLowerCase().equals("false")) {
+                    primitive = Boolean.FALSE;
+                } else {
+                    throw new IllegalArgumentException(" A value of >" + value + "< cannot be converted to a boolean value.");
+                }
+            }
+        } else if ((type == Double.TYPE) || (type == Double.class)) {
+            // double
+            if (isNull) {
+                primitive = new Double(0.0);
+            } else {
+                primitive = new Double(value);
+            }
+        } else if ((type == Long.TYPE) || (type == Long.class)) {
+            // long
+            if (isNull) {
+                primitive = new Long(0);
+            } else {
+                primitive = new Long(value);
+            }
+        } else if ((type == Character.TYPE) || (type == Character.class)) {
+            // char
+            if (!isNull) {
+                primitive = new Character(value.charAt(0));
+            } else {
+                primitive = new Character('\0');
+            }
+        } else if ((type == Short.TYPE) || (type == Short.class)) {
+            // short
+            if (isNull) {
+                primitive = new Short((short) 0);
+            } else {
+                primitive = new Short(value);
+            }
+        } else if ((type == Float.TYPE) || (type == Float.class)) {
+            // float
+            if (isNull) {
+                primitive = new Float(0);
+            } else {
+                primitive = new Float(value);
+            }
+        } else if ((type == Byte.TYPE) || (type == Byte.class)) {
+            // byte
+            if (isNull) {
+                primitive = new Byte((byte)0);
+            } else {
+                primitive = new Byte(value);
+            }
+        } else if (type == java.math.BigDecimal.class) {
+            //BigDecimal
+            if (isNull) {
+                primitive = new java.math.BigDecimal(0);
+            } else {
+                primitive = new java.math.BigDecimal(value);
+            }
+        } else if (type == java.math.BigInteger.class) {
+            //BigInteger
+            if (isNull) {
+                primitive = java.math.BigInteger.valueOf(0);
+            } else {
+                primitive = new java.math.BigInteger(value);
+            }
+        } else if (type.getSuperclass().getName().equals("java.lang.Enum")) {
+            // Java 5.0 enums
+            if (isNull) {
+                primitive = null;
+            } else {
+                // try discover the fromValue Method
+                try {
+                    Method valueOfMethod = type.getMethod("fromValue",
+                            new Class[] {String.class});
+                    primitive = valueOfMethod.invoke(null, new Object[] {value});
+                    return primitive;
+                } catch (NoSuchMethodException e) {
+                    // do nothing, check valueOf method
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalStateException(e.toString());
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e.toString());
+                } catch (InvocationTargetException e) {
+                    if (e.getTargetException() instanceof RuntimeException) {
+                        throw (RuntimeException) e.getTargetException();
+                    }
+                } 
+                
+                // backwards compability, check valueOf method to support 
+                // "simple" enums without value object
+                try {
+                    Method valueOfMethod = type.getMethod("valueOf",
+                            new Class[] {String.class});
+                    primitive = valueOfMethod.invoke(null, new Object[] {value});
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e.toString());
+                } catch (InvocationTargetException e) {
+                    if (e.getTargetException() instanceof RuntimeException) {
+                        throw (RuntimeException) e.getTargetException();
+                    }
+                } catch (NoSuchMethodException e) {
+                    String err = type.getName()
+                            + " does not contain the required method: public static "
+                            + type.getName() + " valueOf(String);";
+                    throw new IllegalArgumentException(err);
+                }
+            }
+        }
+        return primitive;
     }
+    
+    /**
+     * A utility class for keeping track of the
+     * qName and how the SAX parser passed attributes.
+     */
+    class ElementInfo {
+        private String _qName = null;
+        private Attributes _attributes = null;
+        private AttributeList _attributeList = null;
+        
+        ElementInfo() {
+            super();
+        }
+        
+        ElementInfo(String qName, Attributes atts) {
+            super();
+            _qName = qName;
+            _attributes = atts;
+        }
+        
+        ElementInfo(String qName, AttributeList atts) {
+            super();
+            _qName = qName;
+            _attributeList = atts;
+        }
+        
+        void clear() {
+            _qName = null;
+            _attributes = null;
+            _attributeList = null;
+        }
+    } //-- ElementInfo
     
     /**
      * Internal class used for passing constructor argument
@@ -2271,7 +3913,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         /**
          * Constructor argument types.
          */
-        private Class<?>[] _types  = null;
+        private Class[] _types  = null;
         
         /**
          * Returns the number of constructor arguments.
@@ -2283,35 +3925,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             }
             return _values.length;
         }
-
-        public Class<?>[] getTypes() {
-            return _types;
-        }
-
-        public Object[] getValues() {
-            return _values;
-        }
-
-        public Class<?> getType(int index) {
-            return _types[index];
-        }
-        
-        public void setValues(Object[] values) {
-            _values = values;
-        }
-
-        public void setValue(int index, Object value) {
-            _values[index] = value;
-        }
-
-        public void setTypes(Class<?>[] types) {
-            _types = types;
-        }
-
-        public void setType(int index, Class<?> type) {
-            _types[index] = type;
-        }
-
     }
 
     /**
@@ -2321,7 +3934,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public static class ArrayHandler {
         
-        Class<?> _componentType = null;
+        Class _componentType = null;
         
         ArrayList<Object> _items = null;
         
@@ -2330,10 +3943,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
          *
          * @param componentType the ComponentType for the array.
          */
-        ArrayHandler(final Class<?> componentType) {
+        ArrayHandler(final Class componentType) {
             if (componentType == null) {
-                String errMsg = resourceBundle.getString("unmarshalHandler.error.componentType.null");
-                throw new IllegalArgumentException(errMsg);
+                String err = "The argument 'componentType' may not be null.";
+                throw new IllegalArgumentException(err);
             }
             _componentType = componentType;
             _items = new ArrayList<Object>();
@@ -2376,7 +3989,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
          * Returns the component type handled by this class.
          * @return The component type handled by this class.
          */
-        public Class<?> componentType() {
+        public Class componentType() {
             return _componentType;
         }
         
@@ -2398,103 +4011,5 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		_objectFactory = objectFactory;
 	}
 
-	/**
-	 * Returnss a refrence to the {@link UnmarshalStateStack} instance currently in use.
-	 * @return The {@link UnmarshalStateStack} in use.
-	 */
-	public UnmarshalStateStack getStateStack() {
-	    return _stateStack;
-	}
-
-    /**
-     * Returns the top {@link UnmarshalState} instance from the {@link UnmarshalStateStack}.
-     * @return The top {@link UnmarshalState} instance.
-     */
-    public UnmarshalState getTopState() {
-        return _topState;
-    }
-
-    /**
-     * Returns the {@link StrictElementHandler} in use.
-     * @return The {@link StrictElementHandler} in use.
-     */
-    public StrictElementHandler getStrictElementHandler() {
-        return _strictElementHandler;
-    }
-
-    /**
-     * Returns the {@link NamespaceHandling} in use.
-     * @return The currently active {@link NamespaceHandling} instance.
-     */
-    public NamespaceHandling getNamespaceHandling() {
-        return _namespaceHandling;
-    }
-
-    /**
-     * Returns the current {@link ClassLoader} in use.
-     * @return The {@link ClassLoader} in use.
-     */
-    public ClassLoader getClassLoader() {
-        return _loader;
-    }
-
-    /**
-     * Returns the currently used {@link AnyNodeUnmarshalHandler} instance.
-     * @return The {@link AnyNodeUnmarshalHandler} in use.
-     */
-    public AnyNodeUnmarshalHandler getAnyNodeHandler() {
-        return _anyNodeHandler;
-    }
-
-    /**
-     * Returns the currently active {@link UnmarshalListenerDelegate} instance
-     * @return The active {@link UnmarshalListenerDelegate} in use.
-     */
-    public UnmarshalListenerDelegate getDelegateUnmarshalListener() {
-        return _delegateUnmarshalListener;
-    }
-
-    /**
-     * Indicats whether Object instances should be re-used. 
-     * @return True if object instances should be re-used.
-     */
-    public boolean isReuseObjects() {
-        return _reuseObjects;
-    }
-
-    /**
-     * Hashtable to store idReference and ReferenceInfo
-     * @return Hashtable
-     */
-	public Hashtable<String, ReferenceInfo> getResolveTable() {
-		return _resolveTable;
-	}
-
-	/**
-	 * returns the AnyNode (if any).
-	 * @return AnyNode, could be null
-	 */
-	public org.exolab.castor.types.AnyNode getAnyNode() {
-		return _node;
-	}
-	
-	/**
-	 * sets the AnyNode
-	 * @param node AnyNode
-	 */
-	public void setAnyNode(org.exolab.castor.types.AnyNode node) {
-		_node = node;
-	}
-
-	/**
-	 * Indicates whether it's necessary to clear any collection or not.
-	 * @return True if it's necessary to clear any collection.
-	 */
-	public boolean isClearCollections() {
-		return _clearCollections;
-	}
-	
-	
-	
-}
+} //-- Unmarshaller
 

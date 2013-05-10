@@ -21,7 +21,6 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.jdo.conf.ClassMapping;
 import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
@@ -29,7 +28,6 @@ import org.castor.jdo.conf.Driver;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Jndi;
 import org.castor.jdo.conf.Mapping;
-import org.castor.jdo.conf.PackageMapping;
 import org.castor.jdo.conf.Param;
 import org.castor.jdo.conf.TransactionDemarcation;
 import org.castor.jdo.conf.TransactionManager;
@@ -65,7 +63,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:martin-fuchs AT gmx DOT net">Martin Fuchs</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
  * @since 0.9.9.1
  */
 public final class JDOConfFactory {
@@ -83,7 +81,6 @@ public final class JDOConfFactory {
     /**
      * Creates a JdoConf instance from a SAX InputSource, using a Castor XML
      * Unmarshaller.
-     * 
      * @param source SAX input source representing the JDO configuration.
      * @param resolver SAX entity resolver.
      * @param loader Class loader.
@@ -165,9 +162,46 @@ public final class JDOConfFactory {
      * @param name Name of the database configuration.
      * @param engine Name of the database engine.
      * @param ds Datasource configuration.
+     * @param mapping Mapping configurations.
+     * @return Database configuration.
+     * @deprecated Pass mapping URL's to createDatabase() methods instead.
+     */
+    public static Database createDatabase(final String name, final String engine,
+            final DataSource ds, final Mapping mapping) {
+        return createDatabase(name, engine, ds, new Mapping[] {mapping});
+    }
+
+    /**
+     * Create a database configuration with given name, engine and datasource
+     * configuration.
+     * 
+     * @param name Name of the database configuration.
+     * @param engine Name of the database engine.
+     * @param ds Datasource configuration.
+     * @param mappings Array of mapping configurations.
+     * @return Database configuration.
+     * @deprecated Pass mapping URL's to createDatabase() methods instead.
+     */
+    public static Database createDatabase(final String name, final String engine,
+            final DataSource ds, final Mapping[] mappings) {
+        DatabaseChoice dbChoice = new DatabaseChoice();
+        dbChoice.setDataSource(ds);
+
+        Database dbConf = createDatabase(name, engine);
+        dbConf.setDatabaseChoice(dbChoice);
+        dbConf.setMapping(mappings);
+        return dbConf;
+    }
+
+    /**
+     * Create a database configuration with given name, engine and datasource
+     * configuration.
+     * 
+     * @param name Name of the database configuration.
+     * @param engine Name of the database engine.
+     * @param ds Datasource configuration.
      * @param mapping Mapping URL.
      * @return Database configuration.
-     * @deprecated create database w/o mapping.  
      */
     public static Database createDatabase(final String name, final String engine,
             final DataSource ds, final String mapping) {
@@ -183,7 +217,6 @@ public final class JDOConfFactory {
      * @param ds Datasource configuration.
      * @param mappings Array of mapping URL's.
      * @return Database configuration.
-     * @deprecated create database w/o mappings.  
      */
     public static Database createDatabase(final String name, final String engine,
             final DataSource ds, final String[] mappings) {
@@ -197,22 +230,40 @@ public final class JDOConfFactory {
     }
 
     /**
-     * Create a database configuration with given name, engine and datasource
+     * Create a database configuration with given name, engine and driver
      * configuration.
      * 
      * @param name Name of the database configuration.
      * @param engine Name of the database engine.
-     * @param ds Datasource configuration.
+     * @param driver Driver configuration.
+     * @param mapping Mapping configurations.
      * @return Database configuration.
-     * @since 1.3.2
+     * @deprecated Pass mapping URL's to createDatabase() methods instead.
      */
     public static Database createDatabase(final String name, final String engine,
-            final DataSource ds) {
-        DatabaseChoice dbChoice = new DatabaseChoice();
-        dbChoice.setDataSource(ds);
+            final Driver driver, final Mapping mapping) {
+        return createDatabase(name, engine, driver, new Mapping[] {mapping});
+    }
+
+    /**
+     * Create a database configuration with given name, engine and driver
+     * configuration.
+     * 
+     * @param name Name of the database configuration.
+     * @param engine Name of the database engine.
+     * @param driver Driver configuration.
+     * @param mappings Array of mapping configurations.
+     * @return Database configuration.
+     * @deprecated Pass mapping URL's to createDatabase() methods instead.
+     */
+    public static Database createDatabase(final String name, final String engine,
+            final Driver driver, final Mapping[] mappings) {
+        DatabaseChoice dbChoise = new DatabaseChoice();
+        dbChoise.setDriver(driver);
 
         Database dbConf = createDatabase(name, engine);
-        dbConf.setDatabaseChoice(dbChoice);
+        dbConf.setDatabaseChoice(dbChoise);
+        dbConf.setMapping(mappings);
         return dbConf;
     }
 
@@ -225,7 +276,6 @@ public final class JDOConfFactory {
      * @param driver Driver configuration.
      * @param mapping Mapping URL.
      * @return Database configuration.
-     * @deprecated create database w/o mapping.  
      */
     public static Database createDatabase(final String name, final String engine,
             final Driver driver, final String mapping) {
@@ -241,7 +291,6 @@ public final class JDOConfFactory {
      * @param driver Driver configuration.
      * @param mappings Array of mapping URL's.
      * @return Database configuration.
-     * @deprecated create database w/o mappings.  
      */
     public static Database createDatabase(final String name, final String engine,
             final Driver driver, final String[] mappings) {
@@ -255,26 +304,6 @@ public final class JDOConfFactory {
     }
 
     /**
-     * Create a database configuration with given name, engine and driver
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param driver Driver configuration.
-     * @return Database configuration.
-     * @since 1.3.2
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final Driver driver) {
-        DatabaseChoice dbChoise = new DatabaseChoice();
-        dbChoise.setDriver(driver);
-
-        Database dbConf = createDatabase(name, engine);
-        dbConf.setDatabaseChoice(dbChoise);
-        return dbConf;
-    }
-
-    /**
      * Create a database configuration with given name, engine and JNDI
      * configuration.
      * 
@@ -283,7 +312,6 @@ public final class JDOConfFactory {
      * @param jndi JNDI configuration.
      * @param mapping Mapping URL.
      * @return Database configuration.
-     * @deprecated create database w/o mapping.  
      */
     public static Database createDatabase(final String name, final String engine,
             final Jndi jndi, final String mapping) {
@@ -299,7 +327,6 @@ public final class JDOConfFactory {
      * @param jndi JNDI configuration.
      * @param mappings Array of mapping URL's.
      * @return Database configuration.
-     * @deprecated create database w/o mappings.  
      */
     public static Database createDatabase(final String name, final String engine,
             final Jndi jndi, final String[] mappings) {
@@ -309,26 +336,6 @@ public final class JDOConfFactory {
         Database dbConf = createDatabase(name, engine);
         dbConf.setDatabaseChoice(dbChoise);
         dbConf.setMapping(createMappings(mappings));
-        return dbConf;
-    }
-
-    /**
-     * Create a database configuration with given name, engine and JNDI
-     * configuration.
-     * 
-     * @param name Name of the database configuration.
-     * @param engine Name of the database engine.
-     * @param jndi JNDI configuration.
-     * @return Database configuration.
-     * @since 1.3.2
-     */
-    public static Database createDatabase(final String name, final String engine,
-            final Jndi jndi) {
-        DatabaseChoice dbChoise = new DatabaseChoice();
-        dbChoise.setJndi(jndi);
-
-        Database dbConf = createDatabase(name, engine);
-        dbConf.setDatabaseChoice(dbChoise);
         return dbConf;
     }
 
@@ -402,11 +409,23 @@ public final class JDOConfFactory {
     }
 
     /**
+     * Create a JDO mapping configuration from given URL.
+     * 
+     * @param mapping URL to retrieve mapping configuration file.
+     * @return JDO Mapping configuration.
+     * @deprecated Pass mapping URL's to createDatabase() methods instead.
+     */
+    public static Mapping createMapping(final String mapping) {
+        Mapping mapConf = new Mapping();
+        mapConf.setHref(mapping);
+        return mapConf;
+    }
+
+    /**
      * Create an array of JDO mapping configurations from given array of URL's.
      * 
      * @param mappings Array of URL's to retrieve mapping configuration file.
      * @return Array of JDO Mapping configurations.
-     * @deprecated
      */
     private static Mapping[] createMappings(final String[] mappings) {
         Mapping[] mapConfs = new Mapping[mappings.length];
@@ -418,39 +437,13 @@ public final class JDOConfFactory {
     }
 
     /**
-     * Create an XML mapping configurations for JDO from given URL.
+     * Create a transaction demarcation configuration with local transaction handling.
      * 
-     * @param mapping URL to retrieve mapping configuration file.
-     * @return XML mapping configuration for JDO.
+     * @return TransactionDemarcation configuration with local transaction handling.
+     * @deprecated Use createLocalTransactionDemarcation() instead.
      */
-    public static Mapping createXmlMapping(final String mapping) {
-        Mapping mapConf = new Mapping();
-        mapConf.setHref(mapping);
-        return mapConf;
-    }
-
-    /**
-     * Create an class mapping configurations for JDO from given class name.
-     * 
-     * @param classname Class name to retrieve mapping information.
-     * @return Class mapping configuration for JDO.
-     */
-    public static ClassMapping createClassMapping(final String classname) {
-        ClassMapping mapConf = new ClassMapping();
-        mapConf.setName(classname);
-        return mapConf;
-    }
-
-    /**
-     * Create an package mapping configurations for JDO from given package name.
-     * 
-     * @param packagename Package name to retrieve mapping information.
-     * @return Package mapping configuration for JDO.
-     */
-    public static PackageMapping createPackageMapping(final String packagename) {
-    	PackageMapping mapConf = new PackageMapping();
-        mapConf.setName(packagename);
-        return mapConf;
+    public static TransactionDemarcation createTransactionDemarcation() {
+        return createLocalTransactionDemarcation();
     }
 
     /**

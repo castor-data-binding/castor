@@ -53,8 +53,6 @@ import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
 import org.castor.cpa.persistence.convertor.TypeConvertorRegistry;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.jdo.Database;
@@ -78,7 +76,6 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.ClassMolder;
-import org.exolab.castor.persist.ClassMolderRegistry;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
@@ -88,7 +85,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * An OQLQuery implementation to execute a query based upon an OQL statement.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class OQLQueryImpl implements Query, OQLQuery {
     private static TypeConvertorRegistry _typeConvertorRegistry = null;
@@ -165,8 +162,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
 
                 if (paramClass.isAssignableFrom(valueClass)) {
                     LockEngine lockEngine = ((AbstractDatabaseImpl) _database).getLockEngine();
-                    ClassMolderRegistry registry = lockEngine.getClassMolderRegistry();
-                    ClassMolder molder = registry.getClassMolder(valueClass);
+                    ClassMolder molder = lockEngine.getClassMolder(valueClass);
 
                     if (molder != null) {
                         Identity temp = molder.getActualIdentity(
@@ -520,7 +516,7 @@ public class OQLQueryImpl implements Query, OQLQuery {
                 case ParseTreeWalker.FUNCTION:
                     try {
                         TransactionContext tx = ((AbstractDatabaseImpl) _database).getTransaction();
-                        CastorConnection conn = tx.getConnection(_dbEngine);
+                        java.sql.Connection conn = tx.getConnection(_dbEngine);
                         SimpleQueryExecutor sqe = new SimpleQueryExecutor(_database);
                         _results =  sqe.execute(conn, _expr, _bindValues);
                     } catch (QueryException except) {

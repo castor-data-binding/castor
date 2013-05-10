@@ -78,17 +78,14 @@ import org.castor.cache.CacheAcquireException;
  *
  * For more details on Gigaspaces in general, please see http://www.gigaspaces.com/.<br>
  *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- *
  * @see <a href="http://www.gigaspaces.com/">The Gigaspaces Home Page</a>
  * @see <a href="http://www.gigaspaces.com/wiki">The Gigaspaces Wiki</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 
-public final class GigaspacesCache<K, V> extends AbstractDistributedCache<K, V> {
+public final class GigaspacesCache extends AbstractDistributedCache {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -152,7 +149,7 @@ public final class GigaspacesCache<K, V> extends AbstractDistributedCache<K, V> 
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class<?> cls = ldr.loadClass(implementation);
-            setCache((Map<K, V>) invokeStaticMethod(
+            setCache((Map) invokeStaticMethod(
                     cls, "find", TYPES_FIND_CACHE, new Object[] {clusterURL.toString()}));
         } catch (Exception e) {
             LOG.error("Problem!", e);

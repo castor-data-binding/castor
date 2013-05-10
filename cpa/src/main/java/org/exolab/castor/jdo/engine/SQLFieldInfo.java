@@ -31,14 +31,11 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-21 04:05:17 -0700 (Sat, 21 Jan 2006) $
  * @since 1.0
  */
 public class SQLFieldInfo {
     private final String _tableName;
-
-    /** Variable holding the alias for this table. */
-    private String _tableAlias;
 
     private final boolean _store;
 
@@ -171,20 +168,6 @@ public class SQLFieldInfo {
     }
     
     public String getTableName() { return _tableName; }
-    
-    /**
-     * Method returning table-alias currently set.
-     * 
-     * @return Table-alias currently set.
-     */
-    public String getTableAlias() { return _tableAlias; }
-    
-    /**
-     * Method setting current table-alias.
-     * 
-     * @param tableAlias Table-alias to be set.
-     */
-    public void setTableAlias(final String tableAlias) { _tableAlias = tableAlias; }
     
     public boolean isStore() { return _store; }
     

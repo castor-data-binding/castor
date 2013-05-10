@@ -38,18 +38,15 @@ import org.exolab.castor.xml.util.resolvers.ResolveHelpers;
  * mapping between a domain class and its corresponding
  * <code>ClassDescriptor</code>.
  * 
- * @author <a href="dexxter AT quantentunnel DOT de">Sebastian Gabmeyer</a>
- * @version $Revision$ $Date$
+ * @author Sebastian Gabmeyer
+ * @version 1.2.1
  */
 public class ClassResolutionByCDR extends BaseResolutionCommand {
-    //-----------------------------------------------------------------------------------
 
     /** The Logger instance to use. */
     private static final Log LOG = LogFactory
             .getLog(ClassResolutionByCDR.class);
 
-    //-----------------------------------------------------------------------------------
-    
     /**
      * Constructor.
      */
@@ -57,8 +54,6 @@ public class ClassResolutionByCDR extends BaseResolutionCommand {
         addNature(ClassLoaderNature.class.getName());
         addNature(PackageBasedCDRResolutionNature.class.getName());
     }
-    
-    //-----------------------------------------------------------------------------------
 
     /**
      * Resolves a <code>type</code> to a {@link ClassDescriptor} by looking for
@@ -183,6 +178,4 @@ public class ClassResolutionByCDR extends BaseResolutionCommand {
         }
         return descriptors;
     }
-    
-    //-----------------------------------------------------------------------------------
 }

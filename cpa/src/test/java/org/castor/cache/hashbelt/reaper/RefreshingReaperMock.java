@@ -22,19 +22,18 @@ import java.util.List;
  * Mock object for testing of RefreshingReaper.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
-public final class RefreshingReaperMock<K, V> extends RefreshingReaper<K, V> {
+public final class RefreshingReaperMock extends RefreshingReaper {
     private static final List<Object> REFRESHED = new ArrayList<Object>();
     
     public static List<Object> getExpiredObjects() {
         return REFRESHED;
     }
     
-    @SuppressWarnings("unchecked")
-    protected V refresh(final V objectToBeRefreshed) {
+    protected Object refresh(final Object objectToBeRefreshed) {
         REFRESHED.add(objectToBeRefreshed);
-        return (V) (((String) objectToBeRefreshed) + " refreshed");
+        return ((String) objectToBeRefreshed) + " refreshed";
     }
 }

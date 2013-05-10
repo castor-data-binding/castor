@@ -28,7 +28,7 @@ import org.castor.cache.Cache;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestNoCache extends TestCase {
@@ -45,7 +45,7 @@ public final class TestNoCache extends TestCase {
     public void test() {
         assertEquals("none", NoCache.TYPE);
 
-        Cache<String, String> cache = new NoCache<String, String>();
+        Cache cache = new NoCache();
         assertTrue(cache instanceof NoCache);
 
         assertEquals("none", cache.getType());
@@ -75,13 +75,13 @@ public final class TestNoCache extends TestCase {
         cache.clear();
         assertEquals(0, cache.size());
         
-        Set<String> keys = cache.keySet();
+        Set<Object> keys = cache.keySet();
         assertEquals(0, keys.size());
 
-        Collection<String> values = cache.values();
+        Collection<Object> values = cache.values();
         assertEquals(0, values.size());
 
-        Set<Map.Entry<String, String>> entries = cache.entrySet();
+        Set<Map.Entry<Object, Object>> entries = cache.entrySet();
         assertEquals(0, entries.size());
     }
 }

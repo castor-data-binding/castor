@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<book xmlns="http://docbook.org/ns/docbook"
-      xmlns:xi="http://www.w3.org/2001/XInclude">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
   <bookinfo>
-    <title>Castor 1.3.3 - Reference documentation</title>
+    <title>Castor 1.3 - Reference documentation</title>
 
-    <releaseinfo>1.3.3</releaseinfo>
+    <releaseinfo>1.3</releaseinfo>
 
 <!-- 
     <authorgroup>
@@ -34,22 +34,11 @@
   
   <xi:include href="reference/code-generator.xml" />
 
-  <xi:include href="reference/jdo.xml" />
-  
-  <xi:include href="reference/advanced-jdo.xml" />
+  <xi:include href="reference/jdo-extensions.xml" />
 
   <xi:include href="reference/spring-orm.xml" />
 
   <xi:include href="reference/jpa.xml" />
-
-  <xi:include href="reference/ddlgen.xml" />
-
-  <!-- 
-    <xi:include href="reference/jdo-extensions.xml" />
-    <xi:include href="reference/solrj-extensions.xml" />
-  -->
-
-  <xi:include href="reference/code-generator-extension.xml" />
 
   <!--  <xi:include href="reference/showcase.xml" />  -->
   

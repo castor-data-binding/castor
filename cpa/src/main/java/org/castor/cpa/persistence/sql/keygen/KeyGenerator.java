@@ -16,12 +16,12 @@
 package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
+import java.util.Properties;
 
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -38,11 +38,9 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
 public interface KeyGenerator {
-    //---------------------------------------------------------------------------------------------
-    
     /**
      * Generate a new key for the specified table. This method is
      * called when a new object is about to be created. In some
@@ -53,11 +51,12 @@ public interface KeyGenerator {
      * @param conn An open connection within the given transaction
      * @param tableName The table name
      * @param primKeyName The primary key name
+     * @param props A temporary replacement for Principal object
      * @return A new key
      * @throws PersistenceException An error occured talking to persistent
      *  storage
      */
-    Object generateKey(Connection conn, String tableName, String primKeyName)
+    Object generateKey(Connection conn, String tableName, String primKeyName, Properties props)
     throws PersistenceException;
 
     /**
@@ -72,8 +71,7 @@ public interface KeyGenerator {
      * Executes the SQL statement after preparing the PreparedStatement.
      * 
      * @param database A database instance.
-     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
-     *        statement.
+     * @param conn An Open JDBC connection.
      * @param identity Identity of the object to insert.
      * @param entity Entity instance from which field values to be fetached to
      *               bind with sql insert statement.
@@ -82,7 +80,7 @@ public interface KeyGenerator {
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
      *         Identity, If provided Identity is null, If Extended engine is null.
      */
-    Object executeStatement(final Database database, final CastorConnection conn, 
+    Object executeStatement(final Database database, final Connection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException;
     
     /**
@@ -90,8 +88,7 @@ public interface KeyGenerator {
      * 
      * @param engine SQL engine for all persistence operations at entities of the type this
      *        class is responsible for. Holds all required information of the entity type.
+     * @return KeyGenerator 
      */
-    void buildStatement(final SQLEngine engine);
-    
-    //---------------------------------------------------------------------------------------------
+    KeyGenerator buildStatement(final SQLEngine engine);
 }

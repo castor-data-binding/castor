@@ -29,7 +29,7 @@ public interface SchemaContext {
      *
      * @return A suitable XML parser
      */
-    // TODO[WG, 1.3.4] REFACTOR with InternalContext
+    // TODO REFACTOR with InternalContext
     Parser getParser();
 
     /**
@@ -41,7 +41,7 @@ public interface SchemaContext {
      * 
      * @return A suitable serializer
      */
-    // TODO[WG, 1.3.4] REFACTOR with InternalContext
+    // TODO REFACTOR with InternalContext
     Serializer getSerializer();
 
 }

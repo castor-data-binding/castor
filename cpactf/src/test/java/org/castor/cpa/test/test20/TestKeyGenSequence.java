@@ -29,16 +29,14 @@ public final class TestKeyGenSequence extends AbstractTestKeyGenInteger {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
-    // HSQL and MYSQL do not support sequence key generator
+    // DERBY and MYSQL do not support sequence key generator
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+        return (engine == DatabaseEngineType.DERBY)
+            || (engine == DatabaseEngineType.HSQL)
+            || (engine == DatabaseEngineType.MYSQL);
     }
 
     public void testKeyGenSequence() throws Exception {

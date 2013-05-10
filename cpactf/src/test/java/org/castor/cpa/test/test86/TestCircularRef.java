@@ -37,17 +37,14 @@ public final class TestCircularRef extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
     
-    // Sequence key generator is not supported by
-    // derby, hsql, mysql and mssql
+    // Sequence key generator is not supported by DERBY and MYSQL
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
             || (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.MYSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.MYSQL);
     }
     
     /**

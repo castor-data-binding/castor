@@ -15,20 +15,19 @@
  */
 package org.castor.cache;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
- * Base implementation of all cache types. 
- *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
+ * Base implementation of all LRU cache types. 
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-05-05 13:53:54 -0600 (Fri, 05 May 2006) $
  * @since 1.0
  */
-public abstract class AbstractBaseCache<K, V> implements Cache<K, V> {
+public abstract class AbstractBaseCache implements Cache {
     //--------------------------------------------------------------------------
 
     /** Virtual name of this cache. Castor sets the cache name to the class name of the
@@ -71,6 +70,52 @@ public abstract class AbstractBaseCache<K, V> implements Cache<K, V> {
      * {@inheritDoc}
      */
     public final void expireAll() { clear(); }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Invoke static method with given name and arguments having parameters of
+     * types specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeStaticMethod(final Class<?> target, final String name, 
+            final Class<?>[] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getMethod(name, types);
+        return method.invoke(null, arguments);
+    }
+
+    /**
+     * Invoke method with given name and arguments having parameters of types
+     * specified on the given target.
+     * 
+     * @param target The target object to invoke the method on.
+     * @param name The name of the method to invoke.
+     * @param types The types of the parameters.
+     * @param arguments The parameters.
+     * @return The result of the method invokation.
+     * @throws NoSuchMethodException If a matching method is not found or if the
+     *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws IllegalAccessException If this Method object enforces Java language
+     *         access control and the underlying method is inaccessible.
+     * @throws InvocationTargetException If the underlying method throws an exception.
+     */
+    protected final Object invokeMethod(final Object target, final String name, 
+            final Class<?>[] types, final Object[] arguments) 
+    throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = target.getClass().getMethod(name, types);
+        return method.invoke(target, arguments);
+    }
 
     //--------------------------------------------------------------------------
 }

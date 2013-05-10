@@ -44,15 +44,13 @@
  */
 package org.exolab.castor.persist.spi;
 
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLRelationLoader;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.TypeConvertor;
+import org.exolab.castor.persist.SQLRelationLoader;
 
 /**
  * The persistence engine implements this interface in order to allow
@@ -83,7 +81,7 @@ import org.exolab.castor.mapping.MappingException;
  * and never hold a reference to a connection.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
  * @see org.castor.persist.TransactionContext
  * @see org.exolab.castor.persist.spi.PersistenceQuery
  */
@@ -97,7 +95,7 @@ public interface Persistence {
      * If the identity is null, an identity might be created and returned
      * by this method.
      *
-     * @param conn A CastorConnection object holding an open connection
+     * @param conn An open connection
      * @param entity The fields to store
      * @param identity The object's identity
      * @return The object's identity
@@ -105,8 +103,8 @@ public interface Persistence {
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    Identity create(Database database, CastorConnection conn, ProposedEntity entity,
-            Identity identity) throws PersistenceException;
+    Identity create(Database database, Object conn, ProposedEntity entity, Identity identity)
+    throws PersistenceException;
 
     /**
      * Loads the object from persistence storage. This method will load
@@ -117,14 +115,14 @@ public interface Persistence {
      * #store}). If <tt>lock</tt> is true the object must be
      * locked in persistence storage to prevent concurrent updates.
      *
-     * @param conn A CastorConnection object holding an open connection
+     * @param conn An open connection
      * @param proposedObject The fields to load into
      * @param identity object's identity
      * @param accessMode The access mode (null equals shared)
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    void load(CastorConnection conn, ProposedEntity proposedObject, Identity identity,
+    void load(Object conn, ProposedEntity proposedObject, Identity identity,
             AccessMode accessMode) throws PersistenceException;
 
     /**
@@ -145,17 +143,18 @@ public interface Persistence {
      * call to {@link #load}. These arguments are null for objects
      * retrieved with an exclusive lock.
      *
-     * @param conn A CastorConnection object holding an open connection
+     * @param conn An open connection
      * @param newentity The fields to store
      * @param identity The object's identity
      * @param oldentity The original fields, or null
+     * @return The object's stamp, or null
      * @throws PersistenceException The object has been modified in
      *         persistence storage since it was last loaded or has been
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    void store(CastorConnection conn, Identity identity, ProposedEntity newentity,
-            ProposedEntity oldentity) throws PersistenceException;
+    Object store(Object conn, Identity identity, ProposedEntity newentity, ProposedEntity oldentity)
+    throws PersistenceException;
 
     /**
      * Deletes the object from persistent storage, given the object'
@@ -164,11 +163,12 @@ public interface Persistence {
      * locks on the object must be retained until the transaction has
      * completed.
      *
-     * @param conn A CastorConnection object holding an open connection
+     * @param conn An open connection
      * @param identity The object's identity
      * @throws PersistenceException A persistence error occured
      */
-    void delete(CastorConnection conn, Identity identity) throws PersistenceException;
+    void delete(Object conn, Identity identity)
+    throws PersistenceException;
 
     /**
      * Creates and returns a new query object. The query object is
@@ -186,19 +186,10 @@ public interface Persistence {
     PersistenceQuery createQuery(QueryExpression query, Class<?>[] types, AccessMode accessMode)
     throws QueryException;
 
-    /**
-     * Creates an instance of SQLRelationLoader for creating and removing
-     * relation from a many-to-many relation database.
-     * 
-     * @param classDescriptorResolver {@link ClassDescriptorResolver} instance
-     * @param classDescriptor the classDescriptor for the base class.
-     * @param fieldDescriptor the {@link FieldDescriptor} for non-identity fields, 
-     *        including all the fields in base classes.
-     * @throws MappingException if an error occurred with analyzing the mapping information.
-     * @return SQLRelationLoader, for creating and removing relation from a 
-     *         many-to-many relation database.
-     */
-    SQLRelationLoader createSQLRelationLoader(FieldDescriptor fieldDescriptor)
-    throws MappingException;
+    SQLRelationLoader createSQLRelationLoader(String manyTable,
+            String[] idSQL, int[] idType,
+            TypeConvertor[] idTo, TypeConvertor[] idFrom,
+            String[] relatedIdSQL, int[] relatedIdType,
+            TypeConvertor[] ridTo, TypeConvertor[] ridFrom);
 }
 

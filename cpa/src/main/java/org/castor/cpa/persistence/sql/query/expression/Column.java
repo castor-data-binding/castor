@@ -17,14 +17,14 @@ package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.Qualifier;
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 
 /**
  * Class representing a column of the database table.
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class Column extends Expression {    
     //-----------------------------------------------------------------------------------    
@@ -83,27 +83,13 @@ public final class Column extends Expression {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------    
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
+    @Override
+    public void toString(final QueryContext ctx) {
         if (_qualifier != null) {
-            sb.append(_qualifier.toString());
-            sb.append(QueryConstants.DOT);
+            _qualifier.toString(ctx);
+            ctx.append(QueryConstants.DOT);
         }
-        sb.append(_name);
-
-        return sb.toString();
+        ctx.append(ctx.quoteName(_name));
     }
 
     //-----------------------------------------------------------------------------------    

@@ -23,14 +23,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.CoreProperties;
 import org.castor.core.util.Messages;
-import org.castor.xml.AbstractInternalContext;
 import org.castor.xml.InternalContext;
+import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.FieldHandlerDef;
 import org.exolab.castor.mapping.xml.Include;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
@@ -265,22 +264,20 @@ public final class MappingUnmarshaller {
             }
             
             // gather "class" tags
-            Enumeration<? extends ClassMapping> classMappings = loaded.enumerateClassMapping();
-            while (classMappings.hasMoreElements()) {
-                root.addClassMapping(classMappings.nextElement());
+            Enumeration enumeration = loaded.enumerateClassMapping();
+            while (enumeration.hasMoreElements()) {
+                root.addClassMapping((ClassMapping) enumeration.nextElement());
             }
 
             // gather "key-generator" tags
-            Enumeration<? extends KeyGeneratorDef> keyGeneratorDefinitions = loaded.enumerateKeyGeneratorDef();
-            while (keyGeneratorDefinitions.hasMoreElements()) {
-                root.addKeyGeneratorDef(keyGeneratorDefinitions.nextElement());
+            enumeration = loaded.enumerateKeyGeneratorDef();
+            while (enumeration.hasMoreElements()) {
+                root.addKeyGeneratorDef((KeyGeneratorDef) enumeration.nextElement());
             }
             
             // gather "field-handler" tags
-            Enumeration<? extends FieldHandlerDef> fieldHandlerDefinitions = loaded.enumerateFieldHandlerDef();
-            while (fieldHandlerDefinitions.hasMoreElements()) {
-                root.addFieldHandlerDef(fieldHandlerDefinitions.nextElement());
-            }
+            root.setFieldHandlerDef(loaded.getFieldHandlerDef());
+
         } catch (Exception ex) {
             throw new MappingException(ex);
         }

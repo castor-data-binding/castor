@@ -28,9 +28,6 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerBigDecimal;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerInteger;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerLong;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.MappingException;
@@ -44,7 +41,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:on AT ibis DOT odessa DOT ua">Oleg Nitz</a>
  * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
@@ -52,47 +49,31 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(HighLowKeyGenerator.class);
-
-    /** String constant for table. */
+    
     private static final String SEQ_TABLE = "table";
 
-    /** String constant for key-column. */
     private static final String SEQ_KEY = "key-column";
 
-    /** String constant for value-column. */
     private static final String SEQ_VALUE = "value-column";
 
-    /** String constant for grab-size. */
     private static final String GRAB_SIZE = "grab-size";
 
-    /** String constant for same-connection. */
     private static final String SAME_CONNECTION = "same-connection";
 
-    /** String constant for global. */
     private static final String GLOBAL = "global";
-
-    /** String constant for global key. */
-    private static final String GLOBAL_KEY = "global-key";
-
-    /** Int constant. */
+    
     private static final int UPDATE_PARAM_MAX = 1;
 
-    /** Int constant. */
     private static final int UPDATE_PARAM_TABLE = 2;
 
-    /** Int constant. */
     private static final int UPDATE_PARAM_LAST = 3;
-
-    /** Int constant. */
+    
     private static final int INSERT_PARAM_TABLE = 1;
 
-    /** Int constant. */
     private static final int INSERT_PARAM_MAX = 2;
 
-    /** Int constant. */
     private static final int LOCK_TRIALS = 7;
 
-    /** Map to store value handler. */
     private final Map<String, HighLowValueHandler<? extends Object>> _handlers =
         new HashMap<String, HighLowValueHandler<? extends Object>>();
 
@@ -123,8 +104,6 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
     /** Shell globally unique identities be generated? */
     private boolean _global;
 
-    /** If globally unique identities are generated, then which key needs to be used? */
-    private String _globalKey;
     //-----------------------------------------------------------------------------------
 
     /**
@@ -151,13 +130,7 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
         
         initFromParameters(params);
     }
-
-    /** Method to init some class variables.
-     * 
-     * @param params Database engine specific parameters. 
-     * @throws MappingException if this key generator is not compatible with the
-     *         persistance factory.
-     */
+    
     public void initFromParameters(final Properties params) throws MappingException {
         _seqTable = params.getProperty(SEQ_TABLE);
         if (_seqTable == null) {
@@ -190,11 +163,6 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
 
         _sameConnection = "true".equals(params.getProperty(SAME_CONNECTION));
         _global = "true".equals(params.getProperty(GLOBAL));
-
-        _globalKey = params.getProperty(GLOBAL_KEY);
-        if (_globalKey == null) {
-            _globalKey = "<GLOBAL>";
-        }
     }
 
     //-----------------------------------------------------------------------------------
@@ -203,11 +171,9 @@ public final class HighLowKeyGenerator extends AbstractBeforeKeyGenerator {
      * {@inheritDoc}
      */
     public synchronized Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName) throws PersistenceException {
+            final String primKeyName, final Properties props) throws PersistenceException {
         String intTableName = tableName;
-        if (_global) { 
-        	intTableName = _globalKey; 
-        }
+        if (_global) { intTableName = "<GLOBAL>"; }
         
         HighLowValueHandler<? extends Object> handler = _handlers.get(intTableName);
         if (handler == null) {

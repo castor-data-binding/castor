@@ -27,11 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandler;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerBigDecimal;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerInteger;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerLong;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerString;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -42,7 +37,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
 public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator {    
     //-----------------------------------------------------------------------------------
@@ -128,11 +123,12 @@ public final class SequenceBeforeKeyGenerator extends AbstractBeforeKeyGenerator
      * @param conn An open connection within the given transaction.
      * @param tableName The table name.
      * @param primKeyName The primary key name.
+     * @param props A temporary replacement for Principal object.
      * @return A new key.
      * @throws PersistenceException An error occured talking to persistent storage.
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName) 
+            final String primKeyName, final Properties props) 
             throws PersistenceException {           
             PreparedStatement stmt = null;
             ResultSet rs = null;

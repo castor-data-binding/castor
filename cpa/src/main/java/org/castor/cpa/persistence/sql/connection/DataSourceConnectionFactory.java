@@ -22,16 +22,14 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.castor.jdo.conf.DataSource;
 import org.castor.jdo.conf.Param;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.PersistenceFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 0.9.9
  */
 public final class DataSourceConnectionFactory implements ConnectionFactory {
@@ -40,9 +38,6 @@ public final class DataSourceConnectionFactory implements ConnectionFactory {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(DataSourceConnectionFactory.class);
-
-    /** PersistenceFactory to be used to construct CastorConnection. */
-    private PersistenceFactory _factory;
 
     //--------------------------------------------------------------------------
 
@@ -210,7 +205,7 @@ public final class DataSourceConnectionFactory implements ConnectionFactory {
     /**
      * {@inheritDoc}
      */
-    public void initializeFactory(final PersistenceFactory factory) throws MappingException {
+    public void initializeFactory() throws MappingException {
         if (_sqlDataSource == null) {
             _sqlDataSource = loadDataSource(_confDataSource, _loader);
 
@@ -218,7 +213,6 @@ public final class DataSourceConnectionFactory implements ConnectionFactory {
                 LOG.debug("Using DataSource: " + _confDataSource.getClassName());
             }
         }
-        _factory = factory;
     }
 
     //--------------------------------------------------------------------------
@@ -230,13 +224,6 @@ public final class DataSourceConnectionFactory implements ConnectionFactory {
         Connection connection = _sqlDataSource.getConnection();
         if (!_useProxies) { return connection; }
         return ConnectionProxyFactory.newConnectionProxy(connection, getClass().getName());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public CastorConnection createCastorConnection() throws SQLException {
-        return new CastorConnection(_factory, createConnection());
     }
 
     //--------------------------------------------------------------------------

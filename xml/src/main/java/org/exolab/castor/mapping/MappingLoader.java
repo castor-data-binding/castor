@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.mapping;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.castor.mapping.BindingType;
@@ -60,7 +61,6 @@ import org.castor.mapping.BindingType;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public interface MappingLoader {
-    
     BindingType getBindingType();
     
     String getSourceType();
@@ -84,6 +84,12 @@ public interface MappingLoader {
      * @return The ClassDescriptor or null if not found.
      */
     ClassDescriptor getDescriptor(String classname);
+    
+    /**
+     * Returns an iterator over all the known descriptors in the original order they have been
+     * added. Each element is of type {@link ClassDescriptor}.
+     */
+    Iterator<ClassDescriptor> descriptorIterator();
     
     /**
      * Returns a List of {@link ClassDescriptor}s of all known descriptors.

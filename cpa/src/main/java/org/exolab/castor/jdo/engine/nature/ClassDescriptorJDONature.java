@@ -85,11 +85,6 @@ public class ClassDescriptorJDONature extends BaseNature {
     private static final String CACHE_PARAMETERS = "cacheParameters";
 
     /**
-     * Nature property name for abstract.
-     */
-    private static final String MAPPED_SUPERCLASS = "mappedSuperclass";
-
-    /**
      * Nature property name for named queries.
      */
     private static final String NAMED_QUERIES = "namedQueries";
@@ -124,24 +119,6 @@ public class ClassDescriptorJDONature extends BaseNature {
      */
     public String getId() {
         return getClass().getName();
-    }
-
-     /**
-     * Set class to abstract
-     *
-     * @param abstract Boolean
-     */
-    public void setAbstract(final Boolean hasMappedSuperclass) {
-        setProperty(MAPPED_SUPERCLASS, hasMappedSuperclass);
-    }
-
-    /**
-     * Returns if class has mapped super class.
-     *
-     * @return true if class hs mapped super class
-     */
-    public boolean hasMappedSuperclass() {
-        return getBooleanPropertyDefaultFalse(MAPPED_SUPERCLASS);
     }
     
     /**

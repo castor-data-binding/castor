@@ -1,4 +1,3 @@
-create sequence test20_keygen_seq;
 create table test20_keygen (
   id    int           not null,
   attr  varchar(200)  not null

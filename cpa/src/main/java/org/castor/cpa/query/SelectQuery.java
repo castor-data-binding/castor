@@ -24,7 +24,7 @@ import java.util.Date;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public interface SelectQuery extends QueryObject {
@@ -187,14 +187,6 @@ public interface SelectQuery extends QueryObject {
     void addProjection(Field field);
     
     /**
-     * Adds the projection.
-     * 
-     * @param field the field
-     * @param alias the alias of the field
-     */
-    void addProjection(Field field, String alias);
-    
-    /**
      * Adds the schema.
      * 
      * @param schema the schema
@@ -243,23 +235,7 @@ public interface SelectQuery extends QueryObject {
      * @param limit the limit
      * @param offset the offset
      */
-    void setLimit(int limit, Parameter offset);
-    
-    /**
-     * Sets the limit.
-     * 
-     * @param limit the limit
-     * @param offset the offset
-     */
     void setLimit(Parameter limit, Parameter offset);
-    
-    /**
-     * Sets the limit.
-     * 
-     * @param limit the limit
-     * @param offset the offset
-     */
-    void setLimit(Parameter limit, int offset);
 
     //--------------------------------------------------------------------------
 }

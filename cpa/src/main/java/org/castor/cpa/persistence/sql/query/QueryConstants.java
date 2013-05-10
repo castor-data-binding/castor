@@ -20,7 +20,7 @@ package org.castor.cpa.persistence.sql.query;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class QueryConstants {
     //-----------------------------------------------------------------------------------    
@@ -69,24 +69,6 @@ public final class QueryConstants {
 
     /** 'NULL' keyword for conditions of SQL queries. */
     public static final String NULL = "NULL";
-
-    /** 'JOIN' keyword for constructing joins of SQL queries. */
-    public static final String JOIN = "JOIN";
-
-    /** 'ON' keyword for constructing joins of SQL queries. */
-    public static final String ON = "ON";
-
-    /** 'FOR' keyword for constructing FOR UPDATE-clauses. */
-    public static final String FOR = "FOR";
-
-    /** 'WITH' keyword for constructing WITH LOCK-clauses. */
-    public static final String WITH = "WITH";
-
-    /** 'LOCK' keyword for constructing WITH LOCK-clauses. */
-    public static final String LOCK = "LOCK";
-
-    /** 'HOLDLOCK' keyword for constructing WITH (HOLDLOCK)-clauses. */
-    public static final String HOLDLOCK = "HOLDLOCK";
 
     /** Character to use for spaces in SQL query. */
     public static final char SPACE = ' ';

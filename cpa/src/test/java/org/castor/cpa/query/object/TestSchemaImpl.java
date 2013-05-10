@@ -15,8 +15,6 @@
  */
 package org.castor.cpa.query.object;
 
-import junit.framework.TestCase;
-
 import org.castor.cpa.query.Expression;
 import org.castor.cpa.query.Field;
 import org.castor.cpa.query.Foo;
@@ -24,12 +22,14 @@ import org.castor.cpa.query.QueryObject;
 import org.castor.cpa.query.Schema;
 import org.castor.cpa.query.object.expression.AbstractExpression;
 
+import junit.framework.TestCase;
+
 /**
  * Junit test for testing schema implementation.
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class TestSchemaImpl extends TestCase {
@@ -73,7 +73,7 @@ public final class TestSchemaImpl extends TestCase {
         }
 
         try {
-            new SchemaImpl((Class<?>) null, "identifier");
+            new SchemaImpl((Class) null, "identifier");
             fail("NullPointerException expected");
         } catch (NullPointerException ex) {
             assertTrue(true);
@@ -92,7 +92,7 @@ public final class TestSchemaImpl extends TestCase {
      */
     public void testGSetter() {
         String schemaname = "schema";
-        Class<?> type = Foo.class;
+        Class type = Foo.class;
         String identifier = "identifier";
         
         SchemaImpl schema1 = new SchemaImpl(schemaname, identifier);
@@ -113,7 +113,7 @@ public final class TestSchemaImpl extends TestCase {
      */
     public void testToString() {
         String schemaname = "schema";
-        Class<?> type = Foo.class;
+        Class type = Foo.class;
         String identifier = "identifier";
         
         SchemaImpl schema1 = new SchemaImpl(schemaname, identifier);

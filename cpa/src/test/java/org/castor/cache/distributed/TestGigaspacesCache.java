@@ -29,7 +29,7 @@ import org.castor.cache.CacheAcquireException;
 /**
  * JUnit test case for Gigaspaces cache 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 5951 $ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0.1
  */
 public final class TestGigaspacesCache extends TestCase {
@@ -60,12 +60,12 @@ public final class TestGigaspacesCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache<String, String> c = new GigaspacesCache<String, String>();
+        Cache c = new GigaspacesCache();
         assertTrue(c instanceof GigaspacesCache);
     }
 
     public void testGetType() {
-        Cache<String, String> c = new GigaspacesCache<String, String>();
+        Cache c = new GigaspacesCache();
         assertEquals("gigaspaces", c.getType());
     }
 
@@ -73,7 +73,7 @@ public final class TestGigaspacesCache extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCache.class);
         Level level = logger.getLevel();
         
-        GigaspacesCache<String, String> c = new GigaspacesCache<String, String>();
+        GigaspacesCache c = new GigaspacesCache();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -106,7 +106,7 @@ public final class TestGigaspacesCache extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCache.class);
         Level level = logger.getLevel();
         
-        GigaspacesCache<String, String> c = new GigaspacesCache<String, String>();
+        GigaspacesCache c = new GigaspacesCache();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

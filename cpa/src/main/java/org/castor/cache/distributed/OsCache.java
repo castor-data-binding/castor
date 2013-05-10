@@ -18,12 +18,14 @@ package org.castor.cache.distributed;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cache.AbstractBaseCache;
 import org.castor.cache.CacheAcquireException;
 
 /**
@@ -31,16 +33,13 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of OSCache, see http://www.opensymphony.com/oscache
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @see <a href="http://www.opensymphony.com/oscache">The OSCache Home page</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
+public final class OsCache extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -172,10 +171,9 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
-    public V get(final Object key) {
+    public Object get(final Object key) {
         try {
-            return (V) _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});
+            return _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});
         } catch (InvocationTargetException e) {
             String cause = e.getTargetException().getClass().getName(); 
             if (cause.equals(NEEDS_REFRESH_EXCEPTION)) {
@@ -199,8 +197,8 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V put(final K key, final V value) {
-        V oldValue = get(key);
+    public Object put(final Object key, final Object value) {
+        Object oldValue = get(key);
         invokeCacheMethod(_putMethod, new Object[] {String.valueOf(key), value, _groups});
         return oldValue;
     }
@@ -208,8 +206,8 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V remove(final Object key) {
-        V oldValue = get(key);
+    public Object remove(final Object key) {
+        Object oldValue = get(key);
         invokeCacheMethod(_removeMethod, new Object[] {String.valueOf(key)});
         return oldValue;
     }
@@ -220,8 +218,11 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends K, ? extends V> map) {
-        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             String key = String.valueOf(entry.getKey());
             invokeCacheMethod(_putMethod, new Object[] {key, entry.getValue(), _groups});
         }
@@ -240,21 +241,21 @@ public final class OsCache<K, V> extends AbstractDistributedCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public Set<K> keySet() {
+    public Set<Object> keySet() {
         throw new UnsupportedOperationException("keySet()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Collection<V> values() {
+    public Collection<Object> values() {
         throw new UnsupportedOperationException("values()");
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<K, V>> entrySet() {
+    public Set<Entry<Object, Object>> entrySet() {
         throw new UnsupportedOperationException("entrySet()");
     }
     

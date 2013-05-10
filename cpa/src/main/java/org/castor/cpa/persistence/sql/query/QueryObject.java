@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Dennis Butterstein, Ralf Joachim
+ * Copyright 2009 Ralf Joachim, Ahmad Hassan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,28 +12,35 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * $Id$
  */
-
 package org.castor.cpa.persistence.sql.query;
 
 /**
- * Interface providing method for Elements of the visitor pattern to receive visitors.
- *
- * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
+ * Abstract base class for all query objects. 
+ *  
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public interface QueryObject {
+public abstract class QueryObject {
     //-----------------------------------------------------------------------------------    
 
+    @Override
+    public final String toString() {
+        QueryContext ctx = new QueryContext();
+        toString(ctx);
+        return ctx.toString();
+    }
+    
     /**
-     * Accept method to handle incoming visitors.
+     * Append a string representation of the object to the given QueryContext. In general,
+     * this toString method appends a string that "textually represents" this object. The
+     * result should be a string in valid SQL syntax. It is required that all subclasses
+     * override this method.
      * 
-     * @param visitor Visitor to be handled.
+     * @param ctx QueryContext to append the string representation of the object to.
      */
-    void accept(final Visitor visitor);
-
+    public abstract void toString(QueryContext ctx);
+    
     //-----------------------------------------------------------------------------------    
 }

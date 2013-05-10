@@ -20,15 +20,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandler;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerBigDecimal;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerInteger;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerLong;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerString;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -40,7 +36,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
     //-----------------------------------------------------------------------------------
@@ -71,7 +67,7 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      */
     public IdentityKeyGenerator(final PersistenceFactory factory, final int sqlType)
     throws MappingException {
-        super(null);
+        super(factory, null);
         
         _factory = factory;
 
@@ -113,7 +109,7 @@ public final class IdentityKeyGenerator extends AbstractAfterKeyGenerator {
      * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName) throws PersistenceException {
+            final String primKeyName, final Properties props) throws PersistenceException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 

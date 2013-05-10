@@ -21,18 +21,17 @@ import java.util.HashMap;
  * Cache to test AbstractDistributedCache.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
-public final class CacheMock<K, V> extends AbstractDistributedCache<K, V> {
+public final class CacheMock extends AbstractDistributedCache {
     //--------------------------------------------------------------------------
     
     /**
      * Default constructor.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public CacheMock() {
-        HashMap map = new HashMap();
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
         
         // put some entries for testing into the cache
         map.put("first key", "first value");

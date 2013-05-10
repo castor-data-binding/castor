@@ -2,7 +2,7 @@ create sequence test20_keygen_seq
 //
 
 create table test20_keygen (
-  id    integer           not null,
+  id    int           not null,
   attr  varchar(200)  not null
 )
 //
@@ -11,15 +11,12 @@ create unique index test20_keygen_pk on test20_keygen ( id )
 //
 
 create table test20_keygen_ext (
-  id   integer          not null,
+  id   int          not null,
   ext  varchar(200) not null
 )
 //
 
 create unique index test20_keygen_ext_pk on test20_keygen_ext ( id )
-//
-
-create sequence test20_keygen_string_seq
 //
 
 create table test20_keygen_string (
@@ -59,7 +56,7 @@ create unique index test20_uuid_ext_pk on test20_uuid_ext ( id )
 //
 
 create table test20_identity (
-  id    integer default serial primary key ,
+  id    integer not null primary key auto_increment,
   attr  varchar(200) not null
 )
 //
@@ -75,7 +72,7 @@ create unique index test20_ident_ext_pk on test20_identity_ext ( id )
 
 create table test20_seqtable (
   table_name  varchar(200)  not null,
-  max_id      integer
+  max_id      int
 )
 //
 

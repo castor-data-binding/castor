@@ -18,11 +18,11 @@ package org.castor.cache.simple;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.castor.cache.AbstractBaseCache;
 import org.castor.cache.CacheAcquireException;
@@ -36,15 +36,12 @@ import org.castor.cache.CacheAcquireException;
  * <b>capacity</b> which defines the maximum number of objects the cache can hold. If not
  * specified a default capacity of 30 objects will be used.
  *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:tyip AT leafsoft DOT com">Thomas Yip</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
+public final class CountLimited extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
@@ -63,13 +60,13 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     private static final int LRU_NEW = 1;
     
     /** Map keys to positions. */
-    private HashMap<K, Integer> _mapKeyPos = null;
+    private Hashtable<Object, Integer> _mapKeyPos = null;
     
     /** Array of keys. */
-    private K[] _keys = null;
+    private Object[] _keys = null;
     
     /** Array of values. */
-    private V[] _values = null;
+    private Object[] _values = null;
     
     /** Array with status of the entries. */
     private int[] _status = null;
@@ -80,16 +77,12 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /** Current position to check if value can be replaced at put. */
     private int _cur = 0;
     
-    /** ReadWriteLock to synchronize access to cache. */
-    private final ReentrantReadWriteLock _lock = new ReentrantReadWriteLock();
-    
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
     
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);
         
@@ -101,9 +94,9 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
             _capacity = DEFAULT_CAPACITY;
         }
 
-        _mapKeyPos = new HashMap<K, Integer>(_capacity);
-        _keys = (K[]) new Object[_capacity];
-        _values = (V[]) new Object[_capacity];
+        _mapKeyPos = new Hashtable<Object, Integer>(_capacity);
+        _keys = new Object[_capacity];
+        _values = new Object[_capacity];
         _status = new int[_capacity];
     }
 
@@ -128,74 +121,47 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public int size() {
-        try {
-            _lock.readLock().lock();
-            return _mapKeyPos.size();
-        } finally {
-            _lock.readLock().unlock();
-        }
+    public synchronized int size() { return _mapKeyPos.size(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public synchronized boolean isEmpty() { return _mapKeyPos.isEmpty(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public synchronized boolean containsKey(final Object key) {
+        return _mapKeyPos.containsKey(key);
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean isEmpty() {
-        try {
-            _lock.readLock().lock();
-            return _mapKeyPos.isEmpty();
-        } finally {
-            _lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean containsKey(final Object key) {
-        try {
-            _lock.readLock().lock();
-            return _mapKeyPos.containsKey(key);
-        } finally {
-            _lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean containsValue(final Object value) {
-        try {
-            _lock.readLock().lock();
-            for (Integer pos : _mapKeyPos.values()) {
-                if (pos != null) {
-                    if (value == null) {
-                        if (_values[pos.intValue()] == null) { return true; }  
-                    } else {
-                        if (value.equals(_values[pos.intValue()])) { return true; }  
-                    }
+    public synchronized boolean containsValue(final Object value) {
+        Iterator<Integer> iter = _mapKeyPos.values().iterator();
+        while (iter.hasNext()) {
+            Integer pos = iter.next();
+            if (pos != null) {
+                if (value == null) {
+                    if (_values[pos.intValue()] == null) { return true; }  
+                } else {
+                    if (value.equals(_values[pos.intValue()])) { return true; }  
                 }
             }
-            return false;
-        } finally {
-            _lock.readLock().unlock();
         }
+        return false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public V get(final Object key) {
-        try {
-            _lock.writeLock().lock();
-            Integer pos = _mapKeyPos.get(key);
-            if (pos == null) { return null; }
-            int intPos = pos.intValue();
-            _status[intPos] = LRU_NEW;
-            return _values[intPos]; 
-        } finally {
-            _lock.writeLock().unlock();
-        }
+    public synchronized Object get(final Object key) {
+        Integer pos = _mapKeyPos.get(key);
+        if (pos == null) { return null; }
+        int intPos = pos.intValue();
+        _status[intPos] = LRU_NEW;
+        return _values[intPos]; 
     }
     
     //--------------------------------------------------------------------------
@@ -204,61 +170,51 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V put(final K key, final V value) {
-        try {
-            _lock.writeLock().lock();
-            Integer pos = _mapKeyPos.get(key);
-            if (pos != null) {
-                int intPos = pos.intValue();
-                V old = _values[intPos];
-                _values[intPos] = value;
-                _status[intPos] = LRU_NEW;
-                return old;
-            }
-            // skip to first position with LRU_OLD status.
-            while (_status[_cur] == LRU_NEW) {
-                _status[_cur] = LRU_OLD;
-                _cur++;
-                if (_cur >= _capacity) { _cur = 0; }
-            }
-            
-            if (_keys[_cur] != null) {
-                pos = _mapKeyPos.remove(_keys[_cur]);
-            } else {
-                pos = new Integer(_cur);
-            }
-            
-            _keys[_cur] = key;
-            _values[_cur] = value;
-            _status[_cur] = LRU_NEW;
-            _mapKeyPos.put(key, pos);
-            
+    public synchronized Object put(final Object key, final Object value) {
+        Integer pos = _mapKeyPos.get(key);
+        if (pos != null) {
+            int intPos = pos.intValue();
+            Object old = _values[intPos];
+            _values[intPos] = value;
+            _status[intPos] = LRU_NEW;
+            return old;
+        }
+        // skip to first position with LRU_OLD status.
+        while (_status[_cur] == LRU_NEW) {
+            _status[_cur] = LRU_OLD;
             _cur++;
             if (_cur >= _capacity) { _cur = 0; }
-            
-            return null;
-        } finally {
-            _lock.writeLock().unlock();
         }
+        
+        if (_keys[_cur] != null) {
+            pos = _mapKeyPos.remove(_keys[_cur]);
+        } else {
+            pos = new Integer(_cur);
+        }
+        
+        _keys[_cur] = key;
+        _values[_cur] = value;
+        _status[_cur] = LRU_NEW;
+        _mapKeyPos.put(key, pos);
+        
+        _cur++;
+        if (_cur >= _capacity) { _cur = 0; }
+        
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public V remove(final Object key) {
-        try {
-            _lock.writeLock().lock();
-            Integer pos = _mapKeyPos.remove(key);
-            if (pos == null) { return null; }
-            int intPos = pos.intValue();
-            V old = _values[intPos];
-            _keys[intPos] = null;
-            _values[intPos] = null;
-            _status[intPos] = LRU_OLD;
-            return old;
-        } finally {
-            _lock.writeLock().unlock();
-        }
+    public synchronized Object remove(final Object key) {
+        Integer pos = _mapKeyPos.remove(key);
+        if (pos == null) { return null; }
+        int intPos = pos.intValue();
+        Object old = _values[intPos];
+        _keys[intPos] = null;
+        _values[intPos] = null;
+        _status[intPos] = LRU_OLD;
+        return old;
     }
     
     //--------------------------------------------------------------------------
@@ -267,8 +223,11 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends K, ? extends V> map) {
-        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -276,15 +235,13 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void clear() {
-        _lock.writeLock().lock();
+    public synchronized void clear() {
         _mapKeyPos.clear();
         for (int intPos = 0; intPos < _capacity; intPos++) {
             _keys[intPos] = null;
             _values[intPos] = null;
             _status[intPos] = LRU_OLD;
         }
-        _lock.writeLock().unlock();
     }
 
     //--------------------------------------------------------------------------
@@ -293,42 +250,38 @@ public final class CountLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public Set<K> keySet() {
-        try {
-            _lock.readLock().lock();
-            return Collections.unmodifiableSet(_mapKeyPos.keySet());
-        } finally {
-            _lock.readLock().unlock();
-        }
+    public synchronized Set<Object> keySet() {
+        return Collections.unmodifiableSet(_mapKeyPos.keySet());
     }
     
     /**
      * {@inheritDoc}
      */
-    public Collection<V> values() {
-        Collection<V> col = new ArrayList<V>();
-        _lock.readLock().lock();
-        for (Integer pos : _mapKeyPos.values()) {
+    public synchronized Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>(_mapKeyPos.size());
+        Iterator<Integer> iter = _mapKeyPos.values().iterator();
+        while (iter.hasNext()) {
+            Integer pos = iter.next();
             if (pos != null) {
                 col.add(_values[pos.intValue()]);
             }
         }
-        _lock.readLock().unlock();
         return Collections.unmodifiableCollection(col);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<K, V>> entrySet() {
-        Map<K, V> map = new HashMap<K, V>();
-        _lock.readLock().lock();
-        for (Integer pos : _mapKeyPos.values()) {
+    public synchronized Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new Hashtable<Object, Object>(_mapKeyPos.size());
+        Iterator<Entry<Object, Integer>> iter = _mapKeyPos.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<Object, Integer> entry = iter.next();
+            Integer pos = entry.getValue();
             if (pos != null) {
-                map.put(_keys[pos.intValue()], _values[pos.intValue()]);
+                map.put(entry.getKey(), _values[pos.intValue()]);
             }
         }
-        _lock.readLock().unlock();
         return Collections.unmodifiableSet(map.entrySet());
     }
 

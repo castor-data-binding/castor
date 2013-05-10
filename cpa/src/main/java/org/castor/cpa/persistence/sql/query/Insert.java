@@ -28,9 +28,9 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
-public final class Insert implements QueryObject {    
+public final class Insert extends QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /** Qualifier of the table to update records of. */
@@ -51,24 +51,6 @@ public final class Insert implements QueryObject {
     }    
     
     //-----------------------------------------------------------------------------------    
-
-    /** 
-     * Getter returning Qualifier currently set.
-     * 
-     * @return Qualifier currently set.
-     */
-    public Qualifier getQualifier() {
-        return _qualifier;
-    }
-
-    /** 
-     * Getter returning list of assignments currently set.
-     * 
-     * @return List of assignments currently set.
-     */
-    public List<Assignment> getAssignment() {
-        return _assignment;
-    }
 
     /**
      * Appends given assignment to the list of Assignment objects.
@@ -91,59 +73,45 @@ public final class Insert implements QueryObject {
     }
 
     //-----------------------------------------------------------------------------------    
-
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(QueryConstants.INSERT);
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.INTO);
-        sb.append(QueryConstants.SPACE);
+    
+    @Override
+    public void toString(final QueryContext ctx) {
+        ctx.append(QueryConstants.INSERT);
+        ctx.append(QueryConstants.SPACE);        
+        ctx.append(QueryConstants.INTO);        
+        ctx.append(QueryConstants.SPACE);
         
-        sb.append(_qualifier.toString());
+        _qualifier.toString(ctx);
         
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.LPAREN);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.LPAREN);
         
         for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            sb.append(iter.next().leftExpression().toString());
+            iter.next().leftExpression().toString(ctx);
             if (iter.hasNext()) {
-                sb.append(QueryConstants.SEPERATOR);
-                sb.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
         }
 
-        sb.append(QueryConstants.RPAREN); 
+        ctx.append(QueryConstants.RPAREN); 
         
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.VALUES);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.VALUES);
 
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.LPAREN);   
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.LPAREN);   
 
         for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            sb.append(iter.next().rightExpression().toString());
+            iter.next().rightExpression().toString(ctx);
             if (iter.hasNext()) {
-                sb.append(QueryConstants.SEPERATOR);
-                sb.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
         }
 
-        sb.append(QueryConstants.RPAREN);
-
-        return sb.toString();
+        ctx.append(QueryConstants.RPAREN);
     }
-
+    
     //-----------------------------------------------------------------------------------
 }

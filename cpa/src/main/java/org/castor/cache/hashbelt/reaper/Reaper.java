@@ -22,19 +22,16 @@ import org.castor.cache.hashbelt.container.Container;
  * and told to perform an action on the expired container before the container is garbage
  * collected.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public interface Reaper<K, V> {
+public interface Reaper {
     /**
      * Methode called with a container that has expired before the container is garbage
      * collected.
      * 
      * @param expiredContainer The container that has expired.
      */
-    void handleExpiredContainer(final Container<K, V> expiredContainer);
+    void handleExpiredContainer(final Container expiredContainer);
 }

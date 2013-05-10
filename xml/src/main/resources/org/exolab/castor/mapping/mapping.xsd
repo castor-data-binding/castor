@@ -21,9 +21,9 @@
       <xsd:sequence>
         <xsd:element name="description"   type="xsd:string" minOccurs="0" maxOccurs="1" />
         <xsd:element ref="include"        minOccurs="0" maxOccurs="unbounded" />
-        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
         <xsd:element ref="class"          minOccurs="0" maxOccurs="unbounded" />
         <xsd:element ref="key-generator"  minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element ref="field-handler"  minOccurs="0" maxOccurs="unbounded" />        
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
@@ -62,7 +62,7 @@
         <xsd:attribute name="extends"  type="xsd:IDREF"      use="optional">
             <xsd:annotation>
                 <xsd:documentation>
-                    An optional attribute to specify the extension relationship 
+                    An optional attribute to specify the extension realtionship 
                     between objects. Used only if mapping of the another object 
                     is provided.
                 </xsd:documentation>
@@ -95,24 +95,13 @@
            </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="key-generator" type="xsd:string"   use="optional"/>
-        <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false">
-            <xsd:annotation>
-                <xsd:documentation>
-                    Specifies whether Castor should use reflection to establish XML data 
-                    binding information at startup time for those fields that are not
-                    mapped explicitly.
-                </xsd:documentation>
-            </xsd:annotation>
-        </xsd:attribute>
+        <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false"/>
         <xsd:attribute name="verify-constructable" type="xsd:boolean"  use="optional" default="true"/>
-        <xsd:attribute name="version" type="xsd:string" use="optional">
-            <xsd:annotation>
-                <xsd:documentation>
-                    If set to the name of a mapped field, this field will be used for check 
-                    on object modifications during transactions (Castor JDO only).
-                </xsd:documentation>
-            </xsd:annotation>
-        </xsd:attribute>
+        <!-- 
+            If the version attribute is set to the name of a mapped field, 
+            this field will be used for check on object modifications during transactions.
+        -->
+        <xsd:attribute name="version" type="xsd:string" use="optional"/>
     </xsd:complexType>
   </xsd:element>
 
@@ -221,8 +210,7 @@
       <xsd:attribute name="collection"    use="optional">
          <xsd:annotation>
             <xsd:documentation>
-                An optional attribute used to specify the type of the collection, if 
-                the property is multi-valued.
+                An optional attribute used to specify the type of the collection.
             </xsd:documentation>
          </xsd:annotation>
          <xsd:simpleType>
@@ -230,7 +218,6 @@
                <xsd:enumeration value="array"/>
                <xsd:enumeration value="vector"/>
                <xsd:enumeration value="arraylist"/>
-               <xsd:enumeration value="priorityqueue"/>
                <xsd:enumeration value="hashtable"/>
                <xsd:enumeration value="collection"/>
                <xsd:enumeration value="set"/>
@@ -301,16 +288,6 @@
                   An optional attribute to specidy name of the columns that holds 
                   the foreign key to this object. That column is in the database 
                   table that stores objects of the Java type of this field.
-              </xsd:documentation>
-          </xsd:annotation>
-      </xsd:attribute>
-      <xsd:attribute name="cascading" type="xsd:string" use="optional">
-          <xsd:annotation>
-              <xsd:documentation>
-                  An optional attribute to specify cascading support; possible values are
-                  'none', 'all', 'create', 'delete' and 'update'; it is possible to use more than one
-                  of those values (when not using 'all' or 'none'), using whitespace as a 
-                  delimiter (as in 'create delete').
               </xsd:documentation>
           </xsd:annotation>
       </xsd:attribute>

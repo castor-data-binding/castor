@@ -1199,20 +1199,10 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint + str + "\nThe Hour must be 2 digits long", idx);
         }
 
-        short hour;
+        short value1;
 
-        hour = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        
-        boolean isHourOfValue24 = false;
-        if (hour == 24) {
-        	result.setHour((short) 0);
-        	Duration oneDay = new Duration();
-            oneDay.setDay((short) 1);
-            result.addDuration(oneDay);
-            isHourOfValue24 = true;
-        } else {
-        	result.setHour(hour);
-        }
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setHour(value1);
 
         idx += 2;
 
@@ -1227,12 +1217,8 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint+str+"\nThe Minute must be 2 digits long", idx);
         }
 
-        short minutes = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        
-        if (isHourOfValue24 && minutes != 0) {
-            throw new ParseException(complaint + str + "\nWhen an hour of 24 is used, minutes must be strictly of value 00.", idx);
-        }
-        result.setMinute(minutes);
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setMinute(value1);
 
         idx += 2;
 
@@ -1247,11 +1233,8 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
             throw new ParseException(complaint + str + "\nThe Second must be 2 digits long", idx);
         }
 
-        short seconds = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        if (isHourOfValue24 && seconds != 0) {
-            throw new ParseException(complaint + str + "\nWhen an hour of 24 is used, seconds must be strictly of value 00.", idx);
-        }
-        result.setSecond(seconds);
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setSecond(value1);
 
         idx += 2;
 

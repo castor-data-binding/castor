@@ -3,37 +3,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-codegen</artifactId>
-    <version>1.3.3-rc2-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.3.3-rc2-SNAPSHOT</version>
+		<version>1.3.1</version>
 	</parent>
     
 	<packaging>jar</packaging>
 
 	<name>Castor XML - Code generator</name>
-	<description>Code generator of Castor XML: takes a set of XML schemas and generates Java source code based on the content definitions</description>
+	<description />
 
 	<build>
-		<resources>
-      <!-- 
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                	<exclude>META-INF/MANIFEST.MF</exclude>
-                </excludes>
-            </resource>
-            <resource>
-            	<directory>src/main/resources</directory>
-            	<filtering>true</filtering>
-            	<includes>
-            		<include>META-INF/MANIFEST.MF</include>
-            	</includes>
-            </resource>
-             -->
-        </resources>
 	   <plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -62,13 +44,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:http://svn.codehaus.org/castor/castor/trunk/codegen
+			scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.1/codegen
 		</connection>
 		<developerConnection>
-			scm:svn:https://svn.codehaus.org/castor/castor/trunk/codegen
+			scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.1/codegen
 		</developerConnection>
 		<url>
-			http://svn.castor.codehaus.org/browse/castor/castor/trunk/codegen
+			http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.1/codegen
 		</url>
 	</scm>
 
@@ -89,32 +71,17 @@
             <artifactId>castor-xml-schema</artifactId>
         </dependency>
 
-<!-- 
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-jdo</artifactId>
             <scope>test</scope>
         </dependency>
-         -->
 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 		</dependency>
-        
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
 
-        <!--  optional dependencies -->
-		<dependency>
-			<groupId>velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-        <!--  test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -125,6 +92,12 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 	</dependencies>

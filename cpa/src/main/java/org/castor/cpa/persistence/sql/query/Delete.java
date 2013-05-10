@@ -24,9 +24,9 @@ import org.castor.cpa.persistence.sql.query.condition.Condition;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public final class Delete implements QueryObject {
+public final class Delete extends QueryObject {    
     //-----------------------------------------------------------------------------------    
     
     /** Qualifier of the table to delete records from. */
@@ -65,46 +65,25 @@ public final class Delete implements QueryObject {
     public void setCondition(final Condition condition) {
         _condition = condition;
     }
-
-    /**
-     * Get method returning <code>Qualifier</code> currently set.
-     * 
-     * @return Qualifier currently set.
-     */
-    public Qualifier getQualifier() { return _qualifier; }
-
+    
     //-----------------------------------------------------------------------------------    
 
-    /** 
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------    
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(QueryConstants.DELETE);
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.FROM);
-        sb.append(QueryConstants.SPACE);
-        sb.append(_qualifier.toString());
+    @Override
+    public void toString(final QueryContext ctx) {
+        ctx.append(QueryConstants.DELETE);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.FROM);
+        ctx.append(QueryConstants.SPACE);
+        _qualifier.toString(ctx);
 
         if (_condition != null) {
-            sb.append(QueryConstants.SPACE);
-            sb.append(QueryConstants.WHERE);
-            sb.append(QueryConstants.SPACE);
-            sb.append(_condition.toString());
+            ctx.append(QueryConstants.SPACE);
+            ctx.append(QueryConstants.WHERE);
+            ctx.append(QueryConstants.SPACE);
+            _condition.toString(ctx);
         }
-
-        return sb.toString();
     }
 
-    //-----------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------    
 }
 

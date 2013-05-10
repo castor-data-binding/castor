@@ -51,13 +51,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
@@ -225,8 +218,6 @@ public class Unmarshaller {
      * unmarshalling process.
      * 
      * @param internalContext the {@link InternalContext} to use
-     *
-     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext) {
         this(internalContext, (Class) null, (ClassLoader) null);
@@ -239,8 +230,6 @@ public class Unmarshaller {
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
-     *
-     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext, final Class c) {
         this(internalContext, c, null);
@@ -254,15 +243,16 @@ public class Unmarshaller {
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
      * @param loader The {@link ClassLoader} to use.
-     *
-     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(
-            final InternalContext internalContext,
+            final InternalContext internalContext, 
             final Class c, final ClassLoader loader) {
         super();
-
-        checkNotNull(internalContext, "InternalContext must not be null.");
+        if (internalContext == null) {
+            String message = "InternalContext must not be null";
+            LOG.warn(message);
+            throw new IllegalArgumentException(message);
+        }
         setInternalContext(internalContext);
 
         setClass(c);
@@ -289,9 +279,7 @@ public class Unmarshaller {
      *
      * @param internalContext the internal context to use
      * @param mapping The Mapping to use.
-     * @throws MappingException in case that Unmarshaller fails to be instantiated
-     *
-     * @throws IllegalArgumentException if internalContext is null
+     * @throws MappingException in case that Unmarshaller fails to be instantiated 
      */
     public Unmarshaller(final InternalContext internalContext, final Mapping mapping)
     throws MappingException {
@@ -320,8 +308,6 @@ public class Unmarshaller {
      * @param root the instance to unmarshal into. This
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
-     *
-     * @throws IllegalArgumentException if internalContext is null
      */
     public Unmarshaller(final InternalContext internalContext, final Object root) {
         this(internalContext, null, null);
@@ -737,9 +723,8 @@ public class Unmarshaller {
         //-- First try XMLReader
         try {
             reader = _internalContext.getXMLReader();
-            if (entityResolver != null) {
-               reader.setEntityResolver(entityResolver);
-            }
+            if (entityResolver != null)
+                reader.setEntityResolver(entityResolver);
         } catch (RuntimeException rx) {
         	LOG.debug("Unable to create SAX XMLReader, attempting SAX Parser.");
         }
@@ -795,116 +780,6 @@ public class Unmarshaller {
 		return unmarshal(new DOMEventProducer(node));
     } //-- unmarshal(EventProducer)
 
-	/**
-	 * Unmarshals objects of this {@link Unmarshaller}'s class type. The class must
-	 * specify the proper access methods (setters/getters) in order for
-	 * instances of the class to be properly unmarshalled.
-	 * 
-	 * @param eventReader
-	 *            the StaX {@link XMLEventReader} to read XML from.
-     * @exception MarshalException
-     *                indicates a general problem during the unmarshalling process.
-     * @throws ValidationException
-     *             indicates a problem related to validation.
-     *             
-     * @since 1.3.2
-	 **/
-	public Object unmarshal(XMLEventReader eventReader)
-			throws MarshalException, ValidationException {
-		return unmarshal(BaseSax2EventFromStaxProducer.createSax2EventFromStax(eventReader));
-	}
-
-	/**
-	 * Unmarshals objects of this {@link Unmarshaller}'s class type. The class must
-	 * specify the proper access methods (setters/getters) in order for
-	 * instances of the class to be properly unmarshalled.
-	 * 
-	 * @param streamReader
-	 *            the STaX {@link XMLStreamReader} to read XML from.
-	 * @exception MarshalException
-	 *                indicates a general problem during the unmarshalling process.
-	 * @throws ValidationException
-	 *             indicates a problem related to validation.
-	 *             
-     * @since 1.3.2
-	 **/
-	public Object unmarshal(XMLStreamReader streamReader)
-			throws MarshalException, ValidationException {
-		return unmarshal(BaseSax2EventFromStaxProducer.createSax2EventFromStax(streamReader));
-	}
-
-    /**
-     * Unmarshals objects of this {@link Unmarshaller}'s class type. <br/>
-     * The class must specify the proper access methods (setters/getters) in
-     * order for instances of the class to be properly unmarshalled. </br/>
-     * 
-     * @param eventProducer
-     *            the {@link SAX2EventAndErrorProducer} instance which produces
-     *            the SAX 2 events and handles SAX 2 errors.
-     * @exception MarshalException
-     *                indiactes a general error during the unmarshalling
-     *                process.
-     * @exception ValidationException
-     *                indicates a validation error.
-     * @since 1.3.2
-     **/
-    public Object unmarshal(SAX2EventAndErrorProducer eventProducer)
-        throws MarshalException, ValidationException
-    {
-        UnmarshalHandler handler = createHandler();
-        eventProducer.setContentHandler(handler);
-        eventProducer.setErrorHandler(handler);
-        try {
-            eventProducer.start();
-        }
-        catch(org.xml.sax.SAXException sx) {
-            convertSAXExceptionToMarshalException(handler, sx);
-        }
-        return handler.getObject();
-
-    }
-
-    /**
-     * Unmarshals ths given {@link Source} instance. Currently this method will support fallowing classes {@link
-     * DOMSource}, {@link SAXSource} and {@link StreamSource}.
-     *
-     * @param source the source to unmarshal
-     *
-     * @return the unmarshalled object instance
-     *
-     * @throws IllegalArgumentException if the given source is null or it is unsupported
-     * @throws MarshalException         indiactes a general error during the unmarshalling process.
-     * @throws ValidationException      indicates a validation error.
-     */
-    public Object unmarshal(Source source) throws MarshalException, ValidationException {
-        checkNotNull(source, "The given 'javax.xml.transform.Source' instance is null.");
-
-        if (source instanceof DOMSource) {
-            DOMSource domSource = (DOMSource) source;
-            if (domSource.getNode() != null) {
-                return unmarshal(domSource.getNode());
-            }
-        } else if (source instanceof SAXSource) {
-            SAXSource saxSource = (SAXSource) source;
-
-            if (saxSource.getInputSource() != null) {
-                // TODO should the XMLReader from the SAXSource should be used instead ?
-                return unmarshal(saxSource.getInputSource());
-            }
-        } else if (source instanceof StreamSource) {
-            StreamSource streamSource = (StreamSource) source;
-
-            if (streamSource.getInputStream() != null) {
-                return unmarshal(new InputSource(streamSource.getInputStream()));
-            } else if (streamSource.getReader() != null) {
-                return unmarshal(streamSource.getReader());
-            }
-        }
-
-        throw new IllegalArgumentException(
-                "The given 'javax.transform.xml.Source' is not supported, or were incorrectly instantiated.");
-    }
-
     /**
      * Converts a SAXException to a (localised) MarshalException.
      * @param handler The {@link UnmarshalHandler} required to obtain DocumentLocator instance.
@@ -930,6 +805,8 @@ public class Unmarshaller {
     //-------------------------/
     //- Public Static Methods -/
     //-------------------------/
+
+
     /**
      * Returns a ContentHandler for the given UnmarshalHandler
      *
@@ -1133,21 +1010,6 @@ public class Unmarshaller {
      */
     public void setResolver(XMLClassDescriptorResolver xmlClassDescriptorResolver) {
         _internalContext.setResolver(xmlClassDescriptorResolver);
-    }
-
-    /**
-     * Checks if passed parameter is not null. In case it is, a {@link IllegalArgumentException} is thrown.
-     *
-     * @param param the parameter to check
-     * @param msg the error message to use for thrown exception
-     *
-     * @throws IllegalArgumentException if param is null
-     */
-    private static void checkNotNull(Object param, String msg) {
-
-        if (param  == null) {
-            throw new IllegalArgumentException(msg);
-        }
     }
 } //-- Unmarshaller
 

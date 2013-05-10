@@ -46,7 +46,7 @@ import org.castor.cpa.query.object.parameter.PositionalParameter;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class SelectQueryImpl extends AbstractQueryObject implements SelectQuery {
@@ -257,14 +257,6 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
         _limit = new LongLiteral(limit);
         _offset = new LongLiteral(offset);
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public void setLimit(final int limit, final Parameter offset) {
-        _limit = new LongLiteral(limit);
-        _offset = offset;
-    }
 
     /**
      * {@inheritDoc}
@@ -272,14 +264,6 @@ public final class SelectQueryImpl extends AbstractQueryObject implements Select
     public void setLimit(final Parameter limit, final Parameter offset) {
         _limit = limit;
         _offset = offset;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public void setLimit(final Parameter limit, final int offset) {
-        _limit = limit;
-        _offset = new LongLiteral(offset);
     }
     
     //--------------------------------------------------------------------------

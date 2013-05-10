@@ -59,7 +59,9 @@ import java.util.Enumeration;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class GeneralizedFieldHandler extends AbstractFieldHandler {
+public abstract class GeneralizedFieldHandler 
+    extends AbstractFieldHandler
+{
 
     /**
      * Error message when a null FieldHandler is encountered
@@ -294,5 +296,5 @@ public abstract class GeneralizedFieldHandler extends AbstractFieldHandler {
         
     }
 
-}
+} //-- GeneralizedFieldHandler
 

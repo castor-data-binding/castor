@@ -15,27 +15,19 @@
  */
 package org.exolab.castor.xml;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-import org.castor.test.entity.*;
-import org.castor.xml.InternalContext;
-import org.castor.xml.XMLProperties;
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.util.ObjectFactory;
-import org.xml.sax.InputSource;
-
-import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
-import static org.easymock.EasyMock.*;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import org.castor.xml.InternalContext;
+import org.castor.xml.XMLProperties;
 
 /**
  * Test case for testing various pieces of functionality of {@link Unmarshaller}.
  */
 public class TestUnmarshaller extends TestCase {
-
     private static final String testXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\" />";
     private Reader _reader;
     private InternalContext _internalContext;
@@ -63,24 +55,24 @@ public class TestUnmarshaller extends TestCase {
      * Tests usage of get-/setProperty() methods.
     */
     public void testSetProperty() {
-
+        
         XMLContext xmlContext = new XMLContext();
         Unmarshaller unmarshaller = xmlContext.createUnmarshaller();
         assertNotNull(unmarshaller);
-
-        String lenientSequenceValidation =
+        
+        String lenientSequenceValidation = 
             unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("false", lenientSequenceValidation);
-
+        
         unmarshaller.setProperty(XMLProperties.LENIENT_SEQUENCE_ORDER, "true");
-
-        lenientSequenceValidation =
+ 
+        lenientSequenceValidation = 
             unmarshaller.getProperty(XMLProperties.LENIENT_SEQUENCE_ORDER);
         assertNotNull(lenientSequenceValidation);
         assertEquals("true", lenientSequenceValidation);
     }
-
+    
     /**
      * Creates an Unmarshaller instance without any argument; sets the
      * root class and calls unmarshal.
@@ -93,7 +85,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance without any argument; sets the
      * root object and calls unmarshal.
@@ -106,9 +98,9 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
-     * Creates an Unmarshaller instance with root class
+     * Creates an Unmarshaller instance with root class 
      * and calls unmarshal.
      * @throws Exception in case of unmarshal problems
      */
@@ -118,9 +110,9 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
-     * Creates an Unmarshaller instance with root class
+     * Creates an Unmarshaller instance with root class 
      * and calls unmarshal.
      * @throws Exception in case of unmarshal problems
      */
@@ -131,7 +123,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context only;
      * sets root class and calls unmarshal.
@@ -144,7 +136,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context only;
      * sets root class and calls unmarshal.
@@ -158,7 +150,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -170,7 +162,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -184,7 +176,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context and root class
      * and calls unmarshal.
@@ -197,7 +189,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -209,7 +201,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -223,7 +215,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -236,7 +228,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with context, class and class loader
      * arguments and calls unmarshal.
@@ -249,7 +241,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+   
     /**
      * Creates an Unmarshaller instance with an root object instance
      * and calls unmarshal.
@@ -261,7 +253,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance with an root object instance
      * and calls unmarshal.
@@ -274,7 +266,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.
@@ -286,7 +278,7 @@ public class TestUnmarshaller extends TestCase {
         Assert.assertNotNull(f);
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
-
+    
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.
@@ -300,7 +292,7 @@ public class TestUnmarshaller extends TestCase {
             // expected!
         }
     }
-
+    
     /**
      * Creates an Unmarshaller instance withcontext and an object instance argument
      *  and calls unmarshal.

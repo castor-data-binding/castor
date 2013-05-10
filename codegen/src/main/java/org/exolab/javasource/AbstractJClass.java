@@ -65,15 +65,6 @@ public abstract class AbstractJClass extends JStructure {
      * @param name The name of the AbstractJClass to create.
      */
     protected AbstractJClass(final String name) {
-       this(name, false);
-    }
-
-    /**
-     * Creates a new AbstractJClass with the given name.
-     *
-     * @param name The name of the AbstractJClass to create.
-     */
-    protected AbstractJClass(final String name, boolean useOldFieldNaming) {
         super(name);
         
         _staticInitializer = new JSourceCode();
@@ -81,10 +72,8 @@ public abstract class AbstractJClass extends JStructure {
         _methods = new Vector<JMethod>();
         _innerClasses = null;
         
-        if (useOldFieldNaming) {
-           //-- initialize default Java doc
-           getJDocComment().appendComment("Class " + getLocalName() + ".");
-        }
+        //-- initialize default Java doc
+        getJDocComment().appendComment("Class " + getLocalName() + ".");
     }
 
     //--------------------------------------------------------------------------
@@ -612,6 +601,14 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printConstantDefinitions(final JSourceWriter jsw) {
+        if (!_constants.isEmpty()) {
+            jsw.writeln();
+            jsw.writeln("  //--------------------------/");
+            jsw.writeln(" //- Class/Member constants -/");
+            jsw.writeln("//--------------------------/");
+            jsw.writeln();
+        }
+
         for (JConstant constant : _constants.values()) {
             printAbstractJField(jsw, constant);
         }
@@ -626,9 +623,7 @@ public abstract class AbstractJClass extends JStructure {
     private void printAbstractJField(final JSourceWriter jsw, final AbstractJField field) {
         //-- print Java comment
         JDocComment comment = field.getComment();
-        if (comment != null && comment.getLength() > 0) { 
-           comment.print(jsw); 
-        }
+        if (comment != null) { comment.print(jsw); }
 
         //-- print Annotations
         field.printAnnotations(jsw);
@@ -663,6 +658,14 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMemberVariables(final JSourceWriter jsw) {
+        if (!_fields.isEmpty()) {
+            jsw.writeln();
+            jsw.writeln("  //--------------------------/");
+            jsw.writeln(" //- Class/Member Variables -/");
+            jsw.writeln("//--------------------------/");
+            jsw.writeln();
+        }
+
         for (JField field : _fields.values()) {
             printAbstractJField(jsw, field);
         }
@@ -674,11 +677,15 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printStaticInitializers(final JSourceWriter jsw) {
+        //----------------------/
+        //- Static Initializer -/
+        //----------------------/
+
         if (!_staticInitializer.isEmpty()) {
             jsw.writeln();
             jsw.writeln("static {");
             jsw.writeln(_staticInitializer.toString());
-            jsw.writeln("}");
+            jsw.writeln("};");
             jsw.writeln();
         }
     }
@@ -689,6 +696,14 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printConstructors(final JSourceWriter jsw) {
+        if (_constructors.size() > 0) {
+            jsw.writeln();
+            jsw.writeln("  //----------------/");
+            jsw.writeln(" //- Constructors -/");
+            jsw.writeln("//----------------/");
+            jsw.writeln();
+        }
+
         for (int i = 0; i < _constructors.size(); i++) {
             JConstructor jConstructor = _constructors.elementAt(i);
             jConstructor.print(jsw);
@@ -702,6 +717,14 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMethods(final JSourceWriter jsw) {
+        if (_methods.size() > 0) {
+            jsw.writeln();
+            jsw.writeln("  //-----------/");
+            jsw.writeln(" //- Methods -/");
+            jsw.writeln("//-----------/");
+            jsw.writeln();
+        }
+
         for (int i = 0; i < _methods.size(); i++) {
             JMethod jMethod = _methods.elementAt(i);
             jMethod.print(jsw);
@@ -710,6 +733,13 @@ public abstract class AbstractJClass extends JStructure {
     }
     
     protected final void printSourceCodeFragments(final JSourceWriter sourceWriter) {
+        if (!_sourceCodeEntries.isEmpty()) {
+            sourceWriter.writeln();
+            sourceWriter.writeln("  //----------------------------------/");
+            sourceWriter.writeln(" //- Injected source code fragments -/");
+            sourceWriter.writeln("//----------------------------------/");
+            sourceWriter.writeln();
+        }
         for (String sourceCode : _sourceCodeEntries) {
             sourceWriter.writeln(sourceCode);
             sourceWriter.writeln();
@@ -724,6 +754,12 @@ public abstract class AbstractJClass extends JStructure {
      */
     protected final void printInnerClasses(final JSourceWriter jsw) {
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
+            jsw.writeln();
+            jsw.writeln("  //-----------------/");
+            jsw.writeln(" //- Inner Classes -/");
+            jsw.writeln("//-----------------/");
+            jsw.writeln();
+
             for (int i = 0; i < _innerClasses.size(); i++) {
                 JClass jClass = _innerClasses.elementAt(i);
                 jClass.print(jsw, true);

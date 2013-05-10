@@ -48,9 +48,6 @@ package org.exolab.castor.xml.schema;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.ValidationException;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
@@ -123,12 +120,12 @@ public class Schema extends Annotated {
     /**
      * The global AttribteGroups for this Schema
     **/
-    private Map<String, AttributeGroup> _attributeGroups = new Hashtable<String, AttributeGroup>();
+    private Hashtable _attributeGroups = null;
 
     /**
      * The global attributes for this Schema
     **/
-    private Map<String, AttributeDecl> _attributes = new Hashtable<String, AttributeDecl>();
+    private Hashtable _attributes = null;
 
     /**
      * The value of the block attribute.
@@ -139,7 +136,7 @@ public class Schema extends Annotated {
     /**
      * A list of defined architypes
     **/
-    private Map<String, ComplexType> _complexTypes = new Hashtable<String, ComplexType>();
+    private Hashtable _complexTypes = null;
 
     /**
      * The elementFormDefault attribute for this Schema
@@ -149,7 +146,7 @@ public class Schema extends Annotated {
     /**
      * A list of defined elements
     **/
-    private Map<String, ElementDecl> _elements = new Hashtable<String, ElementDecl>();
+    private Hashtable _elements = null;
 
     /**
      * The value of the final attribute.
@@ -159,12 +156,12 @@ public class Schema extends Annotated {
     /**
      * A list of defined top-levels groups
      */
-    private Map<String, ModelGroup> _groups = new Hashtable<String, ModelGroup>();
+    private Hashtable _groups = null;
     
     /**
      * A list of defined <redefine>
      */
-    private Map<String, RedefineSchema> _redefineSchemas = new Hashtable<String, RedefineSchema>();
+    private Hashtable _redefineSchemas = null;
 
     /**
      * The ID for this Schema
@@ -174,24 +171,24 @@ public class Schema extends Annotated {
     /**
      * A list of imported schemas
     **/
-    private Map<String, Schema> _importedSchemas = new Hashtable<String, Schema>();
+    private Hashtable _importedSchemas = null;
     
     /**
      * A list of included schemas meant to be used only 
      * when the cache mechanism is enabled.
      **/
-    private Map<String, Schema> _cachedincludedSchemas = new Hashtable<String, Schema>();
+    private Hashtable _cachedincludedSchemas = null;
     
 
     /**
-     * A list of XML Schema files included in this schema
+     * A list of  XML Schema files included in this schema
     **/
-    private Vector<String> _includedSchemas = new Vector<String>();
+    private Vector _includedSchemas = null;
 
     /**
      * A list of namespaces declared in this schema
      */
-    private Namespaces _namespaces = new Namespaces();
+    private Namespaces _namespaces = null;
 
     /**
      * The schemaLocation hint provided in the 'import' tag.
@@ -209,7 +206,7 @@ public class Schema extends Annotated {
     /**
      * A list of defined SimpleTypes
     **/
-    private Hashtable<String, SimpleType> _simpleTypes = new Hashtable<String, SimpleType>();
+    private Hashtable _simpleTypes = null;
 
     /**
      * The targetNamespace for this Schema
@@ -238,7 +235,7 @@ public class Schema extends Annotated {
      */
     public Schema() {
         this(null, DEFAULT_SCHEMA_NS);
-    }
+    } //-- Schema
 
 
     /**
@@ -249,38 +246,52 @@ public class Schema extends Annotated {
      */
     public Schema(String schemaNS) {
         this(null, schemaNS);
-    }
+    } //-- Schema
 
     /**
      * Creates a new Schema definition
      *
      * @param prefix the desired namespace prefix for the schemaNS.
-     * @param schemaNamespace the namespace of the XML Schema itself. Note
+     * @param schemaNS the namespace of the XML Schema itself. Note
      * this is not the same as the targetNamespace.
      */
-    public Schema(String prefix, String schemaNamespace) {
+    public Schema(String prefix, String schemaNS) {
         super();
 
-        if (schemaNamespace == null) {
+        _attributes       = new Hashtable();
+        _attributeGroups  = new Hashtable();
+        _complexTypes     = new Hashtable();
+        _simpleTypes      = new Hashtable();
+        _elements         = new Hashtable();
+        _groups           = new Hashtable();
+        _importedSchemas  = new Hashtable();
+        _includedSchemas  = new Vector();
+        _namespaces       = new Namespaces();
+        _redefineSchemas  = new Hashtable();
+        _cachedincludedSchemas = new Hashtable();
+
+        _schemaNamespace = schemaNS;
+        if (_schemaNamespace == null) {
             _schemaNamespace = DEFAULT_SCHEMA_NS;
-        } else {
-            _schemaNamespace = schemaNamespace;
         }
         
         //-- declare default namespace bindings
-        if (prefix == null) {
-            prefix = "";
-        }
-        
+        if (prefix == null) prefix = "";
         addNamespace(prefix, _schemaNamespace);
 
-    }
+        init();
+    } //-- ScehamDef
     
+    private void init() {
+        
+    } //-- init
+
+
     /**
      * Adds the given attribute definition to this Schema definition
      *
      * @param attribute the AttributeDecl to add
-     * @sexception SchemaException if an AttributeDecl
+     * @exception SchemaException if an AttributeDecl
      * already exisits with the same name
     **/
     public void addAttribute(AttributeDecl attribute)
@@ -644,37 +655,40 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all top-level Attribute declarations
      * @return an Enumeration of all top-level Attribute declarations
     **/
-    public Collection<AttributeDecl> getAttributes() {
-    	Vector<AttributeDecl> result = new Vector<AttributeDecl>(_attributes.size()*2);
-    	
-    	result.addAll(_attributes.values());
+    public Enumeration getAttributes() {
+    	Vector result = new Vector(_attributes.size()*2);
+    	Enumeration tempAtt = _attributes.elements();
+    	while (tempAtt.hasMoreElements()) {
+    		result.add(tempAtt.nextElement());	
+    	}
     
-    	Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-    	for (Schema includedSchema : cachedincluded) {
-            Collection<AttributeDecl> tempAtt = includedSchema.getAttributes();
-            for (AttributeDecl attributeDecl : tempAtt) {
-                result.add(attributeDecl);
-            }
-        }
+    	Enumeration cachedincluded = _cachedincludedSchemas.elements();
+    	while (cachedincluded.hasMoreElements()) {
+    		Schema tempSchema = (Schema)cachedincluded.nextElement();
+    		tempAtt = tempSchema.getAttributes();
+    		while (tempAtt.hasMoreElements()) {
+    		    result.add(tempAtt.nextElement());	
+    		}
+    	}
     	
-    	Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-    	for (RedefineSchema redefineSchema : redefinition) {
-            Schema tempSchema = redefineSchema.getOriginalSchema();
+    	Enumeration redefinition = _redefineSchemas.elements();
+    	while (redefinition.hasMoreElements()) {
+    		Schema tempSchema = ((RedefineSchema)redefinition.nextElement()).getOriginalSchema();
             //-- a redefinition doesn't always contain a schema
-            if (tempSchema != null) {
-                //-- Sets the master schema
-                //-- The master schema will help resolving the links at runtime between
-                //-- an structure and its type.
-                tempSchema.setMasterSchema(this);
-                Collection<AttributeDecl> tempAtt = tempSchema.getAttributes();
-                for (AttributeDecl attributeDecl : tempAtt) {
-                    result.add(attributeDecl);
-                }
-            }
-        }
+    		if (tempSchema != null) {
+    			//-- Sets the master schema
+    			//-- The master schema will help resolving the links at runtime between
+    			//-- an structure and its type.
+    			tempSchema.setMasterSchema(this);
+    			tempAtt = tempSchema.getAttributes();
+	    		while (tempAtt.hasMoreElements()) {
+	    			result.add(tempAtt.nextElement());	
+	    		}
+    		}
+    	}
     	
-    	return result;
-    }
+    	return result.elements();
+    } //-- getAttributes
 
     /**
      * Returns the top-level Attribute associated with the given name.
@@ -709,30 +723,23 @@ public class Schema extends Annotated {
         }
 
         if ((ns==null) || (ns.equals(_targetNamespace)) ) {
-        	AttributeDecl tempAtt = _attributes.get(canonicalName);
+        	AttributeDecl tempAtt = (AttributeDecl)_attributes.get(canonicalName);
         	if (tempAtt == null) {
-    			Collection<Schema> cacheIncluded = _cachedincludedSchemas.values();
-                boolean found = false;
-    			for (Schema includedSchema : cacheIncluded) {
-                    tempAtt = includedSchema.getAttribute(canonicalName);
-                    if (tempAtt != null) {
-                        found = true;
-                        break;
-                    }
-                }
-//    			boolean found = false;
-//    			while (cacheIncluded.hasMoreElements() && !found) {
-//    				Schema temp = cacheIncluded.nextElement();
-//    				tempAtt = temp.getAttribute(canonicalName);
-//    				if (tempAtt != null)
-//    					found = true;
-//    			}
+    			Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    			boolean found = false;
+    			while (cacheIncluded.hasMoreElements() && !found) {
+    				Schema temp = (Schema)cacheIncluded.nextElement();
+    				tempAtt = temp.getAttribute(canonicalName);
+    				if (tempAtt != null)
+    					found = true;
+    			}
     			
                 //--look in the redefinition
     			if (!found) {
-    				Iterator<RedefineSchema> redefinition = _redefineSchemas.values().iterator();
-    				while (redefinition.hasNext() && !found) {
-    					Schema tempSchema = redefinition.next().getOriginalSchema();
+    				Enumeration redefinition = _redefineSchemas.elements();
+    				while (redefinition.hasMoreElements() && !found) {
+    					redefinition.nextElement();
+    					Schema tempSchema = ((RedefineSchema)redefinition.nextElement()).getOriginalSchema();
     					if (tempSchema != null) {
     						//-- Sets the master schema
     						//-- The master schema will help resolving the links at runtime between
@@ -762,49 +769,55 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all top-level AttributeGroup declarations
      * @return an Enumeration of all top-level AttributeGroup declarations
     **/
-    public Collection<AttributeGroup> getAttributeGroups() {
-    	Vector<AttributeGroup> result = new Vector<AttributeGroup>(_attributeGroups.size()*2);
+    public Enumeration getAttributeGroups() {
+    	Vector result = new Vector(_attributeGroups.size()*2);
+    	Enumeration tempAtt = _attributeGroups.elements();
+    	while (tempAtt.hasMoreElements()) {
+    		result.add(tempAtt.nextElement());	
+    	}
     	
-    	result.addAll(_attributeGroups.values());
+    	Enumeration cachedincluded = _cachedincludedSchemas.elements();
+    	while (cachedincluded.hasMoreElements()) {
+    		Schema tempSchema = (Schema)cachedincluded.nextElement();
+    		tempAtt = tempSchema.getAttributeGroups();
+    		while (tempAtt.hasMoreElements()) {
+    			result.add(tempAtt.nextElement());	
+    		}
+    	}
     	
-    	Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-    	for (Schema includedSchema : cachedincluded) {
-            Collection<AttributeGroup> tempAtt = includedSchema.getAttributeGroups();
-            for (AttributeGroup attributeGroup : tempAtt) {
-                result.add(attributeGroup);  
-            }
-        }
-
-    	Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-    	for (RedefineSchema redefineSchema : redefinition) {
-    	    //1--  Add the AttributeGroups from the RedefineSchema
-    	    for (AttributeGroup attributeGroup : redefineSchema.enumerateAttributeGroups()) {
-                result.add(attributeGroup);
-            }
-    	    
-    	    //2-- Add the AttributeGroups from the Original Schema of the
-    	    //--  RedefineSchema Structure by making sure that the AttributeGroups
-    	    //--  are not redefined.
-    	    Schema tempSchema = redefineSchema.getOriginalSchema();
-    	    //-- a redefinition doesn't always contain a schema
-    	    if (tempSchema != null) {
-    	        //-- Sets the master schema
-    	        //-- The master schema will help resolving the links at runtime between
-    	        //-- a structure and its type.
-    	        tempSchema.setMasterSchema(this);
-    	        for (AttributeGroup attributeGroup : tempSchema.getAttributeGroups()) {
-    	            boolean alreadyRedefined = true;
-    	            if (attributeGroup instanceof AttributeGroupDecl) {
-    	                alreadyRedefined = redefineSchema.hasAttributeGroupRedefinition(((AttributeGroupDecl)attributeGroup).getName());
-    	            }
-    	            if (!alreadyRedefined) {
-                        result.add(attributeGroup);
-                    }	
-                }
-    	    }
-        }
+    	Enumeration redefinition = _redefineSchemas.elements();
+    	while (redefinition.hasMoreElements()) {
+    		RedefineSchema redefine = (RedefineSchema)redefinition.nextElement();
+    		//1--  Add the AttributeGroups from the RedefineSchema
+    		tempAtt = redefine.enumerateAttributeGroups();
+    		while (tempAtt.hasMoreElements()) {
+    			AttributeGroupDecl tempGroup = (AttributeGroupDecl)tempAtt.nextElement();
+    			result.add(tempGroup);
+    		}
+    		
+    		//2-- Add the AttributeGroups from the Original Schema of the
+    		//--  RedefineSchema Structure by making sure that the AttributeGroups
+    		//--  are not redefined.
+    		Schema tempSchema = redefine.getOriginalSchema();
+    		//-- a redefinition doesn't always contain a schema
+    		if (tempSchema != null) {
+    			//-- Sets the master schema
+    			//-- The master schema will help resolving the links at runtime between
+    			//-- a structure and its type.
+    			tempSchema.setMasterSchema(this);
+    			tempAtt= tempSchema.getAttributeGroups();
+	    		while (tempAtt.hasMoreElements()) {
+	    			AttributeGroup tempGroup = (AttributeGroup)tempAtt.nextElement();
+	    			boolean alreadyRedefined = true;
+	    			if (tempGroup instanceof AttributeGroupDecl)
+	    				alreadyRedefined = redefine.hasAttributeGroupRedefinition(((AttributeGroupDecl)tempGroup).getName());
+	    			if (!alreadyRedefined)
+	    			    result.add(tempGroup);	
+	    		}
+    		}
+    	}
     	
-    	return result;
+    	return result.elements();
     } //-- getAttributeGroups
 
     /**
@@ -841,25 +854,24 @@ public class Schema extends Annotated {
         }
 
         if ((ns==null) || (ns.equals(_targetNamespace)) ) {
-        	result = _attributeGroups.get(canonicalName);
+        	result = (AttributeGroup)_attributeGroups.get(canonicalName);
             
         	if (result == null) {
-            	Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
+            	Enumeration cacheIncluded = _cachedincludedSchemas.elements();
             	boolean found = false;
-            	while (cacheIncluded.hasNext() && !found) {
-            	    Schema temp = cacheIncluded.next();
+            	while (cacheIncluded.hasMoreElements() && !found) {
+            	    Schema temp = (Schema)cacheIncluded.nextElement();
             		result = temp.getAttributeGroup(canonicalName);
-            		if (result != null) {
-                        found = true;
-                    }
+            		if (result != null)
+            			found = true;
             	}
             	
             	//--we look in the redefinitions
             	if (!found) {
 	            	//-- Search through the redefinition:
-                	Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	            	while (redefinitions.hasNext() && !found) {
-	            		RedefineSchema redefine = redefinitions.next();
+                	Enumeration redefinitions = getRedefineSchema();
+	            	while (redefinitions.hasMoreElements() && !found) {
+	            		RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	            		
 	            		//-- the AttributeGroup can be redefined
 	            		if (redefine.hasAttributeGroupRedefinition(canonicalName)) {
@@ -942,22 +954,22 @@ public class Schema extends Annotated {
         
         //-- Get GetComplexType object
         if ((ns==null) || (ns.equals(_targetNamespace)) ) {
-            result = _complexTypes.get(canonicalName);
+            result = (ComplexType)_complexTypes.get(canonicalName);
             if (result == null) {
             	boolean found = false;
             	//-- check for any included schemas that are cached
-            	Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-            	while (cacheIncluded.hasNext() && !found) {
-            		Schema temp = cacheIncluded.next();
+            	Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+            	while (cacheIncluded.hasMoreElements() && !found) {
+            		Schema temp = (Schema)cacheIncluded.nextElement();
             		result = temp.getComplexType(canonicalName);
             		if (result != null)
             			found = true;
             	}
             	if (!found) {
 	            	//--we might face a redefinition
-	            	Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	            	while (redefinitions.hasNext() && result == null) {
-	            		RedefineSchema redefine = redefinitions.next();
+	            	Enumeration redefinitions = getRedefineSchema();
+	            	while (redefinitions.hasMoreElements() && result == null) {
+	            		RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	            		//-- the ComplexType can be redefined
 	            		if (redefine.hasComplexTypeRedefinition(canonicalName)) {
 	            			result = redefine.getComplexType(canonicalName);
@@ -995,43 +1007,48 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all top-level ComplexType declarations
      * @return an Enumeration of all top-level ComplexType declarations
     **/
-    public Collection<ComplexType> getComplexTypes() {
-    	Vector<ComplexType> result = new Vector<ComplexType>(_complexTypes.size()*2);
+    public Enumeration getComplexTypes() {
+    	Vector result = new Vector(_complexTypes.size()*2);
+    	Enumeration tempEnum = _complexTypes.elements();
+    	while (tempEnum.hasMoreElements()) {
+    		result.add(tempEnum.nextElement());	
+    	}
     	
-    	result.addAll(_complexTypes.values());
+    	Enumeration cachedincluded = _cachedincludedSchemas.elements();
+    	while (cachedincluded.hasMoreElements()) {
+    		Schema tempSchema = (Schema)cachedincluded.nextElement();
+    		tempEnum = tempSchema.getComplexTypes();
+    		while (tempEnum.hasMoreElements()) {
+    			result.add(tempEnum.nextElement());	
+    		}
+    	}
     	
-    	Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-    	for (Schema includedSchema : cachedincluded) {
-            Collection<ComplexType> tempEnum = includedSchema.getComplexTypes();
-            for (ComplexType complexType : tempEnum) {
-                result.add(complexType); 
-            }
-        }
-    	
-    	Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-    	for (RedefineSchema redefineSchema : redefinition) {
-    		//1--  Add the ComplexType from the RedefineSchema
-    		for (ComplexType complexType : redefineSchema.enumerateComplexTypes()) {
-                result.add(complexType);
-            }
+    	Enumeration redefinition = _redefineSchemas.elements();
+    	while (redefinition.hasMoreElements()) {
+    		RedefineSchema redefine = (RedefineSchema)redefinition.nextElement();
+            //1--  Add the ComplexType from the RedefineSchema
+    		tempEnum = redefine.enumerateComplexTypes();
+    		while (tempEnum.hasMoreElements()) {
+    			result.add(tempEnum.nextElement());
+    		}
     		
-    		Schema tempSchema = redefineSchema.getOriginalSchema();
+    		Schema tempSchema = redefine.getOriginalSchema();
             //-- a redefinition doesn't always contain a schema
     		if (tempSchema != null) {
                 //-- Sets the master schema
     			//-- The master schema will help resolving the links at runtime between
     			//-- an structure and its type.
     			tempSchema.setMasterSchema(this);
-    			Iterator<ComplexType> tempEnum = tempSchema.getComplexTypes().iterator();
-	    		while (tempEnum.hasNext()) {
-	    			ComplexType tempType = tempEnum.next();
-	    			if (!redefineSchema.hasComplexTypeRedefinition(tempType.getName()))
+    			tempEnum = tempSchema.getComplexTypes();
+	    		while (tempEnum.hasMoreElements()) {
+	    			ComplexType tempType = (ComplexType)tempEnum.nextElement();
+	    			if (!redefine.hasComplexTypeRedefinition(tempType.getName()))
 	    				result.add(tempType);	
 	    		}
     		}
     	}
     	
-    	return result;
+    	return result.elements();
     	
     } //-- getComplextypes
 
@@ -1063,22 +1080,22 @@ public class Schema extends Annotated {
         }
 
         if ((ns==null) || (ns.equals(_targetNamespace)) ) {
-           result = _elements.get(name);
+           result = (ElementDecl)_elements.get(name);
 		   if (result == null) {
             	//-- check for any included schemas that are cached
-            	Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
+            	Enumeration cacheIncluded = _cachedincludedSchemas.elements();
             	boolean found = false;
-            	while (cacheIncluded.hasNext() && !found) {
-            		Schema temp = cacheIncluded.next();
+            	while (cacheIncluded.hasMoreElements() && !found) {
+            		Schema temp = (Schema)cacheIncluded.nextElement();
             		result = temp.getElementDecl(name);
             		if (result != null)
             			found = true;
             	}
             	//--look in the redefinition
             	if (!found) {
-            		Iterator<RedefineSchema> redefinition = _redefineSchemas.values().iterator();
-            		while (redefinition.hasNext() && !found) {
-            			Schema schema = redefinition.next().getOriginalSchema();
+            		Enumeration redefinition = _redefineSchemas.elements();
+            		while (redefinition.hasMoreElements() && !found) {
+            			Schema schema = ((RedefineSchema)redefinition.nextElement()).getOriginalSchema();
             			if (schema != null) {
                             //-- Sets the master schema
             				//-- The master schema will help resolving the links at runtime between
@@ -1106,36 +1123,40 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all top-level element declarations
      * @return an Enumeration of all top-level element declarations
     **/
-    public Collection<ElementDecl> getElementDecls() {
-    	Vector<ElementDecl> result = new Vector<ElementDecl>(_elements.size()*2);
+    public Enumeration getElementDecls() {
+    	Vector result = new Vector(_elements.size()*2);
+    	Enumeration tempEnum = _elements.elements();
+      while (tempEnum.hasMoreElements()) {
+    		result.add(tempEnum.nextElement());	
+    	}
     	
-    	result.addAll(_elements.values());
+    	Enumeration cachedincluded = _cachedincludedSchemas.elements();
+    	while (cachedincluded.hasMoreElements()) {
+    		Schema tempSchema = (Schema)cachedincluded.nextElement();
+    		tempEnum = tempSchema.getElementDecls();
+    		while (tempEnum.hasMoreElements()) {
+    			result.add(tempEnum.nextElement());	
+    		}
+    	}
     	
-    	Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-    	for (Schema includedSchema : cachedincluded) {
-            Collection<ElementDecl> tempEnum = includedSchema.getElementDecls();
-            for (ElementDecl elementDecl : tempEnum) {
-                result.add(elementDecl);
-            }
-        }
-
-    	Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-    	for (RedefineSchema redefineSchema : redefinition) {
-    		Schema tempSchema = redefineSchema.getOriginalSchema();
+    	Enumeration redefinition = _redefineSchemas.elements();
+    	while (redefinition.hasMoreElements()) {
+    		RedefineSchema redefine = (RedefineSchema)redefinition.nextElement();
+    		Schema tempSchema = redefine.getOriginalSchema();
             //-- a redefinition doesn't always contain a schema
     		if (tempSchema != null) {
                 //-- Sets the master schema
     			//-- The master schema will help resolving the links at runtime between
     			//-- an structure and its type.
     			tempSchema.setMasterSchema(this);
-    			Collection<ElementDecl> redefinedElementDeclarations = tempSchema.getElementDecls();
-    			for (ElementDecl elementDecl : redefinedElementDeclarations) {
-                    result.add(elementDecl);
-                }
+    			tempEnum = tempSchema.getElementDecls();
+	    		while (tempEnum.hasMoreElements()) {
+	    			result.add(tempEnum.nextElement());	
+	    		}
     		}
     	}
     	
-    	return result;
+    	return result.elements();
     } //-- getElementDecls
 
     /**
@@ -1235,7 +1256,7 @@ public class Schema extends Annotated {
         if ((namespace == null) || (isDefaultNS)) {
             
             //-- first check user-defined types
-            result = _simpleTypes.get(name);
+            result = (SimpleType)_simpleTypes.get(name);
             if (result != null) {
                 //-- resolve deferred type if necessary
                 if (result.getType() != result) {
@@ -1268,7 +1289,7 @@ public class Schema extends Annotated {
             }
         }
         else if (namespace.equals(_targetNamespace)) {
-            result = _simpleTypes.get(name);
+            result = (SimpleType)_simpleTypes.get(name);
             if (result != null) {
                 //-- resolve deferred type if necessary
                 if (result.getType() != result) {
@@ -1283,19 +1304,19 @@ public class Schema extends Annotated {
             }
             if (result == null) {
             	//-- check the cached included schema
-        		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
+        		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
         		boolean found = false;
-        		while (cacheIncluded.hasNext() && !found) {
-        			Schema temp = cacheIncluded.next();
+        		while (cacheIncluded.hasMoreElements() && !found) {
+        			Schema temp = (Schema)cacheIncluded.nextElement();
         			result = temp.getSimpleType(name, namespace);
         			if (result != null)
         				found = true;
         		}
         	    if (!found) {
 	            	//--we might face a redefinition
-	            	Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	            	while (redefinitions.hasNext() && result == null) {
-                        RedefineSchema redefine = redefinitions.next();
+	            	Enumeration redefinitions = getRedefineSchema();
+	            	while (redefinitions.hasMoreElements() && result == null) {
+                        RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	            		//-- the SimpleType can be redefined
 	            		if (redefine.hasSimpleTypeRedefinition(name)) {
 	            			result = redefine.getSimpleType(name);
@@ -1334,12 +1355,12 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all SimpleType declarations
      * @return an Enumeration of all SimpleType declarations
     **/
-    public Collection<SimpleType> getSimpleTypes() {
+    public Enumeration getSimpleTypes() {
 
         //-- clean up "deferred types" if necessary
-        Enumeration<SimpleType> enumeration = _simpleTypes.elements();
+        Enumeration enumeration = _simpleTypes.elements();
         while(enumeration.hasMoreElements()) {
-            SimpleType type = enumeration.nextElement();
+            SimpleType type = (SimpleType)enumeration.nextElement();
             if (type != type.getType()) {
                 //-- resolve deferred type if necessary
                 if (type.getType() != null) {
@@ -1350,42 +1371,48 @@ public class Schema extends Annotated {
                 }
             }
         }
-        Vector<SimpleType> result = new Vector<SimpleType>(_simpleTypes.size()*2);
-        
-        result.addAll(_simpleTypes.values());
-        
-        Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-        for (Schema includedSchema : cachedincluded) {
-            Collection<SimpleType> tempEnum = includedSchema.getSimpleTypes();
-            for (SimpleType simpleType : tempEnum) {
-                result.add(simpleType);
-            }
+        Vector result = new Vector(_simpleTypes.size()*2);
+        Enumeration tempEnum = _simpleTypes.elements();
+        while (tempEnum.hasMoreElements()) {
+        	result.add(tempEnum.nextElement());	
         }
         
-        Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-        for (RedefineSchema redefineSchema : redefinition) {
-        	//1--  Add the SimpleType from the RedefineSchema
-        	for (SimpleType simpleType : redefineSchema.enumerateSimpleTypes()) {
-                result.add(simpleType);
-            }
+        Enumeration cachedincluded = _cachedincludedSchemas.elements();
+        while (cachedincluded.hasMoreElements()) {
+        	Schema tempSchema = (Schema)cachedincluded.nextElement();
+        	tempEnum = tempSchema.getSimpleTypes();
+        	while (tempEnum.hasMoreElements()) {
+        		result.add(tempEnum.nextElement());	
+        	}
+        }
+        
+        Enumeration redefinition = _redefineSchemas.elements();
+        while (redefinition.hasMoreElements()) {
+        	RedefineSchema redefine = (RedefineSchema)redefinition.nextElement();
+            //1--  Add the SimpleType from the RedefineSchema
+        	tempEnum = redefine.enumerateSimpleTypes();
+        	while (tempEnum.hasMoreElements()) {
+        		result.add(tempEnum.nextElement());
+        	}
         	
-        	Schema tempSchema = redefineSchema.getOriginalSchema();
+        	Schema tempSchema = redefine.getOriginalSchema();
             //-- a redefinition doesn't always contain a schema
         	if (tempSchema != null) {
         		//-- Sets the master schema
         		//-- The master schema will help resolving the links at runtime between
         		//-- an structure and its type.
         		tempSchema.setMasterSchema(this);
-        		Collection<SimpleType> tempEnum = tempSchema.getSimpleTypes();
-        		for (SimpleType simpleType : tempEnum) {
-        		    if (!redefineSchema.hasSimpleTypeRedefinition(simpleType.getName())) {
-                        result.add(simpleType);
-                    }	
-                }
+        		tempEnum = tempSchema.getSimpleTypes();
+	        	while (tempEnum.hasMoreElements()) {
+	        		SimpleType tempType= (SimpleType)tempEnum.nextElement();
+	        		if (!redefine.hasSimpleTypeRedefinition(tempType.getName()))   			
+	        			result.add(tempType);	
+	        	}
         	}
         }
         
-        return result;
+        
+        return result.elements();
     } //-- getSimpleTypes
 
     /**
@@ -1425,13 +1452,13 @@ public class Schema extends Annotated {
         }
 
         if ((ns==null) || (ns.equals(_targetNamespace)) ) {
-            result = _groups.get(name);
+            result = (ModelGroup)_groups.get(name);
             if (result == null) {
         		//-- check for any included schemas that are cached
-        		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
+        		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
         		boolean found = false;
-        		while (cacheIncluded.hasNext() && !found) {
-        			Schema temp = cacheIncluded.next();
+        		while (cacheIncluded.hasMoreElements() && !found) {
+        			Schema temp = (Schema)cacheIncluded.nextElement();
         			result = temp.getModelGroup(name);
         			if (result != null)
         				found = true;
@@ -1439,9 +1466,9 @@ public class Schema extends Annotated {
         	    
         		if (!found) {
 	            	//--we might face a redefinition
-	            	Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	            	while (redefinitions.hasNext() && result == null) {
-                        RedefineSchema redefine = redefinitions.next();
+	            	Enumeration redefinitions = getRedefineSchema();
+	            	while (redefinitions.hasMoreElements() && result == null) {
+                        RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	            		//-- the ModelGroup can be redefined
 	            		if (redefine.hasGroupRedefinition(name)) {
 	            			result = redefine.getModelGroup(name);
@@ -1476,27 +1503,31 @@ public class Schema extends Annotated {
      * Returns an Enumeration of all top-level ModelGroup declarations
      * @return an Enumeration of all top-level ModelGroup declarations
     **/
-    public Collection<ModelGroup> getModelGroups() {
-    	Vector<ModelGroup> result = new Vector<ModelGroup>(_groups.size()*2);
+    public Enumeration getModelGroups() {
+    	Vector result = new Vector(_groups.size()*2);
+    	Enumeration tempEnum = _groups.elements();
+    	while (tempEnum.hasMoreElements()) {
+    		result.add(tempEnum.nextElement());	
+    	}
     	
-    	result.addAll(_groups.values());
-   	
-    	Collection<Schema> cachedincluded = _cachedincludedSchemas.values();
-    	for (Schema includedSchema : cachedincluded) {
-            Collection<ModelGroup> tempEnum = includedSchema.getModelGroups();
-            for (ModelGroup modelGroup : tempEnum) {
-                result.add(modelGroup);
-            }
-        }
-
-    	Collection<RedefineSchema> redefinition = _redefineSchemas.values();
-    	for (RedefineSchema redefineSchema : redefinition) {
+    	Enumeration cachedincluded = _cachedincludedSchemas.elements();
+    	while (cachedincluded.hasMoreElements()) {
+    		Schema tempSchema = (Schema)cachedincluded.nextElement();
+    		tempEnum = tempSchema.getModelGroups();
+    		while (tempEnum.hasMoreElements()) {
+    			result.add(tempEnum.nextElement());	
+    		}
+    	}
+    	Enumeration redefinition = _redefineSchemas.elements();
+    	while (redefinition.hasMoreElements()) {
+    		RedefineSchema redefine = (RedefineSchema)redefinition.nextElement();
     		//1--  Add the AttributeGroups from the RedefineSchema
-    		for (ModelGroup modelGroup : redefineSchema.enumerateGroups()) {
-                result.add(modelGroup);
-            }
+    		tempEnum = redefine.enumerateGroups();
+    		while (tempEnum.hasMoreElements()) {
+    		     result.add(tempEnum.nextElement());
+    		}
     		
-    		Schema tempSchema = redefineSchema.getOriginalSchema();
+    		Schema tempSchema = redefine.getOriginalSchema();
            //-- a redefinition doesn't always contain a schema
     		if (tempSchema != null) {	
     			//-- Sets the master schema
@@ -1504,14 +1535,16 @@ public class Schema extends Annotated {
     			//-- an structure and its type.
     			tempSchema.setMasterSchema(this);
     			
-    			for (ModelGroup modelGroup : tempSchema.getModelGroups()) {
-    			    if (!redefineSchema.hasGroupRedefinition(modelGroup.getName())) 			
-    			        result.add(modelGroup);	
-                }
+    			tempEnum = tempSchema.getModelGroups();
+	    		while (tempEnum.hasMoreElements()) {
+	    			ModelGroup tempGroup = (ModelGroup)tempEnum.nextElement();
+	    			if (!redefine.hasGroupRedefinition(tempGroup.getName())) 			
+	    				result.add(tempGroup);	
+	    		}
     		}
     	}
     	
-    	return result;
+    	return result.elements();
     } //-- getmodelGroup
 
     /**
@@ -1528,8 +1561,8 @@ public class Schema extends Annotated {
      * Returns the imported schemas of this schema
      * @return the hashtable of the imported schemas
      */
-     public Collection<Schema> getImportedSchema() {
-         return _importedSchemas.values();
+     public Enumeration getImportedSchema() {
+         return _importedSchemas.elements();
      }
 
     /**
@@ -1546,8 +1579,8 @@ public class Schema extends Annotated {
      * Returns an enumeration of redefined schemas.
      * @return an enumeration of redefined schemas.
      */
-    public Collection<RedefineSchema> getRedefineSchema() {
-    	return _redefineSchemas.values();
+    public Enumeration getRedefineSchema() {
+    	return _redefineSchemas.elements();
     }
     
     /**
@@ -1556,7 +1589,7 @@ public class Schema extends Annotated {
      * @return the redefined schema corresponding schemaLocation.
      */
     public RedefineSchema getRedefineSchema(String schemaLocation) {
-    	RedefineSchema result = _redefineSchemas.get(schemaLocation);
+    	RedefineSchema result = (RedefineSchema) _redefineSchemas.get(schemaLocation);
     	return result;
     }
     
@@ -1568,7 +1601,7 @@ public class Schema extends Annotated {
      * @return the cached included XML schema
      */
     public Schema getCachedIncludedSchema(String schemaLocation) {
-    		return _cachedincludedSchemas.get(schemaLocation);
+    		return (Schema)_cachedincludedSchemas.get(schemaLocation);
     } //-- getCachedIncludedSchema
     
     /**
@@ -1579,9 +1612,9 @@ public class Schema extends Annotated {
      * in this XML Schema Definition.
      * 
      */
-    public Collection<Schema> getCachedIncludedSchemas() {
-    	return _cachedincludedSchemas.values();
-    }    
+    public Enumeration getCachedIncludedSchemas() {
+    	return _cachedincludedSchemas.elements();
+    } //-- getCachedIncludedSchemas    
     /**
      * Returns the imported schema with the given namespace
      * 
@@ -1591,9 +1624,7 @@ public class Schema extends Annotated {
      * @return the imported schema
      */
     public Schema getImportedSchema(String ns, boolean localOnly) {
-        if (localOnly) {
-            return _importedSchemas.get(ns);
-        }
+        if (localOnly) return (Schema) _importedSchemas.get(ns);
         return getImportedSchema(ns, null);
     } //-- getImportedSchema
     
@@ -1606,29 +1637,23 @@ public class Schema extends Annotated {
     private Schema getImportedSchema(String ns, Schema caller) {
         
         //-- Check for recursive calls
-        if (caller == this) {
-            return null;
-        }
+        if (caller == this) return null;
         //-- Associate caller if necessary
-        if (caller == null) {
-            caller = this;
-        }
+        if (caller == null) caller = this;
         
-        Schema result = _importedSchemas.get(ns);
+        Schema result = (Schema) _importedSchemas.get(ns);
         //--maybe we are the schema imported is at
         //--a depth > 1
         if (result == null) {
-            Iterator<Schema> schemas = _importedSchemas.values().iterator();
-            while (schemas.hasNext()) {
-                Schema temp = schemas.next();
+            Enumeration schemas = _importedSchemas.elements();
+            while (schemas.hasMoreElements()) {
+                Schema temp = (Schema) schemas.nextElement();
                 result = temp.getImportedSchema(ns, caller);
-                if (result != null) {
-                    break;
-                }
+                if (result != null) break;
            }
         }
         return result;
-    }
+    } //-- getImportedSchema
 
     /**
      * Returns the namespace associated with the given prefix.
@@ -1725,24 +1750,24 @@ public class Schema extends Annotated {
     public boolean removeComplexType(ComplexType complexType) {
         boolean result = false;
     	if (complexType.isTopLevel()) {
-            if (_complexTypes.containsValue(complexType)) {
+            if (_complexTypes.contains(complexType)) {
                 _complexTypes.remove(complexType.getName());
                 complexType.setParent(null);
                 result = true;
             }
             if (!result) {
 	            //--check the cached included schemas
-	            Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-	            while (cacheIncluded.hasNext() && !result) {
-	                Schema temp = cacheIncluded.next();
+	            Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+	            while (cacheIncluded.hasMoreElements() &&!result) {
+	                Schema temp = (Schema)cacheIncluded.nextElement();
 	                result = temp.removeComplexType(complexType);
 	            }
 	            //--Still false?
 	            if (!result) {
 		            //--check the redefinition
-		            Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-		            while (redefinitions.hasNext() && !result) {
-		            	RedefineSchema redefine = redefinitions.next();
+		            Enumeration redefinitions = getRedefineSchema();
+		            while (redefinitions.hasMoreElements() && !result) {
+		            	RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 		            	result = redefine.removeComplexType(complexType);
 		            }
 	            }
@@ -1760,15 +1785,15 @@ public class Schema extends Annotated {
     **/
     public boolean removeElement(ElementDecl element) {
         boolean result = false;
-    	if (_elements.containsValue(element)) {
+    	if (_elements.contains(element)) {
             _elements.remove(element.getName());
             result = true;
         }
     	if (!result) {
     		//--check the cached included schemas
-    		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-    		while (cacheIncluded.hasNext() && !result) {
-    			Schema temp = cacheIncluded.next();
+    		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    		while (cacheIncluded.hasMoreElements() &&!result) {
+    			Schema temp = (Schema)cacheIncluded.nextElement();
     			result = temp.removeElement(element);
     		}
     	}
@@ -1785,15 +1810,15 @@ public class Schema extends Annotated {
      */
     public boolean removeAttribute(AttributeDecl attribute) {
         boolean result = false;
-    	if (_attributes.containsValue(attribute)) {
+    	if (_attributes.contains(attribute)) {
             _attributes.remove(attribute.getName());
             result = true;
         }
     	if (result == false) {
     		//--check the cached included schemas
-    		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-    		while (cacheIncluded.hasNext() && !result) {
-    			Schema temp = cacheIncluded.next();
+    		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    		while (cacheIncluded.hasMoreElements() &&!result) {
+    			Schema temp = (Schema)cacheIncluded.nextElement();
     			result = temp.removeAttribute(attribute);
     		}
     	}
@@ -1809,23 +1834,23 @@ public class Schema extends Annotated {
      */
     public boolean removeGroup(ModelGroup group) {
         boolean result = false;
-    	if (_groups.containsValue(group)) {
+    	if (_groups.contains(group)) {
             _groups.remove(group.getName());
             result = true;
         }
     	if (!result) {
     		//--check the cached included schemas
-    		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-    		while (cacheIncluded.hasNext() && !result) {
-    			Schema temp = cacheIncluded.next();
+    		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    		while (cacheIncluded.hasMoreElements() &&!result) {
+    			Schema temp = (Schema)cacheIncluded.nextElement();
     			result = temp.removeGroup(group);
     		}
     		
     		if (!result) {
 	    		//--check the redefinition
-	    		Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	    		while (redefinitions.hasNext() && !result) {
-	    			RedefineSchema redefine = redefinitions.next();
+	    		Enumeration redefinitions = getRedefineSchema();
+	    		while (redefinitions.hasMoreElements() && !result) {
+	    			RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	    			result = redefine.removeGroup(group);
 	    		}
     		}
@@ -1842,23 +1867,23 @@ public class Schema extends Annotated {
      */
     public boolean removeAttributeGroup(AttributeGroupDecl group) {
     	boolean result = false;
-    	if (_attributeGroups.containsValue(group)) {
+    	if (_attributeGroups.contains(group)) {
     		_attributeGroups.remove(group.getName());
     		result = true;
     	}
     	if (result == false) {
     		//--check the cached included schemas
-    		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-    		while (cacheIncluded.hasNext() && !result) {
-    			Schema temp = cacheIncluded.next();
+    		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    		while (cacheIncluded.hasMoreElements() &&!result) {
+    			Schema temp = (Schema)cacheIncluded.nextElement();
     			result = temp.removeAttributeGroup(group);
     		}
     		
     		if (!result) {
 	    		//--check the redefinition
-	    		Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	    		while (redefinitions.hasNext() && !result) {
-	    			RedefineSchema redefine = redefinitions.next();
+	    		Enumeration redefinitions = getRedefineSchema();
+	    		while (redefinitions.hasMoreElements() && !result) {
+	    			RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	    			result = redefine.removeAttributeGroup(group);
 	    		}
     		}
@@ -1879,7 +1904,7 @@ public class Schema extends Annotated {
 	{
     	if (schema == null) return false;
     	String schemaLocation = schema.getSchemaLocation();
-    	Schema tmp = _cachedincludedSchemas.get(schemaLocation);
+    	Schema tmp = (Schema)_cachedincludedSchemas.get(schemaLocation);
     	if (schema.equals(tmp)) {
     		_cachedincludedSchemas.remove(schemaLocation);
     		return true;
@@ -1900,7 +1925,7 @@ public class Schema extends Annotated {
         if (schema == null) return false;
         String targetNamespace = schema.getTargetNamespace();
         if (targetNamespace == null) targetNamespace = "";
-        Schema tmp = _importedSchemas.get(targetNamespace);
+        Schema tmp = (Schema)_importedSchemas.get(targetNamespace);
         if (schema.equals(tmp)) {
             _importedSchemas.remove(targetNamespace);
             return true;
@@ -1931,7 +1956,7 @@ public class Schema extends Annotated {
 	{
     	if (schema == null) return false;
     	String schemaLocation = schema.getSchemaLocation();
-    	RedefineSchema tmp = _redefineSchemas.get(schemaLocation);
+    	RedefineSchema tmp = (RedefineSchema)_redefineSchemas.get(schemaLocation);
     	if (schema.equals(tmp)) {
     		_redefineSchemas.remove(schemaLocation);
     		return true;
@@ -1947,23 +1972,23 @@ public class Schema extends Annotated {
     **/
     public boolean removeSimpleType(SimpleType simpleType) {
         boolean result = false;
-    	if (_simpleTypes.containsValue(simpleType)) {
+    	if (_simpleTypes.contains(simpleType)) {
             _simpleTypes.remove(simpleType.getName());
             result = true;
         }
     	if (result == false) {
     		//--check the cached included schemas
-    		Iterator<Schema> cacheIncluded = _cachedincludedSchemas.values().iterator();
-    		while (cacheIncluded.hasNext() && !result) {
-    			Schema temp = cacheIncluded.next();
+    		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
+    		while (cacheIncluded.hasMoreElements() &&!result) {
+    			Schema temp = (Schema)cacheIncluded.nextElement();
     			result = temp.removeSimpleType(simpleType);
     		}
     		
     		if (!result) {
 	            //--check the redefinition
-	    		Iterator<RedefineSchema> redefinitions = getRedefineSchema().iterator();
-	    		while (redefinitions.hasNext() && !result) {
-	    			RedefineSchema redefine = redefinitions.next();
+	    		Enumeration redefinitions = getRedefineSchema();
+	    		while (redefinitions.hasMoreElements() && !result) {
+	    			RedefineSchema redefine = (RedefineSchema)redefinitions.nextElement();
 	    			result = redefine.removeSimpleType(simpleType);
 	    		}
     		}
@@ -2163,38 +2188,46 @@ public class Schema extends Annotated {
     } //-- getStructureType
 
     /**
-     * Checks the validity of this {@link Schema} definition.
+     * Checks the validity of this Schema definition.
      *
-     * @throws ValidationException when this {@link Schema} definition
+     * @throws ValidationException when this Schema definition
      * is invalid.
     **/
-    public void validate() throws ValidationException {
+    public void validate()
+        throws ValidationException
+    {
 
         //-- Note: This method needs to be completed.
 
         //-- top-level complexTypes
-        for (ComplexType complexType : _complexTypes.values()) {
-            complexType.validate();
+        Enumeration enumeration = _complexTypes.elements();
+        while (enumeration.hasMoreElements()) {
+            ComplexType type = (ComplexType)enumeration.nextElement();
+            type.validate();
         }
-
         //-- top-level simpleTypes
-        for (SimpleType simpleType : _simpleTypes.values()) {
-            simpleType.validate();
+        enumeration = _simpleTypes.elements();
+        while (enumeration.hasMoreElements()) {
+            SimpleType type = (SimpleType)enumeration.nextElement();
+            type.validate();
         }
 
         //-- top-level elements
-        for (ElementDecl element : _elements.values()) {
-           element.validate();
+        enumeration = _elements.elements();
+        while (enumeration.hasMoreElements()) {
+            ((ElementDecl)enumeration.nextElement()).validate();
         }
 
         //-- top-level attributes
-        for (AttributeDecl attribute : _attributes.values()) {
-            attribute.validate();
+        enumeration = _attributes.elements();
+        while (enumeration.hasMoreElements()) {
+            ((AttributeDecl)enumeration.nextElement()).validate();
         }
 
         //-- top-level groups
-        for (ModelGroup group : _groups.values()) {
-            group.validate();
+        enumeration = _groups.elements();
+        while (enumeration.hasMoreElements()) {
+            ((Group)enumeration.nextElement()).validate();
         }
         //-- top-level attribute groups
 

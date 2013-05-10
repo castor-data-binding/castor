@@ -15,7 +15,7 @@
  */
 package org.castor.cpa.persistence.sql.query.condition;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Expression;
 
 /**
@@ -23,7 +23,7 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class Compare extends Condition {
     //-----------------------------------------------------------------------------------
@@ -96,26 +96,12 @@ public final class Compare extends Condition {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------    
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(_left.toString());
-        sb.append(_operator.toString());
-        sb.append(_right.toString());
-
-        return sb.toString();
+    @Override
+    public void toString(final QueryContext ctx) {
+        _left.toString(ctx);
+        ctx.append(_operator.toString());
+        _right.toString(ctx);
     }
-
-    //-----------------------------------------------------------------------------------
+    
+    //-----------------------------------------------------------------------------------    
 }

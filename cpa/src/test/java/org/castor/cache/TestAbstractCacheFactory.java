@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestAbstractCacheFactory extends TestCase {
@@ -45,17 +45,17 @@ public final class TestAbstractCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(AbstractCacheFactory.class);
         Level level = logger.getLevel();
         
-        CacheFactory<String, String> cf = new CacheFactoryMock<String, String>();
+        CacheFactory cf = new CacheFactoryMock();
         
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof CacheMock);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CacheMock from factroy");
         }
         
         try {
-            Cache<String, String> c = cf.getCache(this.getClass().getClassLoader());
+            Cache c = cf.getCache(this.getClass().getClassLoader());
             assertTrue(c instanceof CacheMock);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CacheMock from factroy");
@@ -64,8 +64,7 @@ public final class TestAbstractCacheFactory extends TestCase {
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
         try {
-            ((CacheFactoryMock<String, String>) cf)
-                    .setCacheClassName("org.castor.cache.UnknownCache");
+            ((CacheFactoryMock) cf).setCacheClassName("org.castor.cache.UnknownCache");
             cf.getCache(null);
             fail("Should have failed to get instance of CacheMock from factroy");
         } catch (CacheAcquireException ex) {
@@ -77,7 +76,7 @@ public final class TestAbstractCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory<String, String> cf = new CacheFactoryMock<String, String>();
+        CacheFactory cf = new CacheFactoryMock();
         cf.shutdown();
     }
 }

@@ -103,12 +103,10 @@ public class CycleBreaker {
         if (beingHashed == null) {
             return;
         }
-        
-        Thread currentThread = Thread.currentThread();
 
         // before accessing _threadHash acquire read lock first
         _lock.readLock().lock();
-        IdentityHashMap<Object, Object> hthr = _threadHash.get(currentThread);
+        IdentityHashMap<Object, Object> hthr = _threadHash.get(Thread.currentThread());
         _lock.readLock().unlock();
         if (hthr != null) {
         	
@@ -125,7 +123,7 @@ public class CycleBreaker {
                     // before removing the threads empty hash from _threadHash
                     // acquire write lock first
                     _lock.writeLock().lock();
-                    _threadHash.remove(currentThread);
+                    _threadHash.remove(hthr);
                     _lock.writeLock().unlock();
                 }
             }

@@ -62,16 +62,14 @@ public final class TestConcurrent extends CPATestCase {
     public boolean include(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
-    // Test fails on DERBY and MSSQL even if isolation levels and locking are supported
+    // Test fails on DERBY even if isolation levels and locking are supported
     // HSQL does not support isolation levels and locking
     public boolean exclude(final DatabaseEngineType engine) {
         return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.HSQL)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+            || (engine == DatabaseEngineType.HSQL);
     }
 
     /**

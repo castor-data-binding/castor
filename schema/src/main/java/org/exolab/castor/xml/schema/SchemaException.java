@@ -57,42 +57,42 @@ public class SchemaException extends org.exolab.castor.xml.XMLException {
     private static final long serialVersionUID = 7814714272702298809L;
 
     /**
-     * Creates a new {@link SchemaException} with no message
-     * or nested exception.
+     * Creates a new SchemaException with no message
+     * or nested Exception.
     **/
     public SchemaException() {
         super();
-    }
+    } //-- SchemaException()
     
     /**
-     * Creates a new {@link SchemaException} with the given message.
+     * Creates a new SchemaException with the given message.
      *
-     * @param message the message for this exception
+     * @param message the message for this Exception
     **/
     public SchemaException(String message) {
         super(message);
-    }
+    } //-- SchemaException(String)
 
     
     /**
-     * Creates a new {@link SchemaException} with the given nested
+     * Creates a new SchemaException with the given nested
      * exception.
      *
      * @param exception the nested exception
     **/
-    public SchemaException(Throwable exception) {
+    public SchemaException(Exception exception) {
         super(exception);
-    }
+    } //-- SchemaException(Exception)
 
     /**
-     * Creates a new {@link SchemaException} with the given message
+     * Creates a new SchemaException with the given message
      * and nested exception.
      *
      * @param message the detail message for this exception
      * @param exception the nested exception
     **/
-    public SchemaException(String message, Throwable exception) {
+    public SchemaException(String message, Exception exception) {
         super(message, exception);
-    }
+    } //-- SchemaException(String, Exception)
     
-}
+} //-- SchemaException

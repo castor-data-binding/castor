@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Ralf Joachim, Ahmad Hassan, Dennis Butterstein
+ * Copyright 2009 Ralf Joachim, Ahmad Hassan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,9 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
-public final class Update implements QueryObject {    
+public final class Update extends QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /** Qualifier of the table to update records of. */
@@ -99,64 +98,35 @@ public final class Update implements QueryObject {
     public void setCondition(final Condition condition) {
         _condition = condition;
     }
-
-    /**
-     * Get method returning qualifier currently set.
-     *  
-     *  @return Qualifier of the table to update records of.
-     */
-    public Qualifier getQualifier() { return _qualifier; }
-
-    /**
-     * Get method returning current list of assignments.
-     *  
-     *  @return List of assignments.
-     */
-    public List<Assignment> getAssignment() { return _assignment; }
-
+    
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------
-
-    
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(QueryConstants.UPDATE);
-        sb.append(QueryConstants.SPACE);
+    @Override
+    public void toString(final QueryContext ctx) {
+        ctx.append(QueryConstants.UPDATE);
+        ctx.append(QueryConstants.SPACE);
         
-        sb.append(_qualifier.toString());
+        _qualifier.toString(ctx);
         
-        sb.append(QueryConstants.SPACE);
-        sb.append(QueryConstants.SET);
-        sb.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.SPACE);
+        ctx.append(QueryConstants.SET);
+        ctx.append(QueryConstants.SPACE);
 
         for (Iterator<Assignment> iter = _assignment.iterator(); iter.hasNext(); ) {
-            sb.append(iter.next().toString());
+            iter.next().toString(ctx);
             if (iter.hasNext()) {
-                sb.append(QueryConstants.SEPERATOR);
-                sb.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.SEPERATOR);
+                ctx.append(QueryConstants.SPACE);
             }
         }
         
         if (_condition != null) {
-            sb.append(QueryConstants.SPACE);
-            sb.append(QueryConstants.WHERE);
-            sb.append(QueryConstants.SPACE);
-            sb.append(_condition.toString());
+            ctx.append(QueryConstants.SPACE);
+            ctx.append(QueryConstants.WHERE);
+            ctx.append(QueryConstants.SPACE);
+            _condition.toString(ctx);
         }
-
-        return sb.toString();
-    }
-
+    }   
+    
     //-----------------------------------------------------------------------------------
 }

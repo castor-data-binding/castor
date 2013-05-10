@@ -25,7 +25,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestCountLimitedFactory extends TestCase {
@@ -44,25 +44,25 @@ public final class TestCountLimitedFactory extends TestCase {
     public TestCountLimitedFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
+        CacheFactory cf = new CountLimitedFactory();
         assertTrue(cf instanceof CountLimitedFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
+        CacheFactory cf = new CountLimitedFactory();
         assertEquals("count-limited", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
+        CacheFactory cf = new CountLimitedFactory();
         String classname = "org.castor.cache.simple.CountLimited";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
+        CacheFactory cf = new CountLimitedFactory();
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof CountLimited);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CountLimited from factroy");
@@ -70,7 +70,7 @@ public final class TestCountLimitedFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory<String, String> cf = new CountLimitedFactory<String, String>();
+        CacheFactory cf = new CountLimitedFactory();
         cf.shutdown();
     }
 }

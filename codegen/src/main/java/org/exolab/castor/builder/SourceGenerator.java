@@ -56,7 +56,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -254,15 +253,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         setJavaNaming(_internalContext.getJavaNaming());
         _dialog = new ConsoleDialog();
-        if (infoFactory == null) {
-           if (useOldFieldNaming()) {
-              _infoFactory = new FieldInfoFactory();
-           } else {
-              _infoFactory = new FieldInfoFactory(false);
-           }
-        } else {
-           _infoFactory = infoFactory;
-        }
+        _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
         super.load();
 
@@ -801,31 +792,33 @@ public class SourceGenerator extends BuilderConfiguration {
         //-- ** Generate code for all TOP-LEVEL structures **
 
         //-- register all global element names for name conflict resolution
-        for (ElementDecl element : schema.getElementDecls()) {
+        for (Enumeration<ElementDecl> structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
+            ElementDecl element = structures.nextElement();
             _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(element));
         }
-        for (ModelGroup modelGroup : schema.getModelGroups()) {
+        for (Enumeration<ModelGroup> structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
+            ModelGroup modelGroup = structures.nextElement();
             _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(modelGroup));
         }
 
         //-- handle all top-level element declarations
-        for (ElementDecl element : schema.getElementDecls()) {
-            createClasses(element, sInfo);
+        for (Enumeration<ElementDecl> structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
+            createClasses(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level complextypes
-        for (ComplexType complexType : schema.getComplexTypes()) {
-            processComplexType(complexType, sInfo);
+        for (Enumeration<ComplexType> structures = schema.getComplexTypes(); structures.hasMoreElements(); ) {
+            processComplexType(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level simpletypes
-        for (SimpleType simpleType : schema.getSimpleTypes()) {
-            processSimpleType(simpleType, sInfo);
+        for (Enumeration<SimpleType> structures = schema.getSimpleTypes(); structures.hasMoreElements(); ) {
+            processSimpleType(structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level groups
-        for (ModelGroup modelGroup : schema.getModelGroups()) {
-            createClasses(modelGroup, sInfo);
+        for (Enumeration<ModelGroup> structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
+            createClasses(structures.nextElement(), sInfo);
         }
 
         //-- clean up any remaining JClasses which need printing
@@ -851,9 +844,9 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     private void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
     throws IOException {
-        Iterator<Schema> enumeration = schema.getImportedSchema().iterator();
-        while (enumeration.hasNext()) {
-            Schema importedSchema = enumeration.next();
+        Enumeration<Schema> enumeration = schema.getImportedSchema();
+        while (enumeration.hasMoreElements()) {
+            Schema importedSchema = enumeration.nextElement();
             if (!_generateImported) {
                 LOG.warn("Note: No code will be generated for the following *imported* schema: " 
                         + importedSchema.getSchemaLocation() + "; if this is on intention, please "

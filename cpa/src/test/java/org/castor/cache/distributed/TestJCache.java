@@ -28,7 +28,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestJCache extends TestCase {
@@ -54,12 +54,12 @@ public final class TestJCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache<String, String> c = new JCache<String, String>();
+        Cache c = new JCache();
         assertTrue(c instanceof JCache);
     }
 
     public void testGetType() {
-        Cache<String, String> c = new JCache<String, String>();
+        Cache c = new JCache();
         assertEquals("jcache", c.getType());
     }
 
@@ -67,7 +67,7 @@ public final class TestJCache extends TestCase {
         Logger logger = Logger.getLogger(JCache.class);
         Level level = logger.getLevel();
         
-        JCache<String, String> c = new JCache<String, String>();
+        JCache c = new JCache();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -97,7 +97,7 @@ public final class TestJCache extends TestCase {
     }
 
     public void testClose() {
-        Cache<String, String> c = new JCache<String, String>();
+        Cache c = new JCache();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

@@ -1,6 +1,5 @@
 package org.exolab.castor.builder.factory;
 
-import org.apache.commons.lang.StringUtils;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.SGTypes;
@@ -46,15 +45,6 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         JType jType = collectionInfo.getXSList().getJType();
         sourceCode.append(((JCollectionType) jType).getInstanceName());
         sourceCode.append("();");
-        
-        if (!StringUtils.isEmpty(fieldInfo.getDefaultValue())) {
-          StringBuffer buffer = new StringBuffer();
-          buffer.append(fieldInfo.getName());
-          buffer.append(".add(");
-          buffer.append(fieldInfo.getDefaultValue());
-          buffer.append(");");
-          sourceCode.add(buffer.toString());
-        }
     } // -- generateConstructorCode
 
     /**
@@ -192,14 +182,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
                 sourceCode.add(arrayType.toString() + " array = new ");
                 sourceCode.append(baseTypeName + "[0];");
             }
-            
-            sourceCode.add("return ");
-            
-            if (!useJava50) {
-               sourceCode.add("(");
-               sourceCode.add(arrayType.toString());
-               sourceCode.add(") ");
-            }
+            sourceCode.add("return (" + arrayType.toString() + ") ");
             sourceCode.append("this." + fieldInfo.getName() + ".toArray(array);");
         } else {
             // For primitive types, we have to do this the hard way
@@ -278,10 +261,9 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
      * 
      * @param fieldInfo the collectionInfo to translate
      * @param jClass the jClass to add the method to.
-    * @param useJava50 
      */
     protected void createGetByIndexMethod(final CollectionInfo fieldInfo, 
-            final JClass jClass, boolean useJava50) {
+            final JClass jClass) {
         XSType contentType = fieldInfo.getContentType();
         JMethod method = new JMethod(fieldInfo.getReadMethodName(), contentType.getJType(),
                 "the value of the " + contentType.getJType().toString() + " at the given index");
@@ -296,12 +278,10 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         String value = fieldInfo.getName() + ".get(index)";
         sourceCode.add("return ");
         if (contentType.getType() == XSType.CLASS) {
-           if (!useJava50) {
-              sourceCode.append("(");
-              sourceCode.append(method.getReturnType().toString());
-              sourceCode.append(") ");
-           }
-           sourceCode.append(value);
+            sourceCode.append("(");
+            sourceCode.append(method.getReturnType().toString());
+            sourceCode.append(") ");
+            sourceCode.append(value);
         } else {
             sourceCode.append(contentType.createFromJavaObjectCode(value));
         }
@@ -340,7 +320,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
             final JClass jClass, final boolean useJava50,
             final AnnotationBuilder[] annotationBuilders) {
         // create get methods
-        this.createGetByIndexMethod(fieldInfo, jClass, useJava50);
+        this.createGetByIndexMethod(fieldInfo, jClass);
         this.createGetAsArrayMethod(fieldInfo, jClass, useJava50, annotationBuilders);
         if (this.createExtraMethods(fieldInfo)) {
             this.createGetAsReferenceMethod(fieldInfo, jClass);

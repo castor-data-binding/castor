@@ -22,9 +22,9 @@ import org.castor.cpa.persistence.sql.query.QueryObject;
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public abstract class Condition implements QueryObject {    
+public abstract class Condition extends QueryObject {    
     //-----------------------------------------------------------------------------------    
 
     /**

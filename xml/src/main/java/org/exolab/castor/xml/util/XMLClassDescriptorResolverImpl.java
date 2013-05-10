@@ -169,9 +169,10 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     public void setMappingLoader(final MappingLoader mappingLoader) {
         _mappingLoader = mappingLoader;
         if (mappingLoader != null) {
-            for (ClassDescriptor classDescriptor : mappingLoader.getDescriptors()) {
-                _descriptorCache.addDescriptor(classDescriptor.getJavaClass().getName(), 
-                        (XMLClassDescriptor) classDescriptor);
+            Iterator<ClassDescriptor> descriptors = mappingLoader.descriptorIterator();
+            while (descriptors.hasNext()) {
+                XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
+                _descriptorCache.addDescriptor(descriptor.getJavaClass().getName(), descriptor);
             }
         }
     }
@@ -206,7 +207,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public ClassDescriptor resolve(final Class<?> type) throws ResolverException {
+    public ClassDescriptor resolve(final Class type) throws ResolverException {
         if (type == null) {
             String message = "Type argument must not be null for resolve";
             LOG.warn(message);
@@ -402,7 +403,6 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
        
     /**
      * {@inheritDoc}
-     * @deprecated
      */
     public void loadClassDescriptors(final String packageName) throws ResolverException {
         String message = "Already deprecated in the interface!";
@@ -648,7 +648,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
                 String clsName = iter.next();
                 this.addDescriptor(clsName, (XMLClassDescriptor) descriptors.get(clsName));
             }
-        }
+        } //-- addAllDescriptors
     } // -- DescriptorCacheImpl
     
     /**

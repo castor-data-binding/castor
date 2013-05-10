@@ -55,7 +55,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.castor.core.util.StringUtil;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;
@@ -74,7 +73,6 @@ import org.exolab.castor.builder.info.GroupInfo;
 import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.JDOClassInfoNature;
 import org.exolab.castor.builder.info.nature.JDOFieldInfoNature;
-import org.exolab.castor.builder.info.nature.SolrjFieldInfoNature;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToManyNature;
 import org.exolab.castor.builder.info.nature.relation.JDOOneToOneNature;
@@ -85,8 +83,6 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AppInfo;
-import org.exolab.castor.xml.schema.AppInfoJpaNature;
-import org.exolab.castor.xml.schema.AppInfoSolrjNature;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
@@ -111,8 +107,6 @@ import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.PrimaryKey;
 import org.exolab.castor.xml.schema.annotations.jdo.Table;
-import org.exolab.castor.xml.schema.annotations.solrj.Field;
-//import org.exolab.castor.xml.schema.annotations.solrj.Id;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
@@ -187,7 +181,8 @@ public final class SourceFactory extends BaseFactory {
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this._memberFactory = new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
+        this._memberFactory =
+            new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
         this._typeConversion = new TypeConversion(getConfig());
         this._enumerationFactory =
             new EnumerationFactory(getConfig(), getGroupNaming(), sourceGenerator);
@@ -1338,7 +1333,7 @@ public final class SourceFactory extends BaseFactory {
      *
      * @param jclass the JClass in wich we create the hashCode method.
      */
-    public void createHashCodeMethod(final JClass jclass) {
+    public static void createHashCodeMethod(final JClass jclass) {
         if (jclass == null) {
             throw new IllegalArgumentException("JClass must not be null");
         }
@@ -1359,9 +1354,9 @@ public final class SourceFactory extends BaseFactory {
 
         JSourceCode jsc = jMethod.getSourceCode();
         if (jclass.getSuperClassQualifiedName() == null) {
-            jsc.add("int resultHc = 17;");
+            jsc.add("int result = 17;");
         } else {
-            jsc.add("int resultHc = super.hashCode();");
+            jsc.add("int result = super.hashCode();");
         }
         jsc.add("");
         jsc.add("long tmp;");
@@ -1377,38 +1372,29 @@ public final class SourceFactory extends BaseFactory {
                     // Skip the _has_* variables only if they represent
                     // a primitive that may or may not be present
                     if (!name.startsWith("_has_") || jclass.getField(name.substring(5)) != null) {
-                        jsc.add("resultHc = 37 * resultHc + (" + name + "?0:1);");
+                        jsc.add("result = 37 * result + (" + name + "?0:1);");
                     }
                 } else if (type == JType.BYTE || type == JType.INT || type == JType.SHORT) {
-                    jsc.add("resultHc = 37 * resultHc + " + name + ";");
+                    jsc.add("result = 37 * result + " + name + ";");
                 } else if (type == JType.LONG) {
-                    jsc.add("resultHc = 37 * resultHc + (int)(" + name + "^(" + name + ">>>32));");
+                    jsc.add("result = 37 * result + (int)(" + name + "^(" + name + ">>>32));");
                 } else if (type == JType.FLOAT) {
-                    jsc.add("resultHc = 37 * resultHc + java.lang.Float.floatToIntBits(" + name + ");");
+                    jsc.add("result = 37 * result + java.lang.Float.floatToIntBits(" + name + ");");
                 } else if (type == JType.DOUBLE) {
                     jsc.add("tmp = java.lang.Double.doubleToLongBits(" + name + ");");
-                    jsc.add("resultHc = 37 * resultHc + (int)(tmp^(tmp>>>32));");
+                    jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");
                 }
             } else {
-                if (getConfig().useCycleBreaker()) {
-                    // Calculates hashCode in an acyclic recursive manner
-                    jsc.add("if (" + name + " != null");
-                    jsc.add("       && !org.castor.core.util.CycleBreaker.startingToCycle(" + name + ")) {");
-                } else {
-                    // Calculates hashCode in a recursive manner
-                    jsc.add("if (" + name + " != null) {");
-                }
-                jsc.add("   resultHc = 37 * resultHc + " + name + ".hashCode();");
-
-                if (getConfig().useCycleBreaker()) {
-                    // Calculates hashCode in an acyclic recursive manner
-                    jsc.add("   org.castor.core.util.CycleBreaker.releaseCycleHandle(" + name + ");");
-                }
+                // Calculates hashCode in an acyclic recursive manner
+                jsc.add("if (" + name + " != null");
+                jsc.add("       && !org.castor.core.util.CycleBreaker.startingToCycle(" + name + ")) {");
+                jsc.add("   result = 37 * result + " + name + ".hashCode();");
+                jsc.add("   org.castor.core.util.CycleBreaker.releaseCycleHandle(" + name + ");");
                 jsc.add("}");
             }
         }
         jsc.add("");
-        jsc.add("return resultHc;");
+        jsc.add("return result;");
     }   //createHashCodeMethod
 
     /**
@@ -1454,11 +1440,8 @@ public final class SourceFactory extends BaseFactory {
             jsc.append(" temp = (");
             jsc.append(jclass.getLocalName());
             jsc.append(")obj;");
-            
-            if (getConfig().useCycleBreaker()) {
-                jsc.add("boolean thcycle;");
-                jsc.add("boolean tmcycle;");
-            }
+            jsc.add("boolean thcycle;");
+            jsc.add("boolean tmcycle;");
         }
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
@@ -1486,33 +1469,31 @@ public final class SourceFactory extends BaseFactory {
                 jsc.indent();
                 jsc.append("return false;");
                 jsc.unindent();
+                jsc.add("if (this.");
+                jsc.append(name);
+                jsc.append(" != temp.");
+                jsc.append(name);
+                jsc.append(") {");
+                // This prevents string constants and improper DOM subtree self comparisons
+                // (where Q(A(B)) and Q'(C(B)) are compared) screwing up cycle detection
+                jsc.indent();
+                jsc.add("thcycle=org.castor.core.util.CycleBreaker.startingToCycle(this." + name + ");");
+                jsc.add("tmcycle=org.castor.core.util.CycleBreaker.startingToCycle(temp." + name + ");");
+                // equivalent objects *will* cycle at the same time
+                jsc.add("if (thcycle!=tmcycle) {");
+                jsc.indent();
+                jsc.add("if (!thcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(this."
+                        + name + "); };");
+                jsc.add("if (!tmcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(temp."
+                        + name + "); };");
+                jsc.add("return false;");
+                jsc.unindent();
+                jsc.add("}"); // end of unequal cycle point test
+                jsc.add("if (!thcycle) {");
 
-                if (getConfig().useCycleBreaker()) {
-                    jsc.add("if (this.");
-                    jsc.append(name);
-                    jsc.append(" != temp.");
-                    jsc.append(name);
-                    jsc.append(") {");
-                    // This prevents string constants and improper DOM subtree self comparisons
-                    // (where Q(A(B)) and Q'(C(B)) are compared) screwing up cycle detection
-                    jsc.indent();
-                    jsc.add("thcycle=org.castor.core.util.CycleBreaker.startingToCycle(this." + name + ");");
-                    jsc.add("tmcycle=org.castor.core.util.CycleBreaker.startingToCycle(temp." + name + ");");
-                    // equivalent objects *will* cycle at the same time
-                    jsc.add("if (thcycle!=tmcycle) {");
-                    jsc.indent();
-                    jsc.add("if (!thcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(this."
-                            + name + "); };");
-                    jsc.add("if (!tmcycle) { org.castor.core.util.CycleBreaker.releaseCycleHandle(temp."
-                            + name + "); };");
-                    jsc.add("return false;");
-                    jsc.unindent();
-                    jsc.add("}"); // end of unequal cycle point test
-                    jsc.add("if (!thcycle) {");
-                    jsc.indent();
-                }
+                jsc.indent();
+
                 jsc.add("if (!");
-
                 // Special handling for comparing arrays
                 if (temp.getType().isArray()) {
                     jsc.append("java.util.Arrays.equals(this.");
@@ -1528,36 +1509,24 @@ public final class SourceFactory extends BaseFactory {
                     jsc.append(")");
                 }
 
-                if (getConfig().useCycleBreaker()) {
-                    jsc.append(") {");
-                } else {
-                    jsc.append(") ");
-                }
+                jsc.append(") {");
                 jsc.indent();
 
-                if (getConfig().useCycleBreaker()) {
-                    jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                    jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
-                }
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
                 jsc.add("return false;");
                 jsc.unindent();
+                jsc.add("}");
 
-                if (getConfig().useCycleBreaker()) {
-                    jsc.add("}");
-
-                    jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
-                    jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
-                }
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(this." + name + ");");
+                jsc.add("org.castor.core.util.CycleBreaker.releaseCycleHandle(temp." + name + ");");
 
                 jsc.unindent();
-
-                if (getConfig().useCycleBreaker()) {
-                    jsc.add("}"); // end of !thcycle
-                    jsc.unindent();
-                    jsc.add("}"); // end of this.name != that.name object constant check
-                    jsc.unindent();
-                }
-                jsc.add("} else if (temp."); // end of != null
+                jsc.add("}"); // end of !thcycle
+                jsc.unindent();
+                jsc.add("}"); // end of this.name != that.name object constant check
+                jsc.unindent();
+                jsc.add("} else if (temp.");
                 jsc.append(name);
                 jsc.append(" != null)");
             }
@@ -1696,7 +1665,7 @@ public final class SourceFactory extends BaseFactory {
         jMethod.setComment("implementation of org.castor.xmlctf.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
-        jsc.add("StringBuffer stringBuffer = new StringBuffer(\"DumpFields() for element: ");
+        jsc.add("StringBuffer result = new StringBuffer(\"DumpFields() for element: ");
         jsc.append(jclass.getName());
         jsc.append("\\n\");");
 
@@ -1708,7 +1677,7 @@ public final class SourceFactory extends BaseFactory {
                     || temp.getType().getName().startsWith("java.lang.")) {
                 //hack when using the option 'primitivetowrapper'
                 //this should not interfere with other cases
-                jsc.add("stringBuffer.append(\"Field ");
+                jsc.add("result.append(\"Field ");
                 jsc.append(name);
                 jsc.append(":\" +");
                 jsc.append(name);
@@ -1718,17 +1687,17 @@ public final class SourceFactory extends BaseFactory {
                 jsc.append(name);
                 jsc.append(" != null) {");
                 jsc.indent();
-                jsc.add("stringBuffer.append(\"[\");");
+                jsc.add("result.append(\"[\");");
                 jsc.add("for (int i = 0; i < ");
                 jsc.append(name);
                 jsc.append(".length; i++) {");
                 jsc.indent();
-                jsc.add("stringBuffer.append(");
+                jsc.add("result.append(");
                 jsc.append(name);
                 jsc.append("[i] + \" \");");
                 jsc.unindent();
                 jsc.add("}");
-                jsc.add("stringBuffer.append(\"]\");");
+                jsc.add("result.append(\"]\");");
                 jsc.unindent();
                 jsc.add("}");
             } else {
@@ -1738,11 +1707,11 @@ public final class SourceFactory extends BaseFactory {
                 jsc.append(name);
                 jsc.append(".getClass().isAssignableFrom(CastorTestable.class)))");
                 jsc.indent();
-                jsc.add("stringBuffer.append(((CastorTestable)");
+                jsc.add("result.append(((CastorTestable)");
                 jsc.append(name);
                 jsc.append(").dumpFields());");
                 jsc.unindent();
-                jsc.add("else stringBuffer.append(\"Field ");
+                jsc.add("else result.append(\"Field ");
                 jsc.append(name);
                 jsc.append(":\" +");
                 jsc.append(name);
@@ -1751,7 +1720,7 @@ public final class SourceFactory extends BaseFactory {
             jsc.add("");
         }
         jsc.add("");
-        jsc.add("return stringBuffer.toString();");
+        jsc.add("return result.toString();");
     }
 
     /**
@@ -1836,29 +1805,24 @@ public final class SourceFactory extends BaseFactory {
             Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
                 AppInfo appInfo = appInfos.nextElement();
-                if (appInfo.hasNature(AppInfoJpaNature.class.getName())) {
-                    AppInfoJpaNature nature = new AppInfoJpaNature(appInfo);
-                    List<?> content = nature.getContent();
-                    if (content != null && !content.isEmpty()) {
-                        Iterator<?> it = content.iterator();
-                        if (it.hasNext()) {
-                            cInfo.addNature(JDOClassInfoNature.class.getName());
-                            JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
-                            while (it.hasNext()) {
-                                Object tmpObject = it.next();
-                                if (tmpObject instanceof Table) {
-                                    Table table = (Table) tmpObject;
-                                    cNature.setTableName(table.getName());
-                                    cNature.setAccessMode(AccessMode.valueOf("shared"));
-                                    cNature.setDetachable(table.isDetachable());
-                                    // TODO: Uncomment next line as soon as Annotation Classes have been updated!
-                                    //                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
-                                    PrimaryKey pk = table.getPrimaryKey();
-                                    Iterator<? extends String> pIt = pk.iterateKey();
-                                    while (pIt.hasNext()) {
-                                        cNature.addPrimaryKey(pIt.next());
-                                    }
-                                }
+                List<?> content = appInfo.getJdoContent();
+                Iterator<?> it = content.iterator();
+                if (it.hasNext()) {
+                    cInfo.addNature(JDOClassInfoNature.class.getName());
+                    JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
+                    while (it.hasNext()) {
+                        Object tmpObject = it.next();
+                        if (tmpObject instanceof Table) {
+                            Table table = (Table) tmpObject;
+                            cNature.setTableName(table.getName());
+                            cNature.setAccessMode(AccessMode.valueOf("shared"));
+                            cNature.setDetachable(table.isDetachable());
+                         // TODO: Uncomment next line as soon as Annotation Classes have been updated!
+//                            cNature.setAccessMode(AccessMode.valueOf(table.getAccessMode().toString()));
+                            PrimaryKey pk = table.getPrimaryKey();
+                            Iterator<String> pIt = pk.iterateKey();
+                            while (pIt.hasNext()) {
+                                cNature.addPrimaryKey(pIt.next());
                             }
                         }
                     }
@@ -1890,55 +1854,34 @@ public final class SourceFactory extends BaseFactory {
             Enumeration<AppInfo> appInfos = ann.getAppInfo();
             while (appInfos.hasMoreElements()) {
                 AppInfo appInfo = appInfos.nextElement();
-                
-                if (appInfo.hasNature(AppInfoSolrjNature.class.getName())) {
-                    AppInfoSolrjNature nature = new AppInfoSolrjNature(appInfo);
-                    Object solrjRawContent = nature.getContent();
-                    if (solrjRawContent != null) {
-                        fInfo.addNature(SolrjFieldInfoNature.class.getName());
-                        SolrjFieldInfoNature solrjNature = new SolrjFieldInfoNature(fInfo);
-                        if (solrjRawContent instanceof Field) {
-                            Field solrjField = (Field) solrjRawContent;
-                            if (StringUtils.isNotBlank(solrjField.getName())) {
-                                solrjNature.setFieldName(solrjField.getName());
-                            }
-                        }
-                    }
-                }
-                
-                if (appInfo.hasNature(AppInfoJpaNature.class.getName())) {
-                    AppInfoJpaNature nature = new AppInfoJpaNature(appInfo);
-                    List<?> content = nature.getContent();
-                    if (content != null && !content.isEmpty()) {
-                        Iterator<?> it = content.iterator();
-                        if (it.hasNext()) {                 
-                            while (it.hasNext()) {
-                                Object tmpObject = it.next();
-                                if (tmpObject instanceof Column) {
-                                    fInfo.addNature(JDOFieldInfoNature.class.getName());
-                                    JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
-                                    Column column = (Column) tmpObject;
-                                    fNature.setColumnName(column.getName());
-                                    fNature.setColumnType(column.getType());
-                                    fNature.setReadOnly(column.isReadOnly());
-                                    fNature.setDirty(false);
-                                    fNature.setDirty(column.getDirty());
-                                } else if (tmpObject instanceof OneToOne) {
-                                    OneToOne relation = (OneToOne) tmpObject;
-                                    fInfo.addNature(JDOOneToOneNature.class.getName());
-                                    JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
-                                    oneNature.addForeignKey(relation.getName());
-                                    oneNature.setDirty(relation.isDirty());
-                                    oneNature.setReadOnly(relation.isReadOnly());
-                                } else if (tmpObject instanceof OneToMany) {
-                                    OneToMany relation = (OneToMany) tmpObject;
-                                    fInfo.addNature(JDOOneToManyNature.class.getName());
-                                    JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
-                                    manyNature.addForeignKey(relation.getName());
-                                    manyNature.setDirty(relation.isDirty());
-                                    manyNature.setReadOnly(relation.isReadOnly());
-                                }
-                            }
+                List<?> content = appInfo.getJdoContent();
+                Iterator<?> it = content.iterator();
+                if (it.hasNext()) {                 
+                    while (it.hasNext()) {
+                        Object tmpObject = it.next();
+                        if (tmpObject instanceof Column) {
+                            fInfo.addNature(JDOFieldInfoNature.class.getName());
+                            JDOFieldInfoNature fNature = new JDOFieldInfoNature(fInfo);
+                            Column column = (Column) tmpObject;
+                            fNature.setColumnName(column.getName());
+                            fNature.setColumnType(column.getType());
+                            fNature.setReadOnly(column.isReadOnly());
+                            fNature.setDirty(false);
+                            fNature.setDirty(column.getDirty());
+                        } else if (tmpObject instanceof OneToOne) {
+                            OneToOne relation = (OneToOne) tmpObject;
+                            fInfo.addNature(JDOOneToOneNature.class.getName());
+                            JDOOneToOneNature oneNature = new JDOOneToOneNature(fInfo);
+                            oneNature.addForeignKey(relation.getName());
+                            oneNature.setDirty(relation.isDirty());
+                            oneNature.setReadOnly(relation.isReadOnly());
+                        } else if (tmpObject instanceof OneToMany) {
+                            OneToMany relation = (OneToMany) tmpObject;
+                            fInfo.addNature(JDOOneToManyNature.class.getName());
+                            JDOOneToManyNature manyNature = new JDOOneToManyNature(fInfo);
+                            manyNature.addForeignKey(relation.getName());
+                            manyNature.setDirty(relation.isDirty());
+                            manyNature.setReadOnly(relation.isReadOnly());
                         }
                     }
                 }
@@ -2016,7 +1959,8 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            FieldInfo fieldInfo = _memberFactory.createFieldInfo(component, state, getConfig().useJava50());
+            FieldInfo fieldInfo = _memberFactory.createFieldInfo(
+                    component, state, getConfig().useJava50());
             handleField(fieldInfo, state, component);
         }
     }
@@ -2398,8 +2342,8 @@ public final class SourceFactory extends BaseFactory {
                         FieldInfo inheritedFieldInfo = base.getElementField(baseNodeName);
                         
                         if (inheritedFieldInfo != null) {
-                            String namespaceURI = xmlNature.getNamespaceURI();
-                            if (namespaceURI != null && namespaceURI.equals(new XMLInfoNature(inheritedFieldInfo).getNamespaceURI())) {
+                            if (xmlNature.getNamespaceURI()
+                                    .equals(new XMLInfoNature(inheritedFieldInfo).getNamespaceURI())) {
                                 present = true;
                             }
                         }
@@ -2421,7 +2365,8 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            fieldInfo.getMemberAndAccessorFactory().createJavaField(fieldInfo, state.getJClass());
+            fieldInfo.getMemberAndAccessorFactory().createJavaField(
+                    fieldInfo, state.getJClass());
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
                 fieldInfo.getMemberAndAccessorFactory().createAccessMethods(

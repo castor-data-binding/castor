@@ -1,18 +1,3 @@
-/*
- * Copyright 2010 Ralf Joachim
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.castor.cpa.test.framework;
 
 import java.io.BufferedReader;
@@ -32,64 +17,23 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 
-/**
- * Execute create and drop DDL scripts of CPA test framework. 
- * 
- * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
- */
 public final class CPAScriptExecutor {
-    //--------------------------------------------------------------------------
-
-    /** "cpactf" prefix of script path. */
     private static final String MODULE_PREFIX = "cpactf/";
-    
-    /** Path to find CREATE and DROP scripts. */
     private static final String MODULE_PATH = "src/test/ddl/";
-    
-    /** Constant for a "dot". */
     private static final String DOT = ".";
-    
-    /** Constant for the separator. */
     private static final String SEPARATOR = "/";
-    
-    /** Filename suffix of SQL DROP scripts. */
     private static final String DROP_FILE = "-drop";
-    
-    /** Filename suffix of SQL CREATE scripts. */
     private static final String CREATE_FILE = "-create";
-    
-    /** Extension of SQL script files.  */
     private static final String FILE_EXTENSION = ".sql";
     
-    /** String for comments. */
     private static final String COMMENT = "--";
-    
-    /** String for default delimiter. */
     private static final String DELIMITER_DEFAULT = ";";
-    
-    /** String for Oracle-specific delimiter. */
     private static final String DELIMITER_ORACLE = "/";
-    
-    /** String for SAPDB-specific delimiter. */
     private static final String DELIMITER_SAPDB = "//";
-    
-    /** String for MSSQL-specific delimiter. */
     private static final String DELIMITER_MSSQL = "GO";
 
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(CPAScriptExecutor.class);
     
-    //--------------------------------------------------------------------------
-
-    /**
-     * Execute DROP and CREATE script for given test. 
-     * 
-     * @param engine The database engine, that is used to run the test. 
-     * @param connection The currently used connection to execute the scripts on. 
-     * @param test The name of the test to execute. 
-     */
     public static void execute(final DatabaseEngineType engine, final Connection connection,
             final String test) {
         String path = MODULE_PATH + test.replace(DOT, SEPARATOR) + SEPARATOR;
@@ -135,14 +79,6 @@ public final class CPAScriptExecutor {
         }
     }
     
-    /**
-     * Execute given DROP statements on given connection. 
-     * 
-     * @param statements A list of DROP statements to execute. 
-     * @param connection The currently used connection to execute the scripts on. 
-     * @throws SQLException if a database access error occurs, this method is called 
-     *         on a closed Statement or the given SQL statement produces a ResultSet object
-     */
     private static void executeDrop(final List<String> statements, final Connection connection)
     throws SQLException {
         SQLException firstException = null;
@@ -168,14 +104,6 @@ public final class CPAScriptExecutor {
         if (firstException != null) { throw firstException; }
     }
     
-    /**
-     * Execute given CREATE statements on given connection.  
-     * 
-     * @param statements A list of CREATE statements to execute. 
-     * @param connection The currently used connection to execute the scripts on. 
-     * @throws SQLException if a database access error occurs, this method is called 
-     *         on a closed Statement or the given SQL statement produces a ResultSet object
-     */
     private static void executeCreate(final List<String> statements, final Connection connection)
     throws SQLException {
         Statement sql = null;
@@ -194,15 +122,6 @@ public final class CPAScriptExecutor {
         }
     }
     
-    /**
-     * Read from given reader and divide input into multiple Strings. 
-     * Use the database engine-specific delimiter to recognize statements. 
-     * 
-     * @param reader An reader on a SQL script file. 
-     * @param engine The database engine, that is used to run the test. 
-     * @return List of statements separated by a delimiter. 
-     * @throws IOException If an I/O error occurs. 
-     */
     public static List<String> parse(final Reader reader, final DatabaseEngineType engine)
     throws IOException {
         List<String> list = new ArrayList<String>();
@@ -233,12 +152,6 @@ public final class CPAScriptExecutor {
         return list;
     }
     
-    /**
-     * Provide the database engine-specific delimiter. 
-     * 
-     * @param engine The database engine to get fitting delimiter for. 
-     * @return String that represents the delimiter for the given database engine. 
-     */
     private static String getStatementDelimiter(final DatabaseEngineType engine) {
         if (engine == DatabaseEngineType.ORACLE) {
             return DELIMITER_ORACLE;
@@ -253,12 +166,5 @@ public final class CPAScriptExecutor {
         }
     }
 
-    //--------------------------------------------------------------------------
-
-    /**
-     * Hide default constructor of utility class.
-     */
     private CPAScriptExecutor() { }
-
-    //--------------------------------------------------------------------------
 }

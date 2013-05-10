@@ -19,7 +19,7 @@ package org.castor.jdo.engine;
  * Holds information about table names and counters.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-07-24 14:37:16 -0600 (Sun, 24 Jul 2005) $
  * @since 0.9.9
  */
 public final class CounterRef {

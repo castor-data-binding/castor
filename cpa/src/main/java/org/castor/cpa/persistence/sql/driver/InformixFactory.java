@@ -44,8 +44,6 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Types;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.InformixQueryVisitor;
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
@@ -66,13 +64,6 @@ public final class InformixFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new InformixQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

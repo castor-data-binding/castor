@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Ralf Joachim, Ahmad Hassan, Dennis Butterstein
+ * Copyright 2009 Ralf Joachim, Ahmad Hassan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,19 @@
  */
 package org.castor.cpa.persistence.sql.query;
 
-import junit.framework.TestCase;
-
 import org.castor.cpa.persistence.sql.query.condition.AndCondition;
 import org.castor.cpa.persistence.sql.query.condition.Condition;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
+
+import junit.framework.TestCase;
 
 /**
  * Test if Update works as expected.
  *
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
 public final class TestUpdate extends TestCase {
     public void testExtendsHierarchy() {
@@ -92,5 +91,4 @@ public final class TestUpdate extends TestCase {
         update.setCondition(new Column("mycol2").equal(new Parameter("mycol2")));
         assertEquals("UPDATE mytable SET mycol1=? WHERE mycol2=?", update.toString());
     }
-
 }

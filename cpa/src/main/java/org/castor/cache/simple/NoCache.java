@@ -26,15 +26,12 @@ import org.castor.cache.AbstractBaseCache;
  * NoCache is a Map which dispose all object right the way. Every object being put in the
  * Map will be disposed.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class NoCache<K, V> extends AbstractBaseCache<K, V> {
+public final class NoCache extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The type of the cache. */
@@ -74,7 +71,7 @@ public final class NoCache<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V get(final Object key) { return null; }
+    public Object get(final Object key) { return null; }
 
     //--------------------------------------------------------------------------
     // modification operations of map interface
@@ -82,12 +79,12 @@ public final class NoCache<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public V put(final K key, final V value) { return null; }
+    public Object put(final Object key, final Object value) { return null; }
 
     /**
      * {@inheritDoc}
      */
-    public V remove(final Object key) { return null; }
+    public Object remove(final Object key) { return null; }
 
     //--------------------------------------------------------------------------
     // bulk operations of map interface
@@ -95,7 +92,7 @@ public final class NoCache<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public void putAll(final Map<? extends K, ? extends V> map) { }
+    public void putAll(final Map<? extends Object, ? extends Object> map) { }
 
     /**
      * {@inheritDoc}
@@ -108,17 +105,17 @@ public final class NoCache<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public Set<K> keySet() { return Collections.emptySet(); }
+    public Set<Object> keySet() { return Collections.emptySet(); }
 
     /**
      * {@inheritDoc}
      */
-    public Collection<V> values() { return Collections.emptyList(); }
+    public Collection<Object> values() { return Collections.emptyList(); }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Entry<K, V>> entrySet() { return Collections.emptySet(); }
+    public Set<Entry<Object, Object>> entrySet() { return Collections.emptySet(); }
     
     //--------------------------------------------------------------------------
 }

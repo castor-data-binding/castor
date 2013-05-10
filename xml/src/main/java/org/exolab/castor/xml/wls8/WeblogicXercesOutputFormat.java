@@ -28,7 +28,6 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
     private static Class outputFormatClass;
     private static Method setDoctype;
     private static Method setEncoding;
-    private static Method setVersion;
     private static Method setIndenting;
     private static Method setMethod;
     private static Method setOmitDocumentType;
@@ -50,28 +49,28 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
         }
         // get the methods
         // setDoctype
-        setDoctype = getMethod(outputFormatClass, "setDoctype", new Class[] { String.class, String.class });
+        Class[] parameterTwoStrings = {String.class, String.class};
+        setDoctype = getMethod(outputFormatClass, "setDoctype", parameterTwoStrings);
 
         // setEncoding
-        setEncoding = getMethod(outputFormatClass, "setEncoding", new Class[] { String.class });
-
-        // setVersion
-        setEncoding = getMethod(outputFormatClass, "setVersion", new Class[] { String.class });
-
+        Class[] parameterOneString = {String.class};
+        setEncoding = getMethod(outputFormatClass, "setEncoding", parameterOneString);
+        
         // setIndenting
-        setIndenting = getMethod(outputFormatClass, "setIndenting", new Class[] { boolean.class });
+        Class[] parameterBoolean = {boolean.class};
+        setIndenting = getMethod(outputFormatClass, "setIndenting", parameterBoolean);
         
         // setMethod
-        setMethod = getMethod(outputFormatClass, "setMethod", new Class[] { String.class });
+        setMethod = getMethod(outputFormatClass, "setMethod", parameterOneString);
         
         // setOmitDocumentType
-        setOmitDocumentType = getMethod(outputFormatClass, "setOmitDocumentType", new Class[] { boolean.class });
+        setOmitDocumentType = getMethod(outputFormatClass, "setOmitDocumentType", parameterBoolean);
         
         // setOmitXMLDeclaration
-        setOmitXMLDeclaration = getMethod(outputFormatClass, "setOmitXMLDeclaration", new Class[] { boolean.class });
+        setOmitXMLDeclaration = getMethod(outputFormatClass, "setOmitXMLDeclaration", parameterBoolean);
         
         // setPreserveSpace
-        setPreserveSpace = getMethod(outputFormatClass, "setPreserveSpace", new Class[] { boolean.class });
+        setPreserveSpace = getMethod(outputFormatClass, "setPreserveSpace", parameterBoolean);
         
     }
 
@@ -90,15 +89,17 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
         }
     }
     
+    /**
+     * @inheritDoc
+     */
     public void setMethod(String method) {
         Object[] params = {method};
         invoke(setMethod, params);
     }
 
-    public Object getFormat() {
-        return outputFormat;
-    }
-    
+    /**
+     * @inheritDoc
+     */
     public void setIndenting(boolean indent) {
         // wrap boolean primitive in a Boolean object because the invoke method does the following:
         // Individual parameters are automatically unwrapped to match primitive formal parameters.
@@ -106,38 +107,54 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
         invoke(setIndenting, params);
     }
 
+    /**
+     * @inheritDoc
+     */
     public void setPreserveSpace(boolean preserveSpace) {
         Boolean[] params = {new Boolean(preserveSpace)};
         invoke(setPreserveSpace, params);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public Object getFormat() {
+        return outputFormat;
+    }
+    
+    /**
+     * @inheritDoc
+     */
     public void setDoctype (String type1, String type2) {
         Object[] params = {type1, type2};
         invoke(setDoctype, params);
     }
 
+    /**
+     * @inheritDoc
+     */
     public void setOmitXMLDeclaration(boolean omitXMLDeclaration) {
         Boolean[] params = {Boolean.valueOf(omitXMLDeclaration)};
         invoke(setOmitXMLDeclaration, params);
     }
 
+    /**
+     * @inheritDoc
+     */
     public void setOmitDocumentType(boolean omitDocumentType) {
         Boolean[] params = {Boolean.valueOf(omitDocumentType)};
         invoke(setOmitDocumentType, params);
     }
 
+    /**
+     * @inheritDoc
+     */
     public void setEncoding(String encoding) {
         String[] params = {encoding};
-        invoke(setEncoding, params);
-    }
-
-    public void setVersion(String version) {
-        String[] params = {version};
         invoke(setEncoding, params);
     }
 
     private Object invoke(Method method, Object[] params) {
         return invoke(outputFormat, method, params);
     }
-    
 }

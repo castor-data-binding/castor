@@ -330,24 +330,29 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         }
         jsw.write(' ');
         jsw.write(_name);
-        jsw.write('(');
+        jsw.writeln('(');
 
         //-- print parameters
+        jsw.indent();
+        jsw.indent();
         int parameterCount = 0;
         for (JParameter jParameter : _params.values()) {
             if (parameterCount > 0) { 
-                jsw.write(",");
+                jsw.writeln(",");
             }
             jParameter.printAnnotations(jsw);
             String typeAndName = jParameter.toString();
             jsw.write(typeAndName);
             parameterCount++;
         }
+        jsw.unindent();
+        jsw.unindent();
 
         jsw.write(")");
 
         if (_exceptions.size() > 0) {
-            jsw.write(" throws ");
+            jsw.writeln();
+            jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }
                 JClass jClass = _exceptions.elementAt(i);

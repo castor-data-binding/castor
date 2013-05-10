@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
+ * Copyright 2006 Assaf Arkin, Thomas Yip, Bruce Snyder, Werner Guttmann, Ralf Joachim
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,13 @@
  */
 package org.castor.cpa.persistence.sql.engine;
 
+import java.sql.Connection;
+
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.persist.ProposedEntity;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
@@ -30,13 +33,9 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * SQLStatementCreate class that makes use of KeyGenerators methods to build sql
  * insert statement and execute them. 
  * 
- * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
- * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
- * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
- * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @author <a href="mailto:madsheepscarer AT googlemail DOT com">Dennis Butterstein</a>
+ * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
 public class SQLStatementInsert {
     
@@ -45,7 +44,7 @@ public class SQLStatementInsert {
     private final SQLEngine _engine;
 
     /** A particular KeyGenerator instance from the list of key generators supported. */
-    private final KeyGenerator _keyGen;
+    private KeyGenerator _keyGen;
 
     //-----------------------------------------------------------------------------------    
 
@@ -71,23 +70,22 @@ public class SQLStatementInsert {
      * Builds the SQL statement using KeyGenerators.
      */
     private void buildStatement() {
-        _keyGen.buildStatement(_engine);
+        _keyGen = _keyGen.buildStatement(_engine);
     }
 
     /**
      * Executes the SQL statement after preparing the PreparedStatement.
      * 
      * @param database A particular Database instance.
-     * @param conn CastorConnection holding connection and PersistenceFactory to be used to create
-     *        statement.
+     * @param conn An Open JDBC connection.
      * @param identity Identity of the object to insert.
-     * @param entity Entity holding the values to insert.
-     * @return Identity of the entity inserted.
+     * @param entity
+     * @return Identity
      * @throws PersistenceException If failed to insert record into database. This could happen
      *         if a database access error occurs, If identity size mismatches, unable to retrieve
      *         Identity, If provided Identity is null, If Extended engine is null.
      */
-    public final Object executeStatement(final Database database, final CastorConnection conn,
+    public final Object executeStatement(final Database database, final Connection conn,
             final Identity identity, final ProposedEntity entity)
     throws PersistenceException {
         return _keyGen.executeStatement(database, conn, identity, entity);

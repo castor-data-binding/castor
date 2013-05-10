@@ -30,22 +30,19 @@ import org.castor.cache.hashbelt.container.Container;
  * someone an update every 15 minutes. Use this one and an object that sends the
  * message inside its "expire" method.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public abstract class ReinsertingReaper<K, V> extends AbstractReaper<K, V> {
+public abstract class ReinsertingReaper extends AbstractReaper {
     /**
      * {@inheritDoc}
      */
-    public final void handleExpiredContainer(final Container<K, V> expiredContainer) {
-        Iterator<K> iter = expiredContainer.keyIterator();
+    public final void handleExpiredContainer(final Container expiredContainer) {
+        Iterator<Object> iter = expiredContainer.keyIterator();
         while (iter.hasNext()) {
-            K key = iter.next();
-            V value = expiredContainer.get(key);
+            Object key = iter.next();
+            Object value = expiredContainer.get(key);
             handleExpiredObject(value);
             getCache().put(key, value);
         }
@@ -56,5 +53,5 @@ public abstract class ReinsertingReaper<K, V> extends AbstractReaper<K, V> {
      * 
      * @param expiredObject The object that has expired.
      */
-    protected abstract void handleExpiredObject(final V expiredObject);
+    protected abstract void handleExpiredObject(final Object expiredObject);
 }

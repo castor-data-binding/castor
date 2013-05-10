@@ -43,7 +43,9 @@
  * $Id$
  */
 
+
 package org.exolab.castor.mapping.loader;
+
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -57,257 +59,282 @@ import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MappingException;
 
+
 /**
- * Utility class for obtaining collection handlers. Based on the configuration
- * and supported classes it will return collections suitable for Java 1.1 and
- * Java 1.2 run times.
- * 
+ * Utility class for obtaining collection handlers. Based on the
+ * configuration and supported classes it will return collections
+ * suitable for Java 1.1 and Java 1.2 run times.
+ *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date: 2005-05-02 14:58:59 -0600 (Mon, 02 May
- *          2005) $
+ * @version $Revision$ $Date: 2005-05-02 14:58:59 -0600 (Mon, 02 May 2005) $
  * @see CollectionHandler
  */
-public final class CollectionHandlers {
+public final class CollectionHandlers
+{
 
-   private static Info[] _info;
 
-   // For JDK 1.1 compatilibity
-   private static Class _collectionClass = null;
-   private static boolean _loadedCollectionClass = false;
+    // For JDK 1.1 compatilibity
+    private static Class   _collectionClass = null;
+    private static boolean _loadedCollectionClass = false;
+    
+    /**
+     * Returns the collection's Java class from the collection name.
+     * The collection name may be a short name (e.g. <tt>vector</tt>)
+     * or the collection Java class name (e.g. <tt>java.util.Vector</tt>).
+     * If the collection is not supported, an exception is thrown.
+     *
+     * @param name The collection name
+     * @return The collection Java class
+     * @throws MappingException The named collection is not supported
+     */
+    public static Class getCollectionType( String name )
+        throws MappingException
+    {
+        if ( _info == null )
+            loadInfo();
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].shortName.equalsIgnoreCase( name ) ||
+                 _info[ i ].javaClass.getName().equals( name ) )
+                return _info[ i ].javaClass;
+        //throw new MappingException( "mapping.noCollectionHandler", name );
+        
+        //-- Fix for JDK 1.1 compatibility
+        // old code: return Collection.class;
+        if (!_loadedCollectionClass) {
+            _loadedCollectionClass = true;
+            try {
+                _collectionClass = Class.forName("java.util.Collection");
+            }
+            catch(ClassNotFoundException cnfe) {
+                // Do nothing we are just here for JDK 1.1
+                // compatibility
+            }
+        }
+        return _collectionClass;
+    }
+    
+    /**
+     * Returns true if the given class has an associated CollectionHandler.
+     *
+     * @param javaClass the class to search collection handlers for
+     * @return true if the given class has an associated CollectionHandler,
+     * otherwise false.
+     */
+     public static boolean hasHandler(Class javaClass) {
+        
+        if ( _info == null )
+            loadInfo();
+            
+        //-- Adjust javaClass for arrays, needed for arrays of
+        //-- primitives, except for byte[] which shouldn't
+        //-- use a collection handler
+        if (javaClass.isArray()) {
+            if (javaClass.getComponentType() != Byte.TYPE)
+                javaClass = Object[].class;
+        }
+            
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.isAssignableFrom( javaClass ) )
+                return true;
+                
+        return false;
+        
+     } //-- hasHandler
 
-   static {
-      Vector<Info> allInfo = new Vector<Info>();
-      AbstractProperties properties = XMLProperties.newInstance();
-      StringTokenizer tokenizer = new StringTokenizer(properties.getString(
-            XMLProperties.COLLECTION_HANDLERS_FOR_JAVA_11_OR_12, ""), ", ");
-      while (tokenizer.hasMoreTokens()) {
-         try {
-            Class<?> infoClass;
-            if (CollectionHandlers.class.getClassLoader() != null)
-               infoClass = CollectionHandlers.class.getClassLoader().loadClass(tokenizer.nextToken());
-            else
-               infoClass = Class.forName(tokenizer.nextToken());
-            Method method = infoClass.getMethod("getCollectionHandlersInfo", (Class[]) null);
-            Info[] info = (Info[]) method.invoke(null, (Object[]) null);
-            for (int i = 0; i < info.length; ++i)
-               allInfo.addElement(info[i]);
-         } catch (Exception except) {
-            // System.err.println( "CollectionHandlers: " + except.toString()
-            // );
-         }
-      }
-      _info = new Info[allInfo.size()];
-      allInfo.copyInto(_info);
-   }
 
-   /**
-    * Returns the collection's Java class from the collection name. The
-    * collection name may be a short name (e.g. <tt>vector</tt>) or the
-    * collection Java class name (e.g. <tt>java.util.Vector</tt>). If the
-    * collection is not supported, an exception is thrown.
-    * 
-    * @param name
-    *           The collection name
-    * @return The collection Java class
-    * @throws MappingException
-    *            The named collection is not supported
-    */
-   public static Class<?> getCollectionType(String name) throws MappingException {
-      for (Info info : _info) {
-         if (info.getShortName().equalsIgnoreCase(name) || info.getJavaClass().getName().equals(name)) {
-            return info.getJavaClass();
-         }
-      }
-         
-//      for (int i = 0; i < _info.length; ++i) {
-//         if (_info[i].getShortName().equalsIgnoreCase(name) || _info[i].getJavaClass().getName().equals(name)) {
-//            return _info[i].getJavaClass();
-//            // throw new MappingException( "mapping.noCollectionHandler", name);
-//         }
-//      }
+    /**
+     * Returns the associated string name for a given collection.
+     *
+     * @param javaClass the class to search collection handlers for
+     * @return the string name for the given collection type or null
+     * if no association has been defined.
+     */
+     public static String getCollectionName(Class javaClass) {
+        
+        if ( _info == null )
+            loadInfo();
+            
+        //-- Adjust javaClass for arrays, needed for arrays of
+        //-- primitives, except for byte[] which shouldn't
+        //-- use a collection handler
+        if (javaClass.isArray()) {
+            if (javaClass.getComponentType() != Byte.TYPE)
+                javaClass = Object[].class;
+        }
+            
+        //-- First check direct class equality, to provide a better match 
+        //-- (for example in JDK 1.2 a Vector is also a Collection)
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.equals( javaClass ) )
+                return _info[ i ].shortName;
+                
+        //-- handle Possible inheritence
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.isAssignableFrom( javaClass ) )
+                return _info[ i ].shortName;
+                
+        return null;
+        
+     } //-- hasHandler
 
-      // -- Fix for JDK 1.1 compatibility
-      // old code: return Collection.class;
-      if (!_loadedCollectionClass) {
-         _loadedCollectionClass = true;
-         try {
-            _collectionClass = Class.forName("java.util.Collection");
-         } catch (ClassNotFoundException cnfe) {
-            // Do nothing we are just here for JDK 1.1
-            // compatibility
-         }
-      }
-      return _collectionClass;
-   }
+    /**
+     * Returns the collection's handler based on the Java class.
+     *
+     * @param javaClass The collection's Java class
+     * @return The collection handler
+     * @throws MappingException The collection class is not supported
+     */
+    public static CollectionHandler getHandler( Class javaClass )
+        throws MappingException
+    {
+        if ( _info == null )
+            loadInfo();
+            
+        //-- Adjust javaClass for arrays, needed for arrays of
+        //-- primitives, except for byte[] which shouldn't
+        //-- use a collection handler
+        if (javaClass.isArray()) {
+            if (javaClass.getComponentType() != Byte.TYPE)
+                javaClass = Object[].class;
+        }
+            
+        //-- First check direct class equality, to provide a better match 
+        //-- (for example in JDK 1.2 a Vector is also a Collection)
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.equals( javaClass ) )
+                return _info[ i ].handler;
+                
+        //-- handle Possible inheritence
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.isAssignableFrom( javaClass ) )
+                return _info[ i ].handler;
+        
+        
+        throw new MappingException( "mapping.noCollectionHandler", javaClass.getName() );
+    }
 
-   /**
-    * Returns true if the given class has an associated CollectionHandler.
-    * 
-    * @param javaClass
-    *           the class to search collection handlers for
-    * @return true if the given class has an associated CollectionHandler,
-    *         otherwise false.
-    */
-   public static boolean hasHandler(Class<?> javaClass) {
-      // -- Adjust javaClass for arrays, needed for arrays of
-      // -- primitives, except for byte[] which shouldn't
-      // -- use a collection handler
-      if (javaClass.isArray()) {
-         if (javaClass.getComponentType() != Byte.TYPE)
-            javaClass = Object[].class;
-      }
 
-      for (Info info : _info) {
-         if (info.getJavaClass().isAssignableFrom(javaClass)) {
-            return true;
-         }
-      }
-//      for (int i = 0; i < _info.length; ++i)
-//         if (_info[i].getJavaClass().isAssignableFrom(javaClass))
-//            return true;
+    /**
+     * Returns true if the collection requires get/set methods.
+     * <tt>java.util</tt> collections only require a get method,
+     * but an array collection required both get and set methods.
+     *
+     * @param javaClass The collection's java class
+     * @return True if collection requires get/set methods, false
+     *  if collection requires only get method
+     * @throws MappingException The collection class is not supported
+     */
+    public static boolean isGetSetCollection( Class javaClass )
+        throws MappingException
+    {
+        if ( _info == null )
+            loadInfo();
+        for ( int i = 0 ; i < _info.length ; ++i )
+            if ( _info[ i ].javaClass.equals( javaClass ) )
+                return _info[ i ].getSetCollection;
+        throw new MappingException( "mapping.noCollectionHandler", javaClass.getName() );
+    }
 
-      return false;
 
-   }
+    /**
+     * Called once to load collection handler information for the various
+     * collection handlers (Java 1.1, Java 1.2) based on the configuration
+     * file.
+     */
+    private static synchronized void loadInfo()
+    {
+        if ( _info == null ) {
+            Vector          allInfo;
+            Info[]          info;
+            StringTokenizer tokenizer;
+            Class           infoClass;
+            Method          method;
 
-   /**
-    * Returns the associated string name for a given collection.
-    * 
-    * @param javaClass
-    *           the class to search collection handlers for
-    * @return the string name for the given collection type or null if no
-    *         association has been defined.
-    */
-   public static String getCollectionName(Class<?> javaClass) {
-      // -- Adjust javaClass for arrays, needed for arrays of
-      // -- primitives, except for byte[] which shouldn't
-      // -- use a collection handler
-      if (javaClass.isArray()) {
-         if (javaClass.getComponentType() != Byte.TYPE)
-            javaClass = Object[].class;
-      }
+            allInfo = new Vector();
+            AbstractProperties properties = XMLProperties.newInstance();
+            tokenizer = new StringTokenizer(properties.getString(XMLProperties.COLLECTION_HANDLERS_FOR_JAVA_11_OR_12, ""), ", ");
+// Joachim 2007-09-01 old local configuration is dead!
+//            LocalConfiguration config = LocalConfiguration.getInstance();
+//            tokenizer = new StringTokenizer( config.getProperty( "org.exolab.castor.mapping.collections", "" ), ", " );
+            while ( tokenizer.hasMoreTokens() ) {
+                try {
+                    if ( CollectionHandlers.class.getClassLoader() != null )
+                        infoClass = CollectionHandlers.class.getClassLoader().loadClass( tokenizer.nextToken() );
+                    else
+                        infoClass = Class.forName( tokenizer.nextToken() );
+                    method = infoClass.getMethod( "getCollectionHandlersInfo", (Class[]) null );
+                    info = (Info[]) method.invoke( null, (Object[]) null );
+                    for ( int i = 0 ; i < info.length ; ++i )
+                        allInfo.addElement( info[ i ] );
+                } catch ( Exception except ) {
+                    // System.err.println( "CollectionHandlers: " + except.toString() );
+                }
+            }
+            _info = new Info[ allInfo.size() ];
+            allInfo.copyInto( _info );
+        }
+    }
 
-      // -- First check direct class equality, to provide a better match
-      // -- (for example in JDK 1.2 a Vector is also a Collection)
-      for (int i = 0; i < _info.length; ++i)
-         if (_info[i].getJavaClass().equals(javaClass))
-            return _info[i].getShortName();
+    
+    private static Info[]  _info;
 
-      // -- handle Possible inheritance
-      for (int i = 0; i < _info.length; ++i)
-         if (_info[i].getJavaClass().isAssignableFrom(javaClass))
-            return _info[i].getShortName();
 
-      return null;
+    static class Info
+    {
 
-   } // -- hasHandler
+        /**
+         * The short name of the collection (e.g. <tt>vector</tt>).
+         */
+        final String            shortName;
+        
+        /**
+         * The Java class of the collection (e.g. <tt>java.util.Vector</tt>).
+         */
+        final Class             javaClass;
+    
+        /**
+         * The collection handler instance.
+         */
+        final CollectionHandler handler;
 
-   /**
-    * Returns the collection's handler based on the Java class.
-    * 
-    * @param javaClass
-    *           The collection's Java class
-    * @return The collection handler
-    * @throws MappingException
-    *            The collection class is not supported
-    */
-   public static CollectionHandler getHandler(Class<?> javaClass) throws MappingException {
-      // -- Adjust javaClass for arrays, needed for arrays of
-      // -- primitives, except for byte[] which shouldn't
-      // -- use a collection handler
-      if (javaClass.isArray()) {
-         if (javaClass.getComponentType() != Byte.TYPE)
-            javaClass = Object[].class;
-      }
+        /**
+         * True for collections that require both get and set methods.
+         */
+        final boolean           getSetCollection;
+        
+        Info( String shortName, Class javaClass, boolean getSetCollection,
+              CollectionHandler handler )
+        {
+            this.shortName = shortName;
+            this.javaClass = javaClass;
+            this.handler = handler;
+            this.getSetCollection = getSetCollection;
+        }
 
-      // -- First check direct class equality, to provide a better match
-      // -- (for example in JDK 1.2 a Vector is also a Collection)
-      for (int i = 0; i < _info.length; ++i)
-         if (_info[i].getJavaClass().equals(javaClass))
-            return _info[i].handler;
+    }
 
-      // -- handle Possible inheritence
-      for (int i = 0; i < _info.length; ++i)
-         if (_info[i].getJavaClass().isAssignableFrom(javaClass))
-            return _info[i].handler;
 
-      throw new MappingException("mapping.noCollectionHandler", javaClass.getName());
-   }
+    /**
+     * Enumerator for a null collection.
+     */
+    static final class EmptyEnumerator
+        implements Enumeration, Serializable
+    {
 
-   /**
-    * Returns true if the collection requires get/set methods.
-    * <tt>java.util</tt> collections only require a get method, but an array
-    * collection required both get and set methods.
-    * 
-    * @param javaClass
-    *           The collection's java class
-    * @return True if collection requires get/set methods, false if collection
-    *         requires only get method
-    * @throws MappingException
-    *            The collection class is not supported
-    */
-   public static boolean isGetSetCollection(Class<?> javaClass) throws MappingException {
-      for (int i = 0; i < _info.length; ++i)
-         if (_info[i].getJavaClass().equals(javaClass))
-            return _info[i].getSetCollection;
-      throw new MappingException("mapping.noCollectionHandler", javaClass.getName());
-   }
+        public boolean hasMoreElements()
+        {
+            return false;
+        }
 
-   static class Info {
+        public Object nextElement()
+        {
+            throw new NoSuchElementException();
+        }
 
-      /**
-       * The short name of the collection (e.g. <tt>vector</tt>).
-       */
-      private final String shortName;
+    }
 
-      /**
-       * The Java class of the collection (e.g. <tt>java.util.Vector</tt>).
-       */
-      private final Class<?> javaClass;
-
-      /**
-       * The collection handler instance.
-       */
-      private final CollectionHandler handler;
-
-      /**
-       * True for collections that require both get and set methods.
-       */
-      final boolean getSetCollection;
-
-      Info(String shortName, Class<?> javaClass, boolean getSetCollection, CollectionHandler handler) {
-         this.shortName = shortName;
-         this.javaClass = javaClass;
-         this.handler = handler;
-         this.getSetCollection = getSetCollection;
-      }
-
-      String getShortName() {
-         return shortName;
-      }
-
-      Class<?> getJavaClass() {
-         return javaClass;
-      }
-
-      CollectionHandler getHandler() {
-         return handler;
-      }
-
-   }
-
-   /**
-    * Enumerator for a null collection.
-    */
-   public static final class EmptyEnumerator<T> implements Enumeration<T>, Serializable {
-
-      public boolean hasMoreElements() {
-         return false;
-      }
-
-      public T nextElement() {
-         throw new NoSuchElementException();
-      }
-   }
 
 }
+
+
+

@@ -27,8 +27,6 @@ import org.castor.xml.InternalContext;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AppInfo;
-import org.exolab.castor.xml.schema.AppInfoJpaNature;
-import org.exolab.castor.xml.schema.AppInfoSolrjNature;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Schema;
@@ -38,8 +36,6 @@ import org.exolab.castor.xml.schema.annotations.jdo.Column;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToMany;
 import org.exolab.castor.xml.schema.annotations.jdo.OneToOne;
 import org.exolab.castor.xml.schema.annotations.jdo.Table;
-import org.exolab.castor.xml.schema.annotations.solrj.Field;
-//import org.exolab.castor.xml.schema.annotations.solrj.Id;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
@@ -76,7 +72,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         Annotation annotation = (Annotation) annotations.nextElement();
         Enumeration appInfos = annotation.getAppInfo();
         AppInfo appInfo = (AppInfo) appInfos.nextElement();
-        List jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        List jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Table t = (Table) jdoContent.get(0);
@@ -88,7 +84,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Column c = (Column) jdoContent.get(0);
@@ -100,52 +96,12 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         c = (Column) jdoContent.get(0);
         assertEquals("title", c.getName());
         assertEquals("jdo:string", c.getType());
-    }
-
-    /**
-     * Test tries to unmarshall jdo specific content in appinfo elements within
-     * a complete annoted schema.<br>
-     * <br>
-     * Action: Parse an annoted schema.<br>
-     * Precondition: schema-entity.xml holds a correct annoted schema with
-     * appinfo content.<br>
-     * Postcondition: The complexType bookType holds a table object in it's
-     * annotations. The element declaration of isbn holds a column object. The
-     * element declaration of title also holds a column object.
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws FileNotFoundException 
-     */
-    public void testUnmarshallSolrjSchema() throws FileNotFoundException, SAXException, IOException {
-        Schema schema = unmarshalSchema("schema-solrj.xsd");
-        ComplexType bookType = schema.getComplexType("bookType");
-
-        ElementDecl isbn = bookType.getElementDecl("isbn");
-        Enumeration<Annotation> annotations = isbn.getAnnotations();
-        Annotation annotation = annotations.nextElement();
-        Enumeration<AppInfo> appInfos = annotation.getAppInfo();
-        AppInfo appInfo = appInfos.nextElement();
-        Object solrjContent = new AppInfoSolrjNature(appInfo).getContent();
-        assertNotNull(solrjContent);
-        assertTrue(solrjContent instanceof Field);
-//        assertTrue(solrjContent instanceof Id);
-
-        ElementDecl title = bookType.getElementDecl("title");
-        annotations = title.getAnnotations();
-        annotation = annotations.nextElement();
-        appInfos = annotation.getAppInfo();
-        appInfo = appInfos.nextElement();
-        Object solrjRawContent = new AppInfoSolrjNature(appInfo).getContent();
-        assertNotNull(solrjRawContent);
-        assertTrue(solrjRawContent instanceof Field);
-        Field titleContent = (Field) solrjRawContent;
-        assertEquals("title", titleContent.getName());
     }
 
     /**
@@ -167,8 +123,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         Annotation annotation = (Annotation) annotations.nextElement();
         Enumeration appInfos = annotation.getAppInfo();
         AppInfo appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        List jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        List jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
 
@@ -177,8 +132,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
 
@@ -187,8 +141,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
     }
@@ -212,9 +165,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         Annotation annotation = (Annotation) annotations.nextElement();
         Enumeration appInfos = annotation.getAppInfo();
         AppInfo appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        AppInfoJpaNature nature = new AppInfoJpaNature(appInfo);
-        List jdoContent = nature.getContent();
+        List jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
 
@@ -223,8 +174,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
 
@@ -233,8 +183,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(0, jdoContent.size());
     }
@@ -260,8 +209,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         Annotation annotation = (Annotation) annotations.nextElement();
         Enumeration appInfos = annotation.getAppInfo();
         AppInfo appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        List jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        List jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Table t = (Table) jdoContent.get(0);
@@ -273,8 +221,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Column c = (Column) jdoContent.get(0);
@@ -286,8 +233,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         c = (Column) jdoContent.get(0);
@@ -299,8 +245,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        appInfo.addNature(AppInfoJpaNature.class.getName());
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         OneToMany oneToMany = (OneToMany) jdoContent.get(0);
@@ -351,7 +296,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         Annotation annotation = (Annotation) annotations.nextElement();
         Enumeration appInfos = annotation.getAppInfo();
         AppInfo appInfo = (AppInfo) appInfos.nextElement();
-        List jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        List jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Table t = (Table) jdoContent.get(0);
@@ -363,7 +308,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         Column c = (Column) jdoContent.get(0);
@@ -375,7 +320,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         c = (Column) jdoContent.get(0);
@@ -387,7 +332,7 @@ public class SchemaUnmarshallerTest extends TestCase {
         annotation = (Annotation) annotations.nextElement();
         appInfos = annotation.getAppInfo();
         appInfo = (AppInfo) appInfos.nextElement();
-        jdoContent = new AppInfoJpaNature(appInfo).getContent();
+        jdoContent = appInfo.getJdoContent();
 
         assertEquals(1, jdoContent.size());
         OneToOne oneToOne = (OneToOne) jdoContent.get(0);

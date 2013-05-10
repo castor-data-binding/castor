@@ -20,7 +20,7 @@ package org.castor.cpa.query.object.literal;
  *
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class EnumLiteral extends AbstractLiteral {
@@ -44,7 +44,7 @@ public final class EnumLiteral extends AbstractLiteral {
         int dot = value.lastIndexOf('.');
         if (dot < 0) { throw new IllegalArgumentException(); }
         
-        Class<?> type = null;
+        Class type = null;
         try {
             String typename = value.substring(0, dot);
             type = Class.forName(typename);
@@ -56,10 +56,10 @@ public final class EnumLiteral extends AbstractLiteral {
         Object[] enumvalues = type.getEnumConstants();
         
         String enumname = value.substring(dot + 1);
-        Enum<?> enumvalue = null;
+        Enum < ? > enumvalue = null;
         for (int i = 0; i < enumvalues.length; i++) {
             if (enumname.equals(enumvalues[i].toString())) {
-                enumvalue = (Enum<?>) enumvalues[i];
+                enumvalue = (Enum) enumvalues[i];
             }
         }
         if (enumvalue == null) { throw new IllegalArgumentException(); }

@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/xml-properties.xml">
+  <body>
+    <title>The Castor XML configuration file</title>
+
+    <section title="News">
+      <ul>
+        <li>
+            Added a section on how to access the properties as defined in the 
+            Castor properties file from within code.
+        </li>
+        <li>
+            <b>Release 1.2.1:</b>: 
+            Added new <tt>org.exolab.castor.xml.lenient.integer.validation</tt>
+            property to allow configuration of leniency for validation for Java properties 
+            generated from <tt>&lt;xs:integer&gt;</tt> types during code generation.
+        </li>
+        <li>
+            <b>Release 1.2:</b>: Access to the <api>org.exolab.castor.util.LocalConfiguration</api>
+            class has been removed completely. To access the properties as used by Castor
+            from code, please refer to the below section.
+        </li>
+        <li>
+            <b>Release 1.1.3:</b>
+            Added special processing of proxied classes. The property
+            org.exolab.castor.xml.proxyInterfaces allows you to specify a list of interfaces
+            that such proxied objects implement. If your object implements one of these
+            interfaces Castor will not use the class itself but its superclass at
+            introspection or to find class mappings and ClassDescriptors.
+        </li>
+        <li>
+            <b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
+            configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
+            <tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
+            instances, to allow for more detailed and complete JDBC statements to be output
+            during logging. When turned off, no logging statements will be generated at all.
+        </li>
+      </ul>
+    </section>
+
+    <section title="Introduction">
+
+      <p>
+        Castor uses a configuration file for environmental properties that are
+        shared across all the Castor sub systems. The configuration file is
+        specified as a Java properties file with the name <tt>castor.properties</tt>.
+      </p>
+
+      <p>
+        The Castor JAR includes a default configuration file. A configuration
+        file in the Java library directory (e.g. <tt>/jdk1.2/lib</tt>) can be
+        used to override the default configuration file with system-wide
+        properties.  In addition, a configuration file can be placed in the
+        classpath and will override both the system wide properties and
+        Castor-default configuration.
+      </p>
+
+      <p>
+        When running the provided examples, Castor will use the configuration
+        file located in the examples directory which specifies additional
+        debugging information as well as pretty printing of all produced XML
+        documents.
+      </p>
+
+      <p>
+        The following properties are currently supported in the configuration
+        file:
+      </p>
+      
+      <ctable>
+      	<cheader>
+      		<td>Name</td>
+      		<td>Description</td>
+      		<td>Values</td>
+      		<td>Default</td>
+      		<td>Since</td>
+      	</cheader>
+      	<crow>
+      		<td>org.exolab.castor.xml.introspector.primitive.nodetype</td>
+      		<td>Property specifying the type of XML node to use for primitive 
+      		    values, either <tt>element</tt> or <tt>attribute</tt></td>
+      		<td><tt>element</tt> or <tt>attribute</tt></td>
+      		<td><tt>attribute</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser</td>
+      		<td>Property specifying the class name of the SAX XML parser to use.</td>
+      		<td> - </td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser.validation</td>
+      		<td>Specifies whether to perform XML document validation by default.</td>
+      		<td><tt>true</tt> and <tt>false</tt></td>
+      		<td><tt>false</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.parser.namespaces</td>
+      		<td>Specifies whether to support XML namespaces by default.</td>
+      		<td><tt>false</tt> and <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.nspackages</td>
+      		<td>Specifies a list of XML namespace to Java package mappings.</td>
+      		<td> - </td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.naming</td>
+      		<td>Property specifying the 'type' of the XML naming conventions to use. Values 
+      		    of this property must be either <tt>mixed</tt>, <tt>lower</tt>, or the name of a 
+      		    class which extends <api href="org.exolab.castor.xml.XMLNaming">XMLNaming</api>.</td>
+      		<td><tt>mixed</tt>, <tt>lower</tt>, or the name of a class which extends 
+      		    <api href="org.exolab.castor.xml.XMLNaming">XMLNaming</api></td>
+      		<td><tt>lower</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.castor.xml.java.naming</td>
+      		<td>Property specifying the 'type' of the Java naming conventions to use. Values 
+      		    of this property must be either <tt>null</tt> or the name of a class which 
+      		    extends <api href="link org.castor.xml.JavaNaming">JavaNaming</api>.
+      		</td>
+      		<td><tt>null</tt> or the name of a class which 
+      		    extends <api href="link org.castor.xml.JavaNaming">JavaNaming</api></td>
+      		<td><tt>null</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.marshalling.validation</td>
+      		<td>Specifies whether to use validation during marshalling.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.indent</td>
+      		<td>Specifies whether XML documents (as generated at marshalling) should use 
+      		    indentation or not.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.sax.features</td>
+      		<td>Specifies additional features for the XML parser.</td>
+      		<td>A comma separated list of SAX (parser) features (that might or might 
+      		    not be supported by the specified SAX parser).</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.sax.features-to-disable</td>
+      		<td>Specifies features to be disbaled on the underlying SAX parser.</td>
+      		<td>A comma separated list of SAX (parser) features to be disabled.</td>
+      		<td> - </td>
+      		<td><font color="red">1.0.4</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.regexp</td>
+      		<td>Specifies the regular expression validator to use.</td>
+      		<td>A class that implements 
+      		    <api href="org.exolab.castor.xml.validators.RegExpValidator">RegExpValidator</api>.</td>
+      		<td> - </td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.strictelements</td>
+      		<td>Specifies whether to apply strictness to elements when unmarshalling.
+      		    When enabled, the existence of elements in the XML document, which cannot be mapped 
+      		    to a class, causes a {@link SAXException} to be thrown. If set to false, 
+      		    these 'unknown' elements are ignored.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td> - </td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.loadPackageMappings</td>
+      		<td>Specifies whether the ClassDescriptorResolver should (automatically) search
+      		    for and consult with package mapping files (<tt>.castor.xml</tt>) to 
+      		    retrieve class descriptor information</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>true</tt></td>
+      		<td><font color="red">1.0.2</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.serializer.factory</td>
+      		<td>Specifying what XML serializers factory to use.</td>
+      		<td>A class name</td>
+      		<td>org.exolab.castor.xml.XercesXMLSerializerFactory</td>
+      		<td><font color="red">1.0</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.lenient.sequence.order</td>
+      		<td>Specifies whether sequence order validation should be lenient.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      		<td><font color="red">1.1</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.lenient.id.validation</td>
+      		<td>Specifies whether id/href validation should be lenient.</td>
+      		<td><tt>false</tt> or <tt>true</tt></td>
+      		<td><tt>false</tt></td>
+      		<td><font color="red">1.1</font></td>
+      	</crow>
+      	<crow>
+      		<td>org.exolab.castor.xml.proxyInterfaces</td>
+      		<td>Specifies whether or not to search for an proxy interface at marshalling. 
+      		    If property is not empty the objects to be marshalled will be searched 
+      		    if they implement one of the given interface names. If the interface is 
+      		    implemented, the superclass will be marshalled instead of the class itself.</td>
+      		<td>A list of proxy interfaces</td>
+      		<td> - </td>
+      		<td><font color="red">1.1.3</font></td>
+      	</crow>
+        <crow>
+            <td>org.exolab.castor.xml.lenient.integer.validation</td>
+            <td>Specifies whether validation for Java properties generated from &lt;xs:integer&gt;
+                should be lenient, i.e. allow for <tt>int</tt>s as well.</td>
+            <td><tt>false</tt> or <tt>true</tt></td>
+            <td><tt>false</tt></td>
+            <td><font color="red">1.2.1</font></td>
+        </crow>
+      </ctable>
+      
+      </section>
+      
+      <section title="Accessing the properties from within code">
+      
+        <p>
+            As of Castor 1.1, it is possible to read and set the value of properties
+            programmatically using the <tt>getProperty(String)</tt> 
+            and <tt>setProperty(String,String)</tt> on the following classes:
+        </p>
+        
+        <ul>
+            <li><api>org.exolab.castor.xml.Unmarshaller</api></li>
+            <li><api>org.exolab.castor.xml.Marshaller</api></li>
+            <li><api>org.exolab.castor.xml.XMLContext</api></li>
+        </ul>
+        
+        <p>
+            Whilst using the setter methods on the first two classes will change the 
+            settings of the respective instances only, using the <tt>setProperty()</tt>
+            method on the <tt><api>XMLContext</api></tt> class will change the configuration globally,
+            and affect all <tt><api>Unmarshaller</api></tt> and <tt><api>Marshaller</api></tt> 
+            instances created thereafter using the <tt>
+            <api class="org.exolab.castor.xml.XMLContent">createUnmarshaller()</api></tt> and 
+            <tt><api class="org.exolab.castor.xml.XMLContext">createMarshaller()</api></tt> methods.
+        </p>
+            
+      </section> 
+      
+      <section title="Current configuration file">
+      
+      	<p>This is a copy of the current Castor configuration file as shipped
+      	   with the Castor XML JAR file.</p>
+
+<pre>
+# THE CASTOR PROPERTIES FILE
+# This file specifies values for Castor run-time which may be configured
+# by the user.
+# $Id: conf-lib.xml 7076 2007-07-24 22:03:25Z rjoachim $
+
+# This section defines Backwards compatibility switches.
+#
+# Hashtable/Map default mapping.
+# For backward compatibility with 0.9.5.2 and earlier.
+#
+#org.exolab.castor.xml.saveMapKeys=false
+
+# Defines the default XML parser to be used by Castor.
+# The parser must implement org.xml.sax.Parser.
+#
+org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser
+
+# Defines the (default) XML serializer factory to use by Castor, which must
+# implement org.exolab.castor.xml.SerializerFactory;
+# Default is org.exolab.castor.xml.XercesXMLSerializerFactory
+org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesXMLSerializerFactory
+
+# Defines the NodeType for use with Java primitive types (int, long, boolean,
+# etc). This value is only used by the Introspector.  Valid values are either
+# "attribute" or "element". By default, all primitives are marshaled as
+# attributes. Uncomment the following line to change the NodeType to element.
+#
+#org.exolab.castor.xml.introspector.primitive.nodetype=element
+
+# Defines the Naming "style" or conventions to use when creating XML names
+# from Java class or field names.
+# Valid values are as follows:
+# -----------------------------------------------------------------
+# lower (default)  |  All names are lowercase with hyphens
+#                  |  separating words.
+#                  |
+#                  |  Example: personInfo = person-info
+# -----------------------------------------------------------------
+# mixed            |  All names are mixed case, with Uppercase
+#                  |  character as the first letter of a new word.
+#                  |
+#                  |  Example: personInfo = personInfo
+#                  |  Example: FooBar     = fooBar
+# -----------------------------------------------------------------
+# {Any ClassName}  |  Any Class which implements
+#                  |  org.exolab.castor.xml.XMLNaming
+# -----------------------------------------------------------------
+#
+# By default, all names are treated as the "lower" option.  To preserve the
+# Java mixed-case conventions, uncomment the following line.
+#
+#org.exolab.castor.xml.naming=mixed
+
+###############################
+# REGULAR EXPRESSION EVALUATORS
+#
+# Defines the Regular Expression Evaluator to be used by Castor.
+# The evaluator must implement org.exolab.castor.util.RegExpEvaluator.
+#
+# Uncomment the following to basically suppress Regular expressions evaluation:
+#org.exolab.castor.regexp=org.exolab.castor.xml.util.AlwaysTrueRegExpEvaluator
+#
+# An implementation which uses the Jakarta RegExp library:
+#org.exolab.castor.regexp=org.exolab.castor.util.JakartaRegExpEvaluator
+#
+# An implementation which uses the Jakarta ORO library:
+org.exolab.castor.regexp=org.exolab.castor.util.JakartaOroEvaluator
+
+# True if all documents should be indented on output by default.
+# Defaults to false.
+#
+#org.exolab.castor.indent=true
+
+# True if xml documents should be validated by the SAX Parser
+# Defaults to false.
+#
+org.exolab.castor.parser.validation=false
+
+# True for parser to support Namespaces.
+# Defaults to false.
+#
+org.exolab.castor.parser.namespaces=false
+
+# True if all documents should be validated by the marshaling framework
+# Defaults to true.
+#
+org.exolab.castor.marshalling.validation=true
+
+# Comma separated list of SAX 2 features that should be enabled for the
+# default parser.
+#
+#org.exolab.castor.sax.features=
+
+# Comma separated list of SAX 2 features that should be disabled for the
+# default parser.
+#
+#org.exolab.castor.sax.features-to-disable
+
+# True if debugging output should be generated.
+# Defaults to false.
+#
+org.exolab.castor.debug=false
+
+# Property specifying whether or not to search for an proxy interface at marshalling.
+# If property is not empty the objects to be marshalled will be searched if they
+# implement one of the given interface names. If the interface is implemented the
+# superclass will be marshalled instead of the class itself.
+#
+#org.exolab.castor.xml.proxyInterfaces=\
+#  net.sf.cglib.proxy.Factory, \
+#  org.hibernate.proxy.HibernateProxy
+
+# List of collection handlers for Java 1.1 and Java 1.2 run-times:
+#
+org.exolab.castor.mapping.collections=\
+  org.exolab.castor.mapping.loader.J1CollectionHandlers,\
+  org.exolab.castor.mapping.loader.J2CollectionHandlers
+
+# List of persistence factories for the supported database servers:
+#
+org.exolab.castor.jdo.engines=\
+  org.exolab.castor.jdo.drivers.OracleFactory,\
+  org.exolab.castor.jdo.drivers.PostgreSQLFactory,\
+  org.exolab.castor.jdo.drivers.SybaseFactory,\
+  org.exolab.castor.jdo.drivers.SQLServerFactory,\
+  org.exolab.castor.jdo.drivers.DB2Factory,\
+  org.exolab.castor.jdo.drivers.InformixFactory,\
+  org.exolab.castor.jdo.drivers.HsqlFactory,\
+  org.exolab.castor.jdo.drivers.InstantDBFactory,\
+  org.exolab.castor.jdo.drivers.InterbaseFactory,\
+  org.exolab.castor.jdo.drivers.MySQLFactory,\
+  org.exolab.castor.jdo.drivers.SapDbFactory,\
+  org.exolab.castor.jdo.drivers.GenericFactory,\
+  org.exolab.castor.jdo.drivers.DerbyFactory,\
+  org.castor.jdo.drivers.PointbaseFactory,\
+  org.castor.jdo.drivers.ProgressFactory
+
+# List of key generator factories:
+#
+org.exolab.castor.jdo.keyGeneratorFactories=\
+  org.exolab.castor.jdo.keygen.MaxKeyGeneratorFactory,\
+  org.exolab.castor.jdo.keygen.HighLowKeyGeneratorFactory,\
+  org.exolab.castor.jdo.keygen.IdentityKeyGeneratorFactory,\
+  org.exolab.castor.jdo.keygen.SequenceKeyGeneratorFactory,\
+  org.exolab.castor.jdo.keygen.UUIDKeyGeneratorFactory
+
+# Collection handlers for the source code generator:
+#
+org.exolab.castor.builder.type.j2=\
+  org.exolab.castor.builder.FieldInfoFactoryJ2
+org.exolab.castor.builder.type.j1=\
+  org.exolab.castor.builder.FieldInfoFactory
+org.exolab.castor.builder.type.odmg=\
+  org.exolab.castor.builder.FieldInfoFactoryODMG30
+
+# Configures the default time zone to apply to dates/times fetched from
+# database fields (if not already part of the data).  Specify same format as
+# in java.util.TimeZone.getTimeZone, or the empty string to use the computer's
+# local time zone. Please see http://de.wikipedia.org/wiki/Zeitzone for
+# detailed information about time zones.
+#
+org.exolab.castor.jdo.defaultTimeZone=
+#org.exolab.castor.jdo.defaultTimeZone=GMT-8:00
+
+# List of TxSynchronizeable implementations:
+#
+#org.exolab.castor.persist.TxSynchronizable=
+
+# Sets the buffer size in bytes for fetching LOBs (this is dependent upon
+# the JDBC driver implementation).  The value below == 5k.
+#
+org.exolab.castor.jdo.lobBufferSize=5120
+
+# True if database configuration should be initalization
+# when loading it (default: true).
+#
+#org.exolab.castor.jdo.DatabaseInitializeAtLoad=true
+
+# True if proxy classes should be used for JDBC connections and
+# prepared statements.
+# Defaults to true.
+#
+org.exolab.castor.persist.useProxies=false
+
+# MappingLoader implementations:
+#
+org.castor.mapping.loaderFactories=\
+  org.castor.mapping.JDOMappingLoaderFactory,\
+  org.castor.mapping.XMLMappingLoaderFactory
+
+# Cache implementations:
+#
+org.castor.cache.Factories=\
+  org.castor.cache.simple.NoCacheFactory,\
+  org.castor.cache.simple.TimeLimitedFactory,\
+  org.castor.cache.simple.CountLimitedFactory,\
+  org.castor.cache.simple.UnlimitedFactory,\
+  org.castor.cache.distributed.FKCacheFactory,\
+  org.castor.cache.distributed.JcsCacheFactory,\
+  org.castor.cache.distributed.JCacheFactory,\
+  org.castor.cache.distributed.CoherenceCacheFactory,\
+  org.castor.cache.distributed.OsCacheFactory,\
+  org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+  org.castor.cache.hashbelt.LRUHashbeltFactory,\
+  org.castor.cache.distributed.EHCacheFactory,\
+  org.castor.cache.distributed.GigaspacesCacheFactory
+
+# TransactionManagerFactory implementations:
+#
+org.castor.transactionmanager.Factories=\
+  org.castor.transactionmanager.WebSphereTransactionManagerFactory,\
+  org.castor.transactionmanager.WebSphere5TransactionManagerFactory,\
+  org.castor.transactionmanager.WebSphere51TransactionManagerFactory,\
+  org.castor.transactionmanager.LocalTransactionManagerFactory,\
+  org.castor.transactionmanager.JNDIENCTransactionManagerFactory,\
+  org.castor.transactionmanager.JOTMTransactionManagerFactory
+
+# Selects whether the TransactionManager should be initialized at registration,
+# or lazily when requested for the first time.
+# Defaults to false.
+#
+org.castor.transactionmanager.InitializeAtRegistration=false
+
+# Instructs Castor JDO to use the JDBC 3.0-specific features to obtain
+# the generated value of an identity column.
+# Defaults to false.
+#
+org.castor.jdo.use.jdbc30=false
+
+# Specifies whether to use ANSI-compliant SQL for MS SQL Server.
+# Defaults to false.
+#
+org.exolab.castor.jdo.sqlserver.ansi-compliant=false
+
+# Specifyies whether the ClassDescriptorResolver should (automatically) search
+# for and consult with package mapping files (.castor.xml) to retrieve class
+# descriptor information; on by default.
+# Defaults to true.
+#
+#org.exolab.castor.xml.loadPackageMappings=false
+</pre>
+
+    </section>
+
+  </body>
+
+</document>

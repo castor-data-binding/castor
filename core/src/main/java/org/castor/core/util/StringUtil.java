@@ -15,15 +15,13 @@
  */
 package org.castor.core.util;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * Common functionality relate to String processing.
  *
  * @since 1.2
  */
 public class StringUtil {
-	
+    
     /**
      * Replaces all occurences of a pattern within a String.
      * @param source The source string.
@@ -33,21 +31,19 @@ public class StringUtil {
      */
     public static String replaceAll(final String source, final String toReplace,
             final String replacement) {
-//        if (source == null) {
-//            return null;
-//        }
-//        String returnValue = source;
-//        int idx = source.lastIndexOf(toReplace);
-//        if (idx != -1) {
-//            StringBuffer ret = new StringBuffer(source);
-//            ret.replace(idx, idx + toReplace.length(), replacement);
-//            while ((idx = source.lastIndexOf(toReplace, idx - 1)) != -1) {
-//                ret.replace(idx, idx + toReplace.length(), replacement);
-//            }
-//            returnValue = ret.toString();
-//        }
-//        return returnValue;
-    	return StringUtils.replace(source, toReplace, replacement);
+        if (source == null) {
+            return null;
+        }
+        String returnValue = source;
+        int idx = source.lastIndexOf(toReplace);
+        if (idx != -1) {
+            StringBuffer ret = new StringBuffer(source);
+            ret.replace(idx, idx + toReplace.length(), replacement);
+            while ((idx = source.lastIndexOf(toReplace, idx - 1)) != -1) {
+                ret.replace(idx, idx + toReplace.length(), replacement);
+            }
+            returnValue = ret.toString();
+        }
+        return returnValue;
     }
-
 }

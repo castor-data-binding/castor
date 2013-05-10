@@ -1,4 +1,0 @@
-<!ELEMENT mapping ( description )>
-
-<!ELEMENT description ( #PCDATA )>
-

@@ -20,14 +20,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandler;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerBigDecimal;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerInteger;
-import org.castor.cpa.persistence.sql.keygen.typehandler.KeyGeneratorTypeHandlerLong;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.MappingException;
@@ -42,7 +39,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * @author <a href="mailto:leonardo AT itera DOT com DOT br">Leonardo Souza Mario Bueno</a>
  * @author <a href="mailto:bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
     //-----------------------------------------------------------------------------------
@@ -107,7 +104,7 @@ public final class MaxKeyGenerator extends AbstractBeforeKeyGenerator {
      * {@inheritDoc}
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName) throws PersistenceException {
+            final String primKeyName, final Properties props) throws PersistenceException {
         PreparedStatement stmt = null;
         try {
             String sql = getQueryExpression(tableName, primKeyName);

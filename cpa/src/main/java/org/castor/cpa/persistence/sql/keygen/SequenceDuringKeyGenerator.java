@@ -17,6 +17,7 @@ package org.castor.cpa.persistence.sql.keygen;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Properties;
@@ -29,12 +30,11 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.engine.SQLColumnInfo;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLFieldInfo;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.CastorStatement;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.query.Insert;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 import org.castor.cpa.persistence.sql.query.expression.Column;
 import org.castor.cpa.persistence.sql.query.expression.NextVal;
 import org.castor.cpa.persistence.sql.query.expression.Parameter;
@@ -48,7 +48,7 @@ import org.exolab.castor.persist.spi.Identity;
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Tue, 28 Jul 2009) $
  */
 public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     //-----------------------------------------------------------------------------------
@@ -76,9 +76,10 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     
     /** Represents the engine type obtained from clas descriptor. */
     private String _engineType = null;
-
-    /** Variable to store built insert class hierarchy. */
-    private Insert _insert;
+    
+    /** QueryContext for SQL query building, specifying database specific quotations 
+     *  and parameters binding. */
+    private final QueryContext _ctx;
 
     //-----------------------------------------------------------------------------------
     
@@ -97,6 +98,7 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
         _factory = factory;        
         _triggerPresent = "true".equals(params.getProperty("trigger", "false"));
         _seqName = params.getProperty("sequence", "{0}_seq");
+        _ctx = new QueryContext(_factory);        
     }
     
     //-----------------------------------------------------------------------------------
@@ -105,11 +107,12 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
      * @param conn An open connection within the given transaction.
      * @param tableName The table name.
      * @param primKeyName The primary key name.
+     * @param props A temporary replacement for Principal object.
      * @return A new key.
      * @throws PersistenceException An error occured talking to persistent storage.
      */
     public Object generateKey(final Connection conn, final String tableName,
-            final String primKeyName) throws PersistenceException {
+            final String primKeyName, final Properties props) throws PersistenceException {
     return null;
     }
 
@@ -123,13 +126,13 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public void buildStatement(final SQLEngine engine) {
+    public KeyGenerator buildStatement(final SQLEngine engine) {
         _engine = engine;
         ClassDescriptor clsDesc = _engine.getDescriptor();
         _engineType = clsDesc.getJavaClass().getName();
         _mapTo = new ClassDescriptorJDONature(clsDesc).getTableName();
         
-        _insert = new Insert(_mapTo);
+        Insert insert = new Insert(_mapTo);
 
         // is it right to omit all identities in this case?
         // maybe we should support to define a separat keygen
@@ -142,16 +145,23 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
                 for (int j = 0; j < columns.length; j++) {
                     String name = columns[j].getName();
-                    _insert.addAssignment(new Column(name), new Parameter(name));
+                    insert.addAssignment(new Column(name), new Parameter(name));
                 }
             }
         }
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
 
         if (!_triggerPresent) {
-            _insert.addAssignment(new Column(ids[0].getName()),
+            insert.addAssignment(new Column(ids[0].getName()),
                     new NextVal(getSeqName(_mapTo, ids[0].getName())));
         }
+        
+        insert.toString(_ctx);  
+   
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.creating", _engineType, _ctx.toString()));
+        }
+        return this;
     }
 
     /**
@@ -168,21 +178,33 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
     /**
      * {@inheritDoc}
      */
-    public Object executeStatement(final Database database, final CastorConnection conn, 
+    public Object executeStatement(final Database database, final Connection conn, 
             final Identity identity, final ProposedEntity entity) throws PersistenceException {
-        CastorStatement stmt = conn.createStatement();
-        CallableStatement cstmt = null;
+        Identity internalIdentity = identity;
+        SQLEngine extended = _engine.getExtends();
+
+        PreparedStatement stmt = null;
         try {
-            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-            stmt.prepareStatement(_insert);
-            String statement = stmt.toString();
+            // must create record in the parent table first. all other dependents
+            // are created afterwards. quick and very dirty hack to try to make
+            // multiple class on the same table work.
+            if (extended != null) {
+                ClassDescriptor extDesc = extended.getDescriptor();
+                if (!new ClassDescriptorJDONature(extDesc).getTableName().equals(_mapTo)) {
+                    internalIdentity = extended.create(database, conn, entity, internalIdentity);
+                }
+            }
             
+            String statement;
+            SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
+            
+            statement = _ctx.toString();
             statement += " RETURNING ";
             statement += _factory.quoteName(ids[0].getName());
-            statement += " INTO ?";
+            statement += " INTO ?";    
             statement = "{call " + statement + "}";
             
-            stmt.setStatement(conn.getConnection().prepareCall(statement));
+            stmt = conn.prepareCall(statement);
              
             if (LOG.isTraceEnabled()) {
                 LOG.trace(Messages.format("jdo.creating", _engineType, stmt.toString()));
@@ -195,10 +217,10 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             }
 
             // generate key during INSERT.
-            cstmt = (CallableStatement) stmt.getStatement();
+            CallableStatement cstmt = (CallableStatement) stmt;
 
             int sqlType = ids[0].getSqlType();
-            cstmt.registerOutParameter(stmt.getParameterSize() + 1, sqlType);
+            cstmt.registerOutParameter(_ctx.parameterSize() + 1, sqlType);
             
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _engineType, cstmt.toString()));
@@ -216,26 +238,25 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
             // workaround for INTEGER type in Oracle getObject returns BigDecimal.
             Object temp;
             if (sqlType == java.sql.Types.INTEGER) {
-                temp = new Integer(cstmt.getInt(stmt.getParameterSize() + 1));
+                temp = new Integer(cstmt.getInt(_ctx.parameterSize() + 1));
             } else {
-                temp = cstmt.getObject(stmt.getParameterSize() + 1);
+                temp = cstmt.getObject(_ctx.parameterSize() + 1);
             }
-            return new Identity(ids[0].toJava(temp));
+            internalIdentity = new Identity(ids[0].toJava(temp));
+
+            stmt.close();
+
+            return internalIdentity;
         } catch (SQLException except) {
-            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  stmt.toString()), except);
+            LOG.fatal(Messages.format("jdo.storeFatal",  _engineType,  _ctx.toString()), except);
+
+            try {
+                if (stmt != null) { stmt.close(); }
+            } catch (SQLException except2) {
+                LOG.warn("Problem closing JDBC statement", except2);
+            }
+            
             throw new PersistenceException(Messages.format("persist.nested", except), except);
-        } finally {
-            //close statement
-            try {
-                if (cstmt != null) { cstmt.close(); }
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                LOG.warn("Problem closing JDBC statement", e);
-            }
         }
     }
     
@@ -244,11 +265,11 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
      * 
      * @param entity Entity instance from which field values to be fetached to
      *               bind with sql insert statement.
-     * @param stmt CastorStatement containing Connection and PersistenceFactory.
+     * @param stmt PreparedStatement object containing sql staatement.
      * @throws SQLException If a database access error occurs.
      * @throws PersistenceException If identity size mismatches.
      */
-    private void bindFields(final ProposedEntity entity, final CastorStatement stmt
+    private void bindFields(final ProposedEntity entity, final PreparedStatement stmt
             ) throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0; i < fields.length; ++i) {
@@ -257,7 +278,8 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
                 Object value = entity.getField(i);
                 if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.bindParameter(columns[j].getName(), null, columns[j].getSqlType());
+                        _ctx.bindParameter(stmt, columns[j].getName(), null, 
+                                columns[j].getSqlType());
                     }
                 } else if (value instanceof Identity) {
                     Identity identity = (Identity) value;
@@ -265,14 +287,14 @@ public final class SequenceDuringKeyGenerator extends AbstractKeyGenerator {
                         throw new PersistenceException("Size of identity field mismatch!");
                     }
                     for (int j = 0; j < columns.length; j++) {
-                        stmt.bindParameter(columns[j].getName(), columns[j].toSQL(identity.get(j)),
-                                columns[j].getSqlType());
+                        _ctx.bindParameter(stmt, columns[j].getName(), 
+                                columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-                    stmt.bindParameter(columns[0].getName(), columns[0].toSQL(value),
+                    _ctx.bindParameter(stmt, columns[0].getName(), columns[0].toSQL(value), 
                             columns[0].getSqlType());
                 }
             }

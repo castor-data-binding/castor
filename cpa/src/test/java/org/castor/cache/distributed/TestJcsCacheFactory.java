@@ -25,7 +25,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestJcsCacheFactory extends TestCase {
@@ -44,25 +44,25 @@ public final class TestJcsCacheFactory extends TestCase {
     public TestJcsCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new JcsCacheFactory<String, String>();
+        CacheFactory cf = new JcsCacheFactory();
         assertTrue(cf instanceof JcsCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new JcsCacheFactory<String, String>();
+        CacheFactory cf = new JcsCacheFactory();
         assertEquals("jcs", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new JcsCacheFactory<String, String>();
+        CacheFactory cf = new JcsCacheFactory();
         String classname = "org.castor.cache.distributed.JcsCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory<String, String> cf = new JcsCacheFactory<String, String>();
+        CacheFactory cf = new JcsCacheFactory();
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof JcsCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of JcsCache from factroy");
@@ -70,7 +70,7 @@ public final class TestJcsCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory<String, String> cf = new JcsCacheFactory<String, String>();
+        CacheFactory cf = new JcsCacheFactory();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         DistributedCacheFactoryMock.setException(null);

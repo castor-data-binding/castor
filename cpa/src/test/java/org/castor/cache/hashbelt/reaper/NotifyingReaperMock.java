@@ -22,17 +22,17 @@ import java.util.List;
  * Mock object for testing of NotifyingReaper.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
-public final class NotifyingReaperMock<K, V> extends NotifyingReaper<K, V> {
+public final class NotifyingReaperMock extends NotifyingReaper {
     private static final List<Object> EXPIRED = new ArrayList<Object>();
     
     public static List<Object> getExpiredObjects() {
         return EXPIRED;
     }
     
-    protected void handleExpiredObject(final V expiredObject) {
+    protected void handleExpiredObject(final Object expiredObject) {
         EXPIRED.add(expiredObject);
     }
 }

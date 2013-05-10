@@ -52,7 +52,7 @@ import org.exolab.castor.persist.spi.CallbackInterceptor;
 /**
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public class JDOCallback implements CallbackInterceptor {
     public void using(final Object object, final Database db) {
@@ -61,10 +61,6 @@ public class JDOCallback implements CallbackInterceptor {
 
     public Class loaded(final Object object, final AccessMode accessMode) throws Exception {
         return ((Persistent) object).jdoLoad(accessMode);
-    }
-
-    public void modifying(final Object object) throws Exception {
-        ((Persistent) object).jdoModify();
     }
 
     public void storing(final Object object, final boolean modified) throws Exception {

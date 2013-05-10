@@ -25,7 +25,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-06 13:10:47 0100 (Fr, 06 Jän 2006) $
  * @since 1.0.1
  */
 public final class TestEHCacheFactory extends TestCase {
@@ -45,25 +45,25 @@ public final class TestEHCacheFactory extends TestCase {
     public TestEHCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
+        CacheFactory cf = new EHCacheFactory();
         assertTrue(cf instanceof EHCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
+        CacheFactory cf = new EHCacheFactory();
         assertEquals("ehcache", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
+        CacheFactory cf = new EHCacheFactory();
         String classname = "org.castor.cache.distributed.EHCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
+        CacheFactory cf = new EHCacheFactory();
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof EHCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of EHCache from factroy");
@@ -71,7 +71,7 @@ public final class TestEHCacheFactory extends TestCase {
     }
 
     public void testShutdown() {
-        CacheFactory<String, String> cf = new EHCacheFactory<String, String>();
+        CacheFactory cf = new EHCacheFactory();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         DistributedCacheFactoryMock.setException(null);

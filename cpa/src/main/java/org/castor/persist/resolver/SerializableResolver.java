@@ -44,24 +44,31 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public final class SerializableResolver extends BaseRelationResolver {
+public final class SerializableResolver implements ResolverStrategy {
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SerializableResolver.class);
 
-    private final int _fieldIndex;
+    /**
+     * Associated {@link FieldMolder}.
+     */
+    private FieldMolder _fieldMolder;
+    private int _fieldIndex;
     
     /** 
      * Creates an instance of SerializableResolver.
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.
+     * @param debug ???
      */
     public SerializableResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, final int fieldIndex) {
-        super(classMolder, fieldMolder);
-        _fieldIndex = fieldIndex;
+            final FieldMolder fieldMolder, 
+            final int fieldIndex,
+            final boolean debug) {
+        this._fieldMolder = fieldMolder;
+        this._fieldIndex = fieldIndex;
     }
     
     /**

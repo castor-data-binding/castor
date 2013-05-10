@@ -28,7 +28,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestCoherenceCache extends TestCase {
@@ -54,12 +54,12 @@ public final class TestCoherenceCache extends TestCase {
     }
 
     public void testConstructor() {
-        Cache<String, String> c = new CoherenceCache<String, String>();
+        Cache c = new CoherenceCache();
         assertTrue(c instanceof CoherenceCache);
     }
 
     public void testGetType() {
-        Cache<String, String> c = new CoherenceCache<String, String>();
+        Cache c = new CoherenceCache();
         assertEquals("coherence", c.getType());
     }
 
@@ -67,7 +67,7 @@ public final class TestCoherenceCache extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCache.class);
         Level level = logger.getLevel();
         
-        CoherenceCache<String, String> c = new CoherenceCache<String, String>();
+        CoherenceCache c = new CoherenceCache();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         Properties params = new Properties();
@@ -100,7 +100,7 @@ public final class TestCoherenceCache extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCache.class);
         Level level = logger.getLevel();
         
-        CoherenceCache<String, String> c = new CoherenceCache<String, String>();
+        CoherenceCache c = new CoherenceCache();
         int counter = DistributedCacheMock.getCounter();
         
         c.close();

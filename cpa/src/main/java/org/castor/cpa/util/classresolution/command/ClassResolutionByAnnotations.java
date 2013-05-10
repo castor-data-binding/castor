@@ -1,18 +1,3 @@
-/*
- * Copyright 2006 Werner Guttmann, Peter Schmidt
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.castor.cpa.util.classresolution.command;
 
 import java.util.LinkedHashMap;
@@ -20,9 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.cpa.jpa.info.ClassInfo;
-import org.castor.cpa.jpa.info.ClassInfoBuilder;
-import org.castor.cpa.jpa.info.InfoToDescriptorConverter;
+import org.castor.jdo.jpa.info.ClassInfo;
+import org.castor.jdo.jpa.info.ClassInfoBuilder;
+import org.castor.jdo.jpa.info.InfoToDescriptorConverter;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
@@ -36,20 +21,16 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * @see ClassInfoBuilder
  * @see InfoToDescriptorConverter
  * 
- * @author <a href="mailto:peter-list AT stayduebeauty DOT com">Peter Schmidt</a>
- * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @author Peter Schmidt
+ * @version 2009-05-05
  * 
  */
 public class ClassResolutionByAnnotations extends BaseResolutionCommand {
-    //-----------------------------------------------------------------------------------
 
     /** The Logger instance to use. */
     private static final Log LOG = LogFactory
             .getLog(ClassResolutionByAnnotations.class);
 
-    //-----------------------------------------------------------------------------------
-    
     /**
      * Internal loop cache. contains all unfinished {@link ClassDescriptor}s.
      * After conversion (fail or success) the descriptors are removed from the cache.
@@ -57,18 +38,18 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
     private Map<Class<?>, ClassDescriptorImpl> _loopCache = 
         new LinkedHashMap<Class<?>, ClassDescriptorImpl>();
 
-    //-----------------------------------------------------------------------------------
-    
     /**
      * Try to resolve/generate a {@link ClassDescriptor} for the given (JPA
      * annotated) type.
      * 
-     * @param type The Java class that needs a descriptor
+     * @param type
+     *            The Java class that needs a descriptor
      * @return Usually a {@link ClassDescriptor} representing the given Class or
      *         null if the given type can not be resolved. When this method is
      *         called recursively (as in bidirectional relations) a reference
      *         to an incomplete {@link ClassDescriptor} is returned, which will
      *         be finished when leaving the loop again.
+     * @see org.castor.cpa.util.classresolution.command.ClassDescriptorResolutionCommand#resolve(java.lang.Class)
      */
     public ClassDescriptor resolve(final Class type) {
 
@@ -125,6 +106,4 @@ public class ClassResolutionByAnnotations extends BaseResolutionCommand {
             return null;
         }
     }
-    
-    //-----------------------------------------------------------------------------------
 }

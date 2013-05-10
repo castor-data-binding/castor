@@ -24,8 +24,6 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.castor.xmlctf.util.CTFUtils;
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
@@ -53,9 +51,6 @@ import org.exolab.castor.xml.XMLContext;
  * @version $Revision: 0000 $ $Date: $
  */
 class TestWithReferenceDocument extends TestCase {
-    
-    private static final Log LOG = LogFactory.getLog(TestWithReferenceDocument.class);
-    
     /** We add this fixed string to the end of our testcase name. */
     private static final String REFERENCE = "_ReferenceDocument";
 
@@ -169,9 +164,6 @@ class TestWithReferenceDocument extends TestCase {
         try {
             refUnmarshal = getUnmarshaledReference();
         } catch (Exception e) {
-            if (_delegate._verbose) {
-                LOG.error("Problem unmarshalling input file from disk", e);
-            }
             if (!_delegate.checkExceptionWasExpected(e, FailureStepType.UNMARSHAL_REFERENCE)) {
                 fail("Exception Unmarshaling from disk " + e);
             }
@@ -218,13 +210,11 @@ class TestWithReferenceDocument extends TestCase {
                     && _failure.getFailureStep() != null
                     && _failure.getFailureStep().equals(FailureStepType.COMPARE_TO_REFERENCE);
 
-            verbose("----> expectedToFail when comparing to reference: " + expectedToFail);
-            
-            if (_failure == null || !_failure.getContent()) {
+            if (_failure == null ||!_failure.getContent()) {
                 assertEquals("The Marshaled object differs from the gold file", 0, result);
             } else if (expectedToFail) {
                 assertTrue("The Marshaled object was expected to differ from the" +
-                           " gold file, but did not", result > 0);
+                           " gold file, but did not", result != 0);
             }
         }
 
@@ -232,32 +222,29 @@ class TestWithReferenceDocument extends TestCase {
         compareListenerToItsGoldFile();
 
         // 8. Unmarshal the output file
-        Object unmarshaledOutput = null;
-        if (_builderClassName != null) {
-            try {
-                unmarshaledOutput = _delegate.testUnmarshal(marshal_output);
-            } catch (Exception e) {
-                LOG.error("Problem unmarshalling output from marshalling step", e);
-                if (!_delegate.checkExceptionWasExpected(e, FailureStepType.SECOND_UNMARSHAL)) {
-                    fail("Exception Unmarshaling from disk " + e);
-                }
-                return;
+        Object unmarshaledOutput;
+        try {
+            unmarshaledOutput = _delegate.testUnmarshal(marshal_output);
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.SECOND_UNMARSHAL)) {
+                fail("Exception Unmarshaling from disk " + e);
             }
-
-            if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
-                    _failure.getFailureStep().equals(FailureStepType.SECOND_UNMARSHAL)) {
-                fail("Second unmarshaling was expected to fail, but succeeded");
-                return;
-            }
-
+            return;
         }
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.SECOND_UNMARSHAL)) {
+            fail("Second unmarshaling was expected to fail, but succeeded");
+            return;
+        }
+
         // 9. Compare unmarshaled output file to ObjectModelBuilder if any.
         // TODO: Fix the tests that fail this comparison!
         // Right now many test classes (under xml/MasterTestSuite) do not override equals.
         // We could check "(ref instanceof CastorTestable)" except that several srcgen
         // tests fails this check.  (Probably bugs!)  For now we have this bogus
         // _builderClassName check.  We ideally want to ALWAYS do this comparison.
-        if (_builderClassName != null && unmarshaledOutput != null) {
+        if (_builderClassName != null) {
             // the equals method must be overriden
             boolean result  = unmarshaledOutput.equals(ref);
             if (result == false) {
@@ -282,10 +269,8 @@ class TestWithReferenceDocument extends TestCase {
             }
         }
 
-        if (_builderClassName != null) {
-            if (_failure != null && _failure.getContent()) {
-                fail("The test with reference document was expected to fail, but passed");
-            }
+        if (_failure != null && _failure.getContent()) {
+            fail("The test with reference document was expected to fail, but passed");
         }
     }
 

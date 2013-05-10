@@ -15,15 +15,15 @@
  */
 package org.castor.cpa.persistence.sql.driver;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.ProgressQueryVisitor;
+import java.sql.Types;
+
 import org.exolab.castor.persist.spi.QueryExpression;
 
 /**
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for Progress RDBMS.
  * 
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 5951 $ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class ProgressFactory extends GenericFactory {
     //-----------------------------------------------------------------------------------
@@ -38,13 +38,6 @@ public final class ProgressFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new ProgressQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

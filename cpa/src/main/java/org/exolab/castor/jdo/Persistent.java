@@ -50,7 +50,7 @@ import org.exolab.castor.mapping.AccessMode;
  * A callback informs objects about changes to their state.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public interface Persistent {
     /**
@@ -91,14 +91,6 @@ public interface Persistent {
      * @throws Exception An exception occured, the object cannot be loaded
      */
     Class jdoLoad(AccessMode accessMode) throws Exception;
-
-    /**
-     * Called to indicate that an object has been modified and is to be stored
-     * in persistent storage.
-     *
-     * @throws Exception An exception occurred, the object cannot be modified
-     */
-    void jdoModify() throws Exception;
 
     /**
      * Called to indicate that an object is to be stored in persistent
@@ -145,7 +137,6 @@ public interface Persistent {
      * @throws Exception An exception occured, the object cannot be stored
      */
     void jdoUpdate() throws Exception;
-
 }
 
 

@@ -3,7 +3,6 @@ package org.castor.persist;
 import java.sql.Connection;
 import java.util.Iterator;
 
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.PersistenceException;
@@ -34,7 +33,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:gblock AT ctoforaday DOT COM">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  * @since 1.0
  */
 public interface TransactionContext {
@@ -60,8 +59,6 @@ public interface TransactionContext {
      * created when the transaction is committed.
      * 
      * @param autoStore When set to <code>true</code> autoStore will be enabled.
-     * 
-     * @deprecated Please use the 'cascading' attribute of the field mapping instead.
      */
     void setAutoStore(final boolean autoStore);
 
@@ -69,8 +66,6 @@ public interface TransactionContext {
      * Test if autoStore option is enabled or not.
      *
      * @return <code>true</code> if autoStore option is enabled.
-     * 
-     * @deprecated Please use the 'cascading' attribute of the field mapping instead.
      */
     boolean isAutoStore();
 
@@ -161,14 +156,14 @@ public interface TransactionContext {
     ObjectLock getWaitOnLock();
 
     /**
-     * Return a CastorConnection for the specified engine. Only one connection should
+     * Return an open connection for the specified engine. Only one connection should
      * be created for a given engine in the same transaction.
      * 
      * @param engine The persistence engine.
      * @return An open connection.
      * @throws PersistenceException An error occured talking to the persistence engine.
      */
-    CastorConnection getConnection(final LockEngine engine) throws PersistenceException;
+    Connection getConnection(final LockEngine engine) throws PersistenceException;
 
     /**
      * Returns meta-data related to the RDBMS used.
@@ -476,10 +471,10 @@ public interface TransactionContext {
     boolean isPersistent(final Object object);
 
     /**
-     * Returns true if the object has been previously queried/loaded/updated/created in
+     * Returns true if the object is previously queried/loaded/update/create in
      * this transaction.
      * 
-     * @param object The object to investigate.
+     * @param object The object.
      * @return <code>true</code> if recorded in this transaction.
      */
     boolean isRecorded(final Object object);
@@ -502,7 +497,7 @@ public interface TransactionContext {
      */
     boolean isDeleted(final Object object);
 
-    boolean isDeletedByOID(final LockEngine engine, final OID oid);
+    boolean isDeletedByOID(final OID oid);
 
     /**
      * Check to see whether this transaction considers an object to have been marked 

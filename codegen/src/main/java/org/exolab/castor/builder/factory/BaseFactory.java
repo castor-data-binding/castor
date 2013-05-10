@@ -69,11 +69,7 @@ public class BaseFactory {
         _config = config;
 
         if (infoFactory == null) {
-           if (getConfig().useOldFieldNaming()) {
-              this._infoFactory = new FieldInfoFactory();
-           } else {
-              this._infoFactory = new FieldInfoFactory(false);
-           }
+            this._infoFactory = new FieldInfoFactory();
         } else {
             this._infoFactory = infoFactory;
         }

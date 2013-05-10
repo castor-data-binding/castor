@@ -18,14 +18,14 @@ package org.castor.cpa.persistence.sql.query.condition;
 import java.util.Iterator;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 
 /**
  * Represents a list of conditions that are concatenated by an AND operator.
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class AndCondition extends CompoundCondition {
     //-----------------------------------------------------------------------------------    
@@ -93,38 +93,24 @@ public final class AndCondition extends CompoundCondition {
 
     //-----------------------------------------------------------------------------------    
 
-    /** 
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-    
-    //-----------------------------------------------------------------------------------
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
+    @Override
+    public void toString(final QueryContext ctx) {
         for (Iterator<Condition> iter = iterator(); iter.hasNext(); ) {
             Condition condition = iter.next();
             if (condition instanceof CompoundCondition) {
-                sb.append(QueryConstants.LPAREN);
-                sb.append(condition.toString());
-                sb.append(QueryConstants.RPAREN);
+                ctx.append(QueryConstants.LPAREN);
+                condition.toString(ctx);
+                ctx.append(QueryConstants.RPAREN);
             } else {
-                sb.append(condition.toString());
+                condition.toString(ctx);
             }
             if (iter.hasNext()) {
-                sb.append(QueryConstants.SPACE);
-                sb.append(QueryConstants.AND);
-                sb.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.SPACE);
+                ctx.append(QueryConstants.AND);
+                ctx.append(QueryConstants.SPACE);
             }
         }
-
-        return sb.toString();
     }
-
+    
     //-----------------------------------------------------------------------------------    
 }

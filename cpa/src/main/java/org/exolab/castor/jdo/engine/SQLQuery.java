@@ -17,6 +17,7 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -27,8 +28,6 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.Messages;
-import org.castor.cpa.persistence.sql.engine.CastorConnection;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.jdo.engine.CounterRef;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
@@ -51,7 +50,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  * @since 1.0
  */
 public final class SQLQuery implements PersistenceQuery {
@@ -95,7 +94,7 @@ public final class SQLQuery implements PersistenceQuery {
      * @param types Types of the class used.
      * @param isCallSql true if the SQL is issued as part of a CALL SQL statement.
      */
-    public SQLQuery(final SQLEngine engine, final PersistenceFactory factory, final String sql,
+    SQLQuery(final SQLEngine engine, final PersistenceFactory factory, final String sql,
              final Class[] types, final boolean isCallSql) {
         
         _engine = engine;
@@ -176,7 +175,7 @@ public final class SQLQuery implements PersistenceQuery {
         return retval;
     }
 
-    public void execute(final CastorConnection conn, final AccessMode accessMode,
+    public void execute(final Object conn, final AccessMode accessMode,
                         final boolean scrollable)
     throws PersistenceException {
         // create SQL statement from _sql, replacing bind expressions like "?1" by "?"
@@ -186,11 +185,11 @@ public final class SQLQuery implements PersistenceQuery {
 
         try {
             if (scrollable) {
-                _stmt = conn.getConnection().prepareStatement(
+                _stmt = ((Connection) conn).prepareStatement(
                         sql, java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE,
                         java.sql.ResultSet.CONCUR_READ_ONLY);
             } else {
-                _stmt = conn.getConnection().prepareStatement(sql);
+                _stmt = ((Connection) conn).prepareStatement(sql);
             }
 
             // bind variable values on _values to the JDBC statement _stmt using the bind

@@ -1,26 +1,11 @@
-/*
- * Copyright 2011 Tobias Hochwallner, Lukas Lang
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/**
+ * 
  */
 package org.exolab.castor.jdo.engine.jdo_descriptors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
-import org.exolab.castor.jdo.engine.Address;
-import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
-import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
@@ -35,27 +20,25 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.Sql;
 import org.exolab.castor.mapping.xml.types.ClassMappingAccessType;
+import org.exolab.castor.jdo.engine.Address;
+import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
+import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 
 
 /**
  * JDO descriptor class for Address type. Describes persistence information for
  * entity Address including Java fields and SQL columns.
  * 
- * @author Tobias Hochwallner
- * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
- * @version $Revision$ $Date$
+ * @author Tobias Hochwallner, Lukas Lang
  * 
  */
 public class AddressJDODescriptor extends ClassDescriptorImpl {
-    //-----------------------------------------------------------------------------------
 
     /**
      * Logger.
      */
     private static final Log LOG = LogFactory
             .getLog(AddressJDODescriptor.class);
-    
-    //-----------------------------------------------------------------------------------
 
     /**
      * Default Constructor. Configures persistence of entity Book.
@@ -101,8 +84,6 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
 
         LOG.debug("Instantiation finished");
     }
-    
-    //-----------------------------------------------------------------------------------
 
     /**
      * @param choice
@@ -169,6 +150,4 @@ public class AddressJDODescriptor extends ClassDescriptorImpl {
         choice.addFieldMapping(idFM);
         return idFieldDescr;
     }
-    
-    //-----------------------------------------------------------------------------------
 }

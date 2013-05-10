@@ -31,7 +31,7 @@ import org.exolab.castor.jdo.QueryResults;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date$
+ * @version $Revision:6817 $ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public final class TestLoadUniNto1 extends TestCase {
     private static final String JDO_CONF_FILE = "uni-jdo-conf.xml";
@@ -77,10 +77,6 @@ public final class TestLoadUniNto1 extends TestCase {
         super.setUp();
 
         if (!_logHeader) {
-            LOG.info("");
-            LOG.info("");
-            LOG.info("TestLoadUniNto1 (" + (int) (10000 * TestCreate.FACTOR) + ")");
-            LOG.info("");
             LOG.info(format("", "begin", "result", "iterate", "commit", "close"));
             _logHeader = true;
         }

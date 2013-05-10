@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestMapContainer extends TestCase {
@@ -41,13 +41,13 @@ public final class TestMapContainer extends TestCase {
     public TestMapContainer(final String name) { super(name); }
     
     public void testConstructor() {
-        Object container = new MapContainer<String, String>();
+        Object container = new MapContainer();
         assertTrue(container instanceof Container);
         assertTrue(container instanceof MapContainer);
     }
     
     public void testTimestamp() {
-        Container<String, String> container = new MapContainer<String, String>();
+        Container container = new MapContainer();
         assertEquals(0L, container.getTimestamp());
         
         long before = System.currentTimeMillis();
@@ -58,8 +58,8 @@ public final class TestMapContainer extends TestCase {
     }
     
     public void testKeyIterator() {
-        Container<Integer, String> container = new MapContainer<Integer, String>();
-        Iterator<Integer> iter = container.keyIterator();
+        Container container = new MapContainer();
+        Iterator<Object> iter = container.keyIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         
@@ -79,8 +79,8 @@ public final class TestMapContainer extends TestCase {
     }
     
     public void testValueIterator() {
-        Container<String, Integer> container = new MapContainer<String, Integer>();
-        Iterator<Integer> iter = container.valueIterator();
+        Container container = new MapContainer();
+        Iterator<Object> iter = container.valueIterator();
         assertNotNull(iter);
         assertFalse(iter.hasNext());
         

@@ -45,8 +45,9 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+//-- imported classes and packages
 import org.exolab.castor.xml.AttributeSet;
-import org.exolab.castor.xml.NamespacesStack;
+import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.xml.sax.AttributeList;
@@ -57,194 +58,259 @@ import org.xml.sax.SAXParseException;
 
 /**
  * A SAX adapter class for the ComponentReader.
- * 
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr
- *          2006) $
- **/
-@SuppressWarnings("deprecation")
-public final class Sax2ComponentReader implements DocumentHandler, org.xml.sax.ErrorHandler {
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
+**/
+public final class Sax2ComponentReader
+    implements DocumentHandler, org.xml.sax.ErrorHandler
+{
+      //-------------------/
+     //- Class Variables -/
+    //-------------------/
 
-   private static final String XMLNS = "xmlns";
-   private static final String XMLNS_PREFIX = XMLNS + ":";
-   private static final String XML_PREFIX = "xml";
+    private static final String XMLNS        = "xmlns";
+    private static final String XMLNS_PREFIX = "xmlns:";
+    private static final String XML_PREFIX   = "xml";
 
-   private ComponentReader componentReader = null;
+      //----------------------/
+     //- Instance Variables -/
+    //----------------------/
 
-   /**
-    * Represents the namespaces stack.
-    */
-   private NamespacesStack namespacesStack = null;
+    private ComponentReader _compReader = null;
 
-   public Sax2ComponentReader(ComponentReader compReader) {
-      super();
-      componentReader = compReader;
-      namespacesStack = new NamespacesStack();
-   }
+    private Namespaces _namespaces = null;
 
-   /**
-    * Processes the attributes and namespace declarations found in the given SAX
-    * AttributeList. The global AttributeSet is cleared and updated with the
-    * attributes. Namespace declarations are added to the set of namespaces in
-    * scope.
-    * 
-    * @param atts
-    *           the AttributeList to process.
+      //----------------/
+     //- Constructors -/
+    //----------------/
+
+    public Sax2ComponentReader(ComponentReader compReader) {
+        super();
+        _compReader = compReader;
+        _namespaces = new Namespaces();
+    } //-- Sax2ComponentReader
+
+
+    /**
+     * Processes the attributes and namespace declarations found
+     * in the given SAX AttributeList. The global AttributeSet
+     * is cleared and updated with the attributes. Namespace
+     * declarations are added to the set of namespaces in scope.
+     *
+     * @param atts the AttributeList to process.
     **/
-   private AttributeSet processAttributeList(AttributeList atts) throws SAXException {
+    private AttributeSet processAttributeList(AttributeList atts)
+        throws SAXException
+    {
 
-      if (atts == null)
-         return new AttributeSetImpl(0);
+        if (atts == null) return new AttributeSetImpl(0);
 
-      // -- process all namespaces first
-      int attCount = 0;
-      boolean[] validAtts = new boolean[atts.getLength()];
-      for (int i = 0; i < validAtts.length; i++) {
-         String attName = atts.getName(i);
-         if (attName.equals(XMLNS)) {
-            namespacesStack.addNamespace("", atts.getValue(i));
-         } else if (attName.startsWith(XMLNS_PREFIX)) {
-            String prefix = attName.substring(XMLNS_PREFIX.length());
-            namespacesStack.addNamespace(prefix, atts.getValue(i));
-         } else {
-            validAtts[i] = true;
-            ++attCount;
-         }
-      }
-      // -- process validAtts...if any exist
-      AttributeSetImpl attSet = null;
-      if (attCount > 0) {
-         attSet = new AttributeSetImpl(attCount);
-         for (int i = 0; i < validAtts.length; i++) {
-            if (!validAtts[i])
-               continue;
-            String namespace = null;
+
+        //-- process all namespaces first
+        int attCount = 0;
+        boolean[] validAtts = new boolean[atts.getLength()];
+        for (int i = 0; i < validAtts.length; i++) {
             String attName = atts.getName(i);
-            int idx = attName.indexOf(':');
-            if (idx > 0) {
-               String prefix = attName.substring(0, idx);
-               if (!prefix.equals(XML_PREFIX)) {
-                  attName = attName.substring(idx + 1);
-                  namespace = namespacesStack.getNamespaceURI(prefix);
-                  if (namespace == null) {
-                     String error = "The namespace associated with " + "the prefix '" + prefix
-                           + "' could not be resolved.";
-                     throw new SAXException(error);
-
-                  }
-               }
+            if (attName.equals(XMLNS)) {
+                _namespaces.addNamespace("", atts.getValue(i));
             }
-            attSet.setAttribute(attName, atts.getValue(i), namespace);
-         }
-      } else
-         attSet = new AttributeSetImpl(0);
+            else if (attName.startsWith(XMLNS_PREFIX)) {
+                String prefix = attName.substring(XMLNS_PREFIX.length());
+                _namespaces.addNamespace(prefix, atts.getValue(i));
+            }
+            else {
+                validAtts[i] = true;
+                ++attCount;
+            }
+        }
+        //-- process validAtts...if any exist
+        AttributeSetImpl attSet = null;
+        if (attCount > 0) {
+            attSet = new AttributeSetImpl(attCount);
+            for (int i = 0; i < validAtts.length; i++) {
+                if (!validAtts[i]) continue;
+                String namespace = null;
+                String attName = atts.getName(i);
+                int idx = attName.indexOf(':');
+                if (idx > 0) {
+                    String prefix = attName.substring(0, idx);
+                    if (!prefix.equals(XML_PREFIX)) {
+                        attName = attName.substring(idx+1);
+                        namespace = _namespaces.getNamespaceURI(prefix);
+                        if (namespace == null) {
+                            String error = "The namespace associated with "+
+                                "the prefix '" + prefix +
+                                "' could not be resolved.";
+                            throw new SAXException(error);
 
-      return attSet;
+                        }
+                    }
+                }
+                attSet.setAttribute(attName, atts.getValue(i), namespace);
+            }
+        }
+        else attSet = new AttributeSetImpl(0);
 
-   }
+        return attSet;
 
-   public void characters(char[] ch, int start, int length) throws org.xml.sax.SAXException {
-      try {
-         componentReader.characters(ch, start, length);
-      } catch (XMLException ex) {
-         throw new SAXException(ex);
-      }
+    } //-- method: processAttributeList
 
-   }
+    //---------------------------------------/
+    //- org.xml.sax.DocumentHandler methods -/
+    //---------------------------------------/
 
-   public void endDocument() throws org.xml.sax.SAXException {
-      // -- do nothing
-   }
+    public void characters(char[] ch, int start, int length)
+        throws org.xml.sax.SAXException
+    {
+        try {
+            _compReader.characters(ch, start, length);
+        }
+        catch(XMLException ex) {
+            throw new SAXException(ex);
+        }
 
-   public void endElement(String name) throws org.xml.sax.SAXException {
-      String namespace = null;
-      int idx = name.indexOf(':');
-      if (idx >= 0) {
-         String prefix = name.substring(0, idx);
-         name = name.substring(idx + 1);
-         namespace = namespacesStack.getNamespaceURI(prefix);
-      } else
-         namespace = namespacesStack.getDefaultNamespaceURI();
+    } //-- characters
 
-      // remove namespaces
-      namespacesStack.removeNamespaceScope();
+    public void endDocument()
+        throws org.xml.sax.SAXException
+    {
+        //-- do nothing
 
-      try {
-         componentReader.endElement(name, namespace);
-      } catch (XMLException ex) {
-         throw new SAXException(ex);
-      }
-   }
+    } //-- endDocument
 
-   public void ignorableWhitespace(char[] ch, int start, int length) throws org.xml.sax.SAXException {
-      // -- do nothing
-   }
+    public void endElement(String name)
+        throws org.xml.sax.SAXException
+    {
+        String namespace = null;
+        int idx = name.indexOf(':');
+        if (idx >= 0 ) {
+            String prefix = name.substring(0,idx);
+            name = name.substring(idx+1);
+            namespace = _namespaces.getNamespaceURI(prefix);
+        }
+        else namespace = _namespaces.getNamespaceURI("");
 
-   public void processingInstruction(String target, String data) throws org.xml.sax.SAXException {
-      // -- do nothing
-   }
+        //-- remove namespaces
+        if (_namespaces.getParent() != null) {
+            _namespaces = _namespaces.getParent();
+        }
 
-   public void setDocumentLocator(Locator locator) {
-      componentReader.setDocumentLocator(locator);
-   }
+        try {
+            _compReader.endElement(name, namespace);
+        }
+        catch(XMLException ex) {
+            throw new SAXException(ex);
+        }
 
-   public void startDocument() throws org.xml.sax.SAXException {
-      // -- do nothing
-   }
+    } //-- endElement
 
-   public void startElement(String name, AttributeList atts) throws org.xml.sax.SAXException {
-      // -- create new Namespace scope
-      namespacesStack.addNewNamespaceScope();
 
-      // -- handle namespaces
-      AttributeSet attSet = processAttributeList(atts);
+    public void ignorableWhitespace(char[] ch, int start, int length)
+        throws org.xml.sax.SAXException
+    {
+        //-- do nothing
 
-      String namespace = null;
-      int idx = name.indexOf(':');
-      if (idx >= 0) {
-         String prefix = name.substring(0, idx);
-         name = name.substring(idx + 1);
-         namespace = namespacesStack.getNamespaceURI(prefix);
-      } else {
-         namespace = namespacesStack.getNamespaceURI("");
-      }
+    } //-- ignorableWhitespace
 
-      try {
-         componentReader.startElement(name, namespace, attSet, namespacesStack.getCurrentNamespaceScope());
-      } catch (XMLException ex) {
-         throw new SAXException(ex);
-      }
-   }
+    public void processingInstruction(String target, String data)
+        throws org.xml.sax.SAXException
+    {
+        //-- do nothing
 
-   public void error(SAXParseException exception) throws org.xml.sax.SAXException {
-      String systemId = exception.getSystemId();
-      String err = "Parsing Error : " + exception.getMessage() + '\n' + "Line : " + exception.getLineNumber() + '\n'
-            + "Column : " + exception.getColumnNumber() + '\n';
-      if (systemId != null) {
-         err = "In document: '" + systemId + "'\n" + err;
-      }
+    } //-- processingInstruction
 
-      throw new SAXException(err);
-   }
+    public void setDocumentLocator(Locator locator) {
+        _compReader.setDocumentLocator(locator);
+    } //-- setDocumentLocator
 
-   public void fatalError(SAXParseException exception) throws org.xml.sax.SAXException {
-      String systemId = exception.getSystemId();
-      String err = "Parsing Error : " + exception.getMessage() + '\n' + "Line : " + exception.getLineNumber() + '\n'
-            + "Column : " + exception.getColumnNumber() + '\n';
-      if (systemId != null) {
-         err = "In document: '" + systemId + "'\n" + err;
-      }
-      throw new SAXException(err);
-   }
+    public void startDocument()
+        throws org.xml.sax.SAXException
+    {
+        //-- do nothing
 
-   public void warning(SAXParseException exception) throws org.xml.sax.SAXException {
-      String systemId = exception.getSystemId();
-      String err = "Parsing Error : " + exception.getMessage() + '\n' + "Line : " + exception.getLineNumber() + '\n'
-            + "Column : " + exception.getColumnNumber() + '\n';
-      if (systemId != null) {
-         err = "In document: '" + systemId + "'\n" + err;
-      }
-      throw new SAXException(err);
-   }
+    } //-- startDocument
 
-}
+
+    public void startElement(String name, AttributeList atts)
+        throws org.xml.sax.SAXException
+    {
+        //-- create new Namespace scope
+        Namespaces nsDecls = _namespaces.createNamespaces();
+        _namespaces = nsDecls;
+
+        //-- handle namespaces
+        AttributeSet attSet = processAttributeList(atts);
+
+        String namespace = null;
+        int idx = name.indexOf(':');
+        if (idx >= 0 ) {
+            String prefix = name.substring(0,idx);
+            name = name.substring(idx+1);
+            namespace = _namespaces.getNamespaceURI(prefix);
+        }
+        else namespace = _namespaces.getNamespaceURI("");
+
+        try {
+            _compReader.startElement(name, namespace, attSet, nsDecls);
+        }
+        catch(XMLException ex) {
+            throw new SAXException(ex);
+        }
+
+    } //-- startElement
+
+
+    //------------------------------------/
+    //- org.xml.sax.ErrorHandler methods -/
+    //------------------------------------/
+
+       //------------------------------------/
+    //- org.xml.sax.ErrorHandler methods -/
+    //------------------------------------/
+
+    public void error(SAXParseException exception)
+        throws org.xml.sax.SAXException
+    {
+        String systemId = exception.getSystemId();
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        if (systemId != null) {
+            err = "In document: '"+systemId+"'\n" + err;
+        }
+
+        throw new SAXException (err);
+    } //-- error
+
+    public void fatalError(SAXParseException exception)
+        throws org.xml.sax.SAXException
+    {
+        String systemId = exception.getSystemId();
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        if (systemId != null) {
+            err = "In document: '"+systemId+"'\n" + err;
+        }
+        throw new SAXException (err);
+
+    } //-- fatalError
+
+
+    public void warning(SAXParseException exception)
+        throws org.xml.sax.SAXException
+    {
+        String systemId = exception.getSystemId();
+        String err = "Parsing Error : "+exception.getMessage()+'\n'+
+                     "Line : "+ exception.getLineNumber() + '\n'+
+                     "Column : "+exception.getColumnNumber() + '\n';
+        if (systemId != null) {
+            err = "In document: '"+systemId+"'\n" + err;
+        }
+        throw new SAXException (err);
+
+    } //-- warning
+
+} //-- Sax2ComponentReader
+

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/jdo-other-features.xml">
+  <properties>
+    <title>Castor JDO - Advanced features</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Castor JDO - Advanced features
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Castor JDO - Advanced features</title>
+
+    <header>
+      <p>Reference: <api package="org.exolab.castor.jdo">The Java Data Objects API</api></p>
+    </header>
+
+    <section title="Introduction">
+        
+        <p>As explained at <a href="jdo-introduction.html">the introduction to Castor JDO</a>,
+           Castor has support for many advanced features such as caching, depend relations, 
+           inheritance, polymorphism, etc. The below sections detail these features, as their
+           understanding is required to use Castor JDO in a performant and secure way.</p>
+    </section>
+
+    <section title="Caching">
+        
+        <p>All information related to caching and related concepts supported 
+           by Castor has been consolidated into one place, and is available 
+           <a href="jdo-caching-detail.html">here</a>.</p>
+           
+    </section>
+
+    <section title="Dependent and related relationships">
+        
+        <p>Castor distinguishes the relationship of two objects as dependent or related, and 
+           maintains the life cycle independently for the two types of relationships. Starting 
+           from Castor 0.9, the developer can explicitly define a dependent relationship in 
+           the mapping file.</p>
+
+        <p>When using independent relations, related objects’ life cycle is independent of each 
+           other, meaning that they have to be created, removed and updated (for long 
+           transaction) independently.</p>
+
+        <p>When using dependent relations, one data object class must be declared as 
+           <b>depends</b> on one other data object class in the mapping file, and such an object 
+           is called a dependent data object class. A data object class without 
+           <i>depends</i> declared in the mapping is called a master object. A master object can 
+           be depended upon by zero or more dependent data object class.</p>
+
+        <p>As of Castor 0.9, a dependent object class can be related to other master data 
+           object classes including extended classes, but cannot depend on more than one 
+           master class.</p>
+
+        <p>If an object class declared as <i>depends</i> on another class, it may not be 
+           created, removed or updated separately. Attempting to create, remove or update a 
+           dependent object will result in ObjectNotPersistcapableException. Note that Castor 
+           doesn'’t allow a dependent object instance to change its master object instance during 
+           a transaction. Each dependent object can have only one master object. Both dependent and 
+           master objects must have identities, and may or may not make use of key-generators.</p>
+
+        <p>
+            Here is the DTD for declaring dependent object:
+            
+             <code-panel><![CDATA[
+<!ATTLIST class     name ID  #REQUIRED
+          extends   IDREF    #IMPLIED
+          depends   IDREF    #IMPLIED
+          identity  CDATA   #IMPLIED
+          access    ( read-only | shared | exclusive | db-locked )  "shared"
+          key-generator   IDREF #IMPLIED]]></code-panel></p>
+
+        <p>
+            For example,
+            
+                <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyDependentObject"
+        depends="com.xyz.MyObject">
+        ...
+    </class>
+</mapping>]]></code-panel>
+                declares the data object class <tt>com.xyz.MyDependentObject</tt> as a dependent 
+                upon class <tt>com.xyz.MyObject</tt>.</p>
+    </section>
+
+    <section title="Different cardinalities of relationship">
+        
+         <p>Castor supports different cardinalities of relationship, namely one-to-one, 
+            one-to-many, and many-to-many. Many-to-many relationship must be related rather than 
+            dependent, because each dependent object can have only one master object. </p>
+
+        <p>Many-to-many requires a separate table for storing the relations between two types of 
+           objects. Many-to-many introduces two attributes, namely many-key and many-table that reside 
+           in the <tt>&lt;sql&gt;</tt> element which is a sub-element of the <tt>&lt;field&gt;</tt>
+           element. For all many-to-many relations, a many-table must be specified. If the column 
+           name of the primary key of the class is different from the foreign keys columns of the 
+           class in the relation tables, then the relation table columns can be specified using the 
+           many-key attributes. Similarly, if the column name of the primary key of the related class 
+           is different from the foreign key columns of the related class, then the relation table 
+           columns can be specified using the name attribute. </p>
+
+        <p>The many-table is used to store relations in a separate table
+            
+                <code-panel><![CDATA[
+<mapping>
+    <class>
+        <field>
+            <sql many-key="#OPTIONAL" name="#OPTIONAL"
+                 many-table="#REQURIED">
+        </field>
+    </class>
+</mapping>]]></code-panel>
+        </p>
+
+        <p>
+            So, for example, if the SQL table is the following,
+            <center>
+                <b>employee_table</b></center>
+
+            <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                <tr ALIGN="CENTER">
+                    <td><b>id</b></td>   <td><b>name</b></td>      <td><b>salary</b></td>
+                </tr>
+
+                <tr>
+                    <td>1482</td>        <td>Smith, Bob</td>       <td>$123,456</td>
+                </tr>
+
+                <tr>
+                    <td>628</td>         <td>Lee, John</td>        <td>$43,210</td>
+                </tr>
+
+                <tr>
+                    <td>1926</td>        <td>Arnold, Pascal</td>   <td>$24,680</td>
+                </tr></table></center>
+
+                <center>
+                <b>department_table</b></center>
+
+                <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                    <tr ALIGN="CENTER">
+                        <td><b>id</b></td>   <td><b>name</b></td>      <td><b>comment</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>3</td>          <td>Accounting</td>       <td></td>
+                    </tr>
+
+                    <tr>
+                         <td>7</td>          <td>Engineering</td>      <td>The very important department. :-)</td>
+                    </tr>
+                </table></center>
+
+                <center>
+                <b>employee_department</b></center>
+
+                <center><table BORDER="true" COLS="2" WIDTH="40%" >
+                    <tr ALIGN="CENTER">
+                         <td><b>e_id</b></td>  <td><b>d_id</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>....</td>         <td>....</td>
+                    </tr>
+                </table></center></p>
+
+        <p>
+            Then, the mapping for employee data object would look like this
+                <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.Employee" identity="id">
+        <map-to table="employee_table"/>
+            <field name="id" type="integer">
+                <sql name="id"/>
+            </field>
+            <field>
+                <sql many-table="employee_department"
+                     many-key="e_id" name="d_id"/>
+            </field>
+            <field name="salary">
+                <sql name="salary" type="integer">
+            </field>
+    </class>
+</mapping>]]></code-panel></p>
+
+    </section>
+
+    <section title="Lazy Loading">
+
+		<p>As of release 0.9.6, Castor has full support for lazy loading object instances referenced
+		   as part of all relation types currently supported:</p>
+		   
+		<ul>
+			<li>1:1 relations</li>
+			<li>1:m relations</li>
+			<li>M:N relations.</li>
+		</ul>
+		   
+        <section title="1:1 relations">
+        
+        	<p>As of release 0.9.6, Castor supports lazy-loading of 1:1 relations. Imagine the 
+        	   following class mapping:</p>
+
+			<code-panel><![CDATA[
+<mapping>
+    <class name="com.xzy.Department">
+       ...
+       <field "employee" type="com.xyz.Employee" lazy="true" />
+       ...
+    </class>
+</mapping>]]></code-panel>
+        	   
+			<p>Per definition, when an instance of Department is loaded through e.g. Database.load(),
+			   Castor will not (pre-)load the Employee instance referenced (as such reducing the size
+			   pf the initial query as well as the size of the result set returned). Only when the 
+			   Emplyoee instance is accessed through Department.getEmployee(), Castor will load 
+			   the actual object into memory from the persistence store.</p>
+			   
+			<p>This means that if the Employee instance is not accessed at all, not only will 
+			   the initial query to load the Department object have had its complexity reduced, 
+			   but no performance penalty will be incurred for the additional access to the 
+			   persistence store either.</p>
+			   
+        </section>
+    
+        <section title="1:M and M:N relations">
+    
+           <p>The elements in the collection are only loaded when the application asks for 
+              the object from the collection, using, for example, iterator.next(). The 
+              iterator in Castor’s lazy collection is optimized to return a loaded object 
+              first.</p>
+  
+           <p>In the mapping file, lazy loading is specified in the element of the collection’s 
+              <tt>&lt;field></tt>, for example,</p>
+           
+            <code-panel><![CDATA[
+<mapping>
+    <class name="com.xzy.Department">
+       ...
+        <field name="employee" type="com.xyz.Employee" lazy="true"
+               collection="collection"/>
+    </class>
+</mapping>]]></code-panel>
+
+            <p>declares that the collection of type Employee in a Department is lazy loaded.</p>
+
+           <p>If lazy loading is specified for a field of a class, Castor will set the field with a 
+              special collection which contains only the identities of the objects. Because of 
+              that, it requires the data object to have the method setDepartment( Collection 
+              department) in the data object class which was not required in previous 
+              versions.</p>
+
+           <note>Please note that currently <b>only</b> the <tt><b>java.util.Collection</b></tt> 
+              type is supported. <!--The following collection types are supported:
+              java.util.Array, java.util.Vector, java.util.Hashtable, java.util.Collection, 
+              java.util.Set and java.util.Map. --></note>
+              
+           </section>
+           
+     </section>
+
+     <section title="Multiple columns primary keys">
+        <p>
+            The support of multiple column primary keys (also called compound primary keys) was another major enhancement added into Castor 0.9. Specifying multiple column primary keys is simple and straightforward, in the mapping file, 
+            <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyObject" identity="firstName lastName">
+        <field name="firstName" type="string">
+           <sql name="fname"/>
+        </field>
+        <field name="lastName" type="string">
+           <sql name="lname"/>
+        </field>
+           ...
+    </class>
+</mapping>]]></code-panel></p>
+
+        <p>Multiple column primary keys work with both master and dependent objects, all 
+           cardinalities of relationship, including one-to-one, one-to-many and many-to-many, 
+           as well as lazy loading. </p>
+
+        <p>However, multiple column primary keys should only be used to adhere to an existing 
+           database design, not when designing a new database. In general, it is not a good 
+           idea to use an identity or identities which can be modified by the user, or which 
+           contain application-visible data. For example, if the system allows the user name to 
+           be changed, using user name as identity is highly discouraged, as this practice can require 
+           a major data migration to a new schema to update all foreign keys to adhere to a 
+           new primary key structure, should the user name no longer be adequate as a primary key. It should 
+           be noted that Castor doesn’t support identity change, as specified in the ODMG 3.0 
+           specification. So, primary keys changes are almost certainly a large trade off between 
+           data integrity and performance. Well chosen primary keys are usually single (not 
+           multiple) column numeric or character fields for the reasons outlined above, as well as 
+           performance, as joining operations are faster for single column primary keys. </p>
+      </section>
+      
+      <section title="Callback interface for persistent operations">
+        
+         <p>For the various persistence operations as available through the 
+            <api class="org.exolab.castor.jdo.Database">Database</api> 
+            interface, Castor JDO provides a callback interface that informs the 
+            implementing class on events taking place related to selected
+            persistence operations.</p>
+            
+         <p>Once your entity class implements the 
+            <api class="org.exolab.castor.jdo.Persistence">Persistence</api> interface, 
+            you'll have to provide implementations for the following methods (with their
+            respective semantics described next to them):</p>
+            
+         <ctable>
+            <cheader>
+                <th>Method</th>
+                <th>Description</th>
+            </cheader>
+            <crow>
+                <td>jdoAfterCreate()</td>
+                <td>Indicates that an object has been created in persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoAfterRemove()</td>
+                <td>Indicates that an object has been removed from persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoBeforeCreate()</td>
+                <td>Indicates that an object is to be created in persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoBeforeRemove()</td>
+                <td>Indicates that an object is to be removed from persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoLoad()</td>
+                <td>Indicates that the object has been loaded from persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoPersistent(Database)</td>
+                <td>Sets the database to which this object belongs when this object becomes persistent.</td>
+            </crow>
+            <crow>
+                <td>jdoStore()</td>
+                <td>Indicates that an object is to be stored in persistent storage.</td>
+            </crow>
+            <crow>
+                <td>jdoTransient()</td>
+                <td>Indicates the object is now transient.</td>
+            </crow>
+            <crow>
+                <td>jdoUpdate()</td>
+                <td>Indicates that an object has been included to the current transaction by 
+                    means of db.update() method (in other words, at the end of a 
+                    "long" transaction).</td>
+            </crow>
+         </ctable>
+        
+      </section>
+
+   </body>
+</document>

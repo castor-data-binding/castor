@@ -29,14 +29,13 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.ClassMolder;
-import org.exolab.castor.persist.ClassMolderRegistry;
 
 /**
  * Common static methods for Castor JDO.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-05-24 08:49:08 -0600 (Wed, 24 May 2006) $
  * @since 0.9.9.1
  */
 public final class JDOUtils {
@@ -142,8 +141,7 @@ public final class JDOUtils {
     public static ClassDescriptor getClassDescriptor(final String db, final Class<?> type)
     throws MappingException {
         DatabaseContext context = DatabaseRegistry.getDatabaseContext(db);
-        ClassMolderRegistry registry = context.getEngine().getClassMolderRegistry();
-        ClassMolder molder = registry.getClassMolderWithDependent(type);
+        ClassMolder molder = context.getEngine().getClassMolderWithDependent(type);
         return molder.getClassDescriptor();
     }
 

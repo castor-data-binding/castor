@@ -44,10 +44,8 @@
  */
 package org.exolab.castor.xml.schema;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Map;
 
 import org.exolab.castor.xml.ValidationException;
 
@@ -89,22 +87,22 @@ public class RedefineSchema extends Annotated {
 	/**
 	 * A vector with the names of the redefined complexTypes
 	 */
-	private Map<String, ComplexType> _complexTypes;
+	private Hashtable _complexTypes;
 	
 	/**
 	 * A vector with the names of the redefined simpleTypes
 	 */
-	private Map<String, SimpleType> _simpleTypes;
+	private Hashtable _simpleTypes;
 	
 	/**
 	 * A vector with the names of the redefined groups
 	 */
-	private Map<String, ModelGroup> _groups;
+	private Hashtable _groups;
 	
 	/**
 	 * A vector with the names of the redefined attributeGroups
 	 */
-	private Map<String, AttributeGroup> _attributeGroups;
+	private Hashtable _attributeGroups;
 	
 	/**
 	 * Default constructor to create a RedefineSchema
@@ -125,10 +123,10 @@ public class RedefineSchema extends Annotated {
 		_schemaLocation = originalSchema.getSchemaLocation();
 		_parentSchema = parentSchema;
 		_originalSchema= originalSchema;
-		_complexTypes = new Hashtable<String, ComplexType>();
-		_simpleTypes = new Hashtable<String, SimpleType>();
-		_attributeGroups = new Hashtable<String, AttributeGroup>();
-		_groups = new Hashtable<String, ModelGroup>();
+		_complexTypes = new Hashtable();
+		_simpleTypes = new Hashtable();
+		_attributeGroups = new Hashtable();
+		_groups = new Hashtable();
 	}
 	
 	/**
@@ -167,11 +165,10 @@ public class RedefineSchema extends Annotated {
 	 * Enumerates the complexType names.
 	 * @return an enumeration of the names of the redefined ComplexTypes
 	 */
-	public Collection<ComplexType> enumerateComplexTypes() {
-		if (_schemaLocation.length() == 0) {
-            return Collections.emptyList();
-        }
-		return _complexTypes.values();
+	public Enumeration enumerateComplexTypes() {
+		if (_schemaLocation.length() == 0)
+			return new EmptyEnumeration();
+		return _complexTypes.elements();
 	}
 	
 	/**
@@ -181,11 +178,10 @@ public class RedefineSchema extends Annotated {
 	 * @return the ComplexType corresponding to the gven name.
 	 */
 	public ComplexType getComplexType(String name) {
-		if (_schemaLocation.length() == 0) {
-            return null;
-        }
+		if (_schemaLocation.length() == 0)
+			return null;
 		
-		return _complexTypes.get(name);
+		return (ComplexType)_complexTypes.get(name);
 	}
 	
 	/**
@@ -211,7 +207,7 @@ public class RedefineSchema extends Annotated {
 			return false;
 		
 		boolean result = false;
-		if (_complexTypes.containsValue(complexType)) {
+		if (_complexTypes.contains(complexType)) {
 			_complexTypes.remove(complexType);
 			result = true;
 		}
@@ -252,12 +248,11 @@ public class RedefineSchema extends Annotated {
 	 * Enumerates the simpleType names.
 	 * @return an enumeration of the names of the redefined SimpleTypes.
 	 */
-	public Collection<SimpleType> enumerateSimpleTypes() {
-		if (_schemaLocation.length() == 0) {
-            return Collections.emptyList();
-        }
+	public Enumeration enumerateSimpleTypes() {
+		if (_schemaLocation.length() == 0)
+			return new EmptyEnumeration();
 		
-		return _simpleTypes.values();
+		return _simpleTypes.elements();
 	}
 	
 	/**
@@ -267,11 +262,10 @@ public class RedefineSchema extends Annotated {
 	 * @return the SimpleType corresponding to the gven name.
 	 */
 	public SimpleType getSimpleType(String name) {
-		if (_schemaLocation.length() == 0) {
-            return null;
-        }
+		if (_schemaLocation.length() == 0)
+			return null;
 		
-		return _simpleTypes.get(name);
+		return (SimpleType)_simpleTypes.get(name);
 	}
 	
 	/**
@@ -281,9 +275,8 @@ public class RedefineSchema extends Annotated {
 	 * @param name the canonical name of the simpleType.
 	 */
 	public boolean hasSimpleTypeRedefinition(String name) {
-		if (_schemaLocation.length() == 0) {
-            return false;
-        }
+		if (_schemaLocation.length() == 0)
+			return false;
 		
 		return (_simpleTypes.containsKey(name));
 	}
@@ -298,7 +291,7 @@ public class RedefineSchema extends Annotated {
 			return false;
 		
 		boolean result = false;
-		if (_simpleTypes.containsValue(simpleType)) {
+		if (_simpleTypes.contains(simpleType)) {
 			_simpleTypes.remove(simpleType);
 			result = true;
 		}
@@ -309,9 +302,8 @@ public class RedefineSchema extends Annotated {
 	 * Adds a group name in the list of redefined groups.
 	 */
 	public void addGroup(ModelGroup group) throws SchemaException {
-		if (_schemaLocation.length() == 0) {
-            throw new IllegalStateException("A RedefineSchema with no schemaLocation must contain only annotations");
-        }
+		if (_schemaLocation.length() == 0)
+			throw new IllegalStateException("A RedefineSchema with no schemaLocation must contain only annotations");
 		
 		String name = group.getName();
 
@@ -338,23 +330,21 @@ public class RedefineSchema extends Annotated {
 	 * @return the ModelGroup of the given name contained in this RedefineSchema.
 	 */
 	public ModelGroup getModelGroup(String name) {
-		if (_schemaLocation.length() == 0) {
-            return null;
-        }
+		if (_schemaLocation.length() == 0)
+			return null;
 		
-		return _groups.get(name);
+		return (ModelGroup)_groups.get(name);
 	}
 	
 	/**
 	 * Enumerates the group names.
 	 * @return an enumeration of the names of the redefined groups.
 	 */
-	public Collection<ModelGroup> enumerateGroups() {
-		if (_schemaLocation.length() == 0) {
-            return Collections.emptyList();
-        }
+	public Enumeration enumerateGroups() {
+		if (_schemaLocation.length() == 0)
+			return new EmptyEnumeration();
 		
-		return _groups.values();
+		return _groups.elements();
 	}
 	
 	/**
@@ -380,7 +370,7 @@ public class RedefineSchema extends Annotated {
 			return false;
 		
 		boolean result = false;
-		if (_groups.containsValue(group)) {
+		if (_groups.contains(group)) {
 		    _groups.remove(group);
 		    result = true;
 		}
@@ -446,12 +436,11 @@ public class RedefineSchema extends Annotated {
 	 * Enumerates the attributeGroup names.
 	 * @return an enumeration of the names of the redefined AttributeGroups.
 	 */
-	public Collection<AttributeGroup> enumerateAttributeGroups() {
-		if (_schemaLocation.length() == 0) {
-            return Collections.emptyList();
-        }
+	public Enumeration enumerateAttributeGroups() {
+		if (_schemaLocation.length() == 0)
+			return new EmptyEnumeration();
 		
-		return _attributeGroups.values();
+		return _attributeGroups.elements();
 	}
 		
 	/**
@@ -477,7 +466,7 @@ public class RedefineSchema extends Annotated {
 			return false;
 		
 		boolean result = false;
-		if (_attributeGroups.containsValue(attrGroup)) {
+		if (_attributeGroups.contains(attrGroup)) {
 		    _attributeGroups.remove(attrGroup);
 		    result = true;
 		}
@@ -539,4 +528,17 @@ public class RedefineSchema extends Annotated {
 		//-- it is simply a place holder for names and not for real structures.
 	}
 	
+	class EmptyEnumeration implements Enumeration {
+		EmptyEnumeration() {
+			super();
+		}
+		
+		public Object nextElement() {
+			return null;
+		}
+		
+		public boolean hasMoreElements() {
+			return false;
+		}
+	}
 }

@@ -19,7 +19,7 @@ package org.exolab.castor.jdo.oql;
  * Used to store Token Type Constants.
  * 
  * @author <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-03 17:47:48 -0700 (Tue, 03 Jan 2006) $
  */
 public final class TokenType {
     public static final int END_OF_QUERY = 0;

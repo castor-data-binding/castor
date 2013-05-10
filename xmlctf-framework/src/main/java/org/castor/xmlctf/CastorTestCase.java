@@ -281,24 +281,11 @@ public class CastorTestCase extends TestCase {
         if (_testDescriptor.hasMinimumJavaVersion()) {
             // Get minimum Java version & convert to our Canonical form
             float minVersion = _testDescriptor.getMinimumJavaVersion();
-            if (minVersion >= 5F && minVersion < 10F) {
+            if (minVersion > 5F && minVersion < 10F) {
                 minVersion = 1.0F + (minVersion / 10F);
             }
-            if (JAVA_VERSION < minVersion) {
-                verbose("-->Test requires at minimum Java " + minVersion + ", but we are running Java " + JAVA_VERSION);
-                verbose("-->Skipping the test");
-                return null;
-            }
-        }
-
-        if (_testDescriptor.hasMaximumJavaVersion()) {
-            // Get maximum Java version & convert to our Canonical form
-            float maxVersion = _testDescriptor.getMaximumJavaVersion();
-            if (maxVersion >= 5F && maxVersion < 10F) {
-                maxVersion = 1.0F + (maxVersion / 10F);
-            }
-            if (JAVA_VERSION > maxVersion) {
-                verbose("-->Test is designed to run up to Java " + maxVersion + ", but we are running Java " + JAVA_VERSION);
+            if (minVersion > JAVA_VERSION) {
+                verbose("-->Test requires Java " + minVersion + " but we are running Java " + JAVA_VERSION);
                 verbose("-->Skipping the test");
                 return null;
             }

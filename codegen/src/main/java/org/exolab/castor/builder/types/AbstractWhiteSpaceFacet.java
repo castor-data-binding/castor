@@ -26,6 +26,7 @@ import org.exolab.javasource.JSourceCode;
  * @since 1.1
  */
 public abstract class AbstractWhiteSpaceFacet extends AbstractPatternFacet {
+    //--------------------------------------------------------------------------
 
     /** If set to true only 'collapse' is allowed for the whiteSpace facet. If set to false
      *  'collaps', 'replace' and 'preserve' values are allowed for whiteSpace facet. */
@@ -34,6 +35,8 @@ public abstract class AbstractWhiteSpaceFacet extends AbstractPatternFacet {
     /** The whiteSpace facet. */
     private String _whiteSpace = Facet.WHITESPACE_COLLAPSE;
     
+    //--------------------------------------------------------------------------
+
     /**
      * No-arg constructor. By default only 'collapse' is supported for the whiteSpace facet.
      */
@@ -53,6 +56,8 @@ public abstract class AbstractWhiteSpaceFacet extends AbstractPatternFacet {
         _whiteSpaceCollapseOnly = whiteSpaceCollapseOnly;
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * Returns true if the whiteSpace facet is used.
      * 
@@ -101,6 +106,8 @@ public abstract class AbstractWhiteSpaceFacet extends AbstractPatternFacet {
         }
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -130,4 +137,5 @@ public abstract class AbstractWhiteSpaceFacet extends AbstractPatternFacet {
         }
     }
 
+    //--------------------------------------------------------------------------
 }

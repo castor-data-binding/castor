@@ -53,8 +53,7 @@ public final class TestLimitWithOffsetClause extends CPATestCase {
     }
 
     public boolean exclude(final DatabaseEngineType engine) {
-        return (engine == DatabaseEngineType.DERBY)
-            || (engine == DatabaseEngineType.SQL_SERVER);
+        return (engine == DatabaseEngineType.DERBY);
     }
 
     /**

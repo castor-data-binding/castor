@@ -20,11 +20,11 @@ package org.castor.cpa.persistence.sql.query;
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class Table extends Qualifier {
     //-----------------------------------------------------------------------------------    
-
+    
     /**
      * Construct a table with given name.
      * 
@@ -33,13 +33,6 @@ public final class Table extends Qualifier {
     public Table(final String name) {
         super(name);
     }
-
-    //-----------------------------------------------------------------------------------    
-
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
 
     //-----------------------------------------------------------------------------------    
 }

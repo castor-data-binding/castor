@@ -44,7 +44,6 @@ import java.util.Set;
 
 import org.exolab.castor.types.AnyNode;
 import org.exolab.castor.xml.Namespaces;
-import org.exolab.castor.xml.NamespacesStack;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -65,8 +64,8 @@ public class AnyNode2SAX2 {
     private ContentHandler _handler;
     /** The stack to store the elements. */
     private Set<AnyNode> _elements;
-    /** The namespace stack. */
-    private NamespacesStack namespacesStack;
+    /** The namespace context. */
+    private Namespaces _context;
 
     /**
      * No-arg constructor.
@@ -86,12 +85,12 @@ public class AnyNode2SAX2 {
     /**
      * Creates a AnyNode2SAX2 for the given node and the namespace context.
      * @param node the AnyNode to create AnyNode2SAX for.
-     * @param namespacesStack a namespace context
+     * @param context a namespace context
      */
-    public AnyNode2SAX2(final AnyNode node, final NamespacesStack namespacesStack) {
+    public AnyNode2SAX2(final AnyNode node, final Namespaces context) {
         _elements = new HashSet<AnyNode>();
         _node = node;
-        this.namespacesStack = namespacesStack != null ? namespacesStack : new NamespacesStack();
+        _context = (context == null) ? new Namespaces() : context;
     }
 
     /**
@@ -113,15 +112,15 @@ public class AnyNode2SAX2 {
     }
 
     public static void fireEvents(final AnyNode node, final ContentHandler handler,
-            final NamespacesStack namespacesStack) throws SAXException {
-        AnyNode2SAX2 eventProducer = new AnyNode2SAX2(node, namespacesStack);
+            final Namespaces context) throws SAXException {
+        AnyNode2SAX2 eventProducer = new AnyNode2SAX2(node, context);
         eventProducer.setContentHandler(handler);
 
         // inject a namespace declaration for the AnyNode element
         if (node != null 
-                && namespacesStack != null
+                && context != null 
                 && node.getNamespacePrefix() != null 
-                && namespacesStack.getNamespaceURI(node.getNamespacePrefix()) == null) {
+                && context.getNamespaceURI(node.getNamespacePrefix()) == null) {
             handler.startPrefixMapping(node.getNamespacePrefix(), node.getNamespaceURI());
         }                                                                                  
 
@@ -164,7 +163,7 @@ public class AnyNode2SAX2 {
                 }
                 handler.startPrefixMapping(prefix, value);
                 if (value != null && value.length() > 0) {
-                    namespacesStack.addNamespace(prefix, value);
+                    _context.addNamespace(prefix, value);
                 }
                 tempNode = tempNode.getNextSibling();
             }// namespaceNode
@@ -182,7 +181,7 @@ public class AnyNode2SAX2 {
                 // --retrieve a prefix?
                 attUri = tempNode.getNamespaceURI();
                 if (attUri != null) {
-                    attPrefix = namespacesStack.getNamespacePrefix(attUri);
+                    attPrefix = _context.getNamespacePrefix(attUri);
                 } else {
                     attUri = "";
                 }
@@ -205,11 +204,11 @@ public class AnyNode2SAX2 {
             // maybe the namespace is already bound to a prefix in the
             // namespace context
             if (nsURI != null && nsURI.length() > 0) {
-                String tempPrefix = namespacesStack.getNamespacePrefix(nsURI);
+                String tempPrefix = _context.getNamespacePrefix(nsURI);
                 if (tempPrefix != null) {
                     nsPrefix = tempPrefix;
                 } else {
-                    namespacesStack.addNamespace(nsPrefix, nsURI);
+                    _context.addNamespace(nsPrefix, nsURI);
                 }
             } else {
                 nsURI = "";
@@ -240,7 +239,7 @@ public class AnyNode2SAX2 {
             // -- handle child&daughter elements
             tempNode = node.getFirstChild();
             while (tempNode != null) {
-            	namespacesStack.addNewNamespaceScope();
+            	_context = _context.createNamespaces();
                 processAnyNode(tempNode, handler);
                 tempNode = tempNode.getNextSibling();
             }
@@ -248,7 +247,7 @@ public class AnyNode2SAX2 {
             // -- finish element
             try {
                 handler.endElement(nsURI, name, qName);
-                namespacesStack.removeNamespaceScope();
+                _context = _context.getParent();
 
                 // -- retrieve the namespaces declaration and handle them
                 tempNode = node.getFirstNamespace();

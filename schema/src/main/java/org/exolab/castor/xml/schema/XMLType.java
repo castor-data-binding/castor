@@ -45,225 +45,213 @@
 
 package org.exolab.castor.xml.schema;
 
+
+
 /**
- * The base type for XML Schema types, such as complex types and simple types. <BR />
- * 
+ * The base type for XML Schema types, such as complex types
+ * and simple types.
+ * <BR />
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr
- *          2006) $
- **/
-public abstract class XMLType extends Annotated {
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
+**/
+public abstract class XMLType extends Annotated
+{
     /**
      * Error message for a null argument
      */
-    protected static String NULL_ARGUMENT = "A null argument was passed to "
-            + XMLType.class.getName();
+    protected static String NULL_ARGUMENT
+        = "A null argument was passed to " + XMLType.class.getName();
 
     /**
      * The ID of this datatype
-     **/
-    private String _id;
+    **/
+    private String _id = null;
 
     /**
      * The name of this type
      */
-    private String name;
+    private String name = null;
 
-    /**
+   /**
      * The base datatype reference
-     **/
-    private XMLType baseType;
+    **/
+    private XMLType baseType = null;
 
     /**
      * The owning Schema to which this type belongs
-     **/
-    private Schema schema;
+    **/
+    private Schema schema = null;
 
     /**
      * The name of the derivation method (if any)
      */
-    private String derivationMethod;
+    private String derivationMethod= null;
 
     /**
      * Default constructor
-     **/
+    **/
     public XMLType() {
         super();
-    } // -- XMLType
+    } //-- XMLType
 
     /**
      * Returns the Id for this ComplexType, or null if no Id has been set.
-     * 
+     *
      * @return the Id for this ComplexType, or null if no Id has been set.
-     **/
+    **/
     public String getId() {
         return _id;
-    } // -- getId
+    } //-- getId
 
     /**
      * Returns the name of this type (null if none was defined)
-     * 
      * @return the name of this type (null if none was defined)
-     **/
-    public String getName() {
-        return name;
-    }
+    **/
+    public String getName() { return name; }
 
     /**
      * Sets the name of this type
-     * 
-     * @param name
-     *            of the type
-     **/
+     * @param name of the type
+    **/
     public synchronized void setName(String name) {
-        this.name = name;
+        this.name= name;
 
-        // -- Patch to handle name changes....we should
-        // -- change this in the future to something
-        // -- less heavy.
+        //-- Patch to handle name changes....we should
+        //-- change this in the future to something
+        //-- less heavy.
         if (schema != null) {
             try {
                 if (isComplexType()) {
-                    if (schema.removeComplexType((ComplexType) this)) {
-                        schema.addComplexType((ComplexType) this);
-                    }
-                } else if (isSimpleType()) {
-                    if (schema.removeSimpleType((SimpleType) this)) {
-                        schema.addSimpleType((SimpleType) this);
+                    if (schema.removeComplexType( (ComplexType) this)) {
+                        schema.addComplexType( (ComplexType) this);
                     }
                 }
-            } catch (SchemaException ex) {
-                // -- If this is ever thrown then we've
-                // -- had some nasty synchronization error! :-(
+                else if (isSimpleType()) {
+                    if (schema.removeSimpleType( (SimpleType) this)) {
+                        schema.addSimpleType( (SimpleType) this);
+                    }
+                }
+            }
+            catch (SchemaException ex) {
+                //-- If this is ever thrown then we've
+                //-- had some nasty synchronization error! :-(
                 throw new IllegalStateException(ex.toString());
             }
         }
-        // -- end name-change patch
+        //-- end name-change patch
 
-    } // -- setName
+    } //-- setName
 
     /**
      * Returns true if this XMLType is an AnyType
-     * 
      * @return true if this XMLType is an AnyType
-     **/
+    **/
     public final boolean isAnyType() {
         return (getStructureType() == Structure.ANYTYPE);
-    } // -- isComplexType
+    } //-- isComplexType
 
     /**
      * Returns true if this XMLType is a ComplexType
-     * 
      * @return true if this XMLType is a ComplexType
-     **/
+    **/
     public final boolean isComplexType() {
         return (getStructureType() == Structure.COMPLEX_TYPE);
-    } // -- isComplexType
+    } //-- isComplexType
 
     /**
      * Returns true if this XMLType is a SimpleType
-     * 
      * @return true if this XMLType is a SimpleType
-     **/
+    **/
     public final boolean isSimpleType() {
-        return ((getStructureType() == Structure.SIMPLE_TYPE)
-                || (getStructureType() == Structure.UNION) || (getStructureType() == Structure.LIST));
-    } // -- isSimpleType
+        return ((getStructureType() == Structure.SIMPLE_TYPE) ||
+                (getStructureType() == Structure.UNION) ||
+                (getStructureType() == Structure.LIST));
+    } //-- isSimpleType
+
 
     /**
      * Returns the schema to which this type belongs
-     * 
      * @return the Schema to which this type belongs
-     **/
+    **/
     public Schema getSchema() {
         return schema;
-    } // -- getSchema
+    } //-- getSchema
 
     /**
      * Sets the name of this SimpleType
-     * 
-     * @param schema
-     *            the Schema to which this Simpletype belongs
-     **/
-    public void setSchema(Schema schema) {
-        if (schema == null) {
+     * @param schema the Schema to which this Simpletype belongs
+    **/
+    public void setSchema(Schema schema)
+    {
+      if (schema == null) {
             String err = NULL_ARGUMENT + "; 'schema' must not be null.";
             throw new IllegalArgumentException(err);
-        }
-        this.schema = schema;
+      }
+      this.schema    = schema;
     }
 
     /**
-     * Returns the base type that this type inherits from. If this type is a
-     * Simpletype that is a built in primitive type then null is returned.
-     * 
+     * Returns the base type that this type inherits from.
+     * If this type is a Simpletype that is a built in primitive type then null is returned.
      * @return the parent type.
-     **/
+    **/
     public XMLType getBaseType() {
         return baseType;
-    } // -- getBaseType
+    } //-- getBaseType
 
     /**
      * Sets the base type for this datatype
-     * 
-     * @param baseType
-     *            the base type which this datatype inherits from
-     **/
+     * @param baseType the base type which this datatype inherits from
+    **/
     public void setBaseType(XMLType baseType) {
         this.baseType = baseType;
-    } // -- setBaseType
+    } //-- setBaseType
 
     /**
      * Gets the name of the derivation method used to derive this type from its
      * parent. null for primitive types.
      */
-    public String getDerivationMethod() {
-        return derivationMethod;
-    }
+    public String getDerivationMethod() { return derivationMethod; }
 
     /**
      * Sets the derivation method name
      */
-    public void setDerivationMethod(String derivationMethod) {
-        this.derivationMethod = derivationMethod;
+    public void setDerivationMethod(String derivationMethod)
+    {
+        this.derivationMethod= derivationMethod;
     }
 
     /**
-     * Sets the Id for this XMLType. The Id must be globally unique within the
-     * Schema. Use a null value to remove the Id.
-     * 
-     * @param id
-     *            the unique Id for this XMLType
-     **/
+     * Sets the Id for this XMLType. The Id must be globally unique
+     * within the Schema. Use a null value to remove the Id.
+     *
+     * @param id the unique Id for this XMLType
+    **/
     public void setId(String id) {
         _id = id;
-    } // -- setId
+    } //-- setId
 
     /**
      * Sets the parent for this XMLType
-     * 
-     * @param parent
-     *            the parent Structure for this XMLType
-     **/
+     *
+     * @param parent the parent Structure for this XMLType
+    **/
     protected abstract void setParent(Structure parent);
 
     /**
-     * Returns the type this type "really" represents ("this" in most cases),
-     * provides the indirection needed by references and forward declarations.
-     * 
+     * Returns the type this type "really" represents
+     * ("this" in most cases), provides the indirection needed by references
+     * and forward declarations.
      * @return the type this type "really" represents
      */
-    XMLType getType() {
-        return this;
-    }
+    XMLType getType() { return this; }
 
     /**
      * If this type has a base type, this returns its name.<br/>
      * Returns null otherwise.
-     * 
      * @return Base type's name if available, null otherwise.
      */
     public String getBaseTypeName() {
         return baseType != null ? baseType.getName() : null;
     }
-} // -- XMLType
+} //-- XMLType

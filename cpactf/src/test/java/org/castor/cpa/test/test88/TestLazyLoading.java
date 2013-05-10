@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cpa.test.framework.CPATestCase;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
-import org.castor.persist.proxy.LazyCollection;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
@@ -56,9 +55,7 @@ public final class TestLazyLoading extends CPATestCase {
             || (engine == DatabaseEngineType.HSQL)
             || (engine == DatabaseEngineType.MYSQL)
             || (engine == DatabaseEngineType.ORACLE)
-            || (engine == DatabaseEngineType.POSTGRESQL)
-            || (engine == DatabaseEngineType.SQL_SERVER)
-            || (engine == DatabaseEngineType.SAPDB);
+            || (engine == DatabaseEngineType.POSTGRESQL);
     }
 
     public void setUp() throws Exception {
@@ -616,7 +613,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof LazyCollection<?>);
+                loadPerson.getProjects() instanceof org.exolab.castor.persist.Lazy);
 
         // OK, the collection of projects is there, let's test a rollback for
         // bug #1046
@@ -627,7 +624,7 @@ public final class TestLazyLoading extends CPATestCase {
         assertTrue(
                 "Collection has to be lazy! It is "
                         + loadPerson.getProjects().getClass(),
-                loadPerson.getProjects() instanceof LazyCollection<?>);
+                loadPerson.getProjects() instanceof org.exolab.castor.persist.Lazy);
     }
 
     public void testMasterUpdate() throws PersistenceException {

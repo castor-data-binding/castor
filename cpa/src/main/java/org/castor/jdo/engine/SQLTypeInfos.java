@@ -15,10 +15,8 @@
  */
 package org.castor.jdo.engine;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
@@ -43,7 +41,7 @@ import org.exolab.castor.mapping.MappingException;
  * Java type.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.0
  */
 public final class SQLTypeInfos {
@@ -312,42 +310,26 @@ public final class SQLTypeInfos {
                     stmt.setFloat(index, ((Float) value).floatValue());
                     break;
                 case Types.TIME:
-                    final Time time = value instanceof java.util.Date
-                        ? new Time(((java.util.Date) value).getTime()) : null;
-                    stmt.setTime(index, time != null ? time : (Time) value, getCalendar());
+                    stmt.setTime(index, (Time) value, getCalendar());
                     break;
                 case Types.DATE:
-                    final Date date = value instanceof java.util.Date
-                        ? new Date(((java.util.Date) value).getTime()) : null;
-                    stmt.setDate(index, date != null ? date : (Date) value);
+                    stmt.setDate(index, (Date) value);
                     break;
                 case Types.TIMESTAMP:
-                    final Timestamp timestamp = value instanceof java.util.Date
-                        ? new Timestamp(((java.util.Date) value).getTime()) : null;
-                    stmt.setTimestamp(index, timestamp != null ? timestamp : (Timestamp) value,
-                            getCalendar());
+                    stmt.setTimestamp(index, (Timestamp) value, getCalendar());
                     break;
                 case Types.BLOB:
                     try {
-                        InputStream stream;
-                        if (value instanceof byte[]) {
-                            stream = new ByteArrayInputStream((byte[]) value);
-                        } else {
-                            stream = (InputStream) value;
-                        }
+                        InputStream stream = (InputStream) value;
                         stmt.setBinaryStream(index, stream, stream.available());
                     } catch (IOException ex) {
                         throw new SQLException(ex.toString());
                     }
                     break;
                 case Types.CLOB:
-                    if (value instanceof String) {
-                        stmt.setCharacterStream(index, new StringReader((String) value),
-                                Math.min(((String) value).length(), Integer.MAX_VALUE));
-                    } else {
-                        stmt.setCharacterStream(index, ((Clob) value).getCharacterStream(),
-                                (int) Math.min(((Clob) value).length(), Integer.MAX_VALUE));
-                    }
+                    Clob clob = (Clob) value;
+                    stmt.setCharacterStream(index, clob.getCharacterStream(),
+                            (int) Math.min(clob.length(), Integer.MAX_VALUE));
                     break;
                 default:
                     stmt.setObject(index, value, sqlType);

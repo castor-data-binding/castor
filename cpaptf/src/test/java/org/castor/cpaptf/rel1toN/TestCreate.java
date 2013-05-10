@@ -32,7 +32,7 @@ import org.exolab.castor.jdo.QueryResults;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6814 $ $Date$
+ * @version $Revision:6814 $ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
  */
 public final class TestCreate extends TestCase {
     private static final String JDO_CONF_FILE = "uni-jdo-conf.xml";
@@ -41,7 +41,7 @@ public final class TestCreate extends TestCase {
     /** Factor that influences how much test objects are created. Defaults to 1.0 which
      *  means that 10000 service objects are created. Minimum is 0.2 and maximum depends
      *  onthe amount of memory you have available for your virtual machine. */
-    public static final double FACTOR = 0.2;
+    private static final double FACTOR = 0.2;
     
     private static final int LOCKED_MAX = 4;
     
@@ -54,7 +54,6 @@ public final class TestCreate extends TestCase {
     private static final int SERVICE_MAX = (int) (10000 * FACTOR);
     
     private static final Log LOG = LogFactory.getLog(TestCreate.class);
-    private static boolean _logHeader = false;
     
     private JDOManager _jdo = null;
 
@@ -87,15 +86,7 @@ public final class TestCreate extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-
-        if (!_logHeader) {
-            LOG.info("");
-            LOG.info("");
-            LOG.info("TestCreate (" + (int) (10000 * TestCreate.FACTOR) + ")");
-            LOG.info("");
-            _logHeader = true;
-        }
-
+        
         _jdo = JDOManager.createInstance(DATABASE_NAME);
     }
     
@@ -138,7 +129,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= STATE_MAX) {
-            locked = db.load(Locked.class, new Integer(countLocked));
+            locked = (Locked) db.load(Locked.class, new Integer(countLocked));
             
             state = new State();
             state.setId(new Integer(count));
@@ -178,7 +169,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= DEPARTMENT_MAX) {
-            state = db.load(State.class, new Integer(countState));
+            state = (State) db.load(State.class, new Integer(countState));
             
             dept = new Department();
             dept.setId(new Integer(count));
@@ -309,10 +300,10 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= EQUIPMENT_MAX) {
-            type = db.load(Type.class, new Integer(countType));
-            supplier = db.load(Supplier.class, new Integer(countSupplier));
-            state = db.load(State.class, new Integer(countState));
-            reason = db.load(Reason.class, new Integer(countReason));
+            type = (Type) db.load(Type.class, new Integer(countType));
+            supplier = (Supplier) db.load(Supplier.class, new Integer(countSupplier));
+            state = (State) db.load(State.class, new Integer(countState));
+            reason = (Reason) db.load(Reason.class, new Integer(countReason));
             
             equip = new Equipment();
             equip.setId(new Integer(count));
@@ -357,7 +348,7 @@ public final class TestCreate extends TestCase {
         db.begin();
         
         while (count <= SERVICE_MAX) {
-            equip = db.load(Equipment.class, new Integer(countEquip));
+            equip = (Equipment) db.load(Equipment.class, new Integer(countEquip));
             
             service = new Service();
             service.setId(new Integer(count));

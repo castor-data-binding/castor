@@ -27,7 +27,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestOsCacheFactory extends TestCase {
@@ -48,17 +48,17 @@ public final class TestOsCacheFactory extends TestCase {
     public TestOsCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new OsCacheFactory<String, String>();
+        CacheFactory cf = new OsCacheFactory();
         assertTrue(cf instanceof OsCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new OsCacheFactory<String, String>();
+        CacheFactory cf = new OsCacheFactory();
         assertEquals("oscache", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new OsCacheFactory<String, String>();
+        CacheFactory cf = new OsCacheFactory();
         String classname = "org.castor.cache.distributed.OsCache";
         assertEquals(classname, cf.getCacheClassName());
     }
@@ -67,9 +67,9 @@ public final class TestOsCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(OsCacheFactory.class);
         Level level = logger.getLevel();
 
-        OsCacheFactory<String, String> cf1 = new OsCacheFactory<String, String>();
+        OsCacheFactory cf1 = new OsCacheFactory();
         try {
-            Cache<String, String> c1 = cf1.getCache(DistributedOsCacheMock.class.getName(), null);
+            Cache c1 = cf1.getCache(DistributedOsCacheMock.class.getName(), null);
             assertTrue(c1 instanceof OsCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of OsCache from factroy");
@@ -77,7 +77,7 @@ public final class TestOsCacheFactory extends TestCase {
 
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }
 
-        OsCacheFactory<String, String> cf2 = new OsCacheFactory<String, String>();
+        OsCacheFactory cf2 = new OsCacheFactory();
         try {
             cf2.getCache("org.castor.UnkownCache", null);
             fail("Failed to trow exception at initialize of OsCache instance");
@@ -93,9 +93,9 @@ public final class TestOsCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(OsCacheFactory.class);
         Level level = logger.getLevel();
 
-        OsCacheFactory<String, String> cf = new OsCacheFactory<String, String>();
+        OsCacheFactory cf = new OsCacheFactory();
         try {
-            Cache<String, String> c = cf.getCache(DistributedOsCacheMock.class.getName(), null);
+            Cache c = cf.getCache(DistributedOsCacheMock.class.getName(), null);
             assertTrue(c instanceof OsCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of OsCache from factroy");

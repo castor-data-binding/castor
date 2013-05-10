@@ -49,15 +49,15 @@ import java.util.Hashtable;
 import org.exolab.castor.xml.schema.Schema;
 
 /**
- * A class used to save state information for the {@link SchemaUnmarshaller}.
- * Roughly speaking, it keeps track of all the schemas read.
- * This is used to prevent infinite loops when importing or including schemas.
+ * A class used to save State information for the SchemaUnmarshaller
+ * Roughly speaking it keeps track of all the schemas read.
+ * This is used to prevent infinite loops when importing or including schema.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2004-09-21 08:09:24 -0600 (Tue, 21 Sep 2004) $
  */
-public class SchemaUnmarshallerState {
+class SchemaUnmarshallerState {
 
-    private Hashtable<String, Schema> _processed = new Hashtable<String, Schema>();
+    private Hashtable     _processed = null;
     
     /**
      * A boolean that indicates whether or not to 
@@ -66,27 +66,34 @@ public class SchemaUnmarshallerState {
     boolean cacheIncludedSchemas = false;
 
     /**
-     * Marks the given {@link Schema} as having been processed.
+     * Creates a new SchemaUnmarshallerState
+     */
+    protected SchemaUnmarshallerState() {
+        _processed   = new Hashtable();
+    } //-- SchemaUnmarshallerState
+    
+    /**
+     * Marks the given schema as having been processed.
      * @param schemaLocation the key identifying the physical location
      * of the schema to mark.
-     * @param schema the {@link Schema} to mark as having
+     * @param schema the Schema to mark as having
      * been processed.
      */
     void markAsProcessed(String schemaLocation, Schema schema) {
         _processed.put(schemaLocation,schema);
-    }
+    } //-- markAsProcessed
 
     /**
-     * Returns true if the given {@link Schema} has been marked as processed
-     * @param schema the {@link Schema} to check for being marked as processed
-     * @return true if the given {@link Schema} has been marked as processed
+     * Returns true if the given Schema has been marked as processed
+     * @param schema the Schema to check for being marked as processed
+     * @return true if the given Schema has been marked as processed
      */
     boolean processed(Schema schema) {
         return _processed.contains(schema);
-    }
+    } //-- processed
 
     /**
-     * Returns true if the given schema location has been marked as processed.
+     * Returns true if the given schema location has been marked as processed
      *
      * @param schemaLocation location the schema location to check for being 
      * marked as processed
@@ -94,8 +101,23 @@ public class SchemaUnmarshallerState {
      */
     boolean processed(String schemaLocation) {
        return _processed.containsKey(schemaLocation);
-    }
+    } //-- processed
 
+    /**
+     * Returns the Configuration to use during reading of the schema, this
+     * is primarily for obtaining a parser instance.
+     *
+     * @return the Configuration. 
+     *
+     * @see #setConfiguration
+     */
+//    Configuration getConfiguration() {
+//        if (_config == null) {
+//            _config = LocalConfiguration.getInstance();
+//        }
+//        return _config; 
+//    } //-- setConfiguraiton
+      
     /**
      * Returns the schema corresponding to the given schemaLocation
      *
@@ -103,12 +125,17 @@ public class SchemaUnmarshallerState {
      * @return the schema corresponding to the given schemaLocation
      */
      Schema getSchema(String schemaLocation) {
-         return _processed.get(schemaLocation);
+         return (Schema)_processed.get(schemaLocation);
      }
      
-     public void setCacheIncludedSchemas(boolean cacheIncludedSchemas) {
-         this.cacheIncludedSchemas = cacheIncludedSchemas;
-     }
-
-
-}
+    /**
+     * Sets the Configuration to use during reading of the schema, this
+     * is primarily for obtaining a parser instance.
+     *
+     * @param config the Configuration to set
+     */
+//    void setConfiguration(Configuration config) {
+//        _config = config;
+//    } //-- setConfiguraiton
+    
+} //-- SchemaUnmarshallerState

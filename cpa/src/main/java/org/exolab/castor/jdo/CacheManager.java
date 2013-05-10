@@ -58,7 +58,7 @@ import org.exolab.castor.persist.spi.Identity;
  * manually.
  * 
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken </a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public class CacheManager {
     /** Database instance. */
@@ -94,8 +94,8 @@ public class CacheManager {
      */
     public boolean isCached (final Class cls, final Object identity) throws PersistenceException {
         if (_transactionContext != null && _transactionContext.isOpen()) {
-            ClassMolder molder = _lockEngine.getClassMolderRegistry().getClassMolder(cls);
-            return _transactionContext.isCached(molder, cls, new Identity(identity));
+            return _transactionContext.isCached(_lockEngine.getClassMolder(cls), cls,
+                    new Identity(identity));
         }
         
         throw new PersistenceException("isCached() has to be called within an active transaction.");
@@ -175,7 +175,7 @@ public class CacheManager {
      */
     public void expireCache(final Class type, final Object[] identity) throws PersistenceException {
         testForOpenDatabase();
-        ClassMolder molder = _lockEngine.getClassMolderRegistry().getClassMolder(type);
+        ClassMolder molder = _lockEngine.getClassMolder(type);
         for (int i = 0; i < identity.length; i++) {
             _transactionContext.expireCache(molder, new Identity(identity[i]));
         }

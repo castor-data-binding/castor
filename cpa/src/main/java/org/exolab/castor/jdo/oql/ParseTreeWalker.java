@@ -21,9 +21,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.QueryException;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.SQLHelper;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
@@ -38,7 +38,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * and translate to SQL.
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class ParseTreeWalker {
     private LockEngine _dbEngine;

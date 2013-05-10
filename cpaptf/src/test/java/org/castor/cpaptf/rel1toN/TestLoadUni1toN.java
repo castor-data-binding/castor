@@ -32,7 +32,7 @@ import org.exolab.castor.mapping.AccessMode;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date$
+ * @version $Revision:6817 $ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public final class TestLoadUni1toN extends TestCase {
     private static final String JDO_CONF_FILE = "uni-jdo-conf.xml";
@@ -86,10 +86,6 @@ public final class TestLoadUni1toN extends TestCase {
         super.setUp();
 
         if (!_logHeader) {
-            LOG.info("");
-            LOG.info("");
-            LOG.info("TestLoadUni1toN (" + (int) (10000 * TestCreate.FACTOR) + ")");
-            LOG.info("");
             LOG.info(format("", "begin", "result", "iterate", "commit", "close"));
             _logHeader = true;
         }
@@ -289,7 +285,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID(_db.load(Locked.class, oid.getId()),
+            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
                              Database.SHARED);
 
             count++;
@@ -334,7 +330,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID(_db.load(Locked.class, oid.getId()),
+            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId()),
                              Database.SHARED);
 
             count++;
@@ -380,7 +376,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID(_db.load(Locked.class, oid.getId(),
+            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
                              Database.READONLY), Database.READONLY);
 
             count++;
@@ -425,7 +421,7 @@ public final class TestLoadUni1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStatesOID(_db.load(Locked.class, oid.getId(),
+            iterateStatesOID((Locked) _db.load(Locked.class, oid.getId(),
                              Database.READONLY), Database.READONLY);
 
             count++;
@@ -533,7 +529,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateEquipmentsOID(_db.load(State.class, oid.getId(), mode), mode);
+            iterateEquipmentsOID((State) _db.load(State.class, oid.getId(), mode), mode);
         }
     }
     
@@ -554,7 +550,7 @@ public final class TestLoadUni1toN extends TestCase {
         
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateServicesOID(_db.load(Equipment.class, oid.getId(), mode),
+            iterateServicesOID((Equipment) _db.load(Equipment.class, oid.getId(), mode),
                     mode);
         }
     }

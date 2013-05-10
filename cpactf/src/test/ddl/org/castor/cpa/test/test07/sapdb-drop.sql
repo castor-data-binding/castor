@@ -1,2 +1,1 @@
-drop table test07_race
-//
+drop table test07_race;

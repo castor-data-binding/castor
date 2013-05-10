@@ -46,8 +46,6 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Types;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.SybaseQueryVisitor;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -56,7 +54,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class SybaseFactory extends GenericFactory {
     //-----------------------------------------------------------------------------------
@@ -70,13 +68,6 @@ public final class SybaseFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new SybaseQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

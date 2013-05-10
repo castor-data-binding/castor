@@ -47,7 +47,8 @@ public final class Test881 extends CPATestCase {
     }
     
     public void testLoadConfA() throws Exception {
-        JDOManager.loadConfiguration(createJdoConfA(), getJdoConfBaseURL());
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
         
@@ -55,7 +56,8 @@ public final class Test881 extends CPATestCase {
     }
 
     public void testLoadConfB() throws Exception {
-        JDOManager.loadConfiguration(createJdoConfB(), getJdoConfBaseURL());
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
         
@@ -63,7 +65,8 @@ public final class Test881 extends CPATestCase {
     }
 
     public void testLoadConfAB() throws Exception {
-        JDOManager.loadConfiguration(createJdoConfAB(), getJdoConfBaseURL());
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
@@ -76,8 +79,10 @@ public final class Test881 extends CPATestCase {
         // Load configuration for A first followed by B.
         // Why should this behave different as loading A and B
         // from one configuration containing both?
-        JDOManager.loadConfiguration(createJdoConfA(), getJdoConfBaseURL());
-        JDOManager.loadConfiguration(createJdoConfB(), getJdoConfBaseURL());
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
@@ -92,8 +97,10 @@ public final class Test881 extends CPATestCase {
         // What shell we do with the second configuration containg A and B?
         // Ignore it completely, only ignore second configuration of B or
         // or replace the first configuration of B with the second one.
-        JDOManager.loadConfiguration(createJdoConfB(), getJdoConfBaseURL());
-        JDOManager.loadConfiguration(createJdoConfAB(), getJdoConfBaseURL());
+        JdoConf bConf = createJdoConfB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(bConf, getJdoConfBaseURL());
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
@@ -108,8 +115,10 @@ public final class Test881 extends CPATestCase {
         // What shell we do with the second configuration containg A?
         // Ignore it completely, only ignore second configuration of A or
         // or replace the first configuration of A with the second one.
-        JDOManager.loadConfiguration(createJdoConfAB(), getJdoConfBaseURL());
-        JDOManager.loadConfiguration(createJdoConfA(), getJdoConfBaseURL());
+        JdoConf abConf = createJdoConfAB(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(abConf, getJdoConfBaseURL());
+        JdoConf aConf = createJdoConfA(getJdoConf(DBNAME, MAPPING));
+        JDOManager.loadConfiguration(aConf, getJdoConfBaseURL());
 
         executeQuery(JDOManager.createInstance(DBNAME + "-a").getDatabase());
         executeQuery(JDOManager.createInstance(DBNAME + "-b").getDatabase());
@@ -118,22 +127,20 @@ public final class Test881 extends CPATestCase {
         JDOManager.disposeInstance(DBNAME + "-b");
     }
     
-    private JdoConf createJdoConfA() {
-        org.castor.jdo.conf.Database orgDB = getDbConfig(DBNAME);
-        orgDB.addMapping(JDOConfFactory.createXmlMapping(MAPPING));
-
+    private JdoConf createJdoConfA(final JdoConf orgConf) {
+        org.castor.jdo.conf.Database orgDB = orgConf.getDatabase(0);
+        
         org.castor.jdo.conf.Database aDB = new org.castor.jdo.conf.Database();
         aDB.setName(orgDB.getName() + "-a");
         aDB.setEngine(orgDB.getEngine());
         aDB.setDatabaseChoice(orgDB.getDatabaseChoice());
         aDB.setMapping(orgDB.getMapping());
         
-        return JDOConfFactory.createJdoConf(aDB, getTxConfig());
+        return JDOConfFactory.createJdoConf(aDB, orgConf.getTransactionDemarcation());
     }
     
-    private JdoConf createJdoConfB() {
-        org.castor.jdo.conf.Database orgDB = getDbConfig(DBNAME);
-        orgDB.addMapping(JDOConfFactory.createXmlMapping(MAPPING));
+    private JdoConf createJdoConfB(final JdoConf orgConf) {
+        org.castor.jdo.conf.Database orgDB = orgConf.getDatabase(0);
         
         org.castor.jdo.conf.Database bDB = new org.castor.jdo.conf.Database();
         bDB.setName(orgDB.getName() + "-b");
@@ -141,12 +148,11 @@ public final class Test881 extends CPATestCase {
         bDB.setDatabaseChoice(orgDB.getDatabaseChoice());
         bDB.setMapping(orgDB.getMapping());
         
-        return JDOConfFactory.createJdoConf(bDB, getTxConfig());
+        return JDOConfFactory.createJdoConf(bDB, orgConf.getTransactionDemarcation());
     }
     
-    private JdoConf createJdoConfAB() {
-        org.castor.jdo.conf.Database orgDB = getDbConfig(DBNAME);
-        orgDB.addMapping(JDOConfFactory.createXmlMapping(MAPPING));
+    private JdoConf createJdoConfAB(final JdoConf orgConf) {
+        org.castor.jdo.conf.Database orgDB = orgConf.getDatabase(0);
         
         org.castor.jdo.conf.Database aDB = new org.castor.jdo.conf.Database();
         aDB.setName(orgDB.getName() + "-a");
@@ -161,7 +167,7 @@ public final class Test881 extends CPATestCase {
         bDB.setMapping(orgDB.getMapping());
         
         org.castor.jdo.conf.Database[] dbs = new org.castor.jdo.conf.Database[] {aDB, bDB};
-        return JDOConfFactory.createJdoConf(dbs, getTxConfig());
+        return JDOConfFactory.createJdoConf(dbs, orgConf.getTransactionDemarcation());
     }
     
     private void executeQuery(final Database db) throws PersistenceException {

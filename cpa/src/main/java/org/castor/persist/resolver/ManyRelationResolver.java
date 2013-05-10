@@ -19,20 +19,19 @@ package org.castor.persist.resolver;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
 import org.castor.persist.proxy.CollectionProxy;
-import org.castor.persist.proxy.LazyHashSet;
-import org.castor.persist.proxy.LazyCollection;
+import org.castor.persist.proxy.RelationCollection;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
+import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.spi.Identity;
 
@@ -43,9 +42,14 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public abstract class ManyRelationResolver extends BaseRelationResolver {
-
-    private final int _fieldIndex;
+public abstract class ManyRelationResolver implements ResolverStrategy {
+    /** Associated {@link ClassMolder}. */
+    protected ClassMolder _classMolder;
+    
+    /** Associated {@link FieldMolder}. */
+    protected FieldMolder _fieldMolder;
+    
+    private int _fieldIndex;
     
     /** 
      * Creates an instance of ManyRelationResolver.
@@ -53,10 +57,14 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
      * @param classMolder Associated {@link ClassMolder}
      * @param fieldMolder Associated {@link FieldMolder}
      * @param fieldIndex Field index within all fields of parent class molder.
+     * @param debug ???
      */
     public ManyRelationResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, final int fieldIndex) {
-        super(classMolder, fieldMolder);
+            final FieldMolder fieldMolder, 
+            final int fieldIndex,
+            final boolean debug) {
+        _classMolder = classMolder;
+        _fieldMolder = fieldMolder;
         _fieldIndex = fieldIndex;
     }
     
@@ -66,12 +74,15 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
      *      java.lang.Object)
      */
     public final Object create(final TransactionContext tx, final Object object) {
+        Object field = null;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
-            return ClassMolderHelper.getIdsList(tx, fieldClassMolder, o);
+            ArrayList fids = 
+                ClassMolderHelper.extractIdentityList(tx, fieldClassMolder, o);
+            field = fids;
         }
-        return null;
+        return field;
     }
 
     /**
@@ -119,18 +130,21 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
      */
     public final Object updateCache(final TransactionContext tx, final OID oid,
             final Object object) {
+        Object field = null;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         if (value != null) {
-            if (!(value instanceof LazyCollection)) {
-            	return ClassMolderHelper.getIdsList(tx,
+            ArrayList fids;
+            if (!(value instanceof Lazy)) {
+                fids = ClassMolderHelper.extractIdentityList(tx,
                         fieldClassMolder, value);
             } else {
-            	LazyCollection lazy = (LazyCollection) value;
-                return lazy.getIdsList();
+                RelationCollection lazy = (RelationCollection) value;
+                fids = (ArrayList) lazy.getIdentitiesList().clone();
             }
+            field = fids;
         }
-        return null;
+        return field;
     }
 
     /**
@@ -187,11 +201,11 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
                 _fieldMolder.setValue(object, null, tx.getClassLoader());
             }
         } else {
-            List<Identity> list = (List<Identity>) field;
+            ArrayList list = (ArrayList) field;
             ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
 
-            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
-                    fieldClassMolder, list);
+            RelationCollection relcol = new RelationCollection(tx, oid,
+                    fieldClassMolder, null, list);
             _fieldMolder.setValue(object, relcol, tx.getClassLoader());
         }
     }
@@ -264,9 +278,9 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
             // lazy loading is specified. Related object will not be loaded.
             // A lazy collection with all the identity of the related object
             // will constructed and set as the data object's field.
-            List<Identity> list = (List<Identity>) proposedObject.getField(_fieldIndex);
-            LazyHashSet<Object> relcol = new LazyHashSet<Object>(tx,
-                    fieldClassMolder, list);
+            ArrayList list = (ArrayList) proposedObject.getField(_fieldIndex);
+            RelationCollection relcol = new RelationCollection(tx, oid,
+                    fieldClassMolder, suggestedAccessMode, list);
             _fieldMolder.setValue(proposedObject.getEntity(), relcol, tx
                     .getClassLoader());
         }
@@ -302,8 +316,8 @@ public abstract class ManyRelationResolver extends BaseRelationResolver {
             boolean changed = false;
             Object related = _fieldMolder.getValue(object, tx.getClassLoader());
 
-            if (related instanceof LazyCollection) {
-            	LazyCollection lazy = (LazyCollection) related;
+            if (related instanceof RelationCollection) {
+                RelationCollection lazy = (RelationCollection) related;
                 changed = lazy.remove(relatedObject);
             } else {
                 Iterator itor = ClassMolderHelper.getIterator(related);

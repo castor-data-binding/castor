@@ -33,7 +33,7 @@ import org.exolab.castor.jdo.QueryResults;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date$
+ * @version $Revision:6817 $ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public final class TestLoadLazy1toN extends TestCase {
     private static final String JDO_CONF_FILE = "lazy-jdo-conf.xml";
@@ -79,10 +79,6 @@ public final class TestLoadLazy1toN extends TestCase {
         super.setUp();
 
         if (!_logHeader) {
-            LOG.info("");
-            LOG.info("");
-            LOG.info("TestLoadLazy1toN (" + (int) (10000 * TestCreate.FACTOR) + ")");
-            LOG.info("");
             LOG.info(format("", "begin", "result", "iterate", "commit", "close"));
             _logHeader = true;
         }
@@ -272,7 +268,7 @@ public final class TestLoadLazy1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates(db.load(Locked.class, oid.getId()));
+            iterateStates((Locked) db.load(Locked.class, oid.getId()));
 
             count++;
         }
@@ -314,7 +310,7 @@ public final class TestLoadLazy1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates(db.load(Locked.class, oid.getId()));
+            iterateStates((Locked) db.load(Locked.class, oid.getId()));
 
             count++;
         }
@@ -357,7 +353,7 @@ public final class TestLoadLazy1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates(db.load(Locked.class, oid.getId(), Database.READONLY));
+            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }
@@ -399,7 +395,7 @@ public final class TestLoadLazy1toN extends TestCase {
         int count = 0;
         while (results.hasMore()) {
             OID oid = (OID) results.next();
-            iterateStates(db.load(Locked.class, oid.getId(), Database.READONLY));
+            iterateStates((Locked) db.load(Locked.class, oid.getId(), Database.READONLY));
 
             count++;
         }

@@ -16,14 +16,14 @@
 package org.castor.cpa.persistence.sql.query.expression;
 
 import org.castor.cpa.persistence.sql.query.QueryConstants;
-import org.castor.cpa.persistence.sql.query.Visitor;
+import org.castor.cpa.persistence.sql.query.QueryContext;
 
 /**
  * A parameter in a SQL query. Values are always bound to parameter with names.
  * 
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class Parameter extends Expression {
     //-----------------------------------------------------------------------------------    
@@ -56,23 +56,10 @@ public final class Parameter extends Expression {
 
     //-----------------------------------------------------------------------------------    
 
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------    
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(QueryConstants.PARAMETER);
-
-        return sb.toString();
+    @Override
+    public void toString(final QueryContext ctx) {
+        ctx.addParameter(_name);
+        ctx.append(QueryConstants.PARAMETER);
     }
 
     //-----------------------------------------------------------------------------------    

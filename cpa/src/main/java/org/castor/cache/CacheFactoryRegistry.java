@@ -17,7 +17,7 @@ package org.castor.cache;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -29,15 +29,12 @@ import org.castor.cpa.CPAProperties;
  * Registry for {@link CacheFactory} implementations obtained from the Castor
  * properties file and used by the JDO mapping configuration file.
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class CacheFactoryRegistry<K, V> {
+public final class CacheFactoryRegistry {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -48,8 +45,8 @@ public final class CacheFactoryRegistry<K, V> {
     private static final String PROXY_CLASSNAME = DebuggingCacheProxy.class.getName();
     
     /** Association between {@link Cache} name and factory implementation. */
-    private HashMap<String, CacheFactory<K, V>> _cacheFactories
-        = new HashMap<String, CacheFactory<K, V>>();
+    private Hashtable<String, CacheFactory> _cacheFactories
+        = new Hashtable<String, CacheFactory>();
     
     //--------------------------------------------------------------------------
 
@@ -59,12 +56,11 @@ public final class CacheFactoryRegistry<K, V> {
      * 
      * @param properties The properties.
      */
-    @SuppressWarnings("unchecked")
     public CacheFactoryRegistry(final AbstractProperties properties) {
         Object[] objects = properties.getObjectArray(
                 CPAProperties.CACHE_FACTORIES, properties.getApplicationClassLoader());
         for (int i = 0; i < objects.length; i++) {
-            CacheFactory<K, V> factory = (CacheFactory<K, V>) objects[i];
+            CacheFactory factory = (CacheFactory) objects[i];
             _cacheFactories.put(factory.getCacheType(), factory);
         }
     }
@@ -88,17 +84,16 @@ public final class CacheFactoryRegistry<K, V> {
      * @return A {@link Cache} instance.
      * @throws CacheAcquireException A cache of the type specified can not be acquired.
      */
-    @SuppressWarnings("unchecked")
-    public Cache<K, V> getCache(final Properties props, final ClassLoader classLoader) 
+    public Cache getCache(final Properties props, final ClassLoader classLoader) 
     throws CacheAcquireException {
         String cacheType = props.getProperty(Cache.PARAM_TYPE, Cache.DEFAULT_TYPE);
-        CacheFactory<K, V> cacheFactory = _cacheFactories.get(cacheType);
+        CacheFactory cacheFactory = _cacheFactories.get(cacheType);
         if (cacheFactory == null) {
             LOG.error("Unknown cache type '" + cacheType + "'");
             throw new CacheAcquireException("Unknown cache type '" + cacheType + "'");
         }
         
-        Cache<K, V> cache = cacheFactory.getCache(classLoader);
+        Cache cache = cacheFactory.getCache(classLoader);
         
         String prop = props.getProperty(Cache.PARAM_DEBUG, Cache.DEFAULT_DEBUG);
         boolean objectDebug = Boolean.valueOf(prop).booleanValue();
@@ -110,7 +105,7 @@ public final class CacheFactoryRegistry<K, V> {
                 Class<?> cls = loader.loadClass(PROXY_CLASSNAME);
                 Class<?>[] types = new Class[] {Cache.class};
                 Object[] params = new Object[] {cache};
-                cache = (Cache<K, V>) cls.getConstructor(types).newInstance(params);
+                cache = (Cache) cls.getConstructor(types).newInstance(params);
             } catch (Exception e) {
                 String msg = "Error creating instance of: " + PROXY_CLASSNAME;
                 LOG.error(msg, e);
@@ -133,7 +128,7 @@ public final class CacheFactoryRegistry<K, V> {
      * 
      * @return Collection of the current configured cache factories.
      */
-    public Collection<CacheFactory<K, V>> getCacheFactories() {
+    public Collection<CacheFactory> getCacheFactories() {
         return Collections.unmodifiableCollection(_cacheFactories.values());
     }
     

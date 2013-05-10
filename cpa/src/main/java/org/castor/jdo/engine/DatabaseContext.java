@@ -46,7 +46,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @since 0.9.9
  */
 public final class DatabaseContext {
@@ -79,9 +79,6 @@ public final class DatabaseContext {
     /** The LockEngine only available after initialization. */
     private LockEngine          _engine = null;
 
-    /** PersistenceFactory needed to initialize ConnectionFactory. */
-    private PersistenceFactory _persistenceFactory = null;
-
     /**
      * A {@link ClassDescriptorResolver} instance to be used for class to 
      * class descriptor resolution.
@@ -112,10 +109,6 @@ public final class DatabaseContext {
         _txManager = txManager;
         
         _factory = factory;
-
-        if (_classDescriptorResolver == null) {
-            _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
-        }
 
         initializeEngine(engine);
         _initialized = true;
@@ -150,10 +143,6 @@ public final class DatabaseContext {
         // If the factory was already initialized, ignore
         // this request to initialize it.
         if (!_initialized) {
-            if (_classDescriptorResolver == null) {
-                _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
-            }
-
             initializeMapping();
             
             JDOConfAdapter adapt = new JDOConfAdapter(_jdoConf);
@@ -184,24 +173,6 @@ public final class DatabaseContext {
      */
     private void initializeMapping() throws MappingException {
         try {
-            // Initialize all the class mappings of the database.
-            Enumeration<? extends org.castor.jdo.conf.ClassMapping> classMappings =
-                _jdoConf.getDatabase(_index).enumerateClassMapping();
-            while (classMappings.hasMoreElements()) {
-                org.castor.jdo.conf.ClassMapping classConf = classMappings.nextElement();
-                String className = classConf.getName();
-                _classDescriptorResolver.addClass(Class.forName(className));
-            }
-            
-            // Initialize all the package mappings of the database.
-            Enumeration<? extends org.castor.jdo.conf.PackageMapping> packageMappings =
-                _jdoConf.getDatabase(_index).enumeratePackageMapping();
-            while (packageMappings.hasMoreElements()) {
-                org.castor.jdo.conf.PackageMapping packageConf = packageMappings.nextElement();
-                String packageName = packageConf.getName();
-                _classDescriptorResolver.addPackage(packageName);
-            }
-            
             // Initialize all the mappings of the database.
             Enumeration<? extends org.castor.jdo.conf.Mapping> mappings =
                 _jdoConf.getDatabase(_index).enumerateMapping();
@@ -231,13 +202,14 @@ public final class DatabaseContext {
     private void initializeEngine(final String engine) throws MappingException {
         // Complain if no database engine was specified, otherwise get
         // a persistence factory for that database engine.
+        PersistenceFactory factory;
         if (engine == null) {
-            _persistenceFactory = PersistenceFactoryRegistry.getPersistenceFactory(GENERIC_ENGINE);
+            factory = PersistenceFactoryRegistry.getPersistenceFactory(GENERIC_ENGINE);
         } else {
-            _persistenceFactory = PersistenceFactoryRegistry.getPersistenceFactory(engine);
+            factory = PersistenceFactoryRegistry.getPersistenceFactory(engine);
         }
         
-        if (_persistenceFactory == null) {
+        if (factory == null) {
             String msg = Messages.format("jdo.noSuchEngine", engine);
             LOG.error(msg);
             throw new MappingException(msg);
@@ -245,21 +217,19 @@ public final class DatabaseContext {
         
         MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
         MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(
-                _mapping, BindingType.JDO, _persistenceFactory);
+                _mapping, BindingType.JDO, factory);
         
+        if (_classDescriptorResolver == null) {
+            _classDescriptorResolver = new JDOClassDescriptorResolverImpl(); 
+        }
         _classDescriptorResolver.setMappingLoader(mappingLoader);
         
         _engine = new PersistenceEngineFactory().createEngine(
-                this, _classDescriptorResolver, _persistenceFactory);
+                this, _classDescriptorResolver, factory);
     }
-
-    /**
-     * Method initializing ConnectionFactory.
-     * 
-     * @throws MappingException If concrete factory could not be initialized.
-     */
+    
     public void initializeFactory() throws MappingException {
-        _factory.initializeFactory(_persistenceFactory);
+        _factory.initializeFactory();
     }
 
     public ConnectionFactory getConnectionFactory() {

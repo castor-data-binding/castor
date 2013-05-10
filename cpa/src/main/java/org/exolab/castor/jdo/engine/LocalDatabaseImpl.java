@@ -36,7 +36,7 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class LocalDatabaseImpl extends AbstractDatabaseImpl {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
@@ -200,7 +200,7 @@ public class LocalDatabaseImpl extends AbstractDatabaseImpl {
             String message = Messages.message("jdo.dbTxNotInProgress.jdbc");
             throw new PersistenceException (message);
         }
-        return _ctx.getConnection(_scope.getLockEngine()).getConnection();
+        return _ctx.getConnection(_scope.getLockEngine());
     }
 }  
                                 

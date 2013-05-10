@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Werner Guttmann, Lukas Lang
+ * Copyright 2008 Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,10 @@ import org.exolab.castor.mapping.ClassDescriptor;
 /**
  * Command resolves {@link ClassDescriptor}s. Commands are capable to 
  * have Natures to provide resource dependencies. 
- * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
- * @author <a href="mailto:lukas DOT lang AT inode DOT at">Lukas Lang</a>
- * @version $Revision$ $Date$
+ * @author Lukas Lang
  *
  */
 public interface ClassDescriptorResolutionCommand extends PropertyHolder {
-    //-----------------------------------------------------------------------------------
 
     /**
      * Resolves a {@link ClassDescriptor}..
@@ -46,5 +43,4 @@ public interface ClassDescriptorResolutionCommand extends PropertyHolder {
      */
     void setClassDescriptorResolver(JDOClassDescriptorResolver classDescriptorResolver);
 
-    //-----------------------------------------------------------------------------------
 }

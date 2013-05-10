@@ -67,22 +67,29 @@ import org.exolab.castor.mapping.MappingLoader;
  * @version $Revision$ $Date: 2005-02-28 17:41:38 -0700 (Mon, 28 Feb 2005) $
  */
 public interface ClassDescriptorResolver {
+    
+    
     /** 
+     * <BR />
      * <B>Note:</B> This method will be removed soon (kv).
      */
-    MappingLoader getMappingLoader();
+    public MappingLoader getMappingLoader();
     
     /**
-     * Returns the ClassDescriptor for the given class.
+     * Returns the ClassDescriptor for the given class
      * 
      * @param type the Class to find the ClassDescriptor for
      * @return the ClassDescriptor for the given class
      */
-    ClassDescriptor resolve(Class<?> type) throws ResolverException;
+    public ClassDescriptor resolve(Class type)
+        throws ResolverException;
     
     /**
-     * Sets the mapping loader for this ClassDescriptorResolver.
+     * Sets the mapping loader for this ClassDescriptorResolver
+     *
+     * <BR />
      * <B>Note:</B> This method will be removed soon (kv).
      */
-    void setMappingLoader(MappingLoader mappingLoader);
-}
+    public void setMappingLoader(MappingLoader mappingLoader);
+    
+} //-- ClassDescriptorResolver

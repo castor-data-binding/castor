@@ -29,14 +29,13 @@ import org.exolab.castor.jdo.QueryResults;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision:6817 $ $Date$
+ * @version $Revision:6817 $ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
  */
 public final class TestRemove extends TestCase {
     private static final String JDO_CONF_FILE = "uni-jdo-conf.xml";
     private static final String DATABASE_NAME = "rel1toN_uni";
     
     private static final Log LOG = LogFactory.getLog(TestRemove.class);
-    private static boolean _logHeader = false;
     
     private JDOManager _jdo = null;
 
@@ -67,15 +66,7 @@ public final class TestRemove extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-
-        if (!_logHeader) {
-            LOG.info("");
-            LOG.info("");
-            LOG.info("TestRemove (" + (int) (10000 * TestCreate.FACTOR) + ")");
-            LOG.info("");
-            _logHeader = true;
-        }
-
+        
         _jdo = JDOManager.createInstance(DATABASE_NAME);
     }
     

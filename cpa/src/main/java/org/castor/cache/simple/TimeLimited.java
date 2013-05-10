@@ -18,13 +18,11 @@ package org.castor.cache.simple;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,16 +37,13 @@ import org.castor.cache.CacheAcquireException;
  * cache property <b>ttl</b> which defines the timeout of every object in the cache in
  * seconds. If not specified a timeout of 30 seconds will be used.
  *
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- *
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a> 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
+public class TimeLimited extends AbstractBaseCache {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -77,7 +72,7 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     private static final TickThread TIMER = new TickThread(DEFAULT_PRECISION);
     
     /** Container for cached objects. */
-    private final ConcurrentHashMap<K, QueueItem> _map = new ConcurrentHashMap<K, QueueItem>();
+    private Hashtable<Object, QueueItem> _map = new Hashtable<Object, QueueItem>();
 
     /** Real ttl of this cache. */
     private int _ttl = DEFAULT_TTL;
@@ -99,8 +94,10 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
             _ttl = DEFAULT_TTL;
         }
 
-        _map.clear();
-        
+        if (TIMER._list.contains(this)) {
+            TIMER._list.remove(this);
+            _map.clear();
+        }
         TIMER.addTickerTask(this);
     }
 
@@ -125,25 +122,27 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final int size() { return _map.size(); }
+    public final synchronized int size() { return _map.size(); }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean isEmpty() { return _map.isEmpty(); }
+    public final synchronized boolean isEmpty() { return _map.isEmpty(); }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean containsKey(final Object key) {
+    public final synchronized boolean containsKey(final Object key) {
         return _map.containsKey(key);
     }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean containsValue(final Object value) {
-        for (QueueItem item : _map.values()) {
+    public final synchronized boolean containsValue(final Object value) {
+        Iterator<QueueItem> iter = _map.values().iterator();
+        while (iter.hasNext()) {
+            QueueItem item = iter.next();
             if (value == null) {
                 if (item._value == null) { return true; }  
             } else {
@@ -156,7 +155,7 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final V get(final Object key) {
+    public final synchronized Object get(final Object key) {
         QueueItem item = _map.get(key);
         return (item == null) ? null : item._value;
     }
@@ -167,15 +166,19 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final V put(final K key, final V value) {
-        QueueItem item = _map.putIfAbsent(key, new QueueItem(key, value, _ttl));
-        return (item == null) ? null : item.update(value, _ttl);
+    public final synchronized Object put(final Object key, final Object value) {
+        QueueItem item = _map.get(key);
+        if (item != null) {
+            return item.update(value, _ttl);
+        }
+        _map.put(key, new QueueItem(key, value, _ttl));
+        return null;
     }
     
     /**
      * {@inheritDoc}
      */
-    public V remove(final Object key) {
+    public synchronized Object remove(final Object key) {
         QueueItem item = _map.remove(key);
         return (item == null) ? null : item._value;
     }
@@ -186,8 +189,11 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final void putAll(final Map<? extends K, ? extends V> map) {
-        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+    public final void putAll(final Map<? extends Object, ? extends Object> map) {
+        Iterator<? extends Entry<? extends Object, ? extends Object>> iter;
+        iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<? extends Object, ? extends Object> entry = iter.next();
             put(entry.getKey(), entry.getValue());
         }
     }
@@ -195,7 +201,7 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final void clear() { _map.clear(); }
+    public final synchronized void clear() { _map.clear(); }
 
     //--------------------------------------------------------------------------
     // view operations of map interface
@@ -203,16 +209,18 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final Set<K> keySet() {
+    public final synchronized Set<Object> keySet() {
         return Collections.unmodifiableSet(_map.keySet());
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Collection<V> values() {
-        Collection<V> col = new ArrayList<V>();
-        for (QueueItem item : _map.values()) {
+    public final synchronized Collection<Object> values() {
+        Collection<Object> col = new ArrayList<Object>(_map.size());
+        Iterator<QueueItem> iter = _map.values().iterator();
+        while (iter.hasNext()) {
+            QueueItem item = iter.next();
             col.add(item._value);
         }
         return Collections.unmodifiableCollection(col);
@@ -221,10 +229,13 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * {@inheritDoc}
      */
-    public final Set<Entry<K, V>> entrySet() {
-        Map<K, V> map = new HashMap<K, V>();
-        for (QueueItem item : _map.values()) {
-            map.put(item._key, item._value);
+    public final synchronized Set<Entry<Object, Object>> entrySet() {
+        Map<Object, Object> map = new Hashtable<Object, Object>(_map.size());
+        Iterator<Entry<Object, QueueItem>> iter = _map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<Object, QueueItem> entry = iter.next();
+            QueueItem item = entry.getValue();
+            map.put(entry.getKey(), item._value);
         }
         return Collections.unmodifiableSet(map.entrySet());
     }
@@ -236,13 +247,13 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
      */
     private final class QueueItem {
         /** The key. */
-        private final K _key;
+        private Object _key;
         
         /** The value. */
-        private volatile V _value;
+        private Object _value;
         
         /** The time to life (ttl). */
-        private final AtomicInteger _time;
+        private int _time;
 
         /**
          * Construct a new QueueItem with given value and time.
@@ -251,10 +262,10 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
          * @param value The value.
          * @param time The time to life (ttl).
          */
-        private QueueItem(final K key, final V value, final int time) {
+        private QueueItem(final Object key, final Object value, final int time) {
             _key = key;
             _value = value;
-            _time = new AtomicInteger(time);
+            _time = time;
         }
         
         /**
@@ -264,10 +275,10 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
          * @param time The new time to life (ttl).
          * @return The previouly hold value.
          */
-        private V update(final V value, final int time) {
-            V oldValue = _value;
+        private Object update(final Object value, final int time) {
+            Object oldValue = _value;
             _value = value;
-            _time.set(time);
+            _time = time;
             return oldValue;
         }
     }
@@ -275,13 +286,12 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
     /**
      * TickThread to remove cache entries whose ttl has been elapsed.
      */
-    @SuppressWarnings("rawtypes")
     private static final class TickThread extends Thread {
         /** The list of all registered caches. */
-        private final Set<TimeLimited> _set = new CopyOnWriteArraySet<TimeLimited>();
+        private ArrayList<TimeLimited> _list = new ArrayList<TimeLimited>();
         
         /** The intervall to checked cache for elapsed entries in milliseconds. */
-        private final int _tick;
+        private int _tick;
         
         /**
          * Construct a TickThread to remove cache entries whose ttl has been elapsed.
@@ -305,7 +315,7 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
          * @param cache Cache to be added to cache list.
          */
         void addTickerTask(final TimeLimited cache) {
-            _set.add(cache);
+            _list.add(cache);
         }
         
         /**
@@ -323,8 +333,8 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
                     long diff = System.currentTimeMillis() - last;
                     if (diff < _tick) { sleep(_tick - diff); }
                     last = System.currentTimeMillis();
-                    for (TimeLimited cache : _set) {
-                        cache.tick();
+                    for (int i = 0; i < _list.size(); i++) {
+                        _list.get(i).tick();
                     }
                 }
             } catch (InterruptedException e) {
@@ -337,12 +347,17 @@ public class TimeLimited<K, V> extends AbstractBaseCache<K, V> {
      * Called by TickThread to decrement ttl of all entries of the cache and remove
      * those whose ttl has been expired.
      */
-    private void tick() {
-        for (QueueItem queueItem : _map.values()) {
-            if (queueItem._time.getAndAdd(-TICK_DELAY) <= 0) {
-                K key = queueItem._key;
-                _map.remove(key);
-                if (LOG.isDebugEnabled()) { LOG.trace("dispose(" + key + ")"); }
+    private synchronized void tick() {
+        if (!_map.isEmpty()) {
+            for (Iterator<QueueItem> iter = _map.values().iterator(); iter.hasNext(); ) {
+                QueueItem queueItem = iter.next();
+                Object key = queueItem._key;
+                if (queueItem._time <= 0) {
+                    iter.remove();
+                    if (LOG.isDebugEnabled()) { LOG.trace("dispose(" + key + ")"); }
+                } else {
+                    queueItem._time -= TICK_DELAY;
+                }
             }
         }
     }

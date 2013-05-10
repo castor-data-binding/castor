@@ -18,18 +18,18 @@ package org.exolab.castor.xml.util.resolvers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
-import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.xml.ResolverException;
+import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLConstants;
 
 /**
@@ -60,7 +60,7 @@ import org.exolab.castor.xml.XMLConstants;
 public class ByPackageMapping extends AbstractResolverPackageCommand {
 	private static final Log LOG = LogFactory.getLog(ByPackageMapping.class);
     
-    private List<String> _loadedPackages = new ArrayList<String>();
+    private ArrayList _loadedPackages = new ArrayList();
 
     /**
      * No specific stuff needed.
@@ -95,10 +95,10 @@ public class ByPackageMapping extends AbstractResolverPackageCommand {
     /**
      * {@inheritDoc}
      */
-    protected Map<String, ClassDescriptor> internalResolve(final String packageName, final ClassLoader classLoader,
+    protected Map internalResolve(final String packageName, final ClassLoader classLoader,
             final Map properties) throws ResolverException {
         
-        Map<String, ClassDescriptor> results = new HashMap<String, ClassDescriptor>();
+        HashMap results = new HashMap();
         if (!isEmptyPackageName(packageName) && _loadedPackages.contains(packageName)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Package: " + packageName + " has already been loaded.");
@@ -106,20 +106,20 @@ public class ByPackageMapping extends AbstractResolverPackageCommand {
             return results;
         }
         
-        if (!isEmptyPackageName(packageName)) {
-            _loadedPackages.add(packageName);
-        }
+        if (!isEmptyPackageName(packageName)) _loadedPackages.add(packageName);
         try {
             final Mapping mapping = this.loadMapping(packageName, classLoader);
             if (mapping != null) {
                 MappingUnmarshaller unmarshaller = new MappingUnmarshaller();
                 // TODO: Joachim 2007-09-07 the InternalContext should be set into the unmarshaller!
                 MappingLoader mappingLoader = unmarshaller.getMappingLoader(mapping, BindingType.XML);
-                for (ClassDescriptor classDescriptor : mappingLoader.getDescriptors()) {
+                Iterator descriptors = mappingLoader.descriptorIterator();
+                while (descriptors.hasNext()) {
+                    XMLClassDescriptor descriptor = (XMLClassDescriptor) descriptors.next();
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found descriptor: " + classDescriptor);
+                        LOG.debug("Found descriptor: " + descriptor);
                     }
-                    results.put(classDescriptor.getJavaClass().getName(), classDescriptor);
+                    results.put(descriptor.getJavaClass().getName(), descriptor);
                 }
             }
         } catch (MappingException e) {

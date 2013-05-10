@@ -19,7 +19,6 @@ package org.castor.persist.resolver;
 
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.FieldMolder;
-import org.exolab.castor.persist.FieldPersistenceType;
 
 /**
  * Factory class for instantiating ResolverStragegy instances.
@@ -40,32 +39,35 @@ public final class ResolverFactory {
      * 
      * @param fieldMolder The associated {@link FieldMolder}
      * @param classMolder The associated {@link ClassMolder}
+     * @param debug ???
      * @return The corresponding ResolverStratgey instance
      */
     public static ResolverStrategy createRelationResolver (final FieldMolder fieldMolder, 
-            final ClassMolder classMolder, final int fieldIndex) {
+            final ClassMolder classMolder, final int fieldIndex, final boolean debug) {
         
         ResolverStrategy relationResolver = null;
         
-        FieldPersistenceType fieldType = fieldMolder.getFieldPertsistenceType();
+        int fieldType = fieldMolder.getFieldType();
         switch (fieldType) {
-        case PRIMITIVE:
-            relationResolver = new PrimitiveResolver(classMolder, fieldMolder, fieldIndex);
+        case FieldMolder.PRIMITIVE:
+            relationResolver = new PrimitiveResolver (classMolder, fieldMolder, fieldIndex, debug);
             break;
-        case SERIALIZABLE:
-            relationResolver = new SerializableResolver(classMolder, fieldMolder, fieldIndex);
+        case FieldMolder.SERIALIZABLE:
+            relationResolver = new SerializableResolver(
+                    classMolder, fieldMolder, fieldIndex, debug);
             break;
-        case PERSISTANCECAPABLE:
+        case FieldMolder.PERSISTANCECAPABLE:
             relationResolver = 
-                new PersistanceCapableRelationResolver(classMolder, fieldMolder, fieldIndex);
+                new PersistanceCapableRelationResolver(
+                        classMolder, fieldMolder, fieldIndex, debug);
             break;
-        case ONE_TO_MANY:
+        case FieldMolder.ONE_TO_MANY:
             relationResolver = 
-                new OneToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
+                new OneToManyRelationResolver (classMolder, fieldMolder, fieldIndex, debug);
             break;
-        case MANY_TO_MANY:
+        case FieldMolder.MANY_TO_MANY:
             relationResolver = 
-                new ManyToManyRelationResolver(classMolder, fieldMolder, fieldIndex);
+                new ManyToManyRelationResolver (classMolder, fieldMolder, fieldIndex, debug);
             break;
         default:
 //            throw new PersistenceException ("Invalid field type '" 

@@ -107,7 +107,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class JDOMappingLoader extends AbstractMappingLoader {
 
@@ -262,8 +262,11 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         clsDesc.addNature(ClassDescriptorJDONature.class.getName());
         ClassDescriptorJDONature jdoNature = new ClassDescriptorJDONature(clsDesc);
         
+        // Set reference to class mapping on class descriptor.
+        clsDesc.setMapping(classMapping);
+        
         // Obtain the Java class.
-        Class<?> javaClass = resolveType(classMapping.getName());
+        Class javaClass = resolveType(classMapping.getName());
         if (!Types.isConstructable(javaClass, true)) {
             throw new MappingException(
                     "mapping.classNotConstructable", javaClass.getName());
@@ -283,7 +286,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         clsDesc.setExtends(extDesc);
         
-        // If this class depends on another class, obtain the class it depends upon.
+        // If this class depends on another class, obtain the depended class.
         clsDesc.setDepends(getDepended(classMapping, javaClass));
         
         // Create all field descriptors.
@@ -588,12 +591,16 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
 
     protected TypeInfo getTypeInfo(final Class fieldType, final CollectionHandler colHandler,
             final FieldMapping fieldMap) throws MappingException {
-        Class internalFieldType = Types.typeFromPrimitive(fieldType);
-        String typeName = null;
-        Class sqlType = null;
-        String sqlParam = null;
+        Class internalFieldType = fieldType;
+        TypeConvertor convertorTo = null;
+        TypeConvertor convertorFrom = null;
+        String        typeName = null;
+        Class         sqlType = null;
+        String        sqlParam = null;
 
+        internalFieldType = Types.typeFromPrimitive(internalFieldType);
         String[] sqlTypes = getSqlTypes(fieldMap);
+
         if ((fieldMap.getSql() != null) && (sqlTypes.length > 0)) {
             //--TO Check
             typeName = sqlTypes[0];
@@ -602,14 +609,9 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         } else {
             sqlType = internalFieldType;
         }
-        
         if (_factory != null) {
             sqlType = _factory.adjustSqlType(sqlType);
         }
-        
-        TypeConvertor convertorTo = null;
-        TypeConvertor convertorFrom = null;
-
         if (internalFieldType != sqlType) {
             try {
                 convertorTo = _typeConvertorRegistry.getConvertor(
@@ -628,10 +630,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                     } catch (NoSuchMethodException nsmx) {
                         //-- Do nothing
                     }
-                    
-                    if (cons == null) {
-                        //-- make sure a valueOf factory method exists
-                        try {
+                    try {
+                        if (cons == null) {
+                            //-- make sure a valueOf factory method
+                            //-- exists and no user specified handler exists
                             Method method = internalFieldType.getMethod(VALUE_OF, STRING_ARG);
                             Class returnType = method.getReturnType();
                             if ((returnType != null)
@@ -639,7 +641,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                 int mods = method.getModifiers();
                                 if (Modifier.isStatic(mods)) {
                                     // create individual SQLTypeConverter
-                                    convertorTo = new String2EnumTypeConvertor(
+                                    convertorTo = new EnumTypeConvertor(
                                             sqlType, internalFieldType, method);
 
                                     Types.addEnumType(internalFieldType);
@@ -647,49 +649,31 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                                     isTypeSafeEnum = true;
                                 }
                             }
-                        } catch (NoSuchMethodException nsmx) {
-                            //-- Do nothing
                         }
-                    }
-                    
-                    if (isTypeSafeEnum) {
-                    	//-- check if name() method should be used instead of toString()
-                        try {
-                            Method method = internalFieldType.getMethod(NAME);
-                            if (String.class == method.getReturnType()) {
-                                convertorFrom = new Enum2StringTypeConvertor(
-                                		internalFieldType, sqlType, method);
-                            }
-                        } catch (NoSuchMethodException nsmx) {
-                            //-- Do nothing
-                        }
+                    } catch (NoSuchMethodException nsmx) {
+                        //-- Do nothing
                     }
                 }
-                
                 if (!isTypeSafeEnum) {
-                    throw new MappingException("mapping.noConvertor",
-                    		sqlType.getName(), internalFieldType.getName());
+                    throw new MappingException("mapping.noConvertor", sqlType.getName(),
+                            internalFieldType.getName());
                 }
             }
-            
-            if (convertorFrom == null) {
-                convertorFrom = _typeConvertorRegistry.getConvertor(
-                        internalFieldType, sqlType, sqlParam);
-            }
+            convertorFrom = _typeConvertorRegistry.getConvertor(
+                    internalFieldType, sqlType, sqlParam);
             
             if ((convertorTo != null) && (convertorFrom != null)) {
                 Types.addConvertibleType(internalFieldType);
             }
         }
-        
         return new TypeInfo(internalFieldType, convertorTo, convertorFrom,
                             fieldMap.getRequired(), null, colHandler);
     }
     
-    private class String2EnumTypeConvertor extends AbstractSimpleTypeConvertor {
+    private class EnumTypeConvertor extends AbstractSimpleTypeConvertor {
         private final Method _method;
 
-        public String2EnumTypeConvertor(final Class<?> fromType,
+        public EnumTypeConvertor(final Class<?> fromType,
                 final Class<?> toType, final Method method) {
             super(fromType, toType);
 
@@ -708,27 +692,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
     }
 
-    private class Enum2StringTypeConvertor extends AbstractSimpleTypeConvertor {
-        private final Method _method;
-
-        public Enum2StringTypeConvertor(final Class<?> fromType,
-                final Class<?> toType, final Method method) {
-            super(fromType, toType);
-
-            _method = method;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public Object convert(final Object object) {
-            try {
-                return _method.invoke(object);
-            } catch (Exception ex) {
-                return null;
-            }
-        }
-    }
 
     protected FieldDescriptorImpl createFieldDesc(final Class javaClass,
             final FieldMapping fieldMap) throws MappingException {
@@ -751,18 +714,17 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // If the field is declared as a collection, grab the collection type as
         // well and use it to locate the field/accessor.
         CollectionHandler colHandler = null;
-        boolean isLazy = fieldMap.getLazy();
         if (fieldMap.getCollection() != null) {
             Class colType = CollectionHandlers.getCollectionType(
                     fieldMap.getCollection().toString());
             colHandler = CollectionHandlers.getHandler(colType);
             
-            if (colType.getName().equals("java.util.Iterator") && isLazy) {
+            if (colType.getName().equals("java.util.Iterator") && fieldMap.getLazy()) {
                 String err = "Lazy loading not supported for collection type 'iterator'";
                 throw new MappingException(err);
             }
 
-            if (colType.getName().equals("java.util.Enumeration") && isLazy) {
+            if (colType.getName().equals("java.util.Enumeration") && fieldMap.getLazy()) {
                 String err = "Lazy loading not supported for collection type 'enumerate'";
                 throw new MappingException(err);
             }
@@ -873,23 +835,10 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             ((FieldHandlerFriend) exfHandler).setFieldDescriptor(fieldDescriptor);
         }
 
-        // if SQL mapping declares transient
-        // TODO: cross-check that this should be implemented like this
+        // if SQL mapping declares transient 
         if (sql.getTransient()) {
             fieldDescriptor.setTransient(true);
         }
-        
-        // set collection type as specified in mapping file
-        fieldDescriptor.setCollection(fieldMap.getCollection());
-        
-        fieldDescriptor.setComparator(fieldMap.getComparator());
-        fieldDescriptor.setCreateMethod(fieldMap.getCreateMethod());
-        fieldDescriptor.setGetMethod(fieldMap.getGetMethod());
-        fieldDescriptor.setSetMethod(fieldMap.getSetMethod());
-        fieldDescriptor.setDirect(fieldMap.getDirect());
-        
-        // extract values for 'laziness' from field mapping
-        fieldDescriptor.setLazy(isLazy);
         
         FieldDescriptorJDONature fieldJdoNature = 
             new FieldDescriptorJDONature(fieldDescriptor);
@@ -905,9 +854,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
         fieldJdoNature.setDirtyCheck(!SqlDirtyType.IGNORE.equals(sql.getDirty()));
         fieldJdoNature.setReadOnly(sql.getReadOnly());
-        
-        fieldJdoNature.setCascading(sql.getCascading());
-        fieldJdoNature.setTransient(sql.getTransient());
         
         return fieldDescriptor;
     }

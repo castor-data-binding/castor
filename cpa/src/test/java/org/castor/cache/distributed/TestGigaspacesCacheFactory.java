@@ -27,7 +27,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 5951 $ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestGigaspacesCacheFactory extends TestCase {
@@ -48,25 +48,25 @@ public final class TestGigaspacesCacheFactory extends TestCase {
     public TestGigaspacesCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
+        CacheFactory cf = new GigaspacesCacheFactory();
         assertTrue(cf instanceof GigaspacesCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
+        CacheFactory cf = new GigaspacesCacheFactory();
         assertEquals("gigaspaces", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
+        CacheFactory cf = new GigaspacesCacheFactory();
         String classname = "org.castor.cache.distributed.GigaspacesCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
+        CacheFactory cf = new GigaspacesCacheFactory();
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof GigaspacesCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of GigaspacesCache from factroy");
@@ -77,12 +77,7 @@ public final class TestGigaspacesCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(GigaspacesCacheFactory.class);
         Level level = logger.getLevel();
         
-        GigaspacesCacheFactory<String, String> cf = new GigaspacesCacheFactory<String, String>();
-        try {
-            cf.getCache(null);
-        } catch (CacheAcquireException ex) {
-            fail("Failed to get instance of GigaspacesCache from factroy");
-        }
+        GigaspacesCacheFactory cf = new GigaspacesCacheFactory();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }

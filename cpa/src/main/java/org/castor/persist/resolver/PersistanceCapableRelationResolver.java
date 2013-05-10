@@ -25,6 +25,7 @@ import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
 import org.castor.persist.proxy.LazyCGLIB;
 import org.castor.persist.proxy.SingleProxy;
+import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
@@ -40,20 +41,41 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-public final class PersistanceCapableRelationResolver extends BaseRelationResolver {
+public final class PersistanceCapableRelationResolver implements ResolverStrategy {
 
-    private final int _fieldIndex;
+    /**
+     * Class molder of the enclosing class.
+     */
+    private ClassMolder _classMolder;
+
+    /**
+     * Field molder for the field to be resolved.
+     */
+    private FieldMolder _fieldMolder;
+    
+    private int _fieldIndex;
    
+    /**
+     * Indicates whether debug mode is active.
+     */
+    //TODO [WG]: Investigate about its use ....
+    private boolean _debug;
+    
     /**
      * Creates an instance of this resolver class.
      * @param classMolder Enclosing class molder.
      * @param fieldMolder Field Molder
      * @param fieldIndex Field index within all fields of parent class molder.
+     * @param debug True if debug mode is on.
      */
-    public PersistanceCapableRelationResolver(final ClassMolder classMolder,
-            final FieldMolder fieldMolder, final int fieldIndex) {
-        super(classMolder, fieldMolder);
+    public PersistanceCapableRelationResolver (final ClassMolder classMolder,
+            final FieldMolder fieldMolder, 
+            final int fieldIndex,
+            final boolean debug) {
+        _classMolder = classMolder;
+        _fieldMolder = fieldMolder;
         _fieldIndex = fieldIndex;
+        _debug = debug;
     }
     
     /**
@@ -106,7 +128,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                                 + " new master: " + oid);
                     }
                 }
-            } else if (isCascadingCreate(tx)) {
+            } else if (tx.isAutoStore()) {
                 if (!tx.isRecorded(o)) {
                     tx.markCreate(fieldClassMolder, o, null);
                     if (!_fieldMolder.isStored() && fieldClassMolder.isKeyGenUsed()) {
@@ -179,6 +201,26 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                 flags.setUpdateCache(true);
                 tx.markCreate(fieldClassMolder, value, oid);
             }
+            
+            //TODO [WG]: can anybody please explain to me the meaning of the next two lines.
+            if (!_debug) { return flags; }
+            if (curIdentity == null) { return flags; } // do the next field if both are null
+
+            if ((value != null) && tx.isDeleted(value)) {
+                LOG.warn ("Deleted object found!");
+                if (_fieldMolder.isStored() && _fieldMolder.isCheckDirty()) {
+                    flags.setUpdatePersist(true);
+                }
+                flags.setUpdateCache(true);
+                _fieldMolder.setValue(object, null, tx.getClassLoader());
+                return flags;
+            }
+
+            if (tx.isAutoStore() || _fieldMolder.isDependent()) {
+                if (value != tx.fetch(fieldClassMolder, curIdentity, null)) {
+                    throw new DuplicateIdentityException("");
+                }
+            }
         } else {
             if (_fieldMolder.isStored() /* && _fieldMolder.isCheckDirty() */) {
                 flags.setUpdatePersist(true);
@@ -197,7 +239,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                     tx.markCreate(fieldClassMolder, value, oid);
                 }
 
-            } else if (isCascadingCreate(tx)) {
+            } else if (tx.isAutoStore()) {
                 if (curIdentity != null) {
                     Object deref = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (deref != null) {
@@ -223,8 +265,8 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                     Identity fieldValue = fieldClassMolder.getActualIdentity(tx, value);
                     if (fieldValue != null) {
                         ProposedEntity temp = new ProposedEntity(fieldClassMolder);
-                        Object tempValue = tx.load(fieldValue, temp, null);
-                        _fieldMolder.setValue(object, tempValue, tx.getClassLoader());
+                        tx.load(fieldValue, temp, null);
+                        _fieldMolder.setValue(object, temp.getEntity(), tx.getClassLoader());
                     } else {
                         throw new PersistenceException(
                             "Object, " + object + ", links to another object, " + value
@@ -278,7 +320,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                 ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
                 tx.load(nfield, proposedValue, suggestedAccessMode);
             }
-        } else if (isCascadingUpdate(tx)) {
+        } else if (tx.isAutoStore()) {
             if ((o != null) && !tx.isRecorded(o)) {
                 tx.markUpdate(fieldClassMolder, o, null);
             }
@@ -325,8 +367,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
         if (identity != null) {
             Object fetched = tx.fetch(fieldClassMolder, identity, null);
             if (fetched != null) {
-            	//TODO: changed by ASE team to implement cascading delete... please verify!
-                if (_fieldMolder.isDependent() || isCascadingDelete()) {
+                if (_fieldMolder.isDependent()) {
                     tx.delete(fetched);
                 } else {
                     // delete the object from the other side of the relation
@@ -335,8 +376,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
             }
         }
         
-        //TODO: changes done by ASE team... please verify
-        if (_fieldMolder.isDependent() || isCascadingDelete()) {
+        if (_fieldMolder.isDependent()) {
             Object fobject = _fieldMolder.getValue(object, tx.getClassLoader());
             if ((fobject != null) && tx.isPersistent(fobject)) {
                 tx.delete(fobject);
@@ -487,7 +527,7 @@ public final class PersistanceCapableRelationResolver extends BaseRelationResolv
                 //    throw new PersistenceException(
                 //            "Dependent object may not change its master. Object: " + o
                 //            + " new master: " + oid);
-            } else if (isCascadingUpdate(tx)) {
+            } else if (tx.isAutoStore()) {
                 if (!tx.isRecorded(o)) {
                     // related object should be created right the way, if autoStore
                     // is enabled, to obtain a database lock on the row. If both side

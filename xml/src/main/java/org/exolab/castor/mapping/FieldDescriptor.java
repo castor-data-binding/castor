@@ -26,6 +26,7 @@ import org.castor.core.nature.PropertyHolder;
  * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 public interface FieldDescriptor extends PropertyHolder {
+    //--------------------------------------------------------------------------
 
     /**
      * Set the class descriptor which contains this field.
@@ -102,5 +103,6 @@ public interface FieldDescriptor extends PropertyHolder {
      */
     boolean isMultivalued();
 
+    //--------------------------------------------------------------------------
 }
 

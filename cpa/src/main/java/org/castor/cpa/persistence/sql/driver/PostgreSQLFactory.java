@@ -46,8 +46,6 @@ package org.castor.cpa.persistence.sql.driver;
 
 import java.sql.Types;
 
-import org.castor.cpa.persistence.sql.query.Visitor;
-import org.castor.cpa.persistence.sql.query.visitor.PostgreSQLQueryVisitor;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -55,7 +53,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for postgreSQL JDBC driver.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class PostgreSQLFactory extends GenericFactory {
     //-----------------------------------------------------------------------------------
@@ -70,13 +68,6 @@ public final class PostgreSQLFactory extends GenericFactory {
         return FACTORY_NAME;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public Visitor createQueryVisitor() {
-        return new PostgreSQLQueryVisitor();
-    }
-    
     /**
      * @inheritDoc
      */

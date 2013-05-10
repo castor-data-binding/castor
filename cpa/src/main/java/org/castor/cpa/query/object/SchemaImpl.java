@@ -22,7 +22,7 @@ import org.castor.cpa.query.Schema;
  * 
  * @author <a href="mailto:mailtoud AT gmail DOT com">Udai Gupta</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 7121 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.3
  */
 public final class SchemaImpl extends AbstractField implements Schema  {
@@ -35,25 +35,12 @@ public final class SchemaImpl extends AbstractField implements Schema  {
     private String _typeName;
     
     /** The type represented by the Schema. */
-    private Class<?> _type;
+    private Class _type;
  
     /** The identifier of the schema. */
     private final String _identifier;
     
     //--------------------------------------------------------------------------
-    
-    /**
-     * Construct schema with given identifier.
-     * 
-     * @param identifier The identifier of the schema.
-     */
-    public SchemaImpl(final String identifier) {
-        if (identifier == null) { throw new NullPointerException(); }
-        _abstractName = null;
-        _typeName = null;
-        _type = null;
-        _identifier = identifier;
-    }
     
     /**
      * Construct schema with given abstract schema name and identifier.
@@ -76,7 +63,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * @param type The type represented by the Schema.
      * @param identifier The identifier of the schema.
      */
-    public SchemaImpl(final Class<?> type, final String identifier) {
+    public SchemaImpl(final Class < ? > type, final String identifier) {
         if (identifier == null) { throw new NullPointerException(); }
         _abstractName = null;
         _typeName = type.getName();
@@ -109,7 +96,7 @@ public final class SchemaImpl extends AbstractField implements Schema  {
      * 
      * @return The type represented by the Schema.
      */
-    public Class<?> getType() {
+    public Class getType() {
         return _type;
     }
 

@@ -53,11 +53,11 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.core.util.AbstractProperties;
 import org.castor.core.util.Messages;
 import org.castor.cpa.CPAProperties;
-import org.castor.cpa.persistence.sql.engine.SQLEngine;
 import org.castor.cpa.persistence.sql.keygen.KeyGenerator;
 import org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactory;
 import org.castor.cpa.persistence.sql.keygen.KeyGeneratorFactoryRegistry;
 import org.exolab.castor.jdo.engine.KeyGeneratorDescriptor;
+import org.exolab.castor.jdo.engine.SQLEngine;
 import org.exolab.castor.jdo.engine.nature.ClassDescriptorJDONature;
 import org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature;
 import org.exolab.castor.mapping.ClassDescriptor;
@@ -73,7 +73,7 @@ import org.castor.cpa.persistence.sql.keygen.NoKeyGeneratorFactory;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class BaseFactory implements PersistenceFactory {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta

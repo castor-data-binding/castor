@@ -17,6 +17,7 @@ package org.castor.cache;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -27,11 +28,11 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestDebuggingCacheProxy extends TestCase {
-    private Cache<String, String> _cache;
+    private Cache _cache;
     
     public static Test suite() {
         TestSuite suite = new TestSuite("DebuggingCacheProxy Tests");
@@ -64,13 +65,8 @@ public final class TestDebuggingCacheProxy extends TestCase {
     protected void setUp() throws Exception {
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy cache");
-        
-        CacheMock<String, String> mock = new CacheMock<String, String>();
-        mock.put("first key", "first value");
-        mock.put("second key", "second value");
-        mock.put("third key", "third value");
-        
-        _cache = new DebuggingCacheProxy<String, String>(mock);
+
+        _cache = new DebuggingCacheProxy(new CacheMock());
         _cache.initialize(params);
 
     }
@@ -80,13 +76,8 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
     
     public void testInitialize() {
-        CacheMock<String, String> mock = new CacheMock<String, String>();
-        mock.put("first key", "first value");
-        mock.put("second key", "second value");
-        mock.put("third key", "third value");
+        Cache cache = new DebuggingCacheProxy(new CacheMock());
         
-        Cache<String, String> cache = new DebuggingCacheProxy<String, String>(mock);
-
         assertEquals("", cache.getName());
         assertEquals("dummy type", cache.getType());
         
@@ -209,7 +200,7 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testKeySet() {
-        Set<String> set = _cache.keySet();
+        Set<Object> set = _cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -218,7 +209,7 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testValues() {
-        Collection<String> col = _cache.values();
+        Collection<Object> col = _cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -227,12 +218,13 @@ public final class TestDebuggingCacheProxy extends TestCase {
     }
 
     public void testEntrySet() {
-        Set<Map.Entry<String, String>> set = _cache.entrySet();
+        Set<Map.Entry<Object, Object>> set = _cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<String, String> map = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : set) {
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
+        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
+            Map.Entry<Object, Object> entry = iter.next();
             map.put(entry.getKey(), entry.getValue());
         }
 

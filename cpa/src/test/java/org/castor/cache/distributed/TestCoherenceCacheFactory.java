@@ -27,7 +27,7 @@ import org.castor.cache.CacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestCoherenceCacheFactory extends TestCase {
@@ -48,25 +48,25 @@ public final class TestCoherenceCacheFactory extends TestCase {
     public TestCoherenceCacheFactory(final String name) { super(name); }
 
     public void testConstructor() {
-        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
+        CacheFactory cf = new CoherenceCacheFactory();
         assertTrue(cf instanceof CoherenceCacheFactory);
     }
 
     public void testGetCacheType() {
-        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
+        CacheFactory cf = new CoherenceCacheFactory();
         assertEquals("coherence", cf.getCacheType());
     }
 
     public void testGetCacheClassName() {
-        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
+        CacheFactory cf = new CoherenceCacheFactory();
         String classname = "org.castor.cache.distributed.CoherenceCache";
         assertEquals(classname, cf.getCacheClassName());
     }
 
     public void testGetCache() {
-        CacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
+        CacheFactory cf = new CoherenceCacheFactory();
         try {
-            Cache<String, String> c = cf.getCache(null);
+            Cache c = cf.getCache(null);
             assertTrue(c instanceof CoherenceCache);
         } catch (CacheAcquireException ex) {
             fail("Failed to get instance of CoherenceCache from factroy");
@@ -77,12 +77,7 @@ public final class TestCoherenceCacheFactory extends TestCase {
         Logger logger = Logger.getLogger(CoherenceCacheFactory.class);
         Level level = logger.getLevel();
         
-        CoherenceCacheFactory<String, String> cf = new CoherenceCacheFactory<String, String>();
-        try {
-            cf.getCache(null);
-        } catch (CacheAcquireException ex) {
-            fail("Failed to get instance of CoherenceCache from factroy");
-        }
+        CoherenceCacheFactory cf = new CoherenceCacheFactory();
         int counter = DistributedCacheFactoryMock.getCounter();
         
         if (DISABLE_LOGGING) { logger.setLevel(Level.FATAL); }

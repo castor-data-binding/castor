@@ -67,10 +67,6 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     private boolean _useMaxInclusive  = false;
     /** If true, we perform "maximum exclusive value" validation. */
     private boolean _useMaxExclusive  = false;
-    
-    private boolean _usePositiveInfinity = false;
-    private boolean _useNegativeInfinity = false;
-    
     /** If true, we perform "fixed" validation. */
     private boolean _useFixed            = false;
     /** Minimum value (inclusive) for this double.  (Not used unless _useMinInclusive == true.) */
@@ -83,23 +79,20 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     private double  _maxExclusive        = 0;
     /** Fixed value of this double. (Not used unless _isFixed == true.) */
     private double  _fixed               = 0;
-    
-    private double _positiveInfinity = 0;
-    private double _negativeInfinity = 0;
 
     /**
      * Creates a new DoubleValidator with no restrictions.
      */
     public DoubleValidator() {
         super();
-    }
+    } // -- doubleValidator
 
     /**
      * Clears the fixed value for this DoubleValidator.
      */
     public void clearFixed() {
         _useFixed = false;
-    }
+    } // -- clearFixed
 
     /**
      * Clears the maximum value for this DoubleValidator.
@@ -107,7 +100,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void clearMax() {
         _useMaxExclusive = false;
         _useMaxInclusive = false;
-    }
+    } // -- clearMax
 
     /**
      * Clears the minimum value for this DoubleValidator.
@@ -115,15 +108,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void clearMin() {
         _useMinExclusive = false;
         _useMinInclusive = false;
-    }
-    
-    public void clearPositiveInfinity() {
-       _usePositiveInfinity = false;
-    }
-
-    public void clearNegativeInfinity() {
-       _useNegativeInfinity = false;
-    }
+    } // -- clearMin
 
     /**
      * Returns the configured fixed value for double validation. Returns null if
@@ -136,7 +121,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             return new Double(_fixed);
         }
         return null;
-    }
+    } // -- getFixed
 
     /**
      * Returns the configured inclusive maximum value for double validation.
@@ -149,7 +134,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             return new Double(_maxInclusive);
         }
         return null;
-    }
+    } // -- getMaxInclusive
 
     /**
      * Returns the configured exclusive maximum value for double validation.
@@ -162,7 +147,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             return new Double(_maxExclusive);
         }
         return null;
-    }
+    } // -- getMaxInclusive
 
     /**
      * Returns the configured inclusive minimum value for double validation.
@@ -175,7 +160,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             return new Double(_minInclusive);
         }
         return null;
-    }
+    } // -- getMinInclusive
 
     /**
      * Returns the configured exclusive minimum value for double validation.
@@ -188,15 +173,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             return new Double(_minExclusive);
         }
         return null;
-    }
-
-    public Double getPositiveInfinity() {
-       return new Double(_positiveInfinity);
-   }
-
-    public Double getNegativeInfinity() {
-       return new Double(_negativeInfinity);
-   }
+    } // -- getMinInclusive
 
     /**
      * Returns true if a fixed value to validate against has been set.
@@ -205,7 +182,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
      */
     public boolean hasFixed() {
         return _useFixed;
-    }
+    } // -- hasFixed
 
     /**
      * Sets the fixed value for double validation.
@@ -221,7 +198,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void setFixed(final double fixedValue) {
         _fixed = fixedValue;
         _useFixed = true;
-    }
+    } // -- setMinExclusive
 
     /**
      * Sets the minimum (exclusive) value for double validation. To pass
@@ -233,7 +210,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void setMinExclusive(final double minValue) {
         _minExclusive = minValue;
         _useMinExclusive = true;
-    }
+    } // -- setMinExclusive
 
     /**
      * Sets the minimum (inclusive) value for double validation. To pass
@@ -245,7 +222,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void setMinInclusive(final double minValue) {
         _minInclusive = minValue;
         _useMinInclusive = true;
-    }
+    } // -- setMinInclusive
 
     /**
      * Sets the maximum (exclusive) value for double validation.  To pass
@@ -257,7 +234,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void setMaxExclusive(final double maxValue) {
         _maxExclusive = maxValue;
         _useMaxExclusive = true;
-    }
+    } // -- setMaxExclusive
 
     /**
      * Sets the maximum (inclusive) value for double validation.  To pass
@@ -269,17 +246,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     public void setMaxInclusive(final double maxValue) {
         _maxInclusive = maxValue;
         _useMaxInclusive = true;
-    }
-
-    public void setPositiveInfinity(final double positiveInfinity) {
-       _positiveInfinity = positiveInfinity;
-       _usePositiveInfinity = true;
-    }
-
-    public void setNegativeInfinity(final double negativeInfinity) {
-       _negativeInfinity = negativeInfinity;
-       _useNegativeInfinity = true;
-    }
+    } // --setMaxInclusive
 
     /**
      * Validates the given Object.
@@ -297,7 +264,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             throw new ValidationException(err);
         }
 
-        if (_useMinInclusive && d < _minInclusive && d != _negativeInfinity) {
+        if (_useMinInclusive && d < _minInclusive) {
             String err = "double " + d + " is less than the minimum allowed value: "
                     + _minInclusive;
             throw new ValidationException(err);
@@ -309,7 +276,7 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
             throw new ValidationException(err);
         }
 
-        if (_useMaxInclusive && d > _maxInclusive && d != _positiveInfinity) {
+        if (_useMaxInclusive && d > _maxInclusive) {
             String err = "double " + d + " is greater than the maximum allowed value: "
                     + _maxInclusive;
             throw new ValidationException(err);

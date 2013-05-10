@@ -1,18 +1,3 @@
-/*
- * Copyright 2006 Werner Guttmann
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.castor.cpa.util;
 
 import java.util.ArrayList;
@@ -41,12 +26,9 @@ import org.exolab.castor.xml.ResolverException;
  * class (name).
  * 
  * @see JDOClassDescriptorResolver
- * @author <a href="mailto:wguttmn AT codehaus DOT org">Werner Guttmann</a>
- * @version $Revision$ $Date$
  */
 public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolver {
-    //-----------------------------------------------------------------------------------
-    
+
     /**
      * A key ({@link Class}) value ({@link ClassDescriptor}) pair to cache
      * already resolved JDO class descriptors.
@@ -78,8 +60,6 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     private Map<String, ClassDescriptorResolutionCommand> _commands = 
         new HashMap<String, ClassDescriptorResolutionCommand>();
 
-    //-----------------------------------------------------------------------------------
-    
     /**
      * Creates an instance of this class, with no classed manually added.
      */
@@ -90,8 +70,6 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
         registerCommand(new ClassResolutionByCDR());
         registerCommand(new ClassResolutionByAnnotations());
     }
-    
-    //-----------------------------------------------------------------------------------
 
     /**
      * Registers a {@link ClassDescriptorResolutionCommand} used to resolve
@@ -135,7 +113,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @return the ClassDescriptor for the given class, null if not found
      * @throws ResolverException Indicates that the given {@link Class} cannot be resolved.
      */
-    public ClassDescriptor resolve(final Class<?> type) throws ResolverException {
+    public ClassDescriptor resolve(final Class type) throws ResolverException {
         if (type == null) {
             return null;
         }
@@ -212,14 +190,14 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
      * @param type type to look up.
      * @return a {@link ClassDescriptor} if found, null if not.
      */
-    private ClassDescriptor resolveByCache(final Class<?> type) {
+    private ClassDescriptor resolveByCache(final Class type) {
         return _classDescriptorCache.get(type);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void registerDescriptor(final Class<?> type, final ClassDescriptor classDescriptor) {
+    public void registerDescriptor(final Class type, final ClassDescriptor classDescriptor) {
         _classDescriptorCache.put(type, classDescriptor);
     }
 
@@ -248,7 +226,7 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
-    public void addClass(final Class<?> domainClass) {
+    public void addClass(final Class domainClass) {
         _classes.add(domainClass);
     }
 
@@ -303,6 +281,4 @@ public class JDOClassDescriptorResolverImpl implements JDOClassDescriptorResolve
     public ClassLoader getClassLoader() {
         return _mappingLoader.getClassLoader();
     }
-    
-    //-----------------------------------------------------------------------------------
 }

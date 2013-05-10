@@ -26,7 +26,7 @@ import org.castor.cache.hashbelt.container.MapContainer;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestNotifyingReaper extends TestCase {
@@ -43,12 +43,12 @@ public final class TestNotifyingReaper extends TestCase {
     public void test() {
         NotifyingReaperMock.getExpiredObjects().clear();
         
-        Container<Integer, String> container = new MapContainer<Integer, String>();
+        Container container = new MapContainer();
         for (int i = 0; i < 10; i++) {
             container.put(new Integer(i), Integer.toString(i));
         }
         
-        AbstractReaper<Integer, String> reaper = new NotifyingReaperMock<Integer, String>();
+        AbstractReaper reaper = new NotifyingReaperMock();
         reaper.handleExpiredContainer(container);
         assertEquals(10, container.size());
         

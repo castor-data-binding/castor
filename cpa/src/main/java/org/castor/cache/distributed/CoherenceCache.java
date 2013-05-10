@@ -27,17 +27,14 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of Coherence, see http://www.tangosol.com/coherence.jsp 
  * 
- * @param <K> the type of keys maintained by this cache
- * @param <V> the type of cached values
- * 
  * @see <a href="http://www.tangosol.com/coherence.jsp">Coherence Overview</a>  
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
-public final class CoherenceCache<K, V> extends AbstractDistributedCache<K, V> {
+public final class CoherenceCache extends AbstractDistributedCache {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -80,7 +77,7 @@ public final class CoherenceCache<K, V> extends AbstractDistributedCache<K, V> {
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class<?> cls = ldr.loadClass(implementation);
-            setCache((Map<K, V>) invokeStaticMethod(
+            setCache((Map) invokeStaticMethod(
                     cls, "getCache", TYPES_GET_CACHE, new Object[] {getName()}));
         } catch (Exception e) {
             String msg = "Error creating Coherence cache: " + e.getMessage();

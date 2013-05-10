@@ -17,6 +17,7 @@ package org.castor.cache.simple;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -30,7 +31,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestTimeLimited extends TestCase {
@@ -66,38 +67,38 @@ public final class TestTimeLimited extends TestCase {
         assertEquals("ttl", TimeLimited.PARAM_TTL);
         assertEquals(30, TimeLimited.DEFAULT_TTL);
 
-        Cache<String, String> cache = new TimeLimited<String, String>();
+        Cache cache = new TimeLimited();
         assertTrue(cache instanceof TimeLimited);
 
         assertEquals("time-limited", cache.getType());
-        assertEquals(30, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(30, ((TimeLimited) cache).getTTL());
         assertEquals(Cache.DEFAULT_NAME, cache.getName());
         
         Properties params = new Properties();
         params.put(Cache.PARAM_NAME, "dummy1");
         cache.initialize(params);
-        assertEquals(30, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(30, ((TimeLimited) cache).getTTL());
         assertEquals("dummy1", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy2");
         params.put(TimeLimited.PARAM_TTL, "-10");
         cache.initialize(params);
-        assertEquals(30, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(30, ((TimeLimited) cache).getTTL());
         assertEquals("dummy2", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy3");
         params.put(TimeLimited.PARAM_TTL, "0");
         cache.initialize(params);
-        assertEquals(30, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(30, ((TimeLimited) cache).getTTL());
         assertEquals("dummy3", cache.getName());
         
         params.clear();
         params.put(Cache.PARAM_NAME, "dummy4");
         params.put(TimeLimited.PARAM_TTL, "10");
         cache.initialize(params);
-        assertEquals(10, ((TimeLimited<String, String>) cache).getTTL());
+        assertEquals(10, ((TimeLimited) cache).getTTL());
         assertEquals("dummy4", cache.getName());
         
         assertFalse(cache.containsKey("first key"));
@@ -114,8 +115,8 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("second key"));
     }
 
-    private Cache<String, String> initialize() {
-        Cache<String, String> cache = new TimeLimited<String, String>();
+    private Cache initialize() {
+        Cache cache = new TimeLimited();
 
         try {
             Properties params = new Properties();
@@ -134,7 +135,7 @@ public final class TestTimeLimited extends TestCase {
     }
     
     public void testContainsKey() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertTrue(cache.containsKey("first key"));
         assertTrue(cache.containsKey("second key"));
@@ -144,7 +145,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testContainsValue() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertTrue(cache.containsValue("first value"));
         assertTrue(cache.containsValue("second value"));
@@ -154,7 +155,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testClear() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         cache.clear();
 
@@ -166,7 +167,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testSize() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertEquals(3, cache.size());
         cache.clear();
@@ -174,7 +175,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testIsEmpty() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertFalse(cache.isEmpty());
         cache.clear();
@@ -182,7 +183,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testGet() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertEquals("first value", cache.get("first key"));
         assertEquals("second value", cache.get("second key"));
@@ -192,7 +193,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testPut() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertEquals("third value", cache.put("third key", "alternate third value"));
         assertNull(cache.put("fourth key", "forth value"));
@@ -205,7 +206,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testRemove() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         assertEquals("third value", cache.remove("third key"));
 
@@ -217,7 +218,7 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testPutAll() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("fourth key", "forth value");
@@ -233,9 +234,9 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testKeySet() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
-        Set<String> set = cache.keySet();
+        Set<Object> set = cache.keySet();
         
         assertEquals(3, set.size());
         assertTrue(set.contains("first key"));
@@ -244,9 +245,9 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testValues() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
-        Collection<String> col = cache.values();
+        Collection<Object> col = cache.values();
         
         assertEquals(3, col.size());
         assertTrue(col.contains("first value"));
@@ -255,14 +256,15 @@ public final class TestTimeLimited extends TestCase {
     }
 
     public void testEntrySet() {
-        Cache<String, String> cache = initialize();
+        Cache cache = initialize();
 
-        Set<Map.Entry<String, String>> set = cache.entrySet();
+        Set<Map.Entry<Object, Object>> set = cache.entrySet();
         
         assertEquals(3, set.size());
         
-        HashMap<String, String> map = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : set) {
+        HashMap<Object, Object> map = new HashMap<Object, Object>();
+        for (Iterator<Map.Entry<Object, Object>> iter = set.iterator(); iter.hasNext();) {
+            Map.Entry<Object, Object> entry = iter.next();
             map.put(entry.getKey(), entry.getValue());
         }
 
@@ -277,7 +279,7 @@ public final class TestTimeLimited extends TestCase {
     }
     
     public void testExpire() throws InterruptedException {
-        Cache<String, String> cache = new TimeLimited<String, String>();
+        Cache cache = new TimeLimited();
 
         try {
             Properties params = new Properties();
@@ -377,7 +379,7 @@ public final class TestTimeLimited extends TestCase {
         }
     }
     
-    private void checkKeys(final Cache<String, String> cache) {
+    private void checkKeys(final Cache cache) {
         int size = cache.size();
         if (size >= 8) { assertTrue(cache.containsKey("a")); }
         if (size >= 7) { assertTrue(cache.containsKey("b")); }

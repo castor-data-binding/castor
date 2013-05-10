@@ -23,9 +23,9 @@ import org.castor.cpa.persistence.sql.query.expression.Expression;
  *  
  * @author <a href="mailto:ahmad DOT hassan AT gmail DOT com">Ahmad Hassan</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2009-07-13 17:22:43 (Mon, 13 Jul 2009) $
  */
-public final class Assignment implements QueryObject {
+public final class Assignment extends QueryObject {
     //-----------------------------------------------------------------------------------
 
     /** Left operand of the assignment. */
@@ -37,7 +37,7 @@ public final class Assignment implements QueryObject {
     //-----------------------------------------------------------------------------------
     
     /**
-     * Constructor that assigns the given right hand operand to the left hand one. 
+     * Constructor that assigns the given rigth hand operand cto the left hand one. 
      * 
      * @param left Left operand of the assignment.
      * @param right Right operand of the assignment. 
@@ -70,30 +70,15 @@ public final class Assignment implements QueryObject {
     public Expression rightExpression() {
         return _right;
     }
-
+    
     //-----------------------------------------------------------------------------------    
-
-    /**
-     * {@inheritDoc}
-     */
-    public void accept (final Visitor visitor) { visitor.visit(this); }
-
-    //-----------------------------------------------------------------------------------
-
-    /** 
-     * Method constructing query string.
-     * 
-     * @return Constructed query string.
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(_left.toString());
-        sb.append(QueryConstants.ASSIGN);
-        sb.append(_right.toString());
-
-        return sb.toString();
+    
+    @Override
+    public void toString(final QueryContext ctx) {
+        _left.toString(ctx);
+        ctx.append(QueryConstants.ASSIGN);
+        _right.toString(ctx);
     }
-
+    
     //-----------------------------------------------------------------------------------
-
 }
