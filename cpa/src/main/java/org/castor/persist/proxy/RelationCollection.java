@@ -77,17 +77,22 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
     private int _size;
 
     /**
+     * Suggested access mode for this lazy collection instance.
+     */
+    private AccessMode _accessMode;
+
+    /**
      * Creates an instance of RelationCollection.
      * 
      * @param tx Current transaction context
      * @param enclosing Enclosing OID 
      * @param molder Associated ClassMolder
-     * @param amode Access mode
+     * @param accessMode Access mode
      * @param ids Set of identifiers.
      */
     public RelationCollection(final TransactionContext tx, final OID enclosing,
             final ClassMolder molder,
-            final AccessMode amode, final ArrayList ids) {
+            final AccessMode accessMode, final ArrayList ids) {
         _tx = tx;
         _molder = molder;
         _ids = (ids != null) ? ids : new ArrayList();
@@ -95,6 +100,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
         _deleted = new ArrayList();
         _added = new ArrayList();
         _loaded = new HashMap();
+        _accessMode = accessMode;
     }
 
 
@@ -264,7 +270,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
 
             try {
                 ProposedEntity proposedValue = new ProposedEntity(_parent._molder);
-                o = _parent._tx.load(ids, proposedValue, null);
+                o = _parent._tx.load(ids, proposedValue, _accessMode);
                 _parent._loaded.put(ids, o);
                 return o;
             } catch (LockNotGrantedException e) {
