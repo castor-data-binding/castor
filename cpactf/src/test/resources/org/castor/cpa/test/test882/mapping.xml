@@ -4,7 +4,7 @@
 <mapping>
    <class name="org.castor.cpa.test.test882.Product" identity="id" access="read-only" >
       <description>Product definition</description>
-      <map-to table="product" />
+      <map-to table="test882_product" />
       <field name="id" type="integer">
          <sql name="id" type="integer" />
       </field>
@@ -13,22 +13,20 @@
       </field>
 
       <!-- many details per product -->
-      <field name="details" type="org.castor.cpa.test.test882.ProductDetail"
-         required="true" collection="collection" >
+      <field name="details" type="org.castor.cpa.test.test882.ProductDetail" required="true" collection="collection" >
          <sql many-key="prod_id" />
       </field>
       
       <!-- many details per product, loaded lazy -->
-      <field name="detailslazy" type="org.castor.cpa.test.test882.ProductDetailLazy"
-         required="true" collection="collection" lazy="true">
+      <field name="detailslazy" type="org.castor.cpa.test.test882.ProductDetailLazy" required="true" collection="collection" lazy="true">
          <sql many-key="prod_id" />
       </field>
    </class>
    
    <class name="org.castor.cpa.test.test882.ProductDetail" identity="id"
-      depends="bugs.jdo.bug3248.Product">
+      depends="org.castor.cpa.test.test882.Product">
       <description>Product detail</description>
-      <map-to table="productdetail" />
+      <map-to table="test882_productdetail" />
       <field name="id" type="integer">
          <sql name="id" type="integer" />
       </field>
@@ -43,7 +41,7 @@
    <class name="org.castor.cpa.test.test882.ProductDetailLazy" identity="id"
       depends="org.castor.cpa.test.test882.Product">
       <description>Product detail</description>
-      <map-to table="productdetaillazy" />
+      <map-to table="test882_productdetaillazy" />
       <field name="id" type="integer">
          <sql name="id" type="integer" />
       </field>
