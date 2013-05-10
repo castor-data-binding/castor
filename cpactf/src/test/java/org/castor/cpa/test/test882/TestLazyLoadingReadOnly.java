@@ -16,6 +16,8 @@
 package org.castor.cpa.test.test882;
 
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +50,7 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
 
     public boolean include(final DatabaseEngineType engine) {
        return ((engine == DatabaseEngineType.HSQL) 
-             || (engine == DatabaseEngineType.HSQL));
+             || (engine == DatabaseEngineType.DERBY));
     }
 
 //    public boolean include(final DatabaseEngineType engine) {
@@ -81,57 +83,54 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
 
     private void createDataObjects() throws PersistenceException {
        _db.begin();
-       Product product = new Product();
-       product.setId(1);
-       product.setName("product1");
-       _db.create(product);
-       _db.commit();
-       
-       _db.begin();
-       Product productLoaded = _db.load(Product.class, 1);
-       
-       ProductDetail detail = new ProductDetail();
-       detail.setId(1);
-       detail.setName("productdetail1");
-       detail.setProduct(productLoaded);
-       _db.create(detail);
+       ProductDetail detail1 = new ProductDetail();
+       detail1.setId(1);
+       detail1.setName("productdetail1");
 
-       detail = new ProductDetail();
-       detail.setId(2);
-       detail.setName("productdetail2");
-       detail.setProduct(productLoaded);
-       _db.create(detail);
+       ProductDetail detail2 = new ProductDetail();
+       detail2.setId(2);
+       detail2.setName("productdetail2");
 
-       detail = new ProductDetail();
-       detail.setId(3);
-       detail.setName("productdetail3");
-       detail.setProduct(productLoaded);
-       _db.create(detail);
-       _db.commit();
+       ProductDetail detail3 = new ProductDetail();
+       detail3.setId(3);
+       detail3.setName("productdetail3");
 
-       _db.begin();
-       productLoaded = _db.load(Product.class, 1);
-       
        ProductDetailLazy detailLazy = new ProductDetailLazy();
        detailLazy.setId(1);
        detailLazy.setName("productdetaillazy1");
-       detailLazy.setProduct(productLoaded);
-       _db.create(detailLazy);
 
-       detailLazy = new ProductDetailLazy();
-       detailLazy.setId(2);
-       detailLazy.setName("productdetaillazy2");
-       detailLazy.setProduct(productLoaded);
-       _db.create(detailLazy);
+       ProductDetailLazy detailLazy2 = new ProductDetailLazy();
+       detailLazy2.setId(2);
+       detailLazy2.setName("productdetaillazy2");
 
-       detailLazy = new ProductDetailLazy();
-       detailLazy.setId(3);
-       detailLazy.setName("productdetaillazy3");
-       detailLazy.setProduct(productLoaded);
-       _db.create(detailLazy);
+       ProductDetailLazy detailLazy3 = new ProductDetailLazy();
+       detailLazy3.setId(3);
+       detailLazy3.setName("productdetaillazy3");
+       
+       Product product = new Product();
+       product.setId(1);
+       product.setName("product1");
+       
+       Collection<ProductDetail> details = new ArrayList<ProductDetail>();
+       detail1.setProduct(product);
+       details.add(detail1);
+       detail2.setProduct(product);
+       details.add(detail2);
+       detail3.setProduct(product);
+       details.add(detail3);
+       product.setDetails(details);
+
+       Collection<ProductDetailLazy> lazyDetails = new ArrayList<ProductDetailLazy>();
+       detailLazy.setProduct(product);
+       lazyDetails.add(detailLazy);
+       detailLazy2.setProduct(product);
+       lazyDetails.add(detailLazy2);
+       detailLazy3.setProduct(product);
+       lazyDetails.add(detailLazy3);
+       product.setDetailslazy(lazyDetails);
+
+       _db.create(product);
        _db.commit();
-
-       _db.close();
     }
     
     public void testWriteProductDetails() throws Exception {
@@ -148,7 +147,6 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
           detail.setName("changed!");
        }
        _db.commit();
-       _db.close();
 
        _db.begin();
 
@@ -160,7 +158,6 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
        assertEquals("productdetail2", product.getDetails().toArray(new ProductDetail[0])[1].getName());
 
        _db.commit();
-       _db.close();
     }
 
     public void testWriteProductDetailsLazy() throws Exception {
@@ -177,7 +174,6 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
           detail.setName("changed!");
        }
        _db.commit();
-       _db.close();
 
        _db.begin();
 
@@ -189,7 +185,6 @@ public final class TestLazyLoadingReadOnly extends CPATestCase {
        assertEquals("productdetaillazy2", product.getDetailslazy().toArray(new ProductDetailLazy[0])[1].getName());
 
        _db.commit();
-       _db.close();
     }
 
 }
