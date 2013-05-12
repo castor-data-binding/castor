@@ -16,6 +16,7 @@
    <modules>
       <module>core</module>
       <module>xml</module>
+      <module>xml-annotations</module>
       <module>schema</module>
       <module>codegen</module>
       <module>anttask</module>
@@ -56,7 +57,7 @@
                <version>2.8</version>
                <configuration>
                   <downloadSources>true</downloadSources>
-                  <projectNameTemplate>castor133-[artifactId]</projectNameTemplate>
+                  <projectNameTemplate>castor3248-[artifactId]</projectNameTemplate>
                </configuration>
             </plugin>
             <plugin>
