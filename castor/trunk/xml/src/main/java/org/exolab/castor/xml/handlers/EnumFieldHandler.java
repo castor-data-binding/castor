@@ -219,9 +219,9 @@ public class EnumFieldHandler implements FieldHandler {
      */
     public void setValue(final Object target, final Object value)
                                         throws java.lang.IllegalStateException {
-        Object[] args = new String[1];
         Object obj = null;
         if (value != null) {
+            Object[] args = new String[1];
             args[0] = value.toString();
             try {
                 obj = _valueOf.invoke(null, args);
