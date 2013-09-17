@@ -139,9 +139,9 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     public Object convertUponSet(Object value)
         throws java.lang.IllegalStateException
     {
-        Object[] args = new String[1];
         Object obj = null;
         if (value != null) {
+            Object[] args = new String[1];
             args[0] = value.toString();
             try {
                 obj = _createMethod.invoke(null, args);
