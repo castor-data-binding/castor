@@ -294,46 +294,29 @@
                 </row>
                 <row>
                     <entry>org.exolab.castor.sax.features</entry>
-                    <entry>
-                        Specifies additional features for the XML
-                        parser.
+                    <entry>Specifies additional features for the XML parser.
                     </entry>
-                    <entry>
-                        A comma separated list of SAX (parser) features
-                        (that might or might not be supported by the
-                        specified SAX parser).
-                    </entry>
-                    <entry>-</entry>
+                    <entry>A comma separated list of SAX (parser) features (that might or might not be supported by the specified SAX parser).</entry>
+                    <entry><classname>http://apache.org/xml/features/disallow-doctype-decl</classname></entry>
                     <entry>-</entry>
                 </row>
                 <row>
+                    <entry>org.exolab.castor.sax.features-to-disable</entry>
+                    <entry>Specifies features to be disbaled on the underlying SAX parser.</entry>
+                    <entry>A comma separated list of SAX (parser) features to be disabled.</entry>
                     <entry>
-                        org.exolab.castor.sax.features-to-disable
+                        <classname>http://xml.org/sax/features/external-general-entities</classname>, 
+                        <classname>http://xml.org/sax/features/external-parameter-entities</classname>, 
+                        <classname>http://apache.org/xml/features/nonvalidating/load-external-dtd</classname>
                     </entry>
-                    <entry>
-                        Specifies features to be disbaled on the
-                        underlying SAX parser.
-                    </entry>
-                    <entry>
-                        A comma separated list of SAX (parser) features
-                        to be disabled.
-                    </entry>
-                    <entry>-</entry>
                     <entry>
                         <para><emphasis role="bold">1.0.4</emphasis></para>
                     </entry>
                 </row>
                 <row>
                     <entry>org.exolab.castor.regexp</entry>
-                    <entry>
-                        Specifies the regular expression validator to
-                        use.
-                    </entry>
-                    <entry>
-                        A class that implements
-                        <classname>org.exolab.castor.util.RegExpValidator</classname>
-                        .
-                    </entry>
+                    <entry>Specifies the regular expression validator to use.</entry>
+                    <entry>A class that implements <classname>org.exolab.castor.util.RegExpValidator</classname>.</entry>
                     <entry>-</entry>
                     <entry>-</entry>
                 </row>
@@ -498,6 +481,12 @@
 			</tbody>
             </tgroup>
 		</table>
+      
+        <note>
+         As of Castor 1.3.3, the default values for <classname>org.exolab.castor.sax.features</classname> 
+         and <classname>org.exolab.castor.sax.features-to-disable</classname> have changed to include/disable 
+         selected features.
+        </note>
 
 	</section>
 
@@ -505,11 +494,8 @@
 		<title>Accessing the properties from within code</title>
 
 		<para>
-			As of Castor 1.1, it is possible to read and set the value
-			of properties programmatically using the
-			<classname>getProperty(String)</classname>
-			and
-			<classname>setProperty(String,String)</classname>
+			As of Castor 1.1, it is possible to read and set the value of properties programmatically using the
+			<classname>getProperty(String)</classname> and <classname>setProperty(String,String)</classname>
 			on the following classes:
 		</para>
 
@@ -532,21 +518,12 @@
 		</itemizedlist>
 
 		<para>
-			Whilst using the setter methods on the first two classes
-			will change the settings of the respective instances only,
-			using the
-			<classname>setProperty()</classname>
-			method on the
-			<classname>org.exolab.castor.xml.XMLContext</classname>
-			class will change the configuration globally, and affect all
-			<classname>org.exolab.castor.xml.Unmarshaller</classname>
-			and
-			<classname>org.exolab.castor.xml.Marshaller</classname>
-			instances created thereafter using the
-			<methodname>org.exolab.castor.xml.XMLContext.createUnmarshaller()</methodname>
-			and
-			<methodname>org.exolab.castor.xml.XMLContext.createMarshaller()</methodname>
-			methods.
+			Whilst using the setter methods on the first two classes will change the settings of the respective instances only,
+			using the <classname>setProperty()</classname> method on the <classname>org.exolab.castor.xml.XMLContext</classname>
+			class will change the configuration globally, and affect all <classname>org.exolab.castor.xml.Unmarshaller</classname>
+			and <classname>org.exolab.castor.xml.Marshaller</classname> instances created thereafter using the
+			<methodname>org.exolab.castor.xml.XMLContext.createUnmarshaller()</methodname> and
+			<methodname>org.exolab.castor.xml.XMLContext.createMarshaller()</methodname> methods.
 		</para>
 
 	</section>
