@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.castor</groupId>
     <artifactId>castor-xml</artifactId>
-    <version>1.3.3</version>
+    <version>1.3.4-SNAPSHOT</version>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor</artifactId>
-        <version>1.3.3</version>
+        <version>1.3.4-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
 
@@ -19,9 +19,9 @@
     </description>
 
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.3/xml</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.3/xml</developerConnection>
-        <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.3/xml</url>
+        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xml</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xml</developerConnection>
+        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xml</url>
     </scm>
 
     <build>
