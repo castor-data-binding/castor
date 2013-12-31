@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-codegen</artifactId>
-    <version>1.3.3-rc2-SNAPSHOT</version>
+    <version>1.3.3</version>
 
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.3.3-rc2-SNAPSHOT</version>
+		<version>1.3.3</version>
 	</parent>
     
 	<packaging>jar</packaging>
@@ -62,13 +62,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:http://svn.codehaus.org/castor/castor/trunk/codegen
+			scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.3/codegen
 		</connection>
 		<developerConnection>
-			scm:svn:https://svn.codehaus.org/castor/castor/trunk/codegen
+			scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.3/codegen
 		</developerConnection>
 		<url>
-			http://svn.castor.codehaus.org/browse/castor/castor/trunk/codegen
+			http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.3/codegen
 		</url>
 	</scm>
 
