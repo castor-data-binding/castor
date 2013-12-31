@@ -36,6 +36,7 @@
                 </bug>
 
 -->
+<!-- 
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
@@ -45,7 +46,41 @@
 	        <bugs>
 	        </bugs>
 	    </release>
+        -->
 
+        <release version="1.3.3">
+            <description>Maintenance release</description>
+            <date>Dec 31, 2013</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+               <p>
+                  Please look at the
+                  <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10891&amp;version=18424">Jira release notes</a>
+                  for details about all (XML-related) issues addressed in this release.
+               </p>
+            </summary>
+            <bugs>
+                <bug id="2767" tool="jira">
+                    <description>Build errors doing mvn install</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@codehaus.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@codehaus.org</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@codehaus.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20130602</date>
+                </bug>
+            </bugs>
+        </release>
+        
         <release version="1.3.3-RC1">
             <description>1st release candidate for Castor 1.3.3 - A maintenance release</description>
             <date>Apr 18, 2012</date>
