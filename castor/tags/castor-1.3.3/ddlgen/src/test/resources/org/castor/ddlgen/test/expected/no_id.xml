@@ -1,0 +1,7 @@
+<expected>
+	<match method="regexp" index="0">create table prod \( id integer, name char\({1}\) \);</match>
+	<match method="plain" index="1"></match>
+
+	<match method="regexp" index="0" engine="mysql">create table prod \( id integer\({0}\), name char\({1}\) \);</match>
+	<match method="plain" index="1" engine="mysql"></match>
+</expected>

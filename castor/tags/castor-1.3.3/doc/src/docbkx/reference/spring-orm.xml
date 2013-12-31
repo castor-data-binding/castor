@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter xmlns:xi="http://www.w3.org/2001/XInclude" id="Spring ORM integration">
+  <title>Castor JDO - Integration with Spring ORM</title>
+    
+    <xi:include href="spring-orm/usage.xml" />
+    <xi:include href="spring-orm/tutorial.xml" />
+    <xi:include href="spring-orm/data-access-with-spring-2.xml" />
+    <xi:include href="spring-orm/build-instructions.xml" />
+
+</chapter>

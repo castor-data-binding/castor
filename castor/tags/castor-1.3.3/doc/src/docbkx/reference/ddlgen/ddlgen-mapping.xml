@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="ddlgen.mapping">
+	<title>Castor DDL Generator - Type Mapping</title>
+	
+	<para>
+		This section describes the mapping between Castor sql type java.sql.Types
+		constant, java data type, sql type of supported database.
+	</para>
+        
+	<table frame="all">
+	    <tgroup cols="13">
+			<thead>
+				<row>
+					<entry>Castor Type</entry>
+					<entry>JDBC Type</entry>
+					<entry>Java Object Type</entry>
+					<entry>MySQL</entry>
+					<entry>PostgreSQL</entry>
+					<entry>Oracle</entry>
+					<entry>Derby</entry>
+					<entry>MSSQL</entry>
+					<entry>SapDB</entry>
+					<entry>DB2</entry>
+					<entry>Sybase</entry>
+					<entry>HSQL</entry>
+					<entry>PointBase</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+				  <entry>BIT</entry>
+				  <entry>BIT</entry>
+				  <entry>java.lang.Boolean</entry>
+				  <entry>TINYINT(1)</entry>
+				  <entry>BOOLEAN</entry>
+				  <entry>BOOLEAN</entry>
+				  <entry>CHAR FOR BIT DATA</entry>
+				  <entry>BIT</entry>
+				  <entry>BOOLEAN</entry>
+				  <entry></entry>
+				  <entry>BIT</entry>
+				  <entry>BIT</entry>
+				  <entry>BOOLEAN</entry>
+				</row>
+				<row>
+				  <entry>TINYINT</entry>
+				  <entry>TINYINT</entry>
+				  <entry>java.lang.Byte</entry>
+				  <entry>TINYINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>TINYINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>TINYINT</entry>
+				  <entry>TINYINT</entry>
+				  <entry>SMALLINT</entry>
+				</row>
+				<row>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>java.lang.Short</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				  <entry>SMALLINT</entry>
+				</row>
+				<row>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>java.lang.Integer</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				  <entry>INTEGER</entry>
+				</row>
+				<row>
+				  <entry>BIGINT</entry>
+				  <entry>BIGINT</entry>
+				  <entry>java.lang.Long</entry>
+				  <entry>BIGINT</entry>
+				  <entry>BIGINT</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>BIGINT</entry>
+				  <entry>BIGINT</entry>
+				  <entry>INTEGER</entry>
+				  <entry>BIGINT</entry>
+				  <entry>INTEGER</entry>
+				  <entry>BIGINT</entry>
+				  <entry>NUMERIC</entry>
+				</row>
+				<row>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>java.lang.Double</entry>
+				  <entry>FLOAT</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				  <entry>FLOAT</entry>
+				</row>
+				<row>
+				  <entry>DOUBLE</entry>
+				  <entry>DOUBLE</entry>
+				  <entry>java.lang.Double</entry>
+				  <entry>DOUBLE</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				</row>
+				<row>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>java.lang.Float</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>DOUBLE PRECISION</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				  <entry>REAL</entry>
+				</row>
+				<row>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>java.math.BigDecimal</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>NUMERIC</entry>
+				</row>
+				<row>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>java.math.BigDecimal</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>NUMERIC</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				  <entry>DECIMAL</entry>
+				</row>
+				<row>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>java.lang.String</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				  <entry>CHAR</entry>
+				</row>
+				<row>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>java.lang.String</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR2</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				  <entry>VARCHAR</entry>
+				</row>
+				<row>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				  <entry>java.sql.Date</entry>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				  <entry>DATETIME</entry>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				  <entry>DATETIME</entry>
+				  <entry>DATE</entry>
+				  <entry>DATE</entry>
+				</row>
+				<row>
+				  <entry>TIME</entry>
+				  <entry>TIME</entry>
+				  <entry>java.sql.Time</entry>
+				  <entry>TIME</entry>
+				  <entry>TIME</entry>
+				  <entry>DATE</entry>
+				  <entry>TIME</entry>
+				  <entry>DATETIME</entry>
+				  <entry>TIME</entry>
+				  <entry>TIME</entry>
+				  <entry>DATETIME</entry>
+				  <entry>TIME</entry>
+				  <entry>TIME</entry>
+				</row>
+				<row>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>java.sql.Timestamp</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				  <entry>TIMESTAMP</entry>
+				</row>
+				<row>
+				  <entry>BINARY</entry>
+				  <entry>BINARY</entry>
+				  <entry>byte[]</entry>
+				  <entry>BINARY</entry>
+				  <entry>BYTEA</entry>
+				  <entry>RAW</entry>
+				  <entry>CHAR [n] FOR BIT DATA</entry>
+				  <entry>BINARY</entry>
+				  <entry>BLOB</entry>
+				  <entry>CHAR [n] FOR BIT DATA</entry>
+				  <entry>BINARY</entry>
+				  <entry>BINARY</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>VARBINARY</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>byte[]</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>BYTEA</entry>
+				  <entry>LONG RAW</entry>
+				  <entry>VARCHAR [] FOR BIT DATA</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>BLOB</entry>
+				  <entry>VARCHAR [] FOR BIT DATA</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>LONGVARBINARY</entry>
+				  <entry>LONGVARBINARY</entry>
+				  <entry>byte[]</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>BYTEA</entry>
+				  <entry>LONG RAW</entry>
+				  <entry>LONG VARCHAR FOR BIT DATA</entry>
+				  <entry>IMAGE</entry>
+				  <entry>BLOB</entry>
+				  <entry>LONG VARCHAR FOR BIT DATA</entry>
+				  <entry>VARBINARY</entry>
+				  <entry>LONGVARBINARY</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>OTHER</entry>
+				  <entry>OTHER</entry>
+				  <entry>java.lang.Object</entry>
+				  <entry>BLOB</entry>
+				  <entry>BYTEA</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>OTHER</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>JAVA_OBJECT</entry>
+				  <entry>JAVA_OBJECT</entry>
+				  <entry>java.lang.Object</entry>
+				  <entry>BLOB</entry>
+				  <entry>BYTEA</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>OBJECT</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>java.io.InputStream</entry>
+				  <entry>BLOB</entry>
+				  <entry>BYTEA</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>BLOB</entry>
+				  <entry>BLOB</entry>
+				  <entry>IMAGE</entry>
+				  <entry>OBJECT</entry>
+				  <entry>BLOB</entry>
+				</row>
+				<row>
+				  <entry>CLOB</entry>
+				  <entry>CLOB</entry>
+				  <entry>java.sql.Clob</entry>
+				  <entry>TEXT</entry>
+				  <entry>TEXT</entry>
+				  <entry>CLOB</entry>
+				  <entry>CLOB</entry>
+				  <entry>TEXT</entry>
+				  <entry>CLOB</entry>
+				  <entry>CLOB</entry>
+				  <entry>TEXT</entry>
+				  <entry>OBJECT</entry>
+				  <entry>CLOB</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+        
+    <section>
+    	<title>JDBC Types not supported by Castor</title>
+        
+		<para>
+			The following JDBC types are not supported by Castor yet. 
+		</para>
+
+		<itemizedlist>
+			<listitem>ARRAY</listitem>
+			<listitem>DISTINCT</listitem>
+			<listitem>REF</listitem>
+			<listitem>STRUCT</listitem>
+		</itemizedlist>
+		
+	</section>
+
+</section>

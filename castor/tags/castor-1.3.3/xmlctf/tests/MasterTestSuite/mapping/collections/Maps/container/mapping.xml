@@ -1,0 +1,11 @@
+<mapping>
+      <class name="Root">
+          <field name="children" collection="map" container="false">
+             <bind-xml>
+                 <class name="org.exolab.castor.mapping.MapItem" auto-complete="true">
+                    <map-to xml="child"/>
+                 </class>
+             </bind-xml>
+          </field>
+      </class>
+</mapping>

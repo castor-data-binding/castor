@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<TestDescriptor xmlns="http://castor.exolab.org/Test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/Test http://castor.exolab.org/Test">
+    <Name>Tests generated source java.lang.* name collisions</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        Generated source should always fully qualify any reference to a class
+        in java.lang.*.  This will allow a Castor user to create a class that
+        shadows or obscures a name in java.lang.*, such as String or Object.
+    </Comment>
+    <Comment>
+        This test should prevent regressions in this area.
+    </Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

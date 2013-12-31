@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<description>Castor generated mapping file</description>
+	<class name="org.castor.test.entity.Authors">
+		<description>Default mapping for class org.castor.test.entity.Authors</description>
+		<map-to xml="Authors" ns-uri="http://castor.org/library"/>
+		<field name="author" type="org.castor.test.entity.Author" required="true" collection="array">
+			<bind-xml name="Author" node="element"/>
+		</field>
+	</class>
+	<class name="org.castor.test.entity.Author" identity="id">
+		<description>Default mapping for class org.castor.test.entity.Author</description>
+		<map-to xml="Author" ns-uri="http://castor.org/library"/>
+		<field name="id" type="java.lang.String">
+			<bind-xml name="id" node="attribute"/>
+		</field>
+		<field name="idref" type="java.lang.Object">
+			<bind-xml name="idref" node="attribute" reference="true"/>
+		</field>
+		<field name="name" type="java.lang.String">
+			<bind-xml name="Name" node="element"/>
+		</field>
+	</class>
+	<class name="org.castor.test.entity.Books">
+		<description>Default mapping for class org.castor.test.entity.Books</description>
+		<map-to xml="Books" ns-uri="http://castor.org/library"/>
+		<field name="book" type="org.castor.test.entity.Book" required="true" collection="array">
+			<bind-xml name="Book" node="element"/>
+		</field>
+	</class>
+	<class name="org.castor.test.entity.Library">
+		<description>Default mapping for class org.castor.test.entity.Library</description>
+		<map-to xml="Library" ns-uri="http://castor.org/library"/>
+		<field name="authors" type="org.castor.test.entity.Authors" required="true">
+			<bind-xml name="Authors" node="element"/>
+		</field>
+		<field name="books" type="org.castor.test.entity.Books" required="true">
+			<bind-xml name="Books" node="element"/>
+		</field>
+	</class>
+	<class name="org.castor.test.entity.Book">
+		<description>Default mapping for class org.castor.test.entity.Book</description>
+		<map-to xml="Book" ns-uri="http://castor.org/library"/>
+		<field name="title" type="java.lang.String" required="true">
+			<bind-xml name="Title" node="element"/>
+		</field>
+		<field name="author" type="org.castor.test.entity.Author" required="true">
+			<bind-xml name="Author" node="element"/>
+		</field>
+	</class>
+</mapping>

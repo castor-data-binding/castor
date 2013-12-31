@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    targetNamespace="http://www.yantra.com/documentation/YFS/cancelReservation/input"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:yfc="http://www.yantra.com/documentation/YFS/cancelReservation/input"
+    xmlns:yfctype="http://www.yantra.com/documentation/types">
+    <xsd:annotation yfc:fileName="YFS_cancelReservation_input.xsd"
+        yfc:rootElement="CancelReservation">
+        <xsd:appinfo source="yfc:structure">
+            <CancelReservation hasAttributes="Y" />
+        </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:element name="CancelReservation">
+        <xsd:annotation yfc:tableName="YFS_INVENTORY_RESERVATION">
+            <xsd:documentation>
+                This table stores reservation information about an item
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="reservation" type="xsd:integer" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

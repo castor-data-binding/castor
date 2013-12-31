@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xyz:root xmlns:xyz="http://www.acme.org/xyz" xyz:name="root1">
+   <xyz:child>A simple test for namespace mappings</xyz:child>
+</xyz:root>
+

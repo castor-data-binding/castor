@@ -1,0 +1,210 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.castor</groupId>
+    <artifactId>castor-xml</artifactId>
+    <version>1.3.3</version>
+
+    <parent>
+        <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor</artifactId>
+        <version>1.3.3</version>
+    </parent>
+    <packaging>jar</packaging>
+
+    <name>Castor XML - core</name>
+    <description>
+        The core XML data binding framework with support for marshalling Java objects to
+        and unmarshalling from XML documents.
+    </description>
+
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.3/xml</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.3/xml</developerConnection>
+        <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.3/xml</url>
+    </scm>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>target/generated-sources/castor</directory>
+                <includes>
+                    <include>**/*.cdr</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <!-- 
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                	<exclude>META-INF/MANIFEST.MF</exclude>
+                </excludes>
+            </resource>
+            <resource>
+            	<directory>src/main/resources</directory>
+            	<filtering>true</filtering>
+            	<includes>
+            		<include>META-INF/MANIFEST.MF</include>
+            	</includes>
+            </resource>
+             -->
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>castor-maven-plugin</artifactId>
+                <configuration>
+                    <schema>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.xsd</schema>
+                    <properties>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.builder.properties
+                    </properties>
+                    <packaging>org.exolab.castor.mapping.xml</packaging>
+                    <bindingfile>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping-binding.xml
+                    </bindingfile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-jar-plugin</artifactId>
+            	<configuration>
+            		<archive>
+            			<addMavenDescriptor>false</addMavenDescriptor>
+            			<manifestFile></manifestFile>
+            			<manifestEntries>
+            				<Specification-Title>Castor XML</Specification-Title>
+            				<Specification-Vendor>${project.organization.name}</Specification-Vendor>
+            				<Specification-Version>${project.version}</Specification-Version>
+            				<Implementation-Title>Castor</Implementation-Title>
+            				<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+            				<Implementation-Version>${project.version}</Implementation-Version>
+            				<Sealed>true</Sealed>
+            			</manifestEntries>
+            		</archive>
+            		<useDefaultManifestFile>false</useDefaultManifestFile>
+            	</configuration>
+            </plugin>
+            -->
+        </plugins>
+    </build>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>castor-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+       <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.stream</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
+        
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxp-api</artifactId>
+            <version>1.4.2</version>
+        </dependency>-->
+
+        <!--  optional run-time dependencies -->
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta-regexp</groupId>
+            <artifactId>jakarta-regexp</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>ldapsdk</groupId>
+            <artifactId>ldapsdk</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.umd.cs.mtc</groupId>
+            <artifactId>multithreadedtc</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

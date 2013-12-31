@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter xmlns:xi="http://www.w3.org/2001/XInclude" id="ddlgen">
+  <title>DDL generator for Castor JDO</title>
+  
+  <xi:include href="ddlgen/ddlgen-introduction.xml" />
+  <xi:include href="ddlgen/ddlgen-anttask.xml" />
+  <xi:include href="ddlgen/ddlgen-mapping.xml" />
+  <xi:include href="ddlgen/ddlgen-properties.xml" />
+  
+</chapter>

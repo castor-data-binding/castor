@@ -1,0 +1,6 @@
+<dsml>
+  <import-policies>
+     <import-policy dn="dc=intalio, dc=com" delete-empty="true"
+                    replace-attr="true" refresh-only="false"/>
+  </import-policies>
+</dsml>
