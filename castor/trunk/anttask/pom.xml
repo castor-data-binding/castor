@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-anttasks</artifactId>
-    <version>1.3.3</version>
+    <version>1.3.4-SNAPSHOT</version>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor</artifactId>
-        <version>1.3.3</version>
+        <version>1.3.4-SNAPSHOT</version>
     </parent>
 
 	<packaging>jar</packaging>
@@ -17,9 +17,9 @@
 	<url>http://www.castor.org</url>
 
     <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/tags/castor-1.3.3/anttask</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/tags/castor-1.3.3/anttask</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/tags/castor-1.3.3/anttask</url>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/anttask</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/anttask</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/anttask</url>
     </scm>
     
     <build>
