@@ -56,7 +56,45 @@
                <p>
                   Please look at the
                   <a href="http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10891&amp;version=18424">Jira release notes</a>
-                  for details about all (XML-related) issues addressed in this release.
+                  for details about the following (XML-related) issues addressed in this release:
+               </p>
+               
+               <p>
+                  <pre>
+** Bug
+    * [CASTOR-2762] - Build errors doing mvn install
+    * [CASTOR-3174] - Castor generates code with empty statements
+    * [CASTOR-3200] - The jar files from "http://dist.codehaus.org/castor/1.3.2/" seems to be compiled for Java 1.6
+    * [CASTOR-3215] - Custom FieldHandler implementing 
+    * [CASTOR-3216] - No castor-xml 1.1.1 in Maven repository?
+    * [CASTOR-3217] - CLONE - The jar files from "http://dist.codehaus.org/castor/1.3.2/" seems to be compiled for Java 1.6
+    * [CASTOR-3233] - Link on castor.org to "how to submit an issue" is broken.
+    * [CASTOR-3234] - Can't find resource for bundle java.util.PropertyResourceBundle, key LOG.debug.ignore.extra.element
+    * [CASTOR-3240] - XML codegen field name convention variable change broke
+    * [CASTOR-3241] - web site link
+    * [CASTOR-3242] - Releases 1.3.2 and 1.3.3-RC1 cannot run with JDK 5
+    * [CASTOR-3245] - Can't find resource for bundle java.util.PropertyResourceBundle, key LOG.debug.ignore.extra.element
+    * [CASTOR-3246] - Auto-complete doesn't handle Hungarian notation of properties
+    * [CASTOR-3259] - castor xsd to java object hierarchy self-reference
+
+
+
+** Improvement
+    * [CASTOR-2557] - Update dependency webpage 
+    * [CASTOR-3068] - CastorMarshaller documentation.
+    * [CASTOR-3097] - Refactor Namespaces class to use a stack-ish structure
+    * [CASTOR-3195] - Version info not DRY
+    * [CASTOR-3219] - Maven POMs should include a version for the dependencies
+    * [CASTOR-3251] - [patch] avoid allocations in EnumFieldHandler
+
+
+
+** Task
+    * [CASTOR-3055] - Add documentation for StAX to SAX bridge
+    * [CASTOR-3211] - Delete outdated HTML documentation
+    * [CASTOR-3213] - When i try to add the mapping file as input source to xmlContext it throw exception as org.castor.core.util.PropertiesException Properties value can not be converted to boolean: org.exolab.castor.xml.strictelements=false
+                  </pre>
+
                </p>
             </summary>
             <bugs>
