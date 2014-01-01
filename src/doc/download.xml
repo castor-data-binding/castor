@@ -33,31 +33,36 @@
             <ctable>
                 <crow>
                     <td>Castor XML</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar">JAR file</a></td>
                 </crow>
                 <crow>
                     <td>Castor Core</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-core.jar</td>
-                </crow>
-                <crow>
-                    <td>Castor JDO</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-core.jar">JAR file</a></td>
                 </crow>
                 <crow>
                     <td>Castor XML code generator</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen.jar</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen.jar">JAR file</a></td>
                 </crow>
                 <crow>
                     <td>Ant task definition for Castor XML code generator</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar</td>
-                </crow>
-                <crow>
-                    <td>Castor JDO DDLGen</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-ddlgen.jar</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar">JAR file</a></td>
                 </crow>
                 <crow>
                     <td>Castor XML schema support</td>
-                    <td>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml-schema.jar</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml-schema.jar">JAR file</a></td>
+                </crow>
+            </ctable>
+
+            <p>Not maintained actively anymore:</p>
+            
+            <ctable>
+                <crow>
+                    <td>Castor JDO</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-jdo.jar">JAR file</a></td>
+                </crow>
+                <crow>
+                    <td>Castor JDO DDLGen</td>
+                    <td><a href="http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-ddlgen.jar">JAR file</a></td>
                 </crow>
             </ctable>
 

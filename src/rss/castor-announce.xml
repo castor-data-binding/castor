@@ -21,6 +21,22 @@
 -->
 
         <item>
+            <title>1.3.3 GA available</title>
+            <pubDate>Tue, 31 Dec 2013 17:11:09 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item77</link>
+            <guid>http://castor.codehaus.org/news.html#item77</guid>
+            <description><![CDATA[
+                <p>
+                  Castor 1.3.3 has been made available at http://dist.codehaus.org/castor/1.3.3/ .
+                </p>
+                <p>
+                  For details about the features added and the bugs fixed, please have a look at the release notes at
+                  http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=10891&amp;version=18424 .
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>1.3.3 RC1 release available</title>
             <pubDate>Wed, 18 Apr 2012 23:59:04 +0100</pubDate>
             <author>Werner Guttmann</author>
@@ -47,7 +63,7 @@
             <guid>http://castor.codehaus.org/news.html#item75</guid>
             <description><![CDATA[
                 <p>
-                  Castor 1.3.2 has been made available at http://dist.codehaus.org/castor/1.3.1/
+                  Castor 1.3.2 has been made available at http://dist.codehaus.org/castor/1.3.2/
                 </p>
                 <p>
                   For details about the features added and the bugs fixed,
