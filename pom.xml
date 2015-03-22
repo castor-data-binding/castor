@@ -360,9 +360,7 @@
    </mailingLists>
 
    <scm>
-      <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk</connection>
-      <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk</developerConnection>
-      <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk</url>
+      <connection>scm:git:https://github.com/castor-data-binding/castor.git</connection>
    </scm>
 
    <distributionManagement>

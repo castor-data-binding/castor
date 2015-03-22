@@ -16,7 +16,6 @@
 	<packaging>jar</packaging>
 
 	<name>Example code for Castor XML and JDO</name>
-	<url>http://www.castor.org</url>
 
 	<build>		
 		<plugins>
@@ -33,12 +32,6 @@
             </plugin>
 		</plugins>
 	</build>
-
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/examples</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/examples</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/examples</url>
-    </scm>
 
 	<developers>
 		<developer>

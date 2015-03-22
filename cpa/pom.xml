@@ -37,12 +37,6 @@
 		</developer>
 	</developers>
 
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/cpa</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/cpa</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/cpa</url>
-    </scm>
-
     <build>
     	<resources>
       <!-- 

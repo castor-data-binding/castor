@@ -19,12 +19,6 @@
         Core functionality - Required by all other modules
     </description>
 
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/core</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/core</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/core</url>
-    </scm>
-    
     <build>
     	<resources>
       <!-- 

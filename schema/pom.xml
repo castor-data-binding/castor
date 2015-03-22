@@ -14,16 +14,9 @@
     <packaging>jar</packaging>
 
     <name>Castor XML - schema</name>
-    <url>http://castor.org</url>
     <description>
         Functionality to reading, processing and writing XML schema documents.
     </description>
-
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/schema</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/schema</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/schema</url>
-    </scm>
 
     <build>
     	<resources>

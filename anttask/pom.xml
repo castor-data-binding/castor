@@ -16,12 +16,6 @@
 	<name>Castor XML - Ant tasks for XML code generator</name>
 	<url>http://www.castor.org</url>
 
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/anttask</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/anttask</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/anttask</url>
-    </scm>
-    
     <build>
     	<resources>
       <!-- 

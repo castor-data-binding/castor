@@ -13,17 +13,7 @@
     <packaging>jar</packaging>
 
     <name>Castor XML - Annotation support</name>
-    <description>
-        Annotation support for Castor XML.
-    </description>
-
-<!--
-    <scm>
-        <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xml</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xml</developerConnection>
-        <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xml</url>
-    </scm>
--->
+    <description>Annotation support for Castor XML.</description>
 
     <dependencies>
 

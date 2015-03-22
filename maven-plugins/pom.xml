@@ -13,11 +13,6 @@
    <packaging>maven-plugin</packaging>
    <name>Castor XML - Maven Mojos for executing XMLCTF tests</name>
    <url>http://maven.apache.org</url>
-   <scm>
-      <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/maven-plugins</connection>
-      <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/maven-plugins</developerConnection>
-      <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/maven-plugins</url>
-   </scm>
    
    <build>
     	<resources>

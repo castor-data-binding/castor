@@ -12,7 +12,6 @@
 
     <!-- <packaging>jar</packaging> -->
     <name>Castor JDO - Integration tests for JPA annotation support</name>
-    <url>http://www.castor.org</url>
     <description>Integration tests for JPA annotation support of Castor JDO.</description>
 
     <build>

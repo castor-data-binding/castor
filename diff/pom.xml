@@ -14,17 +14,8 @@
     <packaging>jar</packaging>
 
     <name>Castor XML - XML diff</name>
-    <url>http://castor.org</url>
-    <description>
-        Functionality to process a diff function on XML artifacts.
-    </description>
+    <description>Functionality to process a diff function on XML artifacts.</description>
 
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/diff</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/diff</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/diff</url>
-    </scm>
-    
     <build>
     	<resources>
       <!-- 

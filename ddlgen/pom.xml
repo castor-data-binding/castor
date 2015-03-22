@@ -15,13 +15,6 @@
    <packaging>jar</packaging>
 
    <name>Castor JDO - DDL generator</name>
-   <url>http://castor.org</url>
-
-   <scm>
-      <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/ddlgen</connection>
-      <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/ddlgen</developerConnection>
-      <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/ddlgen</url>
-   </scm>
 
    <developers>
       <developer>

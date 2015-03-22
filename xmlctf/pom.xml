@@ -63,12 +63,6 @@
         </plugins>
     </build>
 
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xmlctf</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf</url>
-    </scm>
-
 	<dependencies>
         <dependency>
             <groupId>junit</groupId>

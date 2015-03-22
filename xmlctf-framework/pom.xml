@@ -14,13 +14,6 @@
 	<packaging>jar</packaging>
 
 	<name>Castor XML - test suite framework code</name>
-	<description />
-
-    <scm>
-       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk/xmlctf-framework</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk/xmlctf-framework</developerConnection>
-       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk/xmlctf-framework</url>
-    </scm>
 
     <build>
        <resources>
