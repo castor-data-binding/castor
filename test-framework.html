@@ -1,0 +1,371 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Castor JDO Test Framework Overview</title><link rel="stylesheet" href="default.css"></head><body bgcolor="#ffffff" link="#6763a9" vlink="#6763a9" topmargin="0" bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0"><a name="top"></a><table border="0" cellpadding="0" cellspacing="0" height="400"><tr><td width="10" valign="top" align="left" bgcolor="#7270c2"><img src="images/dotTrans.gif" width="1" height="1" border="0"></td><td valign="top" align="left" bgcolor="#7270c2" width="150"><img src="images/dotTrans.gif" width="1" height="1" border="0"></td><td width="7" valign="top" align="left"><img src="images/dotTrans.gif" border="0" width="1" height="1"></td><td width="70" valign="top" align="left"><img src="images/dotTrans.gif" width="70" height="6" border="0"></td><td width="100%" valign="top" align="left"><img src="images/top_2.gif" width="100%" height="6" border="0"></td></tr><tr><td width="10" bgcolor="#7270c2" valign="top" align="left"><img src="images/dotTrans.gif" border="0" width="1" height="1"></td><td bgcolor="#7270c2" valign="top" align="left" width="150"><img src="images/dotTrans.gif" border="0" width="1" height="1"></td><td width="7" bgcolor="#ffffff" valign="top" align="left"></td><td width="70" valign="top" align="left"><img src="images/dotTrans.gif" width="1" height="1" border="0"></td><td width="100%" valign="middle" align="left"><a href="license.html"><span class="menuTopOff">License</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.codehaus.org"><span class="menuTopOff">Codehaus</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://openejb.org"><span class="menuTopOff">OpenEJB</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://openjms.sf.net"><span class="menuTopOff">OpenJMS</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://openorb.sf.net"><span class="menuTopOn">OpenORB</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://tyrex.sf.net"><span class="menuTopOff">Tyrex</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><img src="images/dotTrans.gif" width="1" height="2" border="0"></td></tr><tr><td width="10" bgcolor="#7270c2" valign="top" align="left"><img src="images/dotTrans.gif" width="10" height="3" border="0"></td><td bgcolor="#7270c2" valign="top" align="right" width="150"><img src="images/line_sm.gif" width="105" height="3" border="0"></td><td width="7" bgcolor="#a9a5de" valign="top" align="left"><img src="images/line_sm.gif" width="7" height="3" border="0"></td><td width="70" valign="top" align="left"><img src="images/line_light.gif" width="70" height="3" border="0"></td><td width="100%" valign="top" align="left"><img src="images/line_light.gif" width="100%" height="3" border="0"></td></tr><tr><td bgcolor="#7270c2" valign="top" align="left"><img src="images/dotTrans.gif" width="10" height="10" border="0"></td><td bgcolor="#7270c2" valign="top" align="left" width="150"><img src="images/dotTrans.gif" width="1" height="2" border="0"><br><table border="0" cellpadding="10" cellspacing="0"><tr><td><script type="text/javascript" src="http://www.ohloh.net/p/3635/widgets/project_users_logo.js"></script></td></tr></table><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">Main</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="index.html"><span class="subMenuOff">Home</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="about.html"><span class="subMenuOff">About</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="features.html"><span class="subMenuOff">Features</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="download.html"><span class="subMenuOff">Download</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="dependencies.html"><span class="subMenuOff">Dependencies</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="maven-integration.html"><span class="subMenuOff">Maven 2 support</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="maven-archetypes.html"><span class="subMenuOff">Maven 2 archetypes</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="schema.html"><span class="subMenuOff">DTD &amp; Schemas</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="news.html"><span class="subMenuOff">News Archive</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="http://castor.codehaus.org/rss/castor-announce.xml"><span class="subMenuOff">RSS news feed</span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">Documentation</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="reference-guide.html"><span class="subMenuOffHighlighted">Reference guide</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="presentations.html"><span class="subMenuOff">Publications</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="javadoc/overview-summary.html"><span class="subMenuOff">JavaDoc</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="http://docs.codehaus.org/display/CASTOR/"><span class="subMenuOffHighlighted">Project Wiki</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="changes.html"><span class="subMenuOff">Recent changes</span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">Development/Support</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="lists.html"><span class="subMenuOff">Mailing Lists</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="scm.html"><span class="subMenuOff">SVN/JIRA</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="contributing.html"><span class="subMenuOff">Contributing</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="support.html"><span class="subMenuOff">Support</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="http://bamboo.ci.codehaus.org/browse/CASTOR"><span class="subMenuOff">Continuous builds</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="professional-services.html"><span class="subMenuOffHighlighted">Prof. services</span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">Related projects</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="spring-orm-integration.html"><span class="subMenuOff">Spring ORM support</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="spring-xml-intro.html"><span class="subMenuOff">Spring XML factories</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="ws-integration.html"><span class="subMenuOff">WS frameworks</span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">Tools</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="schemaGen-anttask.html"><span class="subMenuOff">Schema generator</span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">More</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="examples.html"><span class="subMenuOff">The Examples</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="extras.html"><span class="subMenuOff">3rd Party Tools</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="test-framework.html"><span class="subMenuOff">JDO Tests</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="ctf.html"><span class="subMenuOff">XML Tests</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="conf-lib.html"><span class="subMenuOff">Configuration</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href=""><span class="subMenuOff"></span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="http://www.java.net/"><span class="subMenuOff"><img src="images/javanet_button_90.gif" border="0"></span></a></td></tr></table><br><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="top" align="left"><span class="subMenuOn">About</span></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="license.html"><span class="subMenuOff">License</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="user-experience.html"><span class="subMenuOffHighlighted">User stories</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="contributors.html"><span class="subMenuOff">Contributors</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="marketplace.html"><span class="subMenuOff">Marketplace</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="status.html"><span class="subMenuOff">Status, Todo</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="release-notes.html"><span class="subMenuOff">Changelog</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="library.html"><span class="subMenuOff">Library</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="contacts.html"><span class="subMenuOff">Contact</span></a></td></tr><tr><td valign="top" align="left">
+        &nbsp;
+                <a href="origins.html"><span class="subMenuOff">Project Name</span></a></td></tr></table><br></td><td width="7" bgcolor="#a9a5de" valign="top" align="left">&nbsp;</td><td width="70" valign="top" align="left">&nbsp;</td><td rowspan="4" width="100%" valign="top"><table cols="2" rows="2" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" align="left"><br><img border="0" height="34" hspace="0" src="images/castor.gif" vspace="0" width="115"><br><img border="0" height="10" hspace="0" src="images/dotTrans.gif"></td><td width="120" height="5" valign="top" align="right"></td></tr></table><p></p><p></p><br><h2 align="center">Castor JDO Test Framework Overview</h2><p align="center">
+              Documentation Author(s):<br>Bruce Snyder<br></p><HR size="1"><span class="bodyGrey"><b><a href="#Test-Framework-Overview">Test Framework Overview</a></b><br></span><span class="bodyGrey"><b><a href="#Executing-the-Castor-JDO-Test-Cases">Executing the Castor JDO Test Cases</a></b><br></span><span class="bodyGrey"><b><a href="#Writing-Test-Cases">Writing Test Cases</a></b><br></span><span class="bodyGrey"><a href="#Introduction">&nbsp;&nbsp;&nbsp;&nbsp;Introduction</a><br></span><span class="bodyGrey"><a href="#Writing-Tests-Using-the-CTF-JDO">&nbsp;&nbsp;&nbsp;&nbsp;Writing Tests Using the CTF-JDO</a><br></span><span class="bodyGrey"><a href="#Additional-Information">&nbsp;&nbsp;&nbsp;&nbsp;Additional Information</a><br></span><HR size="1"><br><a name="Test-Framework-Overview"><h2>Test Framework Overview</h2></a>
+
+      <p><span class="bodyGrey">
+        The Castor Test Framework for JDO (CTF-JDO) is a thin wrapper around
+        <a href="http://www.junit.org">JUnit</a>, the well known Java unit test
+        framework. CTF-JDO provides the ability to execute tests based on an XML
+        configuration file. This is very powerful when faced with a large number
+        of tests, because it allows the execution of only certain tests out of
+        that large pool of tests. Also, this feature can save an immense amount
+        of time in the software development process because no code need be
+        cut to execute a different set of tests. Upon complete execution of the
+        suite of tests listed in the XML configuration file, the results are
+        reported to the terminal.
+      </span></p>
+
+      <p><span class="bodyGrey">
+        For more information on writing unit tests with JUnit, please see this
+        <a href="http://junit.sourceforge.net/doc/testinfected/testing.htm">quick
+        introduction</a> article.
+      </span></p>
+
+      
+
+    <a name="Executing-the-Castor-JDO-Test-Cases"><h2>Executing the Castor JDO Test Cases</h2></a>
+
+      <p><span class="bodyGrey">
+        In the Castor directory is a test script that accepts arguments and
+        passes them along to the TestSuite in CTF-JDO. Executing the test script
+        (test.[sh|bat])with the argument '-info' yields a full list of the test
+        cases available for execution.
+      </span></p>
+
+      <p><span class="bodyGrey">
+        The following is a quick start guide to running the tests that come with
+        Castor:
+      </span></p>
+
+      <ol type="1">
+        <li>
+          <b>Configure the database connection.</b>
+          <br>
+          This is done in the XML file corresponding to the database being
+          tested. For example, database connections for Oracle are configured in
+          the file <tt>oracle.xml</tt>. Change this file to contain the proper
+          username, password, driver and any driver parameters necessary. For
+          more information on this, see <a href="jdo-database-conf.html">JDO
+          Config</a>.
+        </li>
+
+        <li>
+          <b>Create the appropriate database tables.</b>
+          <br>
+
+          This is done by loading the SQL file corresponding to the database
+          being tested. For example, the tables needed to test Oracle reside in
+          <tt>oracle.sql</tt>. Consult the database documentation on loading the
+          SQL file. Alternatively, there is a little utility available with
+          Castor called <tt>BatchUpdateSQL</tt> in the directory
+          <tt>src/tests/jdo</tt> that can assist in the loading of SQL files.
+        </li>
+
+        <li>
+          <b>Compile the tests.</b>
+          <br>
+
+          The tests can be compiled by executing the build script with the
+          argument 'tests'. Note that building Castor is a prerequisite to
+          compiling the tests.
+        </li>
+
+        <li>
+          <b>Run the tests.</b>
+          <br>
+
+          To run only the tests for Oracle, for example, execute the test
+          script with the argument 'castor.oracle'. This argument will cause
+          the CTF-JDO to execute only the battery of tests for Oracle.
+        </li>
+
+        <p><span class="bodyGrey">
+          Incidentally, if more feedback is needed from the tests as they're
+          being run, execute the test script with the argument '-verbose'. This
+          will cause the CTF-JDO to output more information about what is
+          actually taking place while tests are executing.
+        </span></p>
+
+      </ol>
+
+    <a name="Writing-Test-Cases"><h2>Writing Test Cases</h2></a>
+
+      <a name="Introduction"><h3>Introduction</h3></a>
+
+        <p><span class="bodyGrey">
+          Writing test cases is a very important, yet often misunderstood task.
+          Unit tests are pieces of code that exercise different scenarios of a
+          piece of software. Test cases are made up of groups of unit tests.
+          Writing test cases for specific uses of Castor is vital.  Submitting
+          test cases assists the Castor developers in verifying bugs and/or
+          patches. Whenever a user submits a request to the mail list stating
+          that Castor is not working in their situation, someone must analyze
+          the user's description or, if it's submitted, the user's code, and
+          then create a test case for that situation. This is very time
+          consuming and sometimes quite difficult to achieve. Submitting test
+          cases with a complete description of the problem saves everyone a
+          tremendous amount of time and expedites the entire process.
+        </span></p>
+
+        <p><span class="bodyGrey">
+          Understanding why unit tests are so important is the first step to
+          addressing this issue.  It may seem counterintuitive, but writing
+          unit tests will actually save development time.
+        </span></p>
+
+      
+
+      <a name="Writing-Tests-Using-the-CTF-JDO"><h3>Writing Tests Using the CTF-JDO</h3></a>
+
+        <p><span class="bodyGrey">
+          Writing test cases using the CTF-JDO can be difficult to figure out,
+          at first.  The following steps will assist you in writing your own:
+        </span></p>
+
+        <ol type="1">
+          <li>
+            <b>Customize the database XML descriptor to connect to your database.</b>
+            <br>
+
+            There are database descriptors in the src/test/jdo directory for
+            most, if not all, of the supported databases. The database
+            descriptor is an XML file corresponding to the database being
+            tested. It provides the information needed to make connections to
+            the database. For example, database connections for Oracle are
+            configured in the file <tt>oracle.xml</tt>.  (Note: In this
+            descriptor is a reference to a mapping descriptor. This should
+            point to the mapping descriptor created in step two.) For more
+            information on this, see <a href="jdo-database-conf.html">JDO
+            Config</a>.
+          </li>
+
+          <li>
+            <b>Create the appropriate database tables.</b>
+            <br>
+
+            This is done by loading the SQL file corresponding to the database
+            being tested.
+          </li>
+
+          <li>
+            <b>Create the mapping descriptor.</b>
+            <br>
+
+            Most situations will require the creation of an object model for
+            the tests. This requires that an XML mapping descriptor also be
+            created. For information on this, see the section on
+            <a href="xml-mapping.html">XML mapping</a>. This mapping descriptor
+            will need to be referenced in the database descriptor as noted in
+            step one.
+          </li>
+
+          <li>
+            <b>Write the tests.</b>
+            <br>
+
+            <p><span class="bodyGrey">
+              The easiest way to write a test for your situation is to copy
+              one of the existing tests in the <tt>src/tests/jdo</tt> directory
+              and change it to suit your needs. Each test implements a certain
+              set of methods. The list of methods is as follows:
+            </span></p>
+
+            <ol type="A">
+              <li>
+                The constructor - This is used to identify the test by giving
+                it a name and a number.
+              </li>
+              <li>
+                <tt>setUp()</tt> -- This method is used for any necessary
+                assembly of the test.
+              </li>
+              <li>
+                <tt>tearDown()</tt> -- This method is used to disassemble the
+                test upon completion of execution.
+              </li>
+              <li>
+                <tt>runTest()</tt> -- This method is passed to JUnit to execute
+                any tests called in the method body.
+              </li>
+              <li>
+                <tt>testXXX()</tt> -- Any number of test methods can be written.
+                Each test method's name begins with the word <tt>test</tt>
+                followed by a descriptive name using an initial capital letter.
+              </li>
+            </ol>
+            <br>
+            <br>
+
+            <p><span class="bodyGrey">
+              Simply change <tt>setUp()</tt>, <tt>runTest()</tt>, and
+              <tt>tearDown()</tt> to suit your needs. Then proceed to write any
+              number of <tt>testXXX()</tt> methods to test your situation. Just
+              place the name of each <tt>testXXX()</tt> method (in the proper
+              order) in the <tt>runTest()</tt> method.
+            </span></p>
+          </li>
+
+          <li>
+            <b>Create the test descriptor.</b>
+            <br>
+
+            The XML test descriptor is simply a list of tests to be executed.
+            The important part of this file is each <tt>&lt;case&gt;</tt>
+            element. This is where the fully qualified name of each test
+            resides. The following is a small example of a stand-alone XML
+            descriptor containing some tests to run:
+
+<span class="bodyBlack"><pre>
+&lt;harness name="Instance Creation Tests"&gt;
+   &lt;category name="Misc" class="jdo.JDOCategory"&gt;
+      &lt;jdo database-name="mytestcases" configuration="my_test_cases.xml" /&gt;
+      &lt;case class="myapp.TestOne" /&gt;
+      &lt;case class="myapp.TestTwo" /&gt;
+      &lt;case class="myapp.TestThree" /&gt;
+         ...
+   &lt;/category&gt;
+&lt;/harness&gt;
+</pre></span>
+
+            This XML would need to be placed in its own file. For the sake of
+            this example, we'll call the file <tt>myapp_tests.xml</tt>.
+          </li>
+
+          <li>
+            <b>Create the database tables.</b>
+            <br>
+
+            This is done by loading an SQL file that describes the tables. For
+            a sample of such an SQL file, see the SQL files in the
+            <tt>src/tests/jdo</tt> directory. For example, the tables needed
+            to test Oracle reside in <tt>oracle.sql</tt>. Incidentally, there
+            is a little utility called <tt>BatchUpdateSQL</tt> in the
+            <tt>src/tests/jdo</tt> directory that is helpful in executing SQL
+            files.
+          </li>
+
+          <li>
+            <b>Compile the tests.</b>
+            <br>
+
+            Execute the build script with the argument 'tests' to compile the
+            tests. The standard Castor build script should pick up the files
+            created.
+          </li>
+
+          <li>
+            <b>Execute the tests.</b>
+            <br>
+
+            Execute the test script with the argument '-file myapp_tests.xml'.
+            This points to the proper XML test descriptor for execution.
+          </li>
+
+        </ol>
+
+      
+
+      <a name="Additional-Information"><h3>Additional Information</h3></a>
+        <p><span class="bodyGrey">Not yet created.</span></p>
+      
+
+    </td></tr><tr height="5"><td width="10" height="5" bgcolor="#7270c2" valign="top" align="left">&nbsp;</td><td height="5" bgcolor="#7270c2" valign="top" width="150"><img src="images/dotTrans.gif" width="1" height="15" border="0"><br><img src="images/line_sm.gif" width="105" height="3" border="0" align="right"></td><td width="7" height="5" bgcolor="#a9a5de" valign="top" align="left">&nbsp;</td><td width="70" height="5" valign="top" align="left">&nbsp;</td><td width="120" height="5" valign="top" align="left">&nbsp;</td></tr><tr><td width="10" height="5" bgcolor="#7270c2" valign="top" align="left">&nbsp;</td><td bgcolor="#7270c2" valign="top" align="left" width="150"></td><td width="7" bgcolor="#a9a5de" valign="top" align="left"><img src="images/dotTrans.gif" width="1" height="25" border="0"></td><td width="70" valign="top" align="left"><img src="images/dotTrans.gif" width="1" height="25" border="0"></td><td width="120" valign="top" align="left">&nbsp;</td></tr><tr height="5"><td width="10" rowspan="2" height="100%" bgcolor="#7270c2" valign="bottom" align="left"><img src="images/stripes1.gif" width="10" height="125" border="0"></td><td rowspan="2" height="100%" bgcolor="#7270c2" valign="bottom" align="left" width="150"><img src="images/stripe105.gif" width="105" height="125" border="0"></td><td width="7" rowspan="2" height="100%" bgcolor="#a9a5de" valign="top" align="left">&nbsp;</td><td width="70" height="100%" valign="top" align="left">&nbsp;</td><td width="120" height="100%" valign="top" align="left">&nbsp;</td></tr><tr height="5"><td width="70" height="25" valign="top" align="left">&nbsp;</td><td width="400" height="25" valign="bottom" align="left"><br><br><img src="images/line_light.gif" border="0" width="400" height="3"><br><p></p><span class="bodyGrey"><small><notice>
+    Copyright &copy; 1999-2005 <a href="http://www.exolab.org">ExoLab Group</a>, Intalio Inc.,
+    and Contributors.  All rights reserved.
+  </notice><br>&nbsp;<br></small><small><notice>
+    Java, EJB, JDBC, JNDI, JTA, Sun, Sun Microsystems are trademarks or registered
+    trademarks of Sun Microsystems, Inc. in the United States and in other
+    countries. XML, XML Schema, XSLT and related standards are trademarks or registered
+    trademarks of MIT, INRIA, Keio or others, and a product of the World Wide Web
+    Consortium. All other product names mentioned herein are trademarks of their respective
+    owners.
+  </notice><br>&nbsp;<br></small></span><p></p>
+          &nbsp;
+        </td><td width="120" height="25" valign="top" align="left">&nbsp;</td></tr></table><script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script type="text/javascript">
+        var pageTracker = _gat._getTracker("UA-3544187-1");
+        pageTracker._trackPageview();
+    </script></body></html>
