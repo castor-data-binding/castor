@@ -412,21 +412,13 @@
                 </p>
 
                 <code-panel>
-> mvn jar</code-panel>
+> mvn package</code-panel>
 
                 <p>
                     To install the generated JARs into your <b>local</b> Maven 
                     repository, issue ...
                 </p>
 
-                <code-panel>
-> mvn install</code-panel>
-                
-                <p>
-                    To additionally run the (plenty) integration test suites 
-                    available with Castor during testing, please issue ...
-                </p>
-                
                 <code-panel>
 > mvn (clean) verify</code-panel>
 
@@ -457,6 +449,14 @@
                     For more information about how to execute the CTF test suite and its 
                     internals, please visit <a href="test-framework.html">this place</a>.
                 </p>                
+                
+                <code-panel>
+> mvn install</code-panel>
+                
+				<p>
+                    To additionally run the (plenty) integration test suites 
+                    available with Castor during testing, please issue ...
+				</p>
                 
             </section>
         
