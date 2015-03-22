@@ -9,9 +9,12 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Ignore;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+@Ignore
 public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
     private static final String testXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\" />";
     private static final String unclosedStartElement = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\">";

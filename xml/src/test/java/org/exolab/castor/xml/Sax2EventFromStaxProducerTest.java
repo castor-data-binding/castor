@@ -30,6 +30,7 @@ import javax.xml.stream.XMLStreamReader;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
+import org.junit.Ignore;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -44,6 +45,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author philipperlacher
  * 
  */
+@Ignore
 public class Sax2EventFromStaxProducerTest extends TestCase {
 
 	/**
