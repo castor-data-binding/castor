@@ -5,6 +5,13 @@
     <!-- <src>http://maven.apache.org/images/apache-maven-project.png</src> -->
     <href>http://castor.org/</href>
   </bannerLeft>
+  
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.3.0</version>
+  </skin>
+    
 <!--  
   <bannerRight>
     <src>http://maven.apache.org/images/maven-small.gif</src>
@@ -13,13 +20,32 @@
   <body>
     <links>
       <item name="Maven" href="http://maven.apache.org/"/>
-      <item name="Codehaus" href="http://www.codehaus.org/"/>
+      <item name="Github" href="http://github.com/"/>
     </links>
 
+    <menu name="Main">
+        <item name="About" href="main/about.html" />
+        <item name="Features" href="main/features.html" />
+        <item name="Download" href="main/download.html" />
+        <item name="Maven archetypes" href="main/maven-archetypes.html" />
+        <item name="News" href="main/news.html" />
+        <item name="RSS" href="/rss/announce.xml" />
+    </menu>
+
     <menu name="Documentation">
-    
-        <item name="How to ..." href="/how-to-use-marshaller.html" />
-    	
+        <item name="Reference guide" href="documentation/reference.guide.html" />
+        <!-- <item name="Publications" href="documentation/publications.html" />  -->
+        <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
+        <!-- <item name="Recent changes" href="documentation/changes.html" />  NO -->
+        
+    </menu>
+
+    <menu name="Development/Support">
+        <item name="Mailing lists" href="support/mailing-lists.html" />
+        <!-- NO, REDUNDANT <item name="Mailing lists" href="support/mailing-lists.html" />  -->
+        <item name="Contributing" href="support/contributing.html" />
+        <item name="Support" href="support/support.html" />
+        
     </menu>
 
     ${reports}

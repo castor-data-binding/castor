@@ -48,8 +48,19 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-site-plugin</artifactId>
-               <version>2.2</version>
-            </plugin>
+               <version>3.4</version>
+               <dependencies>
+                 <dependency>
+                   <groupId>org.apache.maven.doxia</groupId>
+                   <artifactId>doxia-module-markdown</artifactId>
+                   <version>1.6</version>
+                 </dependency>
+               </dependencies>
+               <configuration>
+                 <inputEncoding>UTF-8</inputEncoding>
+                 <outputEncoding>UTF-8</outputEncoding>
+               </configuration>
+            </plugin>               
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-eclipse-plugin</artifactId>
