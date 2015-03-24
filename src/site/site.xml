@@ -21,12 +21,15 @@
     <links>
       <item name="Maven" href="http://maven.apache.org/"/>
       <item name="Github" href="http://github.com/"/>
+      <item name="Spring ORM for Castor" href="http://github.com/castor-data-binding/castor-spring"/>
+      <item name="Spring XML factories" href="http://github.com/castor-data-binding/spring-xml"/>
     </links>
 
     <menu name="Main">
         <item name="About" href="main/about.html" />
         <item name="Features" href="main/features.html" />
-        <item name="Download" href="main/download.html" />
+        <!-- NO, REDUNDANT <item name="Download" href="main/download.html" /> -->
+        <!-- NO, REDUNDANT <item name="Dependencies" href="main/dependencies.html" /> -->
         <item name="Maven archetypes" href="main/maven-archetypes.html" />
         <item name="News" href="main/news.html" />
         <item name="RSS" href="/rss/announce.xml" />
@@ -37,7 +40,6 @@
         <!-- <item name="Publications" href="documentation/publications.html" />  -->
         <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
         <!-- <item name="Recent changes" href="documentation/changes.html" />  NO -->
-        
     </menu>
 
     <menu name="Development/Support">
@@ -45,7 +47,29 @@
         <!-- NO, REDUNDANT <item name="Mailing lists" href="support/mailing-lists.html" />  -->
         <item name="Contributing" href="support/contributing.html" />
         <item name="Support" href="support/support.html" />
-        
+        <item name="Professional services" href="support/professional-services.html" />
+    </menu>
+
+    <menu name="Tools">
+        <item name="Schema generator" href="tools/schema-generator.html" />
+    </menu>
+
+    <menu name="More">
+        <!--  NO, NOT NEEDED ANYMORE <item name="DTD &amp; schemas" href="more/schema.html" /> -->
+        <item name="Examples" href="more/examples.html" />
+        <item name="XML tests" href="more/ctf.html" />
+    </menu>
+
+    <menu name="About">
+        <item name="License" href="about/licenses.html" />
+        <!-- NO<item name="User stories" href="about/user-experiences.html" /> -->
+        <!-- NO, REDUNDANT <item name="Contributors" href="about/contributors.html" /> -->
+        <!-- NO, REDUNDANT <item name="Marketplace" href="about/marketplace.html" /> -->
+        <!-- NO, REDUNDANT <item name="Status" href="about/status.html" /> -->
+        <!-- NO, REDUNDANT <item name="Changelog" href="about/release-notes.html" /> -->
+        <item name="References" href="about/references.html" />
+        <!--  NO, REDUNDANT <item name="Project name" href="about/project-name.html" /> -->
+        <item name="Project name" href="about/project-name.html" />
     </menu>
 
     ${reports}
