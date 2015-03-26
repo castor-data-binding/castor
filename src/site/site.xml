@@ -40,6 +40,7 @@
         <!-- <item name="Publications" href="documentation/publications.html" />  -->
         <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
         <!-- <item name="Recent changes" href="documentation/changes.html" />  NO -->
+        <item name="Userguide" href="userguide-index.html"/>
     </menu>
 
     <menu name="Development/Support">
@@ -59,7 +60,7 @@
         <item name="Examples" href="more/examples.html" />
         <item name="XML tests" href="more/ctf.html" />
     </menu>
-
+    
     <menu name="About">
         <item name="License" href="about/licenses.html" />
         <!-- NO<item name="User stories" href="about/user-experiences.html" /> -->
