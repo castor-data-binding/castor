@@ -43,6 +43,7 @@
             <configuration>
               <descriptors>
                 <descriptor>src/assembly/bin.xml</descriptor>
+                <descriptor>src/assembly/bin-with-dependencies.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
