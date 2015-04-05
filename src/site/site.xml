@@ -39,7 +39,7 @@
         <!-- NO, REDUNDANT <item name="Dependencies" href="main/dependencies.html" /> -->
         <item name="Maven archetypes" href="main/maven-archetypes.html" />
         <item name="News" href="main/news.html" />
-        <item name="RSS" href="/rss/announce.xml" />
+        <item name="RSS" href="rss/castor-announce.xml" />
     </menu>
 
     <menu name="Documentation">
