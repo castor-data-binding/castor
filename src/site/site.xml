@@ -37,16 +37,16 @@
         <item name="Features" href="main/features.html" />
         <!-- NO, REDUNDANT <item name="Download" href="main/download.html" /> -->
         <!-- NO, REDUNDANT <item name="Dependencies" href="main/dependencies.html" /> -->
+        <item name="Recent changes" href="jira-report.html" />
         <item name="Maven archetypes" href="main/maven-archetypes.html" />
         <item name="News" href="main/news.html" />
-        <item name="RSS" href="rss/castor-announce.xml" />
+        <item name="RSS" href="rss/castor-announce.xml" img="images/rss.svg" position="right" width="16" height="16" target="_blank" />
     </menu>
 
     <menu name="Documentation">
         <item name="Reference guide" href="documentation/reference.guide.html" />
         <!-- <item name="Publications" href="documentation/publications.html" />  -->
         <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
-        <!-- <item name="Recent changes" href="documentation/changes.html" />  NO -->
         <item name="Userguide" href="userguide-index.html"/>
     </menu>
 
