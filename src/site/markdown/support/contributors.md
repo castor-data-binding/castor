@@ -1,175 +1,62 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- This file contains a list of Castor contributors -->
-<document url="http://castor.codehaus.org/contributors.xml">
-  <properties>
-    <title>People who have supported the Castor project</title>
-    <abstract>
-       General information about the people that have supported the
-       Castor project over the time.
-    </abstract>
-    <status>Final</status>
-  </properties>
+# Contributors - People who have supported the Castor project
 
-  <body>
-    <title>Committers, contributors et alias</title>
-    <header>
+General information about the people that have supported the
+Castor project over the time.
 
-      <p>
-        This page lists all people who have gone the extra mile and
-        supported Castor in one way or another.  This list includes committers,
-        contributors, people who have contributed to the project's
-        documentation, and people who advanced the project by providing us
-        with valuable feedback.
-      </p>
+This page lists all people who have gone the extra mile and
+supported Castor in one way or another.  This list includes committers,
+contributors, people who have contributed to the project's
+documentation, and people who advanced the project by providing us
+with valuable feedback.
+      
+If you would like to get involved, the first step is to join the
+[mailing lists](mailing-lists.html).
+      
+We kindly ask that you *not send us emails privately* (e.g. asking for
+support). We are non-paid volunteers who help out with the project and
+we do not necessarily have the time or energy to help people on an
+individual basis.
+      
+Instead, we have set up [mailing lists](mailing-lists.html) which
+often contain hundreds of individuals. The benefit of using mailing lists
+instead of private communication is that these mailing lists are a shared
+resource where others can also learn from your messages.  This is true
+whether your request contains a problem description, advice, or even a
+common mistake, and as a community we all grow together.
+      
+In addition, use of mailing lists enables us to maintain searchable
+archives of these mailing
+lists that cover a vast range of questions and answers related to the use
+of Castor. We simply cannot overstate the importance of these archives.
+      
+## Committers
 
-      <p>
-        If you would like to get involved, the first step is to join the
-        <a href="lists.html">mailing lists</a>.
-      </p>
-
-      <p>
-        We kindly ask that you <b>not send us emails privately</b> (e.g. asking for
-        support). We are non-paid volunteers who help out with the project and
-        we do not necessarily have the time or energy to help people on an
-        individual basis.
-      </p>
-
-      <p>
-        Instead, we have set up <a href="lists.html">mailing lists</a> which
-        often contain hundreds of individuals. The benefit of using mailing lists
-        instead of private communication is that these mailing lists are a shared
-        resource where others can also learn from your messages.  This is true
-        whether your request contains a problem description, advice, or even a
-        common mistake, and as a community we all grow together.
-      </p>
-
-      <p>
-        In addition, use of mailing lists enables us to maintain searchable
-        <a href="http://archive.castor.codehaus.org">archives</a> of these mailing
-        lists that cover a vast range of questions and answers related to the use
-        of Castor. We simply cannot overstate the importance of these archives.
-      </p>
-
-      <contributors>
-
-  <!-- PLEASE KEEP THIS FILE ASSORTED ACCORDING TO SECTIONS -->
-
-  <!-- ********** -->
-  <!-- COMMITTERS -->
-  <!-- ********** -->
-
-  <!--
-      PLEASE KEEP THIS SECTION (COMMITTERS) SORTED BY ORDER OF WHO COMMITS
-      MOST FREQUENTLY. Questions are sent more often to those people at the top
-      of this list.   -->
-
-  <contributor type="Committer">
-    <name surname="Guttmann" given="Werner" />
-    <email>werner.guttmann@gmx.net</email>
-    <project>JDO &amp; XML</project>
-    <company id="indoqa" />
-    <description>
-      Current Castor project lead; JDO enhancements including distributed caches,
+| Name | Email | Project | Company | Description | Status | Since |
+| - | - | - | - | - | - | - |
+| Werner Guttmann | werner.guttmann@gmx.net | JDO & XML | Indoqa  | Current Castor project lead; JDO enhancements including distributed caches,
       TransactionManagerFactory API, support for polymorphism, Spring integration,
-      the API for JDBC parameters and much more.
-    </description>
-    <status>active</status>
-    <since>
-      <date>Oct. 2003</date>
-    </since>
-  </contributor>
-
-  <contributor type="Committer">
-    <name surname="Joachim" given="Ralf" />
-    <email>ralf.joachim@syscon.eu</email>
-    <project>JDO</project>
-    <company id="syscon"/>
-    <description>
-      Various bug fixes, enhancements and refactorings at almost all
-      parts of JDO including major refactoring of JDO test framework.
-    </description>
-    <status>active</status>
-    <since>
-      <date>Dec. 2004</date>
-    </since>
-  </contributor>
-  
-  <contributor type="Committer">
-    <name surname="Lang" given="Lukas" />
-    <email>lukaslang@codehaus.org</email>
-    <project>XML and JDO</project>
-    <description>
-      Contributed to JDO extensions for Castor XML code generator, including major 
-      refactorings of XML code generation and JDO
-    </description>
-    <status>active</status>
-    <since>
-      <date>Jul. 2008</date>
-    </since>
-  </contributor>
-  
-    <contributor type="Committer">
-    <name surname="Gupta" given="Udai" />
-    <email>mailtoud@gmail.com</email>
-    <project>JDO</project>
-    <description>
-      Transferred some tests to new JDO test framework, Some bug fixes.
-    </description>
-    <status>active</status>
-    <since>
-      <date>Jul. 2008</date>
-    </since>
-  </contributor>
-  
-  <contributor type="Committer">
-    <name surname="Kuns" given="Edward" />
-    <email>edward.kuns@aspect.com</email>
-    <project>XML</project>
-    <description>
-      Various bug fixes, enhancements and refactorings at almost all
+      the API for JDBC parameters and much more. | Active  | Oct. 2003 | 
+| Joachim Ralf | ralf.joachim@syscon.eu | JDO | Syscon | Various bug fixes, enhancements and refactorings at almost all
+      parts of JDO including major refactoring of JDO test framework. | Active | Dec. 2004 |
+| Lukas Lang | lukaslang@codehaus.org| XML and JDO | Contributed to JDO extensions for Castor XML code generator, including major 
+      refactorings of XML code generation and JDO | Inactive | Jul. 2008 |
+| Udai Gupta | mailtoud@gmail.com | JDO < Transferred some tests to new JDO test framework, Some bug fixes. | Inactive | Jul. 2008 |
+| Edward Kuns | edward.kuns@aspect.com | XML | Various bug fixes, enhancements and refactorings at almost all
       parts of XML code generation, including major refactoring of XML
-      test framework.
-    </description>
-    <status>inactive</status>
-    <since>
-      <date>Oct. 2006</date>
-    </since>
-  </contributor>
+      test framework. | inactive | Oct. 2006 |
+| Dennis Butterstein | madsheepscarer@googlemail.com | JDO | GSoC student 2010 and GSoC mentor 2011. | Inactive | Mar. 2011 | 
 
-  <contributor type="Committer">
-    <name surname="Butterstein" given="Dennis" />
-    <email>madsheepscarer@googlemail.com</email>
-    <project>JDO</project>
-    <description>
-      GSoC student 2010 and GSoC mentor 2011.
-    </description>
-    <status>active</status>
-    <since>
-      <date>Mar. 2011</date>
-    </since>
-  </contributor>
+## Google Summe of Code student
+
+| Name | Email | Project | Company | Description | Status | Since |
+| - | - | - | - | - | - | - |
+| Matthias Epheser | matthias.epheser@indoqa.com | XML | | Committed a lot of new functionality to the XML code generator, 
+      including. the integration of Velocity as template engine, etc. | | Summer 2007 |
 
 
-  <!-- ********** -->
-  <!-- Google Summe of Code student -->
-  <!-- ********** -->
-
-  <contributor type="GSOC student">
-    <name surname="Matthias" given="Epheser" />
-    <email>matthias.epheser@indoqa.com</email>
-    <project>XML</project>
-    <description>
-      Committed a lot of new functionality to the XML code generator, 
-      including. the integration of Velocity as template engine, etc.
-    </description>
-    <since>
-      <date>Summer 2007</date>
-    </since>
-  </contributor>
-
-  <!-- ********** -->
-  <!-- FORMER COMMITTERS -->
-  <!-- ********** -->
+## FORMER COMMITTERS
+  
+Bla 
   
   <contributor type="Inactive Committer">
     <name surname="Visco" given="Keith"/>
@@ -189,7 +76,7 @@
   <contributor type="Inactive Committer">
     <name surname="Fawcett" given="Andrew"/>
     <email>Andrew.Fawcett@coda.com</email>
-    <company id="coda"/>
+    | coda"/>
     <project>XML</project>
     <description>XML enhancements.</description>
     <status>inactive</status>
@@ -212,7 +99,7 @@
   <contributor type="Inactive Committer">
     <name surname="Fuchs" given="Martin" />
     <email>martin-fuchs@gmx.net</email>
-    <company id="mentopolis"/>
+    | mentopolis"/>
     <project>JDO</project>
     <status>inactive</status>
     <description>
@@ -229,7 +116,7 @@
     <email>gblock@ctoforaday.com</email>
     <project>JDO</project>
     <status>inactive</status>
-    <company id="ctoforaday"/>
+    | ctoforaday"/>
     <description>
       Bugfixes/enhancements, stress testing, performance testing, tester of
       unusual 'runtime' environments, (Hashbelt) cache implementations et alias.
@@ -389,13 +276,9 @@
     <status>inactive</status>
   </contributor>
 
-  <!-- *********** -->
-  <!-- CONTRIBUTOR -->
-  <!-- *********** -->
+## Contributors
 
-  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
-       It makes it easier to maintain.
-  -->
+All people contributing to Castor.
 
   <!-- Last names begin with A-D -->
 
@@ -825,7 +708,7 @@
   </contributor>
 
   <contributor type="Contributor">
-    <name surname="Pelchat" given="Stéphane"/>
+    <name surname="Pelchat" given="StÃ©phane"/>
     <email>stephane@ofoto.com</email>
     <description>Patches to enum and date field handlers to support "nillable" fields.</description>
   </contributor>
@@ -1114,7 +997,7 @@
   </contributor>
 
   <contributor type="Contributor">
-    <name surname="Wichoski" given="Clóvis"/>
+    <name surname="Wichoski" given="ClÃ³vis"/>
     <email>clovis.wichoski@gmail.com</email>
     <company id="supridatta"/>
     <description>
@@ -1137,13 +1020,9 @@
     </description>
   </contributor>
 
-  <!-- ******** -->
-  <!-- FEEDBACK -->
-  <!-- ******** -->
+## Contributors giving feedback
 
-  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
-      It makes it easier to maintain
-  -->
+All people providing feedback in one way or the other.
 
   <!-- Last names begin with A-D -->
 
@@ -1338,13 +1217,10 @@
     <description>Found and reported bugs in ClassMolder, ObjectLock and SQLEngine</description>
   </contributor>
 
-  <!-- ********** -->
-  <!-- DOCUMENTOR -->
-  <!-- ********** -->
+## Contributors towards documentation
 
-  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
-      It makes it easier to maintain
-  -->
+All people contributing towards the documentation of Castor.
+
 
   <contributor type="Documentor">
     <name surname="Gilmartin" given="Andrew"/>
@@ -1383,16 +1259,9 @@
     </description>
   </contributor>
 
-  <!-- ******************** -->
-  <!-- COMPANY INFORMATION  -->
-  <!-- ******************** -->
-  <!--
-      Company Information, so we don't have to duplicate it for
-      multiple contributors from the same company
-  -->
-  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
-      It makes it easier to maintain
-  -->
+## Companies
+
+All companies contributing towards Castor.
 
   <!-- Company Names (A-D) -->
 
@@ -1500,8 +1369,10 @@
     <name>Zaplet</name>
     <url>www.zaplet.com</url>
   </company>
-
-  <!-- description of contributor types -->
+  
+  ## Contributor types
+  
+  Description of the various contributor types used.
 
   <type name="Committer">
     Committers are contributors who have written lots of important code,
@@ -1541,9 +1412,3 @@
     reports) that have been beneficial to the development and stability
     of this project.
   </type>
-
-      </contributors>
-    </header>
-  </body>
-
-</document>
