@@ -9,6 +9,6 @@ The Castor Project was started and originally developed by
 Keith Visco and Assaf Arkin of Intalio, Inc.
 
 Contributors are welcome to join this project. Please join us on the
-[mailing list](lists.html).
+[mailing list](../support/mailing-lists.html).
  
-We maintain a full list of [contributors](contributors.html) past and present.
+We maintain a full list of [contributors](../support/contributors.html) past and present.

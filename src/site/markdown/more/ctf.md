@@ -32,8 +32,8 @@ broken, where the problem was introduced, and how to fix it.
       
       
 One solution is to choose to automated tests: as described in
-<a href="http://www.io.com/~wazmo/papers/seven_steps.html">Seven Steps to
-Automation Steps</a> by Bret Pettichord, there are several reasons to choose
+[Seven Steps to Automation Steps](http://www.io.com/~wazmo/papers/seven_steps.html)
+by Bret Pettichord, there are several reasons to choose
 to automate tests:
       
 * Allow testing to happen more frequently,
@@ -43,7 +43,7 @@ to automate tests:
       
 For all of these reasons, we have chosen to give to Castor an automated Testing
 Framework called the "Castor Testing Framework" (and referered to as the CTF).  This
-framework is built with <a href="http://www.junit.org">JUnit</a> and will help
+framework is built with [JUnit](http://www.junit.org)and will help
 Castor developers.  It also helps users in several ways by:
       
 * Improving Castor reliability,
@@ -477,22 +477,10 @@ test type:
 A SchemaTest tests only that the provided schema(s) can be successfully read
 and parsed, and then written to disk.  No marshaling or unmarshaling or source
 generation is performed.
-          
 
-          <table border="1" cellspacing="0">
-            <tr>
-              <th align="center">Tag</th>
-              <th>Attributes</th>
-              <th>Description</th>
-              <th>Optional?</th>
-            </tr>
-            <tr>
-              <td align="center">UnitTestCase</td>
-              <td>&#x00A0;</td>
-              <td>One or more unit test cases (see below)</td>
-              <td>Required</td>
-            </tr>
-          </table>
+| Tag | Attributes | Description | Optional? |
+| - | - | - | - |
+| UnitTestCase | | One or more unit test cases (see below) | Required |
 
 ### MarshallingTest
           
@@ -917,7 +905,7 @@ document.
       
 For instance, given the following XML document:
       
-      <pre><![CDATA[
+```
 <?xml version='1.0'?>
 <Invoice>
     <Customer>
@@ -928,7 +916,7 @@ For instance, given the following XML document:
     </Items>
       ...
 </Invoice>]]>
-      </pre>
+```
       
 the class that represents the Root Object is <tt>Invoice</tt>.
       
@@ -1127,10 +1115,8 @@ to do is:
       
 * Write a simple test case as described previously.
 * Create a jar or a directory tree (which you can ZIP up).
-* Send it to the <a href="http://jira.codehaus.org/browse/CASTOR">Exolab JIRA</a> or
- to a <a href="http://castor.codehaus.org/contributors.html">contributor:</a><br/>
- Exolab JIRA: http://jira.codehaus.org/browse/CASTOR<br/>
- Committer list: http://castor.codehaus.org/contributors.html
+* Send it to the [JIRA](http://jira.codehaus.org/browse/CASTOR) or
+ to a [contributor](contributors.html)
         
 ## Full Sample of a Source Generation Test
       
@@ -1748,27 +1734,6 @@ and is subject to change.
 ```
 
 ## References
-* 
-          Seven Steps to Test Automation Success<br/>
-          Version from June 2001<br/>
-          Bret Pettichord<br/>
-          See <a href="http://www.io.com/~wazmo/papers/seven_steps.html">
-                 http://www.io.com/~wazmo/papers/seven_steps.html </a>
-        
-* 
-          JUnit Framework<br/>
-          See <a href="http://www.junit.org">http://www.junit.org/</a>
-          and <a href="http://junit.sourceforge.net/junit3.8.1/index.html">
-                 http://junit.sourceforge.net/junit3.8.1/index.html</a>
-        
-* 
-          Castor XML<br/>
-          Exolab Castor XML Team<br/>
-          See <a href="http://castor.codehaus.org/">http://castor.codehaus.org/</a>
-        
-* 
-          Source Generator User Documentation<br/>
-          Exolab Castor XML Team<br/>
-          See <a href="http://castor.codehaus.org/SourceGeneratorUser.pdf">
-                 http://castor.codehaus.org/SourceGeneratorUser.pdf </a>
-        
+
+| Seven Steps to Test Automation Success (Version from June 2001) | Bret Pettichord | (http://www.io.com/~wazmo/papers/seven_steps.html)
+| JUnit Framework | | | [JUnit](http://www.junit.org) |

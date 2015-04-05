@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Castor project is an open source project hosted at [hithub](github.com/castor-data-binding)
+The Castor project is an open source project hosted at [github](github.com/castor-data-binding)
 and it is released under a very
 open license. This means there are many ways to contribute to the
 project by e.g. coding, documenting, answering questions on the mailing lists,

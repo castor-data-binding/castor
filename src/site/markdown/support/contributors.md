@@ -33,31 +33,26 @@ of Castor. We simply cannot overstate the importance of these archives.
 
 | Name | Email | Project | Company | Description | Status | Since |
 | - | - | - | - | - | - | - |
-| Werner Guttmann | werner.guttmann@gmx.net | JDO & XML | Indoqa  | Current Castor project lead; JDO enhancements including distributed caches,
-      TransactionManagerFactory API, support for polymorphism, Spring integration,
-      the API for JDBC parameters and much more. | Active  | Oct. 2003 | 
-| Joachim Ralf | ralf.joachim@syscon.eu | JDO | Syscon | Various bug fixes, enhancements and refactorings at almost all
-      parts of JDO including major refactoring of JDO test framework. | Active | Dec. 2004 |
-| Lukas Lang | lukaslang@codehaus.org| XML and JDO | Contributed to JDO extensions for Castor XML code generator, including major 
-      refactorings of XML code generation and JDO | Inactive | Jul. 2008 |
-| Udai Gupta | mailtoud@gmail.com | JDO < Transferred some tests to new JDO test framework, Some bug fixes. | Inactive | Jul. 2008 |
-| Edward Kuns | edward.kuns@aspect.com | XML | Various bug fixes, enhancements and refactorings at almost all
-      parts of XML code generation, including major refactoring of XML
-      test framework. | inactive | Oct. 2006 |
-| Dennis Butterstein | madsheepscarer@googlemail.com | JDO | GSoC student 2010 and GSoC mentor 2011. | Inactive | Mar. 2011 | 
+| Werner Guttmann | werner.guttmann@gmx.net | JDO & XML | Indoqa  | Current Castor project lead; JDO enhancements including distributed caches, TransactionManagerFactory API, support for polymorphism, Spring integration, the API for JDBC parameters and much more. | Active  | Oct. 2003 | 
+| Joachim Ralf | ralf.joachim@syscon.eu | JDO | Syscon | Various bug fixes, enhancements and refactorings at almost all parts of JDO including major refactoring of JDO test framework. | Active | Dec. 2004 |
+| Lukas Lang | lukaslang@codehaus.org | XML & JDO | | Contributed to JDO extensions for Castor XML code generator, including major refactorings of XML code generation and JDO | Inactive | Jul. 2008 |
+| Udai Gupta | mailtoud@gmail.com | JDO | |  Transferred some tests to new JDO test framework, Some bug fixes. | Inactive | Jul. 2008 |
+| Edward Kuns | edward.kuns@aspect.com | XML | | Various bug fixes, enhancements and refactorings at almost all parts of XML code generation, including major refactoring of XML test framework. | Inactive | Oct. 2006 |
+| Dennis Butterstein | madsheepscarer@googlemail.com | JDO | | GSoC student 2010 and GSoC mentor 2011. | Inactive | Mar. 2011 | 
 
 ## Google Summe of Code student
 
-| Name | Email | Project | Company | Description | Status | Since |
+| Name | Email | Project | Description | Status | GSoC year |
 | - | - | - | - | - | - | - |
-| Matthias Epheser | matthias.epheser@indoqa.com | XML | | Committed a lot of new functionality to the XML code generator, 
-      including. the integration of Velocity as template engine, etc. | | Summer 2007 |
+| Matthias Epheser | matthias.epheser@indoqa.com | XML |Committed a lot of new functionality to the XML code generator, including. the integration of Velocity as template engine, etc. | | Summer 2007 |
+| Dennis Butterstein | madsheepscarer@googlemail.com | JDO | GSoC student 2010 and GSoC mentor 2011. | Inactive | Summer 2010 | 
 
 
-## FORMER COMMITTERS
-  
+## Historic committers
+
 Bla 
   
+```
   <contributor type="Inactive Committer">
     <name surname="Visco" given="Keith"/>
     <email>keith@kvisco.com</email>
@@ -275,13 +270,14 @@ Bla
     <project>JDO</project>
     <status>inactive</status>
   </contributor>
+```
+
 
 ## Contributors
 
 All people contributing to Castor.
 
-  <!-- Last names begin with A-D -->
-
+```
   <contributor type="Contributor">
     <name surname="Ackley" given="Keith"/>
     <email>keith.ackley@eds.com</email>
@@ -445,8 +441,6 @@ All people contributing to Castor.
     </description>
   </contributor>
 
-  <!-- Last names begin with E-H -->
-
   <contributor type="Contributor">
     <name surname="Eliassen" given="Stein"/>
     <email>stein.m.eliassen@start.no</email>
@@ -539,8 +533,6 @@ All people contributing to Castor.
     </description>
   </contributor>
 
-  <!-- Last names begin with I-L -->
-
   <contributor type="Contributor">
     <name surname="Kelly" given="Shaun" />
     <email>shaun.kelly@bigpond.com</email>
@@ -597,8 +589,6 @@ All people contributing to Castor.
     <email>lowhs@comline.com.my</email>
     <description>Gives helps fellow users on the mailing list</description>
   </contributor>
-
-  <!-- Last names begin with M-P -->
 
   <contributor type="Contributor">
     <name surname="Maria" given="Damon" />
@@ -744,8 +734,6 @@ All people contributing to Castor.
     <email>purnhar@gmx.net</email>
     <description>A patch to JDO which fixed a ClassNotFoundException ocurring in a multiple ClassLoader environment</description>
   </contributor>
-
-  <!-- Last names begin with Q-S -->
 
   <contributor type="Contributor">
     <name surname="Rader" given="Todd" />
@@ -898,8 +886,6 @@ All people contributing to Castor.
     </description>
   </contributor>
 
-  <!-- Last names begin with T-Z -->
-
   <contributor type="Contributor">
     <name surname="Telcik" given="Tim"/>
     <email>ttelcik@hbf.com.au</email>
@@ -1020,12 +1006,13 @@ All people contributing to Castor.
     </description>
   </contributor>
 
+```
+
 ## Contributors giving feedback
 
 All people providing feedback in one way or the other.
 
-  <!-- Last names begin with A-D -->
-
+```
   <contributor type="Feedback">
     <name surname="Arias" given="Luis"/>
     <email>luis@elysia.com</email>
@@ -1060,8 +1047,6 @@ All people providing feedback in one way or the other.
     </description>
   </contributor>
 
-  <!-- Last names begin with E-H -->
-
   <contributor type="Feedback">
     <name surname="Goetter" given="Stephan"/>
     <email>stephan.goetter@newtron.net</email>
@@ -1085,8 +1070,6 @@ All people providing feedback in one way or the other.
     <email>duncanh@granada-learning.com</email>
     <description>Castor XML feedback</description>
   </contributor>
-
-  <!-- Last names begin with I-L -->
 
   <contributor type="Feedback">
     <name surname="Judd" given="Struan"/>
@@ -1118,8 +1101,6 @@ All people providing feedback in one way or the other.
     <description>Bug Reports / Castor XML feedback</description>
   </contributor>
 
-  <!-- Last names begin with M-P -->
-
   <contributor type="Feedback">
     <name surname="Ohlrogge" given="Joakim"/>
     <email>j_ohlrogge@hotmail.com</email>
@@ -1134,8 +1115,6 @@ All people providing feedback in one way or the other.
       to UTF-8 encoding.
     </description>
   </contributor>
-
-  <!-- Last names begin with Q-S -->
 
   <contributor type="Feedback">
     <name surname="Rimac" given="Ivica"/>
@@ -1183,8 +1162,6 @@ All people providing feedback in one way or the other.
     <description>Testing for Oracle and type conversion for Oracle JDBC driver.</description>
   </contributor>
 
-  <!-- Last names begin with T-Z -->
-
   <contributor type="Feedback">
     <name surname="Van vlerken" given="Johan"/>
     <email>johan.vanvlerken@b-rail.be</email>
@@ -1217,11 +1194,14 @@ All people providing feedback in one way or the other.
     <description>Found and reported bugs in ClassMolder, ObjectLock and SQLEngine</description>
   </contributor>
 
+```
+
 ## Contributors towards documentation
 
 All people contributing towards the documentation of Castor.
 
 
+```
   <contributor type="Documentor">
     <name surname="Gilmartin" given="Andrew"/>
     <email>andrew.gilmartin@ingenta.com</email>
@@ -1259,12 +1239,13 @@ All people contributing towards the documentation of Castor.
     </description>
   </contributor>
 
+```
+
 ## Companies
 
 All companies contributing towards Castor.
 
-  <!-- Company Names (A-D) -->
-
+```
   <company id="apache">
     <name>Apache Software Foundation</name>
     <url>www.apache.org</url>
@@ -1290,14 +1271,10 @@ All companies contributing towards Castor.
     <url>www.ctoforaday.com</url>
   </company>
 
-  <!-- Company Names (E-H) -->
-
   <company id="eds">
     <name>EDS (Electronic Data Systems)</name>
     <url>www.eds.com</url>
   </company>
-
-  <!-- Company Names (I-L) -->
 
   <company id="ibis">
     <name>Integrated Banking Information Systems</name>
@@ -1324,8 +1301,6 @@ All companies contributing towards Castor.
     <url>leafsoft.com/aboutus.html</url>
   </company>
 
-  <!-- Company Names (M-P) -->
-
   <company id="mentopolis">
     <name>Mentopolis</name>
     <url>www.mentopolis.de/index.htm</url>
@@ -1346,8 +1321,6 @@ All companies contributing towards Castor.
     <url>www.poet.com</url>
   </company>
 
-  <!-- Company Names (Q-S) -->
-
   <company id="sun">
     <name>Sun Microsystems</name>
     <url>www.sun.com</url>
@@ -1363,16 +1336,18 @@ All companies contributing towards Castor.
      <url>www.syscon.eu/index.html</url>
   </company>
 
-  <!-- Company Names (T-Z) -->
-
   <company id="zaplet">
     <name>Zaplet</name>
     <url>www.zaplet.com</url>
   </company>
+
+```
   
-  ## Contributor types
+## Contributor types
   
-  Description of the various contributor types used.
+Description of the various contributor types used.
+
+```
 
   <type name="Committer">
     Committers are contributors who have written lots of important code,
@@ -1412,3 +1387,6 @@ All companies contributing towards Castor.
     reports) that have been beneficial to the development and stability
     of this project.
   </type>
+
+  ```
+  

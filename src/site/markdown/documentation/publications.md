@@ -4,48 +4,34 @@
 
 *Castor* in the press ...
 
-* *IBM developerWorks (2007/2008)* 
+### IBM developerWorks (2007/2008) 
 
-	Brett McLaughlin has published an article series on [(XML) data binding with Castor]
-	(http://www.ibm.com/developerworks/views/xml/libraryview.jsp?search_by=Data+binding+with+Castor)
-	at IBM's [developerWorks](http://www.ibm.com/developerworks)
+Brett McLaughlin has published an article series on [(XML) data binding with Castor]
+(http://www.ibm.com/developerworks/views/xml/libraryview.jsp?search_by=Data+binding+with+Castor)
+at IBM's [developerWorks](http://www.ibm.com/developerworks)
 	
-** [Part 1: Install and set up Castor](http://www.ibm.com/developerworks/xml/library/x-xjavacastor1/)
-** [Part 2: Marshall and unmarshall XML](http://www.ibm.com/developerworks/xml/library/x-xjavacastor2/)
-** [Part 3: Map between schemas](http://www.ibm.com/developerworks/xml/library/x-xjavacastor3/) 
-** [Part 4: Bind your Java objects to SQL databases](http://www.ibm.com/developerworks/xml/library/x-xjavacastor4/)
+* [Part 1: Install and set up Castor](http://www.ibm.com/developerworks/xml/library/x-xjavacastor1/)
+* [Part 2: Marshall and unmarshall XML](http://www.ibm.com/developerworks/xml/library/x-xjavacastor2/)
+* [Part 3: Map between schemas](http://www.ibm.com/developerworks/xml/library/x-xjavacastor3/) 
+* [Part 4: Bind your Java objects to SQL databases](http://www.ibm.com/developerworks/xml/library/x-xjavacastor4/)
 
-      <p>
-          <b>IBM developerWorks (October 2003)</b>
-          <p/>
-          Elias Torres, Brian D Goodman and Kevin Gibbs explain in their article how to integrate Castor
-          with Apache Axis to process Document Style Web Services.
-          <a href="http://www-106.ibm.com/developerworks/webservices/library/ws-castor/">Read</a>
-      </p>
+### IBM developerWorks (2003)
 
-      <p>
-          <b>Castor Cures Your Data Binding Ills (developer.com, March 2003)</b>
-          <p/>
-          Thomas Hammell discusses both Castor XML and Castor J/DO as he walks
-          the reader through a real world XML and RDB data binding example.
-          <a href="http://www.developer.com/java/data/article.php/1730911">Read</a>
-      </p>
+* Elias Torres, Brian D Goodman and Kevin Gibbs explain in their [article](http://www-106.ibm.com/developerworks/webservices/library/ws-castor/) how to integrate Castor with Apache Axis to process Document Style Web Services.
 
-      <p>
-          <b>IBM developerWorks (January 2003)</b>
-          <p/>
-          Dennis Sonoski concludes its data-binding serie on developerWorks by taking a look
-          at the performance of the different data-binding frameworks.
-          <a href="http://www-106.ibm.com/developerworks/library/x-databdopt2/">Read</a>
-      </p>
+* Dennis Sonoski concludes its data-binding series on developerWorks by taking a look
+at the performance of the different [data-binding frameworks](http://www-106.ibm.com/developerworks/library/x-databdopt2/).
 
-      <p>
-          <b>IBM developerWorks (January 2003)</b>
-          <p/>
-          Dennis Sonoski continues his series on the data binding approach by giving a global overview
-          of 5 data binding frameworks including Castor and JAXB.
-          <a href="http://www-106.ibm.com/developerworks/library/x-databdopt/">Read</a>
-      </p>
+* Dennis Sonoski continues his series on the data binding approach by giving a global overview
+of 5 data binding frameworks including Castor and JAXB (http://www-106.ibm.com/developerworks/library/x-databdopt/)
+
+### Others
+
+#### Castor Cures Your Data Binding Ills ([developer.com](http://www.developer.com/java/data/article.php/1730911), March 2003)
+
+Thomas Hammell discusses both Castor XML and Castor JDO as he walks
+the reader through a real world XML and RDB data binding example.
+
 
       <p>
           <b>O/R Mapping with Castor JDO in the Real World (December 2002)</b>

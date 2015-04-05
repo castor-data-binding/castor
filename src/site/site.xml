@@ -59,7 +59,7 @@
     <menu name="More">
         <!--  NO, NOT NEEDED ANYMORE <item name="DTD &amp; schemas" href="more/schema.html" /> -->
         <item name="Examples" href="more/examples.html" />
-        <item name="XML tests" href="more/ctf.html" />
+        <!-- TO FINISH <item name="XML tests" href="more/ctf.html" /> -->
     </menu>
     
     <menu name="About">

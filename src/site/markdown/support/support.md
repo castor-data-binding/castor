@@ -11,7 +11,7 @@ guaranteed level of support available. The online [documentation](#Documentation
 is the best place to start.
 If you have trouble or have more advanced questions not available in the
 online documentation, then please consider subscribing to one of the
-various available [mailing lists](lists.html). In general, the lists 
+various available [mailing lists](mailing-lists.html). In general, the lists 
 are the best place to ask questions about the product.
       
 Please note, though, that for problems of any kind, you should still use
@@ -29,7 +29,7 @@ If you can't find something in the documentation, try looking through
 the examples (as shipped as part of the source distribution).
       
 There are also numerous [presentations and
-articles](presentations.html) available about Castor to help get you started.
+articles](../documentation/publications.html) available about Castor to help get you started.
 
 ## Reporting Bugs and Bug Tracking
 
@@ -41,5 +41,5 @@ system (JIRA), available at http://jira.codehaus.org/browse/CASTOR.
 Commercial support is not provided through this project at this time.
 Having said that, please note that there are a growing number of third
 party individuals/companies providing such support, as detailed
-[here](professional-services.html).
+[here](../support/professional-services.html).
       
