@@ -21,8 +21,10 @@
     <links>
       <item name="Maven" href="http://maven.apache.org/"/>
       <item name="Github" href="http://github.com/"/>
+      <!-- 
       <item name="Spring ORM for Castor" href="http://github.com/castor-data-binding/castor-spring"/>
       <item name="Spring XML factories" href="http://github.com/castor-data-binding/spring-xml"/>
+       -->
     </links>
 
     <menu name="Main">
