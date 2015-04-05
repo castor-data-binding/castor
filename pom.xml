@@ -57,11 +57,13 @@
                    <artifactId>doxia-module-markdown</artifactId>
                    <version>1.6</version>
                  </dependency>
+                 <!-- 
                  <dependency> 
                    <groupId>org.apache.maven.doxia</groupId> 
                    <artifactId>doxia-module-docbook-simple</artifactId> 
                    <version>1.6</version> 
                  </dependency>
+                  -->
                </dependencies>
                <configuration>
                  <inputEncoding>UTF-8</inputEncoding>
