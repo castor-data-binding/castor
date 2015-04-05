@@ -1,158 +1,68 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.codehaus.org/extras.xml">
-  <body>
-    <title>Castor Extra Features and 3rd Party Tools</title>
+# Castor Extra Features and 3rd Party Tools
 
-    <header>
-       <p>
-          - <b><font color="red">New</font></b> - <a href="#XFire">XFire</a><br/>
-          - <b><font color="red">New</font></b> - Apple's <a href="#Apple WebObjects">Apple WebObjects</a>
-       </p>
-    </header>
+## 3rd Party Tools
 
-    <section title="3rd Party Tools">
-       <p>
-          This section contains pointers to 3rd party tools.
-       </p>
-       <p>
-          <b>Note: We do not provide support for these tools, please visit their respective 
-             websites for support, questions, or concerns.</b>
-       </p>
+This section contains pointers to 3rd party tools.
 
-       <section title="Apple WebObjects">
-       <p>
-            <table border="0">
-                <tr>
-                    <td valign="top">Description:</td>
-                    <td>
-                    WebObjects is Apple's suite of tools and object-oriented
-                    frameworks for creating and deploying scalable, reusable
-                    web and Java applications for the Internet and intranets.
-                    WebObjects supports the development, deployment, and
-                    extension of standards-based web services without the need
-                    to write low-level SOAP, XML or WSDL code. Tools enable
-                    code-free generation, configuration, and testing of
-                    applications from existing data assets.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top">Company:</td>
-                    <td>Apple</td>
-                </tr>
-                <tr>
-                    <td valign="top">URL:</td>
-                    <td>
-                        <url>
-                        http://developer.apple.com/documentation/WebObjects/Enterprise_JavaBeans/ContainerConfiguration/chapter_6_section_4.html
-                        </url>
-                    </td>
-                </tr>
-            </table>
-       </p>
-       </section>
+       
+*Note*: We do not provide support for these tools, please visit their respective 
+websites for support, questions, or concerns.
+       
 
-       <section title="Phantom-Castor">
-       <p>
-            <table border="0">
-                <tr>
-                    <td valign="top">Description:</td>
-                    <td>
-                    Phantom-Castor contains components to ease the construction
-                    of JDO applications using Castor. It provides easier use of
-                    mappings with building OQL queries.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top">Current Author:</td>
-                    <td>Alexey Efimov</td>
-                </tr>
-                <tr>
-                    <td valign="top">URL:</td>
-                    <td><url>http://sf.net/projects/phantom-castor</url></td>
-                </tr>
-            </table>
-       </p>
-       </section>
+### Apple WebObjects
 
-       <section title="Castor-Eclipse-Plugin">
-       <p>
-            <table border="0">
-                <tr>
-                    <td valign="top">Description:</td>
-                    <td>
-                       An Eclipse plugin for Castor's source code generator.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top">Current Author:</td>
-                    <td>Peter Nehrer</td>
-                </tr>
-                <tr>
-                    <td valign="top">URL:</td>
-                    <td><url>http://xdoclipse.sourceforge.net/cep.html</url></td>
-                </tr>
-            </table>
-       </p>
-       </section>
+| Description | Company | Link |
+| -- | -- | -- |
+| WebObjects is Apple's suite of tools and object-oriented
+frameworks for creating and deploying scalable, reusable
+web and Java applications for the Internet and intranets.
+WebObjects supports the development, deployment, and
+extension of standards-based web services without the need
+to write low-level SOAP, XML or WSDL code. Tools enable
+code-free generation, configuration, and testing of
+applications from existing data assets. | Apple |http://developer.apple.com/documentation/WebObjects/Enterprise_JavaBeans/ContainerConfiguration/chapter_6_section_4.html | 
 
-       <section title="Castor-Taglib">
-       <p>
-            <table border="0">
-                <tr>
-                    <td valign="top">Description:</td>
-                    <td>
-                        The Castor Taglib allows you to execute OQL queries in
-                        your JSP page (using Castor JDO). It also helps you to
-                        integrate Castor JDO with Java application servers like
-                        Tomcat, making use of JNDI and Tyrex for managed transactions.
-                        <br />
-                        <br />
-                        It is intended that support for more servlet containers
-                        will be added.
-                        <br />
-                        <br />
-                        The taglib is compatible with JSTL 1.0, and allows you
-                        to use expression language (EL) to pass values dynamically
-                        to the attributes of certain tags.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top">Current Author:</td>
-                    <td>Patrick van Kaan</td>
-                </tr>
-                <tr>
-                    <td valign="top">URL:</td>
-                    <td><url>http://castor-taglib.sourceforge.net</url></td>
-                </tr>
-            </table>
-        </p>
-       </section>
+       
+### Phantom-Castor
+       
+| Description | Company | Link |
+| -- | -- | -- |
+| Phantom-Castor contains components to ease the construction
+of JDO applications using Castor. It provides easier use of
+mappings with building OQL queries. | Alexey Efimov | http://sf.net/projects/phantom-castor |
 
-       <section title="Castor Doclet">
-         <p>
-            <table border="0">
-                <tr>
-                    <td valign="top">Description:</td>
-                    <td>
-                        Castor-Doclet is a tool for generating the Castor JDO mapping file from
+### Castor-Eclipse-Plugin
+ 
+| Description | Company | Link |
+| -- | -- | -- |
+| An Eclipse plugin for Castor's source code generator. | Peter Nehrer | http://xdoclipse.sourceforge.net/cep.html |
+
+### Castor-Taglib
+
+| Description | Company | Link |
+| -- | -- | -- |
+| The Castor Taglib allows you to execute OQL queries in
+your JSP page (using Castor JDO). It also helps you to
+integrate Castor JDO with Java application servers like
+Tomcat, making use of JNDI and Tyrex for managed transactions.
+
+It is intended that support for more servlet containers
+will be added.
+
+The taglib is compatible with JSTL 1.0, and allows you
+to use expression language (EL) to pass values dynamically
+to the attributes of certain tags. | Patrick van Kaan | http://castor-taglib.sourceforge.net |
+                        
+### Castor Doclet
+
+| Description | Company | Link |
+| -- | -- | -- |
+| Castor-Doclet is a tool for generating the Castor JDO mapping file from
                         javadoc tags added in the source code. It also has the ability to generate
-                        a DDL file for different databases.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top">Current Author:</td>
-                    <td>Mickael Guessant</td>
-                </tr>
-                <tr>
-                    <td valign="top">URL:</td>
-                    <td><url>http://castordoclet.sourceforge.net</url></td>
-                </tr>
-            </table>
-         </p>
-       </section>
+                        a DDL file for different databases. | Mickael Guessant | http://castordoclet.sourceforge.net |
 
-       <section title="Castor Oil">
-         <p>
+### Castor Oil
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -174,12 +84,9 @@
                     <td><url>http://www.kasstek.com/opensource/app.jsp</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-
-       <section title="O2XMapper">
-         <p>
+         
+### O2XMapper
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -199,11 +106,9 @@
                     <td> <url>http://o2xmapper.sourceforge.net</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-       <section title="JDOMapper">
-         <p>
+         
+### JDOMapper
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -227,11 +132,9 @@
                     <td> <url>http://o2xmapper.sourceforge.net/jdomapper/</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-       <section title="bibs-crea-mapeo">
-         <p>
+         
+### bibs-crea-mapeo
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -242,18 +145,16 @@
                 </tr>
                 <tr>
                     <td valign="top">Author:</td>
-                    <td>Víctor Manuel Iniestra Álvarez</td>
+                    <td>VÃ­ctor Manuel Iniestra Ãlvarez</td>
                 </tr>
                 <tr>
                     <td valign="top">URL:</td>
                     <td> <url>http://sourceforge.net/projects/bibs-crea-mapeo/</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-       <section title="Raccoon">
-         <p>
+         
+### Raccoon
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -273,11 +174,8 @@
                     <td> <url>http://raccoonfwk.sourceforge.net/</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-       <section title="SchemaWizard">
-         <p>
+### SchemaWizard
+         
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -295,11 +193,9 @@
                     <td> <url>http://ptlportal.communitygrids.iu.edu/schemawizard/index.html</url></td>
                 </tr>
             </table>
-         </p>
-       </section>
-
-       <section title="XDoclet">
-        <p>
+         
+### XDoclet
+        
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -318,11 +214,9 @@
                     <td><url>http://xdoclet.sourceforge.net/1.2beta/index.html</url></td>
                 </tr>
             </table>
-        </p>
-       </section>
-
-        <section title="Xtreme Space">
-            <p>
+        
+### Xtreme Space
+            
                 <table border="0">
                     <tr>
                         <td valign="top">Description:</td>
@@ -341,10 +235,8 @@
                         <td><url>http://www.kalixia.com/weblogs/space/XtremeSpace</url></td>
                      </tr>
                   </table>
-               </p>
-        </section>
-
-        <section title="TogMap">
+               
+### TogMap
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -364,9 +256,7 @@
                     <td>http://sourceforge.net/projects/togmap/</td>
                 </tr>
             </table>
-        </section>
-
-        <section title="CastorWizard">
+### CastorWizard
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -387,19 +277,9 @@
                     <td>http://sourceforge.net/projects/castorwizard/</td>
                 </tr>
             </table>
-        </section>
-
-    </section>
-
-    <section title="Products that make use of Castor">
-    <p>
-    <font color="red">
-    Does your project or product make use of Castor, but it's not listed here?
-    Please tell us about it one of the <link>lists.xml</link> and we'll post it. 
-    </font>
-    </p>
-
-		<section title="XFire">
+## Products that make use of Castor
+    
+### XFire
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -413,9 +293,7 @@
                     <td><url>http://xfire.codehaus.org/</url></td>
                 </tr>
             </table>
-		</section>
-		
-        <section title="OpenEJB">
+### OpenEJB
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -432,7 +310,7 @@
             </table>
         </section>
 
-        <section title="Roller Weblogger">
+### Roller Weblogger
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -447,9 +325,7 @@
                     <td><url>http://www.rollerweblogger.com/</url></td>
                 </tr>
             </table>
-        </section>
-
-        <section title="InfoGlue">
+### InfoGlue
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -464,9 +340,7 @@
                     <td><url>http://www.infoglue.org/</url></td>
                 </tr>
             </table>
-        </section>
-
-        <section title="Altoweb Xpi">
+### Altoweb Xpi
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -484,9 +358,8 @@
                     <td><url>http://www.altoweb.com/</url></td>
                 </tr>
             </table>
-        </section>
 
-        <section title="Borland JBuilder">
+### Borland JBuilder
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -501,9 +374,7 @@
                     <td><url>http://info.borland.com/techpubs/jbuilder/jbuilder6/xml/xml_data_castor.html</url></td>
                 </tr>
             </table>
-        </section>
-
-        <section title="jwma">
+### jwma
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -523,9 +394,7 @@
                     <td><url>http://jwma.sourceforge.net/overview.html</url></td>
                 </tr>
             </table>
-        </section>
-
-        <section title="JAXBBuilder">
+### JAXBBuilder
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -542,9 +411,9 @@
                     <td><url>http://sourceforge.net/projects/jaxb-builder/</url></td>
                 </tr>
             </table>
-        </section>
+            
+### JAFFA
 
-        <section title="JAFFA">
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -560,9 +429,8 @@
                     <td><url>http://jaffa.sourceforge.net/</url></td>
                 </tr>
             </table>
-        </section>
-
-        <section title="JOrganizer">
+            
+### JOrganizer
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -578,9 +446,8 @@
                     <td><url>http://jorganizer.sourceforge.net/</url></td>
                 </tr>
             </table>
-        </section>
 
-        <section title="Java Web Application Framework (JWAF)">
+### Java Web Application Framework (JWAF)
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -597,9 +464,8 @@
                     <td><url>http://jwaf.sourceforge.net/</url></td>
                 </tr>
             </table>
-        </section>
 
-        <section title="BlueGlue">
+### BlueGlue
             <table border="0">
                 <tr>
                     <td valign="top">Description:</td>
@@ -620,13 +486,5 @@
                     <td><url>http://www.openlogic.com/</url></td>
                 </tr>
             </table>
-        </section>
-
-    </section>
-
-  </body>
-</document>
-
-
-
-
+            
+            
