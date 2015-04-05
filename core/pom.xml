@@ -14,26 +14,6 @@
     <name>Castor CORE - Core code/functionality</name>
     <description>Core functionality - Required by all other modules</description>
 
-    <build>
-    	<resources>
-      <!-- 
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                	<exclude>META-INF/MANIFEST.MF</exclude>
-                </excludes>
-            </resource>
-            <resource>
-            	<directory>src/main/resources</directory>
-            	<filtering>true</filtering>
-            	<includes>
-            		<include>META-INF/MANIFEST.MF</include>
-            	</includes>
-            </resource>
-             -->
-        </resources>
-    </build>
-
     <dependencies>
 
         <dependency>
