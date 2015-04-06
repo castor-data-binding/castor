@@ -168,8 +168,6 @@
             jdo.tests        Executes the JUnit tests for Castor JDO (CTF-JDO)
             jar              Builds the binary JAR in the dist directory
             CTFjar           Builds the JAR of the Castor Testing Framework in the dist directory
-            doc              Builds the documentation
-            javadoc          Builds the full JavaDocs
             source           Builds the source tarball in the dist directory
             tarball          Builds the binary distribution in the dist directory
 
@@ -772,14 +770,6 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
-    </target>
-
-    <target name="rss" depends="prepare" description="Copy the RSS feeds">
-        <delete dir="${build}/doc/rss" />
-        <mkdir dir="${build}/doc/rss" />
-        <copy todir="${build}/doc/rss">
-           <fileset dir="${source}/rss" includes="*.xml"/>
-        </copy>
     </target>
 
     <target name="release" depends="clean,jar,source,docs,tarball,zip.examples"
