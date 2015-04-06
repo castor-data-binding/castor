@@ -399,11 +399,27 @@
    </scm>
 
    <distributionManagement>
-      <site>
-         <id>codehaus.org</id>
-         <url>https://nexus.codehaus.org/content/repositories/releases/</url>
-      </site>
-   </distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>sonatype-nexus-staging</id>
+      <name>Sonatype OSS releases</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype OSS snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <layout>default</layout>
+    </snapshotRepository>
+    <!-- 
+    <site>
+       <id>codehaus.org</id>
+       <url>https://nexus.codehaus.org/content/repositories/releases/</url>
+    </site>
+     -->
+  </distributionManagement>
 
    <dependencyManagement>
       <dependencies>
