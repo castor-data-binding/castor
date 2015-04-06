@@ -1,13 +1,13 @@
 # Reference guides
     
-## Current release
+### Current release
 
 Version | HTML (single page) | Chunked HTML | PDF
 --------|--------------------|--------------|----
-1.3.4-SNAPSHOT  | (../reference-guides/1.3.4/html-single/index.html) |  | (../reference-guides/1.3.4/castor-reference-guide.pdf) 
+1.3.4-SNAPSHOT  | [HTML (single page)](../reference-guides/1.3.4/html-single/index.html) | [Chunked HTML](../reference-guides/1.3.4/html/index.html) | [PDF](../reference-guides/1.3.4/castor-reference-guide.pdf) 
 
 
-## Previous releases
+### Previous releases
 
 Version | HTML (single page) | Chunked HTML | PDF
 --------|--------------------|--------------|----
