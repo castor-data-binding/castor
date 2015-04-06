@@ -44,9 +44,8 @@
 
     <menu name="Documentation">
         <item name="Reference guide" href="documentation/reference.guide.html" />
-        <!-- <item name="Publications" href="documentation/publications.html" />  -->
+        <item name="Publications" href="documentation/publications.html" />
         <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
-        <item name="Userguide" href="userguide-index.html"/>
     </menu>
 
     <menu name="Development/Support">
