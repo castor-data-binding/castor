@@ -5,4 +5,3 @@ Specification-Version: ${VERSION}${RELEASE}
 Implementation-Title: Castor
 Implementation-Vendor: Castor
 Implementation-Version: ${VERSION}${RELEASE}
-Sealed: true
