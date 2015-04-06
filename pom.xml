@@ -834,6 +834,11 @@
             <version>1.6</version>
          </plugin>
 
+  		 <dependency>
+			    <groupId>maven-plugins</groupId>
+			    <artifactId>maven-news-plugin</artifactId>
+			    <version>1.0</version>
+		 </dependency>
       </plugins>
    </reporting>
 
