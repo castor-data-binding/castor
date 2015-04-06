@@ -13,7 +13,6 @@
 
   <groupId>org.codehaus.castor</groupId>
   <artifactId>castor-docs</artifactId>
-  <version>1.3.3-SNAPSHOT</version>
   <name>Castor: Documentation</name>
   <description>Castor Documentation - Reference guide and user manuals.</description>
 
