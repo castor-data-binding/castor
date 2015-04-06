@@ -25,122 +25,89 @@ at the performance of the different [data-binding frameworks](http://www-106.ibm
 * Dennis Sonoski continues his series on the data binding approach by giving a global overview
 of 5 data binding frameworks including Castor and JAXB (http://www-106.ibm.com/developerworks/library/x-databdopt/)
 
+### IBM developerWorks (2002)
+
+* Castor JDO lead Bruce Snyder gives an overview of Castor JDO and introduces the reader to
+the basics of working with the JDO framework. [article](http://www-106.ibm.com/developerworks/java/library/j-castor/?loc=j)
+
+* Enterprise Java expert Dennis Sosnoski introduces data binding and discusses what makes it so appealing. He illustrates the article using  
+Castor. [article](http://www-106.ibm.com/developerworks/xml/library/x-bindcastor/)
+
 ### Others
 
-#### Castor Cures Your Data Binding Ills ([developer.com](http://www.developer.com/java/data/article.php/1730911), March 2003)
+* Castor Cures Your Data Binding Ills ([developer.com](http://www.developer.com/java/data/article.php/1730911), March 2003)
 
 Thomas Hammell discusses both Castor XML and Castor JDO as he walks
 the reader through a real world XML and RDB data binding example.
 
+* O/R Mapping with Castor JDO in the Real World (December 2002) (http://www.spiderlogic.com/modules.php?name=News&amp;file=article&amp;sid=16)
 
-      <p>
-          <b>O/R Mapping with Castor JDO in the Real World (December 2002)</b>
-          <p/>
-          David Colwell discusses the pros and cons of his experience with Castor JDO as well
-          as some feeback about how he worked around some of its limitations.
-          <a href="http://www.spiderlogic.com/modules.php?name=News&amp;file=article&amp;sid=16">Read</a>
-      </p>
-      <p>
-          <b>O'Reilly ONJava (October 2002)</b>
-          <p/>
-          Jeff Lowery provides an introduction to the Castor JDO framework.
-          <a href="http://www.onjava.com/pub/a/onjava/2002/10/02/jdosql.html">Read</a>
-      </p>
-      <p>
-          <b>IBM developerWorks (August 2002)</b>
-          <p/>
-          Castor JDO lead Bruce Snyder gives an overview of Castor JDO and introduces the reader to
-          the basics of working with the JDO framework.
-          <a href="http://www-106.ibm.com/developerworks/java/library/j-castor/?loc=j">Read</a>
-      </p>
-      <p>
-          <b>O'Reilly XML.com (July 2002)</b>
-          <p/>
-          Niel Bornstein drafts a introduction to the .Net Data-Binding framework and to Castor.
-          This introduction compares both approaches.
-          <a href="http://www.xml.com/pub/a/2002/07/24/databinding.html?page=1">Read</a>
-      </p>
-      <p>
-          <b>IBM developerWorks (April 2002)</b>
-          <p/>
-          Enterprise Java expert Dennis Sosnoski introduces data binding and discusses what makes it so appealing.
-          He illustrates the article using Castor.
-          <a href="http://www-106.ibm.com/developerworks/xml/library/x-bindcastor/">Read</a>
-      </p>
-      <p>
-         <b>Javaworld (April 2002)</b>
-         <p/>
-         Jacek Kruszelnicki discusses the pros and cons of Sun JDO and Castor JDO.
-         <a href="http://www.javaworld.com/javaworld/jw-04-2002/jw-0412-jdo.html?">Read</a>
-      </p>
+David Colwell discusses the pros and cons of his experience with Castor JDO as well
+as some feeback about how he worked around some of its limitations.
 
-      <p>
-         <b>Javaworld (December 2001)</b>
-         <p/>
-         Sam Brodkin shed light on the Data-binding world using JAXB and Castor XML.
-         <a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-jaxb.html">Read</a>
-      </p>
+* O'Reilly ONJava (October 2002) [article](http://www.onjava.com/pub/a/onjava/2002/10/02/jdosql.html)
 
-      <p>
-         <b>O'Reilly Onjava.com (October 2001)</b>
-         <p/>
-         Dion Almaer gives a good introduction to Castor XML.
-         <a href="http://www.onjava.com/pub/a/onjava/2001/10/24/xmldatabind.html">Read</a>
-      </p>
-    </section>
+Jeff Lowery provides an introduction to the Castor JDO framework.
 
+* O'Reilly XML.com (July 2002) [article](http://www.xml.com/pub/a/2002/07/24/databinding.html?page=1)
+
+Niel Bornstein drafts a introduction to the .Net Data-Binding framework and to Castor.
+This introduction compares both approaches.
+
+* Javaworld (April 2002) [article](http://www.javaworld.com/javaworld/jw-04-2002/jw-0412-jdo.html)
+
+Jacek Kruszelnicki discusses the pros and cons of Sun JDO and Castor JDO.
+
+* Javaworld (December 2001) [article](http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-jaxb.html)
+
+Sam Brodkin shed light on the Data-binding world using JAXB and Castor XML.
+
+* O'Reilly Onjava.com (October 2001) [article](http://www.onjava.com/pub/a/onjava/2001/10/24/xmldatabind.html)
+
+Dion Almaer gives a good introduction to Castor XML.
 
 ## Books/Chapters
 
 * [XML Application Developer's Guide by BORLAND (2001)](ftp://ftpc.inprise.com/pub/jbuilder/techpubs/jbuilder6/xml.pdf)
 
-	Borland is using Castor among the XML features present in JBuilder 6. This book contains a
-	chapter on data-binding using Castor inside JBuilder 6.
+Borland is using Castor among the XML features present in JBuilder 6. This book contains a
+chapter on data-binding using Castor inside JBuilder 6.
 
 * [Professional XML (2nd Edition) Chapter 15 (June 2001)](http://www.wrox.com/Support/PDF/SampleChapter_5059.pdf)
 
-	A chapter written by Keith Visco about Castor XML. Available for download.
+A chapter written by Keith Visco about Castor XML. Available for download.
 
 
 ## Presentations
 
-      <p>
-         <b>Atlanta Java Software Symposium (November 2002)</b>  - <b><font color="red">New</font></b>
-         <p/>
-         Eitan Suez, of UptoData, Inc. - A great Castor evangelist in his own right, gave the following excellent
-         presentation on Castor XML and JDO at the Atlanta Java Software Symposium, among other notable
-         conferences.
-         <a href="ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/castor_ppt.zip">Download</a> - presentation
-         <br/>
-          - <a href="ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/CastorXMLJDOSample.zip">XML/JDO Mapping Examples</a>
-         <br/>
-          - <a href="ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/CastorSrcGenSample.zip">Source Generator Examples</a>
-      </p>
 
-      <p>
-         <b>XML One Amsterdam (September 2001)</b>
-         <p/>
-         Andrew Fawcett, of CODA - our main evangelist, gave a presentation on implementing XML data binding
-         solutions using web-services with Castor at the XML One conference in Amsterdam, September 2001.
-         <a href="http://ftp.exolab.org/ftp/castor/presentations/xml-one-amsterdam-20010919.zip">Download</a>
-      </p>
+#### Atlanta Java Software Symposium (November 2002)
 
-      <p>
-         <b>XML One London (March 2001)</b>
-         <p/>
-         Andrew Fawcett, of CODA, gave a presentation on XML data binding
-         with Castor at the XML One conference in London, March 2001.
-         <a href="http://ftp.exolab.org/ftp/castor/presentations/xml-one-london-20010322%20.zip">Download</a>
-      </p>
+Eitan Suez, of UptoData, Inc. - A great Castor evangelist in his own right, gave the following excellent presentation on Castor XML and JDO at the Atlanta Java Software Symposium, among other notable conferences.
 
-      <p>
-         <b>O'Reilly Java Conference (March 2000)</b>
-         <p/>
-         The first public presentation on Castor was done at the O'Reilly Java Conference
-         in March 2000. It's a little dated, but still serves as a decent overview
-         of what Castor is all about.
-         <a href="ora-mar-2k/castor.htm">View the presentation</a>.
-      </p>
+* [presentation](ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/castor_ppt.zip)
+* [XML/JDO Mapping Examples](ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/CastorXMLJDOSample.zip)
+* [Source Generator Examples](ftp://ftp.exolab.org/pub/castor/presentations/eitansuez/CastorSrcGenSample.zip)
+
+#### XML One Amsterdam (September 2001)
+
+Andrew Fawcett, of CODA - our main evangelist, gave a presentation on implementing XML data binding
+solutions using web-services with Castor at the XML One conference in Amsterdam, September 2001.
+
+* [presentation](http://ftp.exolab.org/ftp/castor/presentations/xml-one-amsterdam-20010919.zip)
+
+#### XML One London (March 2001)
+
+Andrew Fawcett, of CODA, gave a presentation on XML data binding with Castor at the XML One conference in London, March 2001.
+
+* [presentation](http://ftp.exolab.org/ftp/castor/presentations/xml-one-london-20010322%20.zip)
+
+#### O'Reilly Java Conference (March 2000)
+
+The first public presentation on Castor was done at the O'Reilly Java Conference in March 2000. It's a little dated, but still serves as a decent overview of what Castor is all about.
+
+ * [presentation](ora-mar-2k/castor.htm)
+
 
 ## User Community Tutorials
 
