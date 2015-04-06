@@ -236,7 +236,7 @@
 						file:
 					</para>
 					<programlisting language="java">
- org.exolab.castor.xml.strictelements=false
+ org.exolab.castor.xml.strictelements=true
 					</programlisting>
 				</listitem>
 			</itemizedlist>
