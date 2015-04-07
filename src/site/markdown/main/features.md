@@ -16,16 +16,16 @@ Castor is made up of (independent) modules as follows:
        
 ## Castor XML
        
-[XML data binding framework](/xml-framework.html) to bind XML artefacts to Java objects and vice versa.
+XML data binding framework to bind XML artefacts to Java objects and vice versa.
             
 * Employs default mapping conventions for mapping-less operation
 * (Optional) mapping file for existing (more complex) object models
-* XML-based [mapping file](xml-mapping.html) to specify bindings for existing object models.
+* XML-based mapping file to specify bindings for existing object models.
 * Support for schemaless Java-to-XML binding.
             
 ## Castor XML code generator
 
-[Code generator][(./sourcegen.html) that generates Java source code from XML schema information.
+Code generator that generates Java source code from XML schema information.
             
 * Generates Java domain classes based upon the type/element definitions in the given XML schema(s).
 * Support for native Java 5 artifacts (e.g. enums, annotations)
@@ -35,16 +35,16 @@ Castor is made up of (independent) modules as follows:
 
 ## Castor JDO
 
-Java [persistence framework](jdo-introduction.html) to bind Java objects to database tables.
+Java persistence framework to bind Java objects to database tables.
             
-* XML-based [JDO mapping file](jdo-mapping.html) to specify bindings for (existing) object models.
-* Support for ODMG [OQL queries](oql.html).
+* XML-based JDO mapping file to specify bindings for (existing) object models.
+* Support for ODMG OQL queries.
 * EJB container managed persistence provider for OpenEJB
 * Supports two-phase commits, object rollback and deadlock detection.
-* Support for in-memory [caching](jdo-caching-detail.html) (various cache providers).
+* Support for in-memory caching (various cache providers).
 * Support for *write-at-commit* to reduce JDBC operations.
 
-Castor JDO is not the same-as or compatible with Sun's JDO. We have a different approach to handling data object to RDBMS mappings. Please see the [JDO F.a.Q.](jdo-faq.html) for more information.
+Castor JDO is not the same-as or compatible with Sun's JDO. We have a different approach to handling data object to RDBMS mappings.
             
         
 ## Castor JDO DDL generator
@@ -61,7 +61,7 @@ Generates DDL statements from JDO mapping files.
 
 Various artefacts to support build management systems.
             
-* [Ant task definitions](srcgen-anttask.html) for XML code generator.
+* Ant task definitions for XML code generator.
 * [Maven plugin](http://mojo.codehaus.org/castor-maven-plugin/) for XML code generator.
 
 ## Integration with other frameworks
@@ -71,8 +71,6 @@ Castor is currently integrated with the following frameworks or has support for 
 * [Spring ORM](./spring-orm-integration.html) support for Castor
 * [Spring OXM](http://static.springframework.org/spring-ws/site/reference/html/oxm.html) for Castor
 * [Spring XML](./spring-xml-intro.html) artefacts.
-* [Web Service](./ws-integration.html) toolkits
 * Apache Cocoon (Castor transformer)
-* [extendedXML module](http://www.mulesource.org/display/EXTENDEDXML/) for Mule, offering enhanced XML-transformation support for Mule, using Castor 
+* [extendedXML module](http://www.mulesource.org/display/EXTENDEDXML/) for Mule, offering enhanced XML-transformation support for Mule, using Castor. 
     
-See the [status page](status.html) for a more complete feature list and for more information.
