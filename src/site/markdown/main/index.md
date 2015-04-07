@@ -1,4 +1,14 @@
-# Castor News
+# About
+
+Castor is an open source data binding framework for Java[tm]. It's the shortest path between Java objects, XML documents and relational tables. Castor provides Java-to-XML binding, Java-to-SQL persistence, and more.
+
+Releases of Castor are available from the [Maven Central repository](http://repo1.maven.org/maven2/org/codehaus/castor/). [Snapshots](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) are available (on request) through the users mailing list.
+
+Contributors are welcome to join this project. Please join us on the [mailing lists](../support/mailing-lists.html). We maintain a full list of [contributors](../support/contributors.html) past and present.
+
+The Castor Project was started and originally developed by Keith Visco and Assaf Arkin of Intalio, Inc.
+
+# News
 
 Newsworthy information about the Castor Project itself and any related projects.
 
