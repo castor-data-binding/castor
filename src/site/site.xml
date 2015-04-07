@@ -34,7 +34,7 @@
     <menu name="Main">
         <item name="Introduction" href="main/index.html" />
         <item name="Features" href="main/features.html" />
-        <!-- NO, REDUNDANT <item name="Download" href="main/download.html" /> -->
+        <item name="Binary distributions" href="main/download.html" />
         <!-- NO, REDUNDANT <item name="Dependencies" href="main/dependencies.html" /> -->
         <item name="Recent changes" href="jira-report.html" />
         <item name="Maven archetypes" href="main/maven-archetypes.html" />
