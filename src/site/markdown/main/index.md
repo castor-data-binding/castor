@@ -2,7 +2,8 @@
 
 Castor is an open source data binding framework for Java[tm]. It's the shortest path between Java objects, XML documents and relational tables. Castor provides Java-to-XML binding, Java-to-SQL persistence, and more.
 
-Releases of Castor are available from the [Maven Central repository](http://repo1.maven.org/maven2/org/codehaus/castor/). [Snapshots](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) are available (on request) through the users mailing list.
+Releases of Castor are available from the [Maven Central repository](http://repo1.maven.org/maven2/org/codehaus/castor/). [Snapshots](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) are available (on request) through the users mailing list. Please use 
+[Maven's Central repository's](http://search.maven.org/#search|ga|1|g%3A%22org.codehaus.castor%22) search feature to inform yourself about available Castor releases.
 
 Contributors are welcome to join this project. Please join us on the [mailing lists](../support/mailing-lists.html). We maintain a full list of [contributors](../support/contributors.html) past and present.
 
@@ -11,6 +12,11 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 # News
 
 Newsworthy information about the Castor Project itself and any related projects.
+
+##### First SNAPSHOT for Castor 1.3.4 released (Apr 6, 2015; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
+
+I've made available a first snapshot release of Castor 1.3.4 at the  
+[Sonatype OSS snapshot repository](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) after Castor's migration to github. For details about the features added and the bugs fixed, please have a look at the [release notes](http://jira.codehaus.org/browse/CASTOR/fixforversion/21121)
 
 ##### Castor 1.3.3 released (Dec 31, 2013; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
 

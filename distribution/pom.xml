@@ -36,8 +36,10 @@
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>src/assembly/bin.xml</descriptor>
-                <descriptor>src/assembly/bin-with-dependencies.xml</descriptor>
+                <descriptor>src/assembly/codegen-bin.xml</descriptor>
+                <descriptor>src/assembly/codegen-bin-with-dependencies.xml</descriptor>
+                <descriptor>src/assembly/xml-bin.xml</descriptor>
+                <descriptor>src/assembly/xml-bin-with-dependencies.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
