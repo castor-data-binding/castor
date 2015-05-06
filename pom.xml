@@ -419,12 +419,10 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <layout>default</layout>
     </snapshotRepository>
-    <!-- 
     <site>
        <id>codehaus.org</id>
        <url>https://nexus.codehaus.org/content/repositories/releases/</url>
     </site>
-     -->
   </distributionManagement>
 
    <dependencyManagement>
