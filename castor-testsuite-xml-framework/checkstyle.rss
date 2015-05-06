@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>Castor XML - test suite framework code - Checkstyle report</title>
+    <link>http://castor.org/castor-testsuite-xml-framework</link>
+    <description>Castor XML - test suite framework code - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2015</copyright>
+    <item>
+      <title>File: 24,
+             Errors: 960,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>http://castor.org/castor-testsuite-xml-framework/checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.ObjectModelBuilder.java">org/castor/xmlctf/ObjectModelBuilder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.compiler.SunJavaCompiler.java">org/castor/xmlctf/compiler/SunJavaCompiler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  49
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.SourceGeneratorTestCase.java">org/castor/xmlctf/SourceGeneratorTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  33
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.MarshallingFrameworkTestCase.java">org/castor/xmlctf/MarshallingFrameworkTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.TestWithCustomTest.java">org/castor/xmlctf/TestWithCustomTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.SchemaTestCase.java">org/castor/xmlctf/SchemaTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  67
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.TestWithRandomObject.java">org/castor/xmlctf/TestWithRandomObject.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  57
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.CastorTestable.java">org/castor/xmlctf/CastorTestable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.RandomHelper.java">org/castor/xmlctf/RandomHelper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  161
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.CastorTestSuiteRunner.java">org/castor/xmlctf/CastorTestSuiteRunner.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.TestSourceGenerator.java">org/castor/xmlctf/TestSourceGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  54
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.compiler.Compiler.java">org/castor/xmlctf/compiler/Compiler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.exolab.castor.tests.framework.test.descriptor.builder.properties">org/exolab/castor/tests/framework/test.descriptor.builder.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.compiler.CompilationException.java">org/castor/xmlctf/compiler/CompilationException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.CompareHelper.java">org/castor/xmlctf/CompareHelper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  49
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.compiler.AntJavaCompiler.java">org/castor/xmlctf/compiler/AntJavaCompiler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.util.FileServices.java">org/castor/xmlctf/util/FileServices.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.TestWithReferenceDocument.java">org/castor/xmlctf/TestWithReferenceDocument.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  128
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.TestCaseAggregator.java">org/castor/xmlctf/TestCaseAggregator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.CastorTestCase.java">org/castor/xmlctf/CastorTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  59
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#castor.properties">castor.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.XMLTestCase.java">org/castor/xmlctf/XMLTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  124
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.OnlySourceGenerationTestCase.java">org/castor/xmlctf/OnlySourceGenerationTestCase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://castor.org/castor-testsuite-xml-framework/checkstyle.html#org.castor.xmlctf.util.CTFUtils.java">org/castor/xmlctf/util/CTFUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
