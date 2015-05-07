@@ -379,24 +379,20 @@
    <mailingLists>
       <mailingList>
          <name>User mailing list</name>
-         <subscribe>user-subscribe@castor.codehaus.org</subscribe>
-         <unsubscribe>user-unsubscribe@castor.codehaus.org</unsubscribe>
-         <post>user@castor.codehaus.org</post>
-         <archive>http://archive.castor.codehaus.org/user</archive>
+         <subscribe>castor.user-request@freelists.org</subscribe>
+         <post>castor.user@freelists.org</post>
+         <archive>http://www.freelists.org/archive/castor.user</archive>
       </mailingList>
       <mailingList>
          <name>Development mailing list</name>
-         <subscribe>dev-subscribe@castor.codehaus.org</subscribe>
-         <unsubscribe>dev-unsubscribe@castor.codehaus.org</unsubscribe>
-         <post>dev@castor.codehaus.org</post>
-         <archive>http://archive.castor.codehaus.org/dev</archive>
+         <subscribe>castor.dev-request@freelists.org</subscribe>
+         <post>castor.dev@freelists.org</post>
+         <archive>http://www.freelists.org/archive/castor.dev</archive>
       </mailingList>
       <mailingList>
          <name>Announcement mailing list</name>
-         <subscribe>announce-subscribe@castor.codehaus.org</subscribe>
-         <unsubscribe>announce-unsubscribe@castor.codehaus.org</unsubscribe>
-         <post>announce@castor.codehaus.org</post>
-         <archive>http://archive.castor.codehaus.org/announce</archive>
+         <subscribe>castor.announce-request@freelists.org</subscribe>
+         <archive>http://www.freelists.org/archive/castor.announce</archive>
       </mailingList>
    </mailingLists>
 

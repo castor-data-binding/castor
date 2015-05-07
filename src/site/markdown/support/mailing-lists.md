@@ -2,29 +2,34 @@
 
 ## General notes
     
-* Please manage your *subscriptions* over at [TBD](http://xircles.codehaus.org).
+* Please manage your *subscriptions* over at [FreeLists](http://www.freelists.org/).
 * Please familiarize yourself with the [guidelines](#Guidelines) before posting to the list.
 
 ## Announcement mailing list 
 
 This list is a *read-only* low volume (less than 1 message per week) mailing list for special announcements related to Castor, such as new releases.
 
-Archives:
+*Manage subscription*: (http://www.freelists.org/archive/castor.announce/)
+ 
+*Archives*:
 
-* [The Codehaus](http://archive.castor.codehaus.org/announce)
+* [FreeLists](http://www.freelists.org/archive/castor.user/)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Aannounce)
+* [The Codehaus](http://archive.castor.codehaus.org/announce) - Soon to be gone due to EOL
 
 ## User mailing list
 
 This list is a moderate volume (between 10 and 25 messages a day) mailing list for the *users* of Castor. It should be used to discuss general questions related to the use of Castor, problems you are having getting Castor to work, and so on.
 
+*Manage subscription*: (http://www.freelists.org/archive/castor.user/)
+
 *Archives*:
 
-* [The Codehaus](http://archive.castor.codehaus.org/user)
 * [mail-archive.com](http://www.mail-archive.com/user@castor.codehaus.org)
 * [The Aims Group](http://marc.theaimsgroup.com/?l=castor-user&amp;r=1&amp;w=2)
 * [GMANE](http://news.gmane.org/gmane.comp.java.castor.user)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Auser)
+* [The Codehaus](http://archive.castor.codehaus.org/user) - Soon to be gone due to EOL
 
 ## Development mailing list
 
@@ -46,13 +51,15 @@ items:
 * Potential new features to be incorporated into the product
 * Upcoming releases
 
+*Manage subscription*: (http://www.freelists.org/archive/castor.dev/)
+
 *Archives*:
 
-* [The Codehaus](http://archive.castor.codehaus.org/dev)
 * [mail-archive.com](http://www.mail-archive.com/dev@castor.codehaus.org/)
 * [The Aims Group](http://marc.theaimsgroup.com/?l=castor-dev&amp;r=1&amp;w=2)
 * [GMANE](http://news.gmane.org/gmane.comp.java.castor.devel)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Adev)
+* [The Codehaus](http://archive.castor.codehaus.org/dev) - Soon to be gone due to EOL
 
 ## SCM mailing list
 
@@ -60,8 +67,8 @@ This *read-only*> list sends out notification messages detailing any change made
 
 *Archives*:
 
-* [The Codehaus](http://archive.castor.codehaus.org/scm)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Ascm)
+* [The Codehaus](http://archive.castor.codehaus.org/scm) - Soon to be gone due to EOL
 
 ## User vs. Development mailing list
 
