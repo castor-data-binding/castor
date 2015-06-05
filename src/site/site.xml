@@ -36,7 +36,7 @@
         <item name="Features" href="main/features.html" />
         <item name="Binary distributions" href="main/download.html" />
         <!-- NO, REDUNDANT <item name="Dependencies" href="main/dependencies.html" /> -->
-        <item name="Recent changes" href="jira-report.html" />
+        <item name="Recent changes" href="github-report.html" />
         <item name="Maven archetypes" href="main/maven-archetypes.html" />
         <item name="RSS" href="rss/castor-announce.xml" img="images/rss.svg" position="right" width="16" height="16" target="_blank" />
     </menu>
