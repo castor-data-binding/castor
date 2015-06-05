@@ -41,8 +41,8 @@
    <url>http://castor.org</url>
 
    <issueManagement>
-      <system>Jira</system>
-      <url>http://jira.codehaus.org/browse/CASTOR</url>
+      <system>GitHub</system>
+      <url>https://github.com/castor-data-binding/castor/issues</url>
    </issueManagement>
 
    <build>
@@ -312,7 +312,7 @@
       <developer>
          <id>wguttmn</id>
          <name>Werner Guttmann</name>
-         <email>wguttmn@codehaus.org</email>
+         <email>werner.guttmann@gmx.net</email>
          <organization>Indoqa</organization>
          <organizationUrl>http://www.indoqa.com</organizationUrl>
          <roles>
@@ -415,10 +415,12 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <layout>default</layout>
     </snapshotRepository>
+    <!--
     <site>
        <id>codehaus.org</id>
        <url>https://nexus.codehaus.org/content/repositories/releases/</url>
     </site>
+    -->
   </distributionManagement>
 
    <dependencyManagement>
@@ -719,6 +721,7 @@
       </dependencies>
    </dependencyManagement>
 
+<!--
    <pluginRepositories>
       <pluginRepository>
          <id>Maven Codehaus Snapshots</id>
@@ -731,6 +734,7 @@
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
+-->
 
    <reporting>
       <plugins>
@@ -812,16 +816,14 @@
             <reportSets>
                <reportSet>
                   <reports>
-                     <!-- <report>changes-report</report> -->
-                     <report>jira-report</report>
+                     <report>github-report</report>
                   </reports>
                </reportSet>
             </reportSets>
-	        <configuration>
-	          <fixVersionIds>13817,14004,14917,17217,18424</fixVersionIds>
-			  <columnNames>Type,Key,Summary,Status,Resolution,Fix Version</columnNames>
-              <sortColumnNames>Fix Version DESC,Type,Key DESC</sortColumnNames>
-            </configuration>            
+        	<configuration>
+          		<githubAPIScheme>https</githubAPIScheme>
+          		<githubAPIPort>443</githubAPIPort>
+        	</configuration>            
          </plugin>
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
@@ -854,10 +856,12 @@
       </plugins>
    </reporting>
 
+<!--
    <ciManagement>
       <system>bamboo</system>
       <url>http://bamboo.ci.codehaus.org/browse/CASTOR</url>
    </ciManagement>
+   -->
 
    <profiles>
       <!-- profile for adsding all CPA modules and tests -->
