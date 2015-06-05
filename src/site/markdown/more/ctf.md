@@ -1115,7 +1115,7 @@ to do is:
       
 * Write a simple test case as described previously.
 * Create a jar or a directory tree (which you can ZIP up).
-* Send it to the [JIRA](http://jira.codehaus.org/browse/CASTOR) or
+* Create an issue at [GitHub issues](https://github.com/castor-data-binding/castor/issues) or
  to a [contributor](contributors.html)
         
 ## Full Sample of a Source Generation Test

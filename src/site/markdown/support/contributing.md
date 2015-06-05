@@ -13,7 +13,7 @@ We recommend that you listen for a while to hear how others make contributions.
 
 You can get your local working copy of the current code base (of any particular
 release) from the [git repository](http://github.com/castor-data-binding). Review the list
-of unassigned issues in [TBD Jira](http://jira.codehaus.org/browse/CASTOR)
+of unassigned issues in [GitHub issues](https://github.com/castor-data-binding/castor/issues)
 and choose a task -- or perhaps you have noticed something that needs patching.
 (Before you start changing any code, please create a Jira task for your changes
 if one does not already exist.)  Make your changes, test those changes, submit a pull request.
@@ -66,7 +66,7 @@ important if your project that makes use of Castor depends on a feature
 or bug fix that you're contributing.
 
 The last requirement for contributing code is to create a ticket at 
-[TBD Jira](http://jira.codehaus.org/browse/CASTOR) and to attach
+[GitHub issues](https://github.com/castor-data-binding/castor/issues) and to attach
 your test cases to this ticket.  A ticket 
 allows your request to be fully traceable, as well as describing and
 documenting your request.

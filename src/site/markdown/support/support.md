@@ -33,8 +33,7 @@ articles](../documentation/publications.html) available about Castor to help get
 
 ## Reporting Bugs and Bug Tracking
 
-If you find a bug, please file a report at Codehaus' issue management
-system (JIRA), available at http://jira.codehaus.org/browse/CASTOR.
+If you find a bug, please file a report at [GitHub issues](https://github.com/castor-data-binding/castor/issues).
 
 ## Commercial Support
       
