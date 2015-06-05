@@ -38,7 +38,7 @@
    </modules>
 
    <name>Castor</name>
-   <url>http://castor.org</url>
+   <url>https://github.com/castor-data-binding/castor</url>
 
    <issueManagement>
       <system>GitHub</system>
@@ -856,12 +856,10 @@
       </plugins>
    </reporting>
 
-<!--
-   <ciManagement>
-      <system>bamboo</system>
-      <url>http://bamboo.ci.codehaus.org/browse/CASTOR</url>
-   </ciManagement>
-   -->
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://github.com/castor-data-binding/castor</url>
+    </ciManagement>
 
    <profiles>
       <!-- profile for adsding all CPA modules and tests -->
