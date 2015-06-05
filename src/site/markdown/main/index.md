@@ -13,6 +13,10 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 
 Newsworthy information about the Castor Project itself and any related projects.
 
+##### New project mailing lists available at freelists.org (Jun 5, 2015; [Werner Guttmann](mailto:werner.guttmann@gmx.net)) 
+
+Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
+
 ##### First SNAPSHOT for Castor 1.3.4 released (Apr 6, 2015; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
 
 I've made available a first snapshot release of Castor 1.3.4 at the  
