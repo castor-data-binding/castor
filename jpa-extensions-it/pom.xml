@@ -3,9 +3,10 @@
     <artifactId>jpa-extensions-it</artifactId>
 
     <parent>
-        <artifactId>castor</artifactId>
         <groupId>org.codehaus.castor</groupId>
+        <artifactId>castor-parent</artifactId>
         <version>1.3.4-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <!-- <packaging>jar</packaging> -->
