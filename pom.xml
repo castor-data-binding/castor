@@ -10,13 +10,13 @@
 	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between Java objects, XML documents and relational tables.
    </description>
 
-<!-- 
+
    <parent>
-      <groupId>org.codehaus</groupId>
-      <artifactId>codehaus-parent</artifactId>
-      <version>3</version>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>9</version>
    </parent>
-    -->
+
 
    <modules>
       <module>core</module>
@@ -74,6 +74,7 @@
                <configuration>
                  <inputEncoding>UTF-8</inputEncoding>
                  <outputEncoding>UTF-8</outputEncoding>
+		         <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
                </configuration>
             </plugin>               
             <plugin>
@@ -230,6 +231,16 @@
 	          </executions>	          
 	        </plugin>
           -->
+          
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-scm-publish-plugin</artifactId>
+			  <version>1.1</version>
+			  <configuration>
+			    <scmBranch>gh-pages</scmBranch>
+			  </configuration>
+			</plugin>
+          
          </plugins>
       </pluginManagement>
       <plugins>
@@ -400,7 +411,9 @@
       <connection>scm:git:https://github.com/castor-data-binding/castor.git</connection>
    </scm>
 
+
    <distributionManagement>
+   <!--
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>sonatype-nexus-staging</id>
@@ -415,12 +428,12 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
       <layout>default</layout>
     </snapshotRepository>
-    <!--
-    <site>
-       <id>codehaus.org</id>
-       <url>https://nexus.codehaus.org/content/repositories/releases/</url>
-    </site>
-    -->
+-->
+	<site>
+	  <id>github</id>
+	  <url>scm:git:git@github.com:castor-data-binding/castor.git</url>
+	</site>
+
   </distributionManagement>
 
    <dependencyManagement>
