@@ -14,7 +14,7 @@
 
   <packaging>pom</packaging>
 
-  <name>Distribution</name>
+  <name>Castor: Distributions</name>
   
   <dependencies>
     <dependency>
