@@ -6,9 +6,16 @@
    <artifactId>castor</artifactId>
    <version>1.3.4-SNAPSHOT</version>
    <packaging>pom</packaging>
-
+   
+   <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>9</version>
+   </parent>
+ 
    <description>
-	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between Java objects, XML documents and relational tables.
+	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between 
+    Java objects, XML documents and relational tables.
    </description>
 
    <modules>
