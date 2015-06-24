@@ -13,6 +13,18 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 
 Newsworthy information about the Castor Project itself and any related projects.
 
+| Date          | Who               | Content
+| ------------- | ----------------- | 
+| Jun 24, 2015  | (Werner Guttmann)[mailto:werner.guttmann@gmx.net] | Castor JDO moved to its own github repository
+|               | The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git. As a result, both products will have their own life cycles as of now.
+| Jun 5, 2015   | (Werner Guttmann)[mailto:werner.guttmann@gmx.net] | New project mailing lists available at freelists.org
+|               | Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
+
+
+##### Castor JDO moved to its own github repository (Jun 24, 2015; [Werner Guttmann](mailto:werner.guttmann@gmx.net)) 
+
+The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git. As a result, both products will have their own life cycles as of now.
+
 ##### New project mailing lists available at freelists.org (Jun 5, 2015; [Werner Guttmann](mailto:werner.guttmann@gmx.net)) 
 
 Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
