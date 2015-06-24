@@ -24,6 +24,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.castor.xmlctf.TestCaseAggregator;
 
@@ -32,8 +33,6 @@ import org.castor.xmlctf.TestCaseAggregator;
  * implement the runJUnit method to provide the Runner (eg. text, swing, ..)
  * 
  * @since 1.2
- * @requiresProject true
- * @requiresDependencyResolution runtime
  */
 public abstract class AbstractTestSuiteMojo extends AbstractMojo {
 
@@ -44,31 +43,26 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
 
     /**
      * Target directory used for the testclasses.
-     * 
-     * @parameter expression="./target/xmlctf"
      */
+    @Parameter(property="outputRoot", defaultValue = "./target/xmlctf")
     private String outputRoot;
 
     /**
      * The source directory of the tests.
-     * 
-     * @parameter
      */
+    @Parameter(property = "testRoot", defaultValue = "${basedir}/tests/MasterTestSuite/")
     private String testRoot;
 
     /**
      * Optional parameter to overwrite the absolute path to the java tools.jar
-     * 
-     * @parameter
      */
+    @Parameter(property = "pathToTools")
     private String pathToTools;
-
+    
     /**
-     * The project whose project files to create.
-     * 
-     * @parameter expression="${project}"
-     * @required
+     * The Maven project whose project files to create.
      */
+    @Parameter(defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -87,11 +81,12 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
         getLog().info("Starting Castor Mastertestsuite");
 
         // testRoot checks
+        getLog().info("testRoot = " + testRoot);
         String testRootToUse = System.getProperty(TEST_ROOT_PROPERTY);
         if (testRootToUse == null) {
             testRootToUse = testRoot;
         }
-
+        
         if (testRootToUse == null) {
             throw new MojoExecutionException(
                     "No testroot found, please specify property -Dcastor.xmlctf.root");
@@ -123,35 +118,41 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
         // set classpath for testcompiler
         // TODO
         String dirSeparator = System.getProperty("file.separator");
-        String classpath = "";
-        for (Iterator iter = project.getArtifacts().iterator(); iter.hasNext();) {
-            classpath += ((Artifact) iter.next()).getFile().getAbsolutePath();
-            classpath += System.getProperty("path.separator");
+        StringBuilder classpath = new StringBuilder();
+        String pathSeparator = System.getProperty("path.separator");
+		for (@SuppressWarnings("unchecked")
+		Iterator<Artifact> iter = project.getArtifacts().iterator(); iter.hasNext();) {
+            classpath.append(((Artifact) iter.next()).getFile().getAbsolutePath());
+            classpath.append(pathSeparator);
         }
 
-        classpath += project.getBuild().getTestOutputDirectory();
-        classpath += System.getProperty("path.separator");
+        classpath.append(project.getBuild().getTestOutputDirectory());
+        classpath.append(pathSeparator);
 
         if (pathToTools != null) {
-            classpath += pathToTools + System.getProperty("path.separator");
+        	getLog().info("Usage of -DpathToTools !");
+            classpath.append(pathToTools + pathSeparator + "tools.jar");
         } else {
-            classpath += System.getProperty("java.home") + dirSeparator + "lib"
-            + dirSeparator + "tools.jar";
-            classpath += System.getProperty("path.separator");
-            classpath += System.getProperty("java.home") + dirSeparator + ".."
-            + dirSeparator + "lib" + dirSeparator + "tools.jar";
-            classpath += System.getProperty("path.separator");
+            String javaHome = System.getProperty("java.home");
+			classpath.append(javaHome);
+			classpath.append(dirSeparator);
+			classpath.append("lib");
+			classpath.append(dirSeparator);
+			classpath.append("tools.jar");
+            classpath.append(pathSeparator);
+            classpath.append(javaHome.substring(0, javaHome.lastIndexOf("/jre")) + dirSeparator + "lib" + dirSeparator + "tools.jar");
+            classpath.append(pathSeparator);
         }
         
         // set system proerties for
-        System.setProperty("xmlctf.classpath.override", classpath);
+        System.setProperty("xmlctf.classpath.override", classpath.toString());
         if (getLog().isDebugEnabled()) {
             System.setProperty(TestCaseAggregator.VERBOSE_PROPERTY, "true");
             System.setProperty(TestCaseAggregator.PRINT_STACK_TRACE, "true");
         }
 
         getLog().info("classpath for sourcegenerator is: " + classpath);
-        String[] classpathEntries = classpath.split(";");
+        String[] classpathEntries = classpath.toString().split(";");
         for (String classpathEntry : classpathEntries) {
             getLog().info(classpathEntry);
         }

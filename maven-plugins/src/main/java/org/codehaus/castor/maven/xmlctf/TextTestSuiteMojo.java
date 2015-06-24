@@ -20,20 +20,17 @@ import junit.framework.TestResult;
 import junit.textui.TestRunner;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 
 /**
  * Uses a simple junit.ui.TestRunner TextRunner to run the XMLCTF test suite.
  * 
- * @goal xmlctf-text
  * @since 1.2
  */
+@Mojo(name = "xmlctf-text", requiresDependencyResolution = ResolutionScope.RUNTIME, requiresProject = true)
 public class TextTestSuiteMojo extends AbstractTestSuiteMojo {
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.codehaus.castor.maven.xmlctf.AbstractTestSuiteMojo#runJUnit(junit.framework.Test)
-     */
     public void runJUnit(Test testSuite) throws MojoExecutionException {
         TestResult result = TestRunner.run(testSuite);
 

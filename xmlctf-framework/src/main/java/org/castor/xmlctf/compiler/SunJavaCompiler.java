@@ -42,7 +42,7 @@ public class SunJavaCompiler implements Compiler {
     private static final int COMPILATION_SYSERR   = 3;
     private static final int COMPILATION_ABNORMAL = 4;
 
-    private static final String COMPILE_CLASSNAME  = "com.sun.tools.javac.Main";
+    private static final String COMPILE_CLASSNAME  = "sun.tools.javac.Main";
     private static final String COMPILE_METHODNAME = "compile";
     private static final Class[] COMPILE_PARAMTYPE = new Class[] {String[].class};
 

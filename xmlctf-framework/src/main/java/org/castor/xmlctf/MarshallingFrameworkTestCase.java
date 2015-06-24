@@ -54,6 +54,8 @@ import junit.framework.TestSuite;
 
 import org.castor.xmlctf.compiler.CompilationException;
 import org.castor.xmlctf.compiler.Compiler;
+import org.castor.xmlctf.compiler.CompilerFactory;
+import org.castor.xmlctf.compiler.OracleJavaCompiler;
 import org.castor.xmlctf.compiler.SunJavaCompiler;
 import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.mapping.Mapping;
@@ -164,7 +166,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         // Compile the source directory for this test, if not already done
         if (!_test.isDirectoryCompiled()) {
             verbose("-->Compiling any necessary source files in " + _outputRootFile);
-            Compiler compiler = new SunJavaCompiler(_outputRootFile);
+            Compiler compiler = CompilerFactory.createInstance(_outputRootFile);
             if (_unitTest.hasJavaSourceVersion()) {
                 compiler.setJavaSourceVersion(_unitTest.getJavaSourceVersion());
             }

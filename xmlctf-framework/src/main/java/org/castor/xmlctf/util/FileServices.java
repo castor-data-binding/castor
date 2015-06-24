@@ -66,6 +66,8 @@ public final class FileServices {
     public static final String CVS  = "CVS";
     /** The string for a Subversion subdirectory. */
     public static final String SVN  = ".svn";
+    /** The string for a git subdirectory. */
+    public static final String GIT  = ".git";
     /** The string for an extension for a XSD file. */
     public static final String XSD  = ".xsd";
     /** The string for an extension for a XML file. */

@@ -16,28 +16,10 @@
     <description />
 
     <build>
-    	<resources>
-      <!-- 
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                	<exclude>META-INF/MANIFEST.MF</exclude>
-                </excludes>
-            </resource>
-            <resource>
-            	<directory>src/main/resources</directory>
-            	<filtering>true</filtering>
-            	<includes>
-            		<include>META-INF/MANIFEST.MF</include>
-            	</includes>
-            </resource>
-             -->
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-maven-plugins</artifactId>
-                <version>${project.version}</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
