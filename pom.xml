@@ -113,5 +113,43 @@
       </profile>
 
    </profiles>
-
+   
+   <distributionManagement>
+   <!--
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>sonatype-nexus-staging</id>
+      <name>Sonatype OSS releases</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype OSS snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <layout>default</layout>
+    </snapshotRepository>
+-->
+   <site>
+     <id>github</id>
+     <url>scm:git:https://github.com/castor-data-binding/castor.git</url>
+   </site>
+   </distributionManagement>
+   
+   <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-scm-publish-plugin</artifactId>
+              <version>1.1</version>
+              <configuration>
+                <scmBranch>gh-pages</scmBranch>
+              </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+   </build>
+   
 </project>
