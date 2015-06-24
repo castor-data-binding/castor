@@ -18,10 +18,12 @@ package org.castor.cpa.test.test2996.single;
 import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.mapping.MappingException;
+import org.junit.Ignore;
 
 /**
  * Tests to load Book with XML mapping. 
  */
+@Ignore
 public final class TestSingleXmlMapping extends AbstractTestSingle {
     private static final String DBNAME = "test2996-single-xml";
     private static final String MAPPING = "/org/castor/cpa/test/test2996/single/mapping.xml";

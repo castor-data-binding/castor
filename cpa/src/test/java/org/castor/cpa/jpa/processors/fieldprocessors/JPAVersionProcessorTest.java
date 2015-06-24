@@ -16,9 +16,11 @@ import org.castor.cpa.jpa.info.FieldInfo;
 import org.castor.cpa.jpa.info.JPAVersionManager;
 import org.castor.cpa.jpa.natures.JPAFieldNature;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
+@Ignore
 public final class JPAVersionProcessorTest {
     private JPAVersionProcessor _processor;
     private JPAFieldNature _nature;

@@ -19,10 +19,12 @@ import org.castor.cpa.test.framework.xml.types.DatabaseEngineType;
 import org.castor.jdo.util.JDOConfFactory;
 import org.exolab.castor.jdo.JDOManager;
 import org.exolab.castor.mapping.MappingException;
+import org.junit.Ignore;
 
 /**
  * Tests to load Book with class mapping. 
  */
+@Ignore
 public final class TestSingleClassMapping extends AbstractTestSingle {
     private static final String DBNAME = "test2996-single-class";
     private static final String MAPPING = Book.class.getName();

@@ -53,7 +53,7 @@ public final class TestTransactionManagerRegistry extends TestCase {
         assertEquals("org.castor.transactionmanager.InitializeAtRegistration",
                 CPAProperties.TRANSACTION_MANAGER_INIT);
         
-        AbstractProperties properties = CPAProperties.getInstance();
+        AbstractProperties properties = CPAProperties.newInstance();
         String memF = properties.getString(CPAProperties.TRANSACTION_MANAGER_FACTORIES, null);
         String memI = properties.getString(CPAProperties.TRANSACTION_MANAGER_INIT, null);
         properties.put(CPAProperties.TRANSACTION_MANAGER_FACTORIES,
