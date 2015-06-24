@@ -26,12 +26,14 @@
   </properties>
    -->
    
+
   <pluginRepositories>
     <pluginRepository>
       <id>agilejava</id>
       <url>http://agilejava.com/maven</url>
     </pluginRepository>
   </pluginRepositories>
+
   <build>
     <plugins>
       <plugin>
@@ -46,6 +48,7 @@
               <goal>generate-pdf</goal>
             </goals>
             <configuration>
+              <includes>index.xml</includes>
               <chunkedOutput>false</chunkedOutput>
               <htmlCustomization>src/docbkx/resources/xsl/html.xsl</htmlCustomization>
               <foCustomization>src/docbkx/resources/xsl/fopdf.xsl</foCustomization>
@@ -69,7 +72,43 @@
                   </fileset>
                 </copy>
                 <move file="target/site/reference/pdf/index.pdf"
-                  tofile="target/site/reference/pdf/castor-reference-guide-1.3.1.pdf" failonerror="false" />
+                  tofile="target/site/reference/pdf/castor-reference-guide-1.3.4.pdf" failonerror="false" />
+              </postProcess>
+            </configuration>
+            <phase>pre-site</phase>
+          </execution>
+          <execution>
+            <id>single-page-jdo</id>
+            <goals>
+              <goal>generate-html</goal>
+              <!-- <goal>generate-pdf</goal> -->
+            </goals>
+            <configuration>
+              <includes>jdo-index.xml</includes>
+              <chunkedOutput>false</chunkedOutput>
+              <htmlCustomization>src/docbkx/resources/xsl/html.xsl</htmlCustomization>
+              <foCustomization>src/docbkx/resources/xsl/fopdf.xsl</foCustomization>
+              <postProcess>
+                <copy todir="${basedir}/target/site/reference">
+                  <fileset dir="${basedir}/target/docbkx">
+                    <include name="**/*.pdf" />
+                  </fileset>
+                </copy>
+                <copy todir="${basedir}/target/site/reference/html-single">
+                  <fileset dir="${basedir}/target/docbkx/html">
+                    <include name="**/*.html" />
+                  </fileset>
+                </copy>
+                <copy todir="${basedir}/target/site/reference/html-single">
+                  <fileset dir="${basedir}/src/docbkx/resources">
+                    <include name="**/*.css" />
+                    <include name="**/*.png" />
+                    <include name="**/*.gif" />
+                    <include name="**/*.jpg" />
+                  </fileset>
+                </copy>
+                <move file="target/site/reference/pdf/index.pdf"
+                  tofile="target/site/reference/pdf/castor-jdo-reference-guide-1.3.3.pdf" failonerror="false" />
               </postProcess>
             </configuration>
             <phase>pre-site</phase>
@@ -112,7 +151,8 @@
           </dependency>
         </dependencies>
         <configuration>
-          <includes>index.xml</includes>
+          <!-- <includes>index.xml</includes> -->
+          <!--  <includes>jdo-index.xml</includes> -->
           <htmlStylesheet>css/html.css</htmlStylesheet>
           <xincludeSupported>true</xincludeSupported>
           <sourceDirectory>${basedir}/src/docbkx</sourceDirectory>

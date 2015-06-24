@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS test2567_entity;

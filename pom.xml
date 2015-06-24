@@ -32,24 +32,6 @@
    </modules>
 
    <profiles>
-      <!-- profile for adsding all CPA modules and tests -->
-      <profile>
-         <id>cpa</id>
-         <modules>
-            <module>ddlgen</module>
-            <module>cpa</module>
-            <module>cpa-testcase-archetype</module>
-            <module>cpactf</module>
-            <module>jpa-extensions-it</module>
-         </modules>
-      </profile>
-      <!-- profile for executing all CPA performance suite tests -->
-      <profile>
-         <id>cpaptftests</id>
-         <modules>
-            <module>cpaptf</module>
-         </modules>
-      </profile>
       <!-- profile for building and testing examples project -->
       <profile>
          <id>examples</id>

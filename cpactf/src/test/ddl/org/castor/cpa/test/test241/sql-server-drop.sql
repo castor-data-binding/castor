@@ -1,2 +1,0 @@
-DROP TABLE test241_prod
-GO

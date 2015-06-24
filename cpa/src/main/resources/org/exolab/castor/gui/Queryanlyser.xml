@@ -1,6 +1,0 @@
-<mapping>
-	<class name="org.exolab.castor.gui.QueryHistory">
-		<field name="MaxHistorySize" type="integer"/>
-		<field name="Querys" type="string" collection="vector"/>
-	</class>
-</mapping>

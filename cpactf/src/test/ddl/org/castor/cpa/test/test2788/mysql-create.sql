@@ -1,3 +1,0 @@
-CREATE TABLE test2788_book (
-    id INTEGER PRIMARY KEY
-);
