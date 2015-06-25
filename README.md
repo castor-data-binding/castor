@@ -24,7 +24,7 @@ To use Castor XML, you need to use following Maven dependency:
 </dependency>
 ```
 
-or download jars from [Maven Central](http://repo1.maven.org/maven2/org/codehaus/.
+or download jars from [Maven Central](http://repo1.maven.org/maven2/org/codehaus/).
 
 To use Castor's source generator, you need to use the following Maven dependency:
 
@@ -42,11 +42,11 @@ For non-Maven users, please download jars from [Maven Central](http://repo1.mave
 
 # Participation
 
-The easiest ways to participate beyond using Castor is to join one of Castor mailing lists [freelists.org](http://www.freelists.org):
+The easiest ways to participate beyond using Castor is to join one or many of the Castor mailing lists at [freelists.org](http://www.freelists.org):
 
-* Castor Announce: Announcement-only list for new Castor releases and other events related to Castor
-* Castor User: List dedicated for discussion on Castor usage
-* Castor Dev: List for developers of Castor core components and modules, discussing implementation details, API changes.
+* [Castor Announce](http://www.freelists.org/list/castor.announce): Announcement-only list for new Castor releases and other events related to Castor
+* [Castor User](http://www.freelists.org/list/castor.user): List dedicated for discussion on Castor usage
+* [Castor Dev]:(http://www.freelists.org/list/castor.dev) List for developers of Castor core components and modules, discussing implementation details, API changes.
 
 # Documentation
 
@@ -54,4 +54,4 @@ The easiest ways to participate beyond using Castor is to join one of Castor mai
 
 * [Documentation](http://castor-data-binding.github.io/castor/main/index.html)
 * [Wiki](https://github.com/castor-data-binding/castor/wiki)
-    Jackson Wiki contains older documentation (some 1.x specific; but mostly relevant for both 1.x and 2.x)
+
