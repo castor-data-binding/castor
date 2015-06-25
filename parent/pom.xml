@@ -199,32 +199,6 @@
                 </execution>
               </executions>
             </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
-               <configuration> <outputDirectory>newLib</outputDirectory> <excludeGroupIds>org.codehaus.castor</excludeGroupIds> 
-               </configuration> <executions> <execution> <id>copy-dependencies</id> <phase>generate</phase> <goals> <goal>copy-dependencies</goal> 
-               </goals> </execution> </executions> </plugin> -->
-<!--                
-			<plugin>
-	          <artifactId>maven-assembly-plugin</artifactId>
-	          <version>2.5.3</version>
-	          <configuration>
-	            <descriptors>
-	              <descriptor>src/assembly/bin.xml</descriptor>
-	              <descriptor>src/assembly/bin-with-dependencies.xml</descriptor>
-	            </descriptors>
-	          </configuration>
-			  <executions>
-		          <execution>
-		            <id>make-assemblies</id>
-		            <phase>package</phase>
-		            <goals>
-		              <goal>single</goal>
-		            </goals>
-		          </execution>
-	          </executions>	          
-	        </plugin>
-          -->
-          
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-scm-publish-plugin</artifactId>
@@ -233,9 +207,9 @@
 			    <scmBranch>gh-pages</scmBranch>
 			  </configuration>
 			</plugin>
-          
          </plugins>
       </pluginManagement>
+      
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -281,19 +255,10 @@
                </execution>
             </executions>
          </plugin>
-
-         <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId> <version>1.1</version> 
-            <executions> <execution> <id>sign-artifacts</id> <phase>verify</phase> <goals> <goal>sign</goal> </goals> </execution> 
-            </executions> </plugin> -->
-
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>wagon-maven-plugin</artifactId>
             <version>1.0-beta-2</version>
-            <!-- <executions> <execution> <id>codehaus-castor-upload-source-distros</id> <phase>deploy</phase> 
-               <goals> <goal>upload</goal> </goals> <configuration> <fromDir>src/main/assembly</fromDir> <includes>project.xml</includes> 
-               <excludes>pom.xml</excludes> <url>webdav:https://dav.codehaus.org/</url> <toDir>/dist/castor/${project.version}</toDir> 
-               </configuration> </execution> </executions> -->
          </plugin>
       </plugins>
 
@@ -320,9 +285,7 @@
          <organization>Indoqa</organization>
          <organizationUrl>http://www.indoqa.com</organizationUrl>
          <roles>
-            <role>Castor XML Lead</role>
-            <role>Castor JPA Lead</role>
-            <role>Castor JDO committer</role>
+            <role>comitter</role>
          </roles>
          <timezone>+1</timezone>
       </developer>
@@ -406,22 +369,6 @@
 
 
    <distributionManagement>
-   <!--
-    <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype OSS releases</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-      <layout>default</layout>
-    </repository>
-    <snapshotRepository>
-      <uniqueVersion>true</uniqueVersion>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype OSS snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <layout>default</layout>
-    </snapshotRepository>
--->
 	<site>
 	  <id>github</id>
 	  <url>scm:git:git@github.com:castor-data-binding/castor.git</url>
@@ -436,14 +383,15 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
          </dependency>
-
+          
          <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.6.5</version>
-            <!-- Joachim: this must not be test otherwise subproject anttask wont even compile! <scope>test</scope> -->
+            <!-- Joachim: this must not be test otherwise subproject anttask wont even compile! -->
+            <!-- <scope>test</scope> --> 
          </dependency>
-
+ 
          <dependency>
             <groupId>stax</groupId>
             <artifactId>stax</artifactId>
@@ -466,13 +414,6 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.codehaus.castor</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>2.1</version>
-            <scope>test</scope>
          </dependency>
 
          <dependency>
@@ -561,22 +502,9 @@
          </dependency>
 
          <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
-            <scope>test</scope>
-         </dependency>
-
-         <dependency>
             <groupId>velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.5</version>
-         </dependency>
-
-         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0.2</version>
          </dependency>
 
          <dependency>
@@ -599,59 +527,11 @@
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
          </dependency>
-         
-         <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.3</version>
-         </dependency>
-         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.19</version>
-         </dependency>
 
          <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.2.2</version>
-         </dependency>
-
-         <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-            <version>1.1</version>
-         </dependency>
-
-         <dependency>
-            <groupId>tyrex</groupId>
-            <artifactId>tyrex</artifactId>
-            <version>1.0.1</version>
-         </dependency>
-
-         <dependency>
-            <groupId>net.java.dev.javacc</groupId>
-            <artifactId>javacc</artifactId>
-            <version>5.0</version>
-         </dependency>
-
-         <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>8.3-603.jdbc3</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.mockejb</groupId>
-            <artifactId>mockejb</artifactId>
-            <version>0.6-beta2</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <!-- cannot upgrade to 2.4.8 due to NoClassDefFoundError -->
-            <version>2.2.3</version>
          </dependency>
 
          <!-- Maven project dependencies -->
@@ -713,12 +593,6 @@
 
          <dependency>
             <groupId>org.codehaus.castor</groupId>
-            <artifactId>castor-jdo</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-testsuite-xml-framework</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -731,21 +605,6 @@
 
       </dependencies>
    </dependencyManagement>
-
-<!--
-   <pluginRepositories>
-      <pluginRepository>
-         <id>Maven Codehaus Snapshots</id>
-         <url>http://nexus.codehaus.org/snapshots/</url>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
--->
 
    <reporting>
       <plugins>
@@ -874,7 +733,6 @@
 
    <properties>
       <spring.version>3.2.13.RELEASE</spring.version>
-      <derby.version>10.11.1.1</derby.version>
       <surefire.print.summary>false</surefire.print.summary>
       <VERSION>${project.version}</VERSION>
       <RELEASE />
