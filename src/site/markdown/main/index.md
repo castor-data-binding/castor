@@ -11,63 +11,30 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 
 # News
 
-Newsworthy information about the Castor Project itself and any related projects.
+News-worthy information about the Castor Project itself and any related projects.
 
 | Date          | Who               | Content
 | ------------- | ----------------- | 
-| Jun 24, 2015  | (Werner Guttmann)[mailto:werner.guttmann@gmx.net] | Castor JDO moved to its own github repository
-|               | The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git. As a result, both products will have their own life cycles as of now.
-| Jun 5, 2015   | (Werner Guttmann)[mailto:werner.guttmann@gmx.net] | New project mailing lists available at freelists.org
-|               | Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
-
-
-##### Castor JDO moved to its own github repository (Jun 24, 2015; [Werner Guttmann](mailto:werner.guttmann@gmx.net)) 
-
-The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git. As a result, both products will have their own life cycles as of now.
-
-##### New project mailing lists available at freelists.org (Jun 5, 2015; [Werner Guttmann](mailto:werner.guttmann@gmx.net)) 
-
-Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
-
-##### First SNAPSHOT for Castor 1.3.4 released (Apr 6, 2015; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I've made available a first snapshot release of Castor 1.3.4 at the  
-[Sonatype OSS snapshot repository](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) after Castor's migration to github. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
-
-##### Castor 1.3.3 released (Dec 31, 2013; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I've made available release 1.3.3 of Castor at the
-[Codehaus distribution repository](http://dist.codehaus.org/castor/1.3.3/).
-
-##### 1st release candidate for Castor 1.3.3 released (Apr 18, 2012; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I've placed a copy of Castor 1.3.3 RC1 at the
-[Codehaus distribution repository](http://dist.codehaus.org/castor/1.3.3rc1/). This is a first release candidate for the upcoming 1.3.3 release.
-
-##### Castor 1.3.2 released (Mar 29, 2011; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I've placed a copy of Castor 1.3.2 at the
-[Codehaus distribution repository](http://dist.codehaus.org/castor/1.3.2/). For details about the features added and the bugs fixed, please have
-a look at the [release notes](release-notes.html).
-
-##### Castor Maven plugin 2.1 released (Mar 28, 2011; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I am very pleased to announce the immediate availability of the Castor Maven plugin, version 2.1.
-                
-* [Documentation](http://mojo.codehaus.org/castor-maven-plugin/)
-* [Issues]
-
-##### Castor 1.3.1 released (Jan 03, 2010; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I've placed a copy of Castor 1.3.1 at the
-[Codehaus distribution repository](http://dist.codehaus.org/castor/1.3.1/). For details about the features added and the bugs fixed, please have
-a look at the [release notes](release-notes.html).
-
-##### Castor Maven plugin 2.0 released (Nov 16, 2009; [Werner Guttmann](mailto:werner.guttmann@codehaus.org))
-
-I am very pleased to announce the immediate availability of the Castor Maven plugin, version 2.0.
-                
-* [Documentation](http://mojo.codehaus.org/castor-maven-plugin/)
+| Jun 26, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **First SNAPSHOT for Castor 1.4.0 released** 
+| | | I've made available a first snapshot release of Castor 1.4.0 at the [Sonatype OSS snapshot repository](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) after the migration of Castor JDO to its own Github repository. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
+| Jun 24, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor JDO moved to its own Github repository**
+|               |                   | The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git. As a result, both products will have their own life cycles as of now.
+| Jun 5, 2015   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **New project mailing lists available at freelists.org**
+|               |                   | Please find the new Castor mailing lists available at [freelists.org](https://www.freelists.org/cgi-bin/search?search=castor). As already announced, this was necessary after the Codehaus service termination a few days ago.
+| Apr 6, 2015   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **First SNAPSHOT for Castor 1.3.4 released** 
+| | | I've made available a first snapshot release of Castor 1.3.4 at the [Sonatype OSS snapshot repository](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) after Castor's migration to github. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
+| Dec 31, 2013   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.3.3 released**
+| | | I've made available release 1.3.3 of Castor at Maven Central.
+| Apr 18, 2012   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | 1st release candidate for Castor 1.3.3 released 
+| | | I've placed a copy of Castor 1.3.3 RC1 at Maven Central. This is a first release candidate for the upcoming 1.3.3 release.
+| Mar 29, 2011   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.3.2 released**
+| | | I've placed a copy of Castor 1.3.2 at Maven Central. For details about the features added and the bugs fixed, please have a look at the [release notes](release-notes.html).
+| Mar 28, 2011   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor Maven plugin 2.1 released**
+| | | I am very pleased to announce the immediate availability of the Castor Maven plugin, version 2.1.
+| Jan 03, 2010   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.3.1 released**
+| | | I've placed a copy of Castor 1.3.1 at Maven Central. For details about the features added and the bugs fixed, please have a look at the [release notes](release-notes.html).
+| Nov 16, 2009   | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor Maven plugin 2.0 released**
+| | | I am very pleased to announce the immediate availability of the Castor Maven plugin, version 2.0.
 
 For older news item, please check [here](old-news.html).
 
