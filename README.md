@@ -24,7 +24,7 @@ To use Castor XML, you need to use following Maven dependency:
 </dependency>
 ```
 
-or download jars from [Maven Central](http://repo1.maven.org/maven2/org/codehaus/).
+or download jars from [Maven Central](http://repo1.maven.org/maven2/org/codehaus/castor/).
 
 To use Castor's source generator, you need to use the following Maven dependency:
 
@@ -46,7 +46,7 @@ The easiest ways to participate beyond using Castor is to join one or many of th
 
 * [Castor Announce](http://www.freelists.org/list/castor.announce): Announcement-only list for new Castor releases and other events related to Castor
 * [Castor User](http://www.freelists.org/list/castor.user): List dedicated for discussion on Castor usage
-* [Castor Dev]:(http://www.freelists.org/list/castor.dev) List for developers of Castor core components and modules, discussing implementation details, API changes.
+* [Castor Dev](http://www.freelists.org/list/castor.dev): List for developers of Castor core components and modules, discussing implementation details, API changes.
 
 # Documentation
 
