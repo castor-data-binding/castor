@@ -6,6 +6,16 @@
 	<format>zip</format>    
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <dependencySets>
+      <dependencySet>
+          <outputDirectory>/</outputDirectory>
+          <useProjectArtifact>false</useProjectArtifact>
+          <unpack>false</unpack>
+          <scope>runtime</scope>
+      </dependencySet>
+  </dependencySets>
+  
   <moduleSets>
     <moduleSet>
     
@@ -13,6 +23,7 @@
       <useAllReactorProjects>true</useAllReactorProjects>
       
       <includes>
+        <include>org.codehaus.castor:castor-parent</include>
         <include>org.codehaus.castor:castor-core</include>
         <include>org.codehaus.castor:castor-xml</include>
         <include>org.codehaus.castor:castor-xml-schema</include>

@@ -13,6 +13,7 @@
       <useAllReactorProjects>true</useAllReactorProjects>
       
       <includes>
+        <include>org.codehaus.castor:castor-parent</include>
         <include>org.codehaus.castor:castor-core</include>
         <include>org.codehaus.castor:castor-xml</include>
         <include>org.codehaus.castor:castor-xml-annotations</include>

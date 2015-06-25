@@ -20,6 +20,7 @@
         <include>org.codehaus.castor:castor-xml-diff</include>
         <include>org.codehaus.castor:castor-codegen</include>
         <include>org.codehaus.castor:castor-anttasks</include>
+        <include>org.codehaus.castor:castor-parent</include>
       </includes>
       <binaries>
         <!-- <outputDirectory>modules/maven-assembly-plugin</outputDirectory> -->
