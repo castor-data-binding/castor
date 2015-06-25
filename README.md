@@ -47,3 +47,11 @@ The easiest ways to participate beyond using Castor is to join one of Castor mai
 * Castor Announce: Announcement-only list for new Castor releases and other events related to Castor
 * Castor User: List dedicated for discussion on Castor usage
 * Castor Dev: List for developers of Castor core components and modules, discussing implementation details, API changes.
+
+# Documentation
+
+## Web sites
+
+* [Documentation](http://castor-data-binding.github.io/castor/main/index.html)
+* [Wiki](https://github.com/castor-data-binding/castor/wiki)
+    Jackson Wiki contains older documentation (some 1.x specific; but mostly relevant for both 1.x and 2.x)
