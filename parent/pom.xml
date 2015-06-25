@@ -536,12 +536,6 @@
 
          <dependency>
             <groupId>org.codehaus.castor</groupId>
-            <artifactId>castor-ddlgen</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-core</artifactId>
             <version>${project.version}</version>
          </dependency>
