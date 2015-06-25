@@ -8,7 +8,6 @@ for the benefits of this feature, we provide a selection of Maven archetypes
 for Castor.
 
 * codegen-testcase: A template for a XML code generator test case, incl. JUnit test case, sample XML schema, builder properties and binding file.
-* cpa-testcase. A template for a JDO test case, incl. JUnit test case, JDO configuration file, JDO mapping file and test entity.
 	    
 ## Template for XML code generator test case
 	    
@@ -27,46 +26,16 @@ shown above, please issue the following Maven goal on your command line (of choi
 ```
 > mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
                        -DarchetypeArtifactId=codegen-testcase-archetype \
-                       -DarchetypeVersion=1.3.1  \
+                       -DarchetypeVersion=1.3.3  \
                        -DgroupId=<your.group.id> \
                        -DartifactId=<your.artitact.id> \
                        -DpackageName=    
 ```
-
-## Template for JDO test case
-        
-This archetype creates a standard Maven project with a *preconfigured* 
-project structure that includes the following artefacts:
-
-* JUnit test case
-* JDO configuration file
-* JDO mapping file
-* DDL statements
-* A Maven POM with all the required dependencies (Castor JDO, etc.)
-    
-In order to e.g. create a project based upon the `cpa-testcase` archetypes 
-shown above, please issue the following Maven goal on your command line (of choice):
-           
-```
-> mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
-                       -DarchetypeArtifactId=cpa-testcase-archetype \
-                       -DarchetypeVersion=1.3.1  \
-                       -DgroupId=<your.group.id> \
-                       -DartifactId=<your.artitact.id> \
-                       -DpackageName=    
-```
-
-## CodeHaus Nexus repositories
-
-In case you do not find the required archetypes in maven central repo, use the following repos:
-
-* *Release artifacts*: (https://nexus.codehaus.org/content/repositories/releases)
-* *Snapshot artifacts*: (https://nexus.codehaus.org/content/repositories/snapshots)
 
 ### Snapshot releases of archetypes
 
 In case you are trying to use an archetype that has been made available as a snapshot
-release only, please makse sure you include the Codehaus Maven repository in the
+release only, please makse sure you include the Sonatype OSS repository in the
 command as shown above similar to ...
 
 ```
@@ -76,9 +45,9 @@ command as shown above similar to ...
                        -DgroupId=&lt;your.group.id&gt; \
                        -DartifactId=&lt;your.artitact.id&gt; \
                        -DpackageName=    
-          -DremoteRepositories=https://nexus.codehaus.org/content/repositories/snapshots
+          -DremoteRepositories=https://oss.sonatype.org/content/groups/public
 ```
 
-Once a specific Castor release has been propagated to Maven central 
+Once a specific Castor release has been propagated to Maven Central 
 (usually within 48 hours), adding just the dependency will be sufficient.
 
