@@ -8,7 +8,7 @@ between Java objects and XML documents. Castor essentially provides Java-to-XML 
 Project documentation:
 http://castor-data-binding.github.io/castor/
 
-The persistence part of Castor has been migrated to a separate git repository, available at https://github.com/castor-data-binding/castor-jdo.git.
+**Note**: The persistence part of Castor has been migrated to a separate [GitHub repository](https://github.com/castor-data-binding/castor-jdo.git).
 
 # Download
 

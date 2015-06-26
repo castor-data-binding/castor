@@ -85,7 +85,7 @@ list and announce the what and how of your intentions. If you don't get a
 reply within a day then you can assume the coast is clear.
 
 *Test before you commit*: Before committing any changes run the
-test cases (ideally both XML and JDO) to make sure nothing is broken.
+test cases to make sure nothing is broken.
 
 *Commit all at once*: If the change involves more than a single file,
 make sure you commit all the changes together. A partially committed feature 
@@ -152,11 +152,9 @@ Currently, the following main modules are available:
 |------|-------------|------
 | anttask | Ant task definitions for Castor tools | 1.0.5
 | core | Castor core classes | 1.2.1
-| cpa | Castor JDO - persistence framework | 1.1
 | xml | XML data binding framework | 1.2.1
 | codegen | XML code generator | 1.1.1
 | schema | XML schema support (classes) | 1.2
-| ddlgen | Castor JDO DDL generator | 1.1
 | examples | Examples for all functional areas | 1.0.5
             
 In addition, there's various modules available that represent integration and performance test suites for the main modules:
@@ -164,8 +162,6 @@ In addition, there's various modules available that represent integration and pe
 | Name | Description | Since
 |------|-------------|------
 | xmlctf | Integration test suite for Castor XML | 1.2
-| cpactf | Integration test suite for Castor JDO | 1.2
-| cpaptf | Performance test suite for Castor JDO | 1.2
 | xmlctf-framework | Framework code for XMLCTF | 1.2
 | maven-plugins| Maven plugins supporting execution from XMLCTF within Maven | 1.2
 
@@ -175,8 +171,6 @@ Finally, there's a module to provide Maven archetypes for Castor:
 | Name | Description | Since
 |------|-------------|------
 | codegen-testcase-archetype | Maven archetype for XML code generator | 1.2
-| cpa-testcase-archetype | Maven archetype for XML code generator | 1.2
-
 
 Last but not least, there's a module to provide the project documentation for Castor:
 

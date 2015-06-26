@@ -33,7 +33,7 @@ emphasis on the integration of the following (essential) framework areas:
 * XML data binding frameworks
 * Spring
 
-in general and Castor JDO and XML in particular. Above that, we aspire to 
+in general and Castor XML in particular. Above that, we aspire to 
 support clients in their focus to integrate such frameworks into their 
 enterprise computing platforms
 
@@ -46,9 +46,6 @@ of Castor, who has been responsible for:
 * Providing JAXB 2.1 compliance
 * Castor JDO offering for Spring ORM
 * Castor XML offering for Spring
-
-In the person of *Matthias Epheser*, Indoqa provides a long-time contributor
-in code areas related to code generation.
             
 ### CODA: Financial Intelligence (http://www.coda.com/)
 
