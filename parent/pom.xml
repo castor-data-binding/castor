@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor-parent</artifactId>
    <version>1.4.0-SNAPSHOT</version>
    <packaging>pom</packaging>
-   
+
    <description>
 	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between Java objects, XML documents and relational tables.
    </description>
@@ -37,18 +38,18 @@
                <artifactId>maven-site-plugin</artifactId>
                <version>3.4</version>
                <dependencies>
-                 <dependency>
-                   <groupId>org.apache.maven.doxia</groupId>
-                   <artifactId>doxia-module-markdown</artifactId>
-                   <version>1.6</version>
-                 </dependency>
+                  <dependency>
+                     <groupId>org.apache.maven.doxia</groupId>
+                     <artifactId>doxia-module-markdown</artifactId>
+                     <version>1.6</version>
+                  </dependency>
                </dependencies>
                <configuration>
-                 <inputEncoding>UTF-8</inputEncoding>
-                 <outputEncoding>UTF-8</outputEncoding>
-		         <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
+                  <inputEncoding>UTF-8</inputEncoding>
+                  <outputEncoding>UTF-8</outputEncoding>
+                  <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
                </configuration>
-            </plugin>               
+            </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-eclipse-plugin</artifactId>
@@ -127,6 +128,9 @@
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-javadoc-plugin</artifactId>
                <version>2.10.3</version>
+               <configuration>
+                  <additionalparam>-Xdoclint:none</additionalparam>
+               </configuration>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -155,23 +159,23 @@
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-plugin-plugin</artifactId>
                <version>3.4</version>
-              <executions>
-                <execution>
-                  <id>default-descriptor</id>
-                  <phase>process-classes</phase>
-                </execution>
-                <!-- if you want to generate help goal -->
-                <execution>
-                  <id>help-goal</id>
-                  <goals>
-                    <goal>helpmojo</goal>
-                  </goals>
-                </execution>
-              </executions>
+               <executions>
+                  <execution>
+                     <id>default-descriptor</id>
+                     <phase>process-classes</phase>
+                  </execution>
+                  <!-- if you want to generate help goal -->
+                  <execution>
+                     <id>help-goal</id>
+                     <goals>
+                        <goal>helpmojo</goal>
+                     </goals>
+                  </execution>
+               </executions>
             </plugin>
          </plugins>
       </pluginManagement>
-      
+
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -190,21 +194,24 @@
             <configuration>
                <archive>
                   <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                  <!-- <manifestEntries> <Specification-Version>${project.version}</Specification-Version> <Specification-Title>Castor 
-                     XML</Specification-Title> <Specification-Vendor>Intalio Inc.</Specification-Vendor> <Implementation-Title>Castor</Implementation-Title> 
+                  <!-- <manifestEntries> <Specification-Version>${project.version}</Specification-Version> 
+                     <Specification-Title>Castor XML</Specification-Title> <Specification-Vendor>Intalio 
+                     Inc.</Specification-Vendor> <Implementation-Title>Castor</Implementation-Title> 
                      <Implementation-Vendor>Intalio Inc.</Implementation-Vendor> <Implementation-Version>${project.version}</Implementation-Version> 
                      <url>${project.url}</url> </manifestEntries> -->
                </archive>
             </configuration>
-            <!-- <configuration> <archive> <index>true</index> <manifest> <addClasspath>true</addClasspath> </manifest> 
-               <manifestEntries> <mode>development</mode> <url>${project.url}</url> <key>value</key> </manifestEntries> </archive> 
+            <!-- <configuration> <archive> <index>true</index> <manifest> 
+               <addClasspath>true</addClasspath> </manifest> <manifestEntries> <mode>development</mode> 
+               <url>${project.url}</url> <key>value</key> </manifestEntries> </archive> 
                </configuration> -->
          </plugin>
 
          <!-- <plugin> <groupId>com.atlassian.maven.plugins</groupId> <artifactId>maven-clover2-plugin</artifactId> 
-            <version>2.6.1</version> <configuration> <cloverDatabase>target/clover-db</cloverDatabase> <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation> 
-            </configuration> <executions> <execution> <phase>pre-site</phase> <goals> <goal>instrument</goal> </goals> </execution> 
-            </executions> </plugin> -->
+            <version>2.6.1</version> <configuration> <cloverDatabase>target/clover-db</cloverDatabase> 
+            <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation> </configuration> 
+            <executions> <execution> <phase>pre-site</phase> <goals> <goal>instrument</goal> 
+            </goals> </execution> </executions> </plugin> -->
 
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -331,12 +338,12 @@
 
 
    <distributionManagement>
-	<site>
-	  <id>github</id>
-	  <url>scm:git:git@github.com:castor-data-binding/castor.git</url>
-	</site>
+      <site>
+         <id>github</id>
+         <url>scm:git:git@github.com:castor-data-binding/castor.git</url>
+      </site>
 
-  </distributionManagement>
+   </distributionManagement>
 
    <dependencyManagement>
       <dependencies>
@@ -345,13 +352,13 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
          </dependency>
-          
+
          <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.6.5</version>
          </dependency>
- 
+
          <dependency>
             <groupId>stax</groupId>
             <artifactId>stax</artifactId>
@@ -407,7 +414,7 @@
             <groupId>xmlunit</groupId>
             <artifactId>xmlunit</artifactId>
             <!-- TODO: raising this causes exceptions: investigate -->
-            <!-- <version>1.6</version>  -->
+            <!-- <version>1.6</version> -->
             <version>1.3</version>
          </dependency>
 
@@ -419,8 +426,8 @@
          </dependency>
 
          <!-- temp. removed as src/tests is not on the test compilation path -->
-         <!-- <dependency> <groupId>org.mockejb</groupId> <artifactId>mockejb</artifactId> <version>0.5</version> 
-            <optional>true</optional> </dependency> -->
+         <!-- <dependency> <groupId>org.mockejb</groupId> <artifactId>mockejb</artifactId> 
+            <version>0.5</version> <optional>true</optional> </dependency> -->
 
          <dependency>
             <groupId>edu.umd.cs.mtc</groupId>
@@ -479,11 +486,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
          </dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-collections4</artifactId>
-		    <version>4.1</version>
-		</dependency>
+         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.1</version>
+         </dependency>
          <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>
@@ -617,24 +624,11 @@
             <version>2.15</version>
          </plugin>
 
-<!-- 
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-pmd-plugin</artifactId>
-            <version>3.4</version>
-            <configuration>
-               <targetJdk>1.5</targetJdk>
-               <rulesets>
-                  <ruleset>/rulesets/basic.xml</ruleset>
-                  <ruleset>/rulesets/controversial.xml</ruleset>
-               </rulesets>
-               <format>xml</format>
-               <linkXref>true</linkXref>
-               <sourceEncoding>utf-8</sourceEncoding>
-               <minimumTokens>100</minimumTokens>
-            </configuration>
-         </plugin>
- -->
+         <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
+            <version>3.4</version> <configuration> <targetJdk>1.5</targetJdk> <rulesets> 
+            <ruleset>/rulesets/basic.xml</ruleset> <ruleset>/rulesets/controversial.xml</ruleset> 
+            </rulesets> <format>xml</format> <linkXref>true</linkXref> <sourceEncoding>utf-8</sourceEncoding> 
+            <minimumTokens>100</minimumTokens> </configuration> </plugin> -->
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>taglist-maven-plugin</artifactId>
@@ -665,9 +659,9 @@
 
       </plugins>
    </reporting>
-   
+
    <profiles>
-     <profile>
+      <profile>
          <id>javadoc</id>
          <activation>
             <property>
@@ -678,34 +672,21 @@
          <build>
             <pluginManagement>
                <plugins>
-               <!-- 
-                   <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
-                     <artifactId>maven-changes-plugin</artifactId>
-                     <version>2.11</version>
-                     <reportSets>
-                        <reportSet>
-                           <reports>
-                              <report>github-report</report>
-                           </reports>
-                        </reportSet>
-                     </reportSets>
-                     <configuration>
-                        <githubAPIScheme>https</githubAPIScheme>
-                        <githubAPIPort>443</githubAPIPort>
-                     </configuration>            
-                  </plugin>
-                   -->
-              </plugins>
+                  <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> 
+                     <artifactId>maven-changes-plugin</artifactId> <version>2.11</version> <reportSets> 
+                     <reportSet> <reports> <report>github-report</report> </reports> </reportSet> 
+                     </reportSets> <configuration> <githubAPIScheme>https</githubAPIScheme> <githubAPIPort>443</githubAPIPort> 
+                     </configuration> </plugin> -->
+               </plugins>
             </pluginManagement>
          </build>
-       </profile>
-    </profiles>
+      </profile>
+   </profiles>
 
-    <ciManagement>
-        <system>Travis CI</system>
-        <url>https://github.com/castor-data-binding/castor</url>
-    </ciManagement>
+   <ciManagement>
+      <system>Travis CI</system>
+      <url>https://github.com/castor-data-binding/castor</url>
+   </ciManagement>
 
    <properties>
       <spring.version>3.2.13.RELEASE</spring.version>
