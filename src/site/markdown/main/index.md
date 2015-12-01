@@ -15,6 +15,8 @@ News-worthy information about the Castor Project itself and any related projects
 
 | Date          | Who               | Content
 | ------------- | ----------------- | 
+| Dec 1, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.4.0 released** 
+| | | I've made available release 1.4.0 of Castor at Maven central. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
 | Jun 26, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **First SNAPSHOT for Castor 1.4.0 released** 
 | | | I've made available a first snapshot release of Castor 1.4.0 at the [Sonatype OSS snapshot repository](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) after the migration of Castor JDO to its own Github repository. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
 | Jun 24, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor JDO moved to its own Github repository**
