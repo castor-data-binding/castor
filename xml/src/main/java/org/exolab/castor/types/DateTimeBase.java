@@ -42,7 +42,7 @@
  *
  * $Id$
  * Date         Author          Changes
- * 08/30/2001   Arnaud Blandin  added to Calendar() (patch from Sébastien Stormacq [S.Stormacq@aubay-si.lu])
+ * 08/30/2001   Arnaud Blandin  added to Calendar() (patch from Sï¿½bastien Stormacq [S.Stormacq@aubay-si.lu])
  * 05/29/2001   Arnaud Blandin  Added order methods
  * 05/22/2001   Arnaud Blandin  Created
  */
@@ -65,8 +65,6 @@ import java.util.TimeZone;
  * Note: the Castor date/time types are mutable, unlike the date/time types of
  * the JDK in Java2. This is needed by the Marshaling framework.
  *
- * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$
  * @see DateTime
  * @see Date
