@@ -4,7 +4,7 @@
 
 Version | HTML (single page) | Chunked HTML | PDF
 --------|--------------------|--------------|----
-1.4.0-SNAPSHOT  | [HTML (single page)](../reference-guides/1.4.0/html-single/index.html) | [Chunked HTML](../reference-guides/1.4.0/html/index.html) | [PDF](../reference-guides/1.4.0/castor-reference-guide.pdf) 
+1.4.0  | [HTML (single page)](../reference-guides/1.4.0/html-single/index.html) | [Chunked HTML](../reference-guides/1.4.0/html/index.html) | [PDF](../reference-guides/1.4.0/castor-reference-guide.pdf) 
 
 
 ### Previous releases
