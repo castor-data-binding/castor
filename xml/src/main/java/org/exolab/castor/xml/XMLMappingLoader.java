@@ -624,7 +624,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             Class type = fieldDesc.getFieldType();
             if (type != null && CollectionHandlers.hasHandler(type)) {
                 String typeName = CollectionHandlers.getCollectionName(type);
-                colType = FieldMappingCollectionType.valueOf(typeName);
+                colType = FieldMappingCollectionType.fromValue(typeName);
             }
         }
 
