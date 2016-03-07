@@ -94,6 +94,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      */
     private static final String XSI_EXPECTED_STRING = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<objects><castor-object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+            " xmlns:java=\"http://java.sun.com\"" +
             " xsi:type=\"java:org.castor.test.entity.CastorObject\">" +
             "<name>test</name><value>8</value></castor-object></objects>";
 
@@ -108,6 +109,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      */
     private static final String ROOT_WITH_XSI_EXPECTED_STRING = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<objects xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+            " xmlns:java=\"http://java.sun.com\"" +
             " xsi:type=\"java:java.util.Arrays$ArrayList\">" +
             "<castor-object xsi:type=\"java:org.castor.test.entity.CastorObject\">" +
             "<name>test</name><value>8</value></castor-object></objects>";
@@ -117,6 +119,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      */
     private static final String ROOT_WITHOUT_XSI_EXPECTED_STRING = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<objects><castor-object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+            " xmlns:java=\"http://java.sun.com\"" +
             " xsi:type=\"java:org.castor.test.entity.CastorObject\">" +
             "<name>test</name><value>8</value></castor-object></objects>";
 
