@@ -86,7 +86,7 @@
          <artifactId>oro</artifactId>
       </dependency>
       <dependency>
-         <groupId>velocity</groupId>
+         <groupId>org.apache.velocity</groupId>
          <artifactId>velocity</artifactId>
       </dependency>
    </dependencies>
