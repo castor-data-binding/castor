@@ -465,9 +465,9 @@
          </dependency>
 
          <dependency>
-            <groupId>velocity</groupId>
+            <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.5</version>
+            <version>1.7</version>
          </dependency>
 
          <dependency>
@@ -494,7 +494,7 @@
          <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.1</version>
          </dependency>
 
          <!-- Maven project dependencies -->

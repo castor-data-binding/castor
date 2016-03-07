@@ -96,7 +96,7 @@
 
         <!--  optional dependencies -->
 		<dependency>
-			<groupId>velocity</groupId>
+			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<optional>true</optional>
 		</dependency>
