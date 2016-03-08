@@ -15,7 +15,7 @@
  */
 package org.castor.core.util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Common functionality relate to String processing.

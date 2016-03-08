@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.ClassInfoResolver;
 import org.exolab.castor.builder.GroupNaming;

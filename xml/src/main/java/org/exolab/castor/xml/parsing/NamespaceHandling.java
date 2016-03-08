@@ -3,7 +3,7 @@ package org.exolab.castor.xml.parsing;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.xml.*;

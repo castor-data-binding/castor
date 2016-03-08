@@ -15,7 +15,7 @@
  */
 package org.exolab.castor.builder.factory;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
