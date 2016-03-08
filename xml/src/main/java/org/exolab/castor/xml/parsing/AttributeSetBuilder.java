@@ -15,7 +15,7 @@
  */
 package org.exolab.castor.xml.parsing;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.util.AttributeSetImpl;
 import org.xml.sax.AttributeList;

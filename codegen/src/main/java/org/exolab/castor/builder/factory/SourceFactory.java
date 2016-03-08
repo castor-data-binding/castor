@@ -55,7 +55,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.castor.core.util.StringUtil;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.BuilderConfiguration;

@@ -1,6 +1,6 @@
 package org.exolab.castor.builder.factory;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.castor.xml.JavaNaming;
 import org.exolab.castor.builder.AnnotationBuilder;
 import org.exolab.castor.builder.info.FieldInfo;

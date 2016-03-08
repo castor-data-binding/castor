@@ -18,7 +18,7 @@ package org.exolab.castor.xml.parsing.primitive.objects;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class is part of the command pattern implementation to instantiate an

@@ -42,7 +42,7 @@
  */
 package org.exolab.javasource;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A class which holds information about a field. Modeled closely after the
