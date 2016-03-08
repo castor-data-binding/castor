@@ -11,10 +11,10 @@ public class TestSourceGenerator extends TestCase {
         SourceGenerator generator = new SourceGenerator();
         String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
         InputSource inputSource = new InputSource(xmlSchema);
-        generator.setDestDir("./target/codegen/src/test/java");
+        generator.setDestDir("./codegen/src/test/java");
 
         // uncomment to set a resource destination directory
-//        generator.setResourceDestinationDirectory("./target/codegen/src/test/resources");
+//        generator.setResourceDestinationDirectory("./codegen/src/test/resources");
 
         generator.setSuppressNonFatalWarnings(true);
         
