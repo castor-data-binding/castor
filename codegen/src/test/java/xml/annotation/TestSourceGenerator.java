@@ -11,7 +11,7 @@ public class TestSourceGenerator extends TestCase {
         SourceGenerator generator = new SourceGenerator();
         String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
         InputSource inputSource = new InputSource(xmlSchema);
-        generator.setDestDir("./target/codegen/src/test/java");
+        generator.setDestDir("./codegen/src/test/java");
         generator.setSuppressNonFatalWarnings(true);
         
         // uncomment to have JDO-specific class descriptors created 
