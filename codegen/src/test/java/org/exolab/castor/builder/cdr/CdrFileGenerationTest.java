@@ -38,7 +38,7 @@ public class CdrFileGenerationTest extends TestCase {
     private SourceGenerator _generator;
     private String _xmlSchema;
     private String _cdrDirectoryName;
-    private String _destDir = "./codegen/src/test/java";
+    private String _destDir = "./target/codegen/src/test/java";
 
     public final void setUp() throws Exception {
         super.setUp();
