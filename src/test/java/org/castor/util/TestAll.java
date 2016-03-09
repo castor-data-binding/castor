@@ -30,7 +30,6 @@ public final class TestAll extends TestCase {
         TestSuite suite = new TestSuite("All org.castor.util tests");
 
         suite.addTest(TestIdentitySet.suite());
-        suite.addTest(TestIdentityMap.suite());
         suite.addTest(TestBase64Encoder.suite());
         suite.addTest(TestBase64Decoder.suite());
 
