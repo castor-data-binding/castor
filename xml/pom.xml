@@ -174,12 +174,6 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>edu.umd.cs.mtc</groupId>
