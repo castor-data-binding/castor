@@ -91,10 +91,10 @@ public abstract class BaseNature implements Nature {
      * @return prefix + given key.
      */
     private String addPrefix(final String key) {
-        StringBuffer buf = new StringBuffer();
-        buf.append(getId());
-        buf.append(key);
-        return buf.toString();
+        return new StringBuilder()
+            .append(getId())
+            .append(key)
+            .toString();
     }
 
     /**
