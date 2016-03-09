@@ -348,11 +348,11 @@ public final class Namespaces {
          if (ns.prefix != null) {
             int len = ns.prefix.length();
             if (len > 0) {
-               StringBuffer buf = new StringBuffer(6 + len);
-               buf.append(XMLNS);
-               buf.append(':');
-               buf.append(ns.prefix);
-               attName = buf.toString();
+               attName = new StringBuilder(6 + len)
+                   .append(XMLNS)
+                   .append(':')
+                   .append(ns.prefix)
+                   .toString();
                atts.addAttribute(attName, CDATA, ns.uri);
             }
             // case with no prefix but a nsURI

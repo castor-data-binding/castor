@@ -273,9 +273,7 @@ public class ImportDescriptor extends HandlerBase implements Serializable {
         }
 
         String suffix(int index) {
-            StringBuffer name;
-
-            name = new StringBuffer(_names[index]);
+            StringBuilder name = new StringBuilder(_names[index]);
             for (++index; index < _names.length; ++index) {
                 name.append(',').append(_names[index]);
             }

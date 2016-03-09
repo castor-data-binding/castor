@@ -383,8 +383,12 @@ public class FieldDescriptorImpl implements FieldDescriptor {
     }
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(getFieldName() + "(" + getFieldType().getName() + ")");
+        return new StringBuilder()
+            .append(getFieldName())
+            .append('(')
+            .append(getFieldType().getName())
+            .append(')')
+            .toString();
         // TODO[WG]: find a way to emit additional nature-specific information.
 //        try {
 //            Class natureClass = Class.forName("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
@@ -396,7 +400,6 @@ public class FieldDescriptorImpl implements FieldDescriptor {
 //        } catch (ClassNotFoundException e) {
 //            // ignore
 //        }
-        return buffer.toString();
     }
 
 }
