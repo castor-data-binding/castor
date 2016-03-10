@@ -139,14 +139,14 @@ public class NestedIOException extends java.io.IOException {
      * @return the String representation of this Exception.
     **/
     public String toString() {
-        StringBuffer sb = new StringBuffer("NestedIOException: ");
+        StringBuilder sb = new StringBuilder("NestedIOException: ");
         if (getMessage() != null) {
             sb.append(getMessage());
         }
         if ((_exception != null) && (_exception.getMessage() != null)) {
-            sb.append(" { nested error: ");
-            sb.append(_exception.getMessage());
-            sb.append('}');
+            sb.append(" { nested error: ")
+                .append(_exception.getMessage())
+                .append('}');
         }
         return sb.toString();
     } //-- toString
