@@ -342,7 +342,7 @@ public class Duration implements java.io.Serializable {
         if (_isNegative) {
             result.append('-');
         }
-        result.append("P");
+        result.append('P');
 
         if (_year != 0) {
             result.append(_year).append('Y');
