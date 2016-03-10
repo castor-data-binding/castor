@@ -97,7 +97,7 @@ public final class Version {
      */
     public static String getBuildVersion() {
         
-        StringBuffer buffer = new StringBuffer(VERSION);
+        StringBuilder buffer = new StringBuilder(VERSION);
         String classname = Version.class.getName();
         String resource = "/" + classname.replace('.', '/') + ".class";
         
@@ -138,7 +138,8 @@ public final class Version {
                 SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
                 buffer.append(format.format(date));
             }
-            else buffer.append("0");
+            else
+                buffer.append('0');
             buffer.append(']');
         }
         return buffer.toString();
