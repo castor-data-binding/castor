@@ -113,15 +113,14 @@ public class Century extends TimePeriod {
      * @return a string representing this Century
      */
      public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder(String.valueOf(this.getCentury()));
 
-        result.append(String.valueOf(this.getCentury()));
         if (result.length() == 1) {
             result.insert(0,0);
         }
 
         if (isNegative()) {
-            result.insert(0,"-");
+            result.insert(0,'-');
         }
         return result.toString();
     }//toString
