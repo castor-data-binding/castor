@@ -46,6 +46,8 @@ package org.exolab.castor.xml.location;
 
 import java.util.Vector;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * A very simple XPath location class for use with the ValidationException. This
@@ -60,7 +62,7 @@ public class XPathLocation implements Location, java.io.Serializable {
     private static final long serialVersionUID = 1L;
     
     /** Our XPath, built up one String at a time. */
-    private final Vector _path = new Vector();
+    private final Vector<String> _path = new Vector<>();
     
     /** If we have reached the logical end of XPath (i.e., an attribute), set to false. */
     private boolean _allowChildrenOrAtts = true;
@@ -106,13 +108,7 @@ public class XPathLocation implements Location, java.io.Serializable {
      * @return the String representation of this XPathLocation.
      */
     public String toString() {
-        StringBuffer buf = new StringBuffer("XPATH: ");
-
-        for (int i = 0; i < _path.size(); i++) {
-            buf.append('/');
-            buf.append((String)_path.elementAt(i));
-        }
-        return buf.toString();
+        return "XPATH: /" + StringUtils.join(_path, '/');
     }
 
 }
