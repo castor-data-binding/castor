@@ -200,11 +200,7 @@ public class AnyNode2SAX implements EventProducer {
             if (nsPrefix != null) {
                 int len = nsPrefix.length();
                 if (len > 0) {
-                    StringBuffer sb = new StringBuffer(len+name.length()+1);
-                    sb.append(nsPrefix);
-                    sb.append(':');
-                    sb.append(name);
-                    qName = sb.toString();
+                    qName = nsPrefix + ':' + name;
                 } else {
                     qName = name;
                 }
