@@ -669,9 +669,7 @@ public final class AnyNode implements java.io.Serializable {
             return;
         }
 
-        StringBuffer temp = new StringBuffer(node1.getStringValue());
-        temp.append(node2.getStringValue());
-        node1._value = temp.toString();
+        node1._value = node1.getStringValue() + node2.getStringValue();
         node2 = null;
     }
 
