@@ -146,8 +146,7 @@ public class XMLException extends CastorException {
      * @return the String representation of this Exception.
      */
     public String toString() {
-        StringBuffer buff = new StringBuffer();
-        buff.append(this.getClass().getName());
+        StringBuilder buff = new StringBuilder(this.getClass().getName());
         
         String msg = this.getMessage();
         if (msg != null) {
@@ -155,7 +154,7 @@ public class XMLException extends CastorException {
         }
         
         if (this._location != null) {
-            buff.append("{").append(this._location).append("}");
+            buff.append('{').append(this._location).append('}');
         }
         
         return buff.toString();
