@@ -376,12 +376,12 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	public void testCharactersBuffer() throws XMLStreamException,
 			FactoryConfigurationError, SAXException, IOException {
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<Person>"
 				+ "<first-name> ");
 		
 		for (int i = 0; i < 1028; i++)
-			buffer.append("realyLongName" + i);
+			buffer.append("realyLongName").append(i);
 		
 		buffer.append("</first-name></Person>");
 
