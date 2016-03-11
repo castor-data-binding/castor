@@ -1389,10 +1389,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             String name      = descriptor.getXMLName();
             String namespace = descriptor.getNameSpaceURI();
             String path = descriptor.getLocationPath();
-            StringBuffer fullAttributePath = new StringBuffer();
+            StringBuilder fullAttributePath = new StringBuilder();
             
             if (StringUtils.isNotEmpty(path)) {
-                fullAttributePath.append(path + "/"); 
+                fullAttributePath.append(path).append('/');
             }
             
             fullAttributePath.append(name);
@@ -1476,17 +1476,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- check for nested attribute...loop through
                 //-- stack and find correct descriptor
                 String path = state.getElementName();
-                StringBuffer pathBuf = null;
                 Integer parentStateIndex = _stateStack.getFirstParentStateIndex(); 
                 while (parentStateIndex >= 0) {
                    UnmarshalState targetState = _stateStack.peekAtState(parentStateIndex--);
                    if (targetState.isWrapper()) {
-                      //path = targetState.elementName + "/" + path;
-                      pathBuf = resetStringBuffer(pathBuf);
-                      pathBuf.append(targetState.getElementName());
-                      pathBuf.append('/');
-                      pathBuf.append(path);
-                      path = pathBuf.toString();
+                      path = targetState.getElementName() + '/' + path;
                       continue;
                    }
                    classDesc = targetState.getClassDescriptor();
@@ -1500,12 +1494,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                       }
                    }
 
-                   pathBuf = resetStringBuffer(pathBuf);
-                   pathBuf.append(targetState.getElementName());
-                   pathBuf.append('/');
-                   pathBuf.append(path);
-                   path = pathBuf.toString();
-                   //path = targetState.elementName + "/" + path;
+                   path = targetState.getElementName() + '/' + path;
+
                    //-- reset descriptor to make sure we don't
                    //-- exit the loop with a reference to a 
                    //-- potentially incorrect one.
@@ -1537,22 +1527,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     }
 
-	/**
-	 * Returns either the passed in StringBuffer and sets its length to 0, or if
-	 * the StringBuffer is null, an empty StringBuffer
-	 * 
-	 * @param buffer
-	 *            a StringBuffer, can be null
-	 * @return returns an empty StringBuffer
-	 */
-	private StringBuffer resetStringBuffer(StringBuffer buffer) {
-		if (buffer == null)
-		    return new StringBuffer();
-		
-		buffer.setLength(0);
-		return buffer;
-	}
-
     /**
      * Processes the given AttributeSet for wrapper elements.
      * 
@@ -1580,16 +1554,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //-- check for nested attribute...loop through
             //-- stack and find correct descriptor
             String path = state.getElementName();
-            StringBuffer pathBuf = null;
             UnmarshalState targetState = null;
             while (_stateStack.hasAnotherParentState()) {
                 targetState = _stateStack.removeParentState();
                 if (targetState.isWrapper()) {
-                    pathBuf = resetStringBuffer(pathBuf);
-                    pathBuf.append(targetState.getElementName());
-                    pathBuf.append('/');
-                    pathBuf.append(path);
-                    path = pathBuf.toString();
+                    path = targetState.getElementName() + '/' + path;
                     continue;
                 }
                 classDesc = targetState.getClassDescriptor();
@@ -1614,11 +1583,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     break;
                 }
                         
-                pathBuf = resetStringBuffer(pathBuf);
-                pathBuf.append(targetState.getElementName());
-                pathBuf.append('/');
-                pathBuf.append(path);
-                path = pathBuf.toString();
+                path = targetState.getElementName() + '/' + path;
                 
                 //-- reset descriptor to make sure we don't
                 //-- exit the loop with a reference to a 
@@ -2138,7 +2103,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * @return true if the only whitespace characters were
      * found in the given StringBuffer
     **/
-    static boolean isWhitespace(StringBuffer sb) {
+    static boolean isWhitespace(CharSequence sb) {
         for (int i = 0; i < sb.length(); i++) {
             char ch = sb.charAt(i);
             switch (ch) {
