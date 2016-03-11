@@ -48,7 +48,11 @@ package org.castor.xml;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,13 +92,16 @@ public class JavaNamingNGImpl implements JavaNaming {
     private InternalContext context;
 
     /** all known Java keywords. */
-    private static final String[] KEYWORDS = {"abstract", "boolean", "break", "byte", "case",
-            "catch", "char", "class", "const", "continue", "default", "do", "double", "else",
+    private static final Set<String> KEYWORDS = Collections.unmodifiableSet(
+        new HashSet<String>(Arrays.asList(
+            "abstract", "boolean", "break", "byte", "case",
+            "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum",
             "extends", "false", "final", "finally", "float", "for", "goto", "if", "implements",
             "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package",
             "private", "protected", "public", "return", "short", "static", "super", "switch",
             "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
-            "volatile", "while"};
+            "volatile", "while"
+        ))); // -- KEYWORDS
 
     /**
      * private constructor.
@@ -116,15 +123,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @see org.castor.xml.JavaNaming#isKeyword(java.lang.String)
      */
     public final boolean isKeyword(final String name) {
-        if (name == null) {
-            return false;
-        }
-        for (int i = 0; i < KEYWORDS.length; i++) {
-            if (KEYWORDS[i].equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        return KEYWORDS.contains(name);
     }
 
     /**
@@ -138,40 +137,18 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @see org.castor.xml.JavaNaming#isValidJavaIdentifier(java.lang.String)
      */
     public final boolean isValidJavaIdentifier(final String string) {
-        if ((string == null) || (string.length() == 0)) {
+        if (string == null || string.length() == 0 ||
+            !Character.isJavaIdentifierStart(string.charAt(0))) {
             return false;
         }
 
-        for (int i = 0; i < string.length(); i++) {
+        for (int i = 1; i < string.length(); i++) {
             char ch = string.charAt(i);
-
-            // -- digit
-            if (ch == '_') {
-                continue;
+            if (!Character.isJavaIdentifierPart(ch)) {
+                return false;
             }
-            if (ch == '$') {
-                continue;
-            }
-
-            if ((ch >= 'A') && (ch <= 'Z')) {
-                continue;
-            }
-            if ((ch >= 'a') && (ch <= 'z')) {
-                continue;
-            }
-            if ((ch >= '0') && (ch <= '9')) {
-                if (i == 0) {
-                    return false;
-                }
-                continue;
-            }
-
-            return false;
         }
-        if (isKeyword(string)) {
-            return false;
-        }
-        return true;
+        return !isKeyword(string);
     }
 
     /**
