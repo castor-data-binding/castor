@@ -99,11 +99,10 @@ public class Sax2MethodRecorder implements ContentHandler {
 
         if (charactersBuffer != null) {
             LOG.debug(" second characters event");
-            charactersBuffer.append(ch, start, length);
         } else {
             charactersBuffer = new StringBuffer(length);
-            charactersBuffer.append(ch, start, length);
         }
+        charactersBuffer.append(ch, start, length);
     }
 
     /**
@@ -130,9 +129,7 @@ public class Sax2MethodRecorder implements ContentHandler {
         try {
             String string = new String(charactersBuffer);
 
-            char[] chars;
-            chars = new char[charactersBuffer.length()];
-            chars = string.toCharArray();
+            char[] chars = string.toCharArray();
 
             contentMock.characters(EasyMock.aryEq(chars), EasyMock.eq(0),
                     EasyMock.eq(charactersBuffer.length()));
@@ -161,14 +158,9 @@ public class Sax2MethodRecorder implements ContentHandler {
             throws SAXException {
         LOG.debug("< ignorableWhitespace >");
 
-        StringBuffer buffer = new StringBuffer(length);
-        buffer.append(ch, start, length);
+        String string = new String(ch, start, length);
 
-        String string = new String(buffer);
-
-        char[] chars;
-        chars = new char[length];
-        chars = string.toCharArray();
+        char[] chars = string.toCharArray();
 
         contentMock.ignorableWhitespace(EasyMock.aryEq(chars), EasyMock.eq(0),
                 EasyMock.eq(length));
