@@ -46,15 +46,11 @@ public final class ResolveHelpers {
      * @return The qualified file path.
      */
     public static String getQualifiedFileName(String fileName, String packageName) {
-        if (packageName == null || packageName.length() == 0) {
+        if (packageName == null || packageName.isEmpty()) {
             return fileName;
         }
         
-        StringBuffer result = new StringBuffer();
-        result.append(packageName.replace('.', '/'));
-        result.append('/');
-        result.append(fileName);
-        return result.toString();
+        return packageName.replace('.', '/') + '/' + fileName;
     } //-- getQualifiedFileName
 
     /**
