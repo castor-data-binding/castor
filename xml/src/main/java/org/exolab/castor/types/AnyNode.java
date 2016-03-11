@@ -551,7 +551,7 @@ public final class AnyNode implements java.io.Serializable {
     }
 
     private String privateToString() {
-        StringBuffer sb = new StringBuffer(4096);
+        StringBuilder sb = new StringBuilder(4096);
 
         if (_elements == null) {
             _elements = new Stack();
@@ -564,10 +564,10 @@ public final class AnyNode implements java.io.Serializable {
 
             if (this.getNodeType() == ELEMENT) {
                 //open the tag
-                sb.append("<");
+                sb.append('<');
                 String prefix = getNamespacePrefix();
                 if (prefix != null) {
-                    sb.append(prefix+":");
+                    sb.append(prefix).append(':');
                 }
                 prefix = null;
                 sb.append(getLocalName());
@@ -575,41 +575,44 @@ public final class AnyNode implements java.io.Serializable {
                 //append the attributes
                 AnyNode tempNode = this.getFirstAttribute();
                 while (tempNode != null) {
-                    sb.append(" ");
-                    sb.append(tempNode.getLocalName());
-                    sb.append("='"+tempNode.getStringValue()+"'");
+                    sb.append(' ')
+                        .append(tempNode.getLocalName())
+                        .append("='")
+                        .append(tempNode.getStringValue())
+                        .append('\'');
                     tempNode = tempNode.getNextSibling();
                 }
 
                 //append the namespaces
                 tempNode = this.getFirstNamespace();
                 while (tempNode != null) {
-                    sb.append(" ");
-                    sb.append(XMLNS_PREFIX);
+                    sb.append(' ')
+                        .append(XMLNS_PREFIX);
                     prefix = tempNode.getNamespacePrefix();
                     if (prefix != null && prefix.length() != 0) {
-                        sb.append(":"+prefix);
+                        sb.append(':').append(prefix);
                     }
-                    sb.append("='"+tempNode.getNamespaceURI()+"'");
+                    sb.append("='")
+                        .append(tempNode.getNamespaceURI())
+                        .append('\'');
                     tempNode = tempNode.getNextSibling();
                 }//namespaceNode
 
                 tempNode = this.getFirstChild();
                 if (tempNode != null) {
-                    sb.append(">");
+                    sb.append('>');
                     while (tempNode != null) {
                         sb.append(tempNode.privateToString());
                         tempNode = tempNode.getNextSibling();
                     }
                     //close the tag
-                    sb.append("</"+getLocalName()+">");
+                    sb.append("</").append(getLocalName()).append('>');
                 } else {
                     sb.append("/>");
                 }
             } else {
                 sb.append(this.getStringValue());
             }
-            return sb.toString();
         }
         return sb.toString();
     }//toString()
