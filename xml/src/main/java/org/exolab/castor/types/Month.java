@@ -161,7 +161,7 @@ public class Month extends TimePeriod {
      */
      public String toString() {
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         result.append(this.getCentury());
         if (result.length() == 1)
             result.insert(0,0);

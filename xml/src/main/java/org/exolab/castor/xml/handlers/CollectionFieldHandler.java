@@ -159,13 +159,13 @@ public class CollectionFieldHandler extends XMLFieldHandler {
             return null;
         }
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < size; i++) {
             if (i > 0) {
                 result.append(' ');
             }
             Object obj = Array.get(temp, i);
-            result.append(obj.toString());
+            result.append(obj);
         }
         return result.toString();
     }

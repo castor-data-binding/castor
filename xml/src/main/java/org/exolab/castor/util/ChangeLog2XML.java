@@ -97,7 +97,7 @@ public class ChangeLog2XML {
         boolean checkForVersion = false;
         boolean inEntry = false;
         String prevLine = null;
-        StringBuffer buffer = null;
+        StringBuilder buffer = null;
         String details = null;
         Changelog changelog = new Changelog();
         Release release = null;
@@ -117,8 +117,7 @@ public class ChangeLog2XML {
                    continue;
                 }
               inEntry = true;
-              buffer = new StringBuffer();
-              buffer.append(prevLine.trim());
+              buffer = new StringBuilder(prevLine.trim());
             }
             
             //-- empty line is either end of entry or ignorable
@@ -176,8 +175,7 @@ public class ChangeLog2XML {
                     continue;
                 }
                 inEntry = true;
-                buffer = new StringBuffer();
-                buffer.append(line.trim());
+                buffer = new StringBuilder(line.trim());
             }
             else {
                 

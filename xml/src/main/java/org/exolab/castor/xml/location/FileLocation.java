@@ -160,7 +160,7 @@ public class FileLocation implements Location, java.io.Serializable {
      * @return the String representation of this FileLocation.
      */
     public String toString() {
-        final StringBuffer sb = new StringBuffer("File: ");
+        final StringBuilder sb = new StringBuilder("File: ");
 
         if (_filename != null) {
             sb.append(_filename);
