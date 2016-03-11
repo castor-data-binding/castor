@@ -970,7 +970,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 // if all elements are mandatory, print the grammar that the choice 
                 // must match.
                 if ((!found) && (hasLocalDescs))  {
-                    StringBuffer buffer = new StringBuffer(40);
+                    StringBuilder buffer = new StringBuilder(40);
                     boolean existsOptionalElement = false;
                     buffer.append('(');
                     String sep = " | ";
@@ -985,14 +985,14 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                             existsOptionalElement = true;
                             break;
                         }
-                        buffer.append(sep);
-                        buffer.append(desc.getXMLName());
+                        buffer.append(sep)
+                            .append(desc.getXMLName());
                     }
                     buffer.append(')');
                     if (!existsOptionalElement) {
                         String err = "In the choice contained in <" + this.getXMLName()
                                      + ">, at least one of these elements must appear:\n"
-                                     + buffer.toString();
+                                     + buffer;
                         throw new ValidationException(err);
                     }
                 }
