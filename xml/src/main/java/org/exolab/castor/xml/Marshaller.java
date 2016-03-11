@@ -1652,11 +1652,7 @@ public class Marshaller extends MarshalFramework {
         if (nsPrefix != null) {
             int len = nsPrefix.length();
             if (len > 0) {
-                StringBuffer sb = new StringBuffer(len+name.length()+1);
-                sb.append(nsPrefix);
-                sb.append(':');
-                sb.append(name);
-                qName = sb.toString();
+                qName = nsPrefix + ':' + name;
             }
             else qName = name;
         }
@@ -2685,10 +2681,10 @@ public class Marshaller extends MarshalFramework {
                     enumeration = colHandler.elements(value);
                 }
                 if (enumeration.hasMoreElements()) {
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     for (int v = 0; enumeration.hasMoreElements(); v++) {
                         if (v > 0) sb.append(' ');
-                        sb.append(getObjectID(enumeration.nextElement()).toString());
+                        sb.append(getObjectID(enumeration.nextElement()));
                     }
                     value = sb;
                 }
@@ -2739,7 +2735,7 @@ public class Marshaller extends MarshalFramework {
             enumeration = colHandler.elements(value);
         }
         if (enumeration.hasMoreElements()) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int v = 0; enumeration.hasMoreElements(); v++) {
                 if (v > 0) {
                     sb.append(' ');
@@ -2751,7 +2747,7 @@ public class Marshaller extends MarshalFramework {
                     collectionValue = encodeBinaryData(collectionValue, descriptor.getComponentType());
                 }
                 
-                sb.append(collectionValue.toString());
+                sb.append(collectionValue);
             }
             returnValue = sb;
         }
