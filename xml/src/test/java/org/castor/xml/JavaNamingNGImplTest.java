@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -230,5 +230,10 @@ public class JavaNamingNGImplTest extends TestCase {
         Assert.assertNull(_javaNaming.getClassName(null));
         Assert.assertEquals("JavaNamingNGImplTest", _javaNaming.getClassName(JavaNamingNGImplTest.class));
         Assert.assertEquals("JavaNamingNGImplTest$ForTestingPurposes", _javaNaming.getClassName(ForTestingPurposes.class));
+    }
+    
+    @Test
+    public void EnumIsKeyWordSucceeds() {
+    	Assert.assertTrue(_javaNaming.isKeyword("enum"));
     }
 }
