@@ -16,8 +16,8 @@
 package org.castor.xml;
 
 import org.castor.core.util.AbstractProperties;
+import org.junit.Assert;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**

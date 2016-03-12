@@ -15,12 +15,11 @@
  */
 package org.exolab.castor.xml.util;
 
-import junit.framework.Assert;
-
 import org.castor.xml.AbstractInternalContext;
 import org.easymock.EasyMock;
 import org.exolab.castor.xml.UnmarshalFranz;
 import org.exolab.castor.xml.XMLClassDescriptor;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

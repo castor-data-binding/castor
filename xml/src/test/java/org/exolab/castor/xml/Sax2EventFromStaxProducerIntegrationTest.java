@@ -9,9 +9,9 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 @Ignore
