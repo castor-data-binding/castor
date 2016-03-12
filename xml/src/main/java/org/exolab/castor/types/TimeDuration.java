@@ -309,30 +309,25 @@ public class TimeDuration implements java.io.Serializable {
      *@return a string representing the time duration
      */
      public String toString() {
-        StringBuffer result = new StringBuffer();
-        result.append("P");
+        StringBuilder result = new StringBuilder();
+        result.append('P');
         if (_year != 0) {
-            result.append(_year);
-            result.append("Y");
+            result.append(_year).append('Y');
         }
         if (_month != 0) {
-           result.append(_month);
-           result.append("M");
+           result.append(_month).append('M');
         }
         if (_day !=0 ) {
-            result.append(_day);
-            result.append("D");
+            result.append(_day).append('D');
         }
         boolean isThereTime = ( (_hour != 0) || (_minute != 0) || (_second != 0) );
         if (isThereTime) {
-            result.append("T");
+            result.append('T');
             if (_hour !=0 ) {
-                result.append(_hour);
-                result.append("H");
+                result.append(_hour).append('H');
             }
             if (_minute !=0) {
-                result.append(_minute);
-                result.append("M");
+                result.append(_minute).append('M');
             }
              if (_second != 0) {
                     result.append(_second);

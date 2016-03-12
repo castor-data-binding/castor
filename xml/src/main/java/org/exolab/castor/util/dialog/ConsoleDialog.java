@@ -196,7 +196,7 @@ public class ConsoleDialog implements Dialog {
      * @return each character separated by a pipe and in parenthesis
      */
     private String makeList(final String values) {
-        StringBuffer sb = new StringBuffer(values.length() * 2);
+        StringBuilder sb = new StringBuilder(values.length() * 2);
         sb.append('(');
         for (int i = 0; i < values.length(); i++) {
             sb.append(values.charAt(i)).append('|');
@@ -214,7 +214,7 @@ public class ConsoleDialog implements Dialog {
      * @return each character in single quotes, comma separated
      */
     private String listInput(final String values) {
-        StringBuffer sb = new StringBuffer(values.length() * 4);
+        StringBuilder sb = new StringBuilder(values.length() * 4);
         for (int i = 0; i < values.length(); i++) {
             sb.append('\'') .append(values.charAt(i)) .append("', ");
         }

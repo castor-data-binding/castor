@@ -203,7 +203,7 @@ public class FieldValidator extends Validator {
                     && context.getInternalContext().getLenientIdValidation()) {
                 return;
             }
-            StringBuffer buff = new StringBuffer();
+            StringBuilder buff = new StringBuilder();
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
                 buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.required.field.whose"), 
                         new Object[] {_descriptor.getFieldName(), object.getClass().getName(), _descriptor.getXMLName()}));
@@ -297,7 +297,7 @@ public class FieldValidator extends Validator {
         // required then we need to report the error. Otherwise size == 0 and
         // field is not required, so no error.
         if (size < _minOccurs && (size != 0 || _descriptor.isRequired())) {
-            StringBuffer buff = new StringBuffer();
+            StringBuilder buff = new StringBuilder();
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
                 buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.min.occurs.whose"), 
                         new Object[] { _minOccurs, _descriptor.getFieldName(), object.getClass().getName(),
@@ -311,7 +311,7 @@ public class FieldValidator extends Validator {
 
         // Check maximum.
         if (_maxOccurs >= 0 && size > _maxOccurs) {
-            StringBuffer buff = new StringBuffer();
+            StringBuilder buff = new StringBuilder();
             if (!ERROR_NAME.equals(_descriptor.getXMLName())) {
                 buff.append(MessageFormat.format(resourceBundle.getString("validatorField.error.exception.max.occurs.whose"), 
                         new Object[] { _maxOccurs, _descriptor.getFieldName(), object.getClass().getName(), _descriptor.getXMLName()}));

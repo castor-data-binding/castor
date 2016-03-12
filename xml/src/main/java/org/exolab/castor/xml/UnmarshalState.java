@@ -325,13 +325,12 @@ public class UnmarshalState {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("UnmarshalState [" + _elementName + "("+ _type + ") ");
+        StringBuilder buffer = new StringBuilder(
+            "UnmarshalState [" + _elementName + '(' + _type + ") ");
         if (!StringUtils.isEmpty(_location)) {
             buffer.append("rooted at location=" + _location + ", ]");
         }
         return buffer.toString();
-        
     }
     
     

@@ -391,9 +391,9 @@ public class DateFieldHandler extends XMLFieldHandler {
         cal.setTime(date);
         cal.setTimeZone(_timezone);
 
-        StringBuffer buffer = new StringBuffer(DEFAULT_DATE_LENGTH);
+        StringBuilder buffer = new StringBuilder(DEFAULT_DATE_LENGTH);
         if (cal.get(Calendar.ERA) == GregorianCalendar.BC) {
-            buffer.append("-");
+            buffer.append('-');
         }
 
         buffer.append(formatter.format(date));
@@ -404,9 +404,9 @@ public class DateFieldHandler extends XMLFieldHandler {
     /**
      * Format the time zone information (only) from the provided Calendar.
      * @param cal a calendar containing a time and time zone
-     * @param buffer the StringBuffer to which to format the time zone
+     * @param buffer the StringBuilder to which to format the time zone
      */
-    private static void formatTimeZone(final Calendar cal, final StringBuffer buffer) {
+    private static void formatTimeZone(final Calendar cal, final StringBuilder buffer) {
         int value = cal.get(Calendar.ZONE_OFFSET);
         int dstOffset = cal.get(Calendar.DST_OFFSET);
 

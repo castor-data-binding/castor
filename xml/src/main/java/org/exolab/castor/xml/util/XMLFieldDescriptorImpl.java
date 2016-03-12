@@ -748,13 +748,13 @@ public class XMLFieldDescriptorImpl extends FieldDescriptorImpl implements XMLFi
     }
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer(32);
-        buffer.append("XMLFieldDesciptor: ");
-        buffer.append(getFieldName());
-        buffer.append(" AS ");
-        buffer.append(_xmlName);
+        StringBuilder buffer = new StringBuilder(32)
+            .append("XMLFieldDesciptor: ")
+            .append(getFieldName())
+            .append(" AS ")
+            .append(_xmlName);
         if (getNameSpaceURI() != null) {
-            buffer.append("{" + getNameSpaceURI() + "}");
+            buffer.append('{').append(getNameSpaceURI()).append('}');
         }
         return buffer.toString();
     }

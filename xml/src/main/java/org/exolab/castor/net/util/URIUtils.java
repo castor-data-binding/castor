@@ -51,6 +51,8 @@ import java.net.MalformedURLException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A utility class for URI handling
  *
@@ -256,12 +258,7 @@ public class URIUtils {
         }
         
         //-- rebuild URL
-        StringBuffer buffer = new StringBuffer(absoluteURL.length());
-        for (int i = 0; i < tokens.size(); i++) {
-            if (i > 0) buffer.append(HREF_PATH_SEP);
-            buffer.append(tokens.elementAt(i).toString());
-        }
-        return buffer.toString();
+        return StringUtils.join(tokens, HREF_PATH_SEP);
     } //-- normalize
     
     
@@ -357,19 +354,14 @@ public class URIUtils {
 
 	    if (filename == null) return FILE_PROTOCOL_PREFIX;
 	    int size = filename.length() + FILE_PROTOCOL_PREFIX.length();
-	    StringBuffer sb = new StringBuffer(size);
+	    StringBuilder sb = new StringBuilder(size);
 	    sb.append(FILE_PROTOCOL_PREFIX);
 	    char[] chars = filename.toCharArray();
-	    for (int i = 0; i < chars.length; i++) {
-	        char ch = chars[i];
-	        switch (ch) {
-	            case '\\':
-	                sb.append(HREF_PATH_SEP);
-	                break;
-	            default:
-	                sb.append(ch);
-	                break;
-
+	    for (char ch : chars) {
+	        if ('\\' == ch) {
+	            sb.append(HREF_PATH_SEP);
+	        } else {
+	            sb.append(ch);
 	        }
 	    }
 	    return sb.toString();

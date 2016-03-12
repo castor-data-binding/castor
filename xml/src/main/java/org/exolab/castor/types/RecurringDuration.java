@@ -393,31 +393,30 @@ public class RecurringDuration extends RecurringDurationBase{
      */
     private final String toPrivateString() {
 
-        StringBuffer result = new StringBuffer();
-        StringBuffer timeZone = null;
+        StringBuilder result = new StringBuilder();
 
         if (this.getCentury() == -1)
             result.append('-');
         else {
             if (this.getCentury()/10 == 0)
-            result.append(0);
+                result.append(0);
             result.append(this.getCentury());
 
-             if ((this.getYear()/10) == 0)
+            if ((this.getYear()/10) == 0)
                 result.append(0);
-             result.append(this.getYear());
+            result.append(this.getYear());
         }
         result.append('-');
         if (this.getMonth() == -1)
             result.append('-');
         else {
             if ((this.getMonth() / 10) == 0 )
-               result.append(0);
+                result.append(0);
             result.append(this.getMonth());
         }
         result.append('-');
         if (this.getDay() == -1)
-             result.append('-');
+            result.append('-');
         else {
             if ((this.getDay()/10) == 0 )
                 result.append(0);
@@ -425,7 +424,7 @@ public class RecurringDuration extends RecurringDurationBase{
         }
         // nowhere it is said in the specs that Time can be omitted
         // choose to always keep it
-        result.append("T");
+        result.append('T');
         if (this.getHour() == -1)
             result.append('-');
         else {
@@ -457,7 +456,7 @@ public class RecurringDuration extends RecurringDurationBase{
 
         // by default we choose to not concat the Z
         if (!isUTC()) {
-            timeZone = new StringBuffer();
+            StringBuilder timeZone = new StringBuilder();
             if ((this.getZoneHour()/10) == 0)
                 timeZone.append(0);
             timeZone.append(this.getZoneHour());
@@ -470,11 +469,11 @@ public class RecurringDuration extends RecurringDurationBase{
             if (isZoneNegative())
                timeZone.insert(0,'-');
             else timeZone.insert(0,'+');
-            result.append(timeZone.toString());
+            result.append(timeZone);
         }
 
-       if (isNegative())
-          result.insert(0,'-');
+        if (isNegative())
+            result.insert(0,'-');
 
         return result.toString();
 

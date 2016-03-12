@@ -379,11 +379,11 @@ public class JavaNamingNGImpl implements JavaNaming {
         if ((packageName == null) || (packageName.length() == 0)) {
             return fileName;
         }
-        StringBuffer result = new StringBuffer();
-        result.append(packageToPath(packageName));
-        result.append('/');
-        result.append(fileName);
-        return result.toString();
+        return new StringBuilder()
+            .append(packageToPath(packageName))
+            .append('/')
+            .append(fileName)
+            .toString();
     }
     
     /**

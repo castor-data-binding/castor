@@ -157,7 +157,7 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
         }
 
         //-- process each character
-        StringBuffer cbuff = new StringBuffer(name);
+        StringBuilder cbuff = new StringBuilder(name);
         cbuff.setCharAt(0, Character.toLowerCase(cbuff.charAt(0)));
 
         boolean ucPrev = false;

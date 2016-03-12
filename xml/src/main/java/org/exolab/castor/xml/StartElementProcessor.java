@@ -200,7 +200,6 @@ public class StartElementProcessor {
         // int pIdx = _stateInfo.size() - 2; //-- index of parentState
         UnmarshalState targetState = parentState;
         String path = "";
-        StringBuffer pathBuf = null;
         int count = 0;
         boolean isWrapper = false;
         XMLClassDescriptor oldClassDesc = classDesc;
@@ -287,12 +286,11 @@ public class StartElementProcessor {
                 // (CASTOR-1039)
                 // isWrapper = (isWrapper || hasFieldsAtLocation(name,
                 // classDesc));
-                StringBuffer tmpLocation = new StringBuffer();
+                StringBuilder tmpLocation = new StringBuilder();
                 if (count > 0) {
-                    tmpLocation.append(path + "/" + name);
-                } else {
-                    tmpLocation.append(name);
+                    tmpLocation.append(path).append('/');
                 }
+                tmpLocation.append(name);
                 isWrapper = (isWrapper || MarshalFramework.hasFieldsAtLocation(
                         tmpLocation.toString(), classDesc));
             } else if (descriptor != null) {
@@ -301,15 +299,8 @@ public class StartElementProcessor {
                     break; // -- found
                 descriptor = null; // -- not found, try again
             } else {
-                if (pathBuf == null)
-                    pathBuf = new StringBuffer();
-                else
-                    pathBuf.setLength(0);
-                pathBuf.append(path);
-                pathBuf.append('/');
-                pathBuf.append(name);
                 isWrapper = (isWrapper || MarshalFramework.hasFieldsAtLocation(
-                        pathBuf.toString(), classDesc));
+                        path + '/' + name, classDesc));
             }
 
             // -- Make sure there are more parent classes on stack
@@ -322,14 +313,7 @@ public class StartElementProcessor {
             if (count == 0)
                 path = targetState.getElementName();
             else {
-                if (pathBuf == null)
-                    pathBuf = new StringBuffer();
-                else
-                    pathBuf.setLength(0);
-                pathBuf.append(targetState.getElementName());
-                pathBuf.append('/');
-                pathBuf.append(path);
-                path = pathBuf.toString();
+                path = targetState.getElementName() + '/' + path;
             }
 
             // -- get

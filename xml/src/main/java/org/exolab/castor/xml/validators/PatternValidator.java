@@ -201,17 +201,17 @@ public abstract class PatternValidator {
         }
 
         // If we get here, all patterns failed.
-        StringBuffer buff = new StringBuffer("'" + str + "'");
+        StringBuilder buff = new StringBuilder("'" + str + "'");
         if (_patterns.size() == 1) {
             buff.append(MessageFormat.format(resourceBundle
                     .getString("patternValidator.error.pattern.not.match"),
                     new Object[] { _patterns.getFirst() }));
         } else {
-            StringBuffer patterns = new StringBuffer();
+            StringBuilder patterns = new StringBuilder();
             for (String pattern : _patterns) {
-                patterns.append("\"");
+                patterns.append('\"');
                 patterns.append(pattern);
-                patterns.append("\"");
+                patterns.append('\"');
             }
             
             buff.append(MessageFormat.format(resourceBundle

@@ -62,7 +62,7 @@ public class ByDescriptorClass extends AbstractResolverClassCommand {
             return results;
         }
 
-        StringBuffer descriptorClassName = new StringBuffer(className);
+        StringBuilder descriptorClassName = new StringBuilder(className);
         descriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
         Class descriptorClass = ResolveHelpers.loadClass(
                 classLoader, descriptorClassName.toString());

@@ -253,12 +253,8 @@ public abstract class BaseSax2EventFromStaxProducer implements
      * @return
      */
     boolean isIgnorableWhitespace(char[] chars, int start, int length) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(chars, start, length);
-        String string = buffer.toString();
-        if (string.trim().length() == 0)
-            return true;
-        return false;
+        String string = new String(chars, start, length);
+        return string.trim().length() == 0;
     }
 
     /**

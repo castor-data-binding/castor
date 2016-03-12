@@ -194,10 +194,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                         }
                     } catch (ResolverException e) {
                         if (LOG.isDebugEnabled()) {
-                            String message =
-                                new StringBuffer().append("Ignoring exception: ").append(e)
-                                .append(" at resolving: ").append(classMapping.getName()).toString();
-                            LOG.debug(message);
+                            LOG.debug("Ignoring exception: " + e + " at resolving: " + classMapping.getName());
                         }
                     }
                 }

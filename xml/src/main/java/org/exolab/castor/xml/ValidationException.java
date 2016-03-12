@@ -216,7 +216,7 @@ public class ValidationException extends XMLException {
      * @return the String representation of this ValidationException.
      */
     public String toString() {
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         if (getNext() != null) {
             int count = 1;
             for (ValidationException vx = this; vx != null; vx = vx.getNext()) {
@@ -239,7 +239,7 @@ public class ValidationException extends XMLException {
      * @param sb The StringBuffer to which we print information
      * @param vx The ValidationException for which we print information.
      */
-    private void dumpOneException(final StringBuffer sb, final ValidationException vx) {
+    private void dumpOneException(final StringBuilder sb, final ValidationException vx) {
         sb.append("ValidationException: ");
         String message = vx.getMessage();
         if (message != null) {
@@ -248,11 +248,11 @@ public class ValidationException extends XMLException {
         Location location = vx.getLocation();
         if (location != null) {
             sb.append(";\n   - location of error: ");
-            sb.append(location.toString());
+            sb.append(location);
         }
         Throwable t = vx.getCause();
         if (t != null) {
-            sb.append("\n");
+            sb.append('\n');
             sb.append(t.getMessage());
         }
     }
