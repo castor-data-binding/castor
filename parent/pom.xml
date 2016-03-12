@@ -65,6 +65,9 @@
                <configuration>
                   <source>1.7</source>
                   <target>1.7</target>
+                  <compilerArgs>
+                     <arg>-Xlint</arg>
+                  </compilerArgs>
                </configuration>
             </plugin>
             <plugin>
@@ -171,10 +174,6 @@
       </pluginManagement>
 
       <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-         </plugin>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
