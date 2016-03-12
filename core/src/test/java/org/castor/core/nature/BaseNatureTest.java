@@ -254,7 +254,7 @@ public final class BaseNatureTest extends TestCase {
         PropertyHolderTest ph = new PropertyHolderTest();
         ph.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<>();
         list.add("entry");
         bnw.setProperty("setbefore", list);
         List setbefore = bnw.getPropertyAsList("setbefore");
@@ -283,7 +283,7 @@ public final class BaseNatureTest extends TestCase {
         PropertyHolderTest ph = new PropertyHolderTest();
         ph.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ph);
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         map.put("key", "entry");
         bnw.setProperty("setbefore", map);
         Map setbefore = bnw.getPropertyAsMap("setbefore");
