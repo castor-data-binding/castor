@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import junit.framework.Test;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -152,7 +153,7 @@ public abstract class AbstractTestSuiteMojo extends AbstractMojo {
         }
 
         getLog().info("classpath for sourcegenerator is: " + classpath);
-        String[] classpathEntries = classpath.toString().split(";");
+        String[] classpathEntries = StringUtils.split(classpath.toString(), ';');
         for (String classpathEntry : classpathEntries) {
             getLog().info(classpathEntry);
         }

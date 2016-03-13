@@ -18,6 +18,7 @@ package org.exolab.castor.builder.printing;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.BuilderConfiguration;
@@ -49,7 +50,7 @@ public class JClassPrinterFactoryRegistry {
      */
     public JClassPrinterFactoryRegistry(final BuilderConfiguration config) {
         String jClassPrinterFactories = config.getJClassPrinterFactories();
-        String[] factoryClassNames = jClassPrinterFactories.split(",");
+        String[] factoryClassNames = StringUtils.split(jClassPrinterFactories, ',');
         
         for (int i = 0; i < factoryClassNames.length; i++) {
             JClassPrinterFactory factory;
