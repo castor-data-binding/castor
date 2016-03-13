@@ -17,7 +17,7 @@ package org.castor.xmlctf.bestpractise;
 
 import java.io.InputStream;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;

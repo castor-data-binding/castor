@@ -18,7 +18,7 @@ package org.exolab.castor.xml;
 import java.io.Reader;
 import java.io.StringReader;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.castor.xml.InternalContext;
