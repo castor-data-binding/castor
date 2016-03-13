@@ -58,6 +58,7 @@
   * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
   * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  **/
+ @Deprecated
  public class JakartaOroEvaluator 
     implements RegExpEvaluator
 {
