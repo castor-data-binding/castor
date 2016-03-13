@@ -71,7 +71,7 @@ public abstract class AbstractProperties {
      */
     private final AbstractProperties _parent;
     
-    private final Map _map = new HashMap();
+    private final Map<Object, Object> _map = new HashMap<>();
     
     /**
      * Default constructor. Application and domain class loaders will be initialized to the one
@@ -685,7 +685,7 @@ public abstract class AbstractProperties {
         } else if (objectValue instanceof Object[]) {
             return (Object[]) objectValue;
         } else if (objectValue instanceof String) {
-            List objects = new ArrayList();
+            List<Object> objects = new ArrayList<>();
             String[] classnames = ((String) objectValue).split(",");
             for (int i = 0; i < classnames.length; i++) {
                 String classname = classnames[i];

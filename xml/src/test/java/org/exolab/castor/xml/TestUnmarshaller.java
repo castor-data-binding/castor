@@ -15,7 +15,6 @@
  */
 package org.exolab.castor.xml;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.castor.test.entity.*;
 import org.castor.xml.InternalContext;
@@ -23,6 +22,7 @@ import org.castor.xml.XMLProperties;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.util.ObjectFactory;
+import org.junit.Assert;
 import org.xml.sax.InputSource;
 
 import java.io.InputStream;

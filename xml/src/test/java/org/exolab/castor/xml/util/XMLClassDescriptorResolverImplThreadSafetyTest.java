@@ -15,12 +15,11 @@
  */
 package org.exolab.castor.xml.util;
 
-import junit.framework.Assert;
-
 import org.castor.xml.AbstractInternalContext;
 import org.easymock.EasyMock;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
+import org.junit.Assert;
 import org.junit.Test;
 
 import edu.umd.cs.mtc.MultithreadedTestCase;

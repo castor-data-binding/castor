@@ -35,11 +35,11 @@ public class PropertyHolderTest implements PropertyHolder
     /**
      * Added Natures.
      */
-    private List natures = new ArrayList();
+    private List<String> natures = new ArrayList<>();
     /**
      * Properties.
      */
-    private Map properties = new HashMap();
+    private Map<String, Object> properties = new HashMap<>();
     
 
     public Object getProperty(final String name) {

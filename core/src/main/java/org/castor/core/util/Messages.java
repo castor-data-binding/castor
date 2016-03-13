@@ -58,7 +58,7 @@ public final class Messages {
     private static ResourceBundle   _messages;
     
     /** Once a format has been created once, it is cached here. */
-    private static Hashtable        _formats;
+    private static Hashtable<String, MessageFormat> _formats;
     //--------------------------------------------------------------------------
 
     static { setDefaultLocale(); }
@@ -86,7 +86,7 @@ public final class Messages {
             _messages = new EmptyResourceBundle();
             LOG.error("Failed to locate messages resource " + RESOURCE_NAME);
         }
-        _formats = new Hashtable();
+        _formats = new Hashtable<>();
     }
     
     /**
@@ -185,12 +185,12 @@ public final class Messages {
      * A empty resource bundle.
      */
     private static class EmptyResourceBundle
-    extends ResourceBundle implements Enumeration {
+    extends ResourceBundle implements Enumeration<String> {
         /**
          * {@inheritDoc}
          * @see java.util.ResourceBundle#getKeys()
          */
-        public Enumeration getKeys() {
+        public Enumeration<String> getKeys() {
             return this;
         }
         
@@ -214,7 +214,7 @@ public final class Messages {
          * {@inheritDoc}
          * @see java.util.Enumeration#nextElement()
          */
-        public Object nextElement() {
+        public String nextElement() {
             return null;
         }
     }
