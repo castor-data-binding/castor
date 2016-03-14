@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -559,7 +560,7 @@ public abstract class AbstractProperties {
         } else if (objectValue instanceof String[]) {
             return (String[]) objectValue;
         } else if (objectValue instanceof String) {
-            return ((String) objectValue).split(",");
+            return StringUtils.split((String) objectValue, ',');
         }
 
         Object[] args = new Object[] {key, objectValue};
@@ -627,7 +628,7 @@ public abstract class AbstractProperties {
         } else if (objectValue instanceof Class[]) {
             return (Class[]) objectValue;
         } else if (objectValue instanceof String) {
-            String[] classnames = ((String) objectValue).split(",");
+            String[] classnames = StringUtils.split((String) objectValue, ',');
             Class[] classes = new Class[classnames.length];
             for (int i = 0; i < classnames.length; i++) {
                 try {
@@ -686,7 +687,7 @@ public abstract class AbstractProperties {
             return (Object[]) objectValue;
         } else if (objectValue instanceof String) {
             List<Object> objects = new ArrayList<>();
-            String[] classnames = ((String) objectValue).split(",");
+            String[] classnames = StringUtils.split((String) objectValue, ',');
             for (int i = 0; i < classnames.length; i++) {
                 String classname = classnames[i];
                 try {
