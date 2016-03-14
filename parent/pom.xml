@@ -740,7 +740,7 @@
    </ciManagement>
 
    <properties>
-      <spring.version>3.2.13.RELEASE</spring.version>
+      <spring.version>4.2.5.RELEASE</spring.version>
       <surefire.print.summary>false</surefire.print.summary>
       <VERSION>${project.version}</VERSION>
       <RELEASE />
