@@ -299,7 +299,7 @@ public class Test
         for ( int x = 4; x < 7; ++x )
         {
             int y = x + 3;
-            product = ( Product ) db.load( Product.class, new Integer( y ) ); 
+            product = ( Product ) db.load( Product.class, Integer.valueOf( y ) ); 
 
             // If no such categories exists in the database, create new
             // objects and persist them

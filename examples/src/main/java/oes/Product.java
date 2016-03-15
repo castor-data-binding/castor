@@ -73,7 +73,7 @@ public class Product implements Persistent {
         if (_category != null)
             return _category;
         _category = (Category) _db.load(Category.class,
-                new Integer(_categoryId));
+                Integer.valueOf(_categoryId));
         return _category;
     }
 
@@ -96,7 +96,7 @@ public class Product implements Persistent {
     public Price getPrice() throws PersistenceException {
         if (_price != null)
             return _price;
-        _price = (Price) _db.load(Price.class, new Integer(_priceId));
+        _price = (Price) _db.load(Price.class, Integer.valueOf(_priceId));
         return _price;
     }
 

@@ -385,7 +385,7 @@ public abstract class SimpleType extends XMLType implements Referable {
             return null;
 
         try {
-            return new Long(lengthFacet.toLong());
+            return Long.valueOf(lengthFacet.toLong());
         } catch (java.lang.Exception e) {
             return null;
         }
@@ -400,7 +400,7 @@ public abstract class SimpleType extends XMLType implements Referable {
             return null;
 
         try {
-            return new Long(minLengthFacet.toLong());
+            return Long.valueOf(minLengthFacet.toLong());
         } catch (java.lang.Exception e) {
             return null;
         }
@@ -415,7 +415,7 @@ public abstract class SimpleType extends XMLType implements Referable {
             return null;
 
         try {
-            return new Long(maxLengthFacet.toLong());
+            return Long.valueOf(maxLengthFacet.toLong());
         } catch (java.lang.Exception e) {
             return null;
         }

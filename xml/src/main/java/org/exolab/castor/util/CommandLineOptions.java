@@ -110,7 +110,7 @@ public class CommandLineOptions {
                 // clean up previous flag
                 if (flag != null) {
                     options.put(flag, args[i]);
-                    options.put(new Integer(i), args[i]);
+                    options.put(Integer.valueOf(i), args[i]);
                 }
                 // get next flag
                 flag = args[i].substring(1);
@@ -138,7 +138,7 @@ public class CommandLineOptions {
             } else {
                 // Store both flag key and number key
                 if (flag != null) { options.put(flag, args[i]); }
-                options.put(new Integer(i), args[i]);
+                options.put(Integer.valueOf(i), args[i]);
                 flag = null;
             }
             

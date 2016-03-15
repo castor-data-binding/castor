@@ -428,7 +428,7 @@ Database db = ...;
 db.begin();        
 
 // load the Product instance with sku = 5678
-Product prod = db.load (Product.class, new Integer(5678);
+Product prod = db.load (Product.class, Integer.valueOf(5678);
 
 // delete the Product instance
 <emphasis role="bold">db.remove(prod);</emphasis>
@@ -459,7 +459,7 @@ Database db = ...;
 db.begin();        
 
 // load the Product instance with sku = 5678
-Product prod = db.load (Product.class, new Integer(5678);
+Product prod = db.load (Product.class, Integer.valueOf(5678);
 
 // change the object properties
 prod.setDescription("New plastic chair");

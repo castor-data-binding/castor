@@ -230,7 +230,7 @@ public final class BaseNatureTest extends TestCase {
         PropertyHolderTest ci = new PropertyHolderTest();
         ci.addNature(BaseNatureWrapper.class.getName());
         BaseNatureWrapper bnw = new BaseNatureWrapper(ci);
-        bnw.setProperty("setbefore", new Boolean(true));
+        bnw.setProperty("setbefore", Boolean.TRUE);
         assertEquals(true, bnw.getBooleanPropertyDefaultFalse("setbefore"));
     }
     

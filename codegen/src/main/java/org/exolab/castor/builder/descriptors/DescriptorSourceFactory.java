@@ -158,7 +158,7 @@ public final class DescriptorSourceFactory {
         //-- set Element Definition flag
         boolean elementDefinition = xmlNature.isElementDefinition();
         jsc.add("_elementDefinition = ");
-        jsc.append(new Boolean(elementDefinition).toString());
+        jsc.append(Boolean.toString(elementDefinition));
         jsc.append(";");
         
         //-- set grouping compositor

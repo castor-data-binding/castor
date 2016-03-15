@@ -144,7 +144,7 @@ public class ElementUnmarshaller extends ComponentReader {
         //-- @abstract
         attValue = atts.getValue(SchemaNames.ABSTRACT);
         if (attValue != null) {
-            _element.setAbstract((new Boolean(attValue)).booleanValue());
+            _element.setAbstract(Boolean.parseBoolean(attValue));
         }
         
         //-- @block
@@ -162,7 +162,7 @@ public class ElementUnmarshaller extends ComponentReader {
         _element.setFinal(atts.getValue(SchemaNames.FINAL_ATTR));
 
         //-- @abstract
-        final boolean isAbstract = new Boolean(atts.getValue(SchemaNames.ABSTRACT)).booleanValue();
+        final boolean isAbstract = Boolean.parseBoolean(atts.getValue(SchemaNames.ABSTRACT));
         if (isAbstract) {
             _element.setAbstract(isAbstract);
         }

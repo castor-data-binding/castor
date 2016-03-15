@@ -62,7 +62,7 @@ public final class TestTemplateWithMapping extends TestCase {
         marshaller.setMapping(mapping);
         
         Entity entity = new Entity();
-        entity.setId(new Integer(100));
+        entity.setId(Integer.valueOf(100));
         entity.setName("entity 100");
         
         marshaller.marshal(entity);

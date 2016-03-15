@@ -320,14 +320,14 @@ public final class CastorAppender extends AppenderSkeleton {
                         LogEntry x = (LogEntry) rst.next();
                         x.setTimestamp(entry.getTimestamp());
                         x.setThread(entry.getThread());
-                        x.setCount(new Integer(x.getCount().intValue() + 1));
+                        x.setCount(Integer.valueOf(x.getCount().intValue() + 1));
                     } else {
-                        entry.setCount(new Integer(1));
+                        entry.setCount(Integer.valueOf(1));
                         _database.create(entry);
                     }
                     rst.close();
             } else {
-                entry.setCount(new Integer(1));
+                entry.setCount(Integer.valueOf(1));
                 _database.create(entry);
             }
         } catch (Exception e) {
@@ -478,12 +478,7 @@ public final class CastorAppender extends AppenderSkeleton {
      * @param duplicateCount Should duplicate count be enabled?
      */
     public void setDuplicateCount(final String duplicateCount) {
-        String temp = duplicateCount.toLowerCase();
-        if ("true".equals(temp)) {
-            _duplicateCount = true;
-        } else {
-            _duplicateCount = false;
-        }
+        _duplicateCount = Boolean.parseBoolean(duplicateCount);
     }
     
     /**
@@ -493,7 +488,7 @@ public final class CastorAppender extends AppenderSkeleton {
      *         <code>false</code>.
      */
     public String getDuplicateCount() {
-        return new Boolean(_duplicateCount).toString();
+        return Boolean.toString(_duplicateCount);
     }
 
     // -----------------------------------------------------------------------------------

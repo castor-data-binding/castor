@@ -117,7 +117,7 @@ public class ImportDescriptor extends HandlerBase implements Serializable {
     }
 
     public void addPolicy(final String name, final int policy) {
-        _policies.put(name, new Integer(policy));
+        _policies.put(name, Integer.valueOf(policy));
     }
 
     public int getDirectPolicy(final String name) {
@@ -209,19 +209,19 @@ public class ImportDescriptor extends HandlerBase implements Serializable {
                             Names.Element.POLICY, Names.Attribute.DN));
                 }
                 policy = 0;
-                if ("true".equals(attr.getValue(Names.Attribute.DELETE_EMPTY))) {
+                if (Boolean.parseBoolean(attr.getValue(Names.Attribute.DELETE_EMPTY))) {
                     policy = policy | Policy.DELETE_EMPTY;
                 }
-                if ("true".equals(attr.getValue(Names.Attribute.REFRESH_ONLY))) {
+                if (Boolean.parseBoolean(attr.getValue(Names.Attribute.REFRESH_ONLY))) {
                     policy = policy | Policy.REFRESH_ONLY;
                 }
-                if ("true".equals(attr.getValue(Names.Attribute.REPLACE_ATTRIBUTE))) {
+                if (Boolean.parseBoolean(attr.getValue(Names.Attribute.REPLACE_ATTRIBUTE))) {
                     policy = policy | Policy.REPLACE_ATTRIBUTE;
                 }
-                if ("true".equals(attr.getValue(Names.Attribute.NEW_ATTRIBUTE_ONLY))) {
+                if (Boolean.parseBoolean(attr.getValue(Names.Attribute.NEW_ATTRIBUTE_ONLY))) {
                     policy = policy | Policy.NEW_ATTRIBUTE_ONLY;
                 }
-                if ("true".equals(attr.getValue(Names.Attribute.UPDATE_ONLY))) {
+                if (Boolean.parseBoolean(attr.getValue(Names.Attribute.UPDATE_ONLY))) {
                     policy = policy | Policy.UPDATE_ONLY;
                 }
                 addPolicy(dn, policy);

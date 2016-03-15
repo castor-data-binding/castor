@@ -303,7 +303,7 @@ QueryResults results = query.execute(Database.ReadOnly);</programlisting>
                 <para>to load an object by its identity:</para>
 
                 <programlisting language="java">
-Integer id = new Integer(7);
+Integer id = Integer.valueOf(7);
 Foo foo = (Foo) db.load(Foo.class, id, Database.ReadOnly);</programlisting>
 
                 <para>Default accessmode is evaluated as follows:</para>

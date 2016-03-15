@@ -388,7 +388,7 @@ public class SimpleTypesFactory {
      * Loads the types definitions if they were not yet loaded
      */
     private Type getType(final int typeCode) {
-        return _typesByCode.get(new Integer(typeCode));
+        return _typesByCode.get(Integer.valueOf(typeCode));
     }
 
     /**
@@ -425,7 +425,7 @@ public class SimpleTypesFactory {
                 Type type = types.elementAt(index);
                 _typesByName.put(type.getName(), type);
                 type.setSimpleType(createSimpleType(BUILD_IN_SCHEMA, type));
-                _typesByCode.put(new Integer(type.getSimpleType().getTypeCode()), type);
+                _typesByCode.put(Integer.valueOf(type.getSimpleType().getTypeCode()), type);
             }
         } catch (Exception except) {
             // Of course, this should not happen if the config files are there.

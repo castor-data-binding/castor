@@ -113,7 +113,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public Long getFixed() {
         if (_useFixed) {
-            return new Long(_fixed);
+            return Long.valueOf(_fixed);
         }
         return null;
     }
@@ -126,7 +126,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public Long getMaxInclusive() {
         if (_useMax) {
-            return new Long(_max);
+            return Long.valueOf(_max);
         }
         return null;
     }
@@ -139,7 +139,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public Long getMinInclusive() {
         if (_useMin) {
-            return new Long(_min);
+            return Long.valueOf(_min);
         }
         return null;
     }
@@ -153,7 +153,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
-            return new Integer(_totalDigits);
+            return Integer.valueOf(_totalDigits);
         }
         return null;
     }

@@ -151,7 +151,7 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
-            return new Integer(_totalDigits);
+            return Integer.valueOf(_totalDigits);
         }
         return null;
     } // -- getTotalDigits

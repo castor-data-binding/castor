@@ -518,7 +518,7 @@ public final class CastorCodeGenTask extends MatchingTask {
         
         if (_generateJdoDescriptors) {
             callSetterMethodUsingReflection(_sgen, "setJdoDescriptorCreation",
-                    boolean.class, new Boolean(_generateJdoDescriptors));
+                    boolean.class, Boolean.valueOf(_generateJdoDescriptors));
         }
 
         _sgen.setTestable(_testable);

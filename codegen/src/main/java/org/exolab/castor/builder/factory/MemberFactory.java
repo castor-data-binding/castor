@@ -699,8 +699,7 @@ public final class MemberFactory extends BaseFactory {
             case XSType.FLOAT_TYPE:
                 return value + 'f';
             case XSType.BOOLEAN_TYPE:
-                Boolean bool = new Boolean(value);
-                return bool.toString();
+                return Boolean.toString(Boolean.parseBoolean(value));
             default:
                 break;
         }
