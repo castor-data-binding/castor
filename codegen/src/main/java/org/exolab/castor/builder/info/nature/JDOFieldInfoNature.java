@@ -120,7 +120,7 @@ public final class JDOFieldInfoNature extends BaseNature {
      *            true if read only.
      */
     public void setReadOnly(final boolean readOnly) {
-        setProperty(READONLY, new Boolean(readOnly));
+        setProperty(READONLY, Boolean.valueOf(readOnly));
     }
 
     /**
@@ -141,7 +141,7 @@ public final class JDOFieldInfoNature extends BaseNature {
      *            true if field should not be updated.
      */
     public void setDirty(final boolean dirty) {
-        setProperty(DIRTY, new Boolean(dirty));
+        setProperty(DIRTY, Boolean.valueOf(dirty));
     }
 
 }

@@ -94,7 +94,7 @@ public final class SolrjFieldInfoNature extends BaseNature {
      *            is of type @Id.
      */
     public void setIdDefinition(final boolean idDefinition) {
-        this.setProperty(ID_DEFINITION, new Boolean(idDefinition));
+        this.setProperty(ID_DEFINITION, Boolean.valueOf(idDefinition));
     }
 
 }

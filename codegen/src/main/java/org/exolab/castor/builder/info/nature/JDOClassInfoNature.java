@@ -145,7 +145,7 @@ public final class JDOClassInfoNature extends BaseNature {
      * @param detachable True if entity should be detachable
      */
     public void setDetachable(final boolean detachable) {
-        this.setProperty(DETACHABLE, new Boolean(detachable));
+        this.setProperty(DETACHABLE, Boolean.valueOf(detachable));
     }
     
     /**

@@ -159,21 +159,21 @@ public class CTFUtils {
         if (type.equals(STRING) || type.equals(String.class.getName())) {
             return value;
         } else if (type.equals(BOOLEAN) || type.equals(Boolean.class.getName())) {
-            return new Boolean(value);
+            return Boolean.valueOf(value);
         } else if (type.equals(BYTE) || type.equals(Byte.class.getName())) {
-            return new Byte(value);
+            return Byte.valueOf(value);
         } else if (type.equals(CHARACTER) || type.equals(Character.class.getName())) {
-            return new Character(value.charAt(0));
+            return Character.valueOf(value.charAt(0));
         } else if (type.equals(DOUBLE) || type.equals(Double.class.getName())) {
-            return new Double(value);
+            return Double.valueOf(value);
         } else if (type.equals(FLOAT) || type.equals(Float.class.getName())) {
-            return new Float(value);
+            return Float.valueOf(value);
         } else if (type.equals(INT) || type.equals(Integer.class.getName())) {
-            return new Integer(value);
+            return Integer.valueOf(value);
         } else if (type.equals(LONG) || type.equals(Long.class.getName())) {
-            return new Long(value);
+            return Long.valueOf(value);
         } else if (type.equals(SHORT) || type.equals(Short.class.getName())) {
-            return new Short(value);
+            return Short.valueOf(value);
         }
 
         //-- Else we let the unmarshaller get us the class

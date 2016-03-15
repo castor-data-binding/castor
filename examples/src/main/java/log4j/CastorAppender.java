@@ -478,12 +478,7 @@ public final class CastorAppender extends AppenderSkeleton {
      * @param duplicateCount Should duplicate count be enabled?
      */
     public void setDuplicateCount(final String duplicateCount) {
-        String temp = duplicateCount.toLowerCase();
-        if ("true".equals(temp)) {
-            _duplicateCount = true;
-        } else {
-            _duplicateCount = false;
-        }
+        _duplicateCount = Boolean.parseBoolean(duplicateCount);
     }
     
     /**
@@ -493,7 +488,7 @@ public final class CastorAppender extends AppenderSkeleton {
      *         <code>false</code>.
      */
     public String getDuplicateCount() {
-        return new Boolean(_duplicateCount).toString();
+        return Boolean.toString(_duplicateCount);
     }
 
     // -----------------------------------------------------------------------------------

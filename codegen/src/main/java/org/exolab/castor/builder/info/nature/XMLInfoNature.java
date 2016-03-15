@@ -224,7 +224,7 @@ public final class XMLInfoNature extends BaseNature {
      *            element with anonymous type or not.
      */
     public void setElementDefinition(final boolean elementDef) {
-        this.setProperty(ELEMENT_DEFINITION, new Boolean(elementDef));
+        this.setProperty(ELEMENT_DEFINITION, Boolean.valueOf(elementDef));
     }
 
     /**
@@ -236,7 +236,7 @@ public final class XMLInfoNature extends BaseNature {
      *            more than once.
      */
     public void setMultivalued(final boolean multivalued) {
-        this.setProperty(MULTIVALUED, new Boolean(multivalued));
+        this.setProperty(MULTIVALUED, Boolean.valueOf(multivalued));
     }
 
     /**
@@ -287,8 +287,7 @@ public final class XMLInfoNature extends BaseNature {
      *            the flag indicating whether or not this XML object is required
      */
     public void setRequired(final boolean required) {
-        Boolean b = new Boolean(required);
-        this.setProperty(REQUIRED, b);
+        this.setProperty(REQUIRED, Boolean.valueOf(required));
     }
 
     /**
@@ -341,7 +340,7 @@ public final class XMLInfoNature extends BaseNature {
      *        should be a container class.
      */
     public void setContainer(final boolean isContainer) {
-        this.setProperty(IS_CONTAINER, new Boolean(isContainer));
+        this.setProperty(IS_CONTAINER, Boolean.valueOf(isContainer));
     }
 
     /**

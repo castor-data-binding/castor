@@ -107,7 +107,7 @@ public class WeblogicXercesOutputFormat extends WeblogicXercesImplementation imp
     }
 
     public void setPreserveSpace(boolean preserveSpace) {
-        Boolean[] params = {new Boolean(preserveSpace)};
+        Boolean[] params = {Boolean.valueOf(preserveSpace)};
         invoke(setPreserveSpace, params);
     }
 

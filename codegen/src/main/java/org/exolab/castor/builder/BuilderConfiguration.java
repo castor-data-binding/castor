@@ -539,7 +539,7 @@ public class BuilderConfiguration {
     public final boolean generateExtraDocumentationMethods() {
         String extraDocumentationMethods = 
             _localProps.getProperty(Property.EXTRA_DOCUMENTATION_METHODS, "false");
-        return new Boolean(extraDocumentationMethods).booleanValue();
+        return Boolean.parseBoolean(extraDocumentationMethods);
     }
 
     /**
@@ -561,7 +561,7 @@ public class BuilderConfiguration {
      */
     public final int getMaximumNumberOfConstants() {
         String property = _localProps.getProperty(Property.MAX_CONSTANTS_PROPERTY, "1000");
-        return Integer.valueOf(property).intValue();
+        return Integer.parseInt(property);
     }
 
     /**
