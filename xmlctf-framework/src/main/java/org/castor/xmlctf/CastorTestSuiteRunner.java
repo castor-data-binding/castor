@@ -197,7 +197,7 @@ public class CastorTestSuiteRunner extends TestCase {
             } else if (argument.equals(SEED_ARG)) {
                 // The next argument should be a number...
                 try {
-                    long seed = new Long(args[++i]).longValue();
+                    long seed = Long.parseLong(args[++i]);
                     RandomHelper.setSeed(seed);
                 } catch (NumberFormatException nfe) {
                     System.out.println("Unable to parse the number for the seed");

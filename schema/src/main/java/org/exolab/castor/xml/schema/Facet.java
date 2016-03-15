@@ -187,7 +187,7 @@ public class Facet extends Annotated {
      * @throws NumberFormatException if the value fails to parse as a double.
     **/
     public double toDouble() throws NumberFormatException {
-        return Double.valueOf(_value).doubleValue();
+        return Double.parseDouble(_value);
     }
 
     /**
