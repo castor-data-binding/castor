@@ -73,7 +73,7 @@ public class TestDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
                 Test target = (Test) object;
                 if(!target.hasFirstInteger())
                     return null;
-                return new Integer(target.getFirstInteger());
+                return Integer.valueOf(target.getFirstInteger());
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
@@ -115,7 +115,7 @@ public class TestDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
                 Test target = (Test) object;
                 if(!target.hasSecondInteger())
                     return null;
-                return new Integer(target.getSecondInteger());
+                return Integer.valueOf(target.getSecondInteger());
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException

@@ -117,7 +117,7 @@ public class ImportDescriptor extends HandlerBase implements Serializable {
     }
 
     public void addPolicy(final String name, final int policy) {
-        _policies.put(name, new Integer(policy));
+        _policies.put(name, Integer.valueOf(policy));
     }
 
     public int getDirectPolicy(final String name) {

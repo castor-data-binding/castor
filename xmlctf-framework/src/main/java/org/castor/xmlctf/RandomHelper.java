@@ -503,7 +503,7 @@ public class RandomHelper {
      * @return a random short.
      */
     public static short getRandom(short l) {
-        return new Integer(_rand.nextInt()).shortValue();
+        return Integer.valueOf(_rand.nextInt()).shortValue();
     }
 
     /**

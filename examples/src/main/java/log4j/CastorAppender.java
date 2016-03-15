@@ -320,14 +320,14 @@ public final class CastorAppender extends AppenderSkeleton {
                         LogEntry x = (LogEntry) rst.next();
                         x.setTimestamp(entry.getTimestamp());
                         x.setThread(entry.getThread());
-                        x.setCount(new Integer(x.getCount().intValue() + 1));
+                        x.setCount(Integer.valueOf(x.getCount().intValue() + 1));
                     } else {
-                        entry.setCount(new Integer(1));
+                        entry.setCount(Integer.valueOf(1));
                         _database.create(entry);
                     }
                     rst.close();
             } else {
-                entry.setCount(new Integer(1));
+                entry.setCount(Integer.valueOf(1));
                 _database.create(entry);
             }
         } catch (Exception e) {

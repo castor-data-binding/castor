@@ -634,7 +634,7 @@ public abstract class AbstractProperties {
                 try {
                     classes[i] = loader.loadClass(classnames[i]);
                 } catch (ClassNotFoundException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classnames[i]};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classnames[i]};
                     String msg = "Could not find class of properties value: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 }
@@ -696,23 +696,23 @@ public abstract class AbstractProperties {
                         objects.add(loader.loadClass(classname).newInstance());
                     }
                 } catch (ClassNotFoundException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classname};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classname};
                     String msg = "Could not find configured class: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (IllegalAccessException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classname};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (InstantiationException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classname};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (ExceptionInInitializerError ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classname};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 } catch (SecurityException ex) {
-                    Object[] args = new Object[] {key, new Integer(i), classname};
+                    Object[] args = new Object[] {key, Integer.valueOf(i), classname};
                     String msg = "Could not instantiate configured class: {0}[{1}]={2}";
                     throw new PropertiesException(MessageFormat.format(msg, args), ex);
                 }

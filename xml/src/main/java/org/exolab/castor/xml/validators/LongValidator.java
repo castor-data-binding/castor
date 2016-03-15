@@ -150,7 +150,7 @@ public class LongValidator extends PatternValidator implements TypeValidator {
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
-            return new Integer(_totalDigits);
+            return Integer.valueOf(_totalDigits);
         }
         return null;
     } // -- getTotalDigits

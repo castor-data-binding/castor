@@ -110,7 +110,7 @@ public class SingleCastorDao extends CastorDaoSupport implements SingleDao {
     }
 
     public Single get(int id) {
-        return (Single) this.getCastorTemplate().load(Single.class, new Integer(id));
+        return (Single) this.getCastorTemplate().load(Single.class, Integer.valueOf(id));
     }
 
     public void save(Single single) {
