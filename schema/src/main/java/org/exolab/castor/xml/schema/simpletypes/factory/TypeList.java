@@ -59,15 +59,15 @@ public class TypeList
      * The list of informations about the xml built in types.
      * Vector<Type>
      */
-    private Vector types= null;
+    private Vector<Type> types = new Vector(44); //There are 43 built in types in the spec
 
-    public TypeList()
-    {
-        types= new Vector(44); //There are 43 built in types in the spec
+    public Vector<Type> getTypes() {
+        return types;
     }
 
-    public Vector getTypes()             { return types;}
-    public void   setTypes(Vector types) { this.types= types;}
+    public void setTypes(Vector<Type> types) {
+        this.types = types;
+    }
 
     /**
      * Prints each type in the list.
@@ -90,14 +90,11 @@ public class TypeList
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Types count: ").append(types.size());
-        for (int index = 0; index < types.size(); index++) {
-            Type t = (Type) (types.elementAt(index));
-            sb.append(t.toString());
+        StringBuilder sb = new StringBuilder()
+            .append("Types count: ").append(types.size());
+        for (Type t : types) {
+            sb.append(t);
         }
         return sb.toString();
     }
 }
-
-
