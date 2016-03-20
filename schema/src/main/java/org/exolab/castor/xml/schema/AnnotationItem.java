@@ -64,19 +64,12 @@ public abstract class AnnotationItem extends Structure {
     /**
      * List of any elements
     **/
-    private Vector _objects = null;
+    private final Vector<Object> _objects = new Vector<>(3);
     
     /**
      * The source attribute
     **/
     private String _source = null;
-    
-    /**
-     * Creates a new AnnotationItem
-     */
-    AnnotationItem() {
-        _objects = new Vector(3);
-    } //-- AnnotationItem
     
     /**
      * Adds the given Object to this Annotation item.
@@ -94,17 +87,16 @@ public abstract class AnnotationItem extends Structure {
      * @return the String content of this Annotation item.
      */
     public String getContent() {
-        if (_objects.size() == 0) return null;
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < _objects.size(); i++) {
-            Object obj = _objects.elementAt(i);
+        if (_objects.isEmpty()) return null;
+        StringBuilder sb = new StringBuilder();
+        for (Object obj : _objects) {
             if (obj instanceof AnyNode) {
                 //-- the getStringValue of AnyNode is a bit messed up
                 //-- so we'll do our own here
                 getStringValue((AnyNode)obj, sb);
             }
             else {
-                sb.append(obj.toString());
+                sb.append(obj);
             }
         }
         return sb.toString();
@@ -115,7 +107,7 @@ public abstract class AnnotationItem extends Structure {
      *
      * @return an Enumeration of all objects contained by this Annotation item.
      */
-    public Enumeration getObjects() {
+    public Enumeration<Object> getObjects() {
         return _objects.elements();
     } //-- getObjects
     
@@ -175,7 +167,7 @@ public abstract class AnnotationItem extends Structure {
      * @param node the AnyNode to return the String value of
      * @param buffer the StringBuffer to append to.
      */
-    static final void getStringValue(AnyNode node, StringBuffer buffer) {
+    static final void getStringValue(AnyNode node, StringBuilder buffer) {
         switch(node.getNodeType()) {
             case AnyNode.ELEMENT:
                 AnyNode child = node.getFirstChild();
