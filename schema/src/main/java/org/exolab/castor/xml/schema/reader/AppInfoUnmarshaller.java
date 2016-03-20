@@ -78,7 +78,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
   /**
    * Stack of AnyNodes being unmarshalled.
    */
-  private Stack _nodes  = new Stack();
+  private final Stack<AnyNode> _nodes = new Stack<>();
 
   /**
    * Creates a new AppInfoUnmarshaller.
@@ -202,7 +202,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
   **/
   public void endElement(final String name, final String namespace)
       throws XMLException {
-      AnyNode node = (AnyNode) _nodes.pop();
+      AnyNode node = _nodes.pop();
       if (_nodes.isEmpty()) {
           //- unmarshall JDO appinfo content
           if (node.getNamespaceURI().equals(JDOConstants.JDO_NAMESPACE) 
@@ -233,7 +233,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
           _appInfo.add(node);
       } else {
           //-- add to parent AnyNode
-          ((AnyNode) _nodes.peek()).addChild(node);
+          _nodes.peek().addChild(node);
       }
   }
 
@@ -247,7 +247,7 @@ public class AppInfoUnmarshaller extends ComponentReader {
                                  new String(ch, start, length));
                                  
       if (!_nodes.isEmpty()) {
-          AnyNode parent = (AnyNode) _nodes.peek();
+          AnyNode parent = _nodes.peek();
           parent.addChild(text);
       } else {
           _appInfo.add(text);
