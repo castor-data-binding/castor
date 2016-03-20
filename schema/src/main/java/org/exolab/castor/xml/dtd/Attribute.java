@@ -47,6 +47,7 @@ package org.exolab.castor.xml.dtd;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Implementation of DTD Attribute declaration specification.
@@ -112,7 +113,7 @@ public class Attribute {
     * Possible values of the attribute (if the attribute is of <tt>NOTATION</tt>
     * or <tt>Enumeration</tt> type).
     */
-   private HashSet values;
+   private final Set<String> values = new HashSet<>();
 
    /**
     * Constructor, setting name, owning element of the attribute and
@@ -134,7 +135,6 @@ public class Attribute {
 
       this.name = name;
       this.element = element;
-      values = new HashSet();
       occuranceType = DEFAULT;
    } //-- Attribute
 
@@ -156,7 +156,7 @@ public class Attribute {
     * Returns {@link java.util.Iterator iterator} of the set of possible values,
     * if of <tt>NOTATION</tt> or <tt>Enumeration</tt> type, <tt>null</tt> otherwise.
     */
-   public Iterator getValues() {
+   public Iterator<String> getValues() {
       if (isNOTATIONType() || isEnumerationType()) return values.iterator();
       return null;
    } //-- getValues
