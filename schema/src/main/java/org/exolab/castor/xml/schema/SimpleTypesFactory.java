@@ -420,9 +420,7 @@ public class SimpleTypesFactory {
 
             //Store the types by name in the typesByName and typesByCode hashtables
             //and create for each its associated SimpleType instance.
-            Vector<Type> types = typeList.getTypes();
-            for (int index = 0; index < types.size(); index++) {
-                Type type = types.elementAt(index);
+            for (Type type : typeList.getTypes()) {
                 _typesByName.put(type.getName(), type);
                 type.setSimpleType(createSimpleType(BUILD_IN_SCHEMA, type));
                 _typesByCode.put(Integer.valueOf(type.getSimpleType().getTypeCode()), type);
