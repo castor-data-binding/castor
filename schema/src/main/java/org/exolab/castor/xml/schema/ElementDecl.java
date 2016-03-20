@@ -85,7 +85,7 @@ public class ElementDecl extends Particle implements Referable {
     /**
      * collection of Identity Constraints
     **/
-    private Vector _constraints = null;
+    private final Vector<IdentityConstraint> _constraints = new Vector<>(3);
 
     /**
      * The default value for this element definition. Only
@@ -187,7 +187,6 @@ public class ElementDecl extends Particle implements Referable {
             throw new IllegalArgumentException(err);
         }
         setSchema(schema);
-        _constraints = new Vector(3);
     } //-- ElementDecl
 
     /**
@@ -440,8 +439,8 @@ public class ElementDecl extends Particle implements Referable {
      * @return an enumeration of the elements that can be substitute to 
      * this element declaration.
      */
-    public Enumeration getSubstitutionGroupMembers() {
-    	Vector result = new Vector();
+    public Enumeration<ElementDecl> getSubstitutionGroupMembers() {
+    	Vector<ElementDecl> result = new Vector<>();
     	Iterator<ElementDecl> enumeration = _schema.getElementDecls().iterator();
     	while (enumeration.hasNext()) {
     		ElementDecl temp  = (ElementDecl)enumeration.next();
