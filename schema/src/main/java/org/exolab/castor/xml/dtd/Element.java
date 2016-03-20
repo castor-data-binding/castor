@@ -45,10 +45,11 @@
 
 package org.exolab.castor.xml.dtd;
 
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Enumeration;
+import java.util.Set;
 
 /**
  * Implementation of DTD Element declaration specification.
@@ -70,7 +71,7 @@ public class Element {
    /**
     * DTD document owning this element
     */
-   private DTDdocument document;
+   private final DTDdocument document;
 
    /**
     * Content type of the element. Value may be {@link #ANY ANY}, {@link #EMPTY EMPTY},
@@ -83,7 +84,7 @@ public class Element {
     * Set of names of children of the element,
     * if the element has <tt>MIXED</tt> content.
     */
-   private HashSet mixedChildren = null;
+   private Set<String> mixedChildren = null;
 
    /**
     * Content Particle representing content of the element, if the element has
@@ -94,7 +95,7 @@ public class Element {
    /**
     * Attributes of the element.
     */
-   private Hashtable attributes;
+   private final Hashtable<String, Attribute> attributes = new Hashtable<>();
 
    /**
     * Constructor, setting the name of the element and owning DTD document.
@@ -109,7 +110,6 @@ public class Element {
 
       this.name = name;
       this.document = document;
-      attributes = new Hashtable();
    } //-- Element
 
    /**
@@ -138,7 +138,7 @@ public class Element {
     * Returns {@link java.util.Iterator iterator} of the set of mixed children,
     * if of <tt>MIXED</tt> content, <tt>null</tt> otherwise.
     */
-   public Iterator getMixedContentChildren() {
+   public Iterator<String> getMixedContentChildren() {
       if (isMixedContent()) return mixedChildren.iterator();
       return null;
    } //-- getMixedContentChildren
@@ -201,7 +201,7 @@ public class Element {
     */
    public void setMixedContent() {
       contentType = MIXED;
-      mixedChildren = new HashSet();
+      mixedChildren = new HashSet<>();
    } //-- setMixedContent
 
    /**
