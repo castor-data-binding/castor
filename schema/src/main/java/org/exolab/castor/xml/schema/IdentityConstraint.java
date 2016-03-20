@@ -80,7 +80,7 @@ public abstract class IdentityConstraint extends Annotated {
     /**
      * The fields of this Identity Constraint
     **/
-    private Vector _fields = null;
+    private final Vector<IdentityField> _fields = new Vector<>(3);
     
     /**
      * Constructor used by sub-classes. Creates a new IdentityConstraint.
@@ -91,7 +91,6 @@ public abstract class IdentityConstraint extends Annotated {
         throws SchemaException
     {
         setName(name);
-        _fields = new Vector(3);
     } //-- IdentityConstraint
 
     /**
@@ -111,7 +110,7 @@ public abstract class IdentityConstraint extends Annotated {
      * @return an Enumeration of the IdentityField objects contain within
      * this IdentityConstraint.
     **/
-    public Enumeration getFields() {
+    public Enumeration<IdentityField> getFields() {
         return _fields.elements();
     } //-- getFields
     
