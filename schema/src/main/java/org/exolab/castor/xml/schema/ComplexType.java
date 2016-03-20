@@ -247,7 +247,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
      * @return an Enumeration of all the AttributeDecl objects declared within
      *         this Complextype
      */
-    public Enumeration getAttributeDecls() {
+    public Enumeration<AttributeDecl> getAttributeDecls() {
         return _attributes.getAttributes();
     } // -- getAttributeDecls
 
@@ -258,7 +258,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
      * 
      * @return an Enumeration of all locally declared AttributeDecl.
      */
-    public Enumeration getLocalAttributeDecls() {
+    public Enumeration<AttributeDecl> getLocalAttributeDecls() {
         return _attributes.getLocalAttributes();
     } // -- getLocalAttributeDecls
 
@@ -269,7 +269,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
      * @return an Enumeration of all the AttributeGroup that are referenced
      *         within this ComplexType.
      */
-    public Enumeration getAttributeGroupReferences() {
+    public Enumeration<AttributeGroupReference> getAttributeGroupReferences() {
         return _attributes.getLocalAttributeGroupReferences();
     }
 
@@ -346,7 +346,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
      */
     public boolean hasAny() {
         boolean result = false;
-        Enumeration enumeration = _contentModel.enumerate();
+        Enumeration<Particle> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements() && !result) {
             Structure struct = (Structure) enumeration.nextElement();
             switch (struct.getStructureType()) {
@@ -732,7 +732,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
      * @return an enumeration of the Particles contained within this
      *         ContentModelGroup
      */
-    public Enumeration enumerate() {
+    public Enumeration<Particle> enumerate() {
         return _contentModel.enumerate();
     } // -- enumerate
 
