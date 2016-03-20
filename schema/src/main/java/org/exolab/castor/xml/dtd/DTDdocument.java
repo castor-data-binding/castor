@@ -58,34 +58,31 @@ public class DTDdocument {
    /**
     * Name of the document.
     */
-   private String name = null;
+   private final String name;
 
    /**
     * Element declarations in the document.
     */
-   private Hashtable elements;
+   private final Hashtable<String,Element> elements = new Hashtable<>();
 
    /**
     * Notation declarations in the document.
     */
-   private Hashtable notations;
+   private final Hashtable<String,Notation> notations = new Hashtable<>();
 
    /**
     * General Entity declarations in the document.
     */
-   private Hashtable generalEntities;
+   private final Hashtable<String,GeneralEntity> generalEntities = new Hashtable<>();
 
    public DTDdocument() {
-      elements = new Hashtable();
-      notations = new Hashtable();
-      generalEntities = new Hashtable();
+      this(null);
    } //-- DTDdocument
 
    /**
     * Constructor, setting the name of the document.
     */
    public DTDdocument(String name) {
-      this();
       this.name = name;
    } //-- DTDdocument
 
@@ -124,7 +121,7 @@ public class DTDdocument {
     * <tt>null</tt> if there is no Element with this name in the document.
     */
    public Element getElement(String name) {
-      return (Element)elements.get(name);
+      return elements.get(name);
    } //-- getElement
 
    /**
@@ -156,7 +153,7 @@ public class DTDdocument {
     * <tt>null</tt> if there is no Notation with this name in the document.
     */
    public Notation getNotation(String name) {
-      return (Notation)notations.get(name);
+      return notations.get(name);
    } //-- getNotation
 
    /**
@@ -178,27 +175,27 @@ public class DTDdocument {
     * <tt>null</tt> if there is no General Entity with this name in the document.
     */
    public GeneralEntity getGeneralEntity(String name) {
-      return (GeneralEntity)generalEntities.get(name);
+      return generalEntities.get(name);
    } //-- getGeneralEntities
 
    /**
     * Returns enumeration of the Element declarations in the DTD document.
     */
-   public Enumeration getElements() {
+   public Enumeration<Element> getElements() {
       return elements.elements();
    } //-- getElements
 
    /**
     * Returns enumeration of the General Entity declarations in the DTD document.
     */
-   public Enumeration getGeneralEntities() {
+   public Enumeration<GeneralEntity> getGeneralEntities() {
       return generalEntities.elements();
    } //-- getGeneralEntities
 
    /**
     * Returns enumeration of the Notation declarations in the DTD document.
     */
-   public Enumeration getNotations() {
+   public Enumeration<Notation> getNotations() {
       return notations.elements();
    } //-- getNotations
 
