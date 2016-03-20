@@ -49,6 +49,7 @@ package org.exolab.castor.xml.schema.reader;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -775,7 +776,7 @@ public class SchemaUnmarshaller extends ComponentReader {
         public static final String RESOURCE_LOCATION =
             "/org/exolab/castor/xml/schema/reader/";
         
-        public static final HashMap QNAME_TABLE = new HashMap();
+        public static final Map<String, String[]> QNAME_TABLE = new HashMap<>();
         private static boolean initialized = false;
         
         static {
@@ -841,7 +842,7 @@ public class SchemaUnmarshaller extends ComponentReader {
             }
         }
         
-        private HashMap _prefixes = null;
+        private Map<String, String> _prefixes = null;
         
         private RemappedPrefixes _parent = null;
         
@@ -888,7 +889,7 @@ public class SchemaUnmarshaller extends ComponentReader {
         
         public void addMapping(final String oldPrefix, final String newPrefix) {
             if (_prefixes == null) {
-                _prefixes = new HashMap();
+                _prefixes = new HashMap<>();
             }
             _prefixes.put(oldPrefix, newPrefix);
         }
