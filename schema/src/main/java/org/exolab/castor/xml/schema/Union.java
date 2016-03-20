@@ -69,10 +69,14 @@ public class Union extends SimpleType {
     private String _id = null;
     
     /**
-     * The simpleType members of this Union
+     * The simpleType members of this Union.
+     * No sense in having a union of only one (1), but
+     * we choose a low number, like two (2) or three (3)
+     * since most unions will only have at most a 
+     * few members.
     **/
-    private Vector _simpleTypes = null;
-        
+    private final Vector<SimpleType> _simpleTypes = new Vector<>(3);
+
     private boolean _hasReferencedTypes = false;
     
     /**
@@ -91,11 +95,6 @@ public class Union extends SimpleType {
             throw new IllegalArgumentException(err);
         }
         super.setSchema(schema);
-        //-- No sense in having a union of only one (1), but
-        //-- we choose a low number, like two (2) or three (3)
-        //-- since most unions will only have at most a 
-        //-- few members.
-        _simpleTypes = new Vector(3);
     } //-- Union
     
     /**
@@ -152,7 +151,7 @@ public class Union extends SimpleType {
      *
      * @return an Enumeration of all member SimpleTypes.
     **/
-    public Enumeration getMemberTypes() {
+    public Enumeration<SimpleType> getMemberTypes() {
         //-- clear any referenced types (if necessary)
         if (_hasReferencedTypes) {
             _hasReferencedTypes = false;
@@ -161,7 +160,7 @@ public class Union extends SimpleType {
                 if (obj instanceof SimpleTypeReference) {
                     SimpleType simpleType = (SimpleType)obj;
                     if (simpleType.getType() != null) {
-                        _simpleTypes.setElementAt(simpleType.getType(), i);
+                        _simpleTypes.setElementAt(resolveReference(simpleType), i);
                     }
                     else {
                         //-- XXXX
