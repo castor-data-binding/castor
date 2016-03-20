@@ -59,7 +59,7 @@ public class TypeList
      * The list of informations about the xml built in types.
      * Vector<Type>
      */
-    private Vector<Type> types = new Vector(44); //There are 43 built in types in the spec
+    private Vector<Type> types = new Vector<>(44); //There are 43 built in types in the spec
 
     public Vector<Type> getTypes() {
         return types;
