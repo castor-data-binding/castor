@@ -62,14 +62,7 @@ public class FacetList implements java.io.Serializable {
     /**
      * The list of facets
     **/
-    private List<Facet> facets    = null;
-
-    /**
-     * Creates a new FacetList
-    **/
-    public FacetList() {
-        facets = new ArrayList<Facet>();
-    } //-- FacetList
+    private final List<Facet> facets = new ArrayList<Facet>();
 
     /**
      * Adds the given Facet to this list

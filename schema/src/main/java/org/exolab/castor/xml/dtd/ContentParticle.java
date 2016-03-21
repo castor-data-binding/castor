@@ -91,14 +91,13 @@ public class ContentParticle {
     * Content particles - children of this content particle, if the type is
     * a sequence list or choice list of content particles.
     */
-   private Vector children = null;
+   private final Vector<ContentParticle> children = new Vector<>();
 
    /**
     * Constructor, setting occurance specification to <tt>ONE</tt>, by default.
     */
    public ContentParticle() {
       occuranceSpec = ONE;
-      children = new Vector();
    } //-- ContentParticle
 
    /**
@@ -179,7 +178,7 @@ public class ContentParticle {
     * <tt>SEQ</tt> or <tt>CHOICE</tt> type (sequence or choice list),
     * <tt>null</tt> otherwise.
     */
-   public Enumeration getChildren() {
+   public Enumeration<ContentParticle> getChildren() {
       if (isSeqType() || isChoiceType()) return children.elements();
       return null;
    } //-- getChildren

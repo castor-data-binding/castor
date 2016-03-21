@@ -66,8 +66,7 @@ public class Wildcard extends Particle {
     /**
      * The vector where we store the list of namespaces
      */
-    //don't use ArrayList to keep compatibility with jdk1.1
-    private Vector _namespaces;
+    private final Vector<String> _namespaces = new Vector<>(1);
 
     /**
      * A boolean that indicates if this wildcard represents
@@ -125,8 +124,6 @@ public class Wildcard extends Particle {
     }
 
     private void init() {
-        //in general not more than one namespace
-        _namespaces = new Vector(1);
         setMaxOccurs(1);
         setMinOccurs(1);
         try {
@@ -234,7 +231,7 @@ public class Wildcard extends Particle {
      * @return an enumeration that contains the different namespaces
      * of this wildcard
      */
-     public Enumeration getNamespaces() {
+     public Enumeration<String> getNamespaces() {
          return _namespaces.elements();
      }
 

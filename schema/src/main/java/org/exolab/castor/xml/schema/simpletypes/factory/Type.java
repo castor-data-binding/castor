@@ -97,14 +97,14 @@ public class Type
      * This type's properties ("facet" like)
      * Vector<TypeProperty>
      */
-    private Vector facet= new Vector(15);
+    private final Vector<TypeProperty> facet = new Vector<>(15);
 
     public String     getName      ()   { return name; }
     public String     getCode      ()   { return code; }
     public String     getBase      ()   { return base; }
     public String     getImpl      ()   { return impl; }
     public String     getDerivedBy ()   { return derivedBy; }
-    public Vector     getFacet     ()   { return facet;}
+    public Vector<TypeProperty> getFacet() { return facet;}
     public Class      getImplClass ()   { return implClass; }
     public SimpleType getSimpleType()   { return simpleType;}
 

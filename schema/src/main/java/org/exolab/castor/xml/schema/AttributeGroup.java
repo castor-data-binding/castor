@@ -83,7 +83,7 @@ public abstract class AttributeGroup extends Annotated {
      * @return an Enumeration of all the attributes of this
      * attribute group.
     **/
-    public abstract Enumeration getAttributes();
+    public abstract Enumeration<AttributeDecl> getAttributes();
 
     /**
      * Returns the id of this AttributeGroup

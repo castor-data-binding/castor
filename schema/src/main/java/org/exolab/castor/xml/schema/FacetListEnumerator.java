@@ -52,7 +52,7 @@ import java.util.Enumeration;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $ 
 **/
-class FacetListEnumerator implements Enumeration {
+class FacetListEnumerator implements Enumeration<Facet> {
     
     private int                 currentIdx    = 0;
     private FacetList           facets        = null;
@@ -107,7 +107,7 @@ class FacetListEnumerator implements Enumeration {
         return false;
     } //-- hasMoreElements
     
-    public Object nextElement() {
+    public Facet nextElement() {
         if (inherited != null) {
             if (inherited.hasMoreElements()) 
                 return inherited.nextElement();

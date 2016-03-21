@@ -76,19 +76,19 @@ public final class AttributeGroupDecl extends AttributeGroup {
     /**
      * The Schema to which this AttributeDecl belongs
     **/
-    private Schema _schema = null;
+    private final Schema _schema;
 
 
     /**
      * The collection of attributes for this AttributeGroup
     **/
-    private Vector _attributes = null;
+    private final Vector<AttributeDecl> _attributes = new Vector<>();
 
     /**
      * The collection of AttributesGroupReferences for this
      * AttributeGroup
     **/
-    private Vector _references = null;
+    private final Vector<AttributeGroupReference> _references = new Vector<>();
 
     /**
      * the anyattribute wilcard, if any
@@ -112,8 +112,6 @@ public final class AttributeGroupDecl extends AttributeGroup {
             throw new IllegalArgumentException(err);
         }
         _schema = schema;
-        _attributes = new Vector();
-        _references = new Vector();
     } //-- AttributeGroupDecl
 
     /**
@@ -155,13 +153,13 @@ public final class AttributeGroupDecl extends AttributeGroup {
      * Returns the attributes of THIS attribute group.
      * (not those of the nested groups)
      */
-    public Enumeration getLocalAttributes() { return _attributes.elements(); }
+    public Enumeration<AttributeDecl> getLocalAttributes() { return _attributes.elements(); }
 
     /**
      * Returns the AttributeGroupReference of THIS attribute group.
      * (not those of the nested groups)
      */
-    public Enumeration getLocalAttributeGroupReferences() { return _references.elements(); }
+    public Enumeration<AttributeGroupReference> getLocalAttributeGroupReferences() { return _references.elements(); }
 
     /**
      * Returns the wilcard used in this complexType (can be null)
@@ -204,7 +202,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
      * @return an Enumeration of all the attributes of this
      * attribute group.
     **/
-    public Enumeration getAttributes() {
+    public Enumeration<AttributeDecl> getAttributes() {
         return new AttributeGroupEnumeration(_attributes, _references);
     } //-- getAttributes
 
@@ -238,7 +236,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
 
         if (_attributes.size() > 0) return false;
 
-        if (_references.size() == 0) return true;
+        if (_references.isEmpty()) return true;
 
         for (int i = 0; i < _references.size(); i++) {
             if (!((AttributeGroup)_references.elementAt(i)).isEmpty())
@@ -363,15 +361,15 @@ public final class AttributeGroupDecl extends AttributeGroup {
 /**
  * A simple enumerator for the AttributeGroup class
 **/
-class AttributeGroupEnumeration implements Enumeration {
+class AttributeGroupEnumeration implements Enumeration<AttributeDecl> {
 
-    private Vector references = null;
+    private Vector<AttributeGroupReference> references = null;
     int index = 0;
 
-    private Enumeration enumeration = null;
+    private Enumeration<AttributeDecl> enumeration = null;
 
 
-    AttributeGroupEnumeration(Vector definitions, Vector references) {
+    AttributeGroupEnumeration(Vector<AttributeDecl> definitions, Vector<AttributeGroupReference> references) {
         enumeration = definitions.elements();
         if (!enumeration.hasMoreElements()) enumeration = null;
         this.references = references;
@@ -382,8 +380,7 @@ class AttributeGroupEnumeration implements Enumeration {
 
         int i = index;
         while (i < references.size()) {
-            AttributeGroupReference ref =
-                (AttributeGroupReference)references.elementAt(i);
+            AttributeGroupReference ref = references.elementAt(i);
             ++i;
             if (!ref.isEmpty()) return true;
         }
@@ -391,23 +388,22 @@ class AttributeGroupEnumeration implements Enumeration {
 
     } //-- hasMoreElements
 
-    public Object nextElement() {
+    public AttributeDecl nextElement() {
 
         if (enumeration != null) {
-            Object obj = enumeration.nextElement();
+            AttributeDecl obj = enumeration.nextElement();
             if (!enumeration.hasMoreElements()) enumeration = null;
             return obj;
         }
 
         while (index < references.size()) {
-            AttributeGroupReference ref =
-                (AttributeGroupReference)references.elementAt(index);
+            AttributeGroupReference ref = references.elementAt(index);
 
             ++index;
 
             enumeration = ref.getAttributes();
             if (enumeration.hasMoreElements()) {
-                Object obj = enumeration.nextElement();
+                AttributeDecl obj = enumeration.nextElement();
                 if (!enumeration.hasMoreElements()) enumeration = null;
                 return obj;
             }

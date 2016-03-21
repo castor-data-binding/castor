@@ -84,7 +84,7 @@ public abstract class SimpleType extends XMLType implements Referable {
     /**
      * The constraining facets of this type.
      **/
-    private FacetList _facets = null;
+    private final FacetList _facets = new FacetList();
 
     /**
      * The value of the final attribute (optional).
@@ -106,14 +106,6 @@ public abstract class SimpleType extends XMLType implements Referable {
      * An attribute that indicates if this {@link SimpleType} is a redefinition.
      */
     private boolean _redefinition = false;
-
-    /**
-     * Default constructor.
-     */
-    public SimpleType() {
-        super();
-        this._facets = new FacetList();
-    }
 
     /**
      * Adds the given Facet to this Simpletype.

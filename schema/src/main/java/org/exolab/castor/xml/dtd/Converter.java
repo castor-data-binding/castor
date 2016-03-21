@@ -60,10 +60,9 @@ import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -141,38 +140,38 @@ public class Converter {
 	public static void main(String args[]) throws IOException, DTDException,
 			SchemaException, SAXException {
 		
-		StringBuffer header = new StringBuffer();
-		header.append("\n");
-		header.append("Converts a DTD to an XML schema.\n\n");
-		header.append("   <DTD>: Name of the input DTD file.\n");
-		header.append("   <XSD>: Name of the output XML schema file.\n");
-		header.append("\n");
-		header.append("Options:");
+		StringBuilder header = new StringBuilder()
+		    .append('\n')
+		    .append("Converts a DTD to an XML schema.\n\n")
+		    .append("   <DTD>: Name of the input DTD file.\n")
+		    .append("   <XSD>: Name of the output XML schema file.\n")
+		    .append('\n')
+		    .append("Options:");
 		
 		Options options = new Options();
 		
-		Option targetNamespace = OptionBuilder
-			.withDescription("target namespace of the XML schema generated")
-			.isRequired(false)
-			.withLongOpt("targetNamespace")
+		Option targetNamespace = Option.builder("tns")
+			.desc("target namespace of the XML schema generated")
+			.required(false)
+			.longOpt("targetNamespace")
 			.hasArg()
-			.withArgName("[prefix:]uri")
-			.create("tns");
+			.argName("[prefix:]uri")
+			.build();
 
-		Option xmlns = OptionBuilder
-		.withDescription("xml namespace declarations")
-		.isRequired(false)
-		.hasArgs()
-		.withValueSeparator(',')
-		.withArgName("[[prefix:]uri]*")
-		.create("xmlns");
+		Option xmlns = Option.builder("xmlns")
+            .desc("xml namespace declarations")
+            .required(false)
+            .hasArgs()
+            .valueSeparator(',')
+            .argName("[[prefix:]uri]*")
+            .build();
 
 		options.addOption(targetNamespace);
 		options.addOption(xmlns);
 		options.addOption("h", "help", false, "prints usage information");
 		options.addOption("e", "encoding", false, "character encoding");
 		
-		CommandLineParser parser = new GnuParser();
+		CommandLineParser parser = new DefaultParser();
 		CommandLine line = null;
 	    try {
 			line = parser.parse(options, args);
@@ -461,7 +460,7 @@ public class Converter {
 	 *             if Schema object can not be created.
 	 */
 	public Schema convertDTDObjectToSchemaObject(DTDdocument dtd,
-			String targetNamespace, Map nameSpaceMap) throws DTDException,
+			String targetNamespace, Map<String,String> nameSpaceMap) throws DTDException,
 			SchemaException {
 
 		Schema schema = new Schema();
@@ -473,10 +472,8 @@ public class Converter {
 
 		schema.setTargetNamespace(targetNamespace);
 
-		for (Iterator<String> namespaces = nameSpaceMap.keySet().iterator(); namespaces
-				.hasNext();) {
-			String xmlns = namespaces.next();
-			schema.addNamespace(xmlns, (String) nameSpaceMap.get(xmlns));
+		for (Map.Entry<String,String> entry : nameSpaceMap.entrySet()) {
+			schema.addNamespace(entry.getKey(), entry.getValue());
 		}
 
 		// convert Notation declarations
@@ -515,13 +512,13 @@ public class Converter {
 		// -- convert General Entity declarations
 
 		// convert Element declarations
-		Enumeration<Element> dtdElements = dtd.getElements();
-		Element dtdElement; // DTD Element declaration
-		ElementDecl schemaElement; // Schema Element declaration
+        Enumeration<Element> dtdElements = dtd.getElements();
+        Element dtdElement; // DTD Element declaration
+        ElementDecl schemaElement; // Schema Element declaration
 
-		while (dtdElements.hasMoreElements()) {
-			dtdElement = dtdElements.nextElement();
-			schemaElement = convertDTDElementToSchemaElement(dtdElement, schema);
+        while (dtdElements.hasMoreElements()) {
+            dtdElement = dtdElements.nextElement();
+            schemaElement = convertDTDElementToSchemaElement(dtdElement, schema);
 			schema.addElementDecl(schemaElement);
 		} // -- convert Element declarations
 

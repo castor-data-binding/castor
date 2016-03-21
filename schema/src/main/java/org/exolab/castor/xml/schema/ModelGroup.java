@@ -68,7 +68,7 @@ public class ModelGroup extends Group {
     /**
      * An ordered list of all ModelGroup definitions
     **/
-    private Vector _modelDefs;
+    private final Vector<ModelGroup> _modelDefs = new Vector<>();
     
     /**
      * An attribute that indicates if this Group is
@@ -80,7 +80,7 @@ public class ModelGroup extends Group {
     /**
      * the schema that contains this model group
      */
-     private Schema _schema = null;
+    private Schema _schema = null;
 
     /**
      * Creates a new ModelGroup, with no name
@@ -105,7 +105,6 @@ public class ModelGroup extends Group {
     public ModelGroup(String name, Schema schema) {
         super(name);
         _schema = schema;
-        _modelDefs = new Vector();
     } //-- ModelGroup
 
 
