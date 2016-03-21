@@ -361,15 +361,15 @@ public final class AttributeGroupDecl extends AttributeGroup {
 /**
  * A simple enumerator for the AttributeGroup class
 **/
-class AttributeGroupEnumeration implements Enumeration {
+class AttributeGroupEnumeration implements Enumeration<AttributeDecl> {
 
-    private Vector references = null;
+    private Vector<AttributeGroupReference> references = null;
     int index = 0;
 
-    private Enumeration enumeration = null;
+    private Enumeration<AttributeDecl> enumeration = null;
 
 
-    AttributeGroupEnumeration(Vector definitions, Vector references) {
+    AttributeGroupEnumeration(Vector<AttributeDecl> definitions, Vector<AttributeGroupReference> references) {
         enumeration = definitions.elements();
         if (!enumeration.hasMoreElements()) enumeration = null;
         this.references = references;
@@ -380,8 +380,7 @@ class AttributeGroupEnumeration implements Enumeration {
 
         int i = index;
         while (i < references.size()) {
-            AttributeGroupReference ref =
-                (AttributeGroupReference)references.elementAt(i);
+            AttributeGroupReference ref = references.elementAt(i);
             ++i;
             if (!ref.isEmpty()) return true;
         }
@@ -389,23 +388,22 @@ class AttributeGroupEnumeration implements Enumeration {
 
     } //-- hasMoreElements
 
-    public Object nextElement() {
+    public AttributeDecl nextElement() {
 
         if (enumeration != null) {
-            Object obj = enumeration.nextElement();
+            AttributeDecl obj = enumeration.nextElement();
             if (!enumeration.hasMoreElements()) enumeration = null;
             return obj;
         }
 
         while (index < references.size()) {
-            AttributeGroupReference ref =
-                (AttributeGroupReference)references.elementAt(index);
+            AttributeGroupReference ref = references.elementAt(index);
 
             ++index;
 
             enumeration = ref.getAttributes();
             if (enumeration.hasMoreElements()) {
-                Object obj = enumeration.nextElement();
+                AttributeDecl obj = enumeration.nextElement();
                 if (!enumeration.hasMoreElements()) enumeration = null;
                 return obj;
             }
