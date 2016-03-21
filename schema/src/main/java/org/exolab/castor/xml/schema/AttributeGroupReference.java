@@ -142,7 +142,7 @@ public final class AttributeGroupReference extends AttributeGroup {
      * @return an Enumeration of the AttributeDecls and AttributeGroups
      * of this AttributeGroup
     **/
-    public Enumeration getAttributes() {
+    public Enumeration<AttributeDecl> getAttributes() {
         return resolveReference().getAttributes();
     } //-- getAttributes
 
