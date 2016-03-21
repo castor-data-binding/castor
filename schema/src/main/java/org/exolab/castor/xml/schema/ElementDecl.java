@@ -276,7 +276,7 @@ public class ElementDecl extends Particle implements Referable {
      * @return an Enumeration of IdentityConstraint objects contained within
      * this element definition.
     **/
-    public Enumeration getIdentityConstraints() {
+    public Enumeration<IdentityConstraint> getIdentityConstraints() {
         return _constraints.elements();
     } //-- getIdentityConstraints
 
