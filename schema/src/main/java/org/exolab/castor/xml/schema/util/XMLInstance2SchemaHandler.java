@@ -636,17 +636,11 @@ public final class XMLInstance2SchemaHandler
     class StateInfo {
         Namespaces   namespaces   = null;
         ElementDecl  element      = null;
-        Vector       attributes   = null;
+        final Vector<AttributeDecl> attributes = new Vector<>();
         StringBuffer buffer       = null;
         boolean      mixed        = false;
         boolean      complex      = false;
         boolean      topLevel     = false;
-        
-        public StateInfo() {
-            super();
-            attributes = new Vector();
-        }
-        
     } //-- StateInfo
     
 } //--
