@@ -146,7 +146,7 @@ public class Element {
    /**
     * Returns enumeration of the attributes of the element.
     */
-   public Enumeration getAttributes() {
+   public Enumeration<Attribute> getAttributes() {
       return attributes.elements();
    } //-- getAttributes
 
