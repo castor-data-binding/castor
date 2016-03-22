@@ -27,6 +27,6 @@ public class CycleBreakerTest {
         long endfreeMemory = Runtime.getRuntime().freeMemory();
 
         // Check if memory usage was higher than 1MB 
-        Assert.assertFalse("Memory Leak", (startfreeMemory - endfreeMemory) / (1024 * 1024) > 1);
+        Assert.assertFalse("Memory Leak", (startfreeMemory - endfreeMemory) / (2048 * 1024) > 1);
     }
 }
