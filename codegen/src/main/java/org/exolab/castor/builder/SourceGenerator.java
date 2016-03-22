@@ -98,6 +98,7 @@ import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.Particle;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaContextImpl;
@@ -1097,7 +1098,7 @@ public class SourceGenerator extends BuilderConfiguration {
         //Some special code to handle the fact that the enumerate method will simply skip
         //the first group is the number of particle is one
 
-        Enumeration<Structure> enumeration = cmGroup.enumerate();
+        Enumeration<Particle> enumeration = cmGroup.enumerate();
 
         while (enumeration.hasMoreElements()) {
             Structure struct = enumeration.nextElement();
