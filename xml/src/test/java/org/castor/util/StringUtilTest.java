@@ -15,19 +15,14 @@
  */
 package org.castor.util;
 
+import static org.junit.Assert.assertEquals;
+
 import org.castor.core.util.StringUtil;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-/**
- * JUnit test case for {@link StringUtil}.
- * @since 1.1.2
- */
-public class StringUtilTest extends TestCase {
+public class StringUtilTest {
     
-    /**
-     * Tests various combinations of replacement functionality.
-     */
+	@Test
     public void testReplaceAll() {
         String source, expected;
         String toReplace = "hello";
@@ -40,6 +35,7 @@ public class StringUtilTest extends TestCase {
 
     }
     
+	@Test
     public void testOneReplacement() throws Exception {
         String source = "hello world";
         String expected = "bonjour world";
@@ -51,6 +47,7 @@ public class StringUtilTest extends TestCase {
                 toReplace, replacement));
 
     }
+	@Test
     public void testMultipleeplacement() throws Exception {
         String source = "hello Bob, hello Alice, hello hell, hello world!";
         String expected = "bonjour Bob, bonjour Alice, bonjour hell, bonjour world!";
@@ -60,6 +57,7 @@ public class StringUtilTest extends TestCase {
                 source, toReplace, replacement));
     }
     
+	@Test
     public void testEmptyString() throws Exception {
         String source = "";
         String expected = "";
@@ -69,6 +67,7 @@ public class StringUtilTest extends TestCase {
                 source, toReplace, replacement));
     }
     
+	@Test
     public void testNull() throws Exception {
         String source = null;
         String expected = null;

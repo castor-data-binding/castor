@@ -15,7 +15,20 @@
  */
 package org.exolab.castor.xml;
 
-import junit.framework.TestCase;
+import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.castor.test.entity.CastorObject;
 import org.castor.test.entity.Email;
 import org.castor.test.entity.Emails;
@@ -26,27 +39,11 @@ import org.custommonkey.xmlunit.XpathEngine;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is base class that test the {@link Marshaller} class.
@@ -55,7 +52,7 @@ import static org.junit.Assert.assertTrue;
  * @version 1.3.3
  * @since 1.3.3
  */
-public abstract class BaseMarshallerTest extends TestCase {
+public abstract class BaseMarshallerTest {
 
     /**
      * Represents the expected result that doesn't contain the xml declaration.
@@ -138,9 +135,8 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception if any error occurs
      */
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @Before
+    public void setUp() throws Exception {
         Email email = new Email();
         email.setFrom("from@castor.org");
         email.setTo("to@castor.org");
@@ -153,6 +149,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testSuppressNamespacesTrue() throws Exception {
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressNamespaces(true);
@@ -165,6 +162,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testSuppressNamespacesFalse() throws Exception {
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
         marshaller.setSuppressNamespaces(false);
@@ -177,6 +175,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testSuppressXsiTypeTrue() throws Exception {
         CastorObject castorObject = createCastorObject();
 
@@ -192,6 +191,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testSuppressXsiTypeFalse() throws Exception {
         CastorObject castorObject = createCastorObject();
 
@@ -207,6 +207,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testMarshalAsDocumentTrue() throws Exception {
 
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
@@ -222,6 +223,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testMarshalAsDocumentFalse() throws Exception {
 
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
@@ -236,6 +238,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testRootElement() throws Exception {
 
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);
@@ -249,6 +252,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testNoNamespaceSchemaLocation() throws Exception {
         String noNamespaceSchemaLocation = "emails.xsd";
 
@@ -266,6 +270,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testSchemaLocation() throws Exception {
         String schemaLocation = "emails.xsd";
 
@@ -284,6 +289,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testUseXsiTypeAsRootTrue() throws Exception {
         CastorObject castorObject = createCastorObject();
 
@@ -301,6 +307,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testUseXsiTypeAsRootFalse() throws Exception {
         CastorObject castorObject = createCastorObject();
 
@@ -318,6 +325,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testMarshalListener() throws Exception {
         MarshalListener listener = createMockListener();
 
@@ -334,6 +342,7 @@ public abstract class BaseMarshallerTest extends TestCase {
      *
      * @throws Exception in case of marshal problems
      */
+    @Test
     public void testProcessingInstructions() throws Exception {
 
         Marshaller marshaller = createMarshallerFromMapping(EMAIL_MAPPING_FILE);

@@ -27,10 +27,10 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import junit.framework.TestCase;
-
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,8 +45,8 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author philipperlacher
  * 
  */
-@Ignore
-public class Sax2EventFromStaxProducerTest extends TestCase {
+// @Ignore
+public class Sax2EventFromStaxProducerTest {
 
 	/**
 	 * all of the readers are global so that they can be closed after testing
@@ -171,6 +171,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testLNameInStartElement() throws XMLStreamException,
 			FactoryConfigurationError, SAXException, IOException {
 
@@ -189,6 +190,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testNamespaceUriInStartElement() throws SAXException,
 			IOException, XMLStreamException, FactoryConfigurationError {
 
@@ -207,6 +209,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testPrefixInStartElement() throws SAXException, IOException,
 			XMLStreamException, FactoryConfigurationError {
 
@@ -225,6 +228,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testStartElementPrefixAttributes() throws SAXException,
 			IOException, XMLStreamException, FactoryConfigurationError {
 
@@ -243,6 +247,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testStartElementChildren() throws SAXException, IOException,
 			XMLStreamException, FactoryConfigurationError {
 
@@ -263,6 +268,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testMoreElements() throws SAXException, IOException,
 			XMLStreamException, FactoryConfigurationError {
 
@@ -285,6 +291,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testStartPrefix() throws SAXException, IOException,
 			XMLStreamException, FactoryConfigurationError {
 
@@ -312,6 +319,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testEndPrefixMapping() throws SAXException, IOException,
 			XMLStreamException, FactoryConfigurationError {
 
@@ -332,6 +340,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testIgnorableWhitspace() throws XMLStreamException,
 			FactoryConfigurationError, SAXException, IOException {
 
@@ -353,6 +362,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
 	public void testIgnorableWhitspaceWithoutDTD() throws XMLStreamException,
 			FactoryConfigurationError, SAXException, IOException {
 
@@ -361,7 +371,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 				+ "  <!ELEMENT name (#PCDATA)>" + "]>" + "<Author>"
 				+ "   <name>" + "      Ford\n" + "   </name>\n" + "</Author>";
 
-		// executeTest(sample);
+		executeTest(sample);
 	}
 
 	/**
@@ -373,6 +383,8 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
+	@Test
+	@Ignore("Reenable if possible")
 	public void testCharactersBuffer() throws XMLStreamException,
 			FactoryConfigurationError, SAXException, IOException {
 
@@ -394,6 +406,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * @throws IOException
 	 * @throws XMLStreamException
 	 */
+	@Test
 	public void testDocumentLocator() throws SAXException, IOException, XMLStreamException {
 		
 		String sample = "<?xml version=\"1.0\" ?>"
@@ -412,6 +425,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 		
 	}
 	
+	@Test
 	/**
 	 * tests if locator is produced properly (= the same as it is produced from SAX)
 	 * @throws SAXException
@@ -444,6 +458,7 @@ public class Sax2EventFromStaxProducerTest extends TestCase {
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@After
 	public void tearDown() throws Exception {
 		if (reader != null)
 			reader.close();

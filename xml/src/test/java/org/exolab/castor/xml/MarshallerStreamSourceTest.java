@@ -27,9 +27,6 @@ import java.io.StringWriter;
  */
 public class MarshallerStreamSourceTest extends BaseMarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String marshal(Marshaller marshaller, Object object) throws Exception {
 

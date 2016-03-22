@@ -27,12 +27,8 @@ import java.io.StringReader;
  */
 public class UnmarshallerStreamSourceTest extends BaseUnmarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Object unmarshal(Unmarshaller unmarshaller, String xml) throws Exception {
-
         return unmarshaller.unmarshal(new StreamSource(new StringReader(xml)));
     }
 }

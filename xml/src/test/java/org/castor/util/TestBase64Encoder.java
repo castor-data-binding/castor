@@ -15,13 +15,13 @@
  */
 package org.castor.util;
 
+import static org.junit.Assert.assertEquals;
+
 import org.castor.core.util.Base64Encoder;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public final class TestBase64Encoder extends TestCase {
+public final class TestBase64Encoder {
+	
     private static final String[] MAP = {
             "AA==", "AQ==", "Ag==", "Aw==", "BA==", "BQ==", "Bg==", "Bw==",
             "CA==", "CQ==", "Cg==", "Cw==", "DA==", "DQ==", "Dg==", "Dw==",
@@ -56,23 +56,14 @@ public final class TestBase64Encoder extends TestCase {
             "8A==", "8Q==", "8g==", "8w==", "9A==", "9Q==", "9g==", "9w==",
             "+A==", "+Q==", "+g==", "+w==", "/A==", "/Q==", "/g==", "/w==" };
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Base64Encoder Tests");
-
-        suite.addTest(new TestBase64Encoder("testAllBytes"));
-        suite.addTest(new TestBase64Encoder("testPadding"));
-
-        return suite;
-    }
-
-    public TestBase64Encoder(final String name) { super(name); }
-
+    @Test
     public void testAllBytes() {
         for (int i = 0; i < 256; i++) {
             assertEquals(MAP[i], new String(Base64Encoder.encode(new byte[] {(byte) i})));
         }
     }
 
+    @Test
     public void testPadding() {
         String str;
 

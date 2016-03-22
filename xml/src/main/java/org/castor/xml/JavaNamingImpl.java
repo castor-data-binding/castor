@@ -68,8 +68,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class JavaNamingImpl implements JavaNaming {
 	
-    private static final Log LOG = LogFactory.getLog(JavaNamingImpl.class);
-
     /**
      * The property name to use in the castor.properties file to specify the
      * value of the <code>upperCaseAfterUnderscore</code> variable.
@@ -248,7 +246,6 @@ public class JavaNamingImpl implements JavaNaming {
         }
         if (!isValidPackageName(packageName)) {
             String message = "Package name: " + packageName + " is not valid";
-            LOG.warn(message);
             throw new IllegalArgumentException(message);
         }
         return packageName.replace('.', File.separatorChar);

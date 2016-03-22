@@ -15,13 +15,14 @@
  */
 package org.exolab.castor.xml;
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.dom.DOMSource;
-import java.io.StringReader;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 /**
  * Tests the {@link Unmarshaller} class when unmarshalling from {@link DOMSource}.
@@ -32,9 +33,6 @@ import java.io.StringReader;
  */
 public class UnmarshallerDOMSourceTest extends BaseUnmarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Object unmarshal(Unmarshaller unmarshaller, String xml) throws Exception {
 

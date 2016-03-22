@@ -15,9 +15,9 @@
  */
 package org.exolab.castor.xml;
 
-import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
-import java.io.StringWriter;
+
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Tests the {@link Marshaller} class when marshalling the output into {@link StreamResult}.
@@ -28,9 +28,6 @@ import java.io.StringWriter;
  */
 public class MarshallerOutputStreamTest extends BaseMarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String marshal(Marshaller marshaller, Object object) throws Exception {
 

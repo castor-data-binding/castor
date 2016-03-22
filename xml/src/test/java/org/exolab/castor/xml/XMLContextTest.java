@@ -1,13 +1,14 @@
 package org.exolab.castor.xml;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
 
 import org.castor.test.entity.Entity;
 import org.castor.xml.AbstractInternalContext;
 import org.exolab.castor.mapping.Mapping;
+import org.junit.Test;
 import org.xml.sax.InputSource;
 
-public class XMLContextTest extends TestCase {
+public class XMLContextTest {
     
     private static final String MAPPING_FILE = "org/castor/test/entity/mapping.xml";
 
@@ -15,6 +16,7 @@ public class XMLContextTest extends TestCase {
      * Test {@link AbstractInternalContext} by providing a generated package.
      * @throws Exception
      */
+    @Test
     public void testXMLContextByPackage() throws Exception {
         XMLContext context = new XMLContext();
         context.addPackage("org.castor.test.entity");
@@ -35,6 +37,7 @@ public class XMLContextTest extends TestCase {
      * Test XMLContext with a mapping file.
      * @throws Exception
      */
+    @Test
     public void testXMLContextByMapping() throws Exception {
         
         XMLContext xmlContext = new XMLContext();

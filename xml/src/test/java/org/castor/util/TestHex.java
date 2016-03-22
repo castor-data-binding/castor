@@ -15,20 +15,22 @@
  */
 package org.castor.util;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.Random;
 
 import org.castor.core.util.HexDecoder;
-
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * JUnit test case for HEX en-/coding.
  * @author Johan Lindquist
  * @version $Revision$
  */
-public class TestHex extends TestCase {
+public class TestHex {
 
+	@Test
     public void testEncodeDecode() {
         byte[] bytes = new byte[256];
 

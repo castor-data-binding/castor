@@ -29,9 +29,6 @@ import java.io.StringReader;
  */
 public class UnmarshallerSAXSourceTest extends BaseUnmarshallerTest{
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Object unmarshal(Unmarshaller unmarshaller, String xml) throws Exception {
 

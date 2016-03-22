@@ -15,37 +15,39 @@
  */
 package org.castor.mapping;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.Iterator;
-
-import junit.framework.TestCase;
 
 import org.castor.core.CoreProperties;
 import org.castor.core.util.AbstractProperties;
 import org.exolab.castor.mapping.MappingLoader;
+import org.junit.Test;
 
-/**
- * UTF test case for {@see org.castor.jdo.drivers.PointbaseFactory}.
- */
-public class TestMappingLoaderRegistry extends TestCase {
+public class TestMappingLoaderRegistry {
 
+	@Test
     public final void testGetInstance() throws Exception {
         AbstractProperties properties = new CoreProperties();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
         assertNotNull(registry);
     }
 
+	@Test
     public final void testEnlistMappingLoaders() throws Exception {
         AbstractProperties properties = new CoreProperties();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
         assertNotNull(registry);
 
-        Collection factories = registry.getMappingLoaderFactories();
+        Collection<MappingLoaderFactory> factories = registry.getMappingLoaderFactories();
         assertNotNull(factories);
         assertTrue(factories.size() > 0);
         assertEquals(2, factories.size());
 
-        Iterator iter = factories.iterator();
+        Iterator<MappingLoaderFactory> iter = factories.iterator();
 
         MappingLoaderFactory factory = (MappingLoaderFactory) iter.next();
         assertNotNull(factory);
@@ -63,6 +65,7 @@ public class TestMappingLoaderRegistry extends TestCase {
 
     }
 
+	@Test
     public final void testGetXMLMappingLoader() throws Exception {
         AbstractProperties properties = new CoreProperties();
         MappingLoaderRegistry registry = new MappingLoaderRegistry(properties);
@@ -75,15 +78,4 @@ public class TestMappingLoaderRegistry extends TestCase {
                 "org.exolab.castor.xml.XMLMappingLoader");
     }
 
-//    public final void testGetJDOMappingLoader() throws Exception {
-//        Configuration config = Configuration.getInstance();
-//        MappingLoaderRegistry registry = new MappingLoaderRegistry(config);
-//        assertNotNull(registry);
-//
-//        MappingLoader mappingLoader = registry.getMappingLoader(
-//                "CastorXmlMapping", BindingType.JDO);
-//        assertNotNull(mappingLoader);
-//        assertEquals(mappingLoader.getClass().getName(),
-//                "org.exolab.castor.jdo.engine.JDOMappingLoader");
-//    }
 }

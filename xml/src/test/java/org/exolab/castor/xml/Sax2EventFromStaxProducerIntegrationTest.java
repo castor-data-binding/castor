@@ -9,13 +9,14 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-@Ignore
-public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
+// @Ignore
+public class Sax2EventFromStaxProducerIntegrationTest {
+	
     private static final String testXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\" />";
     private static final String unclosedStartElement = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><UnmarshalFranz content=\"Bla Bla Bla\">";
     private static final String undeclaredPrefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pre:UnmarshalFranz content=\"Bla Bla Bla\" />";
@@ -28,11 +29,13 @@ public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
      * 
      * @see junit.framework.TestCase#tearDown()
      */
+    @After
     public void tearDown() throws Exception {
         _reader.close();
         _reader = null;
     }
 
+    @Test
     public void testUnmarshalling() throws MarshalException,
             ValidationException, XMLStreamException, FactoryConfigurationError {
 
@@ -50,6 +53,8 @@ public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
         Assert.assertEquals("Bla Bla Bla", f.getContent());
     }
 
+    @Test
+    @Ignore("Reenable of possible")
     public void testUnclosedStartElementException() throws XMLStreamException,
             FactoryConfigurationError, ValidationException {
 
@@ -133,6 +138,7 @@ public class Sax2EventFromStaxProducerIntegrationTest extends TestCase {
 //        Assert.assertEquals(fromStax.getErrorCode(), fromSax.getErrorCode());
 //    }
 
+    @Test
     public void testEndTagNameDoesntMatchStartTagName()
             throws XMLStreamException, FactoryConfigurationError,
             ValidationException {

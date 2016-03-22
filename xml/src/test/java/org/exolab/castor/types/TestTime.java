@@ -15,11 +15,16 @@
  */
 package org.exolab.castor.types;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.text.ParseException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TestTime extends TestCase {
+public class TestTime {
+	
+	@Test
     public void testLocal() {
         Time someTime = null;
         try {
@@ -32,6 +37,7 @@ public class TestTime extends TestCase {
         assertTrue(someTime.equals(otherTime));
     }
 
+	@Test
     public void testTimeZone() {
         Time someTime = null;
         try {
@@ -44,6 +50,7 @@ public class TestTime extends TestCase {
         assertTrue(someTime.equals(otherTime));
     }
 
+	@Test
     public void testTimeZoneOverflow() {
         Time someTime = null;
         try {

@@ -15,19 +15,20 @@
  */
 package org.exolab.castor.xml;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.xml.sax.InputSource;
-
-import junit.framework.TestCase;
 
 /**
  * @author joachim
  *
  */
-public class SetPropertyXmlNamingTest extends TestCase {
+public class SetPropertyXmlNamingTest {
     
     private static final String RESULT2 =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -37,6 +38,7 @@ public class SetPropertyXmlNamingTest extends TestCase {
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<setPropertyXmlNamingTest$Foo barBar=\"0\"/>";
 
+    @Test
     public void testSetXmlContextToMixed() throws Exception {
         XMLContext xmlContext = new XMLContext();
         xmlContext.setProperty("org.exolab.castor.xml.naming", "mixed");
@@ -50,6 +52,7 @@ public class SetPropertyXmlNamingTest extends TestCase {
         assertEquals(RESULT, writer.toString());
     }
     
+    @Test
     public void testSetXmlContextToMixedWithUnmarshaller() throws Exception {
         XMLContext xmlContext = new XMLContext();
         xmlContext.setProperty("org.exolab.castor.xml.naming", "mixed");
@@ -63,6 +66,7 @@ public class SetPropertyXmlNamingTest extends TestCase {
         Assert.assertEquals(0, f.barBar);
     }
 
+    @Test
     public void testSetMarshallerToMixed() throws Exception {
         XMLContext xmlContext = new XMLContext();
         xmlContext.setProperty("org.exolab.castor.xml.naming", "mixed");
@@ -76,6 +80,7 @@ public class SetPropertyXmlNamingTest extends TestCase {
         assertEquals(RESULT, writer.toString());
     }
 
+    @Test
     public void testSetNewMarshallerToMixed() throws Exception {
         StringWriter writer = new StringWriter();
         Marshaller marshaller = new Marshaller();

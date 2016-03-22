@@ -3,10 +3,9 @@ package org.exolab.castor.xml;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
-
 import org.exolab.castor.xml.parsing.primitive.objects.PrimitiveObjectFactory;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * This class tests the functionality of PrimitiveObject.
@@ -15,8 +14,9 @@ import org.junit.Assert;
  *         Erlacher</a>
  * 
  */
-public class PrimitiveObjectTest extends TestCase {
+public class PrimitiveObjectTest {
 
+	@Test
     public void testPrimitiveBigDecimal() {
         BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getInstance().getObject(BigDecimal.class, "-1.23E-12");
 
@@ -25,23 +25,27 @@ public class PrimitiveObjectTest extends TestCase {
 
     }
 
+	@Test
     public void testPrimitiveBigDecimalNull() {
         BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getInstance().getObject(BigDecimal.class, null);
         Assert.assertEquals(decimal.unscaledValue(), BigInteger.ZERO);
         Assert.assertEquals(decimal.scale(), 0);
     }
 
+	@Test
     public void testPrimitiveBigDecimalEmptyString() {
         BigDecimal decimal = (BigDecimal) PrimitiveObjectFactory.getInstance().getObject(BigDecimal.class, "");
         Assert.assertEquals(decimal.unscaledValue(), BigInteger.ZERO);
         Assert.assertEquals(decimal.scale(), 0);
     }
 
+	@Test
     public void testPrimitiveBigInteger() {
         BigInteger bigInt = (BigInteger) PrimitiveObjectFactory.getInstance().getObject(BigInteger.class, "-123");
         Assert.assertEquals(bigInt, new BigInteger("-123"));
     }
 
+	@Test
     public void testPrimitiveBigIntegerNull() {
         BigInteger bigInt = (BigInteger) PrimitiveObjectFactory.getInstance().getObject(BigInteger.class, "");
         Assert.assertEquals(bigInt, BigInteger.ZERO);
@@ -50,6 +54,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(bigInt, BigInteger.ZERO);
     }
 
+	@Test
     public void testPrimitiveBoolean() {
         Boolean bool = (Boolean) PrimitiveObjectFactory.getInstance().getObject(Boolean.class, "1");
         Assert.assertEquals(bool, true);
@@ -88,6 +93,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(bool, false);
     }
 
+	@Test
     public void testPrimitiveBooleanNull() {
         Boolean bool = (Boolean) PrimitiveObjectFactory.getInstance().getObject(Boolean.class, "");
         Assert.assertEquals(bool, false);
@@ -96,6 +102,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(bool, false);
     }
 
+	@Test
     public void testPrimitiveByte() {
         Byte byt = (Byte) PrimitiveObjectFactory.getInstance().getObject(Byte.class, "8");
         Assert.assertEquals(byt, Byte.valueOf("8"));
@@ -104,6 +111,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(byt, Byte.valueOf("8"));
     }
 
+	@Test
     public void testPrimitiveByteNull() {
         Byte byt = (Byte) PrimitiveObjectFactory.getInstance().getObject(Byte.class, "");
         Assert.assertEquals(byt, Byte.valueOf("0"));
@@ -112,11 +120,13 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(byt, Byte.valueOf("0"));
     }
 
+	@Test
     public void testPrimitiveChar() {
         Character chars = (Character) PrimitiveObjectFactory.getInstance().getObject(Character.class, "I don't finish anythi");
         Assert.assertEquals(chars, Character.valueOf('I'));
     }
 
+	@Test
     public void testPrimitiveCharNull() {
         Character chars = (Character) PrimitiveObjectFactory.getInstance().getObject(Character.class, "");
         Assert.assertEquals(chars, Character.valueOf('\0'));
@@ -125,17 +135,20 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(chars, Character.valueOf('\0'));
     }
 
+	@Test
     public void testPrimitiveDefault() {
         String value = "I don't finish anythi";
         String string = (String) PrimitiveObjectFactory.getInstance().getObject(UnknownError.class, value);
         Assert.assertEquals(string, value);
     }
 
+	@Test
     public void testPrimitiveDefaultNull() {
         Object retObject = PrimitiveObjectFactory.getInstance().getObject(UnknownError.class, null);
         Assert.assertEquals(retObject, null);
     }
 
+	@Test
     public void testPrimitiveDouble() {
         Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "4.2");
         Assert.assertEquals(value, Double.valueOf("4.2"));
@@ -144,6 +157,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(value, Double.valueOf("4.2"));
     }
 
+	@Test
     public void testPrimitiveDoubleInfinity() {
        Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "Infinity");
        Assert.assertEquals(value, Double.POSITIVE_INFINITY, 0);
@@ -159,6 +173,7 @@ public class PrimitiveObjectTest extends TestCase {
 
    }
 
+	@Test
     public void testPrimitiveDoubleNegativeInfinity() {
        Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, "-Infinity");
        Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
@@ -173,6 +188,7 @@ public class PrimitiveObjectTest extends TestCase {
        Assert.assertEquals(value, Double.NEGATIVE_INFINITY, 0);
 }
 
+	@Test
     public void testPrimitiveDoubleNull() {
         Double value = (Double) PrimitiveObjectFactory.getInstance().getObject(Double.class, null);
         Assert.assertEquals(value, new Double("0.0"));
@@ -181,10 +197,12 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(value, new Double("0.0"));
     }
 
+	@Test
     public void testPrimitiveEnum() {
         // TODO PE enum test
     }
 
+	@Test
     public void testPrimitiveFloat() {
         Float floatObject = (Float) PrimitiveObjectFactory.getInstance().getObject(Float.TYPE, "42");
         Assert.assertEquals(floatObject, Float.valueOf("42"));
@@ -199,6 +217,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(floatObject, Float.valueOf("45"));
     }
 
+	@Test
     public void testPrimitiveObject() {
         Integer integer = (Integer) PrimitiveObjectFactory.getInstance().getObject(Integer.TYPE, "   42  ");
         Assert.assertTrue(integer == 42);
@@ -207,6 +226,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(string, "Hallo");
     }
 
+	@Test
     public void testPrimitiveInteger() {
         Integer integer = (Integer) PrimitiveObjectFactory.getInstance().getObject(Integer.TYPE, "42");
         Assert.assertTrue(integer == 42);
@@ -221,6 +241,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertTrue(integer == 45);
     }
 
+	@Test
     public void testPrimitiveLong() {
         Long longObject = (Long) PrimitiveObjectFactory.getInstance().getObject(Long.TYPE, "42");
         Assert.assertEquals(longObject, Long.valueOf("42"));
@@ -235,6 +256,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(longObject, Long.valueOf("45"));
     }
 
+	@Test
     public void testPrimitiveShort() {
         Short shortObject = (Short) PrimitiveObjectFactory.getInstance().getObject(Short.TYPE, "42");
         Assert.assertEquals(shortObject, Short.valueOf("42"));
@@ -249,6 +271,7 @@ public class PrimitiveObjectTest extends TestCase {
         Assert.assertEquals(shortObject, Short.valueOf("45"));
     }
 
+	@Test
     public void testPrimitiveString() {
         String value = "I don't finish anythi";
         String string = (String) PrimitiveObjectFactory.getInstance().getObject(UnknownError.class, value);

@@ -15,8 +15,7 @@
  */
 package org.exolab.castor.xml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +25,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.StringWriter;
+
+import org.w3c.dom.Document;
 
 /**
  * Tests the {@link Marshaller} class when marshalling the output into {@link DOMResult}.
@@ -37,9 +37,6 @@ import java.io.StringWriter;
  */
 public class MarshallerDOMSourceTest extends BaseMarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String marshal(Marshaller marshaller, Object object) throws Exception {
 

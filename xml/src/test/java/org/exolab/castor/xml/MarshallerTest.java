@@ -15,32 +15,7 @@
  */
 package org.exolab.castor.xml;
 
-import junit.framework.TestCase;
-import org.castor.test.entity.CastorObject;
-import org.castor.test.entity.Email;
-import org.castor.test.entity.Emails;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.XpathEngine;
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.MappingException;
-import org.junit.Assert;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.easymock.EasyMock.*;
 
 /**
  * Tests the {@link Marshaller} class.
@@ -51,9 +26,6 @@ import static org.easymock.EasyMock.*;
  */
 public class MarshallerTest extends BaseMarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String marshal(Marshaller marshaller, Object object) throws Exception {
 

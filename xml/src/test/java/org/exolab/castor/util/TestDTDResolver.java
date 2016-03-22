@@ -15,20 +15,22 @@
  */
 package org.exolab.castor.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.xml.sax.InputSource;
 
-public class TestDTDResolver extends TestCase {
+public class TestDTDResolver {
 
     /**
      * Castor-specific EntityResolver to test.
      */
     private DTDResolver _entityResolver;
     
-    protected void setUp() throws Exception {
-        super.setUp();
-        
+    @Before
+    public void setUp() throws Exception {
         _entityResolver = new DTDResolver();
     }
     
@@ -38,34 +40,42 @@ public class TestDTDResolver extends TestCase {
         assertEquals(systemId, inputSource.getSystemId());
     }
     
+    @Test
     public void testMappingDTD() throws Exception {
         testSystemId("http://castor.org/mapping.dtd");
     }
     
+    @Test
     public void testMappingDTDOld() throws Exception {
         testSystemId("http://castor.exolab.org/mapping.dtd");
     }
     
+    @Test
     public void testJDODTD() throws Exception {
         testSystemId("http://castor.org/jdo-conf.dtd");
     }
     
+    @Test
     public void testJdoDTDOld() throws Exception {
         testSystemId("http://castor.exolab.org/jdo-conf.dtd");
     }
     
+    @Test
     public void testMappingXSD() throws Exception {
         testSystemId("http://castor.org/mapping.xsd");
     }
     
+    @Test
     public void testMappingXSDOld() throws Exception {
         testSystemId("http://castor.exolab.org/mapping.xsd");
     }
     
+    @Test
     public void testJDOXSD() throws Exception {
         testSystemId("http://castor.org/jdo-conf.xsd");
     }
     
+    @Test
     public void testJdoXSDOld() throws Exception {
         testSystemId("http://castor.exolab.org/jdo-conf.xsd");
     }

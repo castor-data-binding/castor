@@ -15,12 +15,10 @@
  */
 package org.exolab.castor.xml;
 
+import java.io.StringWriter;
+
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
-
-import org.junit.Ignore;
-
-import java.io.StringWriter;
 
 /**
  * Tests the {@link Marshaller} class when marshalling the output into {@link javax.xml.stream.XMLEventWriter}.
@@ -29,12 +27,8 @@ import java.io.StringWriter;
  * @version 1.3.3
  * @since 1.3.3
  */
-@Ignore
 public class MarshallerStaxEventTest extends BaseMarshallerTest{
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String marshal(Marshaller marshaller, Object object) throws Exception {
 

@@ -54,10 +54,6 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
-
 /**
  * This class converts XML Names to proper Java names. As Java names are not
  * completely defined this implementation is Castor specific.
@@ -69,8 +65,6 @@ import org.springframework.stereotype.Component;
  */
 public class JavaNamingNGImpl implements JavaNaming {
    
-    private static final Log LOG = LogFactory.getLog(JavaNamingNGImpl.class);
-
     /**
      * The property name to use in the castor.properties file to specify the
      * value of the <code>upperCaseAfterUnderscore</code> variable.
@@ -244,7 +238,6 @@ public class JavaNamingNGImpl implements JavaNaming {
         }
         if (!isValidPackageName(packageName)) {
             String message = "Package name: " + packageName + " is not valid";
-            LOG.warn(message);
             throw new IllegalArgumentException(message);
         }
         return packageName.replace('.', File.separatorChar);

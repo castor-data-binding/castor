@@ -15,9 +15,9 @@
  */
 package org.exolab.castor.xml;
 
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.io.StringReader;
+
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * Tests the {@link Unmarshaller} class when unmarshalling from {@link StreamSource}.
@@ -28,9 +28,6 @@ import java.io.StringReader;
  */
 public class UnmarshallerInputStreamTest extends BaseUnmarshallerTest {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Object unmarshal(Unmarshaller unmarshaller, String xml) throws Exception {
 

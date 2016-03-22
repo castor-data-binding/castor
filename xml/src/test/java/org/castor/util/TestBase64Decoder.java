@@ -15,13 +15,13 @@
  */
 package org.castor.util;
 
+import static org.junit.Assert.assertTrue;
+
 import org.castor.core.util.Base64Decoder;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public final class TestBase64Decoder extends TestCase {
+public class TestBase64Decoder {
+	
     private static final String[] MAP = {
             "AA==", "AQ==", "Ag==", "Aw==", "BA==", "BQ==", "Bg==", "Bw==",
             "CA==", "CQ==", "Cg==", "Cw==", "DA==", "DQ==", "Dg==", "Dw==",
@@ -55,18 +55,8 @@ public final class TestBase64Decoder extends TestCase {
             "6A==", "6Q==", "6g==", "6w==", "7A==", "7Q==", "7g==", "7w==",
             "8A==", "8Q==", "8g==", "8w==", "9A==", "9Q==", "9g==", "9w==",
             "+A==", "+Q==", "+g==", "+w==", "/A==", "/Q==", "/g==", "/w==" };
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Base64Decoder Tests");
-
-        suite.addTest(new TestBase64Decoder("testAllBytes"));
-        suite.addTest(new TestBase64Decoder("testPadding"));
-
-        return suite;
-    }
-
-    public TestBase64Decoder(final String name) { super(name); }
-
+    
+    @Test
     public void testAllBytes() {
         for (int i = 0; i < 256; i++) {
             byte[] content = Base64Decoder.decode(MAP[i]);
@@ -79,6 +69,7 @@ public final class TestBase64Decoder extends TestCase {
         }
     }
 
+    @Test
     public void testPadding() {
         byte[] content;
         content = Base64Decoder.decode("IQ==");

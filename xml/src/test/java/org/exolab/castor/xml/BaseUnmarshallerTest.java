@@ -15,7 +15,19 @@
  */
 package org.exolab.castor.xml;
 
-import junit.framework.TestCase;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
+import java.io.InputStream;
+
 import org.castor.test.entity.Author;
 import org.castor.test.entity.Book;
 import org.castor.test.entity.Email;
@@ -24,20 +36,8 @@ import org.castor.test.entity.Library;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.util.ObjectFactory;
-import org.exolab.castor.xml.IDResolver;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.XMLContext;
+import org.junit.Test;
 import org.xml.sax.InputSource;
-
-import java.io.InputStream;
-import java.io.StringReader;
-
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 
 /**
  * This is base class that test the {@link Unmarshaller} class.
@@ -46,7 +46,7 @@ import static org.easymock.EasyMock.verify;
  * @version 1.3.3
  * @since 1.3.3
  */
-public abstract class BaseUnmarshallerTest extends TestCase {
+public abstract class BaseUnmarshallerTest {
 
     /**
      * Represents the xml used for testing.
@@ -112,6 +112,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testWhitespacePreserveTrue() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -126,6 +127,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testWhitespacePreserveFalse() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -140,6 +142,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIgnoreExtraAttributesTrue() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -154,6 +157,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIgnoreExtraAttributesFalse() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -173,6 +177,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIgnoreExtraElementsTrue() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -188,6 +193,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIgnoreExtraElementsFalse() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -206,6 +212,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testObject() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -223,6 +230,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testClearCollectionsTrue() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -243,6 +251,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testClearCollectionsFalse() throws Exception {
 
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -268,6 +277,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testUnmarshalListener() throws Exception {
         org.castor.xml.UnmarshalListener listener = createMockListener();
         Unmarshaller unmarshaller = createUnmarsahllerFromMapping(EMAIL_MAPPING_FILE);
@@ -283,6 +293,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testObjectFactory() throws Exception {
         Emails emails = new Emails();
 
@@ -305,6 +316,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIDResolver() throws Exception {
 
         IDResolver idResolver = createMock(IDResolver.class);
@@ -325,6 +337,7 @@ public abstract class BaseUnmarshallerTest extends TestCase {
      *
      * @throws Exception in case of unmarshal problems
      */
+	@Test
     public void testIDResolverExternalId() throws Exception {
         Author author = new Author();
         author.setId("author2");

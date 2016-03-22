@@ -15,14 +15,14 @@
  */
 package org.castor.util;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.castor.core.util.IdentitySet;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
 
 /**
  * Run tests of the org.castor.util.IdentitySet.
@@ -30,28 +30,9 @@ import junit.framework.TestSuite;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  */
-public final class TestIdentitySet extends TestCase {
-    public static Test suite() {
-        TestSuite suite = new TestSuite("IdentitySet Tests");
-
-        suite.addTest(new TestIdentitySet("testConstructor"));
-        suite.addTest(new TestIdentitySet("testAdd"));
-        suite.addTest(new TestIdentitySet("testClear"));
-        suite.addTest(new TestIdentitySet("testContains"));
-        suite.addTest(new TestIdentitySet("testRemove"));
-        suite.addTest(new TestIdentitySet("testIterator"));
-        suite.addTest(new TestIdentitySet("testRehash"));
-        suite.addTest(new TestIdentitySet("testToArray"));
-        
-        return suite;
-    }
-
-    public TestIdentitySet(final String name) { super(name); }
-
-    protected void setUp() { }
-
-    protected void tearDown() { }
-    
+public class TestIdentitySet {
+	
+    @Test
     public void testConstructor() {
         IdentitySet set1 = new IdentitySet();
         assertTrue(set1.isEmpty());
@@ -62,6 +43,7 @@ public final class TestIdentitySet extends TestCase {
         assertTrue(set2.size() == 0);
     }
     
+    @Test
     public void testAdd() {
         IdentitySet set = new IdentitySet();
         Object key = new Integer(123);
@@ -79,6 +61,7 @@ public final class TestIdentitySet extends TestCase {
         assertTrue(set.size() == 2);
     }
 
+    @Test
     public void testClear() {
         IdentitySet set = new IdentitySet();
 
@@ -91,6 +74,7 @@ public final class TestIdentitySet extends TestCase {
         assertTrue(set.size() == 0);
     }
 
+    @Test
     public void testContains() {
         IdentitySet map = new IdentitySet();
         Object key1 = new Integer(123);
@@ -112,6 +96,7 @@ public final class TestIdentitySet extends TestCase {
         assertTrue(map.contains(key2));
     }
 
+    @Test
     public void testRemove() {
         IdentitySet set = new IdentitySet();
         Object key1 = new Integer(123);
@@ -145,6 +130,7 @@ public final class TestIdentitySet extends TestCase {
         assertFalse(set.contains(key3));
     }
 
+    @Test
     public void testIterator() {
         IdentitySet set = new IdentitySet();
         Object key1 = new Integer(123);
@@ -163,6 +149,7 @@ public final class TestIdentitySet extends TestCase {
         }
     }
 
+    @Test
     public void testRehash() {
         ArrayList keys = new ArrayList();
         IdentitySet set = new IdentitySet();
@@ -179,6 +166,7 @@ public final class TestIdentitySet extends TestCase {
         }
     }
 
+    @Test
     public void testToArray() {
         IdentitySet set = new IdentitySet();
         Object key1 = new Integer(123);
