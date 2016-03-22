@@ -39,6 +39,7 @@ import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.OutputFormat;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.Serializer;
+import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLContext;
 import org.exolab.castor.xml.XMLSerializerFactory;
@@ -64,12 +65,13 @@ import org.xml.sax.XMLReader;
  */
 public abstract class AbstractInternalContext implements InternalContext {
 
+   private static final Log LOG = LogFactory.getFactory().getInstance(AbstractInternalContext.class);
+   
    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-   /** Logger to be used. */
-   private static final Log LOG = LogFactory.getFactory().getInstance(AbstractInternalContext.class);
-
-   /** The properties to use internally to provide parser, serializer, ... */
+   /** 
+    * The properties to use internally to provide parser, serializer, ... 
+    */
    private org.castor.core.util.AbstractProperties _properties;
 
    /**
@@ -79,12 +81,12 @@ public abstract class AbstractInternalContext implements InternalContext {
    private XMLClassDescriptorResolver _xmlClassDescriptorResolver;
 
    /**
-    * The XMLContext knows the one Introspector to be used.
+    * The XMLContext knows the one {@link Introspector} to be used.
     */
    private Introspector _introspector;
 
    /**
-    * The XMLClassDescriptor resolver strategy to use.
+    * The {@link XMLClassDescriptor} resolver strategy to use.
     */
    private ResolverStrategy _resolverStrategy;
 
@@ -105,7 +107,7 @@ public abstract class AbstractInternalContext implements InternalContext {
    private JavaNaming _javaNaming;
 
    /**
-    * The class loader to use.
+    * The {@link ClassLoader} to use.
     */
    private ClassLoader _classLoader;
 
@@ -115,71 +117,49 @@ public abstract class AbstractInternalContext implements InternalContext {
    private NodeType _primitiveNodeType;
 
    /**
-    * The {@link RegExpevaluator}?to use.
+    * The {@link RegExpevaluator} to use.
     */
    private RegExpEvaluator _regExpEvaluator;
 
-   /**
-    * Creates an instance of {@link AbstractInternalContext}. The internal
-    * context is meant to hold the configuration and state informations, but not
-    * necessarily retrieving those values...
-    */
    public AbstractInternalContext() {
       _properties = XMLProperties.newInstance();
       // TODO[WG]: remove once injection works
       _javaNaming = new JavaNamingImpl(this);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#addMapping(org.exolab.castor.mapping.Mapping)
-    */
+   @Override
    public void addMapping(final Mapping mapping) throws MappingException {
       MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
       MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
       _xmlClassDescriptorResolver.setMappingLoader(mappingLoader);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#addClass(java.lang.Class)
-    */
-   public void addClass(final Class clazz) throws ResolverException {
+   @Override
+   public void addClass(final Class<?> clazz) throws ResolverException {
       _xmlClassDescriptorResolver.addClass(clazz);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#addClasses(java.lang.Class[])
-    */
-   public void addClasses(final Class[] clazzes) throws ResolverException {
+   @Override
+   public void addClasses(final Class<?>[] clazzes) throws ResolverException {
       _xmlClassDescriptorResolver.addClasses(clazzes);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#addPackage(java.lang.String)
-    */
+   @Override
    public void addPackage(final String packageName) throws ResolverException {
       _xmlClassDescriptorResolver.addPackage(packageName);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#addPackages(java.lang.String[])
-    */
+   @Override
    public void addPackages(final String[] packageNames) throws ResolverException {
       _xmlClassDescriptorResolver.addPackages(packageNames);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setResolver(org.exolab.castor.xml.XMLClassDescriptorResolver)
-    */
+   @Override
    public void setResolver(final XMLClassDescriptorResolver xmlClassDescriptorResolver) {
       this._xmlClassDescriptorResolver = xmlClassDescriptorResolver;
    }
 
-   /**
-    * {@inheritDoc}
-    * 
-    * @see org.castor.xml.InternalContext#setProperty(java.lang.String,
-    *      java.lang.Object)
-    */
+   @Override
    public void setProperty(final String propertyName, final Object value) {
       // resetting all values that are only reinitialized if null
       if (propertyName == null) {
@@ -219,18 +199,12 @@ public abstract class AbstractInternalContext implements InternalContext {
       this.setPropertyInternal(propertyName, value);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getProperty(java.lang.String)
-    */
+   @Override
    public Object getProperty(final String propertyName) {
       return _properties.getObject(propertyName);
    }
 
-   /**
-    * {@inheritDoc}
-    * 
-    * @see org.castor.xml.InternalContext#getXMLNaming()
-    */
+   @Override
    public XMLNaming getXMLNaming() {
       if (_xmlNaming != null) {
          return _xmlNaming;
@@ -242,46 +216,34 @@ public abstract class AbstractInternalContext implements InternalContext {
    }
 
    /**
-    * {@inheritDoc}
-    * 
-    * @see org.castor.xml.InternalContext#getXMLNaming(java.lang.ClassLoader)
     * @deprecated Makes no sence!
     */
+   @Override
    public XMLNaming getXMLNaming(final ClassLoader classLoader) {
       return getXMLNaming();
    } // -- getXMLNaming
 
-   /**
-    * @see org.castor.xml.InternalContext#getJavaNaming()
-    */
+   @Override
    public JavaNaming getJavaNaming() {
       return _javaNaming;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getParser()
-    */
+   @Override
    public Parser getParser() {
       return getParser(null);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getParser(java.lang.String)
-    */
+   @Override
    public Parser getParser(final String features) {
       return XMLParserUtils.getParser(_properties, features);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getXMLReader()
-    */
+   @Override
    public XMLReader getXMLReader() {
       return getXMLReader(null);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getXMLReader(java.lang.String)
-    */
+   @Override
    public XMLReader getXMLReader(final String features) {
       XMLReader reader = null;
       Boolean validation = _properties.getBoolean(XMLProperties.PARSER_VALIDATION);
@@ -316,11 +278,9 @@ public abstract class AbstractInternalContext implements InternalContext {
 
       return reader;
 
-   } // -- getXMLReader
+   }
 
-   /**
-    * @see org.castor.xml.InternalContext#getPrimitiveNodeType()
-    */
+   @Override
    public NodeType getPrimitiveNodeType() {
 
       if (_primitiveNodeType != null) {
@@ -333,13 +293,9 @@ public abstract class AbstractInternalContext implements InternalContext {
       }
       _primitiveNodeType = NodeType.getNodeType(prop);
       return _primitiveNodeType;
-   } // -- getPrimitiveNodeType
+   }
 
-   /**
-    * {@inheritDoc}
-    * 
-    * @see org.castor.xml.InternalContext#getRegExpEvaluator()
-    */
+   @Override
    public RegExpEvaluator getRegExpEvaluator() {
       if (_regExpEvaluator != null) {
          return _regExpEvaluator;
@@ -361,18 +317,14 @@ public abstract class AbstractInternalContext implements InternalContext {
          }
       }
       return _regExpEvaluator;
-   } // -- getRegExpEvaluator
+   }
 
-   /**
-    * @see org.castor.xml.InternalContext#getSerializer()
-    */
+   @Override
    public Serializer getSerializer() {
       return XMLParserUtils.getSerializer(_properties);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getOutputFormat()
-    */
+   @Override
    public OutputFormat getOutputFormat() {
       return XMLParserUtils.getOutputFormat(_properties);
    }
@@ -388,9 +340,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       return XMLParserUtils.getSerializerFactory(serializerFactoryName);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getSerializer(java.io.OutputStream)
-    */
+   @Override
    public DocumentHandler getSerializer(final OutputStream output) throws IOException {
       Serializer serializer;
       DocumentHandler docHandler;
@@ -405,9 +355,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       return docHandler;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getSerializer(java.io.Writer)
-    */
+   @Override
    public DocumentHandler getSerializer(final Writer output) throws IOException {
       Serializer serializer;
       DocumentHandler docHandler;
@@ -422,51 +370,37 @@ public abstract class AbstractInternalContext implements InternalContext {
       return docHandler;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getXMLClassDescriptorResolver()
-    */
+   @Override
    public XMLClassDescriptorResolver getXMLClassDescriptorResolver() {
       return _xmlClassDescriptorResolver;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getIntrospector()
-    */
+   @Override
    public Introspector getIntrospector() {
       return _introspector;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getResolverStrategy()
-    */
+   @Override
    public ResolverStrategy getResolverStrategy() {
       return _resolverStrategy;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setResolverStrategy(org.exolab.castor.xml.util.ResolverStrategy)
-    */
+   @Override
    public void setResolverStrategy(final ResolverStrategy resolverStrategy) {
       _resolverStrategy = resolverStrategy;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setMappingLoader(org.exolab.castor.mapping.MappingLoader)
-    */
+   @Override
    public void setMappingLoader(final MappingLoader mappingLoader) {
       _mappingLoader = mappingLoader;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getMappingLoader()
-    */
+   @Override
    public MappingLoader getMappingLoader() {
       return _mappingLoader;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setJavaNaming(org.castor.xml.JavaNaming)
-    */
+   @Override
    public void setJavaNaming(final JavaNaming javaNaming) {
       _javaNaming = javaNaming;
    }
@@ -486,9 +420,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       }
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setXMLNaming(org.castor.xml.XMLNaming)
-    */
+   @Override
    public void setXMLNaming(final XMLNaming xmlNaming) {
       _xmlNaming = xmlNaming;
       // propagate to e.g. Introspector also!!
@@ -529,9 +461,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       }
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setProperty(java.lang.String, boolean)
-    */
+   @Override
    public void setProperty(final String propertyName, final boolean value) {
       this.setPropertyInternal(propertyName, Boolean.valueOf(value));
    }
@@ -552,23 +482,17 @@ public abstract class AbstractInternalContext implements InternalContext {
       }
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getBooleanProperty(java.lang.String)
-    */
+   @Override
    public Boolean getBooleanProperty(final String propertyName) {
       return _properties.getBoolean(propertyName);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getStringProperty(java.lang.String)
-    */
+   @Override
    public String getStringProperty(final String propertyName) {
       return _properties.getString(propertyName);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setClassLoader(java.lang.ClassLoader)
-    */
+   @Override
    public void setClassLoader(final ClassLoader classLoader) {
       _classLoader = classLoader;
       if (_xmlClassDescriptorResolver != null) {
@@ -576,30 +500,22 @@ public abstract class AbstractInternalContext implements InternalContext {
       }
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setXMLClassDescriptorResolver(org.exolab.castor.xml.XMLClassDescriptorResolver)
-    */
+   @Override
    public void setXMLClassDescriptorResolver(final XMLClassDescriptorResolver xmlClassDescriptorResolver) {
       _xmlClassDescriptorResolver = xmlClassDescriptorResolver;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setIntrospector(org.exolab.castor.xml.Introspector)
-    */
+   @Override
    public void setIntrospector(final Introspector introspector) {
       _introspector = introspector;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getClassLoader()
-    */
+   @Override
    public ClassLoader getClassLoader() {
       return _classLoader;
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getLenientIdValidation()
-    */
+   @Override
    public boolean getLenientIdValidation() {
       Boolean lenientIdValidation = _properties.getBoolean(XMLProperties.LENIENT_ID_VALIDATION);
       if (lenientIdValidation == null) {
@@ -610,9 +526,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       return lenientIdValidation.booleanValue();
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getLenientSequenceOrder()
-    */
+   @Override
    public boolean getLenientSequenceOrder() {
       Boolean lenientSequenceOrder = _properties.getBoolean(XMLProperties.LENIENT_SEQUENCE_ORDER);
       if (lenientSequenceOrder == null) {
@@ -623,37 +537,27 @@ public abstract class AbstractInternalContext implements InternalContext {
       return lenientSequenceOrder.booleanValue();
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getLoadPackageMapping()
-    */
+   @Override
    public Boolean getLoadPackageMapping() {
       return _properties.getBoolean(XMLProperties.LOAD_PACKAGE_MAPPING);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setLoadPackageMapping(java.lang.Boolean)
-    */
+   @Override
    public void setLoadPackageMapping(final Boolean loadPackageMapping) {
       _properties.put(XMLProperties.LOAD_PACKAGE_MAPPING, loadPackageMapping);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#getUseIntrospector()
-    */
+   @Override
    public Boolean getUseIntrospector() {
       return _properties.getBoolean(XMLProperties.USE_INTROSPECTION);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#setUseIntrospector(java.lang.Boolean)
-    */
+   @Override
    public void setUseIntrospector(final Boolean useIntrospector) {
       _properties.put(XMLProperties.USE_INTROSPECTION, useIntrospector);
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#marshallingValidation()
-    */
+   @Override
    public boolean marshallingValidation() {
       Boolean marshallingValidation = _properties.getBoolean(XMLProperties.MARSHALLING_VALIDATION);
       if (marshallingValidation == null) {
@@ -664,9 +568,7 @@ public abstract class AbstractInternalContext implements InternalContext {
       return marshallingValidation.booleanValue();
    }
 
-   /**
-    * @see org.castor.xml.InternalContext#strictElements()
-    */
+   @Override
    public boolean strictElements() {
       Boolean strictElements = _properties.getBoolean(XMLProperties.STRICT_ELEMENTS);
       if (strictElements == null) {
@@ -677,18 +579,22 @@ public abstract class AbstractInternalContext implements InternalContext {
       return strictElements.booleanValue();
    }
 
+   @Override
    public void addPropertyChangeListener(PropertyChangeListener listener) {
       this.propertyChangeSupport.addPropertyChangeListener(listener);
    }
 
+   @Override
    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
       this.propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
    }
 
+   @Override
    public void removePropertyChangeListener(PropertyChangeListener listener) {
       this.propertyChangeSupport.removePropertyChangeListener(listener);
    }
 
+   @Override
    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
       this.propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
    }

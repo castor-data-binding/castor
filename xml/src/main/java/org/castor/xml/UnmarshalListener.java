@@ -15,6 +15,8 @@
  */
 package org.castor.xml;
 
+import org.exolab.castor.xml.Unmarshaller;
+
 /**
  * An interface to allow external "listening" to objects when
  * they are being unmarshalled for various tracking purposes and
@@ -37,9 +39,10 @@ package org.castor.xml;
  * @since 1.2
  */
 public interface UnmarshalListener {
+	
     /**
      * This method is called when an object has just been initialized by the
-     * Unmarshaller.
+     * {@link Unmarshaller}.
      *
      * @param target the Object that was initialized.
      * @param parent the parent of the target that was initialized

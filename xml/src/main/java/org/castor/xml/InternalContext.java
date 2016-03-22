@@ -54,7 +54,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * descriptors will be derived. 
      * @throws MappingException If the {@link Mapping} cannot be loaded and analyzed successfully.
      */
-    public abstract void addMapping(final Mapping mapping) throws MappingException;
+    void addMapping(final Mapping mapping) throws MappingException;
 
     /**
      * Loads the class descriptor for the class instance specified. The use of this method is useful
@@ -65,7 +65,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @param clazz the class for which the associated descriptor should be loaded.
      * @throws ResolverException in case that resolving the Class fails fatally
      */
-    public abstract void addClass(final Class clazz) throws ResolverException;
+    void addClass(final Class<?> clazz) throws ResolverException;
 
     /**
      * Loads the class descriptor for the class instance specified. The use of this method is useful
@@ -76,7 +76,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @param clazzes the classes for which the associated descriptor should be loaded.
      * @throws ResolverException in case that resolving the Class fails fatally
      */
-    public abstract void addClasses(final Class[] clazzes) throws ResolverException;
+    void addClasses(final Class<?>[] clazzes) throws ResolverException;
 
     /**
      * Loads class descriptors from the package specified. The use of this method is useful
@@ -91,7 +91,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @throws ResolverException 
      *          If there's a problem loading class descriptors for the given package. 
      */
-    public abstract void addPackage(final String packageName) throws ResolverException;
+    void addPackage(final String packageName) throws ResolverException;
 
     /**
      * Loads class descriptors from the packages specified. The use of this method is useful
@@ -106,34 +106,34 @@ public interface InternalContext extends PropertyChangeProvider {
      * @throws ResolverException 
      *          If there's a problem loading class descriptors for the given package. 
      */
-    public abstract void addPackages(final String[] packageNames) throws ResolverException;
+    void addPackages(final String[] packageNames) throws ResolverException;
 
     /**
      * Sets an application-specific {@link XMLClassDescriptorResolver} instance.
      * @param xmlClassDescriptorResolver the resolver to use
      */
-    public abstract void setResolver(final XMLClassDescriptorResolver xmlClassDescriptorResolver);
+    void setResolver(final XMLClassDescriptorResolver xmlClassDescriptorResolver);
 
     /**
      * To set properties for marshalling and unmarshalling behavior. 
      * @param propertyName name of the property to set
      * @param value the value to set to
      */
-    public abstract void setProperty(final String propertyName, final Object value);
+    void setProperty(final String propertyName, final Object value);
 
     /**
      * To get the value of a specific property.
      * @param propertyName name of the Property
      * @return the value (Object) of the property
      */
-    public abstract Object getProperty(final String propertyName);
+    Object getProperty(final String propertyName);
 
     /**
      * Returns the naming conventions to use for the XML framework.
      *
      * @return the naming conventions to use for the XML framework     
      */
-    public abstract XMLNaming getXMLNaming();
+    XMLNaming getXMLNaming();
 
     /**
      * Returns the naming conventions to use for the XML framework.
@@ -141,13 +141,13 @@ public interface InternalContext extends PropertyChangeProvider {
      * @return the naming conventions to use for the XML framework
      * @TODO: Joachim should be synchronized, shouldn't it be??
      */
-    public abstract XMLNaming getXMLNaming(final ClassLoader classLoader); //-- getXMLNaming
+    XMLNaming getXMLNaming(final ClassLoader classLoader); //-- getXMLNaming
 
     /**
      * The {@link JavaNaming} instance to be used.
      * @return {@link JavaNaming} instance to be used.
      */
-    public abstract JavaNaming getJavaNaming();
+    JavaNaming getJavaNaming();
 
     /**
      * Return an XML document parser implementing the feature list
@@ -155,7 +155,7 @@ public interface InternalContext extends PropertyChangeProvider {
      *
      * @return A suitable XML parser
      */
-    public abstract Parser getParser();
+    Parser getParser();
 
     /**
      * Returns an XML document parser implementing the requested
@@ -169,7 +169,7 @@ public interface InternalContext extends PropertyChangeProvider {
      *   defaults
      * @return A suitable XML parser
      */
-    public abstract Parser getParser(final String features);
+    Parser getParser(final String features);
 
     /**
      * Returns an XML document parser implementing the requested set of
@@ -181,7 +181,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * 
      * @return A suitable XML parser
      */
-    public abstract XMLReader getXMLReader(); //-- getXMLReader
+    XMLReader getXMLReader(); //-- getXMLReader
 
     /**
      * Returns an XML document parser implementing the requested
@@ -194,7 +194,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @param features the name of feature to set
      * @return A suitable XML parser
      */
-    public abstract XMLReader getXMLReader(final String features); //-- getXMLReader
+    XMLReader getXMLReader(final String features); //-- getXMLReader
 
     /**
      * Returns the NodeType to use for Java primitives.
@@ -204,7 +204,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @return the NodeType assigned to Java primitives, or null
      * if no NodeType was specified.
      **/
-    public abstract NodeType getPrimitiveNodeType(); //-- getPrimitiveNodeType
+    NodeType getPrimitiveNodeType(); //-- getPrimitiveNodeType
 
     /**
      * Returns a new instance of the specified Regular Expression
@@ -213,7 +213,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @return the regular expression evaluator,
      *
      **/
-    public abstract RegExpEvaluator getRegExpEvaluator(); // -- getRegExpEvaluator
+    RegExpEvaluator getRegExpEvaluator(); // -- getRegExpEvaluator
 
     /**
      * Returns a default serializer for producing an XML document. The caller
@@ -224,14 +224,14 @@ public interface InternalContext extends PropertyChangeProvider {
      * 
      * @return A suitable serializer
      */
-    public abstract Serializer getSerializer();
+    Serializer getSerializer();
 
     /**
      * Returns the default OutputFormat for use with a Serializer.
      *
      * @return the default OutputFormat
      **/
-    public abstract OutputFormat getOutputFormat(); //-- getOutputFormat
+    OutputFormat getOutputFormat(); //-- getOutputFormat
 
     /**
      * Returns a default serializer for producing an XML document to
@@ -242,7 +242,7 @@ public interface InternalContext extends PropertyChangeProvider {
      * @return A suitable serializer
      * @throws IOException if instantiation of the serializer fails
      */
-    public abstract DocumentHandler getSerializer(final OutputStream output) throws IOException;
+    DocumentHandler getSerializer(final OutputStream output) throws IOException;
 
     /**
      * Returns a default serializer for producing an XML document to the
@@ -253,50 +253,50 @@ public interface InternalContext extends PropertyChangeProvider {
      * @return A suitable serializer
      * @throws IOException if instantiation of serializer fails
      */
-    public abstract DocumentHandler getSerializer(final Writer output) throws IOException;
+    DocumentHandler getSerializer(final Writer output) throws IOException;
 
     /**
      * To get the XMLClassdescriptorResolver instance hold in the context.
      * @return the XMLClassdescriptorResolver instance hold in the context
      */
-    public abstract XMLClassDescriptorResolver getXMLClassDescriptorResolver();
+    XMLClassDescriptorResolver getXMLClassDescriptorResolver();
 
     /**
      * To get the Introspector assigned to this XMLContext.
      * @return the Introspector assigned to this XMLContext
      */
-    public abstract Introspector getIntrospector();
+    Introspector getIntrospector();
 
     /**
      * To get the XMLClassDescriptor resolver strategy to be used when
      * resolving classes into class descriptors.
      * @return the ResolverStrategy to use
      */
-    public abstract ResolverStrategy getResolverStrategy();
+    ResolverStrategy getResolverStrategy();
 
     /**
      * To set the XMLClassDescriptor resolver strategy to be used.
      * @param resolverStrategy the ResolverStrategy to use
      */
-    public abstract void setResolverStrategy(final ResolverStrategy resolverStrategy);
+    void setResolverStrategy(final ResolverStrategy resolverStrategy);
 
     /**
      * To set the {@link MappingLoader} to be used in this Castor session.
      * @param mappingLoader the {@link MappingLoader} to use
      */
-    public abstract void setMappingLoader(final MappingLoader mappingLoader);
+    void setMappingLoader(final MappingLoader mappingLoader);
 
     /**
      * To get the {@link MappingLoader} specified to be used in this Castor session.
      * @return the {@link MappingLoader} to use
      */
-    public abstract MappingLoader getMappingLoader();
+    MappingLoader getMappingLoader();
 
     /**
      * To set the {@link JavaNaming}?property.
      * @param javaNaming the {@link JavaNaming} to use
      */
-    public abstract void setJavaNaming(final JavaNaming javaNaming);
+    void setJavaNaming(final JavaNaming javaNaming);
 
     /**
      * To set the {@link XMLNaming} property.
@@ -309,28 +309,28 @@ public interface InternalContext extends PropertyChangeProvider {
      * @param propertyName name of the property to set
      * @param value boolean value to set
      */
-    public abstract void setProperty(final String propertyName, final boolean value);
+    void setProperty(final String propertyName, final boolean value);
 
     /**
      * Providing access to Boolean properties of the configuration.
      * @param propertyName name of the property
      * @return null if property is not set or whichever value is set
      */
-    public abstract Boolean getBooleanProperty(final String propertyName);
+    Boolean getBooleanProperty(final String propertyName);
 
     /**
      * Providing access to String properties of the configuration.
      * @param propertyName name of the property
      * @return null if the property is not set or whichever value is set
      */
-    public abstract String getStringProperty(final String propertyName);
+    String getStringProperty(final String propertyName);
 
     /**
      * To set the class loader to be used in all further marshalling, unmarshalling
      * and other actions.
      * @param classLoader the ClassLoader instance to use
      */
-    public abstract void setClassLoader(final ClassLoader classLoader);
+    void setClassLoader(final ClassLoader classLoader);
 
     /**
      * To set the {@link XMLClassDescriptorResolver} to be used. Be aware, that the
@@ -338,67 +338,67 @@ public interface InternalContext extends PropertyChangeProvider {
      * to have the descriptor cache as part of the context?
      * @param xmlClassDescriptorResolver the {@link XMLClassDescriptorResolver} to use
      */
-    public abstract void setXMLClassDescriptorResolver(
+    void setXMLClassDescriptorResolver(
             final XMLClassDescriptorResolver xmlClassDescriptorResolver);
 
     /**
      * To specify which {@link Introspector}?is to be used.
      * @param introspector {@link Introspector} to be used
      */
-    public abstract void setIntrospector(final Introspector introspector);
+    void setIntrospector(final Introspector introspector);
 
     /**
      * To get the ClassLoader to use for loading resources.
      * @return the ClassLoader to use
      */
-    public abstract ClassLoader getClassLoader();
+    ClassLoader getClassLoader();
 
     /**
      * Get lenient id validation flag.
      * @return lenient id validation flag
      */
-    public abstract boolean getLenientIdValidation();
+    boolean getLenientIdValidation();
 
     /**
      * Get lenient sequence order flag.
      * @return lenient sequence order flag
      */
-    public abstract boolean getLenientSequenceOrder();
+    boolean getLenientSequenceOrder();
 
     /**
      * Get load package mapping flag.
      * @return load package mapping flag
      */
-    public abstract Boolean getLoadPackageMapping();
+    Boolean getLoadPackageMapping();
 
     /**
      * To set the load package mapping flag.
      * @param loadPackageMapping the load package mapping flag
      */
-    public abstract void setLoadPackageMapping(final Boolean loadPackageMapping);
+    void setLoadPackageMapping(final Boolean loadPackageMapping);
 
     /**
      * To get use-introspection flag.
      * @return use-introspection flag
      */
-    public abstract Boolean getUseIntrospector();
+    Boolean getUseIntrospector();
 
     /**
      * To set use-introspection flag.
      * @param useIntrospector use-introspection flag
      */
-    public abstract void setUseIntrospector(final Boolean useIntrospector);
+    void setUseIntrospector(final Boolean useIntrospector);
 
     /**
      * To get marshalling-validation flag.
      * @return marshalling-validation flag
      */
-    public abstract boolean marshallingValidation();
+    boolean marshallingValidation();
 
     /**
      * To get strict-element flag.
      * @return strict-element flag
      */
-    public abstract boolean strictElements();
+    boolean strictElements();
 
 }

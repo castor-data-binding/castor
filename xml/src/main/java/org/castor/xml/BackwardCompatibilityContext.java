@@ -39,9 +39,7 @@ import org.exolab.castor.xml.util.resolvers.CastorXMLStrategy;
  * @version $Id$
  */
 public class BackwardCompatibilityContext extends AbstractInternalContext implements InternalContext {
-   /**
-    * Initializes InternalContext with default values.
-    */
+	
    public BackwardCompatibilityContext() {
       super();
       setClassLoader(getClass().getClassLoader());
