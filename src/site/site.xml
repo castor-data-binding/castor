@@ -5,6 +5,9 @@
     <href>http://castor.org/</href>
   </bannerLeft>
   
+  <publishDate position="right"/>
+  <version position="right"/>
+  
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
@@ -14,6 +17,37 @@
   <bannerRight>
     <src>images/castor.gif</src>
   </bannerRight>
+  
+  <custom>
+    <fluidoSkin>
+      <gitHub>
+        <projectId>castor-data-binding/castor</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>orange</ribbonColor>
+      </gitHub>
+      <googleSearch>
+        <sitesearch>http://castor-data-binding.github.io/castor/</sitesearch>
+      </googleSearch>
+      <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+    </fluidoSkin>
+  </custom>
+  
+  <poweredBy>
+        <logo href="https://travis-ci.org/castor-data-binding/${project.artifactId}"
+              img="https://travis-ci.org/castor-data-binding/${project.artifactId}.svg?branch=master"
+              name="Travis-CI Build status (master branch)" />
+              <!-- 
+        <logo href="https://ci.appveyor.com/project/mprins/${project.artifactId}"
+              img="https://ci.appveyor.com/api/projects/status/qxc604b7o0rwxsel?svg=true"
+              name="AppVeyor-CI Build status (master branch)" />
+        <logo href="https://coveralls.io/github/GeoDienstenCentrum/${project.artifactId}?branch=master"
+              img="https://coveralls.io/repos/github/GeoDienstenCentrum/${project.artifactId}/badge.svg?branch=master"
+              name="Coverage status (master branch)" />
+               -->
+        <logo href="https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId}/"
+              img="https://maven-badges.herokuapp.com/maven-central/${project.groupId}/${project.artifactId}/badge.svg"
+              name="Maven Central" />
+    </poweredBy>
 
 <!-- 
   <footer>
@@ -30,6 +64,11 @@
       <item name="Spring XML factories" href="http://github.com/castor-data-binding/spring-xml"/>
        -->
     </links>
+    
+    <breadcrumbs>
+      <item name="Castor data binding" href="http://castor-data-binding.github.io/castor/" />
+      <item name="${project.name}" href="${project.url}" />
+    </breadcrumbs>
 
     <menu name="Main">
         <item name="Introduction" href="main/index.html" />
