@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * @version $Id$
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/application-context-test.xml" })
+@ContextConfiguration(classes = { XmlConfigurations.class })
 public class JavaNamingNGImplTest extends TestCase {
     
     private static final String[] VALID_NAMES = {"name", "myName", "my_name", "NAME"};

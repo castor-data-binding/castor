@@ -70,7 +70,6 @@ import org.springframework.stereotype.Component;
 @Component("javaNamingNG")
 public class JavaNamingNGImpl implements JavaNaming {
    
-    /** Logger of this class. */
     private static final Log LOG = LogFactory.getLog(JavaNamingNGImpl.class);
 
     /**
@@ -86,12 +85,14 @@ public class JavaNamingNGImpl implements JavaNaming {
      */
     public static boolean _upperCaseAfterUnderscore = false;
     
-    /** the map of substition words for all keywords. */
+    /** substition words for all keywords. */
     private static final Hashtable<String, String> SUBST = keywordMap();
     
     private InternalContext context;
 
-    /** all known Java keywords. */
+    /** 
+     * all known Java keywords.
+     */
     private static final Set<String> KEYWORDS = Collections.unmodifiableSet(
         new HashSet<String>(Arrays.asList(
             "abstract", "boolean", "break", "byte", "case",
@@ -101,11 +102,8 @@ public class JavaNamingNGImpl implements JavaNaming {
             "private", "protected", "public", "return", "short", "static", "super", "switch",
             "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
             "volatile", "while"
-        ))); // -- KEYWORDS
+        )));
 
-    /**
-     * private constructor.
-     */
     public JavaNamingNGImpl() {
         super();
     }
@@ -120,8 +118,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * problem when used as a variable name.
      * @param name the name to check
      * @return true if it is a keyword
-     * @see org.castor.xml.JavaNaming#isKeyword(java.lang.String)
      */
+    @Override
     public final boolean isKeyword(final String name) {
         return KEYWORDS.contains(name);
     }
@@ -134,8 +132,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      *            The String to check the production of.
      * @return true if the given String matches the production of a valid Java
      *         name, otherwise false.
-     * @see org.castor.xml.JavaNaming#isValidJavaIdentifier(java.lang.String)
      */
+    @Override
     public final boolean isValidJavaIdentifier(final String string) {
         if (string == null || string.length() == 0 ||
             !Character.isJavaIdentifierStart(string.charAt(0))) {
@@ -155,8 +153,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Cuts away a leading namespace prefix (if there is one in place).
      * @param name the XML name to convert to a Java name
      * @return a name which follows Java naming conventions
-     * @see org.castor.xml.JavaNaming#toJavaClassName(java.lang.String)
      */
+    @Override
     public final String toJavaClassName(final String name) {
 
         if ((name == null) || (name.length() <= 0)) {
@@ -170,15 +168,14 @@ public class JavaNamingNGImpl implements JavaNaming {
             return toJavaName(name.substring(colon + 1), true);
         }
         return toJavaName(name, true);
-
     }
 
     /**
      * Converts the given name to a valid Java name.
      * @param name the XML name to convert
      * @return a valid Java member name
-     * @see org.castor.xml.JavaNaming#toJavaMemberName(java.lang.String)
      */
+    @Override
     public final String toJavaMemberName(final String name) {
         return toJavaMemberName(name, true);
     }
@@ -188,8 +185,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param name the XML name to convert
      * @param useKeywordSubstitutions set to true to turn on keyword substitution 
      * @return a valid Java member name
-     * @see org.castor.xml.JavaNaming#toJavaMemberName(java.lang.String,boolean)
      */
+    @Override
     public final String toJavaMemberName(final String name, final boolean useKeywordSubstitutions) {
 
         if (name == null) {
@@ -214,8 +211,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param packageName
      *            name of package as String with periods
      * @return true if package name is valid
-     * @see org.castor.xml.JavaNaming#isValidPackageName(java.lang.String)
      */
+    @Override
     public final boolean isValidPackageName(final String packageName) {
         if ((packageName == null) || (packageName.length() < 1)) {
             return true;
@@ -240,8 +237,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * be a relative path.
      * @param packageName the package name to convert
      * @return a String containing the resulting patch
-     * @see org.castor.xml.JavaNaming#packageToPath(java.lang.String)
      */
+    @Override
     public final String packageToPath(final String packageName) {
         if (packageName == null) {
             return packageName;
@@ -350,8 +347,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param packageName
      *            The package name to be used for qualifying.
      * @return The qualified file path.
-     * @see org.castor.xml.JavaNaming#getQualifiedFileName(java.lang.String,java.lang.String)
      */
+    @Override
     public final String getQualifiedFileName(final String fileName, final String packageName) {
         if ((packageName == null) || (packageName.length() == 0)) {
             return fileName;
@@ -370,8 +367,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      *            The class name to retrieve the package name from.
      * @return The package name or the empty String if <code>className</code>
      *         is <code>null</code> or does not contain a package.
-     * @see org.castor.xml.JavaNaming#getPackageName(java.lang.String)
      */
+    @Override
     public final String getPackageName(final String className) {
         if ((className == null) || (className.length() < 1)) {
             return className;
@@ -389,8 +386,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * away the method prefix.
      * @param method the Method to process
      * @return the extracted field name
-     * @see org.castor.xml.JavaNaming#extractFieldNameFromMethod(java.lang.reflect.Method)
      */
+    @Override
     public final String extractFieldNameFromMethod(final Method method) {
         if (method == null) {
             return null;
@@ -416,8 +413,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * 
      * @param field the Field to process
      * @return The extracted field name.
-     * @see org.castor.xml.JavaNaming#extractFieldNameFromField(java.lang.reflect.Field)
      */
+    @Override
     public final String extractFieldNameFromField(Field field) {
         if (field == null) {
             return null;
@@ -433,8 +430,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Checks if the given method is a set method.
      * @param method the Method to check
      * @return true if it is a set method
-     * @see org.castor.xml.JavaNaming#isSetMethod(java.lang.reflect.Method)
      */
+    @Override
     public final boolean isSetMethod(final Method method) {
         if (method == null) {
             return false;
@@ -455,8 +452,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Checks if the given method is a create method.
      * @param method the Method to check
      * @return true if it is a create method
-     * @see org.castor.xml.JavaNaming#isCreateMethod(java.lang.reflect.Method)
      */
+    @Override
     public final boolean isCreateMethod(final Method method) {
         if (method == null) {
             return false;
@@ -477,8 +474,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Checks if the given method is a get method.
      * @param method the Method to check
      * @return true if it is a get method
-     * @see org.castor.xml.JavaNaming#isGetMethod(java.lang.reflect.Method)
      */
+    @Override
     public final boolean isGetMethod(final Method method) {
         if (method == null) {
             return false;
@@ -499,8 +496,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Checks if the given method is a 'is' method.
      * @param method the Method to check
      * @return true if it is a 'is' method
-     * @see org.castor.xml.JavaNaming#isIsMethod(java.lang.reflect.Method)
      */
+    @Override
     public final boolean isIsMethod(final Method method) {
         if (method == null) {
             return false;
@@ -524,8 +521,8 @@ public class JavaNamingNGImpl implements JavaNaming {
      * Checks if the given method is an add method.
      * @param method the Method to check
      * @return true if it is an add method
-     * @see org.castor.xml.JavaNaming#isAddMethod(java.lang.reflect.Method)
      */
+    @Override
     public final boolean isAddMethod(final Method method) {
         if (method == null) {
             return false;
@@ -547,6 +544,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param fieldName the field name to generate a method name for
      * @return the generated add method name
      */
+    @Override
     public final String getAddMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_ADD + toJavaClassName(fieldName);
     }
@@ -556,6 +554,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param fieldName the field name to generate a method name for
      * @return the generated set method name
      */
+    @Override
     public final String getCreateMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_CREATE + toJavaClassName(fieldName);
     }
@@ -565,6 +564,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param fieldName the field name to generate a method name for
      * @return the generated get method name
      */
+    @Override
     public final String getGetMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_GET + toJavaClassName(fieldName);
     }
@@ -574,6 +574,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param fieldName the field name to generate a method name for
      * @return the generated is method name
      */
+    @Override
     public final String getIsMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_IS + toJavaClassName(fieldName);
     }
@@ -583,6 +584,7 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param fieldName the field name to generate a method name for
      * @return the generated create method name
      */
+    @Override
     public final String getSetMethodNameForField(final String fieldName) {
         return METHOD_PREFIX_SET + toJavaClassName(fieldName);
     }
@@ -593,9 +595,9 @@ public class JavaNamingNGImpl implements JavaNaming {
      * @param clazz The class to retrieve the name from
      * @return the class name without package part or null
      * {@inheritDoc}
-     * @see org.castor.xml.JavaNaming#getClassName(java.lang.Class)
      */
-    public String getClassName(Class clazz) {
+    @Override
+    public String getClassName(Class<?> clazz) {
         if (clazz == null) {
             return null;
         }

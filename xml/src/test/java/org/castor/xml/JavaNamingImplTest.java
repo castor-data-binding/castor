@@ -21,6 +21,7 @@ import javax.inject.Named;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,7 +33,8 @@ import junit.framework.TestCase;
  * @version $Id$
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/application-context-test.xml" })
+@ContextConfiguration(classes = { XmlConfigurations.class })
+@Import(value = XmlConfigurations.class)
 public class JavaNamingImplTest extends TestCase {
     
     private static final String[] VALID_NAMES = {"name", "myName", "my_name", "NAME"};

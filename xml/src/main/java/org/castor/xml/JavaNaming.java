@@ -126,7 +126,7 @@ public interface JavaNaming {
      * @param clazz The class to retrieve the name from
      * @return the class name without package part or null
      */
-    String getClassName(Class clazz);
+    String getClassName(Class<?> clazz);
     
     /**
      * Gets the package name of the given class name.
