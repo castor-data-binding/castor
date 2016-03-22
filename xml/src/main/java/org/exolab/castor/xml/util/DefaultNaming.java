@@ -71,12 +71,9 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
 
     private short _style = LOWER_CASE_STYLE;
 
-    /**
-     * Creates a new DefaultNaming
-     */
     public DefaultNaming() {
         super();
-    } //-- DefaultNaming
+    }
 
     /**
      * Sets the style for this DefaultNaming.
@@ -96,7 +93,7 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
             default:
                 throw new IllegalArgumentException("Invalid option for DefaultNaming#setStyle.");
         }
-    } //-- setStyle
+    }
 
     /**
      * Creates the XML Name for the given class. It would be nearly impossible
@@ -109,10 +106,10 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
      * @return the xml name representation of the given String <BR>
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @see org.exolab.castor.xml.AbstractXMLNaming
      * @deprecated extracting name parts from a Class is responsibility of JavaNaming
      */
-    public String createXMLName(final Class c) {
+    @Override
+    public String createXMLName(final Class<?> c) {
         UnsupportedOperationException e =
             new UnsupportedOperationException("Method has moved to JavaNaming!");
         throw e;
@@ -123,7 +120,7 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
 //            name = name.substring(idx+1);
 //        }
 //        return toXMLName(name);
-    } //-- createXMLName
+    }
 
     /**
      * Converts the given name to an XML name. It would be nearly impossible for
@@ -136,8 +133,8 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
      * @return the xml name representation of the given String <BR>
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @see org.exolab.castor.xml.AbstractXMLNaming
      */
+    @Override
     public String toXMLName(final String name) {
         if (name == null) {
             return null;
@@ -183,6 +180,6 @@ public final class DefaultNaming extends AbstractXMLNaming implements XMLNaming 
             }
         }
         return cbuff.toString();
-    } //-- toXMLName
+    }
 
-} //-- Naming
+}

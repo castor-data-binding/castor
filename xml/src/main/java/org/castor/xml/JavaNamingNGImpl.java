@@ -67,7 +67,6 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
  * @version $Id: JavaNamingImpl.java 9078 2011-11-03 20:50:10Z wguttmn $
  */
-@Component("javaNamingNG")
 public class JavaNamingNGImpl implements JavaNaming {
    
     private static final Log LOG = LogFactory.getLog(JavaNamingNGImpl.class);

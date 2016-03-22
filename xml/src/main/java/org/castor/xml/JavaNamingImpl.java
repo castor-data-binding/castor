@@ -56,7 +56,6 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * This class converts XML Names to proper Java names. As Java names are not
@@ -67,7 +66,6 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
  * @version $Id$
  */
-@Component("javaNamingImpl")
 public class JavaNamingImpl implements JavaNaming {
 	
     private static final Log LOG = LogFactory.getLog(JavaNamingImpl.class);

@@ -54,29 +54,12 @@ import org.castor.xml.XMLNaming;
 **/
 public abstract class AbstractXMLNaming implements XMLNaming {
 
-
-    //--------------------/
-    //- Abstract Methods -/
-    //--------------------/
-    
-    /* (non-Javadoc)
-	 * @see org.exolab.castor.xml.XMLNaming#createXMLName(java.lang.Class)
-	 */
-    public abstract String createXMLName(Class c);
-
-    
-    /* (non-Javadoc)
-	 * @see org.exolab.castor.xml.XMLNaming#toXMLName(java.lang.String)
-	 */
-    public abstract String toXMLName(String name);
-    
-    
     /**
      * Returns the default instance of XMLNaming.
      * @see org.exolab.castor.util.AbstractProperties
     **/
     public static final XMLNaming getInstance() {
         return new BackwardCompatibilityContext().getXMLNaming(); 
-    } //-- getInstance
+    }
     
-} //-- Naming
+}
