@@ -24,13 +24,13 @@ import java.util.Map;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class BindingType implements Cloneable, Comparable, Serializable {
+public final class BindingType implements Cloneable, Comparable<BindingType>, Serializable {
     //------------------------------------------------------------------------
 
     /** SerialVersionUID */
     private static final long serialVersionUID = -2116844968191798202L;
 
-    private static final Map        TYPES = new HashMap();
+    private static final Map<String, BindingType> TYPES = new HashMap<>();
 
     public static final BindingType JDO = new BindingType("jdo");
     public static final BindingType XML = new BindingType("xml");
@@ -48,7 +48,7 @@ public final class BindingType implements Cloneable, Comparable, Serializable {
         return (BindingType) TYPES.get(kind);
     }
 
-    public static Iterator iterator() {
+    public static Iterator<BindingType> iterator() {
         return TYPES.values().iterator();
     }
 
@@ -99,8 +99,8 @@ public final class BindingType implements Cloneable, Comparable, Serializable {
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
      */
-    public int compareTo(final Object other) {
-        return _type.compareTo(((BindingType) other)._type);
+    public int compareTo(final BindingType other) {
+        return _type.compareTo(other._type);
     }
 
     /**

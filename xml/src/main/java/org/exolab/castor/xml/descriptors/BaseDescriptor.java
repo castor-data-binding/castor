@@ -15,12 +15,12 @@ public abstract class BaseDescriptor implements XMLClassDescriptor {
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map _properties = new HashMap();
+    private final Map<String,Object> _properties = new HashMap<>();
     
     /**
      * Map holding the available natures.
      */
-    private Set _natures = new HashSet();
+    private final Set<String> _natures = new HashSet<>();
 
     /**
      * Returns true if the given object represented by this XMLClassDescriptor

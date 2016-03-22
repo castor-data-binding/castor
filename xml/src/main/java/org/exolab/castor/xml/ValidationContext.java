@@ -73,13 +73,13 @@ public class ValidationContext {
     private boolean _failFast = true;
 
     /** The List of objects marked as validated. */
-    private final Set _validated = new HashSet();
+    private final Set<Object> _validated = new HashSet<>();
 
     /** The Set of already encountered IDs (of type &lt;xsd:ID>). */
-    private final Set _ids = new HashSet();
+    private final Set<String> _ids = new HashSet<>();
 
     /** The Set of temporary unresolved IDREFS. */
-    private final Set _unresolvedIdrefs = new HashSet();
+    private final Set<String> _unresolvedIdrefs = new HashSet<>();
 
     /**
      * To get the {@link AbstractInternalContext} to use.
@@ -218,7 +218,7 @@ public class ValidationContext {
      *
      * @return the Set of unresolved ID references.
      */
-    public Set getUnresolvedIdRefs() {
+    public Set<String> getUnresolvedIdRefs() {
         return Collections.unmodifiableSet(_unresolvedIdrefs);
     }
 
