@@ -718,7 +718,7 @@
 
    <ciManagement>
       <system>Travis CI</system>
-      <url>https://github.com/castor-data-binding/castor</url>
+      <url>https://travis-ci.org/castor-data-binding/castor</url>
    </ciManagement>
 
    <properties>
