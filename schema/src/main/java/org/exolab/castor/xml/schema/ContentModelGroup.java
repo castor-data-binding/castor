@@ -122,7 +122,7 @@ public interface ContentModelGroup {
      * @return an enumeration of all the {@link Particle}s contained
      * within this {@link ContentModelGroup}
     **/
-    Enumeration enumerate();
+    Enumeration<Particle> enumerate();
 
     /**
      * Returns the element declaration with the given name, or null if no

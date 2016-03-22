@@ -329,7 +329,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
      * {@inheritDoc}
      * @see org.exolab.castor.xml.schema.ContentModelGroup#enumerate()
      */
-    public Enumeration<Annotated> enumerate() {
+    public Enumeration<Particle> enumerate() {
         // -- Some trickery to properly handle
         // -- XML Schema spec 20000407 section 4.3.5
 
@@ -413,7 +413,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     */
     public boolean hasAny() {
         boolean result = false;
-        Enumeration<Structure> enumeration = _contentModel.enumerate();
+        Enumeration<Particle> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements() && !result) {
             Structure struct = enumeration.nextElement();
             switch (struct.getStructureType()) {
@@ -452,7 +452,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
                 throw new ValidationException(err);
             }
         }
-        Enumeration<Structure> enumeration = _contentModel.enumerate();
+        Enumeration<Particle> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements()) {
             enumeration.nextElement().validate();
         }
@@ -493,9 +493,9 @@ public class Group extends Particle implements ContentModelGroup, Referable {
       case choice:
         {
             result = false;
-            Enumeration<Annotated> enumerate = this.enumerate();
+            Enumeration<Particle> enumerate = this.enumerate();
             while (enumerate.hasMoreElements()) {
-                Particle p = (Particle) enumerate.nextElement();
+                Particle p = enumerate.nextElement();
                 if (p.isEmptiable()) {
                     result = true;
                     break;
@@ -508,9 +508,9 @@ public class Group extends Particle implements ContentModelGroup, Referable {
       case sequence:
         {
             result = true;
-            Enumeration<Annotated> enumerate = this.enumerate();
+            Enumeration<Particle> enumerate = this.enumerate();
             while (enumerate.hasMoreElements()) {
-                Particle p = (Particle) enumerate.nextElement();
+                Particle p = enumerate.nextElement();
                 if (!p.isEmptiable()) {
                     result = false;
                     break;

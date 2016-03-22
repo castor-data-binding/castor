@@ -477,7 +477,7 @@ public class Converter {
 		}
 
 		// convert Notation declarations
-		Enumeration dtdNotations = dtd.getNotations();
+		Enumeration<Notation> dtdNotations = dtd.getNotations();
 
 		while (dtdNotations.hasMoreElements()) {
 			dtdNotations.nextElement();
@@ -490,18 +490,15 @@ public class Converter {
 		// declarations in XML DTD, so we convert each General Entity
 		// declaration
 		// to Documentation subelement of XML Schema document annotaion.
-		Enumeration dtdGeneralEntities = dtd.getGeneralEntities();
+		Enumeration<GeneralEntity> dtdGeneralEntities = dtd.getGeneralEntities();
 		if (dtdGeneralEntities.hasMoreElements()) {
-			GeneralEntity ge;
 			Annotation annotation = new Annotation();
-			Documentation documentation;
-			String text;
 
 			while (dtdGeneralEntities.hasMoreElements()) {
-				ge = (GeneralEntity) dtdGeneralEntities.nextElement();
-				documentation = new Documentation();
+				GeneralEntity ge = dtdGeneralEntities.nextElement();
+				Documentation documentation = new Documentation();
 
-				text = "General Entity Declaration";
+				String text = "General Entity Declaration";
 				documentation.add(text);
 				documentation.add(ge);
 				annotation.addDocumentation(documentation);
@@ -513,12 +510,9 @@ public class Converter {
 
 		// convert Element declarations
         Enumeration<Element> dtdElements = dtd.getElements();
-        Element dtdElement; // DTD Element declaration
-        ElementDecl schemaElement; // Schema Element declaration
-
         while (dtdElements.hasMoreElements()) {
-            dtdElement = dtdElements.nextElement();
-            schemaElement = convertDTDElementToSchemaElement(dtdElement, schema);
+            Element dtdElement = dtdElements.nextElement();
+            ElementDecl schemaElement = convertDTDElementToSchemaElement(dtdElement, schema);
 			schema.addElementDecl(schemaElement);
 		} // -- convert Element declarations
 
@@ -638,21 +632,17 @@ public class Converter {
 
 		} else { // the type of the element has not been specified
 			String err = "DTD to Schema converter: content type of DTD element \""
-					+ dtdElement.getName();
-			err += "\" has not been specified.";
+					+ dtdElement.getName() + "\" has not been specified.";
 			throw new DTDException(err);
 		}
 		complexType.setContentType(contentType);
 		// finish converting content of the element
 
 		// start attributes convertion
-		Enumeration dtdAttributes = dtdElement.getAttributes();
-		Attribute dtdAttribute;
-		AttributeDecl schemaAttribute;
-
+		Enumeration<Attribute> dtdAttributes = dtdElement.getAttributes();
 		while (dtdAttributes.hasMoreElements()) {
-			dtdAttribute = (Attribute) dtdAttributes.nextElement();
-			schemaAttribute = convertAttribute(dtdAttribute, schema);
+			Attribute dtdAttribute = dtdAttributes.nextElement();
+			AttributeDecl schemaAttribute = convertAttribute(dtdAttribute, schema);
 			complexType.addAttributeDecl(schemaAttribute);
 		}
 		// end attributes convertion
@@ -702,12 +692,9 @@ public class Converter {
 				group.setOrder(Order.choice);
 
 			Enumeration<ContentParticle> children = dtdContent.getChildren();
-			ContentParticle child;
-			Particle contentParticle;
-
 			while (children.hasMoreElements()) {
-				child = children.nextElement();
-				contentParticle = convertContentParticle(child, schema);
+				ContentParticle child = children.nextElement();
+				Particle contentParticle = convertContentParticle(child, schema);
 
 				if (contentParticle instanceof ElementDecl) {
 					group.addElementDecl((ElementDecl) contentParticle);
@@ -813,8 +800,7 @@ public class Converter {
 			}
 		} else {
 			String err = "DTD to Schema converter: DTD attribute \""
-					+ dtdAttribute.getName();
-			err += "\" has unspecified type.";
+					+ dtdAttribute.getName() + "\" has unspecified type.";
 			throw new DTDException(err);
 		}
 

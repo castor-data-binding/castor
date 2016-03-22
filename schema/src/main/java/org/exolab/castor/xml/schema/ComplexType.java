@@ -348,7 +348,7 @@ public class ComplexType extends XMLType implements ContentModelGroup,
         boolean result = false;
         Enumeration<Particle> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements() && !result) {
-            Structure struct = (Structure) enumeration.nextElement();
+            Structure struct = enumeration.nextElement();
             switch (struct.getStructureType()) {
             case Structure.ELEMENT:
                 break;
@@ -841,9 +841,9 @@ public class ComplexType extends XMLType implements ContentModelGroup,
         _attributes.validate();
 
         // -- check content model
-        Enumeration enumeration = _contentModel.enumerate();
+        Enumeration<Particle> enumeration = _contentModel.enumerate();
         while (enumeration.hasMoreElements()) {
-            ((Structure) enumeration.nextElement()).validate();
+            enumeration.nextElement().validate();
         }
 
         // -- make sure baseType is accessible
