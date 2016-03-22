@@ -69,14 +69,14 @@ import java.util.Map;
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class AccessMode implements Cloneable, Comparable, Serializable {
+public class AccessMode implements Cloneable, Comparable<AccessMode>, Serializable {
     //-------------------------------------------------------------------------
     
     /** SerialVersionUID */
     private static final long serialVersionUID = -7113303922354626951L;
 
-    private static final Map    IDS = new HashMap(7);
-    private static final Map    NAMES = new HashMap(7);
+    private static final Map<Short, AccessMode> IDS = new HashMap<>(7);
+    private static final Map<String, AccessMode> NAMES = new HashMap<>(7);
     
     //-------------------------------------------------------------------------
 
@@ -120,7 +120,7 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
      * @return The access mode
      */
     public static AccessMode valueOf(final String accessMode) {
-        AccessMode mode = (AccessMode) NAMES.get(accessMode);
+        AccessMode mode = NAMES.get(accessMode);
         if (mode != null) {
             return mode;
         }
@@ -128,7 +128,7 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
     }
 
     public static AccessMode valueOf(final short accessMode) {
-        AccessMode mode = (AccessMode) IDS.get(new Short(accessMode));
+        AccessMode mode = IDS.get(accessMode);
         if (mode != null) {
             return mode;
         }
@@ -141,12 +141,12 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
      * The id of this access mode as originally used at Database.load() and
      * Query.execute().
      */
-    private short _id;
+    private final short _id;
 
     /**
      * The name of this access mode as it would appear in a mapping file.
      */
-    private String _name;
+    private final String _name;
 
     //-------------------------------------------------------------------------
 
@@ -208,10 +208,6 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
      * @return A negative integer, zero, or a positive integer as this object
      *         is less than, equal to, or greater than the specified object.
      */
-    public int compareTo(final Object other) {
-        return compareTo((AccessMode) other);
-    }
-
     public int compareTo(final AccessMode other) {
         return _id - other._id;
     }
@@ -222,7 +218,7 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
      * @return The existing instance of the enum. <br>So you can use '=='
      *         like 'equals' even if you use a deserialized Enum.
      */
-    protected Object readResolve() {
+    protected AccessMode readResolve() {
         return NAMES.get(_name);
     }
     

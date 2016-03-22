@@ -125,7 +125,7 @@ public class ModelGroup extends Group {
      * @return an enumeration of the Particles contained
      * within this ContentModelGroup
     **/
-    public Enumeration enumerate() {
+    public Enumeration<Particle> enumerate() {
         return this.getContentModelGroup().enumerate();
     } //-- enumerate
 
@@ -133,7 +133,7 @@ public class ModelGroup extends Group {
      * Returns an ordered Enumeration of all the ContentModelType
      * definitions (element, group, modelGroupRef)+
     **/
-    public Enumeration getDeclarations() {
+    public Enumeration<ModelGroup> getDeclarations() {
         return _modelDefs.elements();
     } //-- getDeclarations
 

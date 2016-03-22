@@ -74,6 +74,7 @@ import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Form;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.Particle;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
@@ -849,7 +850,7 @@ public final class XMLBindingComponent implements BindingComponent {
                             Structure structure = element.getParent();
                             if (structure instanceof ContentModelGroup) {
                                 ContentModelGroup cmg = (ContentModelGroup) structure;
-                                Enumeration<Structure> enumeration = cmg.enumerate();
+                                Enumeration<Particle> enumeration = cmg.enumerate();
                                 while (enumeration.hasMoreElements()) {
                                     Structure tmpStruct = enumeration.nextElement();
                                     if (tmpStruct.getStructureType() == Structure.ELEMENT) {
@@ -1387,7 +1388,7 @@ public final class XMLBindingComponent implements BindingComponent {
                 //-- if minOccurs == 1, then check to see if all elements inside group are
                 //-- optional, if so, we return 0, not 1.
                 if (minOccurs == 1) {
-                    Enumeration<Annotated> enumeration = group.enumerate();
+                    Enumeration<Particle> enumeration = group.enumerate();
                     while (enumeration.hasMoreElements()) {
                         if (getLowerBound(enumeration.nextElement()) != 0) {
                             return 1;

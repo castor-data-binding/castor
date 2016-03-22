@@ -72,10 +72,10 @@ public final class Mapping {
     private static final String DEFAULT_SOURCE_TYPE = "CastorXmlMapping";
     
     /** List of mapping sources to resolve. */
-    private final List _mappings = new ArrayList();
+    private final List<MappingSource> _mappings = new ArrayList<>();
 
     /** Set of processed systemID's. */
-    private final Set _processed = new HashSet();
+    private final Set<Object> _processed = new HashSet<>();
 
     /** The loaded mapping. */
     private final MappingRoot _root = new MappingRoot();
@@ -114,7 +114,7 @@ public final class Mapping {
      * @return List of mapping sources to resolve.
      * @throws MappingException If no mapping source has been loaded previously.
      */
-    public List getMappingSources() throws MappingException {
+    public List<MappingSource> getMappingSources() throws MappingException {
         return Collections.unmodifiableList(_mappings);
     }
 

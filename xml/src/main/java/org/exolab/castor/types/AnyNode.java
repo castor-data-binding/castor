@@ -152,7 +152,7 @@ public final class AnyNode implements java.io.Serializable {
      * A stack used for avoiding endless loop
      * in toString()
      */
-    private static Stack _elements;
+    private static Stack<AnyNode> _elements;
 
     /**
      * The namespace context used in the toString()
@@ -554,7 +554,7 @@ public final class AnyNode implements java.io.Serializable {
         StringBuilder sb = new StringBuilder(4096);
 
         if (_elements == null) {
-            _elements = new Stack();
+            _elements = new Stack<>();
         }
 
         //check the Stack too see if we have

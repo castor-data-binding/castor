@@ -71,12 +71,12 @@ public class DocumentationUnmarshaller extends ComponentReader {
     /**
      * The Attribute reference for the Attribute we are constructing
      */
-    private Documentation _documentation = null;
+    private final Documentation _documentation = new Documentation();
 
     /**
      * Stack of AnyNodes being unmarshalled
      */
-    private Stack _nodes = null;
+    private final Stack<AnyNode> _nodes = new Stack<>();
 
       //----------------/
      //- Constructors -/
@@ -90,12 +90,8 @@ public class DocumentationUnmarshaller extends ComponentReader {
     public DocumentationUnmarshaller(final SchemaContext schemaContext, final AttributeSet atts) {
         super(schemaContext);
 
-        _documentation = new Documentation();
-
         //-- @source
         _documentation.setSource(atts.getValue(SchemaNames.SOURCE_ATTR));
-
-        _nodes = new Stack();
 
     } //-- DocumentationUnmarshaller
 

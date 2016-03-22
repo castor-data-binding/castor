@@ -162,9 +162,9 @@ public class AppInfoUnmarshaller extends ComponentReader {
       
       //-- process namespace nodes
       if (nsDecls != null) {
-          Enumeration enumeration = nsDecls.getLocalNamespaces();
+          Enumeration<String> enumeration = nsDecls.getLocalNamespaces();
           while (enumeration.hasMoreElements()) {
-              namespace = (String) enumeration.nextElement();
+              namespace = enumeration.nextElement();
               prefix = nsDecls.getNamespacePrefix(namespace);
               node.addNamespace (new AnyNode(AnyNode.NAMESPACE, 
                                               null,  //-- no local name for a ns decl.

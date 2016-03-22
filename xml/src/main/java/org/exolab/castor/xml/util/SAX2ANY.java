@@ -63,7 +63,7 @@ import org.xml.sax.SAXParseException;
 /**
  * This class is a SAX Content Handler that
  * build an AnyNode from a stream of SAX events (either SAX1 for compatibility or SAX2)
- * @author <a href="blandin@intalio.com>Arnaud Blandin</a>
+ * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-29 09:44:19 -0600 (Sat, 29 Apr 2006) $
  */
 public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
@@ -86,12 +86,12 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * A stack to store all the nodes we are creating
      */
-    private Stack _nodeStack = new Stack();
+    private Stack<AnyNode> _nodeStack = new Stack<>();
 
     /**
      * A stack to store the namespaces declaration
      */
-    private Stack _namespaces = new Stack();
+    private Stack<AnyNode> _namespaces = new Stack<>();
 
     /**
      * A flag indicating if the SAX2 Parser is processing the

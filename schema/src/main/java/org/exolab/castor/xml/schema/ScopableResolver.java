@@ -57,16 +57,15 @@ import java.util.Hashtable;
 **/
 public class ScopableResolver implements Resolver {
 
-    private Hashtable ids;
+    private final Hashtable<String, Referable> ids = new Hashtable<>();
 
-    private Resolver _resolver = null;
+    private final Resolver _resolver;
 
     public ScopableResolver() {
-        ids = new Hashtable();
+        this(null);
     } //-- ScopableResolver
 
     public ScopableResolver(Resolver resolver) {
-        this();
         _resolver = resolver;
     } //-- ScopableResolver
 

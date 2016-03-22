@@ -362,11 +362,11 @@ public class SchemaUnmarshaller extends ComponentReader {
             return;
         }
 
-        Enumeration enumeration = namespaces.getLocalNamespaces();
+        Enumeration<String> enumeration = namespaces.getLocalNamespaces();
 
         while (enumeration.hasMoreElements()) {
 
-            String ns = (String) enumeration.nextElement();
+            String ns = enumeration.nextElement();
             String[] prefixes = namespaces.getNamespacePrefixes(ns);
 
             if (prefixes.length == 0) {
@@ -826,9 +826,9 @@ public class SchemaUnmarshaller extends ComponentReader {
                         }
                     }
                                         
-                    Enumeration keys = props.propertyNames();
+                    Enumeration<?> keys = props.propertyNames();
                     while (keys.hasMoreElements()) {
-                        String name =  (String) keys.nextElement();
+                        String name = keys.nextElement().toString();
                         StringTokenizer st = new StringTokenizer(props.getProperty(name), ",");
                         String[] atts = new String[st.countTokens()];
                         int index = 0;

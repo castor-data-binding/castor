@@ -164,13 +164,13 @@ public final class Introspector implements PropertyChangeListener {
     /**
      * The set of registered FieldHandlerFactory instances
      */
-    private Vector _handlerFactoryList = null;
+    private Vector<FieldHandlerFactory> _handlerFactoryList = null;
 
     /**
      * The set of registered FieldHandlerFactory instances
      * associated with their supported types
      */
-    private Hashtable _handlerFactoryMap =  null;
+    private Hashtable<Class, FieldHandlerFactory> _handlerFactoryMap = null;
 
     /**
      * A flag indicating that MapKeys should be saved. To remain
@@ -252,7 +252,7 @@ public final class Introspector implements PropertyChangeListener {
             throw new IllegalArgumentException(err);
         }
         if (_handlerFactoryList == null) {
-            _handlerFactoryList = new Vector();
+            _handlerFactoryList = new Vector<>();
         }
         _handlerFactoryList.addElement(factory);
         registerHandlerFactory(factory);
@@ -319,8 +319,8 @@ public final class Introspector implements PropertyChangeListener {
             = new IntrospectedXMLClassDescriptor(c);
 
         Method[] methods = c.getMethods();
-        List      dateDescriptors = new ArrayList(3);
-        Hashtable methodSets      = new Hashtable();
+        List<XMLFieldDescriptorImpl> dateDescriptors = new ArrayList<>(3);
+        Hashtable<String, MethodSet> methodSets = new Hashtable<>();
 
         int methodCount = 0;
 
@@ -397,7 +397,7 @@ public final class Introspector implements PropertyChangeListener {
                 String fieldName = methodName.substring(3);
                 fieldName = _javaNaming.toJavaMemberName(fieldName);
 
-                MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
+                MethodSet methodSet = methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
                     methodSets.put(fieldName, methodSet);
@@ -421,7 +421,7 @@ public final class Introspector implements PropertyChangeListener {
                 String fieldName = methodName.substring(JavaNaming.METHOD_PREFIX_IS.length());
                 fieldName = _javaNaming.toJavaMemberName(fieldName);
 
-                MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
+                MethodSet methodSet = methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
                     methodSets.put(fieldName, methodSet);
@@ -439,7 +439,7 @@ public final class Introspector implements PropertyChangeListener {
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
                 fieldName = _javaNaming.toJavaMemberName(fieldName);
-                MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
+                MethodSet methodSet = methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
                     methodSets.put(fieldName, methodSet);
@@ -458,7 +458,7 @@ public final class Introspector implements PropertyChangeListener {
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
                 fieldName = _javaNaming.toJavaMemberName(fieldName);
-                MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
+                MethodSet methodSet = methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
                     methodSets.put(fieldName, methodSet);
@@ -474,7 +474,7 @@ public final class Introspector implements PropertyChangeListener {
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(JavaNaming.METHOD_PREFIX_CREATE.length());
                 fieldName = _javaNaming.toJavaMemberName(fieldName);
-                MethodSet methodSet = (MethodSet) methodSets.get(fieldName);
+                MethodSet methodSet = methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
                     methodSets.put(fieldName, methodSet);
@@ -486,11 +486,11 @@ public final class Introspector implements PropertyChangeListener {
 
         //-- Loop Through MethodSets and create
         //-- descriptors
-        Enumeration enumeration = methodSets.elements();
+        Enumeration<MethodSet> enumeration = methodSets.elements();
 
         while (enumeration.hasMoreElements()) {
 
-            MethodSet methodSet = (MethodSet) enumeration.nextElement();
+            MethodSet methodSet = enumeration.nextElement();
 
             //-- create XMLFieldDescriptor
             String xmlName = _xmlNaming.toXMLName(methodSet._fieldName);
@@ -669,7 +669,7 @@ public final class Introspector implements PropertyChangeListener {
         if (methodCount == 0) {
 
             Field[] fields = c.getFields();
-            Hashtable descriptors = new Hashtable();
+            Hashtable<String, XMLFieldDescriptorImpl> descriptors = new Hashtable<>();
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
 
@@ -810,9 +810,7 @@ public final class Introspector implements PropertyChangeListener {
 
         //-- A temporary fix for java.util.Date
         if (dateDescriptors != null) {
-            for (int i = 0; i < dateDescriptors.size(); i++) {
-                XMLFieldDescriptorImpl fieldDesc =
-                    (XMLFieldDescriptorImpl) dateDescriptors.get(i);
+            for (XMLFieldDescriptorImpl fieldDesc : dateDescriptors) {
                 FieldHandler handler = fieldDesc.getHandler();
                 fieldDesc.setImmutable(true);
                 DateFieldHandler dfh = new DateFieldHandler(handler);
@@ -868,9 +866,7 @@ public final class Introspector implements PropertyChangeListener {
         if (_handlerFactoryList.removeElement(factory)) {
             //-- re-register remaining handlers
             _handlerFactoryMap.clear();
-            for (int i = 0; i < _handlerFactoryList.size(); i++) {
-                FieldHandlerFactory tmp =
-                    (FieldHandlerFactory)_handlerFactoryList.elementAt(i);
+            for (FieldHandlerFactory tmp : _handlerFactoryList) {
                 registerHandlerFactory(tmp);
             }
             return true;
@@ -1094,7 +1090,7 @@ public final class Introspector implements PropertyChangeListener {
      */
     private void registerHandlerFactory(FieldHandlerFactory factory) {
         if (_handlerFactoryMap == null)
-            _handlerFactoryMap = new Hashtable();
+            _handlerFactoryMap = new Hashtable<>();
 
         Class[] types = factory.getSupportedTypes();
         for (int i = 0; i < types.length; i++) {
@@ -1249,7 +1245,7 @@ public final class Introspector implements PropertyChangeListener {
     private static Class[] loadCollections() {
 
 
-        Vector collections = new Vector(6);
+        Vector<Class> collections = new Vector<>(6);
 
         //-- JDK 1.1
         collections.addElement(Vector.class);

@@ -45,12 +45,13 @@
 
 package org.exolab.castor.xml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.castor.xml.BackwardCompatibilityContext;
 import org.castor.xml.InternalContext;
@@ -532,7 +533,7 @@ abstract class MarshalFramework {
             throw new MarshalException(rx);
         }
 
-        Vector inheritanceList = null;
+        List<InheritanceMatch> inheritanceList = null;
         XMLFieldDescriptor descriptor  = null;
         XMLFieldDescriptor[] descriptors = classDesc.getElementDescriptors();
         XMLClassDescriptor cdInherited = null;
@@ -560,9 +561,9 @@ abstract class MarshalFramework {
                     if (superclass.isAssignableFrom(subclass) && (superclass != Object.class)) {
                         descriptor = descriptors[i];
                         if (inheritanceList == null) {
-                            inheritanceList = new Vector(3);
+                            inheritanceList = new ArrayList<>(3);
                         }
-                        inheritanceList.addElement(new InheritanceMatch(descriptor, cdInherited));
+                        inheritanceList.add(new InheritanceMatch(descriptor, cdInherited));
                     }
                 }
             }
@@ -574,11 +575,9 @@ abstract class MarshalFramework {
         
         if (inheritanceList != null) {
             InheritanceMatch[] result = new InheritanceMatch[inheritanceList.size()];
-            inheritanceList.toArray(result);
-            return result;
+            return inheritanceList.toArray(result);
         }
         return NO_MATCH_ARRAY;
-        
     }
 
      /**
@@ -629,12 +628,12 @@ abstract class MarshalFramework {
         /**
          * Map holding the properties set and read by Natures.
          */
-        private Map _properties = new HashMap();
+        private final Map<String, Object> _properties = new HashMap<>();
         
         /**
          * Map holding the available natures.
          */
-        private Set _natures = new HashSet();
+        private final Set<String> _natures = new HashSet<>();
         
         /**
          * Creates a new InternalXMLClassDescriptor for the given

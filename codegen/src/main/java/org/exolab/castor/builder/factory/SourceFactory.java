@@ -2173,7 +2173,7 @@ public final class SourceFactory extends BaseFactory {
         //------------------------------/
 
         ContentModelGroup contentModel = model;
-        Enumeration<Annotated> enumeration = contentModel.enumerate();
+        Enumeration<Particle> enumeration = contentModel.enumerate();
 
         //-- handle choice item
         if (new XMLInfoNature(state.getClassInfo()).isChoice() 

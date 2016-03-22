@@ -443,7 +443,7 @@ public class ElementDecl extends Particle implements Referable {
     	Vector<ElementDecl> result = new Vector<>();
     	Iterator<ElementDecl> enumeration = _schema.getElementDecls().iterator();
     	while (enumeration.hasNext()) {
-    		ElementDecl temp  = (ElementDecl)enumeration.next();
+    		ElementDecl temp  = enumeration.next();
     		String subName = temp.getSubstitutionGroup();
     		if (subName != null) {
                 // no namespace(s) or default namespace in use

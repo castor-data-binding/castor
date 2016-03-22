@@ -95,7 +95,7 @@ public final class XMLInstance2SchemaHandler
     /**
      * The stack of element declarations
     **/
-    private Stack _siStack = null;
+    private final Stack<StateInfo> _siStack = new Stack<>();
     
     private String _nsPrefix = null;
     
@@ -120,8 +120,6 @@ public final class XMLInstance2SchemaHandler
     public XMLInstance2SchemaHandler(Schema schema) {
         super();
         
-        _siStack   = new Stack();
-        
         _schema = schema;
         //-- create Schema and initialize
         if (_schema == null) {
@@ -133,9 +131,9 @@ public final class XMLInstance2SchemaHandler
         else {
             _nsPrefix = null;
             Namespaces namespaces = _schema.getNamespaces();
-            Enumeration enumeration = namespaces.getLocalNamespacePrefixes();
+            Enumeration<String> enumeration = namespaces.getLocalNamespacePrefixes();
             while (enumeration.hasMoreElements()) {
-                String key = (String) enumeration.nextElement();
+                String key = enumeration.nextElement();
                 if (namespaces.getNamespaceURI(key).equals(Schema.DEFAULT_SCHEMA_NS)) {
                     _nsPrefix = key;
                     break;
