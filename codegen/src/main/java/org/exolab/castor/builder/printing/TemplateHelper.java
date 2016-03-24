@@ -115,8 +115,8 @@ public class TemplateHelper {
         } else if (elementNames.length > 0) {
             // Max element name length?
             int maxLength = 0;
-            for (int i = 0; i < elementNames.length; i++) {
-                int elementNameLength = elementNames[i].length();
+            for (String elementName : elementNames) {
+                int elementNameLength = elementName.length();
                 if (elementNameLength > maxLength) { maxLength = elementNameLength; }
             }
             // Output element name and values

@@ -633,8 +633,7 @@ public final class MemberFactory extends BaseFactory {
             }
             // deals with special characters, e.g. line feed
             StringBuffer buffer = new StringBuffer(value.length());
-            for (int i = 0; i < value.length(); i++) {
-                char character = value.charAt(i);
+            for (char character : value.toCharArray()) {
                 switch(character) {
                 case '\n': 
                     buffer.append("\\n");

@@ -149,8 +149,7 @@ public final class MappingFileSourceFactory {
         //- Create attribute mappings -/
         //-----------------------------/
 
-        for (int i = 0; i < atts.length; i++) {
-            FieldInfo member = atts[i];
+        for (FieldInfo member : atts) {
             //-- skip transient members
             if (member.isTransient()) {
                 continue;
@@ -169,8 +168,7 @@ public final class MappingFileSourceFactory {
         //---------------------------/
 
         FieldInfo[] elements = classInfo.getElementFields();
-        for (int i = 0; i < elements.length; i++) {
-            FieldInfo member = elements[i];
+        for (FieldInfo member : elements) {
             //-- skip transient members
             if (member.isTransient()) {
                 continue;

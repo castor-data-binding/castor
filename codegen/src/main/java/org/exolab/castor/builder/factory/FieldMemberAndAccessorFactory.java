@@ -285,8 +285,7 @@ public class FieldMemberAndAccessorFactory {
 //            Java5HacksHelper.addOverrideAnnotations(method.getSignature());
 //        }
         
-        for (int i = 0; i < annotationBuilders.length; i++) {
-            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+        for (AnnotationBuilder annotationBuilder : annotationBuilders) {
             annotationBuilder.addFieldGetterAnnotations(fieldInfo, method);
         }
         

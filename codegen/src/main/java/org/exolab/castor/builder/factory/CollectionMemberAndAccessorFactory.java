@@ -237,8 +237,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         }
         
         // add custom annotations
-        for (int i = 0; i < annotationBuilders.length; i++) {
-            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+        for (AnnotationBuilder annotationBuilder : annotationBuilders) {
             annotationBuilder.addFieldGetterAnnotations(fieldInfo, method);
         }
 

@@ -52,7 +52,6 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JDocComment {
-    //--------------------------------------------------------------------------
 
     /** An ordered list of descriptors. */
     private final Vector<JDocDescriptor> _descriptors = new Vector<JDocDescriptor>();
@@ -60,7 +59,6 @@ public final class JDocComment {
     /** The internal buffer for this JDocComment. */
     private final StringBuffer _comment = new StringBuffer();
 
-    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JavaDoc Comment.
@@ -78,8 +76,6 @@ public final class JDocComment {
         this();
         addDescriptor(jdesc);
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Adds the given JDocDescriptor to this JDocComment.
@@ -171,17 +167,16 @@ public final class JDocComment {
     public JDocDescriptor getParamDescriptor(final String name) {
         if (name == null) { return null; }
 
-        for (int i = 0; i < _descriptors.size(); i++) {
-            JDocDescriptor jdd
-                = _descriptors.elementAt(i);
+        for (JDocDescriptor jdd : _descriptors) {
             if (jdd.getType() == JDocDescriptor.PARAM) {
-                if (name.equals(jdd.getName())) { return jdd; }
+                if (name.equals(jdd.getName())) { 
+                	return jdd; 
+                }
             }
         }
         return null;
     }
 
-    //--------------------------------------------------------------------------
 
     /**
      * Prints this JavaDoc comment using the given JSourceWriter.
@@ -199,16 +194,13 @@ public final class JDocComment {
             jComment.appendComment("\n");
         }
 
-        for (int i = 0; i < _descriptors.size(); i++) {
+        for (JDocDescriptor jdd : _descriptors) {
             jComment.appendComment("\n");
-            jComment.appendComment(_descriptors.elementAt(i).toString());
+            jComment.appendComment(jdd.toString());
         }
         jComment.print(jsw);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public String toString() {
         return
             "/**\n" +
@@ -216,5 +208,4 @@ public final class JDocComment {
             " */\n";
     }
 
-    //--------------------------------------------------------------------------
 }

@@ -194,9 +194,10 @@ public final class JInterface extends JStructure {
      * @return The JMethodSignature, or null if not found.
      */
     public JMethodSignature getMethod(final String name, final int startIndex) {
-        for (int i = startIndex; i < _methods.size(); i++) {
-            JMethodSignature jMethod = _methods.elementAt(i);
-            if (jMethod.getName().equals(name)) { return jMethod; }
+    	for (JMethodSignature jMethod : _methods) {
+            if (jMethod.getName().equals(name)) { 
+            	return jMethod; 
+            }
         }
         return null;
     }

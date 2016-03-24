@@ -58,8 +58,8 @@ import org.exolab.castor.builder.factory.XMLFieldHandlerFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
-import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.NodeType;
+import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.info.nature.XMLInfoNature;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSListType;
@@ -71,9 +71,6 @@ import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstant;
 import org.exolab.javasource.JConstructor;
-import org.exolab.javasource.JField;
-import org.exolab.javasource.JMember;
-import org.exolab.javasource.JModifiers;
 import org.exolab.javasource.JNaming;
 import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
@@ -212,8 +209,7 @@ public final class DescriptorSourceFactory {
         jsc.add("//-- initialize attribute descriptors");
         jsc.add("");
 
-        for (int i = 0; i < atts.length; i++) {
-            FieldInfo member = atts[i];
+        for (FieldInfo member : atts) {
             //-- skip transient members
             if (member.isTransient()) {
                 continue;
@@ -244,8 +240,7 @@ public final class DescriptorSourceFactory {
         jsc.add("//-- initialize element descriptors");
         jsc.add("");
 
-        for (int i = 0; i < elements.length; i++) {
-            FieldInfo member = elements[i];
+        for (FieldInfo member : elements) {
             XMLInfoNature fieldNature = new XMLInfoNature(member);
             
             //-- skip transient members

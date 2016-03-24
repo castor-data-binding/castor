@@ -1164,8 +1164,7 @@ public class SourceGenerator extends BuilderConfiguration {
             return;
         }
 
-        for (int i = 0; i < packages.length; i++) {
-            PackageType temp = packages[i];
+        for (PackageType temp : packages) {
             PackageTypeChoice choice = temp.getPackageTypeChoice();
             if (choice.getNamespace() != null) {
                 super.setNamespacePackageMapping(choice.getNamespace(), temp.getName());

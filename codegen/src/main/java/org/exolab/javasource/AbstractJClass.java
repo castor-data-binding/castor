@@ -281,8 +281,8 @@ public abstract class AbstractJClass extends JStructure {
     public final JConstructor createConstructor(final JParameter[] params) {
         JConstructor cons = new JConstructor(this);
         if (params != null) {
-            for (int i = 0; i < params.length; i++) {
-                cons.addParameter(params[i]);
+        	for (JParameter param : params) {
+                cons.addParameter(param);
             }
         }
         addConstructor(cons);

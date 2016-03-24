@@ -606,21 +606,21 @@ public final class CastorCodeGenTask extends MatchingTask {
                 DirectoryScanner ds = this.getDirectoryScanner(_schemaDir);
 
                 String[] files = ds.getIncludedFiles();
-                for (int i = 0; i < files.length; i++) {
-                    String filePath = _schemaDir.getAbsolutePath() + File.separator + files[i];
+                for (String file : files) {
+                    String filePath = _schemaDir.getAbsolutePath() + File.separator + file;
                     processFile(filePath);
                 }
             }
 
             // Run source generator on all files in FileSet
-            for (int i = 0; i < _schemaFilesets.size(); i++) {
-                FileSet fs = (FileSet) _schemaFilesets.elementAt(i);
+            for (FileSet schemaFileSet : _schemaFilesets) {
+                FileSet fs = (FileSet) schemaFileSet;
                 DirectoryScanner ds = fs.getDirectoryScanner(getProject());
                 File subdir = fs.getDir(getProject());
 
                 String[] files = ds.getIncludedFiles();
-                for (int j = 0; j < files.length; j++) {
-                    String filePath = subdir.getAbsolutePath() + File.separator + files[j];
+                for (String file : files) {
+                    String filePath = subdir.getAbsolutePath() + File.separator + file;
                     processFile(filePath);
                 }
             }

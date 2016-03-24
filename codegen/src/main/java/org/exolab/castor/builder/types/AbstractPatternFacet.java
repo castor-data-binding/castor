@@ -15,7 +15,6 @@
  */
 package org.exolab.castor.builder.types;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -82,8 +81,8 @@ public abstract class AbstractPatternFacet extends XSType {
      * @param validatorName The name of the TypeValidator that the patterns should be added to.
      */
     protected final void codePatternFacet(final JSourceCode jsc, final String validatorName) {
-        for (Iterator<String> i = _patterns.iterator(); i.hasNext(); ) {
-            jsc.add("{0}.addPattern(\"{1}\");", validatorName, escapePattern(i.next()));
+    	for (String pattern : _patterns) {
+            jsc.add("{0}.addPattern(\"{1}\");", validatorName, escapePattern(pattern));
         }
     }
 
@@ -102,10 +101,13 @@ public abstract class AbstractPatternFacet extends XSType {
         StringBuilder sb = new StringBuilder();
 
         char[] chars = str.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            char ch = chars[i];
-            if (ch == '\\') { sb.append(ch); }
-            if (ch == '\"') { sb.append('\\'); }
+        for (char ch : chars) {
+            if (ch == '\\') {
+            	sb.append(ch); 
+            }
+            if (ch == '\"') { 
+            	sb.append('\\'); 
+            }
             sb.append(ch);
         }
         

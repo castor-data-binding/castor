@@ -52,22 +52,14 @@ public class JClassPrinterFactoryRegistry {
         String jClassPrinterFactories = config.getJClassPrinterFactories();
         String[] factoryClassNames = StringUtils.split(jClassPrinterFactories, ',');
         
-        for (int i = 0; i < factoryClassNames.length; i++) {
+        for (String factoryClassName : factoryClassNames) {
             JClassPrinterFactory factory;
             try {
                 factory = (JClassPrinterFactory) 
-                    Class.forName(factoryClassNames[i]).newInstance();
-            } catch (InstantiationException e) {
+                    Class.forName(factoryClassName).newInstance();
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 throw new IllegalStateException("Property entry '" 
-                        + factoryClassNames[i] + "' does"
-                        + " not represent a valid class name.");
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Property entry '" 
-                        + factoryClassNames[i] + "' does" 
-                        + " not represent a valid class name.");
-            } catch (ClassNotFoundException e) {
-                throw new IllegalStateException("Property entry '" 
-                        + factoryClassNames[i] + "' does" 
+                        + factoryClassName + "' does"
                         + " not represent a valid class name.");
             }
             _factories.put(factory.getName(), factory);

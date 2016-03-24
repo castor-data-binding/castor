@@ -146,8 +146,8 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      * @param fields an Array of FieldInfo objects
      */
     public void addFieldInfo(final FieldInfo[] fields) {
-        for (int i = 0; i < fields.length; i++) {
-            addFieldInfo(fields[i]);
+    	for (FieldInfo field : fields) {
+            addFieldInfo(field);
         }
     }
 
@@ -253,8 +253,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      */
     public FieldInfo getElementField(final String nodeName) {
         if (_elements != null) {
-            for (int i = 0; i < _elements.size(); i++) {
-                FieldInfo temp = _elements.get(i);
+        	for (FieldInfo temp : _elements) {
                 String elementNodeName = new XMLInfoNature(temp).getNodeName();
                 if (elementNodeName != null && elementNodeName.equals(nodeName)) {
                     return temp;

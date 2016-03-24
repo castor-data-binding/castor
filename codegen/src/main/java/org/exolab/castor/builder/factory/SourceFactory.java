@@ -511,8 +511,7 @@ public final class SourceFactory extends BaseFactory {
         //--interface implemented
         String[] implemented = component.getImplements();
         if (implemented != null) {
-            for (int i = 0; i < implemented.length; i++) {
-                String interfaceName = implemented[i];
+        	for (String interfaceName : implemented) {
                 if ((interfaceName != null) && (interfaceName.length() > 0)) {
                     jClass.addInterface(interfaceName);
                 }
@@ -549,8 +548,7 @@ public final class SourceFactory extends BaseFactory {
 
         // custom annotations
         AnnotationBuilder[] annotationBuilders = getConfig().getAnnotationBuilders();
-        for (int i = 0; i < annotationBuilders.length; i++) {
-            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+        for (AnnotationBuilder annotationBuilder : annotationBuilders) {
             annotationBuilder.addClassAnnotations(classInfo, jClass);
         }
 
@@ -1366,8 +1364,7 @@ public final class SourceFactory extends BaseFactory {
         jsc.add("");
         jsc.add("long tmp;");
 
-        for (int i = 0; i < fields.length; i++) {
-            JField temp = fields[i];
+        for (JField temp : fields) {
             // If the field is an object the hashCode method is called recursively
 
             JType type = temp.getType();
@@ -1460,8 +1457,7 @@ public final class SourceFactory extends BaseFactory {
                 jsc.add("boolean tmcycle;");
             }
         }
-        for (int i = 0; i < fields.length; i++) {
-            JField temp = fields[i];
+        for (JField temp : fields) {
             //Be careful to arrayList....
 
             String name = temp.getName();
@@ -1608,8 +1604,7 @@ public final class SourceFactory extends BaseFactory {
         JSourceCode jsc = jMethod.getSourceCode();
         JField[] fields = jclass.getFields();
 
-        for (int i = 0; i < fields.length; i++) {
-            JField temp = fields[i];
+        for (JField temp : fields) {
             JType type = temp.getType();
             String name = temp.getName();
 
@@ -1700,9 +1695,7 @@ public final class SourceFactory extends BaseFactory {
         jsc.append(jclass.getName());
         jsc.append("\\n\");");
 
-        JField[] fields = jclass.getFields();
-        for (int i = 0; i < fields.length; i++) {
-            JField temp = fields[i];
+        for (JField temp : jclass.getFields()) {
             String name = temp.getName();
             if ((temp.getType().isPrimitive())
                     || temp.getType().getName().startsWith("java.lang.")) {

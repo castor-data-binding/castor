@@ -372,8 +372,7 @@ public final class EnumerationFactory extends BaseFactory {
             }
 
             // custom annotations
-            for (int i = 0; i < annotationBuilders.length; i++) {
-                AnnotationBuilder annotationBuilder = annotationBuilders[i];
+            for (AnnotationBuilder annotationBuilder : annotationBuilders) {
                 annotationBuilder.addEnumConstantAnnotations(facet,
                         enumConstant);
             }
@@ -383,8 +382,7 @@ public final class EnumerationFactory extends BaseFactory {
         }
 
         // custom annotations
-        for (int i = 0; i < annotationBuilders.length; i++) {
-            AnnotationBuilder annotationBuilder = annotationBuilders[i];
+        for (AnnotationBuilder annotationBuilder : annotationBuilders) {
             annotationBuilder.addEnumAnnotations(simpleType, jEnum);
         }
     }
@@ -861,9 +859,9 @@ public final class EnumerationFactory extends BaseFactory {
         // check whether there's a custom binding for the member name
         String customMemberName = null;
         EnumMember[] enumMembers = enumBinding.getEnumMember();
-        for (int i = 0; i < enumMembers.length; i++) {
-            if (enumMembers[i].getValue().equals(enumValue)) {
-                customMemberName = enumMembers[i].getJavaName();
+        for (EnumMember enumMember : enumMembers) {
+            if (enumMember.getValue().equals(enumValue)) {
+                customMemberName = enumMember.getJavaName();
             }
         }
         return customMemberName;
@@ -896,8 +894,7 @@ public final class EnumerationFactory extends BaseFactory {
         StringBuilder sb = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        for (int i = 0; i < chars.length; i++) {
-            char ch = chars[i];
+        for (char ch : chars) {
             switch (ch) {
             case '\\':
             case '\"':

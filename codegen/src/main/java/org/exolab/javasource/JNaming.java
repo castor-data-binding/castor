@@ -312,9 +312,13 @@ public final class JNaming {
      *         problem when used as a variable name.
      */
     public static boolean isKeyword(final String name) {
-        if (name == null) { return false; }
-        for (int i = 0; i < KEYWORDS.length; i++) {
-            if (KEYWORDS[i].equals(name)) { return true; }
+        if (name == null) { 
+        	return false; 
+        }
+        for (String keyword : KEYWORDS) {
+            if (keyword.equals(name)) { 
+            	return true; 
+            }
         }
         return false;
     }
@@ -329,9 +333,13 @@ public final class JNaming {
      *         name.
      */
     public static boolean isParameterizedCollectionsObject(final String name) {
-        if (name == null) { return false; }
-        for (int i = 0; i < COLLECTIONS.length; i++) {
-            if (name.indexOf(COLLECTIONS[i]) != -1) { return true; }
+        if (name == null) { 
+        	return false; 
+        }
+        for (String collection : COLLECTIONS) {
+            if (name.indexOf(collection) != -1) { 
+            	return true; 
+            }
         }
         return false;
     }
@@ -345,9 +353,11 @@ public final class JNaming {
      *         will cause a problem when used as a variable name.
      */
     public static boolean isInJavaLang(final String name) {
-        if (name == null) { return false; }
-        for (int i = 0; i < JAVA_LANG.length; i++) {
-            if (JAVA_LANG[i].equals(name)) {
+        if (name == null) { 
+        	return false; 
+        }
+        for (String javaLang : JAVA_LANG) {
+            if (javaLang.equals(name)) {
                 return true;
             }
         }
@@ -364,9 +374,11 @@ public final class JNaming {
      *         cause a problem when used as a variable name.
      */
     public static boolean isReservedByCastor(final String name) {
-        if (name == null) { return false; }
-        for (int i = 0; i < CASTOR_RESERVED.length; i++) {
-            if (CASTOR_RESERVED[i].equals(name)) {
+        if (name == null) { 
+        	return false; 
+        }
+        for (String reserved : CASTOR_RESERVED) {
+            if (reserved.equals(name)) {
                 return true;
             }
         }
@@ -383,9 +395,11 @@ public final class JNaming {
      *         cause a problem when used as a variable name.
      */
     public static boolean isReservedByWindows(final String name) {
-        if (name == null) { return false; }
-        for (int i = 0; i < WINDOWS_RESERVED.length; i++) {
-            if (WINDOWS_RESERVED[i].equalsIgnoreCase(name)) {
+        if (name == null) { 
+        	return false; 
+        }
+        for (String windowsReserved : WINDOWS_RESERVED) {
+            if (windowsReserved.equalsIgnoreCase(name)) {
                 return true;
             }
         }
@@ -401,7 +415,9 @@ public final class JNaming {
      *         name, otherwise false.
      */
     public static boolean isValidJavaIdentifier(final String string) {
-        if ((string == null) || (string.length() == 0)) { return false; }
+        if ((string == null) || (string.length() == 0)) { 
+        	return false; 
+        }
 
         char[] chars = string.toCharArray();
 
@@ -410,10 +426,14 @@ public final class JNaming {
         }
 
         //-- make sure starting character is valid
-        if (!Character.isJavaIdentifierStart(chars[0])) { return false; }
+        if (!Character.isJavaIdentifierStart(chars[0])) { 
+        	return false; 
+        }
 
-        for (int i = 1; i < chars.length; i++) {
-            if (!Character.isJavaIdentifierPart(chars[i])) { return false; }
+        for (char ch : chars) {
+            if (!Character.isJavaIdentifierPart(ch)) { 
+            	return false; 
+            }
         }
         if (isKeyword(string)) { return false; }
         return true;

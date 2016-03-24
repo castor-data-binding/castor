@@ -326,8 +326,8 @@ public final class SingleClassGenerator {
      *         loaded or found
      */
     boolean process(final JClass[] classes, final SGStateInfo state) throws IOException {
-        for (int i = 0; i < classes.length; i++) {
-            process(classes[i], state);
+    	for (JClass jClass : classes) {
+            process(jClass, state);
             if (state.getStatusCode() == SGStateInfo.STOP_STATUS) {
                 return false;
             }

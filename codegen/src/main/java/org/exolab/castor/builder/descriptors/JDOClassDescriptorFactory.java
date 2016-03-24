@@ -108,8 +108,7 @@ public final class JDOClassDescriptorFactory {
        // FieldDescriptors
        //=================
 
-       for (int i = 0; i < classInfo.getElementFields().length; i++) {
-           FieldInfo fInfo = classInfo.getElementFields()[i];
+       for (FieldInfo fInfo : classInfo.getElementFields()) {
            if (checkFieldInfoNatures(fInfo)) {
                
                if (fInfo.hasNature(JDOOneToOneNature.class.getName())) {
@@ -177,11 +176,8 @@ public final class JDOClassDescriptorFactory {
    private String setFields(final FieldInfo[] fInfos) {
        String str = "";
 
-       FieldInfo fInfo;
-       ClassInfo cInfo;
-       for (int i = 0; i < fInfos.length; i++) {
-           fInfo = fInfos[i];
-           cInfo = fInfo.getDeclaringClassInfo();
+       for (FieldInfo fInfo : fInfos) {
+    	   ClassInfo cInfo = fInfo.getDeclaringClassInfo();
            JDOClassInfoNature cNature = new JDOClassInfoNature(cInfo);
            if (cNature.getPrimaryKeys() != null) {
                if (cNature.getPrimaryKeys().contains(new XMLInfoNature(fInfo).getNodeName())) {
@@ -205,14 +201,13 @@ public final class JDOClassDescriptorFactory {
     */
    private String setIdentities(final List<?> primaryKeys) {
        String identities = "";
-       Object[] pkArray = null;
        if (primaryKeys != null) {
-           pkArray = primaryKeys.toArray();
-           for (int i = 0; i < pkArray.length; i++) {
+    	   Object[] pkArray = primaryKeys.toArray();
+    	   for (Object primaryKey : pkArray) {
                if (identities.equals("")) {
-                   identities = identities + pkArray[i] + "FieldDescr";
+                   identities = identities + primaryKey + "FieldDescr";
                } else {
-                   identities = identities + "," + pkArray[i] + "FieldDescr";
+                   identities = identities + "," + primaryKey + "FieldDescr";
                }
            }
        }

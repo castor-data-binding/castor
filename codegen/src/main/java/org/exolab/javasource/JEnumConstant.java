@@ -44,6 +44,8 @@ package org.exolab.javasource;
 
 import java.util.Vector;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Describes the definition of a enum constant.
  *
@@ -179,7 +181,9 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             }
         }
         //-- END SORT
-        if (!added) { _methods.add(jMethod); }
+        if (!added) {
+        	_methods.add(jMethod);
+        }
     }
 
     /**
@@ -194,18 +198,12 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     }
 
     /**
-     * Returns an array of all the JMethods of this JEnumConstant.
+     * Returns an array of all the JMethods of this JMethod
      *
-     * @return An array of all the JMethods of this JEnumConstant.
+     * @return An array of all the JMethods of this JMethod.
      */
     public JMethod[] getMethods() {
-        int size = _methods.size();
-        JMethod[] marray = new JMethod[size];
-
-        for (int i = 0; i < _methods.size(); i++) {
-            marray[i] = _methods.elementAt(i);
-        }
-        return marray;
+    	return _methods.toArray(new JMethod[_methods.size()]);
     }
     
     public int getMethodCount() {
@@ -221,9 +219,10 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
      * @return The method if found, otherwise null.
      */
     public JMethod getMethod(final String name, final int startIndex) {
-        for (int i = startIndex; i < _methods.size(); i++) {
-            JMethod jMethod = _methods.elementAt(i);
-            if (jMethod.getName().equals(name)) { return jMethod; }
+    	for (JMethod jMethod : _methods) {
+            if (jMethod.getName().equals(name)) { 
+            	return jMethod; 
+            }
         }
         return null;
     }

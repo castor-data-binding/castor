@@ -195,22 +195,22 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
             DirectoryScanner ds = this.getDirectoryScanner(_xmlInstanceDir);
 
             String[] files = ds.getIncludedFiles();
-            for (int i = 0; i < files.length; i++) {
-                String filePath = _xmlInstanceDir.getAbsolutePath() + File.separator + files[i];
+            for (String file : files) {
+                String filePath = _xmlInstanceDir.getAbsolutePath() + File.separator + file;
                 processFile(filePath, null);
             }
         }
 
         // process all files of the given FileSet
-        for (int i = 0; i < _xmlInstanceFileSets.size(); i++) {
+        for (FileSet xmlInstanceFileSet : _xmlInstanceFileSets) {
             log("Given XML schema file name will be ignored.");
-            FileSet fs = (FileSet) _xmlInstanceFileSets.elementAt(i);
+            FileSet fs = xmlInstanceFileSet;
             DirectoryScanner ds = fs.getDirectoryScanner(getProject());
             File subdir = fs.getDir(getProject());
 
             String[] files = ds.getIncludedFiles();
-            for (int j = 0; j < files.length; j++) {
-                String filePath = subdir.getAbsolutePath() + File.separator + files[j];
+            for (String file : files) {
+                String filePath = subdir.getAbsolutePath() + File.separator + file;
                 processFile(filePath, null);
             }
         }

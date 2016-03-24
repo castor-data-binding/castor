@@ -161,8 +161,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     public void bindSourceCode(final Annotated annotated, final JClass[] classes) {
         _sourcesByComponent.put(annotated, classes);
-        for (int i = 0; i < classes.length; i++) {
-            JClass jClass = classes[i];
+        for (JClass jClass : classes) {
             if (jClass != null) {
                 _sourcesByName.put(jClass.getName(), jClass);
             }
@@ -186,8 +185,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * @return the JClass with the given name
      */
     JClass getProcessed(final String className) {
-        for (int i = 0; i < _processed.size(); i++) {
-            JClass jClass = _processed.elementAt(i);
+    	for (JClass jClass : _processed) {
             if (jClass.getName().equals(className)) {
                 return jClass;
             }
@@ -323,8 +321,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      * @return true if a JClass with the given name has been marked as processed
      */
     boolean processed(final String className) {
-        for (int i = 0; i < _processed.size(); i++) {
-            JClass jClass = _processed.elementAt(i);
+    	for (JClass jClass : _processed) {
             if (jClass.getName().equals(className)) {
                 return true;
             }
@@ -543,4 +540,4 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         return _sourcesByName;
     }
 
-} //-- SGStateInfo
+}

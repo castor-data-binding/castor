@@ -205,17 +205,14 @@ public final class JCompUnit {
         SortedSet<String> allImports = new TreeSet<String>();
 
         // add imports from classes
-        for (int i = 0; i < _classes.size(); ++i) {
-            JClass jClass = _classes.get(i);
-
+        for (JClass jClass : _classes) {
             Enumeration<String> enumeration = jClass.getImports();
             while (enumeration.hasMoreElements()) {
                 allImports.add(enumeration.nextElement());
             }
         }
 
-        for (int i = 0; i < _interfaces.size(); ++i) {
-            JInterface jInterface = _interfaces.get(i);
+        for (JInterface jInterface : _interfaces) {
             Enumeration<String> enumeration = jInterface.getImports();
             while (enumeration.hasMoreElements()) {
                 allImports.add(enumeration.nextElement());
@@ -404,8 +401,8 @@ public final class JCompUnit {
             if (jInterface.getModifiers().isPublic() == printPublic) {
                 if (isFirst) {
                     String[] header = printPublic ? PUBLIC_HEADER : NON_PUBLIC_HEADER;
-                    for (int j = 0; j < header.length; ++j) {
-                        jsw.writeln(header[j]);
+                    for (String headerEntry : header) {
+                        jsw.writeln(headerEntry);
                     }
                     jsw.writeln();
                     isFirst = false;
