@@ -71,10 +71,10 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     private final Map<String, JParameter> _params = new LinkedHashMap<String, JParameter>();
     
     /** The JavaDoc comment for this method's signature. */
-    private final JDocComment _jdc;
+    private final JDocComment _jdc = new JDocComment();
     
     /** The exceptions that this method throws. */
-    private final Vector<JClass> _exceptions;
+    private final Vector<JClass> _exceptions = new Vector<>(1);
 
     /**
      * Creates a new method with the given name and "void" return type.
@@ -87,11 +87,9 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             throw new IllegalArgumentException(err);
         }
 
-        _jdc = new JDocComment();
         _returnType = null;
         _name = name;
         _modifiers = new JModifiers();
-        _exceptions = new Vector<JClass>(1);
     }
 
     /**
@@ -120,12 +118,11 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
         //-- make sure exception is not already added
         String expClassName = exp.getName();
-        for (int i = 0; i < _exceptions.size(); i++) {
-            JClass jClass = _exceptions.elementAt(i);
+        for (JClass jClass : _exceptions) {
             if (expClassName.equals(jClass.getName())) { return; }
         }
         //-- add exception
-        _exceptions.addElement(exp);
+        _exceptions.add(exp);
     }
 
     /**
@@ -142,12 +139,13 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         String pName = parameter.getName();
         //-- check current params
         if (_params.get(pName) != null) {
-            StringBuilder err = new StringBuilder(32);
-            err.append("A parameter already exists for this method, ");
-            err.append(_name);
-            err.append(", with the name: ");
-            err.append(pName);
-            throw new IllegalArgumentException(err.toString());
+            String err = new StringBuilder(96)
+                .append("A parameter already exists for this method, ")
+                .append(_name)
+                .append(", with the name: ")
+                .append(pName)
+                .toString();
+            throw new IllegalArgumentException(err);
         }
 
         _params.put(pName, parameter);
@@ -164,9 +162,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      *         clause.
      */
     public JClass[] getExceptions() {
-        JClass[] jclasses = new JClass[_exceptions.size()];
-        _exceptions.copyInto(jclasses);
-        return jclasses;
+        return _exceptions.toArray(new JClass[_exceptions.size()]);
     }
 
     /**
@@ -319,8 +315,9 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         //- Method Source -/
         //-----------------/
 
-        jsw.write(_modifiers.toString());
-        if (_modifiers.toString().length() > 0) {
+        String modifiers = _modifiers.toString();
+        jsw.write(modifiers);
+        if (!modifiers.isEmpty()) {
             jsw.write(' ');
         }
         if (_returnType != null) {
@@ -346,7 +343,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
         jsw.write(")");
 
-        if (_exceptions.size() > 0) {
+        if (!_exceptions.isEmpty()) {
             jsw.write(" throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }

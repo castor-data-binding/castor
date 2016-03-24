@@ -233,8 +233,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             checkFieldNameDuplicates(allFields, javaClass);
             
             // Identify identity and normal fields. Note that order must be preserved.
-            List fieldList = new ArrayList(allFields.length);
-            List idList = new ArrayList();
+            List<FieldDescriptorImpl> fieldList = new ArrayList<>(allFields.length);
+            List<FieldDescriptor> idList = new ArrayList<>();
             if (extDesc == null) {
                 // Sort fields into 2 lists based on identity definition of field.
                 for (int i = 0; i < allFields.length; i++) {
@@ -245,14 +245,13 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                     }
                 }
                 
-                if (idList.size() == 0) {
+                if (idList.isEmpty()) {
                     // Found no identities based on identity definition of field.
                     // Try to find identities based on identity definition on class.
                     String[] idNames = classMapping.getIdentity();
                     
-                    FieldDescriptor identity;
                     for (int i = 0; i < idNames.length; i++) {
-                        identity = findIdentityByName(fieldList, idNames[i], javaClass);
+                        FieldDescriptor identity = findIdentityByName(fieldList, idNames[i], javaClass);
                         if (identity != null) {
                             idList.add(identity);
                         } else {
@@ -269,20 +268,18 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 if (extDesc.getIdentity() != null) { idList.add(extDesc.getIdentity()); }
                 
                 // Search redefined identities in extending class.
-                FieldDescriptor identity;
                 for (int i = 0; i < idList.size(); i++) {
-                    String idname = ((FieldDescriptor) idList.get(i)).getFieldName();
-                    identity = findIdentityByName(fieldList, idname, javaClass);
+                    String idname = idList.get(i).getFieldName();
+                    FieldDescriptor identity = findIdentityByName(fieldList, idname, javaClass);
                     if (identity != null) { idList.set(i, identity); }
                 }
             }
             
             FieldDescriptor xmlId = null;
-            if (idList.size() != 0) { xmlId = (FieldDescriptor) idList.get(0); }
+            if (!idList.isEmpty()) { xmlId = (FieldDescriptor) idList.get(0); }
             
             if (xmlId != null) { xmlClassDesc.setIdentity((XMLFieldDescriptorImpl) xmlId); }
-            for (int i = 0; i < fieldList.size(); i++) {
-                FieldDescriptor fieldDesc = (FieldDescriptor) fieldList.get(i);
+            for (FieldDescriptor fieldDesc : fieldList) {
                 if (fieldDesc != null) {
                     xmlClassDesc.addFieldDescriptor((XMLFieldDescriptorImpl) fieldDesc);
                 }

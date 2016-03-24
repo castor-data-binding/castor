@@ -74,7 +74,7 @@ public class PartialTermination implements java.io.Serializable {
     public void addAssignmentNotification(
             final org.castor.xmlctf.bestpractise.genpackage.AssignmentNotification vAssignmentNotification)
     throws java.lang.IndexOutOfBoundsException {
-        this._assignmentNotificationList.addElement(vAssignmentNotification);
+        this._assignmentNotificationList.add(vAssignmentNotification);
     }
 
     /**

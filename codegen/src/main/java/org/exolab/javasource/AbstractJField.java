@@ -203,13 +203,12 @@ public class AbstractJField extends JAnnotatedElementHelper implements JMember {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(_modifiers.toString());
-        sb.append(' ');
-        sb.append(_type);
-        sb.append(' ');
-        sb.append(_name);
-        return sb.toString();
+        return new StringBuilder()
+            .append(_modifiers)
+            .append(' ')
+            .append(_type)
+            .append(' ')
+            .append(_name)
+            .toString();
     }
-
 }

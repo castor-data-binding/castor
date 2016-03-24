@@ -36,15 +36,9 @@ import org.castor.core.util.Messages;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class CommandLineOptions {
-    private Vector _flags = null;
-    private Hashtable _optionInfo = null;
-    private PrintWriter _errorWriter = null;
-    
-    public CommandLineOptions() {
-        _flags = new Vector();
-        _optionInfo = new Hashtable();
-        _errorWriter = new PrintWriter(System.out);
-    }
+    private final Vector<String> _flags = new Vector<>();
+    private final Hashtable<String, CmdLineOption> _optionInfo = new Hashtable<>();
+    private final PrintWriter _errorWriter = new PrintWriter(System.out);
     
     /**
      * Adds the flag to list of available command line options.
@@ -88,7 +82,7 @@ public class CommandLineOptions {
     public void addFlag(final String flag, final String usageText, final String comment,
             final boolean optional) {
         if (flag == null) { return; }
-        _flags.addElement(flag);
+        _flags.add(flag);
         
         CmdLineOption opt = new CmdLineOption(flag);
         opt.setComment(comment);
@@ -212,13 +206,12 @@ public class CommandLineOptions {
         printUsage(pw);
         pw.println();
         
-        if (_flags.size() > 0) {
+        if (!_flags.isEmpty()) {
             pw.println("Flag               Description");
             pw.println("----------------------------------------------");
         }
-        for (int i = 0; i < _flags.size(); i++) {
-            String flag = (String) _flags.elementAt(i);
-            CmdLineOption opt = (CmdLineOption) _optionInfo.get(flag);
+        for (String flag : _flags) {
+            CmdLineOption opt = _optionInfo.get(flag);
             
             pw.print('-');
             pw.print(flag);
@@ -250,7 +243,7 @@ class CmdLineOption {
     private boolean _optional = false;
     private String _usageText = null;
     private String _comment = null;
-    private String _flag = null;
+    private final String _flag;
     
     /**
      * Creates a new CmdLineOption.

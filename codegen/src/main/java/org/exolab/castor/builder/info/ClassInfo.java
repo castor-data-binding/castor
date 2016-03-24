@@ -77,21 +77,21 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
     private boolean _abstract    = false;
     
     /** Vector of FieldInfo's for all attributes that are members of this Class. */
-    private Vector<FieldInfo> _atts = new Vector<FieldInfo>();
+    private final Vector<FieldInfo> _atts = new Vector<FieldInfo>();
     /** Vector of FieldInfo's for all elements that are members of this Class. */
-    private Vector<FieldInfo> _elements = new Vector<FieldInfo>();
+    private final Vector<FieldInfo> _elements = new Vector<FieldInfo>();
     /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo. */
     private FieldInfo _textField = null;
     
     /**
      * Map holding the properties set and read by Natures.
      */
-    private Map<String, Object> _properties = new HashMap<String, Object>();
+    private final Map<String, Object> _properties = new HashMap<String, Object>();
     
     /**
      * Map holding the available natures.
      */
-    private Set<String> _natures = new HashSet<String>();
+    private final Set<String> _natures = new HashSet<String>();
 
     /**
      * Creates a new ClassInfo. Adds the {@link XMLInfoNature} for legacy compliance.
@@ -126,7 +126,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
         switch(new XMLInfoNature(fieldInfo).getNodeType()) {
             case ATTRIBUTE:
                 if (!_atts.contains(fieldInfo)) {
-                    _atts.addElement(fieldInfo);
+                    _atts.add(fieldInfo);
                 }
                 break;
             case TEXT:
@@ -134,7 +134,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
                 break;
             default:
                 if (!_elements.contains(fieldInfo)) {
-                    _elements.addElement(fieldInfo);
+                    _elements.add(fieldInfo);
                 }
                 break;
         }
@@ -196,14 +196,9 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      * @return an array of XML attribute associated fields.
      */
     public FieldInfo[] getAttributeFields() {
-        FieldInfo[] fields = null;
-        if (_atts != null) {
-            fields = new FieldInfo[_atts.size()];
-            _atts.copyInto(fields);
-        } else {
-            fields = new FieldInfo[0];
-        }
-        return fields;
+        return null != _atts
+            ? _atts.toArray(new FieldInfo[_atts.size()])
+            : new FieldInfo[0];
     } //-- getAttributeFields
 
     /**
@@ -218,8 +213,7 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
             return null;
         }
 
-        for (int i = 0; i < _atts.size(); i++) {
-            FieldInfo temp = _atts.get(i);
+        for (FieldInfo temp : _atts) {
             if (new XMLInfoNature(temp).getNodeName().equals(nodeName)) {
                 return temp;
             }
@@ -245,14 +239,9 @@ public final class ClassInfo implements XMLInfo, PropertyHolder {
      * @return an array of XML element associated fields.
      */
     public FieldInfo[] getElementFields() {
-        FieldInfo[] members = null;
-        if (_elements != null) {
-            members = new FieldInfo[_elements.size()];
-            _elements.copyInto(members);
-        } else {
-            members = new FieldInfo[0];
-        }
-        return members;
+        return null != _elements
+            ? _elements.toArray(new FieldInfo[_elements.size()])
+            : new FieldInfo[0];
     } //-- getElementFields
 
     /**

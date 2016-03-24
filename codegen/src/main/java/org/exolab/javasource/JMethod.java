@@ -56,7 +56,7 @@ public final class JMethod implements JMember, JAnnotatedElement {
     //--------------------------------------------------------------------------
 
     /** The set of classes that contain this JMethod. */
-    private final Vector _classes;
+    private final Vector<JClass> _classes = new Vector<>(1);
     
     /** The JavaDoc comment for this JMethod. This will overwrite the JavaDoc for
      *  the JMethodSignature. */
@@ -80,7 +80,6 @@ public final class JMethod implements JMember, JAnnotatedElement {
             String err = "The method name must not be null or zero-length";
             throw new IllegalArgumentException(err);
         }
-        _classes = new Vector(1);
         _source = new JSourceCode();
         _signature = new JMethodSignature(name);
         _jdc = _signature.getJDocComment();
@@ -145,8 +144,8 @@ public final class JMethod implements JMember, JAnnotatedElement {
         }
         if (!jType.isPrimitive()) {
             JClass jClass = (JClass) jType;
-            for (int i = 0; i < _classes.size(); i++) {
-                ((JClass) _classes.elementAt(i)).addImport(jClass.getName());
+            for (JClass iClass : _classes) {
+                iClass.addImport(jClass.getName());
             }
         }
     }
@@ -293,7 +292,7 @@ public final class JMethod implements JMember, JAnnotatedElement {
      * @param source The String that represents the method body.
      */
     public void setSourceCode(final String source) {
-        _source = new JSourceCode(source);
+        setSourceCode(new JSourceCode(source));
     }
 
     /**

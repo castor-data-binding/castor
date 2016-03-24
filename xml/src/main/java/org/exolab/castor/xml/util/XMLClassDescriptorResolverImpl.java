@@ -303,7 +303,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         // @TODO Joachim 2007-05-05 the class loader is NOT used!
         // get a list of all descriptors with the correct xmlName, regardless of their namespace
         List<ClassDescriptor> possibleMatches = _descriptorCache.getDescriptors(xmlName);
-        if (possibleMatches.size() == 0) {
+        if (possibleMatches.isEmpty()) {
             // nothing matches that XML name
             return null;
         }

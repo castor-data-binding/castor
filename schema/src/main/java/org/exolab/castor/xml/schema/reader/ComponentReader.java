@@ -274,12 +274,13 @@ public abstract class ComponentReader {
     * This method is called when an out of order element is encountered
     **/
    public void outOfOrder(String name) throws XMLException {
-      StringBuffer err = new StringBuffer("out of order element <");
-      err.append(name);
-      err.append("> found in <");
-      err.append(elementName());
-      err.append(">.");
-      throw new XMLException(err.toString());
+      String err = new StringBuilder("out of order element <")
+          .append(name)
+          .append("> found in <")
+          .append(elementName())
+          .append(">.")
+          .toString();
+      throw new XMLException(err);
    }
 
    /**

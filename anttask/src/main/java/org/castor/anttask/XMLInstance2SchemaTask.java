@@ -59,7 +59,7 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
     /** 
      * Enlists the fileset the user wants to process. 
      */
-    private Vector _xmlInstanceFileSets = new Vector();
+    private final Vector<FileSet> _xmlInstanceFileSets = new Vector<>();
 
     // Begin application-specific parameters
     
@@ -100,7 +100,7 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
      * @param set An individual file set containing schemas.
      */
     public void addFileset(final FileSet set) {
-        _xmlInstanceFileSets.addElement(set);
+        _xmlInstanceFileSets.add(set);
     }
 
     /**
@@ -178,7 +178,7 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
     public void execute() {
         // Must have something to run the source generator on
         if (_xmlInstanceFile == null && _xmlInstanceDir == null 
-                && _xmlInstanceFileSets.size() == 0) {
+                && _xmlInstanceFileSets.isEmpty()) {
             throw new BuildException(NO_XML_DOCUMENT_MSG);
         }
 

@@ -248,7 +248,7 @@ public class FactoryState implements ClassInfoResolver {
      *            processed.
      */
     public void markAsProcessed(final Annotated annotated) {
-        _processed.addElement(annotated);
+        _processed.add(annotated);
     } // -- markAsProcessed
 
     /**

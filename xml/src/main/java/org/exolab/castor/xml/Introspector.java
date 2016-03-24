@@ -254,7 +254,7 @@ public final class Introspector implements PropertyChangeListener {
         if (_handlerFactoryList == null) {
             _handlerFactoryList = new Vector<>();
         }
-        _handlerFactoryList.addElement(factory);
+        _handlerFactoryList.add(factory);
         registerHandlerFactory(factory);
     } //-- addFieldHandlerFactory
 
@@ -863,7 +863,7 @@ public final class Introspector implements PropertyChangeListener {
         //-- if list is null, just return
         if (_handlerFactoryList == null) return false;
 
-        if (_handlerFactoryList.removeElement(factory)) {
+        if (_handlerFactoryList.remove(factory)) {
             //-- re-register remaining handlers
             _handlerFactoryMap.clear();
             for (FieldHandlerFactory tmp : _handlerFactoryList) {
@@ -1245,12 +1245,12 @@ public final class Introspector implements PropertyChangeListener {
     private static Class[] loadCollections() {
 
 
-        Vector<Class> collections = new Vector<>(6);
+        List<Class> collections = new ArrayList<>(6);
 
         //-- JDK 1.1
-        collections.addElement(Vector.class);
-        collections.addElement(Enumeration.class);
-        collections.addElement(Hashtable.class);
+        collections.add(Vector.class);
+        collections.add(Enumeration.class);
+        collections.add(Hashtable.class);
 
         //-- JDK 1.2+
         ClassLoader loader = Vector.class.getClassLoader();
@@ -1271,7 +1271,7 @@ public final class Introspector implements PropertyChangeListener {
         if (clazz != null) {
             //-- java.util.List found, add to collections,
             //-- also add java.util.Map
-            collections.addElement(clazz);
+            collections.add(clazz);
 
             clazz = null;
             try {
@@ -1281,7 +1281,7 @@ public final class Introspector implements PropertyChangeListener {
                 }
                 else clazz = Class.forName(MAP);
                 if (clazz != null) {
-                    collections.addElement(clazz);
+                    collections.add(clazz);
                 }
                 //-- java.util.Set
                 if (loader != null) {
@@ -1289,7 +1289,7 @@ public final class Introspector implements PropertyChangeListener {
                 }
                 else clazz = Class.forName(SET_COLLECTION);
                 if (clazz != null) {
-                    collections.addElement(clazz);
+                    collections.add(clazz);
                 }
 
 
@@ -1300,11 +1300,7 @@ public final class Introspector implements PropertyChangeListener {
             }
         }
 
-
-        Class[] classes = new Class[collections.size()];
-        collections.copyInto(classes);
-
-        return classes;
+        return collections.toArray(new Class[collections.size()]);
     } //-- loadCollections
 
 

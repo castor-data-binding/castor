@@ -60,10 +60,10 @@ import java.util.Vector;
 public final class JInterface extends JStructure {
 
     /** The fields for this JInterface. */
-    private Map<String, JField> _fields = new LinkedHashMap<String, JField>();
+    private final Map<String, JField> _fields = new LinkedHashMap<String, JField>();
     
     /** The list of methods of this JInterface. */
-    private Vector<JMethodSignature> _methods;
+    private final Vector<JMethodSignature> _methods = new Vector<JMethodSignature>();
 
     /**
      * Creates a new JInterface with the given name.
@@ -72,8 +72,6 @@ public final class JInterface extends JStructure {
      */
     public JInterface(final String name) {
         super(name);
-        
-        _methods = new Vector<JMethodSignature>();
 
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
@@ -83,7 +81,7 @@ public final class JInterface extends JStructure {
      * {@inheritDoc}
      */
     public void addImport(final String className) {
-        if (className == null || className.length() == 0) { return; }
+        if (className == null || className.isEmpty()) { return; }
         addImportInternal(className);
     }
 
@@ -104,7 +102,7 @@ public final class JInterface extends JStructure {
             addField((JField) jMember);
         } else {
             throw new IllegalArgumentException("invalid member for JInterface: "
-                    + jMember.toString());
+                    + jMember);
         }
     }
 
@@ -184,9 +182,7 @@ public final class JInterface extends JStructure {
      * @return An array of all the JMethodSignatures of this JInterface.
      */
     public JMethodSignature[] getMethods() {
-        JMethodSignature[] marray = new JMethodSignature[_methods.size()];
-        _methods.copyInto(marray);
-        return marray;
+        return _methods.toArray(new JMethodSignature[_methods.size()]);
     }
 
     /**
@@ -248,14 +244,14 @@ public final class JInterface extends JStructure {
             }
         }
         //-- END SORT
-        if (!added) { _methods.addElement(jMethodSig); }
+        if (!added) { _methods.add(jMethodSig); }
 
         //-- check parameter packages to make sure we have them
         //-- in our import list
 
         String[] pkgNames = jMethodSig.getParameterClassNames();
-        for (int i = 0; i < pkgNames.length; i++) {
-            addImport(pkgNames[i]);
+        for (String pkgName : pkgNames) {
+            addImport(pkgName);
         }
         //-- check return type to make sure it's included in the
         //-- import list
@@ -270,14 +266,14 @@ public final class JInterface extends JStructure {
         }
         //-- check exceptions
         JClass[] exceptions = jMethodSig.getExceptions();
-        for (int i = 0; i < exceptions.length; i++) {
-            addImport(exceptions[i].getName());
+        for (JClass exc : exceptions) {
+            addImport(exc.getName());
         }
         //-- ensure method and parameter annotations imported
         addImport(jMethodSig.getAnnotations());
         JParameter[] params = jMethodSig.getParameters();
-        for (int i = 0; i < params.length; i++) {
-            addImport(params[i].getAnnotations());
+        for (JParameter param : params) {
+            addImport(param.getAnnotations());
         }
     }
 
@@ -318,8 +314,6 @@ public final class JInterface extends JStructure {
 
         getAnnotatedElementHelper().printAnnotations(jsw);
 
-        buffer.setLength(0);
-
         JModifiers modifiers = getModifiers();
         if (modifiers.isPrivate()) {
             buffer.append("private ");
@@ -331,9 +325,9 @@ public final class JInterface extends JStructure {
             buffer.append("abstract ");
         }
 
-        buffer.append("interface ");
-        buffer.append(getLocalName());
-        buffer.append(' ');
+        buffer.append("interface ")
+            .append(getLocalName())
+            .append(' ');
         if (getInterfaceCount() > 0) {
             Enumeration<String> enumeration = getInterfaces();
             boolean endl = false;
@@ -407,7 +401,7 @@ public final class JInterface extends JStructure {
 
         //-- print method signatures
 
-        if (_methods.size() > 0) {
+        if (!_methods.isEmpty()) {
             jsw.writeln();
             jsw.writeln("  //-----------/");
             jsw.writeln(" //- Methods -/");
@@ -415,8 +409,7 @@ public final class JInterface extends JStructure {
             jsw.writeln();
         }
 
-        for (int i = 0; i < _methods.size(); i++) {
-            JMethodSignature signature = _methods.elementAt(i);
+        for (JMethodSignature signature : _methods) {
             signature.print(jsw);
             jsw.writeln(';');
         }

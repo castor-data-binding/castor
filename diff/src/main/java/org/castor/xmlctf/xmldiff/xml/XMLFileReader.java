@@ -119,14 +119,15 @@ public class XMLFileReader {
                 throw new NestedIOException(sx);
             }
 
-            StringBuffer err = new StringBuffer(sxp.toString());
-            err.append("\n - ");
-            err.append(sxp.getSystemId());
-            err.append("; line: ");
-            err.append(sxp.getLineNumber());
-            err.append(", column: ");
-            err.append(sxp.getColumnNumber());
-            throw new NestedIOException(err.toString(), sx);
+            String err = new StringBuilder(sxp.toString())
+                .append("\n - ")
+                .append(sxp.getSystemId())
+                .append("; line: ")
+                .append(sxp.getLineNumber())
+                .append(", column: ")
+                .append(sxp.getColumnNumber())
+                .toString();
+            throw new NestedIOException(err, sx);
         }
 
         Root root = (Root) node;

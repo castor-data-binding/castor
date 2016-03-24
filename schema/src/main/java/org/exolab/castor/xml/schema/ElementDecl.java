@@ -196,7 +196,7 @@ public class ElementDecl extends Particle implements Referable {
     **/
     public void addIdentityConstraint(IdentityConstraint constraint) {
         if (constraint == null) return;
-        _constraints.addElement(constraint);
+        _constraints.add(constraint);
     } //-- addIdentityConstraint
 
 	/**
@@ -541,7 +541,7 @@ public class ElementDecl extends Particle implements Referable {
     public boolean removeIdentityConstraint(IdentityConstraint constraint)
     {
         if (constraint ==  null) return false;
-        return _constraints.removeElement(constraint);
+        return _constraints.remove(constraint);
     } //-- removeIdentityConstraint
 
 

@@ -77,9 +77,8 @@ public class TypeList
     {
         output.println("Types count: " + types.size());
 
-        for( int index= 0; index < types.size(); index++)
-        {
-            ((Type)(types.elementAt(index))).Print(output);
+        for (Type t : types) {
+            t.Print(output);
         }
         output.println();
         output.flush();
@@ -90,8 +89,8 @@ public class TypeList
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder()
-            .append("Types count: ").append(types.size());
+        StringBuilder sb = new StringBuilder("Types count: ")
+            .append(types.size());
         for (Type t : types) {
             sb.append(t);
         }

@@ -126,7 +126,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
         //-- add validation code
 
         //-- add to internal collection
-        _attributes.addElement(attrDecl);
+        _attributes.add(attrDecl);
         //--set the parent
         attrDecl.setParent(this);
 
@@ -144,7 +144,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
         //-- add validation code
 
         //-- add to internal collection
-        _references.addElement(attrGroup);
+        _references.add(attrGroup);
 
     } //-- addReference
 
@@ -234,12 +234,12 @@ public final class AttributeGroupDecl extends AttributeGroup {
     **/
     public boolean isEmpty() {
 
-        if (_attributes.size() > 0) return false;
+        if (!_attributes.isEmpty()) return false;
 
         if (_references.isEmpty()) return true;
 
-        for (int i = 0; i < _references.size(); i++) {
-            if (!((AttributeGroup)_references.elementAt(i)).isEmpty())
+        for (AttributeGroup attributeGroup : _references) {
+            if (!attributeGroup.isEmpty())
                 return false;
         }
         return true;
@@ -261,11 +261,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
     **/
     public boolean removeAttribute(AttributeDecl attr) {
         if (attr == null )   return false;
-        if (_attributes.contains(attr)) {
-            _attributes.removeElement(attr);
-            return true;
-        }
-        return false;
+        return _attributes.remove(attr);
     } //-- removeAttribute
 
     /**
@@ -274,11 +270,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
     **/
     public boolean removeReference(AttributeGroupReference attrGroupReference) {
          if (attrGroupReference == null ) return false;
-         if (_references.contains(attrGroupReference)) {
-            _references.removeElement(attrGroupReference);
-            return true;
-         }
-         return false;
+         return _references.remove(attrGroupReference);
     } //-- removeReference
 
     /**

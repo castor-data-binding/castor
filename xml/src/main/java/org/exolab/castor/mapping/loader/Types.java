@@ -254,7 +254,7 @@ public class Types {
       return false;
    }
 
-   private static final Vector<Class<?>> ENUMS = new Vector<Class<?>>();
+   private static final Vector<Class<?>> ENUMS = new Vector<>();
 
    public static void addEnumType(Class<?> type) {
       ENUMS.add(type);
@@ -264,7 +264,7 @@ public class Types {
       return ENUMS.contains(type);
    }
 
-   private static final Vector<Class<?>> CONVERTIBLE = new Vector<Class<?>>();
+   private static final Vector<Class<?>> CONVERTIBLE = new Vector<>();
 
    public static void addConvertibleType(Class<?> type) {
       CONVERTIBLE.add(type);

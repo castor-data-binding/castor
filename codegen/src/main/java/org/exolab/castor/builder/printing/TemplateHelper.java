@@ -102,11 +102,11 @@ public class TemplateHelper {
      * @return A string representation of the annotation.
      */
     public String printAnnotation(final JAnnotation annotation, String shift) {
-        StringBuilder stringBuffer = new StringBuilder(32);
-        stringBuffer.append(shift);
-        stringBuffer.append("@");
-        stringBuffer.append(annotation.getAnnotationType().getLocalName());
-        stringBuffer.append("(");
+        StringBuilder stringBuffer = new StringBuilder(32)
+            .append(shift)
+            .append("@")
+            .append(annotation.getAnnotationType().getLocalName())
+            .append("(");
         // Single element annotation?
         String[] elementNames = annotation.getElementNames();
         if (elementNames.length == 1 && elementNames[0].equals(JAnnotation.VALUE)) {
@@ -120,28 +120,27 @@ public class TemplateHelper {
                 if (elementNameLength > maxLength) { maxLength = elementNameLength; }
             }
             // Output element name and values
-            stringBuffer.append("\n");
-            stringBuffer.append(shift + "    ");
+            stringBuffer.append('\n')
+                .append(shift + "    ");
             for (int i = 0; i < elementNames.length; i++) {
                 int elementNameLength = elementNames[i].length();
                 // Output element name with padding
                 stringBuffer.append(elementNames[i]);
                 for (int p = 0; p < maxLength - elementNameLength; p++) {
-                    stringBuffer.append(" ");
+                    stringBuffer.append(' ');
                 }
                 // Assignment operator
-                stringBuffer.append(" = ");
+                stringBuffer.append(" = ")
                 // Value
-                stringBuffer.append(printAnnotationValue(
+                    .append(printAnnotationValue(
                         annotation.getElementValueObject(elementNames[i]), shift));
                 if (i < elementNames.length - 1) {
-                    stringBuffer.append(",");
-                    stringBuffer.append("\n");
-                    stringBuffer.append(shift + "    ");
+                    stringBuffer.append(",\n")
+                        .append(shift + "    ");
                 }
             }
         }
-        stringBuffer.append(")");
+        stringBuffer.append(')');
         return stringBuffer.toString();
     }
     
@@ -166,18 +165,16 @@ public class TemplateHelper {
                 return printAnnotationValue(Array.get(elementValue, 0), shift);
             }
             // Output list items
-            StringBuilder stringBuffer = new StringBuilder();
-            stringBuffer.append("\n");
-            stringBuffer.append("{");
-            stringBuffer.append("\n");
-            stringBuffer.append(shift);
+            StringBuilder stringBuffer = new StringBuilder()
+                .append("\n{\n")
+                .append(shift);
             for (int i = 0; i < listLength; i++) {
-                stringBuffer.append(shift);
-                stringBuffer.append(printAnnotationValue(Array.get(elementValue, i), shift));
-                if (i < listLength - 1) { stringBuffer.append(","); }
-                stringBuffer.append("\n");
+                stringBuffer.append(shift)
+                    .append(printAnnotationValue(Array.get(elementValue, i), shift));
+                if (i < listLength - 1) { stringBuffer.append(','); }
+                stringBuffer.append('\n');
             }
-            stringBuffer.append("}");
+            stringBuffer.append('}');
             return stringBuffer.toString();
         }
         throw new IllegalArgumentException("'" + elementValue + "' was not expected.");

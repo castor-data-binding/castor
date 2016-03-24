@@ -114,7 +114,7 @@ public class ModelGroup extends Group {
     **/
     public void addModelGroup(ModelGroup modelGroup) {
         if (!_modelDefs.contains(modelGroup)) {
-            _modelDefs.addElement(modelGroup);
+            _modelDefs.add(modelGroup);
         }
     } //-- addModelGroup
 

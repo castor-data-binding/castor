@@ -120,7 +120,7 @@ public class CycleBreaker {
                 hthr.remove(beingHashed); 
 
                 // release any references if we have no more CycleHandles
-                if (hthr.size() == 0) {
+                if (hthr.isEmpty()) {
 
                     // before removing the threads empty hash from _threadHash
                     // acquire write lock first

@@ -100,7 +100,7 @@ public abstract class IdentityConstraint extends Annotated {
     **/
     public void addField(IdentityField field) {
         if (field != null)
-            _fields.addElement(field);
+            _fields.add(field);
     } //-- addField
     
     /**
@@ -151,7 +151,7 @@ public abstract class IdentityConstraint extends Annotated {
      * IdentityConstraint, otherwise false.
     **/
     public boolean removeField(IdentityField field) {
-        return _fields.removeElement(field);
+        return _fields.remove(field);
     } //-- removeField
     
      

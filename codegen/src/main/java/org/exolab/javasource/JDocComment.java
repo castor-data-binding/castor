@@ -55,10 +55,10 @@ public final class JDocComment {
     //--------------------------------------------------------------------------
 
     /** An ordered list of descriptors. */
-    private Vector<JDocDescriptor> _descriptors = null;
+    private final Vector<JDocDescriptor> _descriptors = new Vector<JDocDescriptor>();
     
     /** The internal buffer for this JDocComment. */
-    private StringBuffer _comment     = null;
+    private final StringBuffer _comment = new StringBuffer();
 
     //--------------------------------------------------------------------------
 
@@ -67,9 +67,6 @@ public final class JDocComment {
      */
     public JDocComment() {
         super();
-        
-        _descriptors = new Vector<JDocDescriptor>();
-        _comment     = new StringBuffer();
     }
 
     /**
@@ -78,11 +75,7 @@ public final class JDocComment {
      * @param jdesc The JDocDescriptor to add.
      */
     public JDocComment(final JDocDescriptor jdesc) {
-        super();
-        
-        _descriptors = new Vector<JDocDescriptor>();
-        _comment = new StringBuffer();
-        
+        this();
         addDescriptor(jdesc);
     }
 
@@ -96,8 +89,8 @@ public final class JDocComment {
     public void addDescriptor(final JDocDescriptor jdesc) {
         if (jdesc == null) { return; }
         //-- on the fly sorting of descriptors
-        if (_descriptors.size() == 0) {
-            _descriptors.addElement(jdesc);
+        if (_descriptors.isEmpty()) {
+            _descriptors.add(jdesc);
             return;
         }
 
@@ -202,7 +195,7 @@ public final class JDocComment {
         jComment.setComment(_comment.toString());
 
         //-- force a separating "*" for readability
-        if (_descriptors.size() > 0) {
+        if (!_descriptors.isEmpty()) {
             jComment.appendComment("\n");
         }
 
@@ -217,11 +210,10 @@ public final class JDocComment {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("/**\n");
-        sb.append(" * ");
-        sb.append(" */\n");
-        return sb.toString();
+        return
+            "/**\n" +
+            " * " +
+            " */\n";
     }
 
     //--------------------------------------------------------------------------

@@ -15,7 +15,9 @@
  */
 package org.exolab.javasource;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -32,24 +34,24 @@ import org.exolab.castor.builder.SourceGenerator;
 public abstract class AbstractJClass extends JStructure {
 
     /** The source code for static initialization. */
-    private JSourceCode _staticInitializer;
+    private final JSourceCode _staticInitializer = new JSourceCode();
 
     /** The list of member variables (fields) of this JClass. */
-    private Map<String, JField> _fields = new LinkedHashMap<String, JField>();
+    private final Map<String, JField> _fields = new LinkedHashMap<String, JField>();
 
     /** The list of member constants of this {@link JClass}. */
-    private Map<String, JConstant> _constants = new LinkedHashMap<String, JConstant>();
+    private final Map<String, JConstant> _constants = new LinkedHashMap<String, JConstant>();
 
     /** The list of constructors for this JClass. */
-    private Vector<JConstructor> _constructors;
+    private final Vector<JConstructor> _constructors = new Vector<JConstructor>();
 
     /** The list of methods of this JClass. */
-    private Vector<JMethod> _methods;
+    private final Vector<JMethod> _methods = new Vector<JMethod>();
 
     /** A collection of inner classes for this JClass. */
     private Vector<JClass> _innerClasses;
 
-    private Vector<String> _sourceCodeEntries = new Vector<String>();
+    private final Vector<String> _sourceCodeEntries = new Vector<String>();
 
     /**
      * Returns a collection of (complete) source code fragments.
@@ -75,10 +77,6 @@ public abstract class AbstractJClass extends JStructure {
      */
     protected AbstractJClass(final String name, boolean useOldFieldNaming) {
         super(name);
-        
-        _staticInitializer = new JSourceCode();
-        _constructors = new Vector<JConstructor>();
-        _methods = new Vector<JMethod>();
         _innerClasses = null;
         
         if (useOldFieldNaming) {
@@ -335,7 +333,7 @@ public abstract class AbstractJClass extends JStructure {
 
             /** check signatures (add later) **/
             if (!_constructors.contains(constructor)) {
-                _constructors.addElement(constructor);
+                _constructors.add(constructor);
             }
         } else {
             String err = "The given JConstructor was not created by this JClass";
@@ -350,7 +348,7 @@ public abstract class AbstractJClass extends JStructure {
      * @return true if the constructor was removed, otherwise false.
      */
     public final boolean removeConstructor(final JConstructor constructor) {
-        return _constructors.removeElement(constructor);
+        return _constructors.remove(constructor);
     }
 
     /**
@@ -359,13 +357,7 @@ public abstract class AbstractJClass extends JStructure {
      * @return An array of all the JMethods of this JClass.
      */
     public final JMethod[] getMethods() {
-        int size = _methods.size();
-        JMethod[] marray = new JMethod[size];
-
-        for (int i = 0; i < _methods.size(); i++) {
-            marray[i] = _methods.elementAt(i);
-        }
-        return marray;
+        return _methods.toArray(new JMethod[_methods.size()]);
     }
 
     /**
@@ -440,7 +432,7 @@ public abstract class AbstractJClass extends JStructure {
             }
         }
         //-- END SORT
-        if (!added) { _methods.addElement(jMethod); }
+        if (!added) { _methods.add(jMethod); }
 
     }
 
@@ -459,7 +451,9 @@ public abstract class AbstractJClass extends JStructure {
      * @param jMethods The JMethod[] to add.
      */
     public final void addMethods(final JMethod[] jMethods) {
-        for (int i = 0; i < jMethods.length; i++) { addMethod(jMethods[i]); }
+        for (JMethod jMethod : jMethods) {
+            addMethod(jMethod);
+        }
     }
 
     /**
@@ -469,7 +463,7 @@ public abstract class AbstractJClass extends JStructure {
      * @return true if the method was removed, otherwise false.
      */
     public final boolean removeMethod(final JMethod method) {
-        return _methods.removeElement(method);
+        return _methods.remove(method);
     }
 
     /**
@@ -489,7 +483,7 @@ public abstract class AbstractJClass extends JStructure {
         }
         String classname = getPackageName();
         if (classname != null) {
-            classname = classname + "." + localname;
+            classname = classname + '.' + localname;
         } else {
             classname = localname;
         }
@@ -498,7 +492,7 @@ public abstract class AbstractJClass extends JStructure {
         if (_innerClasses == null) {
             _innerClasses = new Vector<JClass>();
         }
-        _innerClasses.addElement(innerClass);
+        _innerClasses.add(innerClass);
         return innerClass;
 
     }
@@ -510,22 +504,15 @@ public abstract class AbstractJClass extends JStructure {
      * @return An array of JClass contained within this JClass.
      */
     public final JClass[] getInnerClasses() {
-        if (_innerClasses != null) {
-            int size = _innerClasses.size();
-            JClass[] carray = new JClass[size];
-            _innerClasses.copyInto(carray);
-            return carray;
-        }
-        return new JClass[0];
+        return null != _innerClasses
+            ? _innerClasses.toArray(new JClass[_innerClasses.size()])
+            : new JClass[0];
     }
     
     public final int getInnerClassCount() {
-    	if (_innerClasses != null) {
-    		return _innerClasses.size();
-    	} 
-    	return 0;
-    	
-    		
+        return null != _innerClasses
+            ? _innerClasses.size()
+            : 0;
     }
 
     /**
@@ -535,10 +522,9 @@ public abstract class AbstractJClass extends JStructure {
      * @return true if the JClass was removed, otherwise false.
      */
     public final boolean removeInnerClass(final JClass jClass) {
-        if (_innerClasses != null) {
-            return _innerClasses.removeElement(jClass);
-        }
-        return false;
+        return null != _innerClasses
+            ? _innerClasses.remove(jClass)
+            : false;
     }
 
     //--------------------------------------------------------------------------
@@ -575,11 +561,10 @@ public abstract class AbstractJClass extends JStructure {
         printPackageDeclaration(jsw);
 
         //-- get imports from inner-classes
-        Vector<String> removeImports = null;
+        List<String> removeImports = null;
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
-            removeImports = new Vector<String>();
-            for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass iClass = _innerClasses.elementAt(i);
+            removeImports = new ArrayList<>();
+            for (JClass iClass : _innerClasses) {
                 Enumeration<String> enumeration = iClass.getImports();
                 while (enumeration.hasMoreElements()) {
                     String classname = enumeration.nextElement();
@@ -590,7 +575,7 @@ public abstract class AbstractJClass extends JStructure {
                     }
                     if (!hasImport(classname)) {
                         addImport(classname);
-                        removeImports.addElement(classname);
+                        removeImports.add(classname);
                     }
                 }
             }
@@ -600,8 +585,8 @@ public abstract class AbstractJClass extends JStructure {
 
         //-- remove imports from inner-classes, if necessary
         if (removeImports != null) {
-            for (int i = 0; i < removeImports.size(); i++) {
-                removeImport(removeImports.elementAt(i));
+            for (String imp : removeImports) {
+                removeImport(imp);
             }
         }
     }
@@ -689,8 +674,7 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printConstructors(final JSourceWriter jsw) {
-        for (int i = 0; i < _constructors.size(); i++) {
-            JConstructor jConstructor = _constructors.elementAt(i);
+        for (JConstructor jConstructor : _constructors) {
             jConstructor.print(jsw);
             jsw.writeln();
         }
@@ -702,8 +686,7 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printMethods(final JSourceWriter jsw) {
-        for (int i = 0; i < _methods.size(); i++) {
-            JMethod jMethod = _methods.elementAt(i);
+        for (JMethod jMethod : _methods) {
             jMethod.print(jsw);
             jsw.writeln();
         }
@@ -723,9 +706,8 @@ public abstract class AbstractJClass extends JStructure {
      * @param jsw The JSourceWriter to be used.
      */
     protected final void printInnerClasses(final JSourceWriter jsw) {
-        if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
-            for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass jClass = _innerClasses.elementAt(i);
+        if (_innerClasses != null && !_innerClasses.isEmpty()) {
+            for (JClass jClass : _innerClasses) {
                 jClass.print(jsw, true);
                 jsw.writeln();
             }

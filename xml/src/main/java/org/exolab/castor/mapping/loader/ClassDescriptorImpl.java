@@ -210,7 +210,7 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return _javaClass.getName() + "[" + _natures.toString() + "]";
+        return _javaClass.getName() + '[' + _natures + ']';
     }
 
     /**

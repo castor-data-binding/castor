@@ -81,7 +81,7 @@ public class XPathLocation implements Location, java.io.Serializable {
     public void addAttribute(final String name) {
         if (_allowChildrenOrAtts) {
             _allowChildrenOrAtts = false;
-            _path.addElement("@" + name);
+            _path.add("@" + name);
         }
     }
 
@@ -91,7 +91,7 @@ public class XPathLocation implements Location, java.io.Serializable {
      */
     public void addChild(final String name) {
         if (_allowChildrenOrAtts) {
-            _path.addElement(name);
+            _path.add(name);
         }
     }
 

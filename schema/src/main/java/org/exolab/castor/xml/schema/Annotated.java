@@ -59,14 +59,14 @@ public abstract class Annotated extends Structure {
     /**
      * The Annotations of this Annotated structure.
     **/
-    private Vector<Annotation> _annotations = new Vector<Annotation>(1);
+    private final Vector<Annotation> _annotations = new Vector<Annotation>(1);
     
    /**
      * Adds the given Annotation to this Annotated Structure.
      * @param annotation the Annotation to add
     **/
     public void addAnnotation(final Annotation annotation) {
-        _annotations.addElement(annotation);
+        _annotations.add(annotation);
     }
     
     /**
@@ -84,7 +84,7 @@ public abstract class Annotated extends Structure {
      * @param annotation the Annotation to remove
     **/
     public void removeAnnotation(final Annotation annotation) {
-        _annotations.removeElement(annotation);
+        _annotations.remove(annotation);
     }
     
 }

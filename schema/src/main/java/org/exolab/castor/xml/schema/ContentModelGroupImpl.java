@@ -62,7 +62,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
     /**
      * Collection holding all {@link Particle}s of this content model group.
      */
-    private Vector<Particle> _contentModel = new Vector<Particle>();
+    private final Vector<Particle> _contentModel = new Vector<>();
     
     private transient ScopableResolver _resolver = new ScopableResolver();
 
@@ -75,7 +75,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
         if (wildcard.isAttributeWildcard()) {
             throw new SchemaException("only <any> should be add in a group.");
         }
-        _contentModel.addElement(wildcard);
+        _contentModel.add(wildcard);
     }
 
     /**
@@ -104,7 +104,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
         }
 
         //-- add to content model
-        _contentModel.addElement(elementDecl);
+        _contentModel.add(elementDecl);
 
     }
 
@@ -153,7 +153,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
         }
 
         // -- add to content model
-        _contentModel.addElement(group);
+        _contentModel.add(group);
     }
 
     /**
@@ -202,7 +202,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
         }
 
         // -- add to content model
-        _contentModel.addElement(group);
+        _contentModel.add(group);
     }
 
     /**
@@ -272,8 +272,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
                 return result;
             }
         }
-        for (int i = 0; i < _contentModel.size(); i++) {
-            Particle particle = _contentModel.elementAt(i);
+        for (Particle particle : _contentModel) {
             switch (particle.getStructureType()) {
             case Structure.ELEMENT:
                 ElementDecl e = (ElementDecl) particle;

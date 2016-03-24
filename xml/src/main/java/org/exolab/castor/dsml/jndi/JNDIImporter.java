@@ -45,8 +45,9 @@
 
 package org.exolab.castor.dsml.jndi;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import javax.naming.NamingException;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingEnumeration;
@@ -99,7 +100,7 @@ public class JNDIImporter extends Importer {
             try {
                 existing = _ctx.getAttributes(result.getName());
 
-                Vector<ModificationItem> modifs = new Vector<ModificationItem>();
+                List<ModificationItem> modifs = new ArrayList<ModificationItem>();
                 attrSet = result.getAttributes();
                 enumeration = attrSet.getAll();
                 while (enumeration.hasMore()) {
@@ -107,17 +108,17 @@ public class JNDIImporter extends Importer {
                     if (existing.get(attr.getID()) != null) {
                         if ((policy & ImportDescriptor.Policy.NEW_ATTRIBUTE_ONLY) == 0) {
                             if (attr.size() > 0) {
-                                modifs.addElement(new ModificationItem(
+                                modifs.add(new ModificationItem(
                                         DirContext.REPLACE_ATTRIBUTE, attr));
                             } else {
-                                modifs.addElement(new ModificationItem(
+                                modifs.add(new ModificationItem(
                                         DirContext.REMOVE_ATTRIBUTE, attr));
                             }
                         }
                     } else {
                         if ((policy & ImportDescriptor.Policy.UPDATE_ONLY) == 0) {
                             if (attr.size() > 0) {
-                                modifs.addElement(new ModificationItem(
+                                modifs.add(new ModificationItem(
                                         DirContext.ADD_ATTRIBUTE, attr));
                             }
                         }
@@ -128,16 +129,13 @@ public class JNDIImporter extends Importer {
                     while (enumeration.hasMore()) {
                         attr = enumeration.next();
                         if (attrSet.get(attr.getID()) == null) {
-                            modifs.addElement(new ModificationItem(
+                            modifs.add(new ModificationItem(
                                     DirContext.REMOVE_ATTRIBUTE, attr));
                         }
                     }
                 }
-                if (modifs.size() > 0) {
-                    ModificationItem[] array;
-
-                    array = new ModificationItem[modifs.size()];
-                    modifs.copyInto(array);
+                if (!modifs.isEmpty()) {
+                    ModificationItem[] array = modifs.toArray(new ModificationItem[modifs.size()]);
                     _ctx.modifyAttributes(result.getName(), array);
                     notify(result.getName(), ImportEventListener.REFRESHED);
                 } else {

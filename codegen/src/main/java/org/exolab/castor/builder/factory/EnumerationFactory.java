@@ -254,15 +254,16 @@ public final class EnumerationFactory extends BaseFactory {
                 if (generateConstantDefinitions) {
                     jsc.append(objName);
                 } else {
-                    StringBuilder init = new StringBuilder(32);
-                    init.append("new ");
-                    init.append(className);
-                    init.append("(");
-                    init.append(Integer.toString(count));
-                    init.append(", \"");
-                    init.append(escapeValue(value));
-                    init.append("\")");
-                    jsc.append(init.toString());
+                    String init = new StringBuilder(32)
+                        .append("new ")
+                        .append(className)
+                        .append('(')
+                        .append(count)
+                        .append(", \"")
+                        .append(escapeValue(value))
+                        .append("\")")
+                        .toString();
+                    jsc.append(init);
                 }
                 jsc.append(");");
             }

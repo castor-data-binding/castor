@@ -231,7 +231,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         
         // If there is configuration data, make sure that the field handler class
         // supports it.
-        if (params.size() > 0) {
+        if (!params.isEmpty()) {
             if (!ConfigurableFieldHandler.class.isAssignableFrom(fieldHandler.getClass())) {
                 throw new MappingException(Messages.format("mapping.classNotConfigurableFieldHandler", 
                         def.getName(), def.getClazz()));
@@ -862,11 +862,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             // Convert method call sequence for nested fields to arrays
             Method[] getArray = null;
             Method[] setArray = null;
-            if (getSequence.size() > 0) {
-                getArray = new Method[getSequence.size()];
-                getArray = getSequence.toArray(getArray);
-                setArray = new Method[setSequence.size()];
-                setArray = setSequence.toArray(setArray);
+            if (!getSequence.isEmpty()) {
+                getArray = getSequence.toArray(new Method[getSequence.size()]);
+                setArray = setSequence.toArray(new Method[setSequence.size()]);
             }
 
             // Create handler
@@ -904,7 +902,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                             fldMap.getGetMethod(), rtype, javaClass.getName());
                 }
 
-                if ((fldType == null) && (collectionType == null)) {
+                if (fldType == null && collectionType == null) {
                     fldType = getMethod.getReturnType();
                 }
             }

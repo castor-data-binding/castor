@@ -1084,7 +1084,7 @@ public class Marshaller extends MarshalFramework {
         if (!isNil) {
             cls = object.getClass();
             
-            if (_proxyInterfaces.size() > 0) {
+            if (!_proxyInterfaces.isEmpty()) {
                 boolean isProxy = false;
                 
                 Class<?>[] interfaces = cls.getInterfaces();

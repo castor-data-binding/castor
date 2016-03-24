@@ -159,15 +159,15 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     
     /** Defines the sequence of elements for unmarshalling validation
      *  (to be used with compositor == SEQUENCE only). */
-    private List<XMLFieldDescriptor> _sequenceOfElements = new ArrayList<XMLFieldDescriptor>();
+    private final List<XMLFieldDescriptor> _sequenceOfElements = new ArrayList<XMLFieldDescriptor>();
     
-    private List<String> _substitutes = new LinkedList<String>();    
+    private List<String> _substitutes = new LinkedList<String>();
 
     /** Map holding the properties set and read by Natures. */
-    private Map<String, Object> _properties = new HashMap<String, Object>();
+    private final Map<String, Object> _properties = new HashMap<String, Object>();
     
     /** Map holding the available natures. */
-    private Set<String> _natures = new HashSet<String>();
+    private final Set<String> _natures = new HashSet<String>();
 
     /**
      * Creates an XMLClassDescriptor class used by the Marshalling Framework.
@@ -286,7 +286,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      */
     public void checkDescriptorForCorrectOrderWithinSequence(
             final XMLFieldDescriptor elementDescriptor, UnmarshalState parentState, String xmlName) throws ValidationException {
-        if (_compositor == SEQUENCE && _sequenceOfElements.size() > 0) {
+        if (_compositor == SEQUENCE && !_sequenceOfElements.isEmpty()) {
         	
         	if (parentState.getExpectedIndex() == _sequenceOfElements.size() ) {
         		throw new ValidationException ("Element with name " + xmlName + " passed to type " + getXMLName() + " in incorrect order; It is not allowed to be the last element of this sequence!");

@@ -87,12 +87,12 @@ public class FieldMemberAndAccessorFactory {
                  * with 'add' (for multivalued fields) or 'set'! 
                  * @see FieldInfo#getWriteMethodeName() 
                  */ 
-                buffer.append(fieldInfo.getWriteMethodName());
+                buffer.append(fieldInfo.getWriteMethodName())
                 //buffer.append(FieldInfo.METHOD_PREFIX_SET);
                 //buffer.append(fieldInfo.getMethodSuffix());
-                buffer.append('(');
-                buffer.append(value);
-                buffer.append(");");
+                    .append('(')
+                    .append(value)
+                    .append(");");
                 jsc.add(buffer.toString());
                 if (dateTime) {
                     jsc.unindent();

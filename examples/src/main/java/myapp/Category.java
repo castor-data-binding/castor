@@ -7,7 +7,7 @@ public class Category
 {
     private int      _id;
 
-    private Vector   _products = new Vector();
+    private final Vector<Product> _products = new Vector<>();
 
     private String   _name;
 
@@ -48,7 +48,7 @@ public class Category
     {
         if ( ! _products.contains( product ) ) {
             System.out.println( "Adding product " + product + " to category " + this );
-            _products.addElement( product );
+            _products.add( product );
             product.addCategories( this );
         }
     }

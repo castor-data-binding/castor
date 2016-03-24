@@ -182,7 +182,7 @@ public class NamespacesStack {
     */
    public void removeNamespaceScope() {
       // removes the current namespace
-      if (namespaceStack.size() > 0) {
+      if (!namespaceStack.isEmpty()) {
          namespaceStack.remove(namespaceStack.size() - 1);
       } else {
          this.logger.error("Trying to remove a namespaces scope from an empty stack of Namespaces");
@@ -195,7 +195,7 @@ public class NamespacesStack {
     * @return the current namespace scope.
     */
    public Namespaces getCurrentNamespaceScope() {
-      if (namespaceStack.size() == 0) {
+      if (namespaceStack.isEmpty()) {
          addNewNamespaceScope();
       }
       return namespaceStack.get(namespaceStack.size() - 1);
