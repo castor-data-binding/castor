@@ -2,10 +2,12 @@ package org.castor.util;
 
 import org.castor.core.util.CycleBreaker;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CycleBreakerTest {
 
+	@Ignore
     @Test
     public void testMemLeak() {
         long startfreeMemory = Runtime.getRuntime().freeMemory();
