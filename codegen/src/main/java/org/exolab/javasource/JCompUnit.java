@@ -234,11 +234,9 @@ public final class JCompUnit {
      * @return The name of the file that this JCompUnit would be printed to.
      */
     public String getFilename(final String destDir) {
-        String filename = new String(_fileName);
-
         // -- Convert Java package to path string
         String javaPackagePath = "";
-        if ((_packageName != null) && (_packageName.length() > 0)) {
+        if (_packageName != null && !_packageName.isEmpty()) {
             javaPackagePath = _packageName.replace('.', File.separatorChar);
         }
 
@@ -254,8 +252,10 @@ public final class JCompUnit {
         }
 
         // -- Prefix filename with path
-        if (pathFile.toString().length() > 0) {
-            filename = pathFile.toString() + File.separator + filename;
+        String filename = _fileName;        
+        final String pathStr = pathFile.toString();
+        if (!pathStr.isEmpty()) {
+            filename = pathStr + File.separator + filename;
         }
 
         return filename;
@@ -336,8 +336,6 @@ public final class JCompUnit {
         // Traverse the nested class and interface hiararchy and
         // update the names to match the compilation unit.
 
-        StringBuilder buffer = new StringBuilder(INITIAL_STRING_BUILDER_SIZE);
-
         // -- write file header
         if (_header != null) {
             _header.print(jsw);
@@ -351,11 +349,12 @@ public final class JCompUnit {
 
         // -- print package name
         if ((_packageName != null) && (_packageName.length() > 0)) {
-            buffer.setLength(0);
-            buffer.append("package ");
-            buffer.append(_packageName);
-            buffer.append(';');
-            jsw.writeln(buffer.toString());
+            String buffer = new StringBuilder(INITIAL_STRING_BUILDER_SIZE)
+                .append("package ")
+                .append(_packageName)
+                .append(';')
+                .toString();
+            jsw.writeln(buffer);
             jsw.writeln();
         }
 
@@ -368,7 +367,7 @@ public final class JCompUnit {
         String compUnitPackage = getPackageName();
         for (String importName : allImports) {
             String importsPackage = JNaming.getPackageFromClassName(importName);
-            if ((importsPackage != null) && !importsPackage.equals(compUnitPackage)) {
+            if (importsPackage != null && !importsPackage.equals(compUnitPackage)) {
                 jsw.write("import ");
                 jsw.write(importName);
                 jsw.writeln(';');

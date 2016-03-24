@@ -76,7 +76,7 @@ public final class JCodeStatement {
         }
         StringBuilder sb = new StringBuilder(_indentSize + _value.length());
         for (int i = 0; i < _indentSize; i++) { sb.append(' '); }
-        sb.append(_value.toString());
+        sb.append(_value);
         return sb.toString();
     }
 

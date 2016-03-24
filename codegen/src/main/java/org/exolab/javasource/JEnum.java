@@ -195,12 +195,12 @@ public final class JEnum extends JClass {
             buffer.append("public ");
         }
 
-        buffer.append("enum ");
-        buffer.append(getLocalName());
-        buffer.append(' ');
+        buffer.append("enum ")
+            .append(getLocalName())
+            .append(' ');
         if (getInterfaceCount() > 0) {
             boolean endl = false;
-            if ((getInterfaceCount() > 1)) {
+            if (getInterfaceCount() > 1) {
                 jsw.writeln(buffer.toString());
                 buffer.setLength(0);
                 endl = true;
@@ -222,7 +222,6 @@ public final class JEnum extends JClass {
 
         buffer.append('{');
         jsw.writeln(buffer.toString());
-        buffer.setLength(0);
     }
 
     /**

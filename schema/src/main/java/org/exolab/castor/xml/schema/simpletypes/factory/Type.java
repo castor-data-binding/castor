@@ -154,18 +154,17 @@ public class Type
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("name: ").append(name);
-        sb.append(" code: ").append(code);
-        sb.append(" base: ").append(base);
-        sb.append(" impl: ").append(impl);
-        sb.append(" derivedBy: ").append(derivedBy);
-        sb.append('\n');
-        sb.append("Facets count: ").append(facet.size());
-        sb.append('\n');
-        for (int index = 0; index < facet.size(); index++) {
-            TypeProperty tp = (TypeProperty) (facet.elementAt(index));
-            sb.append(tp.toString());
+        StringBuilder sb = new StringBuilder()
+            .append("name: ").append(name)
+            .append(" code: ").append(code)
+            .append(" base: ").append(base)
+            .append(" impl: ").append(impl)
+            .append(" derivedBy: ").append(derivedBy)
+            .append('\n')
+            .append("Facets count: ").append(facet.size())
+            .append('\n');
+        for (TypeProperty tp : facet) {
+            sb.append(tp);
         }
         sb.append('\n');
         return sb.toString();

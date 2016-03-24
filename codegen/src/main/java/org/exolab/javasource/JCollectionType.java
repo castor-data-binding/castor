@@ -92,12 +92,12 @@ public final class JCollectionType extends JComponentizedType {
             if (isUseJava50()) {
                 if (getComponentType().isPrimitive()) {
                     JPrimitiveType primitive = (JPrimitiveType) getComponentType();
-                    return _instanceName + "<" + primitive.getWrapperName() + ">";
+                    return _instanceName + '<' + primitive.getWrapperName() + '>';
                 }
                 if (_useExtends) {
-                    return _instanceName + "<? extends " + getComponentType().toString() + ">";
+                    return _instanceName + "<? extends " + getComponentType() + '>';
                 }
-                return _instanceName + "<" + getComponentType().toString() + ">";
+                return _instanceName + '<' + getComponentType() + '>';
             }
 
             return _instanceName;
@@ -115,12 +115,12 @@ public final class JCollectionType extends JComponentizedType {
         if (isUseJava50()) {
             if (getComponentType().isPrimitive()) {
                 JPrimitiveType primitive = (JPrimitiveType) getComponentType();
-                return getName() + "<" + primitive.getWrapperName() + ">";
+                return getName() + '<' + primitive.getWrapperName() + '>';
             } 
             if (_useExtends) {
-                return getName() + "<? extends " + getComponentType().toString() + ">";
+                return getName() + "<? extends " + getComponentType() + '>';
             }
-            return getName() + "<" + getComponentType().toString() + ">";
+            return getName() + '<' + getComponentType() + '>';
         }
         
         return getName();

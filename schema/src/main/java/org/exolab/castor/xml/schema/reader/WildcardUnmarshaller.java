@@ -289,12 +289,13 @@ public class WildcardUnmarshaller extends ComponentReader {
         }
 
         else {
-            StringBuffer err = new StringBuffer("illegal element <");
-            err.append(name);
-            err.append("> found in <");
-            err.append(_element);
-            err.append(">");
-            throw new SchemaException(err.toString());
+            String err = new StringBuffer("illegal element <")
+                .append(name)
+                .append("> found in <")
+                .append(_element)
+                .append('>')
+                .toString();
+            throw new SchemaException(err);
         }
 
     } //-- startElement

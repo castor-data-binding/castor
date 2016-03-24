@@ -48,12 +48,13 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         sourceCode.append("();");
         
         if (!StringUtils.isEmpty(fieldInfo.getDefaultValue())) {
-          StringBuffer buffer = new StringBuffer();
-          buffer.append(fieldInfo.getName());
-          buffer.append(".add(");
-          buffer.append(fieldInfo.getDefaultValue());
-          buffer.append(");");
-          sourceCode.add(buffer.toString());
+          String buffer = new StringBuilder()
+              .append(fieldInfo.getName())
+              .append(".add(")
+              .append(fieldInfo.getDefaultValue())
+              .append(");")
+              .toString();
+          sourceCode.add(buffer);
         }
     } // -- generateConstructorCode
 

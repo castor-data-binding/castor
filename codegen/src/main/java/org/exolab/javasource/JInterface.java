@@ -314,8 +314,6 @@ public final class JInterface extends JStructure {
 
         getAnnotatedElementHelper().printAnnotations(jsw);
 
-        buffer.setLength(0);
-
         JModifiers modifiers = getModifiers();
         if (modifiers.isPrivate()) {
             buffer.append("private ");
@@ -327,9 +325,9 @@ public final class JInterface extends JStructure {
             buffer.append("abstract ");
         }
 
-        buffer.append("interface ");
-        buffer.append(getLocalName());
-        buffer.append(' ');
+        buffer.append("interface ")
+            .append(getLocalName())
+            .append(' ');
         if (getInterfaceCount() > 0) {
             Enumeration<String> enumeration = getInterfaces();
             boolean endl = false;
