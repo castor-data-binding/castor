@@ -48,6 +48,7 @@ package org.exolab.castor.xml.schema;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.ValidationException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -123,12 +124,12 @@ public class Schema extends Annotated {
     /**
      * The global AttribteGroups for this Schema
     **/
-    private Map<String, AttributeGroup> _attributeGroups = new Hashtable<String, AttributeGroup>();
+    private final Map<String, AttributeGroup> _attributeGroups = new Hashtable<String, AttributeGroup>();
 
     /**
      * The global attributes for this Schema
     **/
-    private Map<String, AttributeDecl> _attributes = new Hashtable<String, AttributeDecl>();
+    private final Map<String, AttributeDecl> _attributes = new Hashtable<String, AttributeDecl>();
 
     /**
      * The value of the block attribute.
@@ -139,7 +140,7 @@ public class Schema extends Annotated {
     /**
      * A list of defined architypes
     **/
-    private Map<String, ComplexType> _complexTypes = new Hashtable<String, ComplexType>();
+    private final Map<String, ComplexType> _complexTypes = new Hashtable<String, ComplexType>();
 
     /**
      * The elementFormDefault attribute for this Schema
@@ -149,7 +150,7 @@ public class Schema extends Annotated {
     /**
      * A list of defined elements
     **/
-    private Map<String, ElementDecl> _elements = new Hashtable<String, ElementDecl>();
+    private final Map<String, ElementDecl> _elements = new Hashtable<String, ElementDecl>();
 
     /**
      * The value of the final attribute.
@@ -159,12 +160,12 @@ public class Schema extends Annotated {
     /**
      * A list of defined top-levels groups
      */
-    private Map<String, ModelGroup> _groups = new Hashtable<String, ModelGroup>();
+    private final Map<String, ModelGroup> _groups = new Hashtable<String, ModelGroup>();
     
     /**
      * A list of defined <redefine>
      */
-    private Map<String, RedefineSchema> _redefineSchemas = new Hashtable<String, RedefineSchema>();
+    private final Map<String, RedefineSchema> _redefineSchemas = new Hashtable<String, RedefineSchema>();
 
     /**
      * The ID for this Schema
@@ -174,24 +175,24 @@ public class Schema extends Annotated {
     /**
      * A list of imported schemas
     **/
-    private Map<String, Schema> _importedSchemas = new Hashtable<String, Schema>();
+    private final Map<String, Schema> _importedSchemas = new Hashtable<String, Schema>();
     
     /**
      * A list of included schemas meant to be used only 
      * when the cache mechanism is enabled.
      **/
-    private Map<String, Schema> _cachedincludedSchemas = new Hashtable<String, Schema>();
+    private final Map<String, Schema> _cachedincludedSchemas = new Hashtable<String, Schema>();
     
 
     /**
      * A list of XML Schema files included in this schema
     **/
-    private Vector<String> _includedSchemas = new Vector<String>();
+    private final Vector<String> _includedSchemas = new Vector<String>();
 
     /**
      * A list of namespaces declared in this schema
      */
-    private Namespaces _namespaces = new Namespaces();
+    private final Namespaces _namespaces = new Namespaces();
 
     /**
      * The schemaLocation hint provided in the 'import' tag.
@@ -203,13 +204,13 @@ public class Schema extends Annotated {
      * The namespace of this XML Schema (ie the namespace
      * of the W3C Schema supported by this Schema).
     **/
-    private String _schemaNamespace = null;
+    private final String _schemaNamespace;
 
 
     /**
      * A list of defined SimpleTypes
     **/
-    private Hashtable<String, SimpleType> _simpleTypes = new Hashtable<String, SimpleType>();
+    private final Hashtable<String, SimpleType> _simpleTypes = new Hashtable<String, SimpleType>();
 
     /**
      * The targetNamespace for this Schema
@@ -645,7 +646,7 @@ public class Schema extends Annotated {
      * @return an Enumeration of all top-level Attribute declarations
     **/
     public Collection<AttributeDecl> getAttributes() {
-    	Vector<AttributeDecl> result = new Vector<AttributeDecl>(_attributes.size()*2);
+    	Collection<AttributeDecl> result = new ArrayList<>(_attributes.size()*2);
     	
     	result.addAll(_attributes.values());
     
@@ -686,8 +687,8 @@ public class Schema extends Annotated {
 
         //-- Null?
         if (name == null)  {
-            String err = NULL_ARGUMENT + "getAttribute: ";
-            err += "'name' cannot be null.";
+            String err = NULL_ARGUMENT + "getAttribute: "
+                + "'name' cannot be null.";
             throw new IllegalArgumentException(err);
         }
 
@@ -702,8 +703,8 @@ public class Schema extends Annotated {
             nsprefix = name.substring(0,colon);
             ns = _namespaces.getNamespaceURI(nsprefix);
             if (ns == null)  {
-                String err = "getAttribute: ";
-                err += "Namespace prefix not recognized '"+name+"'";
+                String err = "getAttribute: "
+                    + "Namespace prefix not recognized '"+name+"'";
                 throw new IllegalArgumentException(err);
             }
         }
@@ -763,7 +764,7 @@ public class Schema extends Annotated {
      * @return an Enumeration of all top-level AttributeGroup declarations
     **/
     public Collection<AttributeGroup> getAttributeGroups() {
-    	Vector<AttributeGroup> result = new Vector<AttributeGroup>(_attributeGroups.size()*2);
+    	Collection<AttributeGroup> result = new ArrayList<>(_attributeGroups.size()*2);
     	
     	result.addAll(_attributeGroups.values());
     	
@@ -996,7 +997,7 @@ public class Schema extends Annotated {
      * @return an Enumeration of all top-level ComplexType declarations
     **/
     public Collection<ComplexType> getComplexTypes() {
-    	Vector<ComplexType> result = new Vector<ComplexType>(_complexTypes.size()*2);
+    	Collection<ComplexType> result = new ArrayList<>(_complexTypes.size()*2);
     	
     	result.addAll(_complexTypes.values());
     	
@@ -1107,7 +1108,7 @@ public class Schema extends Annotated {
      * @return an Enumeration of all top-level element declarations
     **/
     public Collection<ElementDecl> getElementDecls() {
-    	Vector<ElementDecl> result = new Vector<ElementDecl>(_elements.size()*2);
+    	Collection<ElementDecl> result = new ArrayList<>(_elements.size()*2);
     	
     	result.addAll(_elements.values());
     	
@@ -1350,7 +1351,7 @@ public class Schema extends Annotated {
                 }
             }
         }
-        Vector<SimpleType> result = new Vector<SimpleType>(_simpleTypes.size()*2);
+        Collection<SimpleType> result = new ArrayList<>(_simpleTypes.size()*2);
         
         result.addAll(_simpleTypes.values());
         
@@ -1477,7 +1478,7 @@ public class Schema extends Annotated {
      * @return an Enumeration of all top-level ModelGroup declarations
     **/
     public Collection<ModelGroup> getModelGroups() {
-    	Vector<ModelGroup> result = new Vector<ModelGroup>(_groups.size()*2);
+    	Collection<ModelGroup> result = new ArrayList<>(_groups.size()*2);
     	
     	result.addAll(_groups.values());
    	
@@ -1568,7 +1569,7 @@ public class Schema extends Annotated {
      * @return the cached included XML schema
      */
     public Schema getCachedIncludedSchema(String schemaLocation) {
-    		return _cachedincludedSchemas.get(schemaLocation);
+        return _cachedincludedSchemas.get(schemaLocation);
     } //-- getCachedIncludedSchema
     
     /**
@@ -1657,7 +1658,7 @@ public class Schema extends Annotated {
      */
     public void addInclude(String include)
     {
-        _includedSchemas.addElement(include);
+        _includedSchemas.add(include);
     } //-- addInclude
 
     /**

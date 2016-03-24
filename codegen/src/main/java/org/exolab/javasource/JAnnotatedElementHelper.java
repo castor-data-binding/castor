@@ -119,7 +119,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
      * {@inheritDoc}
      */
     public final boolean hasAnnotations() {
-        return _annotations.size() > 0;
+        return !_annotations.isEmpty();
     }
 
     /**

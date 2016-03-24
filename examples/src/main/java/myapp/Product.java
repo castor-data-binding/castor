@@ -17,9 +17,9 @@ public class Product implements Persistent, TimeStampable {
 
     private long _timeStamp;
 
-    private Vector _details = new Vector();
+    private final Vector<ProductDetail> _details = new Vector<>();
 
-    private Vector _categories = new Vector();
+    private final Vector<Category> _categories = new Vector<>();
 
     public int getId() {
         return _id;
@@ -72,7 +72,7 @@ public class Product implements Persistent, TimeStampable {
 
     public void addCategories(final Category category) {
         if (!_categories.contains(category)) {
-            _categories.addElement(category);
+            _categories.add(category);
             category.addProduct(this);
         }
     }

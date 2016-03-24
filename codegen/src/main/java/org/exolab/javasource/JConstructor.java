@@ -55,19 +55,19 @@ import java.util.Vector;
 public final class JConstructor extends JAnnotatedElementHelper {
 
     /** The set of modifiers for this JConstructor. */
-    private JModifiers _modifiers;
+    private JModifiers _modifiers = new JModifiers();
     
     /** List of parameters for this JConstructor. */
-    private Map<String, JParameter> _params = new LinkedHashMap<String, JParameter>();
+    private final Map<String, JParameter> _params = new LinkedHashMap<String, JParameter>();
     
     /** The Class in this JConstructor has been declared. */
-    private AbstractJClass _declaringClass;
+    private final AbstractJClass _declaringClass;
     
     /** The source code for this constructor. */
-    private JSourceCode _sourceCode;
+    private JSourceCode _sourceCode = new JSourceCode();
     
     /** The exceptions that this JConstructor throws. */
-    private Vector<JClass> _exceptions;
+    private final Vector<JClass> _exceptions = new Vector<>(1);
 
     /**
      * Creates a new JConstructor for the provided declaring class.
@@ -76,9 +76,6 @@ public final class JConstructor extends JAnnotatedElementHelper {
      */
     protected JConstructor(final AbstractJClass declaringClass) {
         _declaringClass = declaringClass;
-        _modifiers = new JModifiers();
-        _sourceCode = new JSourceCode();
-        _exceptions = new Vector<JClass>(1);
     }
 
     /**
@@ -87,9 +84,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
      * @return The exceptions that this JConstructor lists in its throws clause.
      */
     public JClass[] getExceptions() {
-        JClass[] jclasses = new JClass[_exceptions.size()];
-        _exceptions.copyInto(jclasses);
-        return jclasses;
+        return _exceptions.toArray(new JClass[_exceptions.size()]);
     }
 
     /**
@@ -102,12 +97,11 @@ public final class JConstructor extends JAnnotatedElementHelper {
 
         //-- make sure exception is not already added
         String expClassName = exp.getName();
-        for (int i = 0; i < _exceptions.size(); i++) {
-            JClass jClass = _exceptions.elementAt(i);
+        for (JClass jClass : _exceptions) {
             if (expClassName.equals(jClass.getName())) { return; }
         }
         //-- add exception
-        _exceptions.addElement(exp);
+        _exceptions.add(exp);
     }
 
     /**
@@ -140,12 +134,13 @@ public final class JConstructor extends JAnnotatedElementHelper {
 
         //-- check current params
         if (_params.get(parameter.getName()) != null) {
-            StringBuilder err = new StringBuilder(64);
-            err.append("A parameter already exists for the constructor, ");
-            err.append(this._declaringClass.getName());
-            err.append(", with the name: ");
-            err.append(parameter.getName());
-            throw new IllegalArgumentException(err.toString());
+            String err = new StringBuilder(64)
+                .append("A parameter already exists for the constructor, ")
+                .append(this._declaringClass.getName())
+                .append(", with the name: ")
+                .append(parameter.getName())
+                .toString();
+            throw new IllegalArgumentException(err);
         }
 
         _params.put(parameter.getName(), parameter);
@@ -203,7 +198,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
      * @param sourceCode Source code to apply to this constructor.
      */
     public void setSourceCode(final String sourceCode) {
-        _sourceCode = new JSourceCode(sourceCode);
+        setSourceCode(new JSourceCode(sourceCode));
     }
 
     /**
@@ -266,7 +261,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
         }
 
         jsw.write(")");
-        if (_exceptions.size() > 0) {
+        if (!_exceptions.isEmpty()) {
             jsw.writeln();
             jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
@@ -287,9 +282,9 @@ public final class JConstructor extends JAnnotatedElementHelper {
      * {@inheritDoc}
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(32);
-        sb.append(_declaringClass.getName());
-        sb.append('(');
+        StringBuilder sb = new StringBuilder(32)
+            .append(_declaringClass.getName())
+            .append('(');
 
         //-- print parameters
         for (int i = 0; i < _params.size(); i++) {

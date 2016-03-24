@@ -97,7 +97,7 @@ public class OracleJavaCompiler implements Compiler {
 	 */
 	public void compileDirectory() {
 		List<File> filesList = findSourceFiles(_baseDirectory);
-		if (filesList.size() > 0) {
+		if (!filesList.isEmpty()) {
 			// filesList.addAll(0, getCompileArguments(_baseDirectory,
 			// _outputDirectory));
 

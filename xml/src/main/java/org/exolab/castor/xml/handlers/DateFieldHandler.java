@@ -40,12 +40,13 @@ package org.exolab.castor.xml.handlers;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
-import java.util.Vector;
 
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.types.DateTime;
@@ -134,13 +135,11 @@ public class DateFieldHandler extends XMLFieldHandler {
             formatted = values;
         } else if (java.util.Enumeration.class.isAssignableFrom(type)) {
             Enumeration enumeration = (Enumeration) val;
-            Vector values = new Vector();
+            List<String> values = new ArrayList<>();
             while (enumeration.hasMoreElements()) {
-                values.addElement(format(enumeration.nextElement()));
+                values.add(format(enumeration.nextElement()));
             }
-            String[] valuesArray = new String[values.size()];
-            values.copyInto(valuesArray);
-            formatted = valuesArray;
+            formatted = values.toArray(new String[values.size()]);
         } else {
             formatted = val.toString();
         }

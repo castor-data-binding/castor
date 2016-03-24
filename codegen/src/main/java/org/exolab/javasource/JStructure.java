@@ -78,28 +78,28 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     private static final String JSW_SHOULD_NOT_BE_NULL = "argument 'jsw' should not be null.";
 
     /** The source header. */
-    private JComment _header;
+    private JComment _header = null;
 
     /** The package to which this JStructure belongs. */
-    private String _packageName;
+    private final String _packageName;
 
     /** List of imported classes and packages. */
-    private Vector<String> _imports;
+    private final Vector<String> _imports = new Vector<>();
 
     /** The Javadoc for this JStructure. */
-    private JDocComment _jdc;
+    private final JDocComment _jdc = new JDocComment(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
 
     /** Implementation of JAnnoatedElement to delagate to. */
-    private JAnnotatedElementHelper _annotatedElement;
+    private final JAnnotatedElementHelper _annotatedElement = new JAnnotatedElementHelper();
 
     /**
      * The JModifiers for this JStructure, which allows us to change the
      * resulting qualifiers.
      */
-    private JModifiers _modifiers;
+    private final JModifiers _modifiers = new JModifiers();
 
     /** The set of interfaces implemented/extended by this JStructure. */
-    private Vector<String> _interfaces;
+    private final Vector<String> _interfaces = new Vector<>();
 
     /**
      * Creates a new JStructure with the given name.
@@ -122,13 +122,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             throw new IllegalArgumentException(err);
         }
 
-        _header = null;
         _packageName = JNaming.getPackageFromClassName(name);
-        _imports = new Vector<String>();
-        _jdc = new JDocComment(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
-        _annotatedElement = new JAnnotatedElementHelper();
-        _modifiers = new JModifiers();
-        _interfaces = new Vector<String>();
     }
 
     /**
@@ -255,7 +249,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
                     return;
                 }
             }
-            _imports.addElement(className);
+            _imports.add(className);
         }
     }
 
@@ -278,8 +272,8 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      *            JStructure for each JAnnotation in the Array.
      */
     protected final void addImport(final JAnnotation[] annotations) {
-        for (int i = 0; i < annotations.length; i++) {
-            addImport(annotations[i].getAnnotationType().getName());
+        for (JAnnotation annotation : annotations) {
+            addImport(annotation.getAnnotationType().getName());
         }
     }
 
@@ -294,14 +288,9 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      */
     public final boolean removeImport(final String className) {
         boolean result = false;
-        if (className == null) {
-            return result;
+        if (className != null && !className.isEmpty()) {
+            result = _imports.remove(className);
         }
-        if (className.length() == 0) {
-            return result;
-        }
-
-        result = _imports.removeElement(className);
         return result;
     }
 
@@ -410,7 +399,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
      */
     public final void addInterface(final String interfaceName) {
         if (!_interfaces.contains(interfaceName)) {
-            _interfaces.addElement(interfaceName);
+            _interfaces.add(interfaceName);
         }
     }
 
@@ -495,8 +484,9 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
 
         // -- Prefix filename with path
-        if (pathFile.toString().length() > 0) {
-            filename = pathFile.toString() + File.separator + filename;
+        final String pathStr = pathFile.toString();
+        if (!pathStr.isEmpty()) {
+            filename = pathStr + File.separator + filename;
         }
 
         return filename;
@@ -600,7 +590,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
 
         // -- print imports
-        if (_imports.size() > 0) {
+        if (!_imports.isEmpty()) {
             jsw.writeln("  //---------------------------------/");
             jsw.writeln(" //- Imported classes and packages -/");
             jsw.writeln("//---------------------------------/");

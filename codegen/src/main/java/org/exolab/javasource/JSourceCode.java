@@ -61,7 +61,7 @@ public final class JSourceCode {
     //--------------------------------------------------------------------------
 
     /** A list of JCodeStatements. */
-    private Vector<JCodeStatement> _source = null;
+    private final Vector<JCodeStatement> _source = new Vector<>();
     
     /** The indent size. */
     private short _indentSize = DEFAULT_INDENT_SIZE;
@@ -76,8 +76,6 @@ public final class JSourceCode {
      */
     public JSourceCode() {
         super();
-        
-        _source = new Vector<JCodeStatement>();
     }
 
     /**
@@ -88,7 +86,7 @@ public final class JSourceCode {
     public JSourceCode(final String sourceCode) {
         this();
         
-        _source.addElement(new JCodeStatement(sourceCode, _currentIndent));
+        _source.add(new JCodeStatement(sourceCode, _currentIndent));
     }
 
     //--------------------------------------------------------------------------
@@ -157,7 +155,7 @@ public final class JSourceCode {
      * @param statement The statement to add.
      */
     public void add(final String statement) {
-        _source.addElement(new JCodeStatement(statement, _currentIndent));
+        _source.add(new JCodeStatement(statement, _currentIndent));
     }
 
     /**
@@ -173,7 +171,7 @@ public final class JSourceCode {
      */
     public void addIndented(final String statement) {
         indent();
-        _source.addElement(new JCodeStatement(statement, _currentIndent));
+        _source.add(new JCodeStatement(statement, _currentIndent));
         unindent();
     }
 
@@ -204,8 +202,8 @@ public final class JSourceCode {
      * @param jsc The JSourceCode to copy this JSourceCode into.
      */
     public void copyInto(final JSourceCode jsc) {
-        for (int i = 0; i < _source.size(); i++) {
-             jsc.addCodeStatement(_source.elementAt(i));
+        for (JCodeStatement jcs : _source) {
+             jsc.addCodeStatement(jcs);
         }
     }
 
@@ -231,8 +229,8 @@ public final class JSourceCode {
      * @param jsw The JSourceWriter to print to.
      */
     public void print(final JSourceWriter jsw) {
-        for (int i = 0; i < _source.size(); i++) {
-            jsw.writeln(_source.elementAt(i).toString());
+        for (JCodeStatement jcs : _source) {
+            jsw.writeln(jcs.toString());
         }
     }
 
@@ -259,7 +257,7 @@ public final class JSourceCode {
      */
     private void addCodeStatement(final JCodeStatement jcs) {
         short indent = (short) (jcs.getIndent() + _currentIndent - DEFAULT_INDENT_SIZE);
-        _source.addElement(new JCodeStatement(jcs.getStatement(), indent));
+        _source.add(new JCodeStatement(jcs.getStatement(), indent));
     }
     
     /**
@@ -279,9 +277,8 @@ public final class JSourceCode {
     public String toString() {
         StringBuilder sb = new StringBuilder(100);
         String lineSeparator = System.getProperty("line.separator");
-        for (int i = 0; i < _source.size(); i++) {
-            sb.append(_source.elementAt(i).toString());
-            sb.append(lineSeparator);
+        for (JCodeStatement jcs : _source) {
+            sb.append(jcs).append(lineSeparator);
         }
         return sb.toString();
     }

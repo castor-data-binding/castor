@@ -46,8 +46,9 @@
 package org.exolab.castor.dsml;
 
 import java.io.Serializable;
-import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Collections;
+import java.util.Vector;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.AttributeList;
 import org.xml.sax.SAXException;
@@ -94,7 +95,7 @@ public class SearchDescriptor extends HandlerBase implements Serializable {
 
     private String _filter;
 
-    private Vector _returnAttrs;
+    private Vector<String> _returnAttrs;
 
     private StringBuffer _attrName;
 
@@ -129,31 +130,26 @@ public class SearchDescriptor extends HandlerBase implements Serializable {
 
     public String[] getReturnAttrs() {
         if (_returnAttrs == null) { return null; }
-        String[] array = new String[_returnAttrs.size()];
-        _returnAttrs.copyInto(array);
-        return array;
+        return _returnAttrs.toArray(new String[_returnAttrs.size()]);
     }
 
-    public Enumeration listReturnAttrs() {
-        if (_returnAttrs == null) { return new Vector().elements(); }
+    public Enumeration<String> listReturnAttrs() {
+        if (_returnAttrs == null) { return Collections.emptyEnumeration(); }
         return _returnAttrs.elements();
     }
 
     public void addReturnAttr(final String attrName) {
         if (_returnAttrs == null) {
-            _returnAttrs = new Vector();
+            _returnAttrs = new Vector<>();
         }
         if (!_returnAttrs.contains(attrName)) {
-            _returnAttrs.addElement(attrName);
+            _returnAttrs.add(attrName);
         }
     }
 
 
     public void produce(final DocumentHandler docHandler) throws SAXException {
-        AttributeListImpl attrList;
-        Enumeration       enumeration;
-
-        attrList = new AttributeListImpl();
+        AttributeListImpl attrList = new AttributeListImpl();
         docHandler.startElement(XML.Namespace.ROOT, attrList);
 
         attrList = new AttributeListImpl();
@@ -180,11 +176,11 @@ public class SearchDescriptor extends HandlerBase implements Serializable {
         docHandler.startElement(Names.Element.SEARCH, attrList);
 
         if (_returnAttrs != null) {
-            enumeration = _returnAttrs.elements();
+            Enumeration<String> enumeration = _returnAttrs.elements();
             while (enumeration.hasMoreElements()) {
                 attrList = new AttributeListImpl();
                 attrList.addAttribute(Names.Attribute.ATTRIBUTE_NAME, "NMTOKEN",
-                        (String) enumeration.nextElement());
+                        enumeration.nextElement());
                 docHandler.startElement(Names.Element.RETURN_ATTRIBUTE, attrList);
                 docHandler.endElement(Names.Element.RETURN_ATTRIBUTE);
             }

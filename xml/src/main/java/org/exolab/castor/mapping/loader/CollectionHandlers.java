@@ -47,10 +47,11 @@ package org.exolab.castor.mapping.loader;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.List;
 
 import org.castor.core.util.AbstractProperties;
 import org.castor.xml.XMLProperties;
@@ -76,7 +77,7 @@ public final class CollectionHandlers {
    private static boolean _loadedCollectionClass = false;
 
    static {
-      Vector<Info> allInfo = new Vector<Info>();
+      List<Info> allInfo = new ArrayList<>();
       AbstractProperties properties = XMLProperties.newInstance();
       StringTokenizer tokenizer = new StringTokenizer(properties.getString(
             XMLProperties.COLLECTION_HANDLERS_FOR_JAVA_11_OR_12, ""), ", ");
@@ -90,14 +91,13 @@ public final class CollectionHandlers {
             Method method = infoClass.getMethod("getCollectionHandlersInfo", (Class[]) null);
             Info[] info = (Info[]) method.invoke(null, (Object[]) null);
             for (int i = 0; i < info.length; ++i)
-               allInfo.addElement(info[i]);
+               allInfo.add(info[i]);
          } catch (Exception except) {
             // System.err.println( "CollectionHandlers: " + except.toString()
             // );
          }
       }
-      _info = new Info[allInfo.size()];
-      allInfo.copyInto(_info);
+      _info = allInfo.toArray(new Info[allInfo.size()]);
    }
 
    /**

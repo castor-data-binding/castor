@@ -78,7 +78,7 @@ public abstract class AnnotationItem extends Structure {
      */
     public void add(Object object) {
         if (object != null)
-            _objects.addElement(object);
+            _objects.add(object);
     } //-- add
     
     /**
@@ -126,7 +126,7 @@ public abstract class AnnotationItem extends Structure {
      * @param object the Object to remove
      */
     public void remove(Object object) {
-        if (object != null) _objects.removeElement(object);
+        if (object != null) _objects.remove(object);
     } //-- remove
 
     /**

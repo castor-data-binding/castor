@@ -62,12 +62,12 @@ public class Annotation extends Structure {
     /**
      * List of {@literal <appinfo/>} objects.
     **/
-    private Vector<AppInfo> _appInfos = new Vector<AppInfo>();
+    private final Vector<AppInfo> _appInfos = new Vector<>();
     
     /**
      * List of <documentation/> objects.
     **/
-    private Vector<Documentation> _documentations = new Vector<Documentation>();
+    private final Vector<Documentation> _documentations = new Vector<>();
     
     /**
      * Adds the given {@link AppInfo} to this annotation.
@@ -75,7 +75,7 @@ public class Annotation extends Structure {
     **/
     public void addAppInfo(final AppInfo appInfo) {
         if (appInfo != null) {
-            _appInfos.addElement(appInfo);
+            _appInfos.add(appInfo);
         }
     }
     
@@ -85,7 +85,7 @@ public class Annotation extends Structure {
     **/
     public void addDocumentation(final Documentation documentation) {
         if (documentation != null) {
-            _documentations.addElement(documentation);
+            _documentations.add(documentation);
         }
     }
 
@@ -111,7 +111,7 @@ public class Annotation extends Structure {
     **/
     public void removeAppInfo(final AppInfo appInfo) {
         if (appInfo != null) {
-            _appInfos.removeElement(appInfo);
+            _appInfos.remove(appInfo);
         }
     }
 
@@ -121,7 +121,7 @@ public class Annotation extends Structure {
     **/
     public void removeDocumentation(final Documentation documentation) {
         if (documentation != null) {
-            _documentations.removeElement(documentation);
+            _documentations.remove(documentation);
         }
     }
     

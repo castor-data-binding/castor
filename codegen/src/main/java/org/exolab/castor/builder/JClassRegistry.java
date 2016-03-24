@@ -427,7 +427,7 @@ public class JClassRegistry {
         LOG.info("*** Summary ***");
         if (binding.getBinding() != null 
                 && binding.getBinding().getForces() != null 
-                && binding.getBinding().getForces().size() > 0) {
+                && !binding.getBinding().getForces().isEmpty()) {
             Iterator<String> forceIterator = binding.getBinding().getForces().iterator();
             LOG.info("The following 'forces' have been enabled:");
             while (forceIterator.hasNext()) {

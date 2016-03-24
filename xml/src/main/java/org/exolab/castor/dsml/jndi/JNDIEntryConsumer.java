@@ -70,7 +70,7 @@ class JNDIEntryConsumer extends HandlerBase {
     private Attribute _attr;
     private StringBuffer _value;
     private Base64Decoder _decoder;
-    private Vector<SearchResult> _entries = new Vector<SearchResult>();
+    private final Vector<SearchResult> _entries = new Vector<>();
 
     JNDIEntryConsumer() {
     }
@@ -123,7 +123,7 @@ class JNDIEntryConsumer extends HandlerBase {
             if (_attrSet == null || _attr != null) {
                 throw new SAXException(Messages.format("dsml.closingTagNotRecognized", tagName));
             }
-            _entries.addElement(new SearchResult(_entryDN, null, _attrSet));
+            _entries.add(new SearchResult(_entryDN, null, _attrSet));
             _entryDN = null;
             _attrSet = null;
         } else if (tagName.equals(XML.Entries.Elements.OBJECT_CLASS)

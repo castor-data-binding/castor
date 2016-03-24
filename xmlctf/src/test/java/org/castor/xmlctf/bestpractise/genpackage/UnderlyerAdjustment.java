@@ -56,7 +56,7 @@ implements java.io.Serializable
     public void addUnwindCashflow(
             final org.castor.xmlctf.bestpractise.genpackage.UnwindCashflow vUnwindCashflow)
     throws java.lang.IndexOutOfBoundsException {
-        this._unwindCashflowList.addElement(vUnwindCashflow);
+        this._unwindCashflowList.add(vUnwindCashflow);
     }
 
     /**

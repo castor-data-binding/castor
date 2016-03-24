@@ -219,7 +219,7 @@ public final class XMLInstance2SchemaHandler
                 DatatypeHandler.guessType(sInfo.buffer.toString());
             sInfo.element.setTypeReference(typeName);
             //-- simpleContent
-            if (sInfo.attributes.size() > 0) {
+            if (!sInfo.attributes.isEmpty()) {
                 ComplexType cType = new ComplexType(_schema);
                 //-- SHOULD CHANGE THIS TO SIMPLE CONTENT WHEN
                 //-- SCHEMA WRITER BUGS ARE FIXED
@@ -230,9 +230,7 @@ public final class XMLInstance2SchemaHandler
                 //-- add attributes
                 try {
                     cType.addGroup(group);
-                    for (int i = 0; i < sInfo.attributes.size(); i++) {
-                        AttributeDecl attDecl = 
-                            (AttributeDecl)sInfo.attributes.elementAt(i);
+                    for (AttributeDecl attDecl : sInfo.attributes) {
                         cType.addAttributeDecl(attDecl);
                     }
                 }
@@ -244,7 +242,7 @@ public final class XMLInstance2SchemaHandler
         else {
             ComplexType cType = (ComplexType)sInfo.element.getType();
             
-            if ((cType == null) && (sInfo.attributes.size() > 0)) {
+            if (cType == null && !sInfo.attributes.isEmpty()) {
                 cType = new ComplexType(_schema);
                 sInfo.element.setType(cType);
                 Group group = new Group();
@@ -259,9 +257,7 @@ public final class XMLInstance2SchemaHandler
             }
             
             if (cType != null) {
-                for (int i = 0; i < sInfo.attributes.size(); i++) {
-                    AttributeDecl attDecl = 
-                        (AttributeDecl)sInfo.attributes.elementAt(i);
+                for (AttributeDecl attDecl : sInfo.attributes) {
                     cType.addAttributeDecl(attDecl);
                 }
             }
@@ -435,7 +431,7 @@ public final class XMLInstance2SchemaHandler
                 
             attr.setSimpleTypeReference(typeName);
             
-            sInfo.attributes.addElement(attr);
+            sInfo.attributes.add(attr);
         }
         
     } //-- startElement

@@ -187,7 +187,7 @@ public class Validator implements ClassValidator {
     }
     
     public void checkUnresolvedIdrefs(ValidationContext context) throws ValidationException {
-        if (context.getUnresolvedIdRefs().size() > 0) {
+        if (!context.getUnresolvedIdRefs().isEmpty()) {
             String err = MessageFormat.format(resourceBundle.getString("validator.error.class.descriptor.resolver.null"), new Object[] {context.getUnresolvedIdRefs().toString()});
             throw new ValidationException(err);
         }

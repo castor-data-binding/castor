@@ -62,9 +62,9 @@ import java.util.Stack;
  */
 public class SAX2DOMHandler extends HandlerBase {
     
-    private Node _node;
+    private final Node _node;
     
-    private Stack<Element> _parents = new Stack<Element>();
+    private final Stack<Element> _parents = new Stack<Element>();
 
     /**
      * Creates new instance of {@link SAX2DOMHandler} class.
@@ -77,7 +77,7 @@ public class SAX2DOMHandler extends HandlerBase {
 
     @Override
     public void startElement(final String name, final AttributeList attributes) {
-        Node parent = _parents.size() > 0 ? (Node) _parents.peek() : _node;
+        Node parent = !_parents.isEmpty() ? _parents.peek() : _node;
         final Document document = getDocument(parent);
 
         Element element = document.createElement(name);
@@ -92,7 +92,7 @@ public class SAX2DOMHandler extends HandlerBase {
     @Override
     public void characters(final char[] chars, final int offset, final int length) {
         String data = new String(chars, offset, length);
-        Node parent = (_parents.size() > 0) ? (Node) _parents.peek() : _node;
+        Node parent = !_parents.isEmpty() ? _parents.peek() : _node;
         Node last = parent.getLastChild();
         if ((last != null) && (last.getNodeType() == Node.TEXT_NODE)) {
             ((Text) last).appendData(data);

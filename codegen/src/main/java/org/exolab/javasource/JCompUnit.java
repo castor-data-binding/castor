@@ -85,16 +85,16 @@ public final class JCompUnit {
     private JComment _header = null;
 
     /** The package for this JCompUnit. */
-    private String _packageName = null;
+    private final String _packageName;
 
     /** The file to which this JCompUnit will be written. */
-    private String _fileName = null;
+    private final String _fileName;
 
     /** The set of top-level classes that live in this compilation unit. */
-    private Vector<JClass> _classes = new Vector<JClass>();
+    private final Vector<JClass> _classes = new Vector<JClass>();
 
     /** The set of top-level interfaces that live in this compilation unit. */
-    private Vector<JInterface> _interfaces = new Vector<JInterface>();
+    private final Vector<JInterface> _interfaces = new Vector<JInterface>();
 
     /**
      * Creates a new JCompUnit.
@@ -116,7 +116,7 @@ public final class JCompUnit {
      * @param jClass The public class for this JCompUnit.
      */
     public JCompUnit(final JClass jClass) {
-        _packageName = jClass.getPackageName();
+        this(jClass.getPackageName(), jClass.getLocalName() + ".java");
 
         // The outer name is the package plus the simple name of the
         // outermost enclosing class. The file name is just the
@@ -135,9 +135,6 @@ public final class JCompUnit {
         // filePrefix = outer;
         // }
 
-        String filePrefix = jClass.getLocalName();
-
-        _fileName = filePrefix + ".java";
         _classes.add(jClass);
     }
 
@@ -148,8 +145,7 @@ public final class JCompUnit {
      * @param jInterface The public interface for this JCompUnit.
      */
     public JCompUnit(final JInterface jInterface) {
-        _packageName = jInterface.getPackageName();
-        _fileName = jInterface.getLocalName() + ".java";
+        this(jInterface.getPackageName(), jInterface.getLocalName() + ".java");
         _interfaces.add(jInterface);
     }
 

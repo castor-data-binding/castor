@@ -122,7 +122,7 @@ public final class CastorCodeGenTask extends MatchingTask {
     private File _schemaDir = null;
     
     /** If processing a fileset, this lists the fileset. */
-    private Vector < FileSet > _schemaFilesets = new Vector < FileSet > ();
+    private Vector<FileSet> _schemaFilesets = new Vector<>();
 
     // Begin Source Generator parameters
     /** The package that generated code will belong to. */
@@ -239,7 +239,7 @@ public final class CastorCodeGenTask extends MatchingTask {
      * @param set An individual file set containing schemas.
      */
     public void addFileset(final FileSet set) {
-        _schemaFilesets.addElement(set);
+        _schemaFilesets.add(set);
     }
 
     /**
@@ -588,7 +588,7 @@ public final class CastorCodeGenTask extends MatchingTask {
      */
     public void execute() {
         // Must have something to run the source generator on
-        if (_schemaFile == null && _schemaDir == null && _schemaFilesets.size() == 0
+        if (_schemaFile == null && _schemaDir == null && _schemaFilesets.isEmpty()
                 && _schemaURL == null) {
             throw new BuildException(NO_SCHEMA_MSG);
         }

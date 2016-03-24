@@ -24,12 +24,12 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
     /** 
      * All class descriptors in the original order. 
      */
-    private List<ClassDescriptor> _descriptors = new Vector<ClassDescriptor>();
+    private final List<ClassDescriptor> _descriptors = new Vector<>();
 
     /** 
      * All class descriptors added so far, keyed by class name. 
      */
-    private Map<String, ClassDescriptor> _descriptorsByClassname = 
+    private final Map<String, ClassDescriptor> _descriptorsByClassname = 
         new Hashtable<String, ClassDescriptor>();
 
     public AbstractMappingLoader2(final ClassLoader loader) {

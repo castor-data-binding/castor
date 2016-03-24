@@ -60,10 +60,10 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     private String[] _arguments;
     
     /** JavaDoc comment for this JEnumConstant. */
-    private JDocComment _comment;
+    private JDocComment _comment = new JDocComment();
     
     /** A list of methods attached to this JEnumConstant. */
-    private Vector<JMethod> _methods = null;
+    private final Vector<JMethod> _methods = new Vector<>();
 
     //--------------------------------------------------------------------------
 
@@ -86,8 +86,6 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     public JEnumConstant(final String name, final String[] arguments) {
         setName(name);
         
-        _methods = new Vector<JMethod>();
-        _comment = new JDocComment();
         _comment.appendComment("Constant " + name);
         _arguments = arguments;
     }
@@ -181,7 +179,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             }
         }
         //-- END SORT
-        if (!added) { _methods.addElement(jMethod); }
+        if (!added) { _methods.add(jMethod); }
     }
 
     /**
@@ -190,8 +188,8 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
      * @param jMethods The array of JMethod to add.
      */
     public void addMethods(final JMethod[] jMethods) {
-        for (int i = 0; i < jMethods.length; i++) {
-            addMethod(jMethods[i]);
+        for (JMethod jMethod : jMethods) {
+            addMethod(jMethod);
         }
     }
 
@@ -323,7 +321,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             jsw.write(")");
         }
         //-- print methods
-        if (_methods.size() > 0) {
+        if (!_methods.isEmpty()) {
             jsw.write(" {");
             jsw.writeln();
             jsw.indent();

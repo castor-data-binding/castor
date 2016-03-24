@@ -49,6 +49,7 @@
  */
 package org.exolab.castor.builder;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -73,7 +74,7 @@ import org.exolab.javasource.JClass;
 public final class SGStateInfo extends ClassInfoResolverImpl {
 
     /** An empty Enumeration to be returned whenever we need an empty Enumeration. */
-    private static final Enumeration<String> EMPTY_ENUMERATION = new Vector<String>(0).elements();
+    private static final Enumeration<String> EMPTY_ENUMERATION = Collections.emptyEnumeration();
     /** The SourceGenerator is still generating source. */
     public static final int NORMAL_STATUS = 0;
     /** The SourceGenerator has been stopped by an error or by the user. */
@@ -300,7 +301,7 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
     void markAsProcessed(final JClass jClass) {
         //String className = jClass.getName();
         if (!_processed.contains(jClass)) {
-            _processed.addElement(jClass);
+            _processed.add(jClass);
         }
     } //-- markAsProcessed
 

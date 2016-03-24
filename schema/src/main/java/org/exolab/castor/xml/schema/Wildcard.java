@@ -139,7 +139,7 @@ public class Wildcard extends Particle {
      * @param Namespace the namespace to add
      */
      public void addNamespace(String Namespace) {
-         _namespaces.addElement(Namespace);
+         _namespaces.add(Namespace);
      }
 
    /**
