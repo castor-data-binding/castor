@@ -695,11 +695,8 @@ public final class CastorCodeGenTask extends MatchingTask {
       parser.setErrorHandler(handler);
       try {
         parser.parse(source);
-      } catch (IOException e) {
+      } catch (IOException | SAXException e) {
         String msg = "Can't read input file " + source.getSystemId() + ".\n" + e;
-        throw new BuildException(msg, e);
-      } catch (SAXException e) {
-        String msg = "Can't parse input file " + source.getSystemId() + ".\n" + e;
         throw new BuildException(msg, e);
       }
       Schema schema = schemaUnmarshaller.getSchema();
@@ -728,11 +725,7 @@ public final class CastorCodeGenTask extends MatchingTask {
       method.invoke(sgen, new Object[] {parameterValue});
     } catch (NoSuchMethodException e) {
       // unable to find method to configure JDO descriptor creation.
-    } catch (IllegalArgumentException e) {
-      throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
-    } catch (IllegalAccessException e) {
-      throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
-    } catch (InvocationTargetException e) {
+    } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
       throw new BuildException(PROBLEM_SETTING_JDO_DESC, e);
     }
   }

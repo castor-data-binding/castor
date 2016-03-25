@@ -50,19 +50,14 @@ import org.castor.anttask.CastorCodeGenTask;
  * @deprecated Please use {@link org.castor.anttask.CastorCodeGenTask} instead.
  */
 public final class CastorSourceGenTask extends MatchingTask {
-  // --------------------------------------------------------------------------
 
   /** CastorCodeGenTask to delegate all work to. */
   private final CastorCodeGenTask _codeGen = new CastorCodeGenTask();
-
-  // --------------------------------------------------------------------------
 
   /**
    * No-arg constructor.
    */
   public CastorSourceGenTask() {}
-
-  // --------------------------------------------------------------------------
 
   /**
    * Sets the individual schema that will have code generated for it.
@@ -229,8 +224,6 @@ public final class CastorSourceGenTask extends MatchingTask {
     _codeGen.setProperties(properties);
   }
 
-  // --------------------------------------------------------------------------
-
   /**
    * Public execute method -- entry point for the Ant task. Loops over all schema that need code
    * generated and creates needed code generators, then executes them. If anything goes wrong during
@@ -247,5 +240,4 @@ public final class CastorSourceGenTask extends MatchingTask {
   }
 
 
-  // --------------------------------------------------------------------------
 }

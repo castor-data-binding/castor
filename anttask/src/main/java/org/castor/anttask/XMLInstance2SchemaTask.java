@@ -34,15 +34,12 @@ import org.xml.sax.SAXException;
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XMLInstance2SchemaTask extends MatchingTask {
-  // --------------------------------------------------------------------------
 
   /**
    * Error message -- no input provided.
    */
   private static final String NO_XML_DOCUMENT_MSG =
       "At least one XML document instance must be provided.";
-
-  // --------------------------------------------------------------------------
 
   /**
    * Enlists the XML file to process.
@@ -70,8 +67,6 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
    * Default grouping to be <xsd:ALL/>.
    */
   private boolean _defaultGroupingAsAll;
-
-  // --------------------------------------------------------------------------
 
   /**
    * Sets the individual schema that will have code generated for it.
@@ -117,8 +112,6 @@ public final class XMLInstance2SchemaTask extends MatchingTask {
   public void setDefaultGrouping(final String defaultGroupingAsAll) {
     _defaultGroupingAsAll = true;
   }
-
-  // --------------------------------------------------------------------------
 
   /**
    * Configured the code generator. If anything goes wrong during configuration of the Ant task a

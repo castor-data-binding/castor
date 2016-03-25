@@ -51,7 +51,6 @@ import org.exolab.castor.builder.factory.FieldInfoFactory;
  * @deprecated Please use {@link org.castor.anttask.CastorCodeGenTask} instead.
  */
 public final class XSDCompiler extends Task {
-  // --------------------------------------------------------------------------
 
   /** Schema to use to generate code. */
   private File _schema;
@@ -71,16 +70,12 @@ public final class XSDCompiler extends Task {
   /** Directory into which to generate code. */
   private File _destDir;
 
-  // --------------------------------------------------------------------------
-
   /**
    * Creates a new XSDCompiler Task.
    */
   public XSDCompiler() {
     // No action needed
   }
-
-  // --------------------------------------------------------------------------
 
   /**
    * Executes the task. If anything goes wrong during execution of the Ant task a BuildException
@@ -137,8 +132,6 @@ public final class XSDCompiler extends Task {
     }
   }
 
-  // --------------------------------------------------------------------------
-
   /**
    * Set the schema file name.
    * 
@@ -194,5 +187,4 @@ public final class XSDCompiler extends Task {
     _destDir = project.resolveFile(dirName);
   }
 
-  // --------------------------------------------------------------------------
 }
