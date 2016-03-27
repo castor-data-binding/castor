@@ -283,7 +283,7 @@ public final class CastorCodeGenTask extends MatchingTask {
    * @param tf The type factory to use for code generation.
    */
   public void setTypes(final String tf) {
-    _types = (tf.equals("j2")) ? "arraylist" : tf;
+    _types = "j2".equals(tf) ? "arraylist" : tf;
   }
 
   /**
@@ -524,8 +524,8 @@ public final class CastorCodeGenTask extends MatchingTask {
     if (_properties != null) {
       String filePath = new File(_properties).getAbsolutePath();
       Properties customProperties = new Properties();
-      try {
-        customProperties.load(new FileInputStream(filePath));
+      try (FileInputStream fis = new FileInputStream(filePath)) {
+        customProperties.load(fis);
       } catch (FileNotFoundException e) {
         throw new BuildException("Properties file \"" + filePath + "\" not found");
       } catch (IOException e) {
@@ -608,8 +608,7 @@ public final class CastorCodeGenTask extends MatchingTask {
       }
 
       // Run source generator on all files in FileSet
-      for (FileSet schemaFileSet : _schemaFilesets) {
-        FileSet fs = (FileSet) schemaFileSet;
+      for (FileSet fs : _schemaFilesets) {
         DirectoryScanner ds = fs.getDirectoryScanner(getProject());
         File subdir = fs.getDir(getProject());
 

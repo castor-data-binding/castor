@@ -374,12 +374,12 @@ public abstract class XMLTestCase extends TestCase {
      */
     protected Object testUnmarshal(final File file) throws Exception {
         verbose("--> Unmarshaling '" + file.getName() + "'\n");
-        InputStream inputStream = new FileInputStream(file);
-        Object unmarshaledObject = testUnmarshal(inputStream);
-        inputStream.close();
-        assertNotNull("Unmarshaling '" + file.getName() + "' results in a NULL object.",
-                      unmarshaledObject);
-        return unmarshaledObject;
+        try (InputStream inputStream = new FileInputStream(file)) {
+            Object unmarshaledObject = testUnmarshal(inputStream);
+            assertNotNull("Unmarshaling '" + file.getName() + "' results in a NULL object.",
+                          unmarshaledObject);
+            return unmarshaledObject;
+        }
     }
 
     /**
