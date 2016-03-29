@@ -1,17 +1,15 @@
 /*
  * Copyright 2011 Jakub Narloch
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.exolab.castor.xml;
 
@@ -37,23 +35,23 @@ import org.w3c.dom.Document;
  */
 public class MarshallerDOMSourceTest extends BaseMarshallerTest {
 
-    @Override
-    protected String marshal(Marshaller marshaller, Object object) throws Exception {
+  @Override
+  protected String marshal(Marshaller marshaller, Object object) throws Exception {
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder = factory.newDocumentBuilder();
 
-        Document document = builder.newDocument();
+    Document document = builder.newDocument();
 
-        marshaller.setResult(new DOMResult(document));
-        marshaller.marshal(object);
+    marshaller.setResult(new DOMResult(document));
+    marshaller.marshal(object);
 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 
-        StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(document), new StreamResult(writer));
+    StringWriter writer = new StringWriter();
+    transformer.transform(new DOMSource(document), new StreamResult(writer));
 
-        return writer.toString();
-    }
+    return writer.toString();
+  }
 }

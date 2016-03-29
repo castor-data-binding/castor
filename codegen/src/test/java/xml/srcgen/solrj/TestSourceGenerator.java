@@ -6,34 +6,35 @@ import org.exolab.castor.builder.SourceGenerator;
 import org.xml.sax.InputSource;
 
 public class TestSourceGenerator extends TestCase {
-    
-    public void testGeneration() throws Exception {
-        SourceGenerator generator = new SourceGenerator();
-        String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
-        InputSource inputSource = new InputSource(xmlSchema);
-        generator.setDestDir("./target/codegen/src/test/java");
 
-        // uncomment to set a resource destination directory
-//        generator.setResourceDestinationDirectory("./target/codegen/src/test/resources");
+  public void testGeneration() throws Exception {
+    SourceGenerator generator = new SourceGenerator();
+    String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
+    InputSource inputSource = new InputSource(xmlSchema);
+    generator.setDestDir("./target/codegen/src/test/java");
 
-        generator.setSuppressNonFatalWarnings(true);
-        
-        // uncomment to have JDO-specific class descriptors created 
-//        generator.setJdoDescriptorCreation(true);
-        
-        // uncomment to use Velocity for code generation
-//        generator.setJClassPrinterType("velocity");
-        
-        // uncomment the next line to set a binding file for source generation
-//      generator.setBinding(new InputSource(getClass().getResource("binding.xml").toExternalForm()));
+    // uncomment to set a resource destination directory
+    // generator.setResourceDestinationDirectory("./target/codegen/src/test/resources");
 
-        // uncomment the next lines to set custom properties for source generation
-//      Properties properties = new Properties();
-//      properties.load(getClass().getResource("builder.properties").openStream());
-//      generator.setDefaultProperties(properties);
+    generator.setSuppressNonFatalWarnings(true);
 
-        generator.generateSource(inputSource, getClass().getPackage().getName() + ".generated");
-    }
-    
+    // uncomment to have JDO-specific class descriptors created
+    // generator.setJdoDescriptorCreation(true);
+
+    // uncomment to use Velocity for code generation
+    // generator.setJClassPrinterType("velocity");
+
+    // uncomment the next line to set a binding file for source generation
+    // generator.setBinding(new
+    // InputSource(getClass().getResource("binding.xml").toExternalForm()));
+
+    // uncomment the next lines to set custom properties for source generation
+    // Properties properties = new Properties();
+    // properties.load(getClass().getResource("builder.properties").openStream());
+    // generator.setDefaultProperties(properties);
+
+    generator.generateSource(inputSource, getClass().getPackage().getName() + ".generated");
+  }
+
 }
 

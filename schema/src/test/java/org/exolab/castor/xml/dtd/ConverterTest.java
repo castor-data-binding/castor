@@ -18,58 +18,59 @@ import org.xml.sax.SAXException;
 
 public class ConverterTest {
 
-	@Test
-	public void testNonamespaces()
-			throws SchemaException, DTDException, IOException, SAXException, URISyntaxException {
-		
-		Converter convertor = new Converter();
-		
-		URL in = getClass().getResource("test.dtd");
-		
-		File inFile = new File(in.toURI());
-		
-		String encoding = "US-ASCII";
-		
-		StringWriter writer = new StringWriter();
-		convertor.process(new FileReader(inFile), writer, encoding, null, new HashMap<String, String>());
+  @Test
+  public void testNonamespaces()
+      throws SchemaException, DTDException, IOException, SAXException, URISyntaxException {
 
-		String generatedSchema = writer.toString();
-		System.out.println(generatedSchema);
-		
-		assertNotNull(generatedSchema);
-		assertFalse(generatedSchema.contains("targetNameSpace"));
-		assertFalse(generatedSchema.contains("xmlns:test=\"http://test\""));
-		assertTrue(generatedSchema.contains("<element ref=\"description\"/>"));
-	}
+    Converter convertor = new Converter();
 
-	@Test
-	public void testWithTargetnamespace()
-			throws SchemaException, DTDException, IOException, SAXException, URISyntaxException {
-		
-		Converter convertor = new Converter();
-		
-		URL in = getClass().getResource("test.dtd");
-		
-		File inFile = new File(in.toURI());
-		
-		String encoding = "US-ASCII";
-		
-		StringWriter writer = new StringWriter();
-		
-		HashMap<String, String> namespaces = new HashMap<String, String>();
-		namespaces.put("test", "http://test");
-		
-		convertor.process(new FileReader(inFile), writer, encoding, "http://test", namespaces);
+    URL in = getClass().getResource("test.dtd");
 
-		String generatedSchema = writer.toString();
-		
-		System.out.println(generatedSchema);
-		
-		assertNotNull(generatedSchema);
-		assertTrue(generatedSchema.contains("targetNamespace"));
-		assertTrue(generatedSchema.contains("xmlns:test=\"http://test\""));
-		assertTrue(generatedSchema.contains("<element ref=\"test:description\"/>"));
+    File inFile = new File(in.toURI());
 
-	}
+    String encoding = "US-ASCII";
+
+    StringWriter writer = new StringWriter();
+    convertor.process(new FileReader(inFile), writer, encoding, null,
+        new HashMap<String, String>());
+
+    String generatedSchema = writer.toString();
+    System.out.println(generatedSchema);
+
+    assertNotNull(generatedSchema);
+    assertFalse(generatedSchema.contains("targetNameSpace"));
+    assertFalse(generatedSchema.contains("xmlns:test=\"http://test\""));
+    assertTrue(generatedSchema.contains("<element ref=\"description\"/>"));
+  }
+
+  @Test
+  public void testWithTargetnamespace()
+      throws SchemaException, DTDException, IOException, SAXException, URISyntaxException {
+
+    Converter convertor = new Converter();
+
+    URL in = getClass().getResource("test.dtd");
+
+    File inFile = new File(in.toURI());
+
+    String encoding = "US-ASCII";
+
+    StringWriter writer = new StringWriter();
+
+    HashMap<String, String> namespaces = new HashMap<String, String>();
+    namespaces.put("test", "http://test");
+
+    convertor.process(new FileReader(inFile), writer, encoding, "http://test", namespaces);
+
+    String generatedSchema = writer.toString();
+
+    System.out.println(generatedSchema);
+
+    assertNotNull(generatedSchema);
+    assertTrue(generatedSchema.contains("targetNamespace"));
+    assertTrue(generatedSchema.contains("xmlns:test=\"http://test\""));
+    assertTrue(generatedSchema.contains("<element ref=\"test:description\"/>"));
+
+  }
 
 }

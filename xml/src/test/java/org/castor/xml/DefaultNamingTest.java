@@ -11,31 +11,31 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { XmlConfigurations.class })
+@ContextConfiguration(classes = {XmlConfigurations.class})
 public class DefaultNamingTest {
 
-	@Inject
-	private XMLNaming xmlNaming;
-	
-	@Test
-	public void succeedsShortName() {
-		String xmlName = xmlNaming.toXMLName("foo");
-		assertNotNull(xmlName);
-		assertEquals("foo", xmlName);
-	}
-	
-	@Test
-	public void succeedsLongerName() {
-		String xmlName = xmlNaming.toXMLName("fooBar");
-		assertNotNull(xmlName);
-		assertEquals("foo-bar", xmlName);
-	}
+  @Inject
+  private XMLNaming xmlNaming;
 
-	@Test
-	public void succeedsEvenLongerName() {
-		String xmlName = xmlNaming.toXMLName("FOOBar");
-		assertNotNull(xmlName);
-		assertEquals("FOOBar", xmlName);
-	}
+  @Test
+  public void succeedsShortName() {
+    String xmlName = xmlNaming.toXMLName("foo");
+    assertNotNull(xmlName);
+    assertEquals("foo", xmlName);
+  }
+
+  @Test
+  public void succeedsLongerName() {
+    String xmlName = xmlNaming.toXMLName("fooBar");
+    assertNotNull(xmlName);
+    assertEquals("foo-bar", xmlName);
+  }
+
+  @Test
+  public void succeedsEvenLongerName() {
+    String xmlName = xmlNaming.toXMLName("FOOBar");
+    assertNotNull(xmlName);
+    assertEquals("FOOBar", xmlName);
+  }
 
 }

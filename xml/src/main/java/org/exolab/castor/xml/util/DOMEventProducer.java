@@ -1,42 +1,32 @@
 /*
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+ * Redistribution and use of this software and associated documentation ("Software"), with or
+ * without modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * 1. Redistributions of source code must retain copyright statements and notices. Redistributions
+ * must also contain a copy of this document.
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials provided with
+ * the distribution.
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
+ * 3. The name "Exolab" must not be used to endorse or promote products derived from this Software
+ * without prior written permission of Intalio, Inc. For written permission, please contact
+ * info@exolab.org.
  *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
+ * 4. Products derived from this Software may not be called "Exolab" nor may "Exolab" appear in
+ * their names without prior written permission of Intalio, Inc. Exolab is a registered trademark of
+ * Intalio, Inc.
  *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
+ * 5. Due credit should be given to the Exolab Project (http://www.exolab.org/).
  *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESSED OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL INTALIO, INC. OR ITS
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
@@ -57,293 +47,294 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * A class for converting a DOM document to SAX events
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ **/
 public class DOMEventProducer implements EventProducer {
 
 
-    private DocumentHandler _handler = null;
+  private DocumentHandler _handler = null;
 
-    private Node _node = null;
+  private Node _node = null;
 
-    /**
-     * Creates a new DOMEventProducer
-    **/
-    public DOMEventProducer() {
-        super();
-    } //-- DOMEventProducer
+  /**
+   * Creates a new DOMEventProducer
+   **/
+  public DOMEventProducer() {
+    super();
+  } // -- DOMEventProducer
 
-    /**
-     * Creates a new DOMEventProducer for the given Node
-     * @param node the node to create the DOMEventProducer for.
-    **/
-    public DOMEventProducer(Node node) {
-        super();
-        this._node = node;
-    } //-- DOMEventProducer
+  /**
+   * Creates a new DOMEventProducer for the given Node
+   * 
+   * @param node the node to create the DOMEventProducer for.
+   **/
+  public DOMEventProducer(Node node) {
+    super();
+    this._node = node;
+  } // -- DOMEventProducer
 
 
-    /**
-     * Sets the DocumentHandler to use when firing events
-    **/
-    public void setDocumentHandler(DocumentHandler handler) {
-        this._handler = handler;
-    } //-- setDocumentHandler
+  /**
+   * Sets the DocumentHandler to use when firing events
+   **/
+  public void setDocumentHandler(DocumentHandler handler) {
+    this._handler = handler;
+  } // -- setDocumentHandler
 
-    /**
-     * Sets the node which is to be converted into SAX events
-     * @param node the node which is to be converted into SAX events
-    **/
-    public void setNode(Node node) {
-        this._node = node;
-    } //-- setNode
+  /**
+   * Sets the node which is to be converted into SAX events
+   * 
+   * @param node the node which is to be converted into SAX events
+   **/
+  public void setNode(Node node) {
+    this._node = node;
+  } // -- setNode
 
-    /**
-     * Starts producing the events for the Node which is to be
-     * converted into SAX events
-    **/
-    public void start()
-        throws org.xml.sax.SAXException
-    {
-        if ((_node == null) || (_handler == null)) return;
+  /**
+   * Starts producing the events for the Node which is to be converted into SAX events
+   **/
+  public void start() throws org.xml.sax.SAXException {
+    if ((_node == null) || (_handler == null))
+      return;
 
-        process(_node, _handler);
+    process(_node, _handler);
 
-    } //-- start
+  } // -- start
 
-    /**
-     * Walks the given DOM Document and converts it into it's corresponding
-     * SAX events
-     * @param document the Node to process into SAX events
-     * @param handler the DocumentHandler to send events to
-    **/
-    public static void process(Document document, DocumentHandler handler)
+  /**
+   * Walks the given DOM Document and converts it into it's corresponding SAX events
+   * 
+   * @param document the Node to process into SAX events
+   * @param handler the DocumentHandler to send events to
+   **/
+  public static void process(Document document, DocumentHandler handler)
 
-        throws org.xml.sax.SAXException
+      throws org.xml.sax.SAXException
 
-    {
+  {
 
-        if (document == null) return;
+    if (document == null)
+      return;
 
-        if (handler == null) return;
+    if (handler == null)
+      return;
 
 
 
-        handler.startDocument();
+    handler.startDocument();
 
-        processChildren(document, handler);
+    processChildren(document, handler);
 
-        handler.endDocument();
+    handler.endDocument();
 
 
 
-    } //-- process(Document, DocumentHandler)
+  } // -- process(Document, DocumentHandler)
 
 
 
-    /**
+  /**
+   * 
+   * Breaks down the given node into it's corresponding SAX events
+   * 
+   * @param node the Node to process into SAX events
+   * 
+   * @param handler the DocumentHandler to send events to
+   * 
+   **/
 
-     * Breaks down the given node into it's corresponding SAX events
+  public static void process(Node node, DocumentHandler handler)
 
-     * @param node the Node to process into SAX events
+      throws org.xml.sax.SAXException
 
-     * @param handler the DocumentHandler to send events to
+  {
 
-    **/
 
-    public static void process(Node node, DocumentHandler handler)
 
-        throws org.xml.sax.SAXException
+    if ((node == null) || (handler == null))
+      return;
 
-    {
 
 
+    switch (node.getNodeType()) {
 
-        if ((node == null) || (handler == null)) return;
+      case Node.DOCUMENT_NODE:
 
+        process((Document) node, handler);
 
+        break;
 
-        switch(node.getNodeType()) {
+      case Node.DOCUMENT_FRAGMENT_NODE:
 
-            case Node.DOCUMENT_NODE:
+        processChildren(node, handler);
 
-                process((Document)node, handler);
+        break;
 
-                break;
+      case Node.ELEMENT_NODE:
 
-            case Node.DOCUMENT_FRAGMENT_NODE:
+        process((Element) node, handler);
 
-                processChildren(node, handler);
+        break;
 
-                break;
+      case Node.CDATA_SECTION_NODE:
 
-            case Node.ELEMENT_NODE:
+      case Node.TEXT_NODE:
 
-                process((Element)node, handler);
+        process((Text) node, handler);
 
-                break;
+        break;
 
-            case Node.CDATA_SECTION_NODE:
+      case Node.PROCESSING_INSTRUCTION_NODE:
 
-            case Node.TEXT_NODE:
+        process((ProcessingInstruction) node, handler);
 
-                process((Text)node, handler);
+        break;
 
-                break;
+      case Node.COMMENT_NODE:
 
-            case Node.PROCESSING_INSTRUCTION_NODE:
 
-                process((ProcessingInstruction)node, handler);
 
-                break;
+      default:
 
-            case Node.COMMENT_NODE:
+        break;
 
+    }
 
 
-            default:
 
-                break;
+  } // -- process(Node, DocumentHandler)
 
-        }
 
 
+  // -------------------/
 
-    } //-- process(Node, DocumentHandler)
+  // - Private Methods -/
 
+  // -------------------/
 
 
-    //-------------------/
 
-    //- Private Methods -/
+  /**
+   * 
+   * Breaks down the given node into it's corresponding SAX events
+   * 
+   * @param handler the DocumentHandler to send events to
+   * 
+   **/
 
-    //-------------------/
+  private static void process(Element element, DocumentHandler handler)
 
+      throws org.xml.sax.SAXException
 
+  {
 
-    /**
 
-     * Breaks down the given node into it's corresponding SAX events
 
-     * @param handler the DocumentHandler to send events to
+    String name = element.getNodeName();
 
-    **/
+    AttributeList atts = new AttributeListWrapper(element.getAttributes());
 
-    private static void process(Element element, DocumentHandler handler)
+    handler.startElement(name, atts);
 
-        throws org.xml.sax.SAXException
+    processChildren(element, handler);
 
-    {
+    handler.endElement(name);
 
+  } // -- process(Element, DocumentHandler);
 
 
-        String name = element.getNodeName();
 
-        AttributeList atts
-            = new AttributeListWrapper(element.getAttributes());
+  /**
+   * 
+   * Breaks down the given node into it's corresponding SAX events
+   * 
+   * @param handler the DocumentHandler to send events to
+   * 
+   **/
 
-        handler.startElement(name, atts);
+  private static void process(Text text, DocumentHandler handler)
 
-        processChildren(element, handler);
+      throws org.xml.sax.SAXException
 
-        handler.endElement(name);
+  {
 
-    } //-- process(Element, DocumentHandler);
+    String data = text.getData();
 
+    if ((data != null) && (data.length() > 0)) {
 
+      char[] chars = data.toCharArray();
 
-    /**
+      handler.characters(chars, 0, chars.length);
 
-     * Breaks down the given node into it's corresponding SAX events
+    }
 
-     * @param handler the DocumentHandler to send events to
+  } // -- process(Text, DocumentHandler)
 
-    **/
 
-    private static void process(Text text, DocumentHandler handler)
 
-        throws org.xml.sax.SAXException
+  /**
+   * 
+   * Breaks down the given ProcessingInstruction into it's corresponding
+   * 
+   * SAX event
+   * 
+   * @param pi the processing instruction to process
+   * 
+   * @param handler the DocumentHandler to send events to
+   * 
+   **/
 
-    {
+  private static void process
 
-        String data = text.getData();
+  (ProcessingInstruction pi, DocumentHandler handler)
 
-        if ((data != null) && (data.length() > 0)) {
+      throws org.xml.sax.SAXException
 
-            char[] chars = data.toCharArray();
+  {
 
-            handler.characters(chars, 0, chars.length);
+    handler.processingInstruction(pi.getTarget(), pi.getData());
 
-        }
 
-    } //-- process(Text, DocumentHandler)
 
+  } // -- process(ProcessingInstruction, DocumentHandler);
 
 
-    /**
 
-     * Breaks down the given ProcessingInstruction into it's corresponding
+  /**
+   * 
+   * Processes the children of the given Node
+   * 
+   * @param node the Node to process the children of
+   * 
+   * @param handler the DocumentHandler to send events to
+   * 
+   **/
 
-     * SAX event
+  private static void processChildren
 
-     * @param pi the processing instruction to process
+  (Node node, DocumentHandler handler)
 
-     * @param handler the DocumentHandler to send events to
+      throws org.xml.sax.SAXException
 
-    **/
+  {
 
-    private static void process
+    Node child = node.getFirstChild();
 
-        (ProcessingInstruction pi, DocumentHandler handler)
+    while (child != null) {
 
-        throws org.xml.sax.SAXException
+      process(child, handler);
 
-    {
+      child = child.getNextSibling();
 
-        handler.processingInstruction(pi.getTarget(),pi.getData());
+    }
 
 
 
-    } //-- process(ProcessingInstruction, DocumentHandler);
+  } // -- processChildren
 
 
 
-    /**
-
-     * Processes the children of the given Node
-
-     * @param node the Node to process the children of
-
-     * @param handler the DocumentHandler to send events to
-
-    **/
-
-    private static void processChildren
-
-        (Node node, DocumentHandler handler)
-
-        throws org.xml.sax.SAXException
-
-    {
-
-        Node child = node.getFirstChild();
-
-        while (child != null) {
-
-            process(child, handler);
-
-            child = child.getNextSibling();
-
-        }
-
-
-
-    } //-- processChildren
-
-
-
-
-
-} //-- DOMEventProducer
+} // -- DOMEventProducer
 

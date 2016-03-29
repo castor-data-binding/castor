@@ -9,33 +9,33 @@ package org.castor.test.entity;
  */
 public class Emails {
 
-    /**
-     * Represents the array of emails.
-     */
-    private Email[] email;
+  /**
+   * Represents the array of emails.
+   */
+  private Email[] email;
 
-    /**
-     * Creates new instance of Emails class.
-     */
-    public Emails() {
-        // empty constructor
-    }
+  /**
+   * Creates new instance of Emails class.
+   */
+  public Emails() {
+    // empty constructor
+  }
 
-    /**
-     * Retrieves the emails
-     *
-     * @return the emails
-     */
-    public Email[] getEmail() {
-        return email;
-    }
+  /**
+   * Retrieves the emails
+   *
+   * @return the emails
+   */
+  public Email[] getEmail() {
+    return email;
+  }
 
-    /**
-     * Sets the emails
-     *
-     * @param email the emails
-     */
-    public void setEmail(Email[] email) {
-        this.email = email;
-    }
+  /**
+   * Sets the emails
+   *
+   * @param email the emails
+   */
+  public void setEmail(Email[] email) {
+    this.email = email;
+  }
 }

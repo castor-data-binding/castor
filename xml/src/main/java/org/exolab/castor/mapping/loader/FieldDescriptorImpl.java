@@ -13,393 +13,370 @@ import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 
 public class FieldDescriptorImpl implements FieldDescriptor {
 
-    /** A reference to the containing class descriptor (parent). */
-    private ClassDescriptor _parent;
+  /** A reference to the containing class descriptor (parent). */
+  private ClassDescriptor _parent;
 
-    /** The name of the field. */
-    private String _fieldName;
+  /** The name of the field. */
+  private String _fieldName;
 
-    /** The type of the field. */
-    private Class<?> _fieldType;
+  /** The type of the field. */
+  private Class<?> _fieldType;
 
-    /** The type class descriptor, if this field is of a type known by a descriptor. */
-    private ClassDescriptor _classDescriptor;
-    
-    /** The field handler for get/set field value. */
-    private FieldHandler _handler;
+  /** The type class descriptor, if this field is of a type known by a descriptor. */
+  private ClassDescriptor _classDescriptor;
 
-    /** True if the field is transient and should not be saved/stored. */
-    private boolean _transient;
+  /** The field handler for get/set field value. */
+  private FieldHandler _handler;
 
-    /** True if the described field type is immutable. */
-    private boolean _immutable;
-    
-    /** True if the field type is required. */
-    private boolean _required;
+  /** True if the field is transient and should not be saved/stored. */
+  private boolean _transient;
 
-    /** True if access to field is direct. */
-    private boolean _direct;
-    
-    /** True if access to field is lazy. */
-    private boolean _lazy;
-    
-    /** True if the object described by this descriptor is multi-valued. */
-    private boolean _multivalued;
-    
-    /** True if the field is part of the identity of the class. */
-    private boolean _identity;
+  /** True if the described field type is immutable. */
+  private boolean _immutable;
 
-    /** The name of a class that implements the {@link Comparator} interface. */
-    private String _comparator;
+  /** True if the field type is required. */
+  private boolean _required;
 
-    /** The name of the 'getter' method used to obtain the value of a property. */
-    private String _getMethod;
+  /** True if access to field is direct. */
+  private boolean _direct;
 
-    /** The name of the 'setter' method used to set the value of a property. */
-    private String _setMethod;
+  /** True if access to field is lazy. */
+  private boolean _lazy;
 
-    /** The name of the 'create' method used to create an instance of a property. */
-    private String _createMethod;
-    
-    /** The type of the collection, if the field is multi-valued. */
-    private FieldMappingCollectionType _collection;
+  /** True if the object described by this descriptor is multi-valued. */
+  private boolean _multivalued;
 
-    /**
-     * Map holding the properties set and read by natures.
-     */
-    private Map<String, Object> _properties = new HashMap<String, Object>();
+  /** True if the field is part of the identity of the class. */
+  private boolean _identity;
 
-    /**
-     * Map holding the available natures.
-     */
-    private Set<String> _natures = new HashSet<String>();
-    
-    /**
-     * Creates a default instance of a field descriptor.
-     */
-    protected FieldDescriptorImpl() { }
+  /** The name of a class that implements the {@link Comparator} interface. */
+  private String _comparator;
 
-    /**
-     * Constructs a new field descriptor.
-     *
-     * @param fieldName The field name
-     * @param typeInfo The field type information
-     * @param handler The field handler (may be null)
-     * @param isTransitive True if the field is transient
-     */
-    public FieldDescriptorImpl(final String fieldName, 
-            final TypeInfo typeInfo,
-            final FieldHandler handler, 
-            final boolean isTransitive) {
-        
-        if (fieldName == null) {
-            throw new IllegalArgumentException("Internal error. Field name not specified.");
-        }
-        
-        if (handler == null) {
-            throw new IllegalArgumentException("Internal error. No FieldHandler provided.");
-        }
-        
-        setFieldName(fieldName);
-        setFieldType(typeInfo.getFieldType());
-        setHandler(handler);
-        setTransient(isTransitive);
-        setImmutable(typeInfo.isImmutable());
-        setRequired(typeInfo.isRequired());
-        setMultivalued(typeInfo.getCollectionHandler() != null);
+  /** The name of the 'getter' method used to obtain the value of a property. */
+  private String _getMethod;
+
+  /** The name of the 'setter' method used to set the value of a property. */
+  private String _setMethod;
+
+  /** The name of the 'create' method used to create an instance of a property. */
+  private String _createMethod;
+
+  /** The type of the collection, if the field is multi-valued. */
+  private FieldMappingCollectionType _collection;
+
+  /**
+   * Map holding the properties set and read by natures.
+   */
+  private Map<String, Object> _properties = new HashMap<String, Object>();
+
+  /**
+   * Map holding the available natures.
+   */
+  private Set<String> _natures = new HashSet<String>();
+
+  /**
+   * Creates a default instance of a field descriptor.
+   */
+  protected FieldDescriptorImpl() {}
+
+  /**
+   * Constructs a new field descriptor.
+   *
+   * @param fieldName The field name
+   * @param typeInfo The field type information
+   * @param handler The field handler (may be null)
+   * @param isTransitive True if the field is transient
+   */
+  public FieldDescriptorImpl(final String fieldName, final TypeInfo typeInfo,
+      final FieldHandler handler, final boolean isTransitive) {
+
+    if (fieldName == null) {
+      throw new IllegalArgumentException("Internal error. Field name not specified.");
     }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#setContainingClassDescriptor(
-     *      org.exolab.castor.mapping.ClassDescriptor)
-     * {@inheritDoc}
-     */
-    public final void setContainingClassDescriptor(final ClassDescriptor parent) {
-        _parent = parent;
-    }
-    
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#getContainingClassDescriptor()
-     * {@inheritDoc}
-     */
-    public final ClassDescriptor getContainingClassDescriptor() {
-        return _parent;
-    }
-    
-    /**
-     * Set the name of the field.
-     * 
-     * @param fieldName Field name.
-     */
-    public final void setFieldName(final String fieldName) {
-        _fieldName = fieldName;
+    if (handler == null) {
+      throw new IllegalArgumentException("Internal error. No FieldHandler provided.");
     }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#getFieldName()
-     * {@inheritDoc}
-     */
-    public final String getFieldName() {
-        return _fieldName;
-    }
+    setFieldName(fieldName);
+    setFieldType(typeInfo.getFieldType());
+    setHandler(handler);
+    setTransient(isTransitive);
+    setImmutable(typeInfo.isImmutable());
+    setRequired(typeInfo.isRequired());
+    setMultivalued(typeInfo.getCollectionHandler() != null);
+  }
 
-    /**
-     * Set the type of the field.
-     * 
-     * @param fieldType Field type.
-     */
-    public final void setFieldType(final Class<?> fieldType) {
-        _fieldType = fieldType;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#setContainingClassDescriptor(
+   *      org.exolab.castor.mapping.ClassDescriptor) {@inheritDoc}
+   */
+  public final void setContainingClassDescriptor(final ClassDescriptor parent) {
+    _parent = parent;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#getFieldType()
-     * {@inheritDoc}
-     */
-    public final Class<?> getFieldType() {
-        return _fieldType;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#getContainingClassDescriptor() {@inheritDoc}
+   */
+  public final ClassDescriptor getContainingClassDescriptor() {
+    return _parent;
+  }
 
-    /**
-     * Set the ClassDescriptor for the described field.
-     *
-     * @param classDescriptor The ClassDescriptor for the described field.
-     */
-    public final void setClassDescriptor(final ClassDescriptor classDescriptor) {
-        _classDescriptor = classDescriptor;
-    }
+  /**
+   * Set the name of the field.
+   * 
+   * @param fieldName Field name.
+   */
+  public final void setFieldName(final String fieldName) {
+    _fieldName = fieldName;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#getClassDescriptor()
-     * {@inheritDoc}
-     */
-    public final ClassDescriptor getClassDescriptor() {
-        return _classDescriptor;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#getFieldName() {@inheritDoc}
+   */
+  public final String getFieldName() {
+    return _fieldName;
+  }
 
-    /**
-     * Set the FieldHandler for the field being described by this FieldDescriptor.
-     *
-     * @param handler The FieldHandler for the field being described.
-     */
-    public final void setHandler(final FieldHandler handler) {
-        _handler = handler;
-    }
+  /**
+   * Set the type of the field.
+   * 
+   * @param fieldType Field type.
+   */
+  public final void setFieldType(final Class<?> fieldType) {
+    _fieldType = fieldType;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#getHandler()
-     * {@inheritDoc}
-     */
-    public final FieldHandler getHandler() {
-        return _handler;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#getFieldType() {@inheritDoc}
+   */
+  public final Class<?> getFieldType() {
+    return _fieldType;
+  }
 
-    /**
-     * Sets whether or not the describled field is 'transient'.
-     * 
-     * @param isTransient The flag indicating if the described field is 'transient'.
-     */
-    public final void setTransient(final boolean isTransient) {
-        _transient = isTransient;
-    }
+  /**
+   * Set the ClassDescriptor for the described field.
+   *
+   * @param classDescriptor The ClassDescriptor for the described field.
+   */
+  public final void setClassDescriptor(final ClassDescriptor classDescriptor) {
+    _classDescriptor = classDescriptor;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#isTransient()
-     * {@inheritDoc}
-     */
-    public final boolean isTransient() {
-        return _transient;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#getClassDescriptor() {@inheritDoc}
+   */
+  public final ClassDescriptor getClassDescriptor() {
+    return _classDescriptor;
+  }
 
-    /**
-     * Set the immutable flag which indicates that changes to this Field result in a
-     * new Object to be created, such as java.lang.String. It serves to identify fields
-     * which should not be constructed until all the data is available.
-     * 
-     * @param immutable Flag which if true indicates that the field is immutable.
-     */
-    public final void setImmutable(final boolean immutable) {
-        _immutable = immutable;
-    }
+  /**
+   * Set the FieldHandler for the field being described by this FieldDescriptor.
+   *
+   * @param handler The FieldHandler for the field being described.
+   */
+  public final void setHandler(final FieldHandler handler) {
+    _handler = handler;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#isImmutable()
-     * {@inheritDoc}
-     */
-    public final boolean isImmutable() {
-        return _immutable;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#getHandler() {@inheritDoc}
+   */
+  public final FieldHandler getHandler() {
+    return _handler;
+  }
 
-    /**
-     * Set whether or not the described field is required.
-     * 
-     * @param required The flag indicating whether or not the described field is required.
-     */
-    public final void setRequired(final boolean required) {
-        _required = required;
-    }
+  /**
+   * Sets whether or not the describled field is 'transient'.
+   * 
+   * @param isTransient The flag indicating if the described field is 'transient'.
+   */
+  public final void setTransient(final boolean isTransient) {
+    _transient = isTransient;
+  }
 
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#isRequired()
-     * {@inheritDoc}
-     */
-    public final boolean isRequired() {
-        return _required;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#isTransient() {@inheritDoc}
+   */
+  public final boolean isTransient() {
+    return _transient;
+  }
 
-    /**
-     * Set wheter the object described by this descriptor is multivalued or not.
-     * 
-     * @param multivalued True if the object described by this descriptor is multivalued.
-     */
-    public final void setMultivalued(final boolean multivalued) {
-        _multivalued = multivalued;
-    }
-    
-    /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#isMultivalued()
-     * {@inheritDoc}
-     */
-    public final boolean isMultivalued() {
-        return _multivalued;
-    }
-    
-    /**
-     * Set wether the described field is part of the identity of the class it belongs to.
-     * 
-     * @param identity <code>true</code> if field is part of the classes identity.
-     */
-    public final void setIdentity(final boolean identity) {
-        _identity = identity;
-    }
-    
-    /**
-     * Is the described field is part of the identity of the class it belongs to?
-     * 
-     * @return <code>true</code> if field is part of the classes identity.
-     */
-    public final boolean isIdentity() {
-        return _identity;
-    }
+  /**
+   * Set the immutable flag which indicates that changes to this Field result in a new Object to be
+   * created, such as java.lang.String. It serves to identify fields which should not be constructed
+   * until all the data is available.
+   * 
+   * @param immutable Flag which if true indicates that the field is immutable.
+   */
+  public final void setImmutable(final boolean immutable) {
+    _immutable = immutable;
+  }
 
-    /**
-     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
-     *      getProperty(java.lang.String)
-     * @param name
-     *            of the property
-     * @return value of the property
-     */
-    public Object getProperty(final String name) {
-        return _properties.get(name);
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#isImmutable() {@inheritDoc}
+   */
+  public final boolean isImmutable() {
+    return _immutable;
+  }
 
-    /**
-     * @see org.exolab.castor.builder.info.nature.PropertyHolder#
-     *      setProperty(java.lang.String, java.lang.Object)
-     * @param name
-     *            of the property
-     * @param value
-     *            of the property
-     */
-    public void setProperty(final String name, final Object value) {
-        _properties.put(name, value);
-    }
+  /**
+   * Set whether or not the described field is required.
+   * 
+   * @param required The flag indicating whether or not the described field is required.
+   */
+  public final void setRequired(final boolean required) {
+    _required = required;
+  }
 
-    /**
-     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
-     *      addNature(java.lang.String)
-     * @param nature
-     *            ID of the Nature
-     */
-    public void addNature(final String nature) {
-        _natures.add(nature);
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#isRequired() {@inheritDoc}
+   */
+  public final boolean isRequired() {
+    return _required;
+  }
 
-    /**
-     * @see org.exolab.castor.builder.info.nature.NatureExtendable#
-     *      hasNature(java.lang.String)
-     * @param nature
-     *            ID of the Nature
-     * @return true if the Nature ID was added.
-     */
-    public boolean hasNature(final String nature) {
-        return _natures.contains(nature);
-    }
+  /**
+   * Set wheter the object described by this descriptor is multivalued or not.
+   * 
+   * @param multivalued True if the object described by this descriptor is multivalued.
+   */
+  public final void setMultivalued(final boolean multivalued) {
+    _multivalued = multivalued;
+  }
 
-    public String getComparator() {
-        return _comparator;
-    }
+  /**
+   * @see org.exolab.castor.mapping.FieldDescriptor#isMultivalued() {@inheritDoc}
+   */
+  public final boolean isMultivalued() {
+    return _multivalued;
+  }
 
-    public void setComparator(String comparator) {
-        _comparator = comparator;
-    }
+  /**
+   * Set wether the described field is part of the identity of the class it belongs to.
+   * 
+   * @param identity <code>true</code> if field is part of the classes identity.
+   */
+  public final void setIdentity(final boolean identity) {
+    _identity = identity;
+  }
 
-    public FieldMappingCollectionType getCollection() {
-        return _collection;
-    }
+  /**
+   * Is the described field is part of the identity of the class it belongs to?
+   * 
+   * @return <code>true</code> if field is part of the classes identity.
+   */
+  public final boolean isIdentity() {
+    return _identity;
+  }
 
-    public void setCollection(FieldMappingCollectionType collection) {
-        _collection = collection;
-    }
+  /**
+   * @see org.exolab.castor.builder.info.nature.PropertyHolder# getProperty(java.lang.String)
+   * @param name of the property
+   * @return value of the property
+   */
+  public Object getProperty(final String name) {
+    return _properties.get(name);
+  }
 
-    public boolean isDirect() {
-        return _direct;
-    }
+  /**
+   * @see org.exolab.castor.builder.info.nature.PropertyHolder# setProperty(java.lang.String,
+   *      java.lang.Object)
+   * @param name of the property
+   * @param value of the property
+   */
+  public void setProperty(final String name, final Object value) {
+    _properties.put(name, value);
+  }
 
-    public void setDirect(boolean direct) {
-        _direct = direct;
-    }
+  /**
+   * @see org.exolab.castor.builder.info.nature.NatureExtendable# addNature(java.lang.String)
+   * @param nature ID of the Nature
+   */
+  public void addNature(final String nature) {
+    _natures.add(nature);
+  }
 
-    public String getGetMethod() {
-        return _getMethod;
-    }
+  /**
+   * @see org.exolab.castor.builder.info.nature.NatureExtendable# hasNature(java.lang.String)
+   * @param nature ID of the Nature
+   * @return true if the Nature ID was added.
+   */
+  public boolean hasNature(final String nature) {
+    return _natures.contains(nature);
+  }
 
-    public void setGetMethod(String getMethod) {
-        _getMethod = getMethod;
-    }
+  public String getComparator() {
+    return _comparator;
+  }
 
-    public String getSetMethod() {
-        return _setMethod;
-    }
+  public void setComparator(String comparator) {
+    _comparator = comparator;
+  }
 
-    public void setSetMethod(String setMethod) {
-        _setMethod = setMethod;
-    }
+  public FieldMappingCollectionType getCollection() {
+    return _collection;
+  }
 
-    public String getCreateMethod() {
-        return _createMethod;
-    }
+  public void setCollection(FieldMappingCollectionType collection) {
+    _collection = collection;
+  }
 
-    public void setCreateMethod(String createMethod) {
-        _createMethod = createMethod;
-    }
+  public boolean isDirect() {
+    return _direct;
+  }
 
-    public boolean isLazy() {
-        return _lazy;
-    }
+  public void setDirect(boolean direct) {
+    _direct = direct;
+  }
 
-    public void setLazy(boolean lazy) {
-        _lazy = lazy;
-    }
+  public String getGetMethod() {
+    return _getMethod;
+  }
 
-    public String toString() {
-        return new StringBuilder()
-            .append(getFieldName())
-            .append('(')
-            .append(getFieldType().getName())
-            .append(')')
-            .toString();
-        // TODO[WG]: find a way to emit additional nature-specific information.
-//        try {
-//            Class natureClass = Class.forName("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
-//            if (hasNature(natureClass.getName())) {
-//                FieldDescriptorJDONature jdoNature = new FieldDescriptorJDONature(this);
-//                buffer.append(jdoNature.getSQLName() == null ? "" : " AS " 
-//                    + jdoNature.getSQLName()[0]);
-//            }
-//        } catch (ClassNotFoundException e) {
-//            // ignore
-//        }
-    }
+  public void setGetMethod(String getMethod) {
+    _getMethod = getMethod;
+  }
+
+  public String getSetMethod() {
+    return _setMethod;
+  }
+
+  public void setSetMethod(String setMethod) {
+    _setMethod = setMethod;
+  }
+
+  public String getCreateMethod() {
+    return _createMethod;
+  }
+
+  public void setCreateMethod(String createMethod) {
+    _createMethod = createMethod;
+  }
+
+  public boolean isLazy() {
+    return _lazy;
+  }
+
+  public void setLazy(boolean lazy) {
+    _lazy = lazy;
+  }
+
+  public String toString() {
+    return new StringBuilder().append(getFieldName()).append('(').append(getFieldType().getName())
+        .append(')').toString();
+    // TODO[WG]: find a way to emit additional nature-specific information.
+    // try {
+    // Class natureClass =
+    // Class.forName("org.exolab.castor.jdo.engine.nature.FieldDescriptorJDONature");
+    // if (hasNature(natureClass.getName())) {
+    // FieldDescriptorJDONature jdoNature = new FieldDescriptorJDONature(this);
+    // buffer.append(jdoNature.getSQLName() == null ? "" : " AS "
+    // + jdoNature.getSQLName()[0]);
+    // }
+    // } catch (ClassNotFoundException e) {
+    // // ignore
+    // }
+  }
 
 }

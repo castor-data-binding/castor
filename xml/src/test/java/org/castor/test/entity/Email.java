@@ -9,43 +9,43 @@ package org.castor.test.entity;
  */
 public class Email {
 
-    private String from;
+  private String from;
 
-    private String to;
+  private String to;
 
-    /**
-     * Retrieves the sender address.
-     *
-     * @return the sender address
-     */
-    public String getFrom() {
-        return from;
-    }
+  /**
+   * Retrieves the sender address.
+   *
+   * @return the sender address
+   */
+  public String getFrom() {
+    return from;
+  }
 
-    /**
-     * Sets the sender address
-     *
-     * @param from the sender address
-     */
-    public void setFrom(String from) {
-        this.from = from;
-    }
+  /**
+   * Sets the sender address
+   *
+   * @param from the sender address
+   */
+  public void setFrom(String from) {
+    this.from = from;
+  }
 
-    /**
-     * Retrieves the recipient address.
-     *
-     * @return the recipient address
-     */
-    public String getTo() {
-        return to;
-    }
+  /**
+   * Retrieves the recipient address.
+   *
+   * @return the recipient address
+   */
+  public String getTo() {
+    return to;
+  }
 
-    /**
-     * Sets the recipient address.
-     *
-     * @param to the recipient address
-     */
-    public void setTo(String to) {
-        this.to = to;
-    }
+  /**
+   * Sets the recipient address.
+   *
+   * @param to the recipient address
+   */
+  public void setTo(String to) {
+    this.to = to;
+  }
 }

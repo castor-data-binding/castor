@@ -11,16 +11,16 @@ import org.junit.Test;
 import org.xml.sax.InputSource;
 
 public class TestCastorReader {
-   
-   @Test
-   public void test() throws IOException {
-      InputSource source = new InputSource(this.getClass().getResource("test.xsd").toExternalForm());
-      SchemaReader schemaReader = new SchemaReader(source);
-      schemaReader.setCacheIncludedSchemas(true);
 
-      Schema schema = schemaReader.read();
-      assertNotNull(schema);
+  @Test
+  public void test() throws IOException {
+    InputSource source = new InputSource(this.getClass().getResource("test.xsd").toExternalForm());
+    SchemaReader schemaReader = new SchemaReader(source);
+    schemaReader.setCacheIncludedSchemas(true);
 
-      assertTrue(schema.getComplexTypes().size() > 0);
-   }
+    Schema schema = schemaReader.read();
+    assertNotNull(schema);
+
+    assertTrue(schema.getComplexTypes().size() > 0);
+  }
 }

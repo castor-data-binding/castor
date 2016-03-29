@@ -6,29 +6,29 @@ import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 
 public final class EnumerateCollectionHandler<T> implements CollectionHandler<T> {
-   public Object add(Object collection, T object) {
-      // -- do nothing, cannot add elements to an enumeration
-      return null;
-   }
+  public Object add(Object collection, T object) {
+    // -- do nothing, cannot add elements to an enumeration
+    return null;
+  }
 
-   @SuppressWarnings("unchecked")
-   public Enumeration<T> elements(Object collection) {
-      if (collection == null)
-         return new CollectionHandlers.EmptyEnumerator<T>();
-      return ((Enumeration<T>) collection);
-   }
+  @SuppressWarnings("unchecked")
+  public Enumeration<T> elements(Object collection) {
+    if (collection == null)
+      return new CollectionHandlers.EmptyEnumerator<T>();
+    return ((Enumeration<T>) collection);
+  }
 
-   public int size(Object collection) {
-      // -- Nothing we can do without destroying the enumeration
-      return 0;
-   }
+  public int size(Object collection) {
+    // -- Nothing we can do without destroying the enumeration
+    return 0;
+  }
 
-   public Object clear(Object collection) {
-      // -- Should we iterate over nextElement?
-      return null;
-   }
+  public Object clear(Object collection) {
+    // -- Should we iterate over nextElement?
+    return null;
+  }
 
-   public String toString() {
-      return "Enumeration";
-   }
+  public String toString() {
+    return "Enumeration";
+  }
 }

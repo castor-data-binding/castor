@@ -31,29 +31,9 @@ public interface DTDInitialParserConstants {
   int WithinEntityValueDQ = 2;
   int WithinEntityValueSQ = 3;
 
-  String[] tokenImage = {
-    "<EOF>",
-    "<LETTER>",
-    "<DIGIT>",
-    "<COMBINING_CHAR>",
-    "<EXTENDER>",
-    "<NAMECHAR>",
-    "<NAME>",
-    "<S>",
-    "<TEXT_UNIT>",
-    "<BEGIN_PE_DECL>",
-    "<PE_REFERENCE_D>",
-    "<NAME_OF_PE>",
-    "<SPACE>",
-    "\"\\\"\"",
-    "\"\\\'\"",
-    "\">\"",
-    "<ENTITY_VALUE_TEXT_DQ>",
-    "<PE_REFERENCE_DQ>",
-    "\"\\\"\"",
-    "<ENTITY_VALUE_TEXT_SQ>",
-    "<PE_REFERENCE_SQ>",
-    "\"\\\'\"",
-  };
+  String[] tokenImage = {"<EOF>", "<LETTER>", "<DIGIT>", "<COMBINING_CHAR>", "<EXTENDER>",
+      "<NAMECHAR>", "<NAME>", "<S>", "<TEXT_UNIT>", "<BEGIN_PE_DECL>", "<PE_REFERENCE_D>",
+      "<NAME_OF_PE>", "<SPACE>", "\"\\\"\"", "\"\\\'\"", "\">\"", "<ENTITY_VALUE_TEXT_DQ>",
+      "<PE_REFERENCE_DQ>", "\"\\\"\"", "<ENTITY_VALUE_TEXT_SQ>", "<PE_REFERENCE_SQ>", "\"\\\'\"",};
 
 }

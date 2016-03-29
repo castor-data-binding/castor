@@ -7,28 +7,28 @@ import org.junit.Test;
 
 public class CycleBreakerTest {
 
-	@Ignore
-    @Test
-    public void testMemLeak() {
-        long startfreeMemory = Runtime.getRuntime().freeMemory();
-        for (int i = 1; i < 1000; i++) {
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    CycleBreaker.startingToCycle(this);
-                    CycleBreaker.releaseCycleHandle(this);
-                }
-            };
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                // ignore
-            }
+  @Ignore
+  @Test
+  public void testMemLeak() {
+    long startfreeMemory = Runtime.getRuntime().freeMemory();
+    for (int i = 1; i < 1000; i++) {
+      Thread thread = new Thread() {
+        @Override
+        public void run() {
+          CycleBreaker.startingToCycle(this);
+          CycleBreaker.releaseCycleHandle(this);
         }
-        long endfreeMemory = Runtime.getRuntime().freeMemory();
-
-        // Check if memory usage was higher than 1MB 
-        Assert.assertFalse("Memory Leak", (startfreeMemory - endfreeMemory) / (2048 * 1024) > 1);
+      };
+      thread.start();
+      try {
+        thread.join();
+      } catch (InterruptedException e) {
+        // ignore
+      }
     }
+    long endfreeMemory = Runtime.getRuntime().freeMemory();
+
+    // Check if memory usage was higher than 1MB
+    Assert.assertFalse("Memory Leak", (startfreeMemory - endfreeMemory) / (2048 * 1024) > 1);
+  }
 }

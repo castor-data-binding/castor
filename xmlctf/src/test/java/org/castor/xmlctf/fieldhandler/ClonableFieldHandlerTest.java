@@ -16,38 +16,43 @@ import org.xml.sax.InputSource;
 
 public class ClonableFieldHandlerTest {
 
-   @Test
-   public void unmarshalWithClonableFieldHandler() throws MarshalException, ValidationException, IOException, MappingException {
-      Mapping mapping = new Mapping();
-      mapping.loadMapping(new InputSource(this.getClass().getResource("mapping.xml").openStream()));
+  @Test
+  public void unmarshalWithClonableFieldHandler()
+      throws MarshalException, ValidationException, IOException, MappingException {
+    Mapping mapping = new Mapping();
+    mapping.loadMapping(new InputSource(this.getClass().getResource("mapping.xml").openStream()));
 
-      XMLContext context = new XMLContext();
-      context.addMapping(mapping);
+    XMLContext context = new XMLContext();
+    context.addMapping(mapping);
 
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-      unmarshaller.setClass(Root.class);
-      Root root = (Root) unmarshaller.unmarshal(new StringReader("<?xml version=\"1.0\"?><root><date>20040510</date></root>"));
+    Unmarshaller unmarshaller = context.createUnmarshaller();
+    unmarshaller.setClass(Root.class);
+    Root root = (Root) unmarshaller
+        .unmarshal(new StringReader("<?xml version=\"1.0\"?><root><date>20040510</date></root>"));
 
-      assertNotNull(root);
-      assertNotNull(root.getDate());
-      
-   }
+    assertNotNull(root);
+    assertNotNull(root.getDate());
 
-   @Test
-   public void unmarshalWithClonableFieldHandlerOldMethod() throws MarshalException, ValidationException, IOException, MappingException {
-      Mapping mapping = new Mapping();
-      mapping.loadMapping(new InputSource(this.getClass().getResource("mapping-old.xml").openStream()));
+  }
 
-      XMLContext context = new XMLContext();
-      context.addMapping(mapping);
+  @Test
+  public void unmarshalWithClonableFieldHandlerOldMethod()
+      throws MarshalException, ValidationException, IOException, MappingException {
+    Mapping mapping = new Mapping();
+    mapping
+        .loadMapping(new InputSource(this.getClass().getResource("mapping-old.xml").openStream()));
 
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-      unmarshaller.setClass(Root.class);
-      Root root = (Root) unmarshaller.unmarshal(new StringReader("<?xml version=\"1.0\"?><root><date>20040510</date></root>"));
+    XMLContext context = new XMLContext();
+    context.addMapping(mapping);
 
-      assertNotNull(root);
-      assertNotNull(root.getDate());
-      
-   }
+    Unmarshaller unmarshaller = context.createUnmarshaller();
+    unmarshaller.setClass(Root.class);
+    Root root = (Root) unmarshaller
+        .unmarshal(new StringReader("<?xml version=\"1.0\"?><root><date>20040510</date></root>"));
+
+    assertNotNull(root);
+    assertNotNull(root.getDate());
+
+  }
 
 }

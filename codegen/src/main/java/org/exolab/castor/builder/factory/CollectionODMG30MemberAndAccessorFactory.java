@@ -14,47 +14,47 @@ import org.exolab.javasource.JSourceCode;
  */
 public class CollectionODMG30MemberAndAccessorFactory extends CollectionMemberAndAccessorFactory {
 
-    /**
-     * Creates a new CollectionODMG30MemberAndAccessorFactory.
-     * @param naming the javaNaming to use
-     */
-    public CollectionODMG30MemberAndAccessorFactory(final JavaNaming naming) {
-        super(naming);
-    }
+  /**
+   * Creates a new CollectionODMG30MemberAndAccessorFactory.
+   * 
+   * @param naming the javaNaming to use
+   */
+  public CollectionODMG30MemberAndAccessorFactory(final JavaNaming naming) {
+    super(naming);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void generateInitializerCode(final FieldInfo fieldInfo, 
-            final JSourceCode jsc) {
-        jsc.add("this.");
-        jsc.append(fieldInfo.getName());
-        jsc.append(" = ODMG.getImplementation().newDArray();");
-    }
+  /**
+   * {@inheritDoc}
+   */
+  public void generateInitializerCode(final FieldInfo fieldInfo, final JSourceCode jsc) {
+    jsc.add("this.");
+    jsc.append(fieldInfo.getName());
+    jsc.append(" = ODMG.getImplementation().newDArray();");
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected void createEnumerateMethod(final CollectionInfo fieldInfo, 
-            final JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod("enumerate" + fieldInfo.getMethodSuffix(),
-                SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50, true),
-                "an Enumeration over all elements of this collection");
+  /**
+   * {@inheritDoc}
+   */
+  protected void createEnumerateMethod(final CollectionInfo fieldInfo, final JClass jClass,
+      final boolean useJava50) {
+    JMethod method = new JMethod("enumerate" + fieldInfo.getMethodSuffix(),
+        SGTypes.createEnumeration(fieldInfo.getContentType().getJType(), useJava50, true),
+        "an Enumeration over all elements of this collection");
 
-        JSourceCode sourceCode = method.getSourceCode();
-        sourceCode.add("java.util.Vector v = new java.util.Vector();"); // ODMG 3.0
-        sourceCode.add("java.util.Iterator i = ");
-        sourceCode.append(fieldInfo.getName());
-        sourceCode.append(".iterator();");
-        sourceCode.add("");
-        sourceCode.add("while (i.hasNext()) {");
-        sourceCode.indent();
-        sourceCode.add("v.add(i.next());");
-        sourceCode.unindent();
-        sourceCode.add("");
-        sourceCode.add("return v.elements();");
+    JSourceCode sourceCode = method.getSourceCode();
+    sourceCode.add("java.util.Vector v = new java.util.Vector();"); // ODMG 3.0
+    sourceCode.add("java.util.Iterator i = ");
+    sourceCode.append(fieldInfo.getName());
+    sourceCode.append(".iterator();");
+    sourceCode.add("");
+    sourceCode.add("while (i.hasNext()) {");
+    sourceCode.indent();
+    sourceCode.add("v.add(i.next());");
+    sourceCode.unindent();
+    sourceCode.add("");
+    sourceCode.add("return v.elements();");
 
-        jClass.addMethod(method);
-    }
-	
+    jClass.addMethod(method);
+  }
+
 }

@@ -6,191 +6,205 @@ import java.util.Hashtable;
 import org.exolab.castor.xml.dtd.DTDException;
 
 /**
- * Initial XML DTD parser. Searches for <b>parameter entity</b> declarations
- * and substitutes <b>parameter entity references</b> by
- * corresponding <b>replacement text</b>.
+ * Initial XML DTD parser. Searches for <b>parameter entity</b> declarations and substitutes
+ * <b>parameter entity references</b> by corresponding <b>replacement text</b>.
+ * 
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
 public class DTDInitialParser implements DTDInitialParserConstants {
 
-/**
- * Main method that starts parsing process.
- * @return result of the parsing process - document with parameter entity
- * references expaned.
- */
+  /**
+   * Main method that starts parsing process.
+   * 
+   * @return result of the parsing process - document with parameter entity references expaned.
+   */
   final public String Input() throws ParseException, DTDException {
-   Hashtable parameterEntities = new Hashtable();
-   String result = "";
-   Token token;
-   String peReference;
-   String key;
-   String value;
-    label_1:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TEXT_UNIT:
-      case BEGIN_PE_DECL:
-      case PE_REFERENCE_D:
-        break;
-      default:
-        jj_la1[0] = jj_gen;
-        break label_1;
+    Hashtable parameterEntities = new Hashtable();
+    String result = "";
+    Token token;
+    String peReference;
+    String key;
+    String value;
+    label_1: while (true) {
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case TEXT_UNIT:
+        case BEGIN_PE_DECL:
+        case PE_REFERENCE_D:
+          break;
+        default:
+          jj_la1[0] = jj_gen;
+          break label_1;
       }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TEXT_UNIT:
-        token = jj_consume_token(TEXT_UNIT);
-                            result += token.image;
-        break;
-      case PE_REFERENCE_D:
-        token = jj_consume_token(PE_REFERENCE_D);
-         peReference = token.image;
-         key = peReference.substring(1,peReference.length()-1);
-         value = (String)parameterEntities.get(key);
-         if ( value == null ) {
+      switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+        case TEXT_UNIT:
+          token = jj_consume_token(TEXT_UNIT);
+          result += token.image;
+          break;
+        case PE_REFERENCE_D:
+          token = jj_consume_token(PE_REFERENCE_D);
+          peReference = token.image;
+          key = peReference.substring(1, peReference.length() - 1);
+          value = (String) parameterEntities.get(key);
+          if (value == null) {
             String err = "Initial Parser: parameter entity named \"" + key;
             err += "\" has not been defined, while is tried to be referenced...";
-            {if (true) throw new DTDException(err);}
-         } else {
+            {
+              if (true)
+                throw new DTDException(err);
+            }
+          } else {
             result += value;
-         }
-        break;
-      case BEGIN_PE_DECL:
-        PEdecl(parameterEntities);
-        break;
-      default:
-        jj_la1[1] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+          }
+          break;
+        case BEGIN_PE_DECL:
+          PEdecl(parameterEntities);
+          break;
+        default:
+          jj_la1[1] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
       }
     }
     jj_consume_token(0);
-     {if (true) return result;}
+    {
+      if (true)
+        return result;
+    }
     throw new Error("Missing return statement in function");
   }
 
-/**
- * Parsing procedure corresponding to the <b>Parameter Entity Declaration</b>
- * nonterminal.
- */
+  /**
+   * Parsing procedure corresponding to the <b>Parameter Entity Declaration</b> nonterminal.
+   */
   final public void PEdecl(Hashtable parameterEntities) throws ParseException, DTDException {
-   Token token;
-   String name;
-   String replacementText;
+    Token token;
+    String name;
+    String replacementText;
     jj_consume_token(BEGIN_PE_DECL);
     token = jj_consume_token(NAME_OF_PE);
-      name = token.image;
-      if (parameterEntities.containsKey(name)) {
-         String err = "Initial Parser: parameter entity named \"" + name;
-         err += "\" has been already defined, while is tried ";
-         err += "to be defined again...";
-         {if (true) throw new DTDException(err);}
+    name = token.image;
+    if (parameterEntities.containsKey(name)) {
+      String err = "Initial Parser: parameter entity named \"" + name;
+      err += "\" has been already defined, while is tried ";
+      err += "to be defined again...";
+      {
+        if (true)
+          throw new DTDException(err);
       }
+    }
     jj_consume_token(SPACE);
     replacementText = EntityValue(parameterEntities);
-     parameterEntities.put(name,replacementText);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case SPACE:
-      jj_consume_token(SPACE);
-      break;
-    default:
-      jj_la1[2] = jj_gen;
+    parameterEntities.put(name, replacementText);
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case SPACE:
+        jj_consume_token(SPACE);
+        break;
+      default:
+        jj_la1[2] = jj_gen;
     }
     jj_consume_token(END_PE_DECL);
   }
 
-/**
- * Parsing procedure corresponding to the <b>Entity Value</b> nonterminal.
- */
+  /**
+   * Parsing procedure corresponding to the <b>Entity Value</b> nonterminal.
+   */
   final public String EntityValue(Hashtable parameterEntities) throws ParseException, DTDException {
-   Token token;
-   String peReference;
-   String key;
-   String value;
-   String replacementText = "";
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case START_DQ:
-      jj_consume_token(START_DQ);
-      label_2:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ENTITY_VALUE_TEXT_DQ:
-        case PE_REFERENCE_DQ:
-          break;
-        default:
-          jj_la1[3] = jj_gen;
-          break label_2;
+    Token token;
+    String peReference;
+    String key;
+    String value;
+    String replacementText = "";
+    switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+      case START_DQ:
+        jj_consume_token(START_DQ);
+        label_2: while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case ENTITY_VALUE_TEXT_DQ:
+            case PE_REFERENCE_DQ:
+              break;
+            default:
+              jj_la1[3] = jj_gen;
+              break label_2;
+          }
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case ENTITY_VALUE_TEXT_DQ:
+              token = jj_consume_token(ENTITY_VALUE_TEXT_DQ);
+              replacementText += token.image;
+              break;
+            case PE_REFERENCE_DQ:
+              token = jj_consume_token(PE_REFERENCE_DQ);
+              peReference = token.image;
+              key = peReference.substring(1, peReference.length() - 1);
+              value = (String) parameterEntities.get(key);
+              if (value == null) {
+                String err = "Initial Parser: parameter entity named \"" + key;
+                err += "\" has not been defined, while is tried to be referenced...";
+                {
+                  if (true)
+                    throw new DTDException(err);
+                }
+              } else {
+                replacementText += value;
+              }
+              break;
+            default:
+              jj_la1[4] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+          }
         }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ENTITY_VALUE_TEXT_DQ:
-          token = jj_consume_token(ENTITY_VALUE_TEXT_DQ);
-                                          replacementText += token.image;
-          break;
-        case PE_REFERENCE_DQ:
-          token = jj_consume_token(PE_REFERENCE_DQ);
-            peReference = token.image;
-            key = peReference.substring(1,peReference.length()-1);
-            value = (String)parameterEntities.get(key);
-            if ( value == null ) {
-               String err = "Initial Parser: parameter entity named \"" + key;
-               err += "\" has not been defined, while is tried to be referenced...";
-               {if (true) throw new DTDException(err);}
-            } else {
-               replacementText += value;
-            }
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+        jj_consume_token(END_DQ);
+        break;
+      case START_SQ:
+        jj_consume_token(START_SQ);
+        label_3: while (true) {
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case ENTITY_VALUE_TEXT_SQ:
+            case PE_REFERENCE_SQ:
+              break;
+            default:
+              jj_la1[5] = jj_gen;
+              break label_3;
+          }
+          switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
+            case ENTITY_VALUE_TEXT_SQ:
+              token = jj_consume_token(ENTITY_VALUE_TEXT_SQ);
+              replacementText += token.image;
+              break;
+            case PE_REFERENCE_SQ:
+              token = jj_consume_token(PE_REFERENCE_SQ);
+              peReference = token.image;
+              key = peReference.substring(1, peReference.length() - 1);
+              value = (String) parameterEntities.get(key);
+              if (value == null) {
+                String err = "Initial Parser: parameter entity named \"" + key;
+                err += "\" has not been defined, while is tried to be referenced...";
+                {
+                  if (true)
+                    throw new DTDException(err);
+                }
+              } else {
+                replacementText += value;
+              }
+              break;
+            default:
+              jj_la1[6] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+          }
         }
-      }
-      jj_consume_token(END_DQ);
-      break;
-    case START_SQ:
-      jj_consume_token(START_SQ);
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ENTITY_VALUE_TEXT_SQ:
-        case PE_REFERENCE_SQ:
-          break;
-        default:
-          jj_la1[5] = jj_gen;
-          break label_3;
-        }
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ENTITY_VALUE_TEXT_SQ:
-          token = jj_consume_token(ENTITY_VALUE_TEXT_SQ);
-                                          replacementText += token.image;
-          break;
-        case PE_REFERENCE_SQ:
-          token = jj_consume_token(PE_REFERENCE_SQ);
-            peReference = token.image;
-            key = peReference.substring(1,peReference.length()-1);
-            value = (String)parameterEntities.get(key);
-            if ( value == null ) {
-               String err = "Initial Parser: parameter entity named \"" + key;
-               err += "\" has not been defined, while is tried to be referenced...";
-               {if (true) throw new DTDException(err);}
-            } else {
-               replacementText += value;
-            }
-          break;
-        default:
-          jj_la1[6] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-      jj_consume_token(END_SQ);
-      break;
-    default:
-      jj_la1[7] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+        jj_consume_token(END_SQ);
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
     }
-     {if (true) return replacementText;}
+    {
+      if (true)
+        return replacementText;
+    }
     throw new Error("Missing return statement in function");
   }
 
@@ -199,14 +213,16 @@ public class DTDInitialParser implements DTDInitialParserConstants {
   private int jj_ntk;
   private int jj_gen;
   final private int[] jj_la1 = new int[8];
-  final private int[] jj_la1_0 = {0x700,0x700,0x1000,0x30000,0x30000,0x180000,0x180000,0x6000,};
+  final private int[] jj_la1_0 =
+      {0x700, 0x700, 0x1000, 0x30000, 0x30000, 0x180000, 0x180000, 0x6000,};
 
   public DTDInitialParser(CharStream stream) {
     token_source = new DTDInitialParserTokenManager(stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++)
+      jj_la1[i] = -1;
   }
 
   public void ReInit(CharStream stream) {
@@ -214,7 +230,8 @@ public class DTDInitialParser implements DTDInitialParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++)
+      jj_la1[i] = -1;
   }
 
   public DTDInitialParser(DTDInitialParserTokenManager tm) {
@@ -222,7 +239,8 @@ public class DTDInitialParser implements DTDInitialParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++)
+      jj_la1[i] = -1;
   }
 
   public void ReInit(DTDInitialParserTokenManager tm) {
@@ -230,13 +248,16 @@ public class DTDInitialParser implements DTDInitialParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 8; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 8; i++)
+      jj_la1[i] = -1;
   }
 
   final private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-    if ((oldToken = token).next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    if ((oldToken = token).next != null)
+      token = token.next;
+    else
+      token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
@@ -248,8 +269,10 @@ public class DTDInitialParser implements DTDInitialParserConstants {
   }
 
   final public Token getNextToken() {
-    if (token.next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    if (token.next != null)
+      token = token.next;
+    else
+      token = token.next = token_source.getNextToken();
     jj_ntk = -1;
     jj_gen++;
     return token;
@@ -258,17 +281,19 @@ public class DTDInitialParser implements DTDInitialParserConstants {
   final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
-      if (t.next != null) t = t.next;
-      else t = t.next = token_source.getNextToken();
+      if (t.next != null)
+        t = t.next;
+      else
+        t = t.next = token_source.getNextToken();
     }
     return t;
   }
 
   final private int jj_ntk() {
-      if ((jj_nt=token.next) == null) {
-          return (jj_ntk = (token.next=token_source.getNextToken()).kind);
-      }
-      return (jj_ntk = jj_nt.kind);
+    if ((jj_nt = token.next) == null) {
+      return (jj_ntk = (token.next = token_source.getNextToken()).kind);
+    }
+    return (jj_ntk = jj_nt.kind);
   }
 
   private java.util.Vector jj_expentries = new java.util.Vector();
@@ -288,7 +313,7 @@ public class DTDInitialParser implements DTDInitialParserConstants {
     for (int i = 0; i < 8; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
-          if ((jj_la1_0[i] & (1<<j)) != 0) {
+          if ((jj_la1_0[i] & (1 << j)) != 0) {
             la1tokens[j] = true;
           }
         }
@@ -303,15 +328,13 @@ public class DTDInitialParser implements DTDInitialParserConstants {
     }
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
-      exptokseq[i] = (int[])jj_expentries.elementAt(i);
+      exptokseq[i] = (int[]) jj_expentries.elementAt(i);
     }
     return new ParseException(token, exptokseq, tokenImage);
   }
 
-  final public void enable_tracing() {
-  }
+  final public void enable_tracing() {}
 
-  final public void disable_tracing() {
-  }
+  final public void disable_tracing() {}
 
 }

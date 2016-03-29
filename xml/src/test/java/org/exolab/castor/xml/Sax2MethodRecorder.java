@@ -9,184 +9,176 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 /**
- * This class gets called by a SAX parser and is used for recording invocations
- * on an EasyMock object.
+ * This class gets called by a SAX parser and is used for recording invocations on an EasyMock
+ * object.
  * <p>
- * Every method that gets called by the parser and is used in UnmarshalHandler
- * will be recorded. Method invocations that don't get recorded are for example
- * processingInstruction() or skippedEntities().
+ * Every method that gets called by the parser and is used in UnmarshalHandler will be recorded.
+ * Method invocations that don't get recorded are for example processingInstruction() or
+ * skippedEntities().
  * </p>
  * 
- * @author <a href="mailto:philipp DOT erlacher AT gmail DOT com">Philipp
- *         Erlacher</a>
+ * @author <a href="mailto:philipp DOT erlacher AT gmail DOT com">Philipp Erlacher</a>
  * 
  */
 public class Sax2MethodRecorder implements ContentHandler {
 
-    /**
-     * Logger from commons-logging.
-     */
-    private static final Log LOG = LogFactory.getLog(Sax2MethodRecorder.class);
+  /**
+   * Logger from commons-logging.
+   */
+  private static final Log LOG = LogFactory.getLog(Sax2MethodRecorder.class);
 
-    private ContentHandler contentMock;
+  private ContentHandler contentMock;
 
-    /**
-     * charactersBuffer is used to save characters events that came in as chunks
-     */
-    StringBuffer charactersBuffer = null;
+  /**
+   * charactersBuffer is used to save characters events that came in as chunks
+   */
+  StringBuffer charactersBuffer = null;
 
-    public Sax2MethodRecorder(ContentHandler contentMock) {
-        super();
-        this.contentMock = contentMock;
+  public Sax2MethodRecorder(ContentHandler contentMock) {
+    super();
+    this.contentMock = contentMock;
+  }
+
+  /*
+   * from here ContentHandler Methods
+   */
+
+  public void startDocument() {
+    LOG.debug("< Start Document >");
+    try {
+      contentMock.startDocument();
+
+    } catch (SAXException e) {
+      e.printStackTrace();
     }
+  }
 
-    /*
-     * from here ContentHandler Methods
-     */
+  public void endDocument() {
+    LOG.debug("< End Document >");
+    try {
+      contentMock.endDocument();
 
-    public void startDocument() {
-        LOG.debug("< Start Document >");
-        try {
-            contentMock.startDocument();
-
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+    } catch (SAXException e) {
+      e.printStackTrace();
     }
+  }
 
-    public void endDocument() {
-        LOG.debug("< End Document >");
-        try {
-            contentMock.endDocument();
+  public void startElement(String uri, String localName, String qName, Attributes attributes)
+      throws SAXException {
+    LOG.debug("< Start Element >");
 
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+    contentMock.startElement(EasyMock.eq(uri), EasyMock.eq(localName), EasyMock.eq(qName),
+        (Attributes) EasyMock.anyObject());
+
+    return;
+  }
+
+  /**
+   * receives notification of an endElement. This element will be recorded. If there is a characters
+   * event pending, then this will be recorded first.
+   */
+  public void endElement(String uri, String localName, String qName) throws SAXException {
+    LOG.debug("< End Element >");
+
+    if (isCharBufferSendable())
+      sentCharacters();
+
+    contentMock.endElement(EasyMock.eq(uri), EasyMock.eq(localName), EasyMock.eq(qName));
+
+    return;
+  }
+
+  /**
+   * fills a buffer with the characters in ch
+   */
+  public void characters(char[] ch, int start, int length) {
+    LOG.debug("< characters >");
+
+    if (charactersBuffer != null) {
+      LOG.debug(" second characters event");
+    } else {
+      charactersBuffer = new StringBuffer(length);
     }
+    charactersBuffer.append(ch, start, length);
+  }
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
-        LOG.debug("< Start Element >");
+  /**
+   * if charactersBuffer is not null it is sendable
+   * 
+   * @return true if it is sendable, otherwise false
+   */
+  private boolean isCharBufferSendable() {
+    return charactersBuffer != null;
+  }
 
-        contentMock.startElement(EasyMock.eq(uri), EasyMock.eq(localName),
-                EasyMock.eq(qName), (Attributes) EasyMock.anyObject());
+  /**
+   * sets charactersBuffer back to null and therefore it's no longer sendable
+   */
+  private void resetCharBuffer() {
+    charactersBuffer = null;
+  }
 
-        return;
+  /**
+   * takes charactersBuffer and sends it as a single event to the contentHandler. Afterwards it
+   * resets charactersBuffer
+   */
+  private void sentCharacters() {
+    try {
+      String string = new String(charactersBuffer);
+
+      char[] chars = string.toCharArray();
+
+      contentMock.characters(EasyMock.aryEq(chars), EasyMock.eq(0),
+          EasyMock.eq(charactersBuffer.length()));
+
+      resetCharBuffer();
+
+    } catch (SAXException e) {
+      e.printStackTrace();
     }
+  }
 
-    /**
-     * receives notification of an endElement. This element will be recorded. If
-     * there is a characters event pending, then this will be recorded first.
-     */
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
-        LOG.debug("< End Element >");
+  public void startPrefixMapping(String prefix, String uri) throws SAXException {
+    LOG.debug("< startPrefixMapping >");
 
-        if (isCharBufferSendable())
-            sentCharacters();
+    contentMock.startPrefixMapping(EasyMock.eq(prefix), EasyMock.eq(uri));
+  }
 
-        contentMock.endElement(EasyMock.eq(uri), EasyMock.eq(localName),
-                EasyMock.eq(qName));
+  public void endPrefixMapping(String prefix) throws SAXException {
+    LOG.debug("< endPrefixMapping >");
 
-        return;
-    }
+    contentMock.endPrefixMapping(EasyMock.eq(prefix));
+  }
 
-    /**
-     * fills a buffer with the characters in ch
-     */
-    public void characters(char[] ch, int start, int length) {
-        LOG.debug("< characters >");
+  public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+    LOG.debug("< ignorableWhitespace >");
 
-        if (charactersBuffer != null) {
-            LOG.debug(" second characters event");
-        } else {
-            charactersBuffer = new StringBuffer(length);
-        }
-        charactersBuffer.append(ch, start, length);
-    }
+    String string = new String(ch, start, length);
 
-    /**
-     * if charactersBuffer is not null it is sendable
-     * 
-     * @return true if it is sendable, otherwise false
-     */
-    private boolean isCharBufferSendable() {
-        return charactersBuffer != null;
-    }
+    char[] chars = string.toCharArray();
 
-    /**
-     * sets charactersBuffer back to null and therefore it's no longer sendable
-     */
-    private void resetCharBuffer() {
-        charactersBuffer = null;
-    }
+    contentMock.ignorableWhitespace(EasyMock.aryEq(chars), EasyMock.eq(0), EasyMock.eq(length));
+  }
 
-    /**
-     * takes charactersBuffer and sends it as a single event to the
-     * contentHandler. Afterwards it resets charactersBuffer
-     */
-    private void sentCharacters() {
-        try {
-            String string = new String(charactersBuffer);
+  /**
+   * processInstructions won't be recorded unless {@link UnmarshalHandler.processingInstruction}
+   * does something
+   */
+  public void processingInstruction(String target, String data) throws SAXException {
+    return;
+  }
 
-            char[] chars = string.toCharArray();
+  public void setDocumentLocator(Locator locator) {
+    LOG.debug("< setDocumentLocator >");
 
-            contentMock.characters(EasyMock.aryEq(chars), EasyMock.eq(0),
-                    EasyMock.eq(charactersBuffer.length()));
+    contentMock.setDocumentLocator((Locator) EasyMock.anyObject());
+  }
 
-            resetCharBuffer();
-
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void startPrefixMapping(String prefix, String uri)
-            throws SAXException {
-        LOG.debug("< startPrefixMapping >");
-
-        contentMock.startPrefixMapping(EasyMock.eq(prefix), EasyMock.eq(uri));
-    }
-
-    public void endPrefixMapping(String prefix) throws SAXException {
-        LOG.debug("< endPrefixMapping >");
-
-        contentMock.endPrefixMapping(EasyMock.eq(prefix));
-    }
-
-    public void ignorableWhitespace(char[] ch, int start, int length)
-            throws SAXException {
-        LOG.debug("< ignorableWhitespace >");
-
-        String string = new String(ch, start, length);
-
-        char[] chars = string.toCharArray();
-
-        contentMock.ignorableWhitespace(EasyMock.aryEq(chars), EasyMock.eq(0),
-                EasyMock.eq(length));
-    }
-
-    /**
-     * processInstructions won't be recorded unless
-     * {@link UnmarshalHandler.processingInstruction} does something
-     */
-    public void processingInstruction(String target, String data)
-            throws SAXException {
-        return;
-    }
-
-    public void setDocumentLocator(Locator locator) {
-        LOG.debug("< setDocumentLocator >");
-
-        contentMock.setDocumentLocator((Locator) EasyMock.anyObject());
-    }
-
-    /**
-     * skippedEntities won't be recorded unless
-     * {@link UnmarshalHandler.skippedEntity} does something
-     */
-    public void skippedEntity(String name) throws SAXException {
-        return;
-    }
+  /**
+   * skippedEntities won't be recorded unless {@link UnmarshalHandler.skippedEntity} does something
+   */
+  public void skippedEntity(String name) throws SAXException {
+    return;
+  }
 
 }

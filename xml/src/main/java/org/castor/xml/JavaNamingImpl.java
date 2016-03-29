@@ -1,42 +1,32 @@
 /**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+ * Redistribution and use of this software and associated documentation ("Software"), with or
+ * without modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * 1. Redistributions of source code must retain copyright statements and notices. Redistributions
+ * must also contain a copy of this document.
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials provided with
+ * the distribution.
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
+ * 3. The name "Exolab" must not be used to endorse or promote products derived from this Software
+ * without prior written permission of Intalio, Inc. For written permission, please contact
+ * info@exolab.org.
  *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
+ * 4. Products derived from this Software may not be called "Exolab" nor may "Exolab" appear in
+ * their names without prior written permission of Intalio, Inc. Exolab is a registered trademark of
+ * Intalio, Inc.
  *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
+ * 5. Due credit should be given to the Exolab Project (http://www.exolab.org/).
  *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESSED OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL INTALIO, INC. OR ITS
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2003 (C) Intalio, Inc. All Rights Reserved.
  *
@@ -58,554 +48,551 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class converts XML Names to proper Java names. As Java names are not
- * completely defined this implementation is Castor specific.
- * The first implementation was done by <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * but had been changed radically since.
+ * This class converts XML Names to proper Java names. As Java names are not completely defined this
+ * implementation is Castor specific. The first implementation was done by
+ * <a href="mailto:kvisco@intalio.com">Keith Visco</a> but had been changed radically since.
  * 
  * @author <a href="mailto:jgrueneis_at_gmail_dot_com">Joachim Grueneis</a>
  * @version $Id$
  */
 public class JavaNamingImpl implements JavaNaming {
-	
-    /**
-     * The property name to use in the castor.properties file to specify the
-     * value of the <code>upperCaseAfterUnderscore</code> variable.
-     */
-    public static final String UPPER_CASE_AFTER_UNDERSCORE_PROPERTY 
-    = "org.exolab.castor.xml.JavaNaming.upperCaseAfterUnderscore";
 
-    /**
-     * Used for backward compatibility, if you wish to be backward compatible
-     * with 0.9.3.9 and earlier set this boolean to true.
-     */
-    public static boolean _upperCaseAfterUnderscore = false;
-    
-    /** 
-     * Substition words for all keywords. 
-     */
-    private static final Hashtable<String, String> SUBST = keywordMap();
+  /**
+   * The property name to use in the castor.properties file to specify the value of the
+   * <code>upperCaseAfterUnderscore</code> variable.
+   */
+  public static final String UPPER_CASE_AFTER_UNDERSCORE_PROPERTY =
+      "org.exolab.castor.xml.JavaNaming.upperCaseAfterUnderscore";
 
-    private InternalContext context;
+  /**
+   * Used for backward compatibility, if you wish to be backward compatible with 0.9.3.9 and earlier
+   * set this boolean to true.
+   */
+  public static boolean _upperCaseAfterUnderscore = false;
 
-    /** 
-     * All known Java keywords.
-     */
-    private static final Set<String> KEYWORDS = Collections.unmodifiableSet(
-        new HashSet<String>(Arrays.asList(
-            "abstract", "boolean", "break", "byte", "case",
-            "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum",
-            "extends", "false", "final", "finally", "float", "for", "goto", "if", "implements",
-            "import", "instanceof", "int", "interface", "long", "native", "new", "null", "package",
-            "private", "protected", "public", "return", "short", "static", "super", "switch",
-            "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
-            "volatile", "while"
-        )));
+  /**
+   * Substition words for all keywords.
+   */
+  private static final Hashtable<String, String> SUBST = keywordMap();
 
-    public JavaNamingImpl() {
-        super();
+  private InternalContext context;
+
+  /**
+   * All known Java keywords.
+   */
+  private static final Set<String> KEYWORDS = Collections.unmodifiableSet(new HashSet<String>(
+      Arrays.asList("abstract", "boolean", "break", "byte", "case", "catch", "char", "class",
+          "const", "continue", "default", "do", "double", "else", "enum", "extends", "false",
+          "final", "finally", "float", "for", "goto", "if", "implements", "import", "instanceof",
+          "int", "interface", "long", "native", "new", "null", "package", "private", "protected",
+          "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw",
+          "throws", "transient", "true", "try", "void", "volatile", "while")));
+
+  public JavaNamingImpl() {
+    super();
+  }
+
+  public JavaNamingImpl(InternalContext context) {
+    super();
+    this.context = context;
+  }
+
+  /**
+   * Returns true if the given String is a Java keyword which will cause a problem when used as a
+   * variable name.
+   * 
+   * @param name the name to check
+   * @return true if it is a keyword
+   */
+  @Override
+  public final boolean isKeyword(final String name) {
+    return KEYWORDS.contains(name);
+  }
+
+  /**
+   * Returns true if the given String matches the production of a valid Java identifier.
+   * 
+   * @param string The String to check the production of.
+   * @return true if the given String matches the production of a valid Java name, otherwise false.
+   */
+  @Override
+  public final boolean isValidJavaIdentifier(final String string) {
+    if (string == null || string.length() == 0
+        || !Character.isJavaIdentifierStart(string.charAt(0))) {
+      return false;
     }
 
-    public JavaNamingImpl(InternalContext context) {
-       super();
-       this.context = context;
+    for (int i = 1; i < string.length(); i++) {
+      char ch = string.charAt(i);
+      if (!Character.isJavaIdentifierPart(ch)) {
+        return false;
+      }
+    }
+    return !isKeyword(string);
+  }
+
+  /**
+   * Cuts away a leading namespace prefix (if there is one in place).
+   * 
+   * @param name the XML name to convert to a Java name
+   * @return a name which follows Java naming conventions
+   */
+  @Override
+  public final String toJavaClassName(final String name) {
+
+    if ((name == null) || (name.length() <= 0)) {
+      // handle error
+      return name; // -- for now just return name
+    }
+    // Remove namespace prefix (Andrew Fawcett, temporary until namespace
+    // changes go in)
+    int colon = name.indexOf(':');
+    if (colon != -1) {
+      return toJavaName(name.substring(colon + 1), true);
+    }
+    return toJavaName(name, true);
+
+  }
+
+  /**
+   * Appends a leading '_' and converts the given name to a java name.
+   * 
+   * @param name the XML name to convert
+   * @return a Java member name starting with a leading _
+   */
+  @Override
+  public final String toJavaMemberName(final String name) {
+    return toJavaMemberName(name, true);
+  }
+
+  /**
+   * Appends a leading '_' and converts the given name to a java name.
+   * 
+   * @param name the XML name to convert
+   * @param useKeywordSubstitutions set to true to turn on keyword substitution
+   * @return a Java member name starting with a leading _
+   */
+  @Override
+  public final String toJavaMemberName(final String name, final boolean useKeywordSubstitutions) {
+
+    if (name == null) {
+      return null;
     }
 
-    /**
-     * Returns true if the given String is a Java keyword which will cause a
-     * problem when used as a variable name.
-     * @param name the name to check
-     * @return true if it is a keyword
-     */
-    @Override
-    public final boolean isKeyword(final String name) {
-        return KEYWORDS.contains(name);
+    String memberName = toJavaName(name, false);
+
+    if (isKeyword(memberName) && useKeywordSubstitutions) {
+      String mappedName = (String) SUBST.get(memberName);
+      if (mappedName != null) {
+        memberName = mappedName;
+      } else {
+        memberName = FIELD_UNDERSCORE_PREFIX + memberName;
+      }
+    }
+    return memberName;
+  }
+
+  /**
+   * Checks if the given pacckage name is valid or not. Empty pacakge names are considered valid!
+   * 
+   * @param packageName name of package as String with periods
+   * @return true if package name is valid
+   */
+  @Override
+  public final boolean isValidPackageName(final String packageName) {
+    if ((packageName == null) || (packageName.length() < 1)) {
+      return true;
+    }
+    if (".".equals(packageName)) {
+      return false;
+    }
+    if (packageName.startsWith(".") || (packageName.endsWith("."))) {
+      return false;
+    }
+    boolean valid = true;
+    String[] packageNameParts = packageName.split("\\.");
+    for (int i = 0; i < packageNameParts.length; i++) {
+      String packageNamePart = packageNameParts[i];
+      valid &= isValidJavaIdentifier(packageNamePart);
+    }
+    return valid;
+  }
+
+  /**
+   * Converts the given Package name to it's corresponding Path. The path will be a relative path.
+   * 
+   * @param packageName the package name to convert
+   * @return a String containing the resulting patch
+   */
+  @Override
+  public final String packageToPath(final String packageName) {
+    if (packageName == null) {
+      return packageName;
+    }
+    if (!isValidPackageName(packageName)) {
+      String message = "Package name: " + packageName + " is not valid";
+      throw new IllegalArgumentException(message);
+    }
+    return packageName.replace('.', File.separatorChar);
+  }
+
+  /**
+   * To initialize the keyword map.
+   * 
+   * @return an initialized keyword map
+   */
+  private static Hashtable<String, String> keywordMap() {
+    Hashtable<String, String> ht = new Hashtable<String, String>();
+    ht.put("class", "clazz");
+    return ht;
+  }
+
+  /**
+   * Converts the given xml name to a Java name.
+   * 
+   * @param name the name to convert to a Java Name
+   * @param upperFirst a flag to indicate whether or not the the first character should be converted
+   *        to uppercase.
+   * @return the resulting Java name
+   */
+  private String toJavaName(final String name, final boolean upperFirst) {
+
+    int size = name.length();
+    char[] ncChars = name.toCharArray();
+    int next = 0;
+
+    boolean uppercase = upperFirst;
+
+    // -- initialize lowercase, this is either (!uppercase) or
+    // -- false depending on if the first two characters
+    // -- are uppercase (unless override is specified by means of property)
+    boolean lowercase = (!uppercase);
+    if ((size > 1) && lowercase) {
+      if (Character.isUpperCase(ncChars[0]) && Character.isUpperCase(ncChars[1])) {
+        if (context != null
+            && context.getBooleanProperty(XMLProperties.MEMBER_NAME_CAPITALISATION_STRICT)) {
+          lowercase = true;
+        } else {
+          lowercase = false;
+        }
+      }
     }
 
-    /**
-     * Returns true if the given String matches the production of a valid Java
-     * identifier.
-     * 
-     * @param string
-     *            The String to check the production of.
-     * @return true if the given String matches the production of a valid Java
-     *         name, otherwise false.
-     */
-    @Override
-    public final boolean isValidJavaIdentifier(final String string) {
-        if (string == null || string.length() == 0 ||
-            !Character.isJavaIdentifierStart(string.charAt(0))) {
-            return false;
-        }
+    for (int i = 0; i < size; i++) {
+      char ch = ncChars[i];
 
-        for (int i = 1; i < string.length(); i++) {
-            char ch = string.charAt(i);
-            if (!Character.isJavaIdentifierPart(ch)) {
-                return false;
-            }
-        }
-        return !isKeyword(string);
+      switch (ch) {
+        case '.':
+        case ' ':
+          ncChars[next++] = '_';
+          break;
+        case ':':
+        case '-':
+          uppercase = true;
+          break;
+        case '_':
+          // -- backward compatibility with 0.9.3.9
+          if (_upperCaseAfterUnderscore) {
+            uppercase = true;
+            ncChars[next] = ch;
+            ++next;
+            break;
+          }
+          // -- for backward compatibility with 0.9.3
+          /*
+           * if (replaceUnderscore) { uppercase = true; break; }
+           */
+          // --> do not break here for anything greater
+          // --> than 0.9.3.9
+        default:
+          if (uppercase) {
+            ncChars[next] = Character.toUpperCase(ch);
+            uppercase = false;
+          } else if (lowercase) {
+            ncChars[next] = Character.toLowerCase(ch);
+            lowercase = false;
+          } else {
+            ncChars[next] = ch;
+          }
+          ++next;
+          break;
+      }
+    }
+    return new String(ncChars, 0, next);
+  }
+
+  /**
+   * Qualifies the given <code>fileName</code> with the given <code>packageName</code> and returns
+   * the resulting file path.<br>
+   * If <code>packageName</code> is <code>null</code> or a zero-length String, this method will
+   * return <code>fileName</code>.<br>
+   * 
+   * @param fileName The file name to be qualified.
+   * @param packageName The package name to be used for qualifying.
+   * @return The qualified file path.
+   */
+  @Override
+  public final String getQualifiedFileName(final String fileName, final String packageName) {
+    if ((packageName == null) || (packageName.length() == 0)) {
+      return fileName;
+    }
+    return new StringBuilder().append(packageToPath(packageName)).append('/').append(fileName)
+        .toString();
+  }
+
+  /**
+   * Gets the package name of the given class name.
+   * 
+   * @param className The class name to retrieve the package name from.
+   * @return The package name or the empty String if <code>className</code> is <code>null</code> or
+   *         does not contain a package.
+   */
+  @Override
+  public final String getPackageName(final String className) {
+    if ((className == null) || (className.length() < 1)) {
+      return className;
     }
 
-    /**
-     * Cuts away a leading namespace prefix (if there is one in place).
-     * @param name the XML name to convert to a Java name
-     * @return a name which follows Java naming conventions
-     */
-    @Override
-    public final String toJavaClassName(final String name) {
-
-        if ((name == null) || (name.length() <= 0)) {
-            // handle error
-            return name; // -- for now just return name
-        }
-        // Remove namespace prefix (Andrew Fawcett, temporary until namespace
-        // changes go in)
-        int colon = name.indexOf(':');
-        if (colon != -1) {
-            return toJavaName(name.substring(colon + 1), true);
-        }
-        return toJavaName(name, true);
-
+    int idx = className.lastIndexOf('.');
+    if (idx >= 0) {
+      return className.substring(0, idx);
     }
+    return "";
+  }
 
-    /**
-     * Appends a leading '_' and converts the given name to a java name.
-     * @param name the XML name to convert
-     * @return a Java member name starting with a leading _
-     */
-    @Override
-    public final String toJavaMemberName(final String name) {
-        return toJavaMemberName(name, true);
+  /**
+   * Extracts the filed name part from the methods name. Mostly it cuts away the method prefix.
+   * 
+   * @param method the Method to process
+   * @return the extracted field name
+   */
+  @Override
+  public final String extractFieldNameFromMethod(final Method method) {
+    if (method == null) {
+      return null;
     }
-
-    /**
-     * Appends a leading '_' and converts the given name to a java name.
-     * @param name the XML name to convert
-     * @param useKeywordSubstitutions set to true to turn on keyword substitution 
-     * @return a Java member name starting with a leading _
-     */
-    @Override
-    public final String toJavaMemberName(final String name, final boolean useKeywordSubstitutions) {
-
-        if (name == null) {
-            return null;
-        }
-
-        String memberName = toJavaName(name, false);
-
-        if (isKeyword(memberName) && useKeywordSubstitutions) {
-            String mappedName = (String) SUBST.get(memberName);
-            if (mappedName != null) {
-                memberName = mappedName;
-            } else {
-                memberName = FIELD_UNDERSCORE_PREFIX + memberName;
-            }
-        }
-        return memberName;
+    String fieldName = null;
+    if (isSetMethod(method)) {
+      fieldName = method.getName().substring(METHOD_PREFIX_SET.length());
+    } else if (isCreateMethod(method)) {
+      fieldName = method.getName().substring(METHOD_PREFIX_CREATE.length());
+    } else if (isGetMethod(method)) {
+      fieldName = method.getName().substring(METHOD_PREFIX_GET.length());
+    } else if (isIsMethod(method)) {
+      fieldName = method.getName().substring(METHOD_PREFIX_IS.length());
+    } else if (isAddMethod(method)) {
+      fieldName = method.getName().substring(METHOD_PREFIX_ADD.length());
     }
+    return toJavaMemberName(fieldName);
+  }
 
-    /**
-     * Checks if the given pacckage name is valid or not. Empty pacakge names
-     * are considered valid!
-     * 
-     * @param packageName
-     *            name of package as String with periods
-     * @return true if package name is valid
-     */
-    @Override
-    public final boolean isValidPackageName(final String packageName) {
-        if ((packageName == null) || (packageName.length() < 1)) {
-            return true;
-        }
-        if (".".equals(packageName)) {
-            return false;
-        }
-        if (packageName.startsWith(".") || (packageName.endsWith("."))) {
-            return false;
-        }
-        boolean valid = true;
-        String[] packageNameParts = packageName.split("\\.");
-        for (int i = 0; i < packageNameParts.length; i++) {
-            String packageNamePart = packageNameParts[i];
-            valid &= isValidJavaIdentifier(packageNamePart);
-        }
-        return valid;
+  /**
+   * Extracts the field name part from the Field. Mostly it cuts away prefixes like '_'.
+   * 
+   * @param field the Field to process
+   * @return The extracted field name.
+   */
+  @Override
+  public final String extractFieldNameFromField(Field field) {
+    if (field == null) {
+      return null;
     }
-
-    /**
-     * Converts the given Package name to it's corresponding Path. The path will
-     * be a relative path.
-     * @param packageName the package name to convert
-     * @return a String containing the resulting patch
-     */
-    @Override
-    public final String packageToPath(final String packageName) {
-        if (packageName == null) {
-            return packageName;
-        }
-        if (!isValidPackageName(packageName)) {
-            String message = "Package name: " + packageName + " is not valid";
-            throw new IllegalArgumentException(message);
-        }
-        return packageName.replace('.', File.separatorChar);
+    String fieldName = field.getName();
+    if (fieldName.charAt(0) == FIELD_UNDERSCORE_PREFIX) {
+      fieldName = fieldName.substring(1);
     }
+    return fieldName;
+  }
 
-    /**
-     * To initialize the keyword map.
-     * @return an initialized keyword map
-     */
-    private static Hashtable<String, String> keywordMap() {
-        Hashtable<String, String> ht = new Hashtable<String, String>();
-        ht.put("class", "clazz");
-        return ht;
+  /**
+   * Checks if the given method is a set method.
+   * 
+   * @param method the Method to check
+   * @return true if it is a set method
+   */
+  @Override
+  public final boolean isSetMethod(final Method method) {
+    if (method == null) {
+      return false;
     }
-
-    /**
-     * Converts the given xml name to a Java name.
-     * 
-     * @param name
-     *            the name to convert to a Java Name
-     * @param upperFirst
-     *            a flag to indicate whether or not the the first character
-     *            should be converted to uppercase.
-     * @return the resulting Java name
-     */
-    private String toJavaName(final String name, final boolean upperFirst) {
-
-        int size = name.length();
-        char[] ncChars = name.toCharArray();
-        int next = 0;
-
-        boolean uppercase = upperFirst;
-
-        // -- initialize lowercase, this is either (!uppercase) or
-        // -- false depending on if the first two characters
-        // -- are uppercase (unless override is specified by means of property)
-        boolean lowercase = (!uppercase);
-        if ((size > 1) && lowercase) {
-            if (Character.isUpperCase(ncChars[0]) && Character.isUpperCase(ncChars[1])) {
-               if (context != null && context.getBooleanProperty(XMLProperties.MEMBER_NAME_CAPITALISATION_STRICT)) {
-                  lowercase = true;
-               } else {
-                  lowercase = false;
-               }
-            }
-        }
-
-        for (int i = 0; i < size; i++) {
-            char ch = ncChars[i];
-
-            switch (ch) {
-            case '.':
-            case ' ':
-                ncChars[next++] = '_';
-                break;
-            case ':':
-            case '-':
-                uppercase = true;
-                break;
-            case '_':
-                // -- backward compatibility with 0.9.3.9
-                if (_upperCaseAfterUnderscore) {
-                    uppercase = true;
-                    ncChars[next] = ch;
-                    ++next;
-                    break;
-                }
-                // -- for backward compatibility with 0.9.3
-                /*
-                 * if (replaceUnderscore) { uppercase = true; break; }
-                 */
-                // --> do not break here for anything greater
-                // --> than 0.9.3.9
-            default:
-                if (uppercase) {
-                    ncChars[next] = Character.toUpperCase(ch);
-                    uppercase = false;
-                } else if (lowercase) {
-                    ncChars[next] = Character.toLowerCase(ch);
-                    lowercase = false;
-                } else {
-                    ncChars[next] = ch;
-                }
-                ++next;
-                break;
-            }
-        }
-        return new String(ncChars, 0, next);
+    if (!method.getName().startsWith(METHOD_PREFIX_SET)) {
+      return false;
     }
-
-    /**
-     * Qualifies the given <code>fileName</code> with the given
-     * <code>packageName</code> and returns the resulting file path.<br>
-     * If <code>packageName</code> is <code>null</code> or a zero-length
-     * String, this method will return <code>fileName</code>.<br>
-     * 
-     * @param fileName
-     *            The file name to be qualified.
-     * @param packageName
-     *            The package name to be used for qualifying.
-     * @return The qualified file path.
-     */
-    @Override
-    public final String getQualifiedFileName(final String fileName, final String packageName) {
-        if ((packageName == null) || (packageName.length() == 0)) {
-            return fileName;
-        }
-        return new StringBuilder()
-            .append(packageToPath(packageName))
-            .append('/')
-            .append(fileName)
-            .toString();
+    if (method.getParameterTypes().length != 1) {
+      return false;
     }
-
-    /**
-     * Gets the package name of the given class name.
-     * 
-     * @param className
-     *            The class name to retrieve the package name from.
-     * @return The package name or the empty String if <code>className</code>
-     *         is <code>null</code> or does not contain a package.
-     */
-    @Override
-    public final String getPackageName(final String className) {
-        if ((className == null) || (className.length() < 1)) {
-            return className;
-        }
-
-        int idx = className.lastIndexOf('.');
-        if (idx >= 0) {
-            return className.substring(0, idx);
-        }
-        return "";
+    if ((method.getReturnType() != void.class) && (method.getReturnType() != Void.class)) {
+      return false;
     }
+    return true;
+  }
 
-    /**
-     * Extracts the filed name part from the methods name. Mostly it cuts
-     * away the method prefix.
-     * @param method the Method to process
-     * @return the extracted field name
-     */
-    @Override
-    public final String extractFieldNameFromMethod(final Method method) {
-        if (method == null) {
-            return null;
-        }
-        String fieldName = null;
-        if (isSetMethod(method)) {
-            fieldName = method.getName().substring(METHOD_PREFIX_SET.length());
-        } else if (isCreateMethod(method)) {
-            fieldName = method.getName().substring(METHOD_PREFIX_CREATE.length());
-        } else if (isGetMethod(method)) {
-            fieldName = method.getName().substring(METHOD_PREFIX_GET.length());
-        } else if (isIsMethod(method)) {
-            fieldName = method.getName().substring(METHOD_PREFIX_IS.length());
-        } else if (isAddMethod(method)) {
-            fieldName = method.getName().substring(METHOD_PREFIX_ADD.length());
-        }
-        return toJavaMemberName(fieldName);
+  /**
+   * Checks if the given method is a create method.
+   * 
+   * @param method the Method to check
+   * @return true if it is a create method
+   */
+  @Override
+  public final boolean isCreateMethod(final Method method) {
+    if (method == null) {
+      return false;
     }
-    
-    /**
-     * Extracts the field name part from the Field. Mostly it cuts away
-     * prefixes like '_'.
-     * 
-     * @param field the Field to process
-     * @return The extracted field name.
-     */
-    @Override
-    public final String extractFieldNameFromField(Field field) {
-        if (field == null) {
-            return null;
-        }
-        String fieldName = field.getName();
-        if (fieldName.charAt(0) == FIELD_UNDERSCORE_PREFIX) {
-            fieldName = fieldName.substring(1);
-        }
-        return fieldName;
+    if (!method.getName().startsWith(METHOD_PREFIX_CREATE)) {
+      return false;
     }
+    if (method.getParameterTypes().length != 0) {
+      return false;
+    }
+    if (method.getReturnType() == null) {
+      return false;
+    }
+    return true;
+  }
 
-    /**
-     * Checks if the given method is a set method.
-     * @param method the Method to check
-     * @return true if it is a set method
-     */
-    @Override
-    public final boolean isSetMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        if (!method.getName().startsWith(METHOD_PREFIX_SET)) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 1) {
-            return false;
-        }
-        if ((method.getReturnType() != void.class) && (method.getReturnType() != Void.class)) {
-            return false;
-        }
-        return true;
+  /**
+   * Checks if the given method is a get method.
+   * 
+   * @param method the Method to check
+   * @return true if it is a get method
+   */
+  @Override
+  public final boolean isGetMethod(final Method method) {
+    if (method == null) {
+      return false;
     }
+    if (!method.getName().startsWith(METHOD_PREFIX_GET)) {
+      return false;
+    }
+    if (method.getParameterTypes().length != 0) {
+      return false;
+    }
+    if (method.getReturnType() == null) {
+      return false;
+    }
+    return true;
+  }
 
-    /**
-     * Checks if the given method is a create method.
-     * @param method the Method to check
-     * @return true if it is a create method
-     */
-    @Override
-    public final boolean isCreateMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        if (!method.getName().startsWith(METHOD_PREFIX_CREATE)) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 0) {
-            return false;
-        }
-        if (method.getReturnType() == null) {
-            return false;
-        }
-        return true;
+  /**
+   * Checks if the given method is a 'is' method.
+   * 
+   * @param method the Method to check
+   * @return true if it is a 'is' method
+   */
+  @Override
+  public final boolean isIsMethod(final Method method) {
+    if (method == null) {
+      return false;
     }
+    if (!method.getName().startsWith(METHOD_PREFIX_IS)) {
+      return false;
+    }
+    if (method.getParameterTypes().length != 0) {
+      return false;
+    }
+    if ((method.getReturnType().isPrimitive()) && (method.getReturnType() != Boolean.TYPE)) {
+      return false;
+    }
+    if ((!method.getReturnType().isPrimitive()) && (method.getReturnType() != Boolean.class)) {
+      return false;
+    }
+    return true;
+  }
 
-    /**
-     * Checks if the given method is a get method.
-     * @param method the Method to check
-     * @return true if it is a get method
-     */
-    @Override
-    public final boolean isGetMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        if (!method.getName().startsWith(METHOD_PREFIX_GET)) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 0) {
-            return false;
-        }
-        if (method.getReturnType() == null) {
-            return false;
-        }
-        return true;
+  /**
+   * Checks if the given method is an add method.
+   * 
+   * @param method the Method to check
+   * @return true if it is an add method
+   */
+  @Override
+  public final boolean isAddMethod(final Method method) {
+    if (method == null) {
+      return false;
     }
+    if (!method.getName().startsWith(METHOD_PREFIX_ADD)) {
+      return false;
+    }
+    if (method.getParameterTypes().length != 1) {
+      return false;
+    }
+    if ((method.getReturnType() != void.class) && (method.getReturnType() != Void.class)) {
+      return false;
+    }
+    return true;
+  }
 
-    /**
-     * Checks if the given method is a 'is' method.
-     * @param method the Method to check
-     * @return true if it is a 'is' method
-     */
-    @Override
-    public final boolean isIsMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        if (!method.getName().startsWith(METHOD_PREFIX_IS)) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 0) {
-            return false;
-        }
-        if ((method.getReturnType().isPrimitive()) && (method.getReturnType() != Boolean.TYPE)) {
-            return false;
-        }
-        if ((!method.getReturnType().isPrimitive()) && (method.getReturnType() != Boolean.class)) {
-            return false;
-        }
-        return true;
-    }
+  /**
+   * Generates the name of an add method for the given field name.
+   * 
+   * @param fieldName the field name to generate a method name for
+   * @return the generated add method name
+   */
+  @Override
+  public final String getAddMethodNameForField(final String fieldName) {
+    return METHOD_PREFIX_ADD + toJavaClassName(fieldName);
+  }
 
-    /**
-     * Checks if the given method is an add method.
-     * @param method the Method to check
-     * @return true if it is an add method
-     */
-    @Override
-    public final boolean isAddMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        if (!method.getName().startsWith(METHOD_PREFIX_ADD)) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 1) {
-            return false;
-        }
-        if ((method.getReturnType() != void.class) && (method.getReturnType() != Void.class)) {
-            return false;
-        }
-        return true;
-    }
+  /**
+   * Generates the name of a set method for the given field name.
+   * 
+   * @param fieldName the field name to generate a method name for
+   * @return the generated set method name
+   */
+  @Override
+  public final String getCreateMethodNameForField(final String fieldName) {
+    return METHOD_PREFIX_CREATE + toJavaClassName(fieldName);
+  }
 
-    /**
-     * Generates the name of an add method for the given field name.
-     * @param fieldName the field name to generate a method name for
-     * @return the generated add method name
-     */
-    @Override
-    public final String getAddMethodNameForField(final String fieldName) {
-        return METHOD_PREFIX_ADD + toJavaClassName(fieldName);
-    }
+  /**
+   * Generates the name of a get method for the given field name.
+   * 
+   * @param fieldName the field name to generate a method name for
+   * @return the generated get method name
+   */
+  @Override
+  public final String getGetMethodNameForField(final String fieldName) {
+    return METHOD_PREFIX_GET + toJavaClassName(fieldName);
+  }
 
-    /**
-     * Generates the name of a set method for the given field name.
-     * @param fieldName the field name to generate a method name for
-     * @return the generated set method name
-     */
-    @Override
-    public final String getCreateMethodNameForField(final String fieldName) {
-        return METHOD_PREFIX_CREATE + toJavaClassName(fieldName);
-    }
+  /**
+   * Generates the name of an is method for the given field name.
+   * 
+   * @param fieldName the field name to generate a method name for
+   * @return the generated is method name
+   */
+  @Override
+  public final String getIsMethodNameForField(final String fieldName) {
+    return METHOD_PREFIX_IS + toJavaClassName(fieldName);
+  }
 
-    /**
-     * Generates the name of a get method for the given field name.
-     * @param fieldName the field name to generate a method name for
-     * @return the generated get method name
-     */
-    @Override
-    public final String getGetMethodNameForField(final String fieldName) {
-        return METHOD_PREFIX_GET + toJavaClassName(fieldName);
-    }
+  /**
+   * Generates the name of a create method for the given field name.
+   * 
+   * @param fieldName the field name to generate a method name for
+   * @return the generated create method name
+   */
+  @Override
+  public final String getSetMethodNameForField(final String fieldName) {
+    return METHOD_PREFIX_SET + toJavaClassName(fieldName);
+  }
 
-    /**
-     * Generates the name of an is method for the given field name.
-     * @param fieldName the field name to generate a method name for
-     * @return the generated is method name
-     */
-    @Override
-    public final String getIsMethodNameForField(final String fieldName) {
-        return METHOD_PREFIX_IS + toJavaClassName(fieldName);
+  /**
+   * Gets the class name without package part.
+   * 
+   * @param clazz The class to retrieve the name from
+   * @return the class name without package part or null {@inheritDoc}
+   */
+  @Override
+  public String getClassName(Class<?> clazz) {
+    if (clazz == null) {
+      return null;
     }
-
-    /**
-     * Generates the name of a create method for the given field name.
-     * @param fieldName the field name to generate a method name for
-     * @return the generated create method name
-     */
-    @Override
-    public final String getSetMethodNameForField(final String fieldName) {
-        return METHOD_PREFIX_SET + toJavaClassName(fieldName);
+    String name = clazz.getName();
+    int idx = name.lastIndexOf('.');
+    if (idx >= 0) {
+      name = name.substring(idx + 1);
     }
-
-    /**
-     * Gets the class name without package part.
-     * 
-     * @param clazz The class to retrieve the name from
-     * @return the class name without package part or null
-     * {@inheritDoc}
-     */
-    @Override
-    public String getClassName(Class<?> clazz) {
-        if (clazz == null) {
-            return null;
-        }
-        String name = clazz.getName();
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0) {
-            name = name.substring(idx+1);
-        }
-        return name;
-    }
+    return name;
+  }
 }

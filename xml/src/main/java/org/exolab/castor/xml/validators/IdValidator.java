@@ -1,17 +1,15 @@
 /*
  * Copyright 2006 Werner Guttmann
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.exolab.castor.xml.validators;
 
@@ -27,66 +25,64 @@ import org.exolab.castor.xml.ValidationException;
  */
 public class IdValidator extends StringValidator implements TypeValidator {
 
-    /**
-     * Creates a new IdValidator with no restrictions.
-     */
-    public IdValidator() {
-        super();
-    } //-- IdValidator
+  /**
+   * Creates a new IdValidator with no restrictions.
+   */
+  public IdValidator() {
+    super();
+  } // -- IdValidator
 
-    /**
-     * Validates the given Object.
-     *
-     * @param value
-     *            the string to validate
-     * @param context
-     *            the ValidationContext
-     * @throws ValidationException if the object fails validation.
-     */
-    public void validate(final String value, final ValidationContext context)
-                                                    throws ValidationException {
-        super.validate(value, context);
-    } //-- validate
+  /**
+   * Validates the given Object.
+   *
+   * @param value the string to validate
+   * @param context the ValidationContext
+   * @throws ValidationException if the object fails validation.
+   */
+  public void validate(final String value, final ValidationContext context)
+      throws ValidationException {
+    super.validate(value, context);
+  } // -- validate
 
-    /**
-     * Validates the given Object.
-     *
-     * @param object the Object to validate
-     * @throws ValidationException if the object fails validation.
-     */
-    public void validate(final Object object) throws ValidationException {
-        validate(object, (ValidationContext) null);
-    } //-- validate
+  /**
+   * Validates the given Object.
+   *
+   * @param object the Object to validate
+   * @throws ValidationException if the object fails validation.
+   */
+  public void validate(final Object object) throws ValidationException {
+    validate(object, (ValidationContext) null);
+  } // -- validate
 
-    /**
-     * Validates the given Object.
-     *
-     * @param object the Object to validate
-     * @param context the ValidationContext
-     * @throws ValidationException if the object fails validation.
-     */
-    public void validate(final Object object, final ValidationContext context)
-                                                    throws ValidationException {
-        if (object == null) {
-            String err = "IdValidator cannot validate a null object.";
-            throw new ValidationException(err);
-        }
+  /**
+   * Validates the given Object.
+   *
+   * @param object the Object to validate
+   * @param context the ValidationContext
+   * @throws ValidationException if the object fails validation.
+   */
+  public void validate(final Object object, final ValidationContext context)
+      throws ValidationException {
+    if (object == null) {
+      String err = "IdValidator cannot validate a null object.";
+      throw new ValidationException(err);
+    }
 
-        String value = null;
-        if (!(object instanceof String)) {
-            throw new ValidationException("IDs should be of type String");
-        }
+    String value = null;
+    if (!(object instanceof String)) {
+      throw new ValidationException("IDs should be of type String");
+    }
 
-        value = (String) object;
+    value = (String) object;
 
-        if (value.equals("")) {
-            String err = "Invalid ID value: '' is not a valid value.";
-            throw new ValidationException(err);
-        }
+    if (value.equals("")) {
+      String err = "Invalid ID value: '' is not a valid value.";
+      throw new ValidationException(err);
+    }
 
-        context.addID(value);
+    context.addID(value);
 
-        // validate(value, context);
-    } //-- validate
+    // validate(value, context);
+  } // -- validate
 
-} //-- IdValidator
+} // -- IdValidator
