@@ -269,11 +269,11 @@ public abstract class AbstractProperties {
      * @return <code>true</code> if properties could be loaded, <code>false</code> otherwise.
      */
     private boolean loadFromFile(final Properties properties, final File file) {
-        InputStream fileStream = null;
         try {      
             if (file.exists() && file.canRead()) {
-                fileStream = new FileInputStream(file); 
-                properties.load(fileStream);
+                try (InputStream fileStream = new FileInputStream(file)) {
+                    properties.load(fileStream);
+                }
                 
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Properties file loaded: " + file);
@@ -288,14 +288,6 @@ public abstract class AbstractProperties {
         } catch (Exception ex) {
             LOG.warn("Failed to load properties file: " + file, ex);
             return false;
-        } finally {
-            if (fileStream != null) {
-                try {
-                    fileStream.close();
-                } catch (IOException e) {
-                    LOG.warn("Failed to close properties file: " + file);
-                }
-            }
         }
     }
     

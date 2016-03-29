@@ -65,7 +65,9 @@ public class CdrFileGenerationTest extends TestCase {
         assertTrue(cdrFile.exists());
 
         Properties props = new Properties();
-        props.load(new FileInputStream(cdrFile));
+        try (FileInputStream cdrIn = new FileInputStream(cdrFile)) {
+            props.load(cdrIn);
+        }
         
         String fatherDescrName = props
                 .getProperty("org.exolab.castor.builder.cdr.generated.simple.Father");

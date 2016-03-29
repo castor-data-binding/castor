@@ -154,12 +154,12 @@ public final class FileServices {
             if (isSupportFile(tempEntry.getName())) {
                 File out = new File(root, tempEntry.getName());
                 out.getParentFile().mkdir();
-                FileOutputStream dest = new FileOutputStream(out);
-
-                InputStream src = new FileInputStream(tempEntry);
-                copy(src, dest);
-                src.close();
-                dest.close();
+                try (
+                    FileOutputStream dest = new FileOutputStream(out);
+                    InputStream src = new FileInputStream(tempEntry);
+                ) {
+                    copy(src, dest);
+                }
             } else if (tempEntry.isDirectory()) {
                 File out = new File(root, tempEntry.getName());
                 out.mkdir();

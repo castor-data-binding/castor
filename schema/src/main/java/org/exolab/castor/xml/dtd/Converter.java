@@ -273,11 +273,13 @@ public class Converter {
 			final String targetNamespace, 
 			final Map<String, String> namespaces) throws SchemaException, DTDException, IOException, SAXException {
 
-		// -- convert DTD to Schema
-		convertDTDtoSchema(in, out, targetNamespace, namespaces);
-
-		in.close();
-		out.close();
+        try {
+            // -- convert DTD to Schema
+            convertDTDtoSchema(in, out, targetNamespace, namespaces);
+	    } finally {
+            in.close();
+            out.close();
+        }
 	}
 
 	protected static Map<String, String> parseNamespace(final String nameSpaceArg) {
@@ -402,12 +404,9 @@ public class Converter {
 	 */
 	public DTDdocument parseDTD(Reader reader) throws DTDException {
 		try {
-
-			InputCharStream charStream;
-
 			// -- instantiate char stream for initial parser from the input
 			// reader
-			charStream = new InputCharStream(reader);
+			InputCharStream charStream = new InputCharStream(reader);
 
 			// -- instantiate initial parser
 			DTDInitialParser initialParser = new DTDInitialParser(charStream);
@@ -417,22 +416,20 @@ public class Converter {
 			String intermedResult = initialParser.Input();
 
 			// -- construct StringReader from the intermediate result of parsing
-			StringReader strReader = new StringReader(intermedResult);
+			try (StringReader strReader = new StringReader(intermedResult)) {
+                // -- instantiate char stream for main parser
+                charStream = new InputCharStream(strReader);
 
-			// -- instantiate char stream for main parser
-			charStream = new InputCharStream(strReader);
+                // -- instantiate main parser
+                DTDParser parser = new DTDParser(charStream);
 
-			// -- instantiate main parser
-			DTDParser parser = new DTDParser(charStream);
+                // -- parse intermediate result by the main parser
+                // -- and get corresponding DTD document oblect
+                DTDdocument dtd = parser.Input();
 
-			// -- parse intermediate result by the main parser
-			// -- and get corresponding DTD document oblect
-			DTDdocument dtd = parser.Input();
-
-			strReader.close();
-
-			// -- return DTD document object
-			return dtd;
+                // -- return DTD document object
+                return dtd;
+            }
 		} catch (TokenMgrError tme) {
 			String msg = tme.getMessage();
 			throw new DTDException("TokenMgrError"

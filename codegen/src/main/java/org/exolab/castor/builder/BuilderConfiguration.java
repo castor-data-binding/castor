@@ -690,9 +690,9 @@ public class BuilderConfiguration {
                 try {
                     File file = new File(Property.CONFIG_FILENAME_PROPERTY);
                     if (file.exists() && file.canRead()) {
-                        InputStream is = new FileInputStream(file);
-                        _defaultProps.load(is);
-                        is.close();
+                        try (InputStream is = new FileInputStream(file)) {                        
+                            _defaultProps.load(is);
+                        }
                     }
                 } catch (Exception except) {
                     //-- do nothing
@@ -922,16 +922,16 @@ public class BuilderConfiguration {
         }
         
         if (javaHome != null) {
-            InputStream fileStream = null;
-            try {      
+            try {
                 file = new File(javaHome, "lib");
                 file = new File(file, fileName);
                 if (file.exists()) {
                     properties = new Properties(properties);
-                    fileStream = new FileInputStream(file);
-                    properties.load(fileStream);
+                    try (InputStream fileStream = new FileInputStream(file)) {
+                        properties.load(fileStream);
+                    }
                     found = true;
-                }      
+                }
             } catch (SecurityException e) {
                 // Not a critical error, but users will need to know if they need to change 
                 // their config.   
@@ -939,14 +939,6 @@ public class BuilderConfiguration {
             } catch (IOException e) {
                 // Report that we were unable to load the resource.
                 LOG.warn(Messages.format("conf.nonCriticalError", e));
-            } finally {
-                if (fileStream != null) {
-                    try {
-                        fileStream.close();
-                    } catch (IOException e) {
-                        LOG.warn("Problem closing stream for " + fileName);
-                    }
-                }
             }
         }
         
