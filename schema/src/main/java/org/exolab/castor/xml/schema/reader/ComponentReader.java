@@ -35,14 +35,21 @@
 
 package org.exolab.castor.xml.schema.reader;
 
+import java.net.URI;
+
+import org.exolab.castor.net.URIException;
+import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.Namespaces;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.XMLException;
 import org.exolab.castor.xml.schema.SchemaContext;
+import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.Resolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
+import org.xml.sax.Parser;
 
 /**
  * The base class for separate component unmarshallers for reading an XML Schema component.
@@ -52,7 +59,9 @@ import org.xml.sax.Locator;
  **/
 public abstract class ComponentReader {
 
-  /** The Castor XML context to use. */
+  /**
+   * The Castor XML context to use.
+   */
   private SchemaContext _schemaContext;
 
   private Locator _documentLocator;
@@ -327,6 +336,49 @@ public abstract class ComponentReader {
    */
   public SchemaContext getSchemaContext() {
     return _schemaContext;
+  }
+
+  protected void parseSchema(Parser parser, SchemaUnmarshaller schemaUnmarshaller, URILocation uri,
+      String schemaLocation, String reason) throws SchemaException {
+    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
+    parser.setDocumentHandler(handler);
+    parser.setErrorHandler(handler);
+
+    try {
+      InputSource source = new InputSource(uri.getReader());
+      source.setSystemId(uri.getAbsoluteURI());
+      parser.parse(source);
+    } catch (java.io.IOException ioe) {
+      throw new SchemaException("Error reading " + reason + " file '" + schemaLocation + "'");
+    } catch (org.xml.sax.SAXException sx) {
+      throw new SchemaException(sx);
+    }
+  }
+  
+  protected Parser createParser(String reason) throws SchemaException {
+    Parser parser = null;
+    try {
+      parser = getSchemaContext().getParser();
+    } catch (RuntimeException rte) {
+    }
+    if (parser == null) {
+      throw new SchemaException("Error failed to create parser for " + reason);
+    }
+    return parser;
+  }
+  
+  protected URILocation derive(Locator locator, String schemaLocation) throws XMLException {
+    try {
+      String documentBase = locator.getSystemId();
+      if (documentBase != null) {
+        if (!documentBase.endsWith("/"))
+          documentBase = documentBase.substring(0, documentBase.lastIndexOf("/") + 1);
+      }
+      return getURIResolver().resolve(schemaLocation, documentBase);
+    } catch (URIException ure) {
+      throw new XMLException(ure);
+    }
+    
   }
 
 }

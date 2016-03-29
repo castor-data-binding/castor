@@ -9,9 +9,6 @@ package org.castor.core.exception;
  */
 public class IllegalClassDescriptorInitialization extends RuntimeException {
 
-  /**
-   * serial version UID
-   */
   private static final long serialVersionUID = 1L;
 
   /**

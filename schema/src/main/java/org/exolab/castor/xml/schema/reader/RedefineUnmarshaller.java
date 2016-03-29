@@ -35,8 +35,6 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-// -- imported classes and packages
-import org.exolab.castor.net.URIException;
 import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
@@ -55,7 +53,6 @@ import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.XMLType;
-import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.Parser;
 
@@ -129,18 +126,9 @@ public class RedefineUnmarshaller extends ComponentReader {
       error(err);
     }
 
-    try {
-      String documentBase = locator.getSystemId();
-      if (documentBase != null) {
-        if (!documentBase.endsWith("/"))
-          documentBase = documentBase.substring(0, documentBase.lastIndexOf('/') + 1);
-      }
-      uri = getURIResolver().resolve(schemaLocation, documentBase);
-      if (uri != null) {
-        schemaLocation = uri.getAbsoluteURI();
-      }
-    } catch (URIException urix) {
-      throw new XMLException(urix);
+    uri = derive(locator, schemaLocation);
+    if (uri != null) {
+      schemaLocation = uri.getAbsoluteURI();
     }
 
     // -- Schema object to hold import schema
@@ -178,31 +166,15 @@ public class RedefineUnmarshaller extends ComponentReader {
       return;
 
     // -- Parser Schema
-    Parser parser = null;
-    try {
-      parser = getSchemaContext().getParser();
-    } catch (RuntimeException rte) {
-    }
-    if (parser == null) {
-      throw new SchemaException("Error failed to create parser for import");
-    }
+    Parser parser = createParser("import");
+
     // -- Create Schema object and setup unmarshaller
     SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getSchemaContext(), state);
     schemaUnmarshaller.setURIResolver(getURIResolver());
     schemaUnmarshaller.setSchema(importedSchema);
-    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
-    parser.setDocumentHandler(handler);
-    parser.setErrorHandler(handler);
 
-    try {
-      InputSource source = new InputSource(uri.getReader());
-      source.setSystemId(uri.getAbsoluteURI());
-      parser.parse(source);
-    } catch (java.io.IOException ioe) {
-      throw new SchemaException("Error reading import file '" + schemaLocation + "': " + ioe);
-    } catch (org.xml.sax.SAXException sx) {
-      throw new SchemaException(sx);
-    }
+    // parse schema to be imported
+    parseSchema(parser, schemaUnmarshaller, uri, schemaLocation, "import");
 
     // -- namespace checking
     String namespace = importedSchema.getTargetNamespace();
@@ -247,13 +219,7 @@ public class RedefineUnmarshaller extends ComponentReader {
   public void startElement(String name, String namespace, AttributeSet atts, Namespaces nsDecls)
       throws XMLException {
 
-
-
-    // -- DEBUG
-    // System.out.println("#startElement: " + name + " {" + namespace + "}");
-    // -- /DEBUG
-
-    // -- Do delagation if necessary
+    // -- Do delegation if necessary
     if (_unmarshaller != null) {
       try {
         _unmarshaller.startElement(name, namespace, atts, nsDecls);
@@ -264,34 +230,24 @@ public class RedefineUnmarshaller extends ComponentReader {
       }
     }
 
-    // -- <annotation>
     if (name.equals(SchemaNames.ANNOTATION)) {
       _unmarshaller = new AnnotationUnmarshaller(getSchemaContext(), atts);
-    }
-    // -- <attributeGroup>
-    else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
+    } else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
       _unmarshaller = new AttributeGroupUnmarshaller(getSchemaContext(), _schema, atts);
-    }
-    // -- <complexType>
-    else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
+    } else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
       _unmarshaller = new ComplexTypeUnmarshaller(getSchemaContext(), _schema, atts);
-    }
-    // -- <simpleType>
-    else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
+    } else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
       _unmarshaller = new SimpleTypeUnmarshaller(getSchemaContext(), _schema, atts);
-    }
-    // -- <group>
-    else if (name.equals(SchemaNames.GROUP)) {
+    } else if (name.equals(SchemaNames.GROUP)) {
       _unmarshaller = new ModelGroupUnmarshaller(getSchemaContext(), _schema, atts);
     } else {
-      // --Exception here
       String err = "<" + name + "> elements cannot be used in a redefine.";
       error(err);
     }
 
     _unmarshaller.setDocumentLocator(getDocumentLocator());
 
-  } // -- startElement
+  }
 
   /**
    * Signals to end of the element with the given name.
@@ -302,21 +258,15 @@ public class RedefineUnmarshaller extends ComponentReader {
    **/
   public void endElement(String name, String namespace) throws XMLException {
 
-    // -- DEBUG
-    // System.out.println("#endElement: " + name + " {" + namespace + "}");
-    // -- /DEBUG
-
-    // -- Do delagation if necessary
+    // -- Do delegation if necessary
     if ((_unmarshaller != null) && (_depth > 0)) {
       _unmarshaller.endElement(name, namespace);
       --_depth;
       return;
     }
 
-
     // -- use internal JVM String
     name = name.intern();
-
 
     // -- check for name mismatches
     if ((_unmarshaller != null)) {
@@ -333,158 +283,16 @@ public class RedefineUnmarshaller extends ComponentReader {
     // -- call unmarshaller.finish() to perform any necessary cleanup
     _unmarshaller.finish();
 
-    // -- <annotation>
     if (name.equals(SchemaNames.ANNOTATION)) {
       _redefineSchema.addAnnotation((Annotation) _unmarshaller.getObject());
-    }
-    // -- <attributeGroup>
-    else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
-      if (_redefineSchema.getSchemaLocation() == "") {
-        String err =
-            "In a <redefine>, only annotations can be defined when no -schemaLocation- is specified.";
-        error(err);
-      }
-
-      AttributeGroupDecl group = null;
-      group =
-          (AttributeGroupDecl) (((AttributeGroupUnmarshaller) _unmarshaller).getAttributeGroup());
-
-      String structureName = group.getName();
-      if (structureName == null) {
-        String err = "When redefining an AttributeGroup, the group must have a name.\n";
-        error(err);
-      }
-
-      // 1-- the attributeGroup must exist in the imported schema
-      AttributeGroup original = _importedSchema.getAttributeGroup(structureName);
-      if (original == null) {
-        String err =
-            "When redefining an AttributeGroup, the AttributeGroup must be present in the imported XML schema.\n"
-                + "AttributeGroup: " + structureName + " is not defined in XML Schema:"
-                + _importedSchema.getSchemaLocation();
-        error(err);
-      }
-
-      // -- todo: add code to check the Derivation Valid (Restriction, Complex) constraint.
-      group.setRedefined();
-      _redefineSchema.addAttributeGroup(group);
-
-    }
-    // -- <complexType>
-    else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
-      if (_redefineSchema.getSchemaLocation() == "") {
-        String err =
-            "In a <redefine>, only annotations can be defined when no -schemaLocation- is specified.";
-        error(err);
-      }
-      ComplexType complexType = null;
-      complexType = ((ComplexTypeUnmarshaller) _unmarshaller).getComplexType();
-      // -- Checks that the complexType exists in the imported schema
-      String structureName = complexType.getName();
-      if (structureName == null) {
-        String err = "When redefining a complexType, the complexType must have a name.\n";
-        error(err);
-      }
-
-      // 1-- the complexType must exist in the imported schema
-      ComplexType original = _importedSchema.getComplexType(structureName);
-      if (original == null) {
-        String err =
-            "When redefining a complexType, the complexType must be present in the imported XML schema.\n"
-                + "ComplexType: " + structureName + " is not defined in XML Schema:"
-                + _importedSchema.getSchemaLocation();
-        error(err);
-      }
-
-      // 2-- the base type must be itself
-      XMLType baseType = complexType.getBaseType();
-      // --just check the names since a top level complexType can only be defined once.
-      if (baseType == null || !baseType.getName().equals(structureName)) {
-        String err =
-            "When redefining a complexType, the complexType must use itself as the base type definition.\n"
-                + "ComplexType: " + structureName + " uses:" + baseType + " as its base type.";
-        error(err);
-      }
-
-      complexType.setRedefined();
-      _redefineSchema.addComplexType(complexType);
-      getResolver().addResolvable(complexType.getReferenceId(), complexType);
-    }
-    // -- <simpleType>
-    else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
-      if (_redefineSchema.getSchemaLocation() == "") {
-        String err =
-            "In a <redefine>, only annotations can be defined when no -schemaLocation- is specified.";
-        error(err);
-      }
-
-      SimpleType simpleType = null;
-      simpleType = ((SimpleTypeUnmarshaller) _unmarshaller).getSimpleType();
-      // -- Checks that the simpleType exists in the imported schema
-      String structureName = simpleType.getName();
-      if (structureName == null) {
-        String err = "When redefining a simpleType, the simpleType must have a name.\n";
-        error(err);
-      }
-
-      // 1-- the simpleType must exist in the imported schema
-      SimpleType original =
-          _importedSchema.getSimpleType(structureName, _schema.getTargetNamespace());
-      if (original == null) {
-        String err =
-            "When redefining a simpleType, the simpleType must be present in the imported XML schema.\n"
-                + "SimpleType: " + structureName + " is not defined in XML Schema:"
-                + _importedSchema.getSchemaLocation();
-        error(err);
-      }
-
-      // 2-- the base type must be itself
-      XMLType baseType = simpleType.getBaseType();
-      // --just check the names since a top level complexType can only be defined once.
-      if (!baseType.getName().equals(structureName)) {
-        String err =
-            "When redefining a simpleType, the simpleType must use itself as the base type definition.\n"
-                + "SimpleType: " + structureName + " uses:" + baseType.getName()
-                + " as its base type.";
-        error(err);
-      }
-
-      simpleType.setRedefined();
-      _redefineSchema.addSimpleType(simpleType);
-      getResolver().addResolvable(simpleType.getReferenceId(), simpleType);
-    }
-    // --<group>
-    else if (name.equals(SchemaNames.GROUP)) {
-      if (_redefineSchema.getSchemaLocation() == "") {
-        String err =
-            "In a <redefine>, only annotations can be defined when no -schemaLocation- is specified.";
-        error(err);
-      }
-
-      ModelGroup group = null;
-      group = (((ModelGroupUnmarshaller) _unmarshaller).getGroup());
-
-      String structureName = group.getName();
-      if (structureName == null) {
-        String err = "When redefining a group, the group must have a name.\n";
-        error(err);
-      }
-
-      // 1-- the group must exist in the imported schema
-      Group original = _importedSchema.getModelGroup(structureName);
-      if (original == null) {
-        String err =
-            "When redefining a group, the group must be present in the imported XML schema.\n"
-                + "Group: " + structureName + " is not defined in XML Schema:"
-                + _importedSchema.getSchemaLocation();
-        error(err);
-      }
-
-      // -- code needs to be added to check the Particle Valid (Restriction) constraint
-      // --TBD
-
-      group.setRedefined();
-      _redefineSchema.addGroup(group);
+    } else if (name.equals(SchemaNames.ATTRIBUTE_GROUP)) {
+      endElementForAttributeGroup();
+    } else if (name.equals(SchemaNames.COMPLEX_TYPE)) {
+      endElementForComplexType();
+    } else if (name.equals(SchemaNames.SIMPLE_TYPE)) {
+      endElementForSimpleType();
+    } else if (name.equals(SchemaNames.GROUP)) {
+      endElementForGroup();
     } else {
       String err =
           "In a <redefine>, only complexTypes|simpleTypes|groups or attributeGroups can be redefined.";
@@ -492,22 +300,164 @@ public class RedefineUnmarshaller extends ComponentReader {
     }
 
     _unmarshaller = null;
-  } // -- endElement
+  }
+
+  private void endElementForGroup() throws XMLException, SchemaException {
+    addErrorIfNoSchemaLocationDefinedUponRedefine();
+
+    ModelGroup group = (((ModelGroupUnmarshaller) _unmarshaller).getGroup());
+
+    String structureName = group.getName();
+    addErrorIfRedefinedTypeDoesNotHaveAName(structureName, "group");
+
+    // 1-- the group must exist in the imported schema
+    Group original = _importedSchema.getModelGroup(structureName);
+    if (original == null) {
+      String err =
+          "When redefining a group, the group must be present in the imported XML schema.\n"
+              + "Group: " + structureName + " is not defined in XML Schema:"
+              + _importedSchema.getSchemaLocation();
+      error(err);
+    }
+
+    // -- code needs to be added to check the Particle Valid (Restriction) constraint
+    // --TBD
+
+    group.setRedefined();
+    _redefineSchema.addGroup(group);
+  }
+
+  private void endElementForSimpleType() throws XMLException, SchemaException {
+    addErrorIfNoSchemaLocationDefinedUponRedefine();
+
+    SimpleType simpleType = ((SimpleTypeUnmarshaller) _unmarshaller).getSimpleType();
+    
+    String structureName = simpleType.getName();
+    addErrorIfRedefinedTypeDoesNotHaveAName(structureName, "simpleType");
+
+    // 1-- the simpleType must exist in the imported schema
+    SimpleType original =
+        _importedSchema.getSimpleType(structureName, _schema.getTargetNamespace());
+    if (original == null) {
+      String err =
+          "When redefining a simpleType, the simpleType must be present in the imported XML schema.\n"
+              + "SimpleType: " + structureName + " is not defined in XML Schema:"
+              + _importedSchema.getSchemaLocation();
+      error(err);
+    }
+
+    // 2-- the base type must be itself
+    XMLType baseType = simpleType.getBaseType();
+    // --just check the names since a top level complexType can only be defined once.
+    if (!baseType.getName().equals(structureName)) {
+      String err =
+          "When redefining a simpleType, the simpleType must use itself as the base type definition.\n"
+              + "SimpleType: " + structureName + " uses:" + baseType.getName()
+              + " as its base type.";
+      error(err);
+    }
+
+    simpleType.setRedefined();
+    _redefineSchema.addSimpleType(simpleType);
+    getResolver().addResolvable(simpleType.getReferenceId(), simpleType);
+  }
+
+  private void endElementForComplexType() throws XMLException, SchemaException {
+    addErrorIfNoSchemaLocationDefinedUponRedefine();
+    ComplexType complexType = ((ComplexTypeUnmarshaller) _unmarshaller).getComplexType();
+    
+    // -- Checks that the complexType exists in the imported schema
+    String structureName = complexType.getName();
+    addErrorIfRedefinedTypeDoesNotHaveAName(structureName, "complexType");
+
+    // 1-- the complexType must exist in the imported schema
+    ComplexType original = _importedSchema.getComplexType(structureName);
+    if (original == null) {
+      String err =
+          "When redefining a complexType, the complexType must be present in the imported XML schema.\n"
+              + "ComplexType: " + structureName + " is not defined in XML Schema:"
+              + _importedSchema.getSchemaLocation();
+      error(err);
+    }
+
+    // 2-- the base type must be itself
+    XMLType baseType = complexType.getBaseType();
+    // --just check the names since a top level complexType can only be defined once.
+    if (baseType == null || !baseType.getName().equals(structureName)) {
+      String err =
+          "When redefining a complexType, the complexType must use itself as the base type definition.\n"
+              + "ComplexType: " + structureName + " uses:" + baseType + " as its base type.";
+      error(err);
+    }
+
+    complexType.setRedefined();
+    _redefineSchema.addComplexType(complexType);
+    getResolver().addResolvable(complexType.getReferenceId(), complexType);
+  }
+
+  private void endElementForAttributeGroup() throws XMLException, SchemaException {
+    addErrorIfNoSchemaLocationDefinedUponRedefine();
+
+    AttributeGroupDecl group =
+        (AttributeGroupDecl) (((AttributeGroupUnmarshaller) _unmarshaller).getAttributeGroup());
+
+    String structureName = group.getName();
+    addErrorIfRedefinedTypeDoesNotHaveAName(structureName, "attribute group");
+
+    // 1-- the attributeGroup must exist in the imported schema
+    AttributeGroup original = _importedSchema.getAttributeGroup(structureName);
+    if (original == null) {
+      String err =
+          "When redefining an AttributeGroup, the AttributeGroup must be present in the imported XML schema.\n"
+              + "AttributeGroup: " + structureName + " is not defined in XML Schema:"
+              + _importedSchema.getSchemaLocation();
+      error(err);
+    }
+
+    // -- TODO: add code to check the Derivation Valid (Restriction, Complex) constraint.
+    group.setRedefined();
+    _redefineSchema.addAttributeGroup(group);
+  }
 
   public void characters(char[] ch, int start, int length) throws XMLException {
     // -- Do delagation if necessary
     if (_unmarshaller != null) {
       _unmarshaller.characters(ch, start, length);
     }
-  } // -- characters
+  }
 
+  /**
+   * Checks that the redefined schema has a 'schemaLocation' attribute set.
+   * @throws XMLException
+   */
+  private void addErrorIfNoSchemaLocationDefinedUponRedefine() throws XMLException {
+    if (_redefineSchema.getSchemaLocation() == "") {
+      String err =
+          "In a <redefine>, only annotations can be defined when no -schemaLocation- is specified.";
+      error(err);
+    }
+  }
+  
+  /**
+   * Checks that the given type exists in the imported schema; if not, add an error
+   * @param structureName Name of the structure to check
+   * @param typeName Name of enclosing type
+   * @throws XMLException 
+   */
+  private void addErrorIfRedefinedTypeDoesNotHaveAName(String structureName, String typeName) throws XMLException {
+    // -- Checks that the given type exists in the imported schema
+    if (structureName == null) {
+      String err = "When redefining a " + typeName + ", the " + typeName + " must have a name.\n";
+      error(err);
+    }
+  }
 
   /**
    * Sets the name of the element that this UnknownUnmarshaller handles
    **/
   public String elementName() {
     return SchemaNames.REDEFINE;
-  } // -- elementName
+  }
 
   /**
    * Returns the Object created by this ComponentReader
@@ -516,6 +466,6 @@ public class RedefineUnmarshaller extends ComponentReader {
    **/
   public Object getObject() {
     return _redefineSchema;
-  } // -- getObject
+  }
 
 }

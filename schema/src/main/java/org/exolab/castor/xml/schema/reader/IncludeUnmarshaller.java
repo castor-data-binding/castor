@@ -35,8 +35,6 @@
 
 package org.exolab.castor.xml.schema.reader;
 
-// -- imported classes and packages
-import org.exolab.castor.net.URIException;
 import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
@@ -45,7 +43,6 @@ import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
-import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.Parser;
 
@@ -79,17 +76,7 @@ public class IncludeUnmarshaller extends ComponentReader {
       throw new SchemaException(err);
     }
 
-    try {
-      String documentBase = locator.getSystemId();
-      if (documentBase != null) {
-        if (!documentBase.endsWith("/"))
-          documentBase = documentBase.substring(0, documentBase.lastIndexOf("/") + 1);
-      }
-      uri = getURIResolver().resolve(include, documentBase);
-    } catch (URIException ure) {
-      throw new XMLException(ure);
-    }
-
+    uri = derive(locator, include);
     if (uri != null)
       include = uri.getAbsoluteURI();
 
@@ -118,45 +105,32 @@ public class IncludeUnmarshaller extends ComponentReader {
       }
     }
 
-    if (includedSchema == null)
+    if (includedSchema == null) {
       includedSchema = new Schema();
-    else
+    } else {
       state.markAsProcessed(include, includedSchema);
+    }
 
     // -- keep track of the schemaLocation
     schema.addInclude(include);
 
-    if (alreadyLoaded)
+    if (alreadyLoaded) {
       return;
-    Parser parser = null;
-    try {
-      parser = getSchemaContext().getParser();
-    } catch (RuntimeException rte) {
     }
-    if (parser == null) {
-      throw new SchemaException("Error failed to create parser for include");
-    }
+
+    Parser parser = createParser("include");
+
     SchemaUnmarshaller schemaUnmarshaller =
         new SchemaUnmarshaller(getSchemaContext(), true, state, getURIResolver());
 
-    if (state.cacheIncludedSchemas)
+    if (state.cacheIncludedSchemas) {
       schemaUnmarshaller.setSchema(includedSchema);
-    else
+    } else {
       schemaUnmarshaller.setSchema(schema);
-
-    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
-    parser.setDocumentHandler(handler);
-    parser.setErrorHandler(handler);
-
-    try {
-      InputSource source = new InputSource(uri.getReader());
-      source.setSystemId(uri.getAbsoluteURI());
-      parser.parse(source);
-    } catch (java.io.IOException ioe) {
-      throw new SchemaException("Error reading include file '" + include + "'");
-    } catch (org.xml.sax.SAXException sx) {
-      throw new SchemaException(sx);
     }
+
+    parseSchema(parser, schemaUnmarshaller, uri, include, "include");
+
     if (state.cacheIncludedSchemas) {
       String ns = includedSchema.getTargetNamespace();
       if (ns == null || ns == "")
@@ -174,7 +148,7 @@ public class IncludeUnmarshaller extends ComponentReader {
    **/
   public String elementName() {
     return SchemaNames.INCLUDE;
-  } // -- elementName
+  }
 
   /**
    * Returns the Object created by this ComponentReader
@@ -183,6 +157,6 @@ public class IncludeUnmarshaller extends ComponentReader {
    **/
   public Object getObject() {
     return null;
-  } // -- getObject
+  }
 
 }

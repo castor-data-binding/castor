@@ -330,7 +330,6 @@ public class SimpleTypesFactory {
         try {
           result = new Union(schema);
         } catch (SchemaException sx) {
-          // Hmmm... error message is not perfect, but at least is something :)
           LOG.warn(Messages.format("schema.deriveByListError", internalName, baseType.getName()));
           return null;
         }
@@ -355,7 +354,7 @@ public class SimpleTypesFactory {
     result.setDerivationMethod(derivation);
     result.setTypeCode(USER_TYPE);
     return result;
-  } // -- createUserSimpleType
+  }
 
   /**
    * Gets the informations about the built in type which name is provided as input parameter. Loads
@@ -528,8 +527,8 @@ public class SimpleTypesFactory {
       }
     }
     return result;
-  } // -- createInstance
-} // -- class: SimpleTypesFactory
+  }
+}
 
 
 /**
@@ -554,7 +553,7 @@ class SimpleTypesFactoryException extends RuntimeException {
    */
   public SimpleTypesFactoryException(final String message) {
     super(message);
-  } // -- SimpleTypesFactoryException
+  }
 
 
   /**
@@ -565,7 +564,7 @@ class SimpleTypesFactoryException extends RuntimeException {
   public SimpleTypesFactoryException(final Throwable exception) {
     super(exception.toString());
     _exception = exception;
-  } // -- SimpleTypesFactoryException
+  }
 
   /**
    * Creates a new SimpleTypesFactoryException.
@@ -576,7 +575,7 @@ class SimpleTypesFactoryException extends RuntimeException {
   public SimpleTypesFactoryException(final Throwable exception, final String message) {
     super(message);
     _exception = exception;
-  } // -- SimpleTypesFactoryException
+  }
 
 
   /**

@@ -40,11 +40,10 @@ import org.exolab.castor.net.URILocation;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.AttributeSet;
 import org.exolab.castor.xml.XMLException;
-import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaContext;
 import org.exolab.castor.xml.schema.SchemaException;
 import org.exolab.castor.xml.schema.SchemaNames;
-import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.Parser;
 
@@ -58,8 +57,10 @@ public class ImportUnmarshaller extends ComponentReader {
     setURIResolver(uriResolver);
 
     URILocation uri = null;
+    
     // -- Get schemaLocation
     String schemaLocation = atts.getValue(SchemaNames.SCHEMALOCATION_ATTR);
+    
     // -- Get namespace
     String namespace = atts.getValue("namespace");
 
@@ -80,18 +81,9 @@ public class ImportUnmarshaller extends ComponentReader {
       if (namespace == null)
         namespace = "";
 
-      try {
-        String documentBase = locator.getSystemId();
-        if (documentBase != null) {
-          if (!documentBase.endsWith("/"))
-            documentBase = documentBase.substring(0, documentBase.lastIndexOf('/') + 1);
-        }
-        uri = getURIResolver().resolve(schemaLocation, documentBase);
-        if (uri != null) {
-          schemaLocation = uri.getAbsoluteURI();
-        }
-      } catch (URIException urix) {
-        throw new XMLException(urix);
+      uri = derive(locator, schemaLocation);
+      if (uri != null) {
+        schemaLocation = uri.getAbsoluteURI();
       }
     } else {
       schemaLocation = namespace;
@@ -111,9 +103,10 @@ public class ImportUnmarshaller extends ComponentReader {
     // -- Make sure targetNamespace is not the same as the
     // -- importing schema, see section 4.2.3 in the
     // -- XML Schema Recommendation
-    if (namespace.equals(schema.getTargetNamespace()))
+    if (namespace.equals(schema.getTargetNamespace())) {
       throw new SchemaException(
           "the 'namespace' attribute in the <import> element cannot be the same of the targetNamespace of the global schema");
+    }
 
     // -- Schema object to hold import schema
     boolean addSchema = false;
@@ -167,31 +160,15 @@ public class ImportUnmarshaller extends ComponentReader {
       return;
 
     // -- Parser Schema
-    Parser parser = null;
-    try {
-      parser = getSchemaContext().getParser();
-    } catch (RuntimeException rte) {
-    }
-    if (parser == null) {
-      throw new SchemaException("Error failed to create parser for import");
-    }
+    Parser parser = createParser("import");
+    
     // -- Create Schema object and setup unmarshaller
     SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(getSchemaContext(), state);
     schemaUnmarshaller.setURIResolver(getURIResolver());
     schemaUnmarshaller.setSchema(importedSchema);
-    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
-    parser.setDocumentHandler(handler);
-    parser.setErrorHandler(handler);
-
-    try {
-      InputSource source = new InputSource(uri.getReader());
-      source.setSystemId(uri.getAbsoluteURI());
-      parser.parse(source);
-    } catch (java.io.IOException ioe) {
-      throw new SchemaException("Error reading import file '" + schemaLocation + "': " + ioe);
-    } catch (org.xml.sax.SAXException sx) {
-      throw new SchemaException(sx);
-    }
+    
+    // parse schema
+    parseSchema(parser, schemaUnmarshaller, uri, schemaLocation, "import");
 
     // -- Add schema to list of imported schemas (if not already present)
     if (addSchema) {
@@ -206,7 +183,7 @@ public class ImportUnmarshaller extends ComponentReader {
    **/
   public String elementName() {
     return SchemaNames.IMPORT;
-  } // -- elementName
+  }
 
   /**
    * Returns the Object created by this ComponentReader
@@ -215,6 +192,6 @@ public class ImportUnmarshaller extends ComponentReader {
    **/
   public Object getObject() {
     return null;
-  } // -- getObject
+  }
 
 }

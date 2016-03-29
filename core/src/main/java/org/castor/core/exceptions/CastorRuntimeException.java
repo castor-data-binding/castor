@@ -27,6 +27,7 @@ import java.io.PrintWriter;
  * @since 1.1.3
  */
 public class CastorRuntimeException extends RuntimeException {
+  
   /** SerialVersionUID */
   private static final long serialVersionUID = 3984585622253325513L;
 

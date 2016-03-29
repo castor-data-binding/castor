@@ -353,7 +353,7 @@ public abstract class SimpleType extends XMLType implements Referable {
 
     try {
       return Long.valueOf(lengthFacet.toLong());
-    } catch (java.lang.Exception e) {
+    } catch (Exception e) {
       return null;
     }
   }
@@ -368,7 +368,7 @@ public abstract class SimpleType extends XMLType implements Referable {
 
     try {
       return Long.valueOf(minLengthFacet.toLong());
-    } catch (java.lang.Exception e) {
+    } catch (Exception e) {
       return null;
     }
   }
@@ -383,10 +383,10 @@ public abstract class SimpleType extends XMLType implements Referable {
 
     try {
       return Long.valueOf(maxLengthFacet.toLong());
-    } catch (java.lang.Exception e) {
+    } catch (Exception e) {
       return null;
     }
-  } // -- getMaxLength
+  }
 
   /**
    * Removes the given Facet from this SimpleType. Returns true if this SimpleType actually contains
@@ -403,7 +403,7 @@ public abstract class SimpleType extends XMLType implements Referable {
     if (facet == null)
       return false;
     return _facets.remove(facet);
-  } // -- removeFacet
+  }
 
   /**
    * Removes the facet with the given name from this SimpleType. Returns true if this Simpletype has
@@ -427,7 +427,7 @@ public abstract class SimpleType extends XMLType implements Referable {
       }
     }
     return false;
-  } // -- removeFacet
+  }
 
   /**
    * Sets the value of the 'final' property, indicating which types of derivation are not allowed. A
@@ -444,11 +444,7 @@ public abstract class SimpleType extends XMLType implements Referable {
       String err = "The value '" + finalValue + "' is not a valid" + "value of the final property.";
       throw new IllegalArgumentException(err);
     }
-  } // -- setFinal
-
-  // -------------------------------/
-  // - Implementation of Structure -/
-  // -------------------------------/
+  }
 
   /**
    * Returns the type of this Schema Structure
@@ -457,7 +453,7 @@ public abstract class SimpleType extends XMLType implements Referable {
    **/
   public short getStructureType() {
     return Structure.SIMPLE_TYPE;
-  } // -- getStructureType
+  }
 
   /**
    * Checks the validity of this SimpleType definition.
@@ -486,8 +482,6 @@ public abstract class SimpleType extends XMLType implements Referable {
 
   }
 
-  // -- protected Methods -/
-
   /**
    * A helper method for classes which extend SimpleType. This method allows creating a reference to
    * a SimpleType.
@@ -496,7 +490,7 @@ public abstract class SimpleType extends XMLType implements Referable {
    **/
   protected SimpleType createReference(String name) {
     return new SimpleTypeReference(getSchema(), name);
-  } // -- createReference
+  }
 
   /**
    * A helper method for classes which extend SimpleType. This method allows resolving a SimpleType
@@ -507,7 +501,7 @@ public abstract class SimpleType extends XMLType implements Referable {
    **/
   protected static SimpleType resolveReference(SimpleType simpleType) {
     return (SimpleType) simpleType.getType();
-  } // -- createReference
+  }
 
   /**
    * Sets the parent for this SimpleType
@@ -517,7 +511,7 @@ public abstract class SimpleType extends XMLType implements Referable {
    **/
   protected void setParent(Structure parent) {
     this._parent = parent;
-  } // -- setParent
+  }
 
   /**
    * Copy this type's facets to the target type.
@@ -526,7 +520,7 @@ public abstract class SimpleType extends XMLType implements Referable {
    */
   protected void copyFacets(SimpleType target) {
     target._facets.add(_facets);
-  } // -- copyFacets
+  }
 
   /**
    * Returns the number of facets named 'name' within the list of facets of this simple type.
@@ -545,4 +539,4 @@ public abstract class SimpleType extends XMLType implements Referable {
     return counter;
   }
 
-} // -- SimpleType
+}
