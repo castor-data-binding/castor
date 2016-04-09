@@ -131,7 +131,7 @@
             <plugin>
                <groupId>org.codehaus.mojo</groupId>
                <artifactId>castor-maven-plugin</artifactId>
-               <version>2.1</version>
+               <version>3.0-SNAPHOT</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
