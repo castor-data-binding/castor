@@ -23,18 +23,16 @@ public class CollectionJ2MemberAndAccessorFactory extends CollectionMemberAndAcc
   }
 
   /**
-   * {@inheritDoc} <br/>
    * To the Java-1 collection iterators, we add the Java-2 Iterator.
    */
+  @Override
   protected final void createCollectionIterationMethods(final CollectionInfo fieldInfo,
       final JClass jClass, final boolean useJava50) {
     super.createCollectionIterationMethods(fieldInfo, jClass, useJava50);
     this.createIteratorMethod(fieldInfo, jClass, useJava50);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   protected final void createEnumerateMethod(final CollectionInfo fieldInfo, final JClass jClass,
       final boolean useJava50) {
     JMethod method = new JMethod("enumerate" + fieldInfo.getMethodSuffix(),
@@ -49,9 +47,7 @@ public class CollectionJ2MemberAndAccessorFactory extends CollectionMemberAndAcc
     jClass.addMethod(method);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   protected final void createAddMethod(final CollectionInfo fieldInfo, final JClass jClass) {
     JMethod method = new JMethod(fieldInfo.getWriteMethodName());
     method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,

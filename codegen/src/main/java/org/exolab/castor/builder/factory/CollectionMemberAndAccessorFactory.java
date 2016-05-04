@@ -34,9 +34,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
     super(naming);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void generateInitializerCode(final FieldInfo fieldInfo, final JSourceCode sourceCode) {
     CollectionInfo collectionInfo = (CollectionInfo) fieldInfo;
     sourceCode.add("this.");
@@ -51,11 +49,9 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
           .append(fieldInfo.getDefaultValue()).append(");").toString();
       sourceCode.add(buffer);
     }
-  } // -- generateConstructorCode
+  }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public final void createAccessMethods(final FieldInfo fieldInfo, final JClass jClass,
       final boolean useJava50, final AnnotationBuilder[] annotationBuilders) {
     CollectionInfo collectionInfo = (CollectionInfo) fieldInfo;
@@ -63,7 +59,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
     this.createGetAndSetMethods(collectionInfo, jClass, useJava50, annotationBuilders);
     this.createGetCountMethod(collectionInfo, jClass);
     this.createCollectionIterationMethods(collectionInfo, jClass, useJava50);
-  } // -- createAccessMethods
+  }
 
   /**
    * Creates the add method for this collection.
@@ -146,7 +142,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
    */
   private boolean createExtraMethods(final CollectionInfo fieldInfo) {
     return fieldInfo.isExtraMethods();
-  } // -- extraMethods
+  }
 
   /**
    * Creates the get as array method.
@@ -373,7 +369,7 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
   protected void createCollectionIterationMethods(final CollectionInfo fieldInfo,
       final JClass jClass, final boolean useJava50) {
     this.createEnumerateMethod(fieldInfo, jClass, useJava50);
-  } // -- createCollectionAccessMethods
+  }
 
   /**
    * Creates the add by index method.

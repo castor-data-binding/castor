@@ -22,6 +22,7 @@ public class CollectionJ2NoIndexMemberAndAccessorFactory
   /**
    * {@inheritDoc} supresses the method creation
    */
+  @Override
   protected void createAddByIndexMethod(final CollectionInfo fieldInfo, final JClass jClass) {
     // do not create such method,
   }
@@ -29,13 +30,16 @@ public class CollectionJ2NoIndexMemberAndAccessorFactory
   /**
    * {@inheritDoc} supresses the method creation
    */
-  protected void createGetByIndexMethod(final CollectionInfo fieldInfo, final JClass jClass, boolean useJava50) {
+  @Override
+  protected void createGetByIndexMethod(final CollectionInfo fieldInfo, final JClass jClass,
+      boolean useJava50) {
     // do not create such method
   }
 
   /**
    * {@inheritDoc} supresses the method creation
    */
+  @Override
   protected void createSetByIndexMethod(final CollectionInfo fieldInfo, final JClass jClass) {
     // do not create such method
   }
@@ -43,6 +47,7 @@ public class CollectionJ2NoIndexMemberAndAccessorFactory
   /**
    * {@inheritDoc} supresses the method creation
    */
+  @Override
   protected void createRemoveByIndexMethod(final CollectionInfo fieldInfo, final JClass jClass) {
     // do not create such method
   }
