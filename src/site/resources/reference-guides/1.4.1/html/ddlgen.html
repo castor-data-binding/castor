@@ -1,0 +1,168 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;7.&nbsp;DDL generator for Castor JDO</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Castor 1.3.3 - Reference documentation"><link rel="up" href="index.html" title="Castor 1.3.3 - Reference documentation"><link rel="prev" href="jpa.html" title="Chapter&nbsp;6.&nbsp;Castor JDO - Support for the JPA specification"><link rel="next" href="xml.code.generator.extensions.html" title="Chapter&nbsp;8.&nbsp;XML code generation - Extensions"><!--begin Google Analytics code--><script xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/javascript"> 
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/javascript"> 
+            var pageTracker = _gat._getTracker("UA-3544187-1");
+            
+            
+            pageTracker._trackPageview();
+        </script><!--end Google Analytics code--></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" id="top"><div id="header"><div class="projectlogo"><a href="./"><img class="logoImage" src="images/castor.gif" alt="Castor" border="0"></a></div></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="mhSpacer"></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="ddlgen"></a>Chapter&nbsp;7.&nbsp;DDL generator for Castor JDO</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ddlgen.introduction"></a>7.1.&nbsp;Castor DDL Generator - An Introduction</h2></div></div></div><p>
+		Describes how to use the DDL Generator, and what features and options are
+		currently supported.
+	</p><p>
+	  Castor DDL Generator creates SQL scripts to drop/create tables, unique keys,
+	  sequences and so on based on the input of a Castor JDO mapping file.
+	</p><pre class="programlisting">
+java org.castor.ddlgen.Main -m mapping.xml
+	</pre><p>
+		This will generate the SQL script <code class="methodname">mapping.sql</code> in the same directory
+		<span class="emphasis"><em>mapping.xml</em></span> is located.
+	</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10025"></a>7.1.1.&nbsp;DDL Generator Options</h3></div></div></div><p>
+		  The DDL Generator has a number of different options which may be set. Some of
+		  them are specified at the command line while others need to be configured through
+		  a property file. Most of the options are located in global properties file
+		  <code class="filename">org/castor/ddlgen/ddlgen.properties</code>, but there are also some 
+		  options that are specific for one database engine. These DB-specific properties can 
+		  be found at <code class="filename">org/castor/ddlgen/engine/&lt;database&gt;/&lt;database&gt;.properties</code>.
+		</p><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10030"></a>7.1.1.1.&nbsp;Command Line Options</h4></div></div></div><div class="table"><a name="d4e10032"></a><p class="title"><b>Table&nbsp;7.1.&nbsp;Command line options</b></p><div class="table-contents"><table summary="Command line options" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Option</th><th>Args</th><th>Description</th><th>Optional?</th></tr></thead><tbody><tr><td>m</td><td>filename</td><td>Castor JDO mapping file to generate DDL for.</td><td>Required</td></tr><tr><td>o</td><td>filename</td><td>Name of file the generated DDL will be written to. If not specified the
+						      generated DDL will be written to a file named similar as the Castor JDO
+						      mapping source file with <span class="emphasis"><em>xml</em></span> extension being replaced by
+						      <span class="emphasis"><em>sql</em></span>.</td><td>Optional</td></tr><tr><td>e</td><td>database engine</td><td>Name of database engine to generate DDL for. The engine used as default
+						      can be specified with <code class="filename">org.castor.ddlgen.DefaultEngine</code> option of
+						      global properties file.</td><td>Optional</td></tr><tr><td>c</td><td>filename</td><td>Alternative global properties file to be used when generating DDL.</td><td>Optional</td></tr><tr><td>d</td><td>filename</td><td>Alternative database specific properties file to be used when generating DDL.</td><td>Optional</td></tr><tr><td>h</td><td>&nbsp;</td><td>Shows help/usage information.</td><td>Optional</td></tr></tbody></table></div></div><br class="table-break"></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10075"></a>7.1.2.&nbsp;Database Engines</h3></div></div></div><p>
+			The DDL Generator supports generation of SQL scripts for the following
+			database engines:
+		</p><div class="table"><a name="d4e10078"></a><p class="title"><b>Table&nbsp;7.2.&nbsp;Description of the attributes</b></p><div class="table-contents"><table summary="Description of the attributes" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Name</th><th>Database engine</th><th>Property file</th></tr></thead><tbody><tr><td><span class="bold"><strong>db2</strong></span></td><td>DB/2</td><td>org/castor/ddlgen/engine/db2/db2.properties</td></tr><tr><td><span class="bold"><strong>derby</strong></span></td><td>Apache Derby</td><td>org/castor/ddlgen/engine/derby/derby.properties</td></tr><tr><td><span class="bold"><strong>hsql</strong></span></td><td>Hypersonic SQL</td><td>org/castor/ddlgen/engine/hsql/hsql.properties</td></tr><tr><td><span class="bold"><strong>mssql</strong></span></td><td>Microsoft SQL Server</td><td>org/castor/ddlgen/engine/mssql/mssql.properties</td></tr><tr><td><span class="bold"><strong>mysql</strong></span></td><td>MySQL</td><td>org/castor/ddlgen/engine/mysql/mysql.properties</td></tr><tr><td><span class="bold"><strong>oracle</strong></span></td><td>Oracle</td><td>org/castor/ddlgen/engine/oracle/oracle.properties</td></tr><tr><td><span class="bold"><strong>pointbase</strong></span></td><td>Borland Pointbase</td><td>org/castor/ddlgen/engine/pointbase/pointbase.properties</td></tr><tr><td><span class="bold"><strong>postgresql</strong></span></td><td>PostgreSQL</td><td>org/castor/ddlgen/engine/postgresql/postgresql.properties</td></tr><tr><td><span class="bold"><strong>sapdb</strong></span></td><td>SAP DB / MaxDB</td><td>org/castor/ddlgen/engine/sapdb/sapdb.properties</td></tr><tr><td><span class="bold"><strong>sybase</strong></span></td><td>Sybase</td><td>org/castor/ddlgen/engine/sybase/sybase.properties</td></tr></tbody></table></div></div><br class="table-break"></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ddlgen.ant.task"></a>7.2.&nbsp;Using the Ant task for the Castor DDL Generator</h2></div></div></div><p>
+		Describes how to use the Ant task for the Castor DDL Generator and its features.
+	</p><p>
+	  An alternative to using the command line as shown in the previous section,
+	  the Castor DDL Generator Ant Task can be used to call the DDL
+	  generator for class generation. The only requirement is that the
+	  castor-&lt;version&gt;-anttasks.jar must be made available to your Ant 
+	  installation.
+	</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10141"></a>7.2.1.&nbsp;Configuration</h3></div></div></div><p>
+          Please find below the complete list of parameters that can be set on the Castor
+          source generator.
+        </p><div class="table"><a name="d4e10144"></a><p class="title"><b>Table&nbsp;7.3.&nbsp;</b></p><div class="table-contents"><table border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Attribute</th><th>Description</th><th>Required?</th></tr></thead><tbody><tr><td><span class="emphasis"><em>file</em></span></td><td>The name of the Castor JDO mapping file to use as input for DDL generation.</td><td>Yes</td></tr><tr><td>ddlFileName</td><td>The name of the DDL file to be generated.</td><td>Yes</td></tr><tr><td>databaseEngine</td><td>The name of database engine to generate DDL for.</td><td>Yes</td></tr><tr><td>globalProperties</td><td>Name of a custom (global) properties file to be used during DDL generation.</td><td>No</td></tr><tr><td>databaseEngineProperties</td><td>Name of a custom database specific properties file to be used during DDL generation.</td><td>No</td></tr></tbody></table></div></div><br class="table-break"><p>
+          Alternatively to specifying the <span class="emphasis"><em>file</em></span> property, it is possible to work 
+          with a nested &lt;FileSet&gt; element or with the <span class="emphasis"><em>dir</em></span> property.
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10176"></a>7.2.2.&nbsp;Example</h3></div></div></div><p>
+        	Below is an example of how to use this task from within an Ant target
+          	definition named 'castor:ddl:src':
+        </p><pre class="programlisting">
+&lt;<span class="hl-tag">target</span> <span class="hl-attribute">name</span>=<span class="hl-value">"castor:ddl:src"</span> <span class="hl-attribute">depends</span>=<span class="hl-value">"init"</span>
+           <span class="hl-attribute">description</span>=<span class="hl-value">"Generate a DDL script from a JDO mapping file."</span>&gt;
+
+  &lt;<span class="hl-tag">taskdef</span> <span class="hl-attribute">name</span>=<span class="hl-value">"castor-ddlgen"</span>
+           <span class="hl-attribute">classname</span>=<span class="hl-value">"org.castor.anttask.CastorDDLGenTask"</span>
+           <span class="hl-attribute">classpathref</span>=<span class="hl-value">"castor.class.path"</span> /&gt;
+  &lt;<span class="hl-tag">mkdir</span> <span class="hl-attribute">dir</span>=<span class="hl-value">"generated"</span> /&gt;
+  &lt;<span class="hl-tag">castor-ddlgen</span> <span class="hl-attribute">file</span>=<span class="hl-value">"src/main/resources/mapping.xml"</span>
+                 <span class="hl-attribute">ddlFileName</span>=<span class="hl-value">"target/generated/ddl/mapping.sql"</span>
+                 <span class="hl-attribute">databaseEngine</span>=<span class="hl-value">"mysql"</span>/&gt;
+&lt;<span class="hl-tag">/target</span>&gt;
+		</pre></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ddlgen.mapping"></a>7.3.&nbsp;Castor DDL Generator - Type Mapping</h2></div></div></div><p>
+		This section describes the mapping between Castor sql type java.sql.Types
+		constant, java data type, sql type of supported database.
+	</p><div class="table"><a name="d4e10183"></a><p class="title"><b>Table&nbsp;7.4.&nbsp;</b></p><div class="table-contents"><table border="1"><colgroup><col><col><col><col><col><col><col><col><col><col><col><col><col></colgroup><thead><tr><th>Castor Type</th><th>JDBC Type</th><th>Java Object Type</th><th>MySQL</th><th>PostgreSQL</th><th>Oracle</th><th>Derby</th><th>MSSQL</th><th>SapDB</th><th>DB2</th><th>Sybase</th><th>HSQL</th><th>PointBase</th></tr></thead><tbody><tr><td>BIT</td><td>BIT</td><td>java.lang.Boolean</td><td>TINYINT(1)</td><td>BOOLEAN</td><td>BOOLEAN</td><td>CHAR FOR BIT DATA</td><td>BIT</td><td>BOOLEAN</td><td>&nbsp;</td><td>BIT</td><td>BIT</td><td>BOOLEAN</td></tr><tr><td>TINYINT</td><td>TINYINT</td><td>java.lang.Byte</td><td>TINYINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>TINYINT</td><td>SMALLINT</td><td>SMALLINT</td><td>TINYINT</td><td>TINYINT</td><td>SMALLINT</td></tr><tr><td>SMALLINT</td><td>SMALLINT</td><td>java.lang.Short</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td><td>SMALLINT</td></tr><tr><td>INTEGER</td><td>INTEGER</td><td>java.lang.Integer</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td><td>INTEGER</td></tr><tr><td>BIGINT</td><td>BIGINT</td><td>java.lang.Long</td><td>BIGINT</td><td>BIGINT</td><td>NUMERIC</td><td>BIGINT</td><td>BIGINT</td><td>INTEGER</td><td>BIGINT</td><td>INTEGER</td><td>BIGINT</td><td>NUMERIC</td></tr><tr><td>FLOAT</td><td>FLOAT</td><td>java.lang.Double</td><td>FLOAT</td><td>DOUBLE PRECISION</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td><td>FLOAT</td></tr><tr><td>DOUBLE</td><td>DOUBLE</td><td>java.lang.Double</td><td>DOUBLE</td><td>DOUBLE PRECISION</td><td>DOUBLE PRECISION</td><td>DOUBLE</td><td>DOUBLE PRECISION</td><td>DOUBLE PRECISION</td><td>DOUBLE</td><td>DOUBLE PRECISION</td><td>DOUBLE PRECISION</td><td>DOUBLE PRECISION</td></tr><tr><td>REAL</td><td>REAL</td><td>java.lang.Float</td><td>REAL</td><td>REAL</td><td>REAL</td><td>REAL</td><td>REAL</td><td>DOUBLE PRECISION</td><td>REAL</td><td>REAL</td><td>REAL</td><td>REAL</td></tr><tr><td>NUMERIC</td><td>NUMERIC</td><td>java.math.BigDecimal</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td><td>NUMERIC</td></tr><tr><td>DECIMAL</td><td>DECIMAL</td><td>java.math.BigDecimal</td><td>DECIMAL</td><td>NUMERIC</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td><td>DECIMAL</td></tr><tr><td>CHAR</td><td>CHAR</td><td>java.lang.String</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td><td>CHAR</td></tr><tr><td>VARCHAR</td><td>VARCHAR</td><td>java.lang.String</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR2</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR</td><td>VARCHAR</td></tr><tr><td>DATE</td><td>DATE</td><td>java.sql.Date</td><td>DATE</td><td>DATE</td><td>DATE</td><td>DATE</td><td>DATETIME</td><td>DATE</td><td>DATE</td><td>DATETIME</td><td>DATE</td><td>DATE</td></tr><tr><td>TIME</td><td>TIME</td><td>java.sql.Time</td><td>TIME</td><td>TIME</td><td>DATE</td><td>TIME</td><td>DATETIME</td><td>TIME</td><td>TIME</td><td>DATETIME</td><td>TIME</td><td>TIME</td></tr><tr><td>TIMESTAMP</td><td>TIMESTAMP</td><td>java.sql.Timestamp</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td><td>TIMESTAMP</td></tr><tr><td>BINARY</td><td>BINARY</td><td>byte[]</td><td>BINARY</td><td>BYTEA</td><td>RAW</td><td>CHAR [n] FOR BIT DATA</td><td>BINARY</td><td>BLOB</td><td>CHAR [n] FOR BIT DATA</td><td>BINARY</td><td>BINARY</td><td>BLOB</td></tr><tr><td>VARBINARY</td><td>VARBINARY</td><td>byte[]</td><td>VARBINARY</td><td>BYTEA</td><td>LONG RAW</td><td>VARCHAR [] FOR BIT DATA</td><td>VARBINARY</td><td>BLOB</td><td>VARCHAR [] FOR BIT DATA</td><td>VARBINARY</td><td>VARBINARY</td><td>BLOB</td></tr><tr><td>LONGVARBINARY</td><td>LONGVARBINARY</td><td>byte[]</td><td>VARBINARY</td><td>BYTEA</td><td>LONG RAW</td><td>LONG VARCHAR FOR BIT DATA</td><td>IMAGE</td><td>BLOB</td><td>LONG VARCHAR FOR BIT DATA</td><td>VARBINARY</td><td>LONGVARBINARY</td><td>BLOB</td></tr><tr><td>OTHER</td><td>OTHER</td><td>java.lang.Object</td><td>BLOB</td><td>BYTEA</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>OTHER</td><td>BLOB</td></tr><tr><td>JAVA_OBJECT</td><td>JAVA_OBJECT</td><td>java.lang.Object</td><td>BLOB</td><td>BYTEA</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>OBJECT</td><td>BLOB</td></tr><tr><td>BLOB</td><td>BLOB</td><td>java.io.InputStream</td><td>BLOB</td><td>BYTEA</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>BLOB</td><td>BLOB</td><td>IMAGE</td><td>OBJECT</td><td>BLOB</td></tr><tr><td>CLOB</td><td>CLOB</td><td>java.sql.Clob</td><td>TEXT</td><td>TEXT</td><td>CLOB</td><td>CLOB</td><td>TEXT</td><td>CLOB</td><td>CLOB</td><td>TEXT</td><td>OBJECT</td><td>CLOB</td></tr></tbody></table></div></div><br class="table-break"><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10509"></a>7.3.1.&nbsp;JDBC Types not supported by Castor</h3></div></div></div><p>
+			The following JDBC types are not supported by Castor yet. 
+		</p><div class="itemizedlist"><ul type="disc"><li>ARRAY</li><li>DISTINCT</li><li>REF</li><li>STRUCT</li></ul></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ddlgen.introduction"></a>7.4.&nbsp;Castor DDL Generator - Properties</h2></div></div></div><p>
+		Describes the properties available on the Castor DDL Generator.
+	</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10520"></a>7.4.1.&nbsp;Overview</h3></div></div></div><p>
+		  At startup, the DDL Generator first evaluates the command line options.
+		  Next it loads the global properties on the command line if specified,
+		  otherwise the default properties included with the DDL Generator.
+		  There are two important properties loaded at startup:
+		</p><div class="variablelist"><dl><dt><span class="term">org.castor.ddlgen.Generators</span></dt><dd><p>tells the DDL Generator about the supported database engines.</p></dd><dt><span class="term">org.castor.ddlgen.DefaultEngine</span></dt><dd><p>The database engine for which to generate a SQL script. Can be overridden on the command line</p></dd></dl></div><p>
+		  The last step at startup is to read the specific configuration of the
+		  database engine being used.  A custom configuration can be provided on
+		  the command line to override the default.
+		</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10533"></a>7.4.2.&nbsp;Global properties</h3></div></div></div><p>
+		  Please find below a list of global properties to control various advanced
+		  options of the DDL Generator.
+		</p><div class="table"><a name="d4e10536"></a><p class="title"><b>Table&nbsp;7.5.&nbsp;Command line options</b></p><div class="table-contents"><table summary="Command line options" border="1"><colgroup><col><col><col><col><col></colgroup><thead><tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th><th>Since</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td class="auto-generated">&nbsp;</td></tr><tr><td>org.castor.ddlgen.Generators</td><td>Generator classes of supported database engines.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.DefaultEngine</td><td>Name of default database engine. Will be overwritten by engine specified on commandline.</td><td>db2, derby, hsql, mssql, mysql, oracle, pointbase, postgresql, sapdb or sybase</td><td>mysql</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.SchemaName</td><td>Name of the database schema.</td><td>&nbsp;</td><td>test</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GroupStatements</td><td>How to group generated DDL statements?</td><td>TABLE or DDLTYPE</td><td>TABLE</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.CharFormat</td><td>How to format characters of generated DDL statements?</td><td>SENSITIVE, UPPER or LOWER</td><td>SENSITIVE</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.Newline</td><td>Character sequence to write for newline.</td><td>&nbsp;</td><td>\n</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.Indention</td><td>Character sequence to write for indented lines.</td><td>&nbsp;</td><td>\t</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateSchema</td><td>Generate SCHEMA statements.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateDrop</td><td>Generate DROP statements.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateCreate</td><td>Generate CREATE statements.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GeneratePrimaryKey</td><td>Generate PRIMARYKEY statement.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateForeignKey</td><td>Generate FOREIGNKEY statement.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateIndex</td><td>Generate INDEX statements (Not supported yet).</td><td>true or false</td><td>false</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.GenerateKeyGenerator</td><td>Generate KEYGENERATOR statements.</td><td>true or false</td><td>true</td><td>1.1</td></tr><tr><td>default_tinyint_precision</td><td>Default precision of tinyint values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_smallint_precision</td><td>Default precision of smallint values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_integer_precision</td><td>Default precision of integer values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_bigint_precision</td><td>Default precision of bigint values.</td><td>&nbsp;</td><td>19</td><td>1.1</td></tr><tr><td>default_bigint_decimals</td><td>Default decimals of bigint values.</td><td>&nbsp;</td><td>0</td><td>1.1</td></tr><tr><td>default_float_precision</td><td>Default precision of float values.</td><td>&nbsp;</td><td>38</td><td>1.1</td></tr><tr><td>&nbsp;</td><td>Default precision of tinyint values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_float_decimals</td><td>Default decimals of float values.</td><td>&nbsp;</td><td>7</td><td>1.1</td></tr><tr><td>default_double_precision</td><td>Default precision of double values.</td><td>&nbsp;</td><td>53</td><td>1.1</td></tr><tr><td>default_double_decimals</td><td>Default decimals of double values.</td><td>&nbsp;</td><td>15</td><td>1.1</td></tr><tr><td>default_real_precision</td><td>Default precision of real values.</td><td>&nbsp;</td><td>38</td><td>1.1</td></tr><tr><td>default_real_decimals</td><td>Default decimals of real values.</td><td>&nbsp;</td><td>7</td><td>1.1</td></tr><tr><td>default_numeric_precision</td><td>Default precision of numeric values.</td><td>&nbsp;</td><td>65</td><td>1.1</td></tr><tr><td>default_numeric_decimals</td><td>Default decimals of numeric values.</td><td>&nbsp;</td><td>30</td><td>1.1</td></tr><tr><td>default_decimal_precision</td><td>Default precision of decimal values.</td><td>&nbsp;</td><td>65</td><td>1.1</td></tr><tr><td>default_decimal_decimals</td><td>Default decimals of decimal values.</td><td>&nbsp;</td><td>30</td><td>1.1</td></tr><tr><td>default_char_length</td><td>Default length of char values.</td><td>&nbsp;</td><td>256</td><td>1.1</td></tr><tr><td>default_varchar_length</td><td>Default length of varchar values.</td><td>&nbsp;</td><td>256</td><td>1.1</td></tr><tr><td>default_longvarchar_length</td><td>Default length of longvarchar values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr><tr><td>default_date_precision</td><td>Default precision of date values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_time_precision</td><td>Default precision of time values.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>default_timestamp_precision</td><td>Default precision of timestamp values.</td><td>&nbsp;</td><td>19</td><td>1.1</td></tr><tr><td>default_binary_length</td><td>Default length of binary values.</td><td>&nbsp;</td><td>256</td><td>1.1</td></tr><tr><td>default_varbinary_length</td><td>Default length of varbinary values.</td><td>&nbsp;</td><td>256</td><td>1.1</td></tr><tr><td>default_longvarbinary_length</td><td>Default length of longvarbinary values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr><tr><td>default_other_length</td><td>Default length of other values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr><tr><td>default_javaobject_length</td><td>Default length of javaobject values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr><tr><td>default_blob_length</td><td>Default length of blob values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr><tr><td>default_clob_length</td><td>Default length of clob values.</td><td>&nbsp;</td><td>1024</td><td>1.1</td></tr></tbody></table></div></div><br class="table-break"><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10810"></a>7.4.2.1.&nbsp;Supported database engines</h4></div></div></div><p>
+	          The supported database engines are defined as follows:
+	        </p><pre class="programlisting">
+#
+# generator classes of supported database engines
+#
+org.castor.ddlgen.Generators=\
+  org.castor.ddlgen.engine.db2.Db2Generator,\
+  org.castor.ddlgen.engine.derby.DerbyGenerator,\
+  org.castor.ddlgen.engine.hsql.HsqlGenerator,\
+  org.castor.ddlgen.engine.mssql.MssqlGenerator,\
+  org.castor.ddlgen.engine.mysql.MysqlGenerator,\
+  org.castor.ddlgen.engine.oracle.OracleGenerator,\
+  org.castor.ddlgen.engine.pointbase.PointBaseGenerator,\
+  org.castor.ddlgen.engine.postgresql.PostgresqlGenerator,\
+  org.castor.ddlgen.engine.sapdb.SapdbGenerator,\
+  org.castor.ddlgen.engine.sybase.SybaseGenerator
+			</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10814"></a>7.4.2.2.&nbsp;Grouping of DDL statements</h4></div></div></div><p>
+          There are 2 supported modes to group DDL statements. For a simple example, the
+          output of both modes is:
+        </p><div class="figure"><a name="d4e10817"></a><div class="figure-contents"><pre class="programlisting">
+drop A if exist
+create A(IDA int);
+alter table A add primary key (IDA)
+
+drop B if exist
+create B(IDB int);
+alter table B add primary key (IDB)
+			</pre></div><p class="title"><b>Figure&nbsp;7.1.&nbsp;org.castor.ddlgen.GroupStatements=TABLE</b></p></div><br class="figure-break"><div class="figure"><a name="d4e10820"></a><div class="figure-contents"><pre class="programlisting">
+drop A if exist
+drop B if exist
+
+create A(IDA int);
+create B(IDB int);
+
+alter table A add primary key (IDA)
+alter table B add primary key (IDB)
+			</pre></div><p class="title"><b>Figure&nbsp;7.2.&nbsp;org.castor.ddlgen.GroupStatements=DDLTYPE</b></p></div><br class="figure-break"></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10823"></a>7.4.3.&nbsp;Specific properties</h3></div></div></div><p>
+		  Below you can find a list of specific properties to control various advanced
+		  options of the DDL Generator.
+		</p><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10826"></a>7.4.3.1.&nbsp;Properties common for all database engines</h4></div></div></div><div class="table"><a name="d4e10828"></a><p class="title"><b>Table&nbsp;7.6.&nbsp;Common properties for all databases</b></p><div class="table-contents"><table summary="Common properties for all databases" border="1"><colgroup><col><col><col><col><col></colgroup><thead><tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th><th>Since</th></tr></thead><tbody><tr><td>org.castor.ddlgen.KeyGeneratorFactories</td><td>Key generator factory classes supported by DB/2.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.HeaderComment</td><td>Comment to add to head of generated script.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr></tbody></table></div></div><br class="table-break"><div class="section" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="d4e10851"></a>7.4.3.1.1.&nbsp;Key generators</h5></div></div></div><p>
+				  The key generators supported by a database engine are defined as follows
+				  (example taken from Oracle):
+				</p><pre class="programlisting">
+#
+# key generator factory classes of supported database engines
+#
+org.castor.ddlgen.KeyGeneratorFactories=\
+  org.castor.ddlgen.keygenerator.HighLowKeyGeneratorFactory,\
+  org.castor.ddlgen.keygenerator.MaxKeyGeneratorFactory,\
+  org.castor.ddlgen.keygenerator.UUIDKeyGeneratorFactory,\
+  org.castor.ddlgen.engine.oracle.OracleSequenceKeyGeneratorFactory
+				</pre></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10855"></a>7.4.3.2.&nbsp;Properties for db2, hsql, Oracle, Postgresql and sapdb</h4></div></div></div><div class="table"><a name="d4e10857"></a><p class="title"><b>Table&nbsp;7.7.&nbsp;Common properties for all databases</b></p><div class="table-contents"><table summary="Common properties for all databases" border="1"><colgroup><col><col><col><col><col></colgroup><thead><tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th><th>Since</th></tr></thead><tbody><tr><td>org.castor.ddlgen.TriggerTemplate</td><td>Template to create TRIGGER statements.</td><td>&nbsp;</td><td>&nbsp;</td><td>1.1</td></tr></tbody></table></div></div><br class="table-break"><div class="section" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="d4e10874"></a>7.4.3.2.1.&nbsp;Trigger template</h5></div></div></div><p>
+				  Below you can take a look at the default trigger template defined for Oracle.
+				  The DDL Generator will replace the parameters in brackets with appropriate
+				  values (e.g. &lt;table_name&gt;).
+				</p><div class="figure"><a name="d4e10877"></a><div class="figure-contents"><pre class="programlisting">
+#
+# trigger template
+#
+org.castor.ddlgen.TriggerTemplate=\
+CREATE TRIGGER &lt;trigger_name&gt;
+  BEFORE INSERT OR UPDATE ON &lt;table_name&gt;
+  FOR EACH ROW
+  DECLARE
+    iCounter &lt;table_name&gt;.&lt;pk_name&gt;%TYPE;
+    cannot_change_counter EXCEPTION;
+  BEGIN
+    IF INSERTING THEN
+      Select &lt;sequence_name&gt;.NEXTVAL INTO iCounter FROM Dual;
+      :new.&lt;pk_name&gt; := iCounter;
+    END IF;
+
+    IF UPDATING THEN
+      IF NOT (:new.&lt;pk_name&gt; = :old.&lt;pk_name&gt;) THEN
+        RAISE cannot_change_counter;
+      END IF;
+    END IF;
+
+EXCEPTION
+  WHEN cannot_change_counter THEN
+    raise_application_error(-20000, 'Cannot Change Counter Value');
+END;
+					</pre></div><p class="title"><b>Figure&nbsp;7.3.&nbsp;Default trigegr template for Oracle</b></p></div><br class="figure-break"></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e10880"></a>7.4.3.3.&nbsp;Properties for MySQL only</h4></div></div></div><div class="table"><a name="d4e10882"></a><p class="title"><b>Table&nbsp;7.8.&nbsp;Common properties for all databases</b></p><div class="table-contents"><table summary="Common properties for all databases" border="1"><colgroup><col><col><col><col><col></colgroup><thead><tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th><th>Since</th></tr></thead><tbody><tr><td>org.castor.ddlgen.engine.mysql.StorageEngine</td><td>Storage engine to be used. If left empty the default configured at the database server will be used.</td><td>MYISAM, InnoDB, MERGE, MEMORY, BDB or ISAM</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.engine.mysql.ForeignKeyOnDeleteStrategy</td><td>Delete strategy for foreign keys. If not specified NO ACTION will be used by default.</td><td>CASCADE, RESTRICT, SET NULL, NO ACTION</td><td>&nbsp;</td><td>1.1</td></tr><tr><td>org.castor.ddlgen.engine.mysql.ForeignKeyOnUpdateStrategy</td><td>Update strategy for foreign keys. If not specified NO ACTION will be used by default.</td><td>CASCADE, RESTRICT, SET NULL, NO ACTION</td><td>&nbsp;</td><td>1.1</td></tr></tbody></table></div></div><br class="table-break"></div></div></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="jpa.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="xml.code.generator.extensions.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;6.&nbsp;Castor JDO - Support for the JPA specification&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:85%;"><a href="http://www.castor.org/" title="The Castor community">The Castor community</a></span></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;8.&nbsp;XML code generation - Extensions</td></tr></table></div></body></html>
