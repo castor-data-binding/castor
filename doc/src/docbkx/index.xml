@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude">
    <bookinfo>
-      <title>Castor 1.4.0 - Reference documentation</title>
+      <title>Castor 1.4.1 - Reference documentation</title>
 
-      <!-- <releaseinfo>1.4.0</releaseinfo> -->
+      <!-- <releaseinfo>1.4.1</releaseinfo> -->
 
       <!-- <authorgroup> <author> <firstname>Werner</firstname> <surname>Guttmann</surname> 
          <affiliation> <jobtitle>Partner</jobtitle> <orgname>Indoqa</orgname> </affiliation> 
