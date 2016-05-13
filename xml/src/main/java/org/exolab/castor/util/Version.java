@@ -50,10 +50,6 @@ import java.util.zip.ZipFile;
  */
 public final class Version {
 
-  // -----------------------/
-  // - Public Class Fields -/
-  // -----------------------/
-
   /**
    * The version number
    */
@@ -62,29 +58,17 @@ public final class Version {
   /**
    * The version date.
    */
-  public static final String VERSION_DATE = "20160131";
+  public static final String VERSION_DATE = "20160513";
 
   /**
    * The version number with build information
    */
   public static final String BUILD_VERSION = Version.getBuildVersion();
 
-
-  // ------------------------/
-  // - Private Class Fields -/
-  // ------------------------/
-
   private static final String JAR_PROTOCOL = "jar:";
   private static final String FILE_PROTOCOL = "file:";
   private static final String DATE_FORMAT = "yyyyMMdd.HHmmss";
 
-  // ------------------------/
-  // - Public Class Methods -/
-  // ------------------------/
-
-  /**
-   *
-   */
   public static String getBuildVersion() {
 
     StringBuilder buffer = new StringBuilder(VERSION);
@@ -140,4 +124,4 @@ public final class Version {
     System.out.println(BUILD_VERSION);
   }
 
-} // -- Version
+}
