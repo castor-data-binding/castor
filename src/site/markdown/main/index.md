@@ -14,7 +14,10 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 News-worthy information about the Castor Project itself and any related projects.
 
 | Date          | Who               | Content
-| ------------- | ----------------- | 
+| ------------- | ----------------- | -------s
+| May 13, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.4.1 released** 
+| | | I've made available release 1.4.1 of Castor at Maven central. For details about the features added and the bugs fixed, please have a look at [GitHub issues](https://github.com/castor-data-binding/castor/issues) in general, and the [milestone 1.4.1](https://github.com/castor-data-binding/castor/issues?q=milestone%3A1.4.1) in particular.
+| ------------- | ----------------- | -------- 
 | Dec 1, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.4.0 released** 
 | | | I've made available release 1.4.0 of Castor at Maven central. For details about the features added and the bugs fixed, please have a look at the [GitHub issues](https://github.com/castor-data-binding/castor/issues)
 | Jun 26, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **First SNAPSHOT for Castor 1.4.0 released** 
