@@ -15,7 +15,6 @@ This list is a *read-only* low volume (less than 1 message per week) mailing lis
 
 * [FreeLists](http://www.freelists.org/archive/castor.user/)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Aannounce)
-* [The Codehaus](http://archive.castor.codehaus.org/announce) - Soon to be gone due to EOL
 
 ## User mailing list
 
@@ -29,7 +28,6 @@ This list is a moderate volume (between 10 and 25 messages a day) mailing list f
 * [The Aims Group](http://marc.theaimsgroup.com/?l=castor-user&amp;r=1&amp;w=2)
 * [GMANE](http://news.gmane.org/gmane.comp.java.castor.user)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Auser)
-* [The Codehaus](http://archive.castor.codehaus.org/user) - Soon to be gone due to EOL
 
 ## Development mailing list
 
@@ -59,7 +57,6 @@ items:
 * [The Aims Group](http://marc.theaimsgroup.com/?l=castor-dev&amp;r=1&amp;w=2)
 * [GMANE](http://news.gmane.org/gmane.comp.java.castor.devel)
 * [markmail.org](http://castor.markmail.org/search/?q=list%3Adev)
-* [The Codehaus](http://archive.castor.codehaus.org/dev) - Soon to be gone due to EOL
 
 ## SCM mailing list
 
