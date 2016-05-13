@@ -26,7 +26,7 @@ shown above, please issue the following Maven goal on your command line (of choi
 ```
 > mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
                        -DarchetypeArtifactId=codegen-testcase-archetype \
-                       -DarchetypeVersion=1.3.3  \
+                       -DarchetypeVersion=1.4.1  \
                        -DgroupId=<your.group.id> \
                        -DartifactId=<your.artitact.id> \
                        -DpackageName=    
@@ -41,7 +41,7 @@ command as shown above similar to ...
 ```
 > mvn archetype:create -DarchetypeGroupId=org.codehaus.castor \
                        -DarchetypeArtifactId=codegen-testcase-archetype \
-                       -DarchetypeVersion=<b>1.3-SNAPSHOT</b>  \
+                       -DarchetypeVersion=<b>1.4.2-SNAPSHOT</b>  \
                        -DgroupId=&lt;your.group.id&gt; \
                        -DartifactId=&lt;your.artitact.id&gt; \
                        -DpackageName=    
@@ -50,4 +50,3 @@ command as shown above similar to ...
 
 Once a specific Castor release has been propagated to Maven Central 
 (usually within 48 hours), adding just the dependency will be sufficient.
-
