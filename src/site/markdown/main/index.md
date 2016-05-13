@@ -5,6 +5,8 @@ Castor is an open source data binding framework for Java[tm]. It's the shortest 
 Releases of Castor are available from the [Maven Central repository](http://repo1.maven.org/maven2/org/codehaus/castor/). [Snapshots](https://oss.sonatype.org/content/groups/public/org/codehaus/castor/) are available (on request) through the users mailing list. Please use 
 [Maven's Central repository's](http://search.maven.org/#search|ga|1|g%3A%22org.codehaus.castor%22) search feature to inform yourself about available Castor releases.
 
+All documentation is available through the [reference guide](../documentation/reference.guide.html).
+
 Contributors are welcome to join this project. Please join us on the [mailing lists](../support/mailing-lists.html). We maintain a full list of [contributors](../support/contributors.html) past and present.
 
 The Castor Project was started and originally developed by Keith Visco and Assaf Arkin of Intalio, Inc.
@@ -14,7 +16,7 @@ The Castor Project was started and originally developed by Keith Visco and Assaf
 News-worthy information about the Castor Project itself and any related projects.
 
 | Date          | Who               | Content
-| ------------- | ----------------- | -------s
+| ------------- | ----------------- | -------
 | May 13, 2015  | [Werner Guttmann](mailto:werner.guttmann@gmx.net) | **Castor 1.4.1 released** 
 | | | I've made available release 1.4.1 of Castor at Maven central. For details about the features added and the bugs fixed, please have a look at [GitHub issues](https://github.com/castor-data-binding/castor/issues) in general, and the [milestone 1.4.1](https://github.com/castor-data-binding/castor/issues?q=milestone%3A1.4.1) in particular.
 | ------------- | ----------------- | -------- 
