@@ -109,19 +109,19 @@ generator.
 
 | Option | Description | Values | Default | Since version
 | ------ | ----------- | ------ | ------- | -------------
-| [org.exolab.castor.builder.javaVersion](#xml.code.generator.properties.detailed.java50) | Compliance with Java version | 1.4/5.0 | 1.4 | 1.0.2
-| [org.exolab.castor.builder.forceJava4Enums](#xml.code.generator.properties.detailed.enumerations.3) | Forces the code generator to create 'old' Java 1.4 enumeration classes even in Java 5 mode. | `true`/`false` | `false` | 1.1.3                                                                                                                    
-| [org.exolab.castor.builder.boundproperties](#xml.code.generator.properties.detailed.bound.properties) | Generation of bound properties | `true`/`false` | `false` | 0.8.9
-| [org.exolab.castor.builder.javaclassmapping](#xml.code.generator.properties.detailed.class.creation) | Class generation mode | `element`/`type` | `element` | 0.9.1
-| [org.exolab.castor.builder.superclass](#xml.code.generator.properties.detailed.super.class) | Global super class (for all classes generated) | Any valid class name |  | 0.8.9
-| [org.exolab.castor.builder.nspackages](#xml.code.generator.properties.detailed.namespace.mapping) | XML namespace to package name mapping | A series of mappings |  | 0.8.9
-| [org.exolab.castor.builder.equalsmethod](#xml.code.generator.properties.detailed.equals) | Generation of `equals`/`hashCode()` method | `true`/`false` | `false` | 0.9.1
-| [org.exolab.castor.builder.useCycleBreaker](#xml.code.generator.properties.detailed.use.cyclebreaker) | Use of cycle breaker code in generated `equals`/`hashCode()` method | `true`/`false` | `true` | 1.3.2
-| [org.exolab.castor.builder.primitivetowrapper](#xml.code.generator.properties.detailed.primitive.wrappers) | Generation of Object wrappers instead of primitives | `true`/`false` | `false` | 0.9.4
-| [org.exolab.castor.builder.automaticConflictResolution](#xml.code.generator.properties.detailed.name.conflict.resolution) | Specifies whether **automatic class name conflict resolution** should be used or not | `true`/`false` | `false` | **1.1.1**
-| [org.exolab.castor.builder.extraCollectionMethods](#xml.code.generator.properties.detailed.extra.collection) | Specifies whether **extra** (additional) methods should be created for collection-style fields. Set this to true if you want your code to be more compatible with Castor JDO or other persistence frameworks. | `true`/`false` | `false` | 0.9.1
-| [org.exolab.castor.builder.jclassPrinterFactories](#xml.code.generator.properties.detailed.class.printing) | Enlists the available modes for (J)Class *printing* during XML code generation. | `org.exolab.castor.builder.printing.WriterJClassPrinterFactory`/ `org.exolab.castor.builder.printing.TemplateJClassPrinterFactory` | n/a | **1.2.1**
-| [org.exolab.castor.builder.extraDocumentationMethods](#xml.code.generator.properties.detailed.extra.documentation) | specifying whether extra members/methods for extracting XML schema documentation should be made available. | `true`/`false` | `false` | **1.2**
+| org.exolab.castor.builder.javaVersion | Compliance with Java version | 1.4/5.0 | 1.4 | 1.0.2
+| org.exolab.castor.builder.forceJava4Enums | Forces the code generator to create 'old' Java 1.4 enumeration classes even in Java 5 mode. | `true`/`false` | `false` | 1.1.3                                                                                                                    
+| org.exolab.castor.builder.boundproperties | Generation of bound properties | `true`/`false` | `false` | 0.8.9
+| org.exolab.castor.builder.javaclassmapping | Class generation mode | `element`/`type` | `element` | 0.9.1
+| org.exolab.castor.builder.superclass | Global super class (for all classes generated) | Any valid class name |  | 0.8.9
+| org.exolab.castor.builder.nspackages | XML namespace to package name mapping | A series of mappings |  | 0.8.9
+| org.exolab.castor.builder.equalsmethod | Generation of `equals`/`hashCode()` method | `true`/`false` | `false` | 0.9.1
+| org.exolab.castor.builder.useCycleBreaker | Use of cycle breaker code in generated `equals`/`hashCode()` method | `true`/`false` | `true` | 1.3.2
+| org.exolab.castor.builder.primitivetowrapper | Generation of Object wrappers instead of primitives | `true`/`false` | `false` | 0.9.4
+| org.exolab.castor.builder.automaticConflictResolution | Specifies whether **automatic class name conflict resolution** should be used or not | `true`/`false` | `false` | **1.1.1**
+| org.exolab.castor.builder.extraCollectionMethods | Specifies whether **extra** (additional) methods should be created for collection-style fields. Set this to true if you want your code to be more compatible with Castor JDO or other persistence frameworks. | `true`/`false` | `false` | 0.9.1
+| org.exolab.castor.builder.jclassPrinterFactories | Enlists the available modes for (J)Class *printing* during XML code generation. | `org.exolab.castor.builder.printing.WriterJClassPrinterFactory`/ `org.exolab.castor.builder.printing.TemplateJClassPrinterFactory` | n/a | **1.2.1**
+| org.exolab.castor.builder.extraDocumentationMethods | specifying whether extra members/methods for extracting XML schema documentation should be made available. | `true`/`false` | `false` | **1.2**
 [&lt;column&gt; - Definitions]
 
 Customization - Lookup mechanism
