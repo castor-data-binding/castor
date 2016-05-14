@@ -1,10 +1,8 @@
-# Reference guides
+# Reference guides (previous)
     
 ### Current release
 
-Version | HTML (single page) | Chunked HTML | PDF
---------|--------------------|--------------|----
-1.4.1  | [HTML (single page)](../reference-guides/1.4.1/html-single/index.html) | [Chunked HTML](../reference-guides/1.4.1/html/index.html) | [PDF](../reference-guides/1.4.1/castor-reference-guide.pdf) 
+Please see (../reference-guide/index.html) for the latest reference guide. 
 
 ### Previous releases
 

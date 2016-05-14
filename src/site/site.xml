@@ -81,7 +81,8 @@
     </menu>
 
     <menu name="Documentation">
-        <item name="Reference guide" href="documentation/reference.guide.html" />
+        <item name="Reference guide" href="reference-guide/index.html" />
+        <item name="Reference guide (older versions)" href="documentation/reference.guide.html" />
         <item name="Publications" href="documentation/publications.html" />
         <item name="Project Wiki" href="https://github.com/castor-data-binding/castor/wiki" />
     </menu>
