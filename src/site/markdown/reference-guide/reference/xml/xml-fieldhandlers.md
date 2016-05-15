@@ -65,7 +65,8 @@ public class Root {
     public void setDate(final Date date) {
         _date = date;
     }
-         
+    
+}     
 ```
 
 So we need to write a custom FieldHandler that takes the input String
@@ -172,8 +173,7 @@ public class MyDateHandler implements FieldHandler
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
         ((Root)object).setDate(null);
     }
-}
-       
+}       
 ```
 
 > **Tip**
@@ -233,9 +233,7 @@ public class Test {
             e.printStackTrace();
         }
     }
-}
-
-         
+}         
 ```
 
 Now simply compile the code and run!
@@ -244,8 +242,7 @@ Now simply compile the code and run!
 % java Test
 unmarshalling root instance:
 
-Root#getDate : Mon May 10 00:00:00 CDT 2004
-         
+Root#getDate : Mon May 10 00:00:00 CDT 2004         
 ```
 
 After running our test program we can see that Castor invoked our custom

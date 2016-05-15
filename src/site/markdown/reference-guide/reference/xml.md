@@ -9,5 +9,5 @@ Castor XML - XML data binding
 ### [6. Tips and tricks](xml/xml-tips-tricks.html)
 ### [7. On field handlers](xml/xml-fieldhandlers.html)
 ### [8. Best practise](xml/best-practise.html)
-### [9. How Tos](xml/xml-howto.xml)
+### [9. How Tos](xml/xml-howto.html)
 ### [10. F.A.Q.](xml/xml-faq.html)

@@ -79,8 +79,7 @@ your class and automatically fill in any missing fields.
 **Example:**
 
 ``` {.xml}
-<class name="com.acme.Foo" auto-complete="true"/>
-          
+<class name="com.acme.Foo" auto-complete="true"/>          
 ```
 
 This is also compatible with generated descriptor files. You can use a
@@ -114,10 +113,9 @@ reference to the singleton can be obtained via a static getInstance()
 method, you can add a "create method" to class `A` like this:
 
 ``` {.java}
- public MySingleton getSingletonProperty() {
+public MySingleton getSingletonProperty() {
     return MySingleton.getInstance();
- }
-      
+}      
 ```
 
 and in the mapping file for class `A`, you can define the singleton

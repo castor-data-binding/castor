@@ -36,12 +36,11 @@ feature.
 The following table enlists the requirements relative to the Java
 version used in your environment.
 
-  Java 1.4 and below    Java 5.0 and above
-  -------------------- --------------------
-  Xerces 2.6.2                  -
-  XML APIs                      -
-
-  : XML APIs on various Java versions
+| Java 1.4 and below   | Java 5.0 and above
+| -------------------- | --------------------
+|  Xerces 2.6.2        | n/a
+|  XML APIs            | n/a
+[XML APIs on various Java versions]
 
 StAX
 ----

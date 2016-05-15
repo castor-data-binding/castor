@@ -23,8 +23,7 @@ Writer is set properly as well:
  OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
  Marshaller marshaller = new Marshaller(osw);
  marshaller.setEncoding(encoding);
- ...
-            
+ ...         
 ```
 
 ### I'm getting an error about 'xml' prefix already declared?
@@ -56,15 +55,13 @@ problem:
 in the `castor.properties` file, change the following line:
 
 ``` {.java}
- org.exolab.castor.parser.namespaces=false
-            
+ org.exolab.castor.parser.namespaces=false            
 ```
 
 to:
 
 ``` {.java}
- org.exolab.castor.parser.namespaces=true
-            
+ org.exolab.castor.parser.namespaces=true            
 ```
 
 > **Note**
@@ -81,7 +78,7 @@ the Marshaller or Unmarshaller.
 
 -   Cache the descriptors!
 
-    ``` {.java}
+``` {.java}
      import org.exolab.castor.xml.ClassDescriptorResolver;
      import org.exolab.castor.xml.Unmarshaller;
      import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
@@ -90,8 +87,7 @@ the Marshaller or Unmarshaller.
      ...
      Unmarshaller unm = new Unmarshaller(...);
      unm.setResolver(cdr);
-                        
-    ```
+```
 
     By reusing the same `ClassDescriptorResolver` any time you create an
     Unmarshaller instance, you will be reusing the existing class
@@ -99,10 +95,9 @@ the Marshaller or Unmarshaller.
 
 -   Disable validation
 
-    ``` {.java}
+``` {.java}
      unm.setValidation(false);
-                        
-    ```
+```
 
 -   Reuse objects
 
@@ -111,16 +106,14 @@ the Marshaller or Unmarshaller.
     Create an Unmarshaller with your existing root object and set object
     reuse to true...
 
-    ``` {.java}
+``` {.java}
      Unmarshaller unm = new
      Unmarshaller(myObjectRoot);
-                        
-    ```
+```
 
-    ``` {.java}
+``` {.java}
      unm.setReuseObjects(true);
-                        
-    ```
+```
 
 -   If you have enabled pretty-printing (indenting), then disable it.
     The Xerces Serializer is much slower with indenting enabled.
@@ -137,23 +130,19 @@ think we should add here.
                                 Unmarshaller#setIgnoreExtraElements()
                             ` method:
 
-    ``` {.java}
+``` {.java}
      Unmarshaller unm = new Unmarshaller(...);
      unm.setIgnoreExtraElements(true);
-                        
-    ```
+```
 
     If any elements appear in the XML instance that Castor cannot find
     mappings for, they will be skipped.
 
--   You can also set the `
-                                org.exolab.castor.xml.strictelements 
-                            ` property in the `castor.properties` file:
+-   You can also set the `org.exolab.castor.xml.strictelements` property in the `castor.properties` file:
 
-    ``` {.java}
+``` {.java}
      org.exolab.castor.xml.strictelements=true
-                        
-    ```
+```
 
 ### Where does Castor search for the castor.properties file?
 
@@ -192,7 +181,7 @@ Castor does not currently support introspection of private methods.
 Please make sure proper public accesssor methods are available for all
 fields that you wish to be handled by the Marshalling Framework.
 
-Mapping {#xml.faq.mapping}
+Mapping
 -------
 
 ### My mapping file seems to have no effect!
@@ -213,8 +202,7 @@ For a specific field you can use a QName for the value of the bind-xml
 name attribute as such:
 
 ``` {.java}
- <bind-xml name="foo:bar" xmlns:foo="http://www.acme.com/foo"/>
-            
+ <bind-xml name="foo:bar" xmlns:foo="http://www.acme.com/foo"/>            
 ```
 
 Note: The namespace prefix is only used for qualification during the
@@ -231,13 +219,12 @@ documentation](http://www.castor.org/xml-mapping.html) .
 Set the **transient** attribute on the &lt;bind-xml&gt; element to true:
 
 ``` {.java}
- <bind-xml transient="true"/>
-            
+ <bind-xml transient="true"/>            
 ```
 
 Note: You can also set transient="true" on the &lt;field&gt; element.
 
-Marshalling {#xml.faq.marshalling}
+Marshalling
 -----------
 
 ### The XML is marshalled on one line, how do I force line-breaks?
@@ -250,8 +237,7 @@ To enable pretty-printing (indenting, line-breaks) just modify the
 ``` {.java}
  # True if all documents should be indented on output by default
  #
- #org.exolab.castor.indent=true
-            
+ #org.exolab.castor.indent=true            
 ```
 
 Note: This will slow down the marshalling process
@@ -266,7 +252,7 @@ the Java reflection API.
 Note: If you use a mapping file Castor will generate the XML in the
 order in which the mapping file is specified.
 
-Source code generation {#xml.faq.generation}
+Source code generation
 ----------------------
 
 ### Can I use a DTD with the source generator?
@@ -290,15 +276,13 @@ they get compiled along with the source code for the object model.
 **Example:** Castor generates the following:
 
 ``` {.java}
- import types.Foo;
-            
+ import types.Foo;            
 ```
 
 instead of:
 
 ``` {.java}
- import com.acme.types.Foo;
-            
+ import com.acme.types.Foo;            
 ```
 
 This usually happens when the namespaces for the imported schemas have
@@ -331,8 +315,7 @@ such a method. To enable such methods to be created, simple add the
 following line to your `castorbuilder.properties` file:
 
 ``` {.java}
- org.exolab.castor.builder.extraCollectionMethods=true
-            
+ org.exolab.castor.builder.extraCollectionMethods=true            
 ```
 
 Note: The default `castorbuilder.properties` file has this line
@@ -341,7 +324,7 @@ commented out. Simply uncomment it.
 Your mapping file will also need to be updated to include the proper
 set/get method names.
 
-Miscellaneous {#xml.faq.misc}
+Miscellaneous
 -------------
 
 ### Is there a way to automatically create an XML Schema from an XML instance?
@@ -359,8 +342,7 @@ your `castor.properties` file as follows:
  org.exolab.castor.parser.namespaces=true
  org.exolab.castor.sax.features=http://xml.org/sax/features/validation,\
  http://apache.org/xml/features/validation/schema,\
- http://apache.org/xml/features/validation/schema-full-checking
-            
+ http://apache.org/xml/features/validation/schema-full-checking            
 ```
 
 Please note that the example given relies on the use of Apache Xerces,
@@ -378,8 +360,7 @@ When using a custom FieldHandlerFactory as in the following example
  ClassDescriptorResolverImpl cdr = new ClassDescriptorResolverImpl();
  cdr.getIntrospector().addFieldHandlerFactory(factory);
  m.setResolver(cdr);
- marshaller.setMapping(mapping);
-            
+ marshaller.setMapping(mapping);            
 ```
 
 please make sure that you set the mapping file **after** you set the
@@ -392,7 +373,7 @@ ClassDescriptorResolver. You will note the following in the Javadoc for
 > **Note:** This method will nullify any Mapping currently being used by
 > this Marshaller
 
-Serialization {#xml.faq.serialization}
+Serialization
 -------------
 
 ### Is it true that the use of Castor XML mandates [Apache Xerces](http://xerces.apache.org) as XML parser?
@@ -429,6 +410,5 @@ as shown below:
  org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
 
  # Defines the default XML parser to be used by Castor.
- org.exolab.castor.parser=com.sun.org.apache.xerces.internal.parsers.SAXParser
-            
+ org.exolab.castor.parser=com.sun.org.apache.xerces.internal.parsers.SAXParser            
 ```
