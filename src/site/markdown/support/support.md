@@ -7,8 +7,9 @@ available at no charge and may be obtained from [github](http://github.com/casto
 using git.
       
 Since castor is freely available, including the source code, there is no
-guaranteed level of support available. The online [documentation](#Documentation)
+guaranteed level of support available. The online documentation
 is the best place to start.
+
 If you have trouble or have more advanced questions not available in the
 online documentation, then please consider subscribing to one of the
 various available [mailing lists](mailing-lists.html). In general, the lists 

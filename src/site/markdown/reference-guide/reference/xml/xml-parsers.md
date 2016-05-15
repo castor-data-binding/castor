@@ -46,6 +46,4 @@ StAX
 ----
 
 As of Castor 1.3.2, Castor XML can be used with a StAX-compliant parser
-to unmarshal from XML. Please see
-[???](#xml.framework.introspection.ouput) for StAX-specific unmarshal
-methods added to `org.exolab.castor.xml.Unmarshaller`.
+to unmarshal from XML.

@@ -3,7 +3,7 @@
 ## General notes
     
 * Please manage your *subscriptions* over at [FreeLists](http://www.freelists.org/).
-* Please familiarize yourself with the [guidelines](#Guidelines) before posting to the list.
+* Please familiarise yourself with the guidelines before posting to the list.
 
 ## Announcement mailing list 
 
