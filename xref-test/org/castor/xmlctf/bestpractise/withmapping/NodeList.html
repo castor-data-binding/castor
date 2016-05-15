@@ -13,34 +13,34 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.util.ArrayList;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/castor/xmlctf/bestpractise/withmapping/NodeList.html">NodeList</a> {
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>       
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>       <strong class="jxr_keyword">private</strong> List nodes = <strong class="jxr_keyword">new</strong> ArrayList();;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>     <strong class="jxr_keyword">private</strong> List nodes = <strong class="jxr_keyword">new</strong> ArrayList();;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>      <strong class="jxr_keyword">public</strong> List getNodes() {
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>          <strong class="jxr_keyword">return</strong> nodes;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>      }
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>    <strong class="jxr_keyword">public</strong> List getNodes() {
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>      <strong class="jxr_keyword">return</strong> nodes;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>    }
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setNodes(List nodes) {
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>          <strong class="jxr_keyword">this</strong>.nodes = nodes;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>      }
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>      
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addNode(<a href="../../../../../org/castor/xmlctf/bestpractise/withmapping/Node.html">Node</a> node) {
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>          nodes.add(node);
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>      }
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setNodes(List nodes) {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      <strong class="jxr_keyword">this</strong>.nodes = nodes;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>    }
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addNode(<a href="../../../../../org/castor/xmlctf/bestpractise/withmapping/Node.html">Node</a> node) {
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      nodes.add(node);
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>    }
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>          <strong class="jxr_keyword">if</strong> (getNodes().containsAll(((NodeList) obj).getNodes()) &amp;&amp;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>                  ((<a href="../../../../../org/castor/xmlctf/bestpractise/withmapping/NodeList.html">NodeList</a>) obj).getNodes().containsAll(nodes)) {
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>          }
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>      }
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>      
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">if</strong> (getNodes().containsAll(((NodeList) obj).getNodes())
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          &amp;&amp; ((NodeList) obj).getNodes().containsAll(nodes)) {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      }
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>    }
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2015. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
 </body>
 </html>

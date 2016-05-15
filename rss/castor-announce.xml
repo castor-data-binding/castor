@@ -21,6 +21,21 @@
 -->
 
         <item>
+            <title>1.4.1 GA available</title>
+            <pubDate>Fri, 13 May 2016 23:22:21 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor-data-binding.github.io/castor/</link>
+            <guid>http://castor-data-binding.github.io/castor/</guid>
+            <description><![CDATA[
+                <p>
+                  Castor 1.4.1 has been made available at Maven central.
+                </p>
+                <p>
+                  For details about the features added and the bugs fixed, please have a look at https://github.com/castor-data-binding/castor/issues.
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>1.4.0 GA available</title>
             <pubDate>Tue, 1 Dec 2015 15:58:09 +0100</pubDate>
             <author>Werner Guttmann</author>

@@ -15,34 +15,35 @@
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../xml/annotation/TestSourceGenerator.html">TestSourceGenerator</a> <strong class="jxr_keyword">extends</strong> TestCase {
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGeneration() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>          SourceGenerator generator = <strong class="jxr_keyword">new</strong> SourceGenerator();
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>          String xmlSchema = getClass().getResource(<span class="jxr_string">"test.xsd"</span>).toExternalForm();
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>          InputSource inputSource = <strong class="jxr_keyword">new</strong> InputSource(xmlSchema);
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>          generator.setDestDir(<span class="jxr_string">"./codegen/src/test/java"</span>);
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>          generator.setSuppressNonFatalWarnings(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>          
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>          <em class="jxr_comment">// uncomment to have JDO-specific class descriptors created </em>
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_comment">//        generator.setJdoDescriptorCreation(true);</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>          
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>          <em class="jxr_comment">// uncomment to use Velocity for code generation</em>
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_comment">//        generator.setJClassPrinterType("velocity");</em>
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>          
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>          <em class="jxr_comment">// uncomment the next line to set a binding file for source generation</em>
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_comment">//      generator.setBinding(new InputSource(getClass().getResource("binding.xml").toExternalForm()));</em>
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>          <em class="jxr_comment">// uncomment the next lines to set custom properties for source generation</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_comment">//      Properties properties = new Properties();</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_comment">//      properties.load(getClass().getResource("builder.properties").openStream());</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_comment">//      generator.setDefaultProperties(properties);</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>          generator.generateSource(inputSource, getClass().getPackage().getName() + <span class="jxr_string">".generated"</span>);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      }
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  }
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGeneration() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>      SourceGenerator generator = <strong class="jxr_keyword">new</strong> SourceGenerator();
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>      String xmlSchema = getClass().getResource(<span class="jxr_string">"test.xsd"</span>).toExternalForm();
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>      InputSource inputSource = <strong class="jxr_keyword">new</strong> InputSource(xmlSchema);
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>      generator.setDestDir(<span class="jxr_string">"./target/codegen/src/test/java"</span>);
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>      generator.setSuppressNonFatalWarnings(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <em class="jxr_comment">// uncomment to have JDO-specific class descriptors created</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <em class="jxr_comment">// generator.setJdoDescriptorCreation(true);</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <em class="jxr_comment">// uncomment to use Velocity for code generation</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      <em class="jxr_comment">// generator.setJClassPrinterType("velocity");</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <em class="jxr_comment">// uncomment the next line to set a binding file for source generation</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <em class="jxr_comment">// generator.setBinding(new</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <em class="jxr_comment">// InputSource(getClass().getResource("binding.xml").toExternalForm()));</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <em class="jxr_comment">// uncomment the next lines to set custom properties for source generation</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <em class="jxr_comment">// Properties properties = new Properties();</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <em class="jxr_comment">// properties.load(getClass().getResource("builder.properties").openStream());</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <em class="jxr_comment">// generator.setDefaultProperties(properties);</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      generator.generateSource(inputSource, getClass().getPackage().getName() + <span class="jxr_string">".generated"</span>);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>    }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  }
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2015. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
 </body>
 </html>
