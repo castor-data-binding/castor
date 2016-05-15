@@ -1,4 +1,4 @@
-Configuring Castor XML (Un)Marshaller {#xml.configuration}
+Configuring Castor XML (Un)Marshaller
 =====================================
 
 Introduction
