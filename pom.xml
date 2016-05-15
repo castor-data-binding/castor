@@ -58,40 +58,68 @@
    <distributionManagement>
       <site>
          <id>github</id>
-         <url>scm:git:https://github.com/castor-data-binding/castor.git</url>
+         <url>http://castor-data-binding.github.io/castor/</url>
       </site>
    </distributionManagement>
 
    <build>
-      <pluginManagement>
-         <plugins>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-scm-publish-plugin</artifactId>
-               <version>1.1</version>
-               <configuration>
-                  <scmBranch>gh-pages</scmBranch>
-               </configuration>
-            </plugin>
+      <plugins>
+         <plugin>
+          <groupId>com.github.github</groupId>
+          <artifactId>site-maven-plugin</artifactId>
+          <version>0.12</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>site</goal>
+                  </goals>
+                  <phase>site-deploy</phase>
+                  <configuration>
+                      <!-- Plugin configuration goes here -->
+      
+                      <server>github</server>
+      
+                      <!-- The commit message -->
+                      <message>Building site for my project</message>
+                      <!-- The location where the site is uploaded -->
+                      <path>${site.path}</path>
+                      <!-- Use merge or override the content -->
+                      <merge>true</merge>
+                  </configuration>
+              </execution>
+          </executions>
+         </plugin>
+      </plugins>
+   
+<!--       <pluginManagement> -->
+<!--          <plugins> -->
+<!--             <plugin> -->
+<!--                <groupId>org.apache.maven.plugins</groupId> -->
+<!--                <artifactId>maven-scm-publish-plugin</artifactId> -->
+<!--                <version>1.1</version> -->
+<!--                <configuration> -->
+<!--                   <scmBranch>gh-pages</scmBranch> -->
+<!--                </configuration> -->
+<!--             </plugin> -->
 
-            <plugin>
-               <groupId>com.github.github</groupId>
-               <artifactId>site-maven-plugin</artifactId>
-               <version>0.12</version>
-               <configuration>
-                  <message>Creating site for ${project.version}</message>
-               </configuration>
-               <executions>
-                  <execution>
-                     <goals>
-                        <goal>site</goal>
-                     </goals>
-                     <phase>site</phase>
-                  </execution>
-               </executions>
-            </plugin>
-         </plugins>
-      </pluginManagement>
+<!--             <plugin> -->
+<!--                <groupId>com.github.github</groupId> -->
+<!--                <artifactId>site-maven-plugin</artifactId> -->
+<!--                <version>0.12</version> -->
+<!--                <configuration> -->
+<!--                   <message>Creating site for ${project.version}</message> -->
+<!--                </configuration> -->
+<!--                <executions> -->
+<!--                   <execution> -->
+<!--                      <goals> -->
+<!--                         <goal>site</goal> -->
+<!--                      </goals> -->
+<!--                      <phase>site</phase> -->
+<!--                   </execution> -->
+<!--                </executions> -->
+<!--             </plugin> -->
+<!--          </plugins> -->
+<!--       </pluginManagement> -->
    </build>
 
    <properties>
