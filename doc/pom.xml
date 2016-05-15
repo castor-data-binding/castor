@@ -8,7 +8,7 @@
    <parent>
       <groupId>org.codehaus.castor</groupId>
       <artifactId>castor-parent</artifactId>
-      <version>1.4.1-SNAPSHOT</version>
+      <version>1.4.2-SNAPSHOT-SNAPSHOT</version>
       <relativePath>../parent/pom.xml</relativePath>
    </parent>
 
