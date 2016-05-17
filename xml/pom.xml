@@ -51,8 +51,7 @@
                 <artifactId>castor-maven-plugin</artifactId>
                 <configuration>
                     <schema>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.xsd</schema>
-                    <properties>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.builder.properties
-                    </properties>
+                    <properties>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping.builder.properties</properties>
                     <packaging>org.exolab.castor.mapping.xml</packaging>
                     <bindingfile>${basedir}/src/main/resources/org/exolab/castor/mapping/mapping-binding.xml
                     </bindingfile>

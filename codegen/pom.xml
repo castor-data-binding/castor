@@ -38,13 +38,9 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>castor-maven-plugin</artifactId>
 				<configuration>
-					<schema>
-						src/main/resources/org/exolab/castor/builder/binding/binding.xsd
-					</schema>
+					<schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
                     <properties>${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
-					<packaging>
-						org.exolab.castor.builder.binding.xml
-					</packaging>
+					<packaging>org.exolab.castor.builder.binding.xml</packaging>
 					<properties>${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
 				</configuration>
                 <executions>
