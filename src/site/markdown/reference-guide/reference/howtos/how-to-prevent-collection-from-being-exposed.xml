@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-prevent-collection-from-being-exposed.xml">
+  <properties>
+	  <title>How to prevent a collection from being exposed by getters/setters</title>
+    <abstract>
+       General information about data encapsulation.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+	  <title>How to prevent a collection from being exposed by getters/setters</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who does not want to expose their collection fields.</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>Enumerations or iterators can be used to list all elements of a container 
+           without providing means of modifications (well, Iterators provide a remove 
+           method, but its up to the implementation if this method really does 
+           anything). Castor can use enumerations or iterators instead of a getter method 
+           to marshal a collection.</p>
+					
+        <p>By using add methods collections can also be unmarshalled without a 
+           setter method.</p>
+    </section>
+
+    <section title="Steps">
+
+            <p>Consider the following container object:</p>
+
+            <code-panel>
+public class ObjectWithCollection {
+    protected Vector strings = new Vector();
+    
+    public void addString(String string) {
+        strings.add(string);
+    }
+    
+    public Iterator iterateStrings() {
+        return strings.iterator();
+    }
+}</code-panel>
+            
+            <p>To provide better data encapsulation, only the <tt>addString()</tt> and 
+               <tt>iterateStrings()</tt> methods are made available publically, and as a 
+               result, the collection <tt>strings</tt> is not exposed via getters or 
+               setters.</p>
+
+            <p>The mapping file for above <tt>ObjectWithCollection</tt> - with the 
+               intention to instruct Castor to use the method <tt>iterateString()</tt>
+               - looks as follows:</p>
+            
+            <code-panel>
+&lt;mapping>
+    &lt;class name="ObjectWithContainer">
+        &lt;field name="strings" type="string" collection="vector" 
+                  get-method="iterateStrings" set-method="addString"/>
+    &lt;/class>
+&lt;/mapping></code-panel>
+
+
+    </section>
+    
+    <section title="Naming conventions">
+    
+		<p>Please note that for this mechanism to work, the method returning an 
+		   <tt>java.util.Iterator</tt> for your collection member has to start with
+		   the prefix <tt>iterate</tt>.</p>
+		   
+		<p>The same mechanism works for methods returning <tt>java.util.Enumeration</tt> 
+		   as well. In this case, the method prefix needs to be <tt>enum</tt>, and the 
+		   method specified needss to return <tt>java.util.Enumeration</tt>.</p>
+    
+    </section>        
+    
+    
+    </body>
+</document>

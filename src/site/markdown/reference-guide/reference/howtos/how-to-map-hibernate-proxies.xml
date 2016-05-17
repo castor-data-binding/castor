@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document url="http://castor.org/howto/how-to-unmarshal-raw-xml.xml">
+    <properties>
+        <title>How to marshal Hibernate proxies</title>
+        <abstract />
+        <status>Final</status>
+    </properties>
+    <body>
+        <title>How to marshal Hibernate proxies</title>
+        <header />
+
+        <section title="Intended Audience">
+
+            <p>
+                Anyone who want’s to marshal Hibernate POJOs. This document shows
+                how prevent undesirable XML output caused by Hibernate's lazy-loading
+                technique.
+            </p>
+
+        </section>
+
+        <section title="Prerequisite">
+
+            <p>
+                A general understanding about the Hibernate persistence framework, its use
+                of dynamic proxies for lazy-loading and Castor XML.
+            </p>
+
+        </section>
+
+        <section title="Concept">
+
+            <p>
+                Assume that we have a Hibernate POJO named <tt>Person</tt>, which stores 
+                basic information about persons and set of <tt>Address</tt> objects. Address 
+                itself is another Hibernate POJO. This set of address objects is mapped in the 
+                Hibernate mapping file to load lazily, as shown below in the Hibernate mapping for 
+                the <tt>Person</tt> object:
+            </p>
+
+            <code-panel>
+&lt;hibernate-mapping>
+    &lt;class name="xxx.yyy.Person" table="person">
+
+        &lt;id name="id" type="integer">
+            &lt;column name="id" length="10" />
+            &lt;generator class="native" />
+        &lt;/id>
+
+        &lt;!-- Properties section -->
+        &lt;property name="firstName" type="string">
+            &lt;column name="first_name" length="80" not-null="true" />
+        &lt;/property>
+
+        &lt;property name="lastName" type="string">
+            &lt;column name="last_name" length="128" not-null="true" />
+        &lt;/property>
+
+        &lt;set name="Address" table="address" inverse="true"
+            cascade="all-delete-orphan" <b><font color="red">lazy="true"</font></b>>
+            &lt;key column="person_id" />
+            &lt;one-to-many class="xxx.yyy.Address" />
+        &lt;/set>
+    &lt;/class>
+&lt;/hibernate-mapping></code-panel>
+
+            <p>
+                When we want to marshal a <tt>Person</tt> object to XML, we use a standard 
+                Castor XML mapping file to map the <tt>Person</tt> class to the desired XML 
+                layout.
+            </p>
+
+            <code-panel><![CDATA[
+<mapping>
+    <class name="xxx.yyy.Person">
+        <map-to xml="person"/>
+        <field name="firstName" type="string" >
+            <bind-xml name="firstName" node="element" />
+        </field>
+        <field name="lastName" type="string">
+            <bind-xml name="lastName" node="element" />
+        </field>
+        <field name="address" type="xxx.yyy.Address" collection="set">
+            <bind-xml name="address" node="element" location="addressList" />
+        </field>
+    </class>
+</mapping>]]></code-panel>
+
+            <p>
+                As shown below, marshalling the <tt>Person</tt> instance produces undesirable 
+                XML output. This is because hibernate (or other ORM frameworks) use dynamic proxy 
+                classes for lazy-loading.
+            </p>
+
+            <code-panel>
+                <![CDATA[
+    <person>
+        <firstName>John</firstName>
+        <lastName>Smith</lastName>
+        <addressList>                
+            <address xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"         
+                     xsi:type="java:xxx.yyy.Address_$$_javassist_11">
+                <hibernate-lazy-initializer unwrap="false" uninitialized="false" 
+                     xsi:type="java:org.hibernate.proxy.pojo.javassist.JavassistLazyInitializer">
+                    <implementation xsi:type="address">
+                        <street>street</street>
+                        <country>England</country>
+                    </implementation>
+                    <entity-name>xxx.yyy.Address</entity-name>
+                </hibernate-lazy-initializer>
+                <street>street</street>
+                <country>England</country>
+            </address>
+        </addressList>
+    </person>]]>
+            </code-panel>
+
+            <p>
+                As Hibernate returns dynamic proxies for lazy-loaded objects, Castor won't be able to 
+                find a mapping for these (proxy) classes, and in this case fall back to using 
+                introspection. To avoid this behaviour, Castor XML during marshalling must be (en)able(d)
+                to detect such proxy classes and handle them in a special way.
+            </p>
+            
+            <p>             
+                As proxy objects usually implement proxy interfaces, Castor XML can be instructed 
+                to check for such interfaces at marshal time, and marshal classes that implement
+                these interfaces in a different way. Castor XML, in its <tt>castor.properties</tt> 
+                configuration file, allows you to enlist (proxy) interfaces that should be used for 
+                checking. The property  <tt>org.exolab.castor.xml.proxyInterfaces</tt>
+                can be used to specify whether or not to search for interfaces. If the property is 
+                set, the objects to be marshalled will be analysed if they implement one of the 
+                given interface names. If that's the case, the <i>superclass</i> will be marshalled 
+                instead of the proxy class itself.
+            </p>
+
+            <code-panel>
+org.exolab.castor.xml.proxyInterfaces = net.sf.cglib.proxy.Factory, org.hibernate.proxy.HibernateProxy
+            </code-panel>
+
+            <p>
+                Setting this property as hown above now enables Castor XML to produce 
+                the desired output.
+            </p>
+
+            <code-panel><![CDATA[
+<person>
+    <firstName>John</firstName>
+    <lastName>Smith</lastName>
+    <addressList>                
+        <address>
+            <street>street</street>
+            <country>Engand</country>
+        </address>
+    </addressList>
+</person>]]></code-panel>
+            
+        </section>
+
+    </body>
+</document>
