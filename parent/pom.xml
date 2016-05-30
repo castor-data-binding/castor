@@ -716,16 +716,16 @@
       <url>https://travis-ci.org/castor-data-binding/castor</url>
    </ciManagement>
 
-   <repositories>
-      <repository>
+   <pluginRepositories>
+      <pluginRepository>
          <id>oss-sonatype</id>
          <name>oss-sonatype</name>
          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
          <snapshots>
             <enabled>true</enabled>
          </snapshots>
-      </repository>
-   </repositories>
+      </pluginRepository>
+   </pluginRepositories>
 
    <properties>
       <spring.version>4.2.6.RELEASE</spring.version>
