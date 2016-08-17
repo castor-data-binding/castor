@@ -169,6 +169,7 @@ public class DatatypeHandler {
       Date.parseDate(value);
       return DATE_TYPE;
     } catch (ParseException px) {
+    } catch (IllegalArgumentException ex) {
     }
 
     // -- check for time
