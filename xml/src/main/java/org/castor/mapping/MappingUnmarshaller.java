@@ -102,6 +102,16 @@ public final class MappingUnmarshaller {
 
     _internalContext = internalContext;
   }
+  
+  /**
+	 * This API is created to use the existing XMLContext object instead of creating a new one.
+	 * @param internalContext
+	 */
+	public MappingUnmarshaller(InternalContext internalContext) {
+		_registry = new MappingLoaderRegistry(new CoreProperties());
+		_idResolver = new MappingUnmarshallIDResolver();
+		_internalContext = internalContext;
+	}
 
   /**
    * Enables or disables the ability to allow the redefinition of class mappings.

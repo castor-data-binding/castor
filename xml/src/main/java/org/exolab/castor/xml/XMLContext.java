@@ -70,17 +70,18 @@ public class XMLContext {
   }
 
   /**
-   * Instructs Castor to load class descriptors from the mapping given.
-   * 
+   * Instructs Castor to load class descriptors from the mapping given. Here the same _internalContext
+   * object is passed to MappingUnmarshaller so that it makes use of the same descriptor caching of the
+   * _internalContext object.
    * @param mapping Castor XML mapping (file), from which the required class descriptors will be
    *        derived.
    * @throws MappingException If the {@link Mapping} cannot be loaded and analyzed successfully.
    */
   public void addMapping(final Mapping mapping) throws MappingException {
-    MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
-    MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
-    _internalContext.getXMLClassDescriptorResolver().setMappingLoader(mappingLoader);
-  }
+		MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller(_internalContext);
+		MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
+		_internalContext.getXMLClassDescriptorResolver().setMappingLoader(mappingLoader);
+	}
 
   /**
    * Loads the class descriptor for the class instance specified. The use of this method is useful
@@ -287,4 +288,10 @@ public class XMLContext {
   public void setClassLoader(ClassLoader classLoader) {
     this._internalContext.setClassLoader(classLoader);
   }
+  /**
+  * This is called by the application to set the right context.
+  */
+  public void setReqContext(String requestContext) {
+		CastorThreadLocal.setReqContext(requestContext);
+	}
 }

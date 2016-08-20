@@ -119,13 +119,17 @@ public class CastorXMLStrategy implements ResolverStrategy {
       return descriptor;
     }
 
-    this.resolvePackage(resolverResults, packageName);
+    /**
+	* if any of the Descriptor entry mapping is missing , It tries to load the whole CDR file and creates
+	* happens on for that .cdr file which comes first in the class path.
+	*/
+	resolverResults.addAllDescriptors(new ByDescriptorClass().resolve(className, _properties));
     descriptor = resolverResults.getDescriptor(className);
     if (descriptor != null) {
       return descriptor;
     }
 
-    resolverResults.addAllDescriptors(new ByDescriptorClass().resolve(className, _properties));
+    this.resolvePackage(resolverResults, packageName);
     descriptor = resolverResults.getDescriptor(className);
     if (descriptor != null) {
       return descriptor;
