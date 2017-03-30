@@ -53,7 +53,7 @@ public final class Version {
   /**
    * The version number
    */
-  public static final String VERSION = Version.class.getPackage().getImplementationVersion();
+  public static final String VERSION = "1.4.1";
 
   /**
    * The version date.
