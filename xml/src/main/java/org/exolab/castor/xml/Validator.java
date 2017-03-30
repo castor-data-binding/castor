@@ -64,7 +64,7 @@ public class Validator implements ClassValidator {
   protected static ResourceBundle resourceBundle;
 
   static {
-    resourceBundle = ResourceBundle.getBundle("ValidationMessages", Locale.getDefault());
+    resourceBundle = ResourceBundle.getBundle("CastorValidationMessages", Locale.getDefault());
   }
 
   /**

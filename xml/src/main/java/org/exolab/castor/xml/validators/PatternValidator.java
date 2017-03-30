@@ -57,7 +57,7 @@ public abstract class PatternValidator {
   protected static ResourceBundle resourceBundle;
 
   static {
-    resourceBundle = ResourceBundle.getBundle("ValidationMessages", Locale.getDefault());
+    resourceBundle = ResourceBundle.getBundle("CastorValidationMessages", Locale.getDefault());
   }
 
   /**
