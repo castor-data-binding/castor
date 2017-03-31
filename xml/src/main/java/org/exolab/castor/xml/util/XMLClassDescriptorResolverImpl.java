@@ -50,6 +50,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.xml.InternalContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.xml.CastorThreadLocal;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
@@ -153,7 +154,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
    * {@inheritDoc}
    */
   public void setMappingLoader(final MappingLoader mappingLoader) {
-    _mappingLoader = mappingLoader;
+	// _mappingLoader = mappingLoader;
     if (mappingLoader != null) {
       for (ClassDescriptor classDescriptor : mappingLoader.getDescriptors()) {
         _descriptorCache.addDescriptor(classDescriptor.getJavaClass().getName(),
@@ -303,25 +304,29 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
       // nothing matches that XML name
       return null;
     }
-    if (possibleMatches.size() == 1) {
-      // we have exactly one possible match - that's our result
-      // (if it has the right namespace, it's an exact match, if not its
-      // the only possible match)
-      return (XMLClassDescriptor) possibleMatches.get(0);
-    }
+		if (possibleMatches.size() == 1) {
+			// we have exactly one possible match - that's our result
+			// (if it has the right namespace, it's an exact match, if not its
+			// the only possible match)
+			return (XMLClassDescriptor) possibleMatches.get(0);
+		}
+		// we have more than one result - only an exact match can be the result
+		return findExactMatch(namespaceURI, possibleMatches);
+		// no exact match and too many possible matches...
+		// return null;
+	} //-- resolveByXMLName
 
-    // we have more than one result - only an exact match can be the result
-    for (Iterator<ClassDescriptor> i = possibleMatches.iterator(); i.hasNext();) {
-      XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
-
-      if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
-        return descriptor;
-      }
+	private XMLClassDescriptor findExactMatch(final String namespaceURI, List<ClassDescriptor> possibleMatches) {
+		for (Iterator<ClassDescriptor> i = possibleMatches.iterator(); i.hasNext();) {
+			XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
+			if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
+				return descriptor;
+			}
     }
 
     // no exact match and too many possible matches...
-    return null;
-  } // -- resolveByXMLName
+		return null;
+	}
 
   /**
    * {@inheritDoc}
@@ -448,6 +453,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
 
     /** Lock used to isolate write accesses to the caches internal lists and maps. */
     private final ReentrantReadWriteLock _lock;
+	private final String SEPERATOR = "¤";
 
     /**
      * Default constructor.<br>
@@ -515,16 +521,21 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         if (INTERNAL_CONTAINER_NAME.equals(xmlName)) {
           return;
         }
-
+		// The below condition is to check if the input class is actually a xml element with out namespace.
+		if(descriptor instanceof XMLClassDescriptorAdapter && descriptor.getNameSpaceURI() == null){
+			xmlName = getModifiedXmlElementName(xmlName);
+		}
         // add new descriptor to the list for the corresponding XML name
         List<ClassDescriptor> descriptorList = _xmlNameMap.get(xmlName);
         if (descriptorList == null) {
           descriptorList = new ArrayList<ClassDescriptor>();
           _xmlNameMap.put(xmlName, descriptorList);
         }
-        if (!descriptorList.contains(descriptor)) {
-          descriptorList.add(descriptor);
-        }
+		// change by Dinesh K. Dont use .contains instead check with Name Space URI as .contains creates
+		// memory leak if some how the .CDR file is not proper and the descriptors are loaded again.
+		if (findExactMatch(descriptor.getNameSpaceURI(), descriptorList) == null) {
+			descriptorList.add(descriptor);
+		}
 
         _missingTypes.remove(className);
       } finally {
@@ -532,6 +543,24 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
       }
     } // -- addDescriptor
 
+	private String getModifiedXmlElementName(final String className) {
+		String orgClassName = className;
+		if (CastorThreadLocal.getReqContext() != null && CastorThreadLocal.getReqContext() != "") {
+			// To check , element should not have "." as part of their name.
+			orgClassName = className + SEPERATOR + CastorThreadLocal.getReqContext();
+		}
+		return orgClassName;
+	}
+
+	private XMLClassDescriptor findExactMatch(final String namespaceURI, List<ClassDescriptor> possibleMatches) {
+		for (Iterator<ClassDescriptor> i = possibleMatches.iterator(); i.hasNext();) {
+			XMLClassDescriptor descriptor = (XMLClassDescriptor) i.next();
+			if (ResolveHelpers.namespaceEquals(namespaceURI, descriptor.getNameSpaceURI())) {
+				return descriptor;
+			}
+		}
+		return null;
+	}
     /**
      * Gets the descriptor that is mapped to the given class name.
      * 
@@ -569,24 +598,28 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      * @return A list of descriptors with the given XML name or an empty list if no such descriptor
      *         is stored in this cache. This method will never return <code>null</code>!
      */
-    public List<ClassDescriptor> getDescriptors(final String xmlName) {
-
-      // before accessing XML name map acquire read lock first
-      _lock.readLock().lock();
-      List<ClassDescriptor> list = _xmlNameMap.get(xmlName);
-      _lock.readLock().unlock();
-
-      if (list == null) {
-
-        // return an empty list
-        list = new ArrayList<ClassDescriptor>();
-      } else {
-
-        // return a copy of the original list
-        list = new ArrayList<ClassDescriptor>(list);
-      }
-      return list;
-    } // -- getDescriptorList
+	public List<ClassDescriptor> getDescriptors(final String xmlName) {
+		// before accessing XML name map acquire read lock first
+		_lock.readLock().lock();
+		List<ClassDescriptor> list = null;
+		// Check first with modified xml name.
+		String modifiedXmlName = getModifiedXmlElementName(xmlName);
+		list = _xmlNameMap.get(modifiedXmlName);
+		if(list == null || (list !=null && list.size() ==0)){
+			// we should try with actual xml name now.
+			list = _xmlNameMap.get(xmlName);
+		}
+		_lock.readLock().unlock();
+		if (list == null) {
+			// return an empty list
+			list = new ArrayList<ClassDescriptor>();
+		}
+		else {
+			// return a copy of the original list
+			list = new ArrayList<ClassDescriptor>(list);
+		}
+		return list;
+	} //-- getDescriptorList
 
     /**
      * Checks whether the given class name is contained in the list of class names the descriptor is

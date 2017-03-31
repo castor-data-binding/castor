@@ -56,19 +56,25 @@ public class ByDescriptorClass extends AbstractResolverClassCommand {
       return results;
     }
 
-    StringBuilder descriptorClassName = new StringBuilder(className);
-    descriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
-    Class descriptorClass = ResolveHelpers.loadClass(classLoader, descriptorClassName.toString());
-
-    // If we didn't find the descriptor, look in descriptor package
-    if (descriptorClass == null) {
-      int offset = descriptorClassName.lastIndexOf(".");
-      if (offset != -1) {
-        descriptorClassName.insert(offset, ".");
-        descriptorClassName.insert(offset + 1, XMLConstants.DESCRIPTOR_PACKAGE);
-        descriptorClass = ResolveHelpers.loadClass(classLoader, descriptorClassName.toString());
-      }
-    }
+	Class descriptorClass = null;
+	StringBuilder descriptorClassName = new StringBuilder(className);
+	descriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
+	// Try to load the below pattern first as it avoids searching for a descriptors which really does not exist which will help avoiding thread blocks on the //classloader for a wrong file pattern.
+	int offset = descriptorClassName.lastIndexOf(".");
+	if (offset != -1) {
+		descriptorClassName.insert(offset , ".");
+		descriptorClassName.insert(offset + 1, XMLConstants.DESCRIPTOR_PACKAGE);
+		descriptorClass = ResolveHelpers.loadClass(
+				classLoader, descriptorClassName.toString());
+	}
+	
+	// Try with Castor default pattern.
+	if (descriptorClass == null) {
+		StringBuilder defaultDescriptorClassName = new StringBuilder(className);
+		defaultDescriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
+		 descriptorClass = ResolveHelpers.loadClass(
+				classLoader, defaultDescriptorClassName.toString());
+	}
 
     if (descriptorClass != null) {
       try {

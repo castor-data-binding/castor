@@ -119,13 +119,21 @@ public class CastorXMLStrategy implements ResolverStrategy {
       return descriptor;
     }
 
-    this.resolvePackage(resolverResults, packageName);
+    /**
+	* Moving the search BYCDR later. First load by ByDescriptorClass using the right pattern. The issue with searching with CDR is,
+	* if any of the Descriptor entry mapping is missing , It tries to load the whole CDR file and creates
+	* the instances of all the descriptors again and add it to cache , in caching as we check with ".contais"
+	* which fails as its a new instance of descriptors so it add it again and causes the memory leak.
+	* The issue is more observed when the .CDR files are maintained as part of different jars and loading
+	* happens on for that .cdr file which comes first in the class path.
+	*/
+	resolverResults.addAllDescriptors(new ByDescriptorClass().resolve(className, _properties));
     descriptor = resolverResults.getDescriptor(className);
     if (descriptor != null) {
       return descriptor;
     }
 
-    resolverResults.addAllDescriptors(new ByDescriptorClass().resolve(className, _properties));
+    this.resolvePackage(resolverResults, packageName);
     descriptor = resolverResults.getDescriptor(className);
     if (descriptor != null) {
       return descriptor;
