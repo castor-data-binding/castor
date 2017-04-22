@@ -444,6 +444,7 @@ public final class XMLInstance2SchemaHandler implements DocumentHandler, org.xml
         return; // -- nothing to merge
       if (e2Type.isSimpleType()) {
         e1.setType(e2Type);
+        e1Type = e2Type;
       } else {
         ComplexType cType = new ComplexType(_schema);
         Group group = new Group();
@@ -455,6 +456,7 @@ public final class XMLInstance2SchemaHandler implements DocumentHandler, org.xml
     } else if (e2Type == null) {
       if (e1Type.isSimpleType()) {
         e2.setType(e1Type);
+        e2Type = e1Type;
       } else {
         ComplexType cType = new ComplexType(_schema);
         Group group = new Group();
