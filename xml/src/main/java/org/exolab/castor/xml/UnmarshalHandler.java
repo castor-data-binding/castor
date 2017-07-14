@@ -711,9 +711,16 @@ public final class UnmarshalHandler extends MarshalFramework
       // check for default namespace declaration
       String defaultNamespace = _namespaceHandling.getDefaultNamespaceURI();
       // TODO[WG]: remove unnecessary check as it simply is wrong
+      /* Eason Xiao - This logic is wrong. The namespaceURI might be different to defaultNamespace, for example :
+                 An element is defined in base schema, this element has a different namespace.
       if (defaultNamespace != null && !defaultNamespace.equals("http://castor.exolab.org")) {
-        namespaceURI = defaultNamespace;
+          namespaceURI = defaultNamespace;
+      }*/
+      // Eason Xiao - change commented code above to below :
+      if (namespaceURI == null && defaultNamespace != null && !defaultNamespace.equals("http://castor.exolab.org")) {
+          namespaceURI = defaultNamespace;
       }
+      
       // -- adjust empty namespace
       if (StringUtils.isEmpty(namespaceURI))
         namespaceURI = null;
