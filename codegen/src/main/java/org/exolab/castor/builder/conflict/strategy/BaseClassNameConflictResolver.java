@@ -66,6 +66,12 @@ public abstract class BaseClassNameConflictResolver implements ClassNameConflict
           || token.startsWith(ExtendedBinding.GROUP_ID)) {
         token = token.substring(token.indexOf(":") + 1);
       }
+
+      // remove some invalid identifiers,such as '}'.(by jiangdequan)
+      if (token.endsWith(ExtendedBinding.SPACENAME_SUFFIX)) {
+          token = token.substring(0, token.indexOf(ExtendedBinding.SPACENAME_SUFFIX));
+      }
+
       prefix += _sourceGenerator.getJavaNaming().toJavaClassName(token);
     }
     return prefix;

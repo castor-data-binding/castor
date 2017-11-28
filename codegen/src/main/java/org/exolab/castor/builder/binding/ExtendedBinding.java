@@ -107,6 +107,10 @@ public final class ExtendedBinding extends Binding {
    * Prefix used to identify a model group.
    */
   public static final String GROUP_ID = "group:";
+  /**
+   * Suffix used to identify a spacename.
+   */
+  public static final String SPACENAME_SUFFIX = "}";
 
   private static final short ATTRIBUTE = 10;
   private static final short ELEMENT = 11;
