@@ -40,7 +40,7 @@ package org.exolab.castor.builder.descriptors;
 
 import java.util.Iterator;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.factory.XMLFieldHandlerFactory;
@@ -641,6 +641,10 @@ public final class DescriptorSourceFactory {
     if (jType.isPrimitive()) {
       JPrimitiveType primitive = (JPrimitiveType) jType;
       return primitive.getWrapperName() + ".TYPE";
+    }
+    // fix syntax error, such as 'java.util.Vector<java.lang.Object>.class'(by jiangdequan)
+    if (StringUtils.equals("java.util.Vector", jType.getName())) {
+      return "java.util.Vector.class";
     }
     return jType.toString() + ".class";
   } // -- classType

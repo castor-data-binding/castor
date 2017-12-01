@@ -227,7 +227,7 @@ public final class MemberFactory extends BaseFactory {
     FieldInfo fInfo = null;
     if (xsType.isCollection()) {
       fInfo = this.getInfoFactory().createCollection(((XSListType) xsType).getContentType(),
-          fieldName, null, getJavaNaming(), useJava50);
+          fieldName, fieldName, getJavaNaming(), useJava50);
     } else {
       fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
     }

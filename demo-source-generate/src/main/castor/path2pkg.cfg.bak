@@ -1,0 +1,8 @@
+src/main/castor/edist_commontypes.xsd
+com.test.io.xml.dto.ndc.edist.commontypes
+src/main/castor/edist_structures.xsd
+com.test.io.xml.dto.ndc.edist.structures
+src/main/castor/BaggageListRQ.xsd
+com.test.io.xml.dto.ndc.baggagelistrq
+src/main/castor/BaggageListRS.xsd
+com.test.io.xml.dto.ndc.baggagelistrs

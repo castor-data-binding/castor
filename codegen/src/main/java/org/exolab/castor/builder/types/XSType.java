@@ -285,7 +285,18 @@ public abstract class XSType {
    * @return Source code for dealing with default values.
    */
   public String createDefaultValueWithString(final String variableName) {
-    return " new " + getJType() + "(" + variableName + ")";
+    // fix syntax error, such as 'java.lang.Object(variableName)'(by jiangdequan)
+    String jTypeStr = getJType().toString();
+    if (jTypeStr.startsWith("java.util.List<java.lang.Object>")) {
+      return " new java.lang.Object[]{" + variableName + "}";
+    }
+    if(jTypeStr.startsWith("java.lang.String")) {
+      return variableName;
+    }
+    if (jTypeStr.startsWith("java.lang.Object")) {
+      return variableName;
+    }
+    return " new " + jTypeStr + "(" + variableName + ")";
   }
 
   /**
