@@ -463,7 +463,23 @@ public class JClassRegistry {
     String typeString = null;
     while (iterator.hasNext()) {
       String xPath = iterator.next();
-      String newTypeString = xPath.substring(xPath.indexOf("[") + 1, xPath.indexOf("]"));
+      // fix StringIndexOutOfBoundException when the input does not have '[' or ']'(by jiangdequan)
+      String newTypeString = "";
+      int leftBracket = xPath.indexOf("[");
+      int rightBracket = xPath.indexOf("]");
+      if (leftBracket == rightBracket) {
+        newTypeString = xPath;
+      } else {
+        if (leftBracket != -1) {
+            leftBracket += 1;
+        } else {
+            leftBracket = 0;
+        }
+        if (rightBracket == -1) {
+          rightBracket = xPath.length();
+        }
+        newTypeString = xPath.substring(leftBracket, rightBracket);
+      }
       if (typeString != null) {
         if (!typeString.equals(newTypeString)) {
           allSame = false;
