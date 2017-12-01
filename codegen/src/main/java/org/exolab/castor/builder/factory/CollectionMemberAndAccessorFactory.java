@@ -155,7 +155,15 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
   private void createGetAsArrayMethod(final CollectionInfo fieldInfo, final JClass jClass,
       final boolean useJava50, AnnotationBuilder[] annotationBuilders) {
     JType baseType = fieldInfo.getContentType().getJType();
-    JType arrayType = new JArrayType(baseType, useJava50);
+    // fix sync error, such as 'new java.util.Vector<Object>[]...'(by jiangdequan)
+    String baseTypeName = baseType.toString();
+    boolean isVector = baseType.toString().startsWith("java.util.Vector<java.lang.Object>");
+    JType arrayType = null;
+    if (isVector) {
+      arrayType = baseType;
+    } else {
+      arrayType = new JArrayType(baseType, useJava50);
+    }
     JMethod method =
         new JMethod(fieldInfo.getReadMethodName(), arrayType, "this collection as an Array");
 
@@ -173,13 +181,17 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
       comment.appendComment("into the API call.  This way we <i>know</i> that the Array ");
       comment.appendComment("returned is of exactly the correct length.");
 
-      String baseTypeName = baseType.toString();
       if (baseType.isArray()) {
         sourceCode.add(arrayType.toString() + " array = new ");
         sourceCode.append(baseTypeName.substring(0, baseTypeName.length() - 2) + "[0][];");
       } else {
-        sourceCode.add(arrayType.toString() + " array = new ");
-        sourceCode.append(baseTypeName + "[0];");
+        if (isVector) {
+          sourceCode.add("java.util.Vector<java.lang.Object> array = new ");
+          sourceCode.append(baseTypeName + "();");
+        } else {
+          sourceCode.add(arrayType.toString() + " array = new ");
+          sourceCode.append(baseTypeName + "[0];");
+        }
       }
 
       sourceCode.add("return ");
@@ -189,7 +201,11 @@ public class CollectionMemberAndAccessorFactory extends FieldMemberAndAccessorFa
         sourceCode.add(arrayType.toString());
         sourceCode.add(") ");
       }
-      sourceCode.append("this." + fieldInfo.getName() + ".toArray(array);");
+      if (isVector) {
+        sourceCode.append("array;");
+      } else {
+        sourceCode.append("this." + fieldInfo.getName() + ".toArray(array);");
+      }
     } else {
       // For primitive types, we have to do this the hard way
       sourceCode.add("int size = this.");
