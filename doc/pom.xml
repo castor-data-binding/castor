@@ -24,7 +24,7 @@
    <pluginRepositories>
       <pluginRepository>
          <id>agilejava</id>
-         <url>http://agilejava.com/maven</url>
+         <url>https://agilejava.com/maven</url>
       </pluginRepository>
    </pluginRepositories>
 
