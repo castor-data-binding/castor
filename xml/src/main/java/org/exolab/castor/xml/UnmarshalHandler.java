@@ -1456,9 +1456,10 @@ public final class UnmarshalHandler extends MarshalFramework
       // -- check for nested attribute...loop through
       // -- stack and find correct descriptor
       String path = state.getElementName();
+      Integer parentStateIndex = _stateStack.getFirstParentStateIndex();
       UnmarshalState targetState = null;
-      while (_stateStack.hasAnotherParentState()) {
-        targetState = _stateStack.removeParentState();
+      while (parentStateIndex >= 0) {
+        targetState = _stateStack.peekAtState(parentStateIndex--);
         if (targetState.isWrapper()) {
           path = targetState.getElementName() + '/' + path;
           continue;
@@ -1481,7 +1482,6 @@ public final class UnmarshalHandler extends MarshalFramework
           }
         }
         if (found) {
-          _stateStack.resetParentState();
           break;
         }
 
