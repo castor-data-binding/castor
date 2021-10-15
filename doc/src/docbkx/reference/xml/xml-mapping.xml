@@ -365,7 +365,7 @@ public class OrderItem {
            class:</para>
 
         <programlisting language="java"><![CDATA[
-<class name="mypackage.OrderItem>
+<class name="mypackage.OrderItem">
            
    <map-to xml="item"/>
 
@@ -373,7 +373,7 @@ public class OrderItem {
       <bind-xml name="identity" node="attribute"/>
    </field>
 
-   </field name="orderQuantity" type="integer">
+   <field name="orderQuantity" type="integer">
       <bind-xml name="quantity" node="element"/>
    </field>
 
@@ -397,7 +397,7 @@ public class OrderItem {
 			   the given field mapping will be used.</para>
 
         <programlisting language="java">
-&lt;class name="mypackage.OrderItem <emphasis role="bold">auto-complete="true"</emphasis>>
+&lt;class name="mypackage.OrderItem" <emphasis role="bold">auto-complete="true"</emphasis>>
            
    &lt;map-to xml="item"/>
 
@@ -423,7 +423,7 @@ public class OrderItem {
         </para>
 
         <programlisting language="java">
-&lt;class name="mypackage.OrderItem <emphasis role="bold">auto-complete="true"</emphasis>>
+&lt;class name="mypackage.OrderItem" <emphasis role="bold">auto-complete="true"</emphasis>>
            
    &lt;field name="id" type="string">
       &lt;bind-xml name="identity" node="attribute"/>
