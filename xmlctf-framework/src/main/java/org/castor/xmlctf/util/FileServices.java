@@ -119,6 +119,9 @@ public final class FileServices {
       if (isSupportFile(entry.getName())) {
         InputStream src = jar.getInputStream(entry);
         File out = new File(root, entry.getName());
+        if (!out.toPath().normalize().startsWith(root.toPath().normalize())) {
+          throw new IOException("Bad zip entry");
+        }
         out.getParentFile().mkdirs();
         copy(src, new FileOutputStream(out));
         src.close();
