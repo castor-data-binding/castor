@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.nio.file.Files;
 
 import org.castor.xmlctf.xmldiff.XMLDiff;
 import org.exolab.castor.xml.schema.Schema;
@@ -93,7 +94,7 @@ public abstract class AbstractSchemaTest extends TestCase {
     // org.castor.xmlctf.xmldiff.XMLDiff to get the final result.
 
     // 1. generate schema and product a xml content, write it in a temporary file
-    File targetedOutput = File.createTempFile("doTest", "xmlctf");
+    File targetedOutput = Files.createTempFile("doTest", "xmlctf").toFile();
     Writer writer = new BufferedWriter(new FileWriter(targetedOutput));
     SchemaWriter swriter = new SchemaWriter(writer);
     swriter.write(_schema);
