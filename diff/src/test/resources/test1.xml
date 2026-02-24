@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://example.com/test" xmlns:prefix="http://example.com/prefix">
+  <element1 attr1="value1" attr2="value2">
+    <child1>Text content</child1>
+    <child2 prefix:attr="prefixed">Nested content</child2>
+  </element1>
+  <element2>
+    <data>Some data</data>
+  </element2>
+</root>

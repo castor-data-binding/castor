@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://example.com" xmlns:custom="http://custom.com" attr1="value1" attr2="value2">
+    <element1 id="1">Text Content</element1>
+    <element2 custom:attr="custom_value">
+        <nested>Nested Text</nested>
+    </element2>
+</root>

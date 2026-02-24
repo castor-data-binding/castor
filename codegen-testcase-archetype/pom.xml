@@ -1,23 +1,32 @@
 <?xml version="1.0" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>castor-archetype-codegen-testcase</artifactId>
-    
+
 	<packaging>jar</packaging>
     <name>Castor XML - Code generator JUnit test archetype</name>
-    <description>Maven archetype of a JUnit test case for the Castor XML code generator</description>
+    <description
+    >Maven archetype of a JUnit test case for the Castor XML code generator</description>
 
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor-parent</artifactId>
-        <version>1.4.2-SNAPSHOT</version>
+        <version>1.4.1</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
-	
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+    </properties>
+
     <build>
 		<resources>
-            <!-- 
+            <!--
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
@@ -33,11 +42,13 @@
             </resource>
              -->
         </resources>
+        <!-- Phase 5 Dependency Upgrade (2026-02-02): maven-archetype-plugin upgraded from 2.4 (2015) to 3.4.1 (2025) for modernization. See dependency_upgrade_summary.txt for details. -->
         <plugins>
+            <!-- maven-archetype-plugin: 2.4 (2015) -> 3.4.1 (2025); validated via Phase 5 testing. -->
             <plugin>
     	       <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-archetype-plugin</artifactId>
-               <version>2.4</version>
+               <version>3.4.1</version>
             </plugin>
         </plugins>
     </build>

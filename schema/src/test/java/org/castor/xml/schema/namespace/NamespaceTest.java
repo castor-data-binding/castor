@@ -13,13 +13,13 @@
  */
 package org.castor.xml.schema.namespace;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.castor.xml.schema.ComparisResultExtractor;
 import org.castor.xml.schema.ComparisonResult;
 import org.exolab.castor.xml.schema.Schema;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Namespace tests.
@@ -44,7 +44,7 @@ public final class NamespaceTest {
 
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("namespace_singlenamespace.xsd"));
-    assertEquals("single namespace add failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 
   /**
@@ -52,7 +52,7 @@ public final class NamespaceTest {
    * 
    * @throws Exception
    */
-  @Ignore
+  @Disabled
   public void testDiff() throws Exception {
 
     // create a new XML schema representation.
@@ -63,7 +63,7 @@ public final class NamespaceTest {
 
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("namespace_singlenamespace.xsd"));
-    assertEquals("test diff", ComparisonResult.DIFFERENCE, result);
+    assertEquals(ComparisonResult.DIFFERENCE, result);
   }
 
   /**
@@ -83,6 +83,6 @@ public final class NamespaceTest {
 
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("namespace_multiplenamespace.xsd"));
-    assertEquals("multiple namespace add failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 }

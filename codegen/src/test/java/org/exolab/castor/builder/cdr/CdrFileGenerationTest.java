@@ -13,79 +13,92 @@
  */
 package org.exolab.castor.builder.cdr;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-
 import org.castor.core.constants.cpa.JDOConstants;
 import org.exolab.castor.builder.SourceGenerator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
-
-import junit.framework.TestCase;
 
 /**
  * Test case checking the correct implementation of CDR file generation for both XML and JDO.
- * 
+ *
  * @author Sebastian Gabmeyer
  * @since 1.2.1
- * 
+ *
  */
-public class CdrFileGenerationTest extends TestCase {
+public class CdrFileGenerationTest {
 
-  private SourceGenerator _generator;
-  private String _xmlSchema;
-  private String _cdrDirectoryName;
-  private String _destDir = "./target/codegen/src/test/java";
+    private SourceGenerator _generator;
+    private String _xmlSchema;
+    private String _cdrDirectoryName;
+    private String _destDir = "./target/codegen/src/test/java";
 
-  public final void setUp() throws Exception {
-    super.setUp();
-    _generator = new SourceGenerator();
-    _generator.setDestDir(_destDir);
-    _generator.setSuppressNonFatalWarnings(true);
-    _generator.setJdoDescriptorCreation(true);
-  }
-
-  public final void tearDown() throws Exception {
-    super.tearDown();
-  }
-
-  public final void testJDOCDRFileGeneration() throws Exception {
-    _xmlSchema = getClass().getResource("simple.xsd").toExternalForm();
-    InputSource inputSource = new InputSource(_xmlSchema);
-    String pkgName = getClass().getPackage().getName() + ".generated.simple";
-    _cdrDirectoryName = pkgName.replace('.', File.separatorChar);
-    _generator.generateSource(inputSource, pkgName);
-    File cdrFile =
-        new File((new File(_destDir, _cdrDirectoryName)).getPath(), JDOConstants.PKG_CDR_LIST_FILE);
-
-    assertTrue(cdrFile.exists());
-
-    Properties props = new Properties();
-    try (FileInputStream cdrIn = new FileInputStream(cdrFile)) {
-      props.load(cdrIn);
+    @BeforeEach
+    public final void setUp() throws Exception {
+        _generator = new SourceGenerator();
+        _generator.setDestDir(_destDir);
+        _generator.setSuppressNonFatalWarnings(true);
+        _generator.setJdoDescriptorCreation(true);
     }
 
-    String fatherDescrName =
-        props.getProperty("org.exolab.castor.builder.cdr.generated.simple.Father");
-    assertEquals(
-        "org.exolab.castor.builder.cdr.generated.simple.jdo_descriptors.FatherJDODescriptor",
-        fatherDescrName);
+    public final void tearDown() throws Exception {}
 
-    // this check could be removed as it belongs to the scope of the JDOClassDescriptorFactory
-    File fatherDescrFile =
-        new File(_destDir, fatherDescrName.replace('.', File.separatorChar) + ".java");
+    @Test
+    public final void testCdrFileGeneration() throws Exception {
+        _xmlSchema = getClass().getResource("simple.xsd").toExternalForm();
+        InputSource inputSource = new InputSource(_xmlSchema);
+        String pkgName =
+            getClass().getPackage().getName() + ".generated.simple";
+        _cdrDirectoryName = pkgName.replace('.', File.separatorChar);
+        _generator.generateSource(inputSource, pkgName);
+        File cdrFile = new File(
+            (new File(_destDir, _cdrDirectoryName)).getPath(),
+            JDOConstants.PKG_CDR_LIST_FILE
+        );
 
-    assertTrue(fatherDescrFile.exists());
-  }
+        assertTrue(cdrFile.exists());
 
-  public final void testNoJDOCDRFileGeneration() throws Exception {
-    _xmlSchema = getClass().getResource("schema-entity-non-jdo.xsd").toExternalForm();
-    InputSource inputSource = new InputSource(_xmlSchema);
-    String pkgName = getClass().getPackage().getName() + ".generated.nonjdo";
-    _cdrDirectoryName = pkgName.replace('.', File.separatorChar);
-    _generator.generateSource(inputSource, pkgName);
-    File cdrFile = new File((new File(_destDir, _cdrDirectoryName)).getPath(), ".jdo.castor.cdr");
+        Properties props = new Properties();
+        try (FileInputStream cdrIn = new FileInputStream(cdrFile)) {
+            props.load(cdrIn);
+        }
 
-    assertFalse(cdrFile.exists());
-  }
+        String fatherDescrName = props.getProperty(
+            "org.exolab.castor.builder.cdr.generated.simple.Father"
+        );
+        assertEquals(
+            "org.exolab.castor.builder.cdr.generated.simple.jdo_descriptors.FatherJDODescriptor",
+            fatherDescrName
+        );
+
+        // this check could be removed as it belongs to the scope of the JDOClassDescriptorFactory
+        File fatherDescrFile = new File(
+            _destDir,
+            fatherDescrName.replace('.', File.separatorChar) + ".java"
+        );
+
+        assertTrue(fatherDescrFile.exists());
+    }
+
+    public final void testNoJDOCDRFileGeneration() throws Exception {
+        _xmlSchema = getClass()
+            .getResource("schema-entity-non-jdo.xsd")
+            .toExternalForm();
+        InputSource inputSource = new InputSource(_xmlSchema);
+        String pkgName =
+            getClass().getPackage().getName() + ".generated.nonjdo";
+        _cdrDirectoryName = pkgName.replace('.', File.separatorChar);
+        _generator.generateSource(inputSource, pkgName);
+        File cdrFile = new File(
+            (new File(_destDir, _cdrDirectoryName)).getPath(),
+            ".jdo.castor.cdr"
+        );
+
+        assertFalse(cdrFile.exists());
+    }
 }

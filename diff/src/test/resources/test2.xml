@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://example.com" xmlns:custom="http://custom.com">
+    <person id="2" custom:role="manager">
+        <name>Jane Doe</name>
+        <age>28</age>
+    </person>
+    <settings>
+        <theme>dark</theme>
+    </settings>
+</root>

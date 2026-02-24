@@ -106,9 +106,27 @@ public class StaxEventHandler extends DefaultHandler {
   public void startElement(String uri, String localName, String qName, Attributes attributes)
       throws SAXException {
     try {
+      // Parse namespace prefix from qName if present
+      String prefix = "";
+      int colonIndex = qName.indexOf(':');
+      if (colonIndex > 0) {
+        prefix = qName.substring(0, colonIndex);
+      }
+
+      // Create QName with namespace URI
+      QName elementQName;
+      if (uri != null && !uri.isEmpty()) {
+        elementQName = new QName(uri, localName, prefix);
+      } else {
+        elementQName = new QName(qName);
+      }
+
       // writes the start of element
-      xmlEventWriter.add(eventFactory.createStartElement(new QName(qName),
+      xmlEventWriter.add(eventFactory.createStartElement(elementQName,
           new AttributeIterator(attributes), new NamespaceIterator(namespacesStack)));
+
+      // Reset flag for next element
+      createNamespaceScope = true;
     } catch (XMLStreamException e) {
       convertToSAXException("Error occurred when writing element start.", e);
     }
@@ -119,6 +137,9 @@ public class StaxEventHandler extends DefaultHandler {
     try {
       // writes the end of element
       xmlEventWriter.add(eventFactory.createEndElement(new QName(qName), null));
+
+      // Pop namespace scope
+      namespacesStack.removeNamespaceScope();
     } catch (XMLStreamException e) {
       convertToSAXException("Error occurred when writing element end.", e);
     }
@@ -227,61 +248,55 @@ public class StaxEventHandler extends DefaultHandler {
     /**
      * Represents the current namespace context.
      */
-    private final NamespacesStack namespaces;
-
-    /**
-     * Represents the current namespace context.
-     */
     private final Enumeration namespaceEnumerator;
 
     /**
-     * Indicates whether the default namespace exists.
+     * Represents the namespace stack.
      */
-    private boolean hasDefaultNamespace;
+    private final NamespacesStack namespaces;
 
     /**
-     * Indicates whether the default namespace has been written.
-     */
-    private boolean defaultNamespaceWritten;
-
-    /**
-     * Creates new instance of {@link AttributeIterator} class.
+     * Creates new instance of {@link NamespaceIterator} class.
      *
-     * @param namespaces the list of attributes to use
+     * @param namespaces the namespace stack to use
      */
     private NamespaceIterator(NamespacesStack namespaces) {
       this.namespaces = namespaces;
+      // Only get local namespace prefixes for current scope, not inherited ones
       this.namespaceEnumerator = namespaces.getLocalNamespacePrefixes();
-
-      // retrieves the default namespace
-      String defaultNamespace = namespaces.getDefaultNamespaceURI();
-      if (defaultNamespace != null && defaultNamespace.length() > 0) {
-        hasDefaultNamespace = true;
-      }
     }
 
     public boolean hasNext() {
-      return hasDefaultNamespace && !defaultNamespaceWritten
-          || namespaceEnumerator.hasMoreElements();
+      return namespaceEnumerator != null && namespaceEnumerator.hasMoreElements();
     }
 
     public Namespace next() {
-      Namespace namespace;
-
-      // creates namespace instance
-      if (hasDefaultNamespace && !defaultNamespaceWritten) {
-
-        // creates a default namespace instance
-        namespace = eventFactory.createNamespace(namespaces.getDefaultNamespaceURI());
-        defaultNamespaceWritten = true;
-      } else {
-
-        // creates a namespace instance
-        String prefix = (String) namespaceEnumerator.nextElement();
-        namespace = eventFactory.createNamespace(prefix, namespaces.getNamespaceURI(prefix));
+      if (!hasNext()) {
+        return null;
       }
 
-      // returns the instance of created namespace
+      // Get the next namespace prefix from the current scope
+      String prefix = (String) namespaceEnumerator.nextElement();
+      String uri = namespaces.getNamespaceURI(prefix);
+
+      // Skip null or empty URIs
+      if (uri == null || uri.isEmpty()) {
+        if (hasNext()) {
+          return next();
+        }
+        return null;
+      }
+
+      // Create namespace event
+      Namespace namespace;
+      if (prefix == null || prefix.isEmpty()) {
+        // Default namespace (no prefix)
+        namespace = eventFactory.createNamespace(uri);
+      } else {
+        // Prefixed namespace
+        namespace = eventFactory.createNamespace(prefix, uri);
+      }
+
       return namespace;
     }
 

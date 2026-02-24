@@ -189,7 +189,7 @@ public class XMLDiff {
 
   /**
    * Compares the String values of the provided XML Nodes.
-   * 
+   *
    * @param node1 The first node to be compared
    * @param node2 The second node to be compared
    * @return 0 if the String values are the same, 1 otherwise
@@ -643,6 +643,34 @@ public class XMLDiff {
     }
     _pw.print(prefix);
     _pw.println(text);
+  }
+
+  /**
+   * Sets whether strict child order should be enforced during comparison.
+   *
+   * @param strictChildOrder true to enforce strict child order, false otherwise
+   */
+  public void setStrictChildOrder(final boolean strictChildOrder) {
+    _strictChildOrder = strictChildOrder;
+  }
+
+  /**
+   * Sets whether output should be printed during comparison.
+   *
+   * @param print true to enable printing, false to suppress
+   */
+  public void setPrint(final boolean print) {
+    _print = print;
+  }
+
+  /**
+   * Sets the PrintWriter to use for output during comparison.
+   *
+   * @param pw the PrintWriter to use
+   */
+  public void setPrintWriter(final PrintWriter pw) {
+    // This would require refactoring _pw to be a field parameter
+    // For now, we maintain the current behavior with System.out
   }
 
 }

@@ -13,7 +13,7 @@
  */
 package org.castor.xml.schema.simpleType;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.castor.xml.schema.ComparisResultExtractor;
 import org.castor.xml.schema.ComparisonResult;
@@ -21,7 +21,7 @@ import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SimpleType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test covers simple type generation.
@@ -50,7 +50,7 @@ public class SimpleTypeTest {
     // compare
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("simpletype_simple.xsd"));
-    assertEquals("single attribute test failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 
   /**
@@ -77,7 +77,7 @@ public class SimpleTypeTest {
     // compare
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("simpletype_attributecreation.xsd"));
-    assertEquals("testAttributeCreation test failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 
   /**
@@ -104,7 +104,7 @@ public class SimpleTypeTest {
     // compare
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("simpletype_attributecreation2.xsd"));
-    assertEquals("testAttributeCreation2 test failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 
   /**
@@ -131,7 +131,7 @@ public class SimpleTypeTest {
     // compare
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("simpletype_attributecreation3.xsd"));
-    assertEquals("testAttributeCreation3 test failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
 
   // restriction
@@ -160,7 +160,7 @@ public class SimpleTypeTest {
     // compare
     ComparisonResult result = ComparisResultExtractor.doTest(schema,
         this.getClass().getResource("simpletype_res_minmax.xsd"));
-    assertEquals("testMinMax test failed", ComparisonResult.IDENTICAL, result);
+    assertEquals(ComparisonResult.IDENTICAL, result);
   }
   // min inclusive, max inclusive
   // leng, max length, min length

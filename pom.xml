@@ -1,5 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
    <modelVersion>4.0.0</modelVersion>
    <artifactId>castor</artifactId>
@@ -13,7 +16,7 @@
    </parent>
 
    <description>
-	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between 
+	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between
     Java objects, XML documents and relational tables.
    </description>
 
@@ -58,7 +61,7 @@
    <distributionManagement>
       <site>
          <id>github</id>
-         <url>http://castor-data-binding.github.io/castor/</url>
+         <url>https://castor-data-binding.github.io/castor/</url>
       </site>
    </distributionManagement>
 
@@ -76,9 +79,9 @@
                   <phase>site-deploy</phase>
                   <configuration>
                       <!-- Plugin configuration goes here -->
-      
+
                       <server>github</server>
-      
+
                       <!-- The commit message -->
                       <message>Building site for my project</message>
                       <!-- The location where the site is uploaded -->
@@ -89,8 +92,27 @@
               </execution>
           </executions>
          </plugin>
+
+         <plugin>
+             <groupId>org.jacoco</groupId>
+             <artifactId>jacoco-maven-plugin</artifactId>
+             <version>0.8.11</version>
+             <executions>
+
+                 <!-- Collect coverage from all modules -->
+                 <execution>
+                     <id>report-aggregate</id>
+                     <phase>verify</phase>
+                     <goals>
+                         <goal>report-aggregate</goal>
+                     </goals>
+                 </execution>
+
+             </executions>
+         </plugin>
+
       </plugins>
-   
+
 <!--       <pluginManagement> -->
 <!--          <plugins> -->
 <!--             <plugin> -->

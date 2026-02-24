@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE binding PUBLIC "-//EXOLAB/Castor Binding Schema Version 1.0//EN" "http://exolab.castor.org/binding.xsd">
+<binding>
+    <package name="com.example.test"/>
+</binding>

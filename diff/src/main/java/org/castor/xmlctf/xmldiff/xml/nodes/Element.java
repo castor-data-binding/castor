@@ -50,7 +50,7 @@ public class Element extends ParentNode {
 
   /**
    * Returns an Iterator over the List of Attributes.
-   * 
+   *
    * @return an Iterator over the List of Attributes.
    */
   public Iterator getAttributeIterator() {
@@ -59,7 +59,7 @@ public class Element extends ParentNode {
 
   /**
    * Returns the value of the named attribute, or null if the node has no such attribute. If the
-   * argument <tt>uri</tt> is null, the node's namespace URI will be used.
+   * argument {@code uri} is null, the node's namespace URI will be used.
    *
    * @param uri The attribute's namespace URI, or null
    * @param localName The attribute's local name
@@ -168,7 +168,7 @@ public class Element extends ParentNode {
 
   /**
    * Sets the location of this Element in the document.
-   * 
+   *
    * @param location the location of this Element in the document.
    */
   public void setLocation(final Location location) {
@@ -177,7 +177,7 @@ public class Element extends ParentNode {
 
   /**
    * Returns the location of this Element in the document.
-   * 
+   *
    * @return the location of this Element in the document.
    */
   public Location getLocation() {

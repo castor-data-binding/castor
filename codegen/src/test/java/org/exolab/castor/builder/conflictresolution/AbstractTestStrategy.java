@@ -1,0 +1,52 @@
+/*
+ * Copyright 2006 Werner Guttmann
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package org.exolab.castor.builder.conflictresolution;
+
+import org.exolab.castor.builder.SGStateInfo;
+import org.exolab.castor.builder.SingleClassGenerator;
+import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.util.dialog.ConsoleDialog;
+import org.exolab.javasource.JClass;
+
+/**
+ * Abstract test implementation of {@link ClassNameCRStrategy} for testing instantiation failures.
+ */
+public abstract class AbstractTestStrategy implements ClassNameCRStrategy {
+
+  @Override
+  public SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
+      final ClassInfo newClassInfo, final JClass conflict) {
+    return state;
+  }
+
+  @Override
+  public boolean dealWithFileOverwrite(final String filename) {
+    return false;
+  }
+
+  @Override
+  public String getName() {
+    return "abstract-test-strategy";
+  }
+
+  @Override
+  public void setConsoleDialog(final ConsoleDialog dialog) {
+    // No-op for testing
+  }
+
+  @Override
+  public void setSingleClassGenerator(final SingleClassGenerator generator) {
+    // No-op for testing
+  }
+}

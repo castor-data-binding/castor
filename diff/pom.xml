@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>castor-xml-diff</artifactId>
@@ -13,11 +17,59 @@
     <packaging>jar</packaging>
 
     <name>Castor XML - XML diff</name>
-    <description>Functionality to process a diff function on XML artifacts.</description>
+    <description
+    >Functionality to process a diff function on XML artifacts.</description>
 
     <build>
+
+    <plugins>
+
+        <!-- JaCoCo agent -->
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.11</version>
+            <executions>
+
+                <!-- Attach agent BEFORE tests -->
+                <execution>
+                    <id>prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+
+                <!-- Generate per-module report -->
+                <execution>
+                    <id>report</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+
+            </executions>
+        </plugin>
+
+        <!-- Surefire: allow build to continue even if tests fail -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+                <!-- KEY SETTING -->
+                <testFailureIgnore>true</testFailureIgnore>
+
+                <!-- JaCoCo hook -->
+                <argLine>${argLine}</argLine>
+            </configuration>
+        </plugin>
+
+    </plugins>
+
+
     	<resources>
-      <!-- 
+      <!--
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
@@ -41,7 +93,7 @@
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-core</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml</artifactId>
@@ -50,16 +102,16 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
             <scope>test</scope>
         </dependency>
 

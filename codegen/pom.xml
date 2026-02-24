@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>castor-codegen</artifactId>
@@ -13,20 +17,28 @@
 	<packaging>jar</packaging>
 
 	<name>Castor XML - Code generator</name>
-	<description>Code generator of Castor XML: takes a set of XML schemas and generates Java source code based on the content definitions</description>
+	<description
+    >Code generator of Castor XML: takes a set of XML schemas and generates Java source code based on the content definitions</description>
 
 	<build>
 		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
         </resources>
 	   <plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>castor-maven-plugin</artifactId>
 				<configuration>
-					<schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
-                    <properties>${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
+					<schema
+                    >src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
+                    <properties
+                    >${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
 					<packaging>org.exolab.castor.builder.binding.xml</packaging>
-					<properties>${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
+					<properties
+                    >${basedir}/src/main/resources/org/exolab/castor/builder/binding/binding.builder.properties</properties>
+					<dest>${project.build.directory}/generated-sources/castor</dest>
 				</configuration>
                 <executions>
                     <execution>
@@ -35,6 +47,26 @@
                         </goals>
                     </execution>
                 </executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/castor</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 
@@ -57,19 +89,14 @@
             <artifactId>castor-xml-schema</artifactId>
         </dependency>
 
-<!-- 
-        <dependency>
-            <groupId>org.codehaus.castor</groupId>
-            <artifactId>castor-jdo</artifactId>
-            <scope>test</scope>
-        </dependency>
-         -->
+
+
 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 		</dependency>
-        
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -78,7 +105,7 @@
         <!--  optional dependencies -->
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
+			<artifactId>velocity-engine-core</artifactId>
 			<optional>true</optional>
 		</dependency>
 
@@ -90,13 +117,29 @@
 		</dependency>
 
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
 
 </project>
-
-

@@ -1,5 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.codehaus.castor</groupId>
@@ -11,10 +14,12 @@
 	Castor is an open source data binding framework for Java[tm]. It’s the shortest path between Java objects, XML documents and relational tables.
    </description>
 
+
    <parent>
-      <groupId>org.sonatype.oss</groupId>
-      <artifactId>oss-parent</artifactId>
-      <version>9</version>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>9</version>
+    <relativePath />
    </parent>
 
    <name>Castor</name>
@@ -47,19 +52,12 @@
                <configuration>
                   <inputEncoding>UTF-8</inputEncoding>
                   <outputEncoding>UTF-8</outputEncoding>
-                  <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
+                  <topSiteURL
+                        >${project.distributionManagement.site.url}</topSiteURL>
                   <skipDeploy>true</skipDeploy>
                </configuration>
             </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-eclipse-plugin</artifactId>
-               <version>2.10</version>
-               <configuration>
-                  <downloadSources>true</downloadSources>
-                  <!-- <projectNameTemplate>castor3248-[artifactId]</projectNameTemplate> -->
-               </configuration>
-            </plugin>
+
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-antrun-plugin</artifactId>
@@ -73,10 +71,10 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-compiler-plugin</artifactId>
-               <version>3.5.1</version>
+               <version>3.13.0</version>
                <configuration>
-                  <source>1.7</source>
-                  <target>1.7</target>
+                 <source>${maven.compiler.source}</source>
+                 <target>${maven.compiler.target}</target>
                </configuration>
             </plugin>
             <plugin>
@@ -92,7 +90,26 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-enforcer-plugin</artifactId>
-               <version>1.4.2-SNAPSHOT</version>
+               <version>3.4.1</version>
+               <configuration>
+                  <rules>
+                     <dependencyConvergence />
+                     <requireMavenVersion>
+                        <version>3.9.6</version>
+                     </requireMavenVersion>
+                     <requireJavaVersion>
+                        <version>17</version>
+                     </requireJavaVersion>
+                  </rules>
+               </configuration>
+               <executions>
+                  <execution>
+                     <id>enforce-rules</id>
+                     <goals>
+                        <goal>enforce</goal>
+                     </goals>
+                  </execution>
+               </executions>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -102,7 +119,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-jar-plugin</artifactId>
-               <version>3.0.2</version>
+               <version>3.4.1</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -112,12 +129,12 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-release-plugin</artifactId>
-               <version>2.5.3</version>
+               <version>3.1.1</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
-               <version>2.19.1</version>
+               <version>3.2.5</version>
                <configuration>
                   <printSummary>${surefire.print.summary}</printSummary>
                </configuration>
@@ -133,17 +150,17 @@
             <plugin>
                <groupId>org.codehaus.mojo</groupId>
                <artifactId>castor-maven-plugin</artifactId>
-               <version>3.0-SNAPSHOT</version>
+               <version>2.1</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-checkstyle-plugin</artifactId>
-               <version>2.17</version>
+               <version>3.4.0</version>
             </plugin>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-javadoc-plugin</artifactId>
-               <version>2.10.4</version>
+               <version>3.6.3</version>
                <configuration>
                   <additionalparam>-Xdoclint:none</additionalparam>
                </configuration>
@@ -151,7 +168,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-failsafe-plugin</artifactId>
-               <version>2.19.1</version>
+               <version>3.2.5</version>
                <configuration>
                   <printSummary>${surefire.print.summary}</printSummary>
                </configuration>
@@ -174,7 +191,7 @@
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-plugin-plugin</artifactId>
-               <version>3.4</version>
+               <version>3.15.0</version>
                <executions>
                   <execution>
                      <id>default-descriptor</id>
@@ -205,20 +222,21 @@
             <artifactId>maven-jar-plugin</artifactId>
             <configuration>
                <archive>
-                  <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                  <!-- <manifestEntries> <Specification-Version>${project.version}</Specification-Version> <Specification-Title>Castor 
-                     XML</Specification-Title> <Specification-Vendor>Intalio Inc.</Specification-Vendor> <Implementation-Title>Castor</Implementation-Title> 
-                     <Implementation-Vendor>Intalio Inc.</Implementation-Vendor> <Implementation-Version>${project.version}</Implementation-Version> 
+                  <manifestFile
+                        >${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                  <!-- <manifestEntries> <Specification-Version>${project.version}</Specification-Version> <Specification-Title>Castor
+                     XML</Specification-Title> <Specification-Vendor>Intalio Inc.</Specification-Vendor> <Implementation-Title>Castor</Implementation-Title>
+                     <Implementation-Vendor>Intalio Inc.</Implementation-Vendor> <Implementation-Version>${project.version}</Implementation-Version>
                      <url>${project.url}</url> </manifestEntries> -->
                </archive>
             </configuration>
-            <!-- <configuration> <archive> <index>true</index> <manifest> <addClasspath>true</addClasspath> </manifest> <manifestEntries> 
+            <!-- <configuration> <archive> <index>true</index> <manifest> <addClasspath>true</addClasspath> </manifest> <manifestEntries>
                <mode>development</mode> <url>${project.url}</url> <key>value</key> </manifestEntries> </archive> </configuration> -->
          </plugin>
 
-         <!-- <plugin> <groupId>com.atlassian.maven.plugins</groupId> <artifactId>maven-clover2-plugin</artifactId> <version>2.6.1</version> 
-            <configuration> <cloverDatabase>target/clover-db</cloverDatabase> <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation> 
-            </configuration> <executions> <execution> <phase>pre-site</phase> <goals> <goal>instrument</goal> </goals> </execution> </executions> 
+         <!-- <plugin> <groupId>com.atlassian.maven.plugins</groupId> <artifactId>maven-clover2-plugin</artifactId> <version>2.6.1</version>
+            <configuration> <cloverDatabase>target/clover-db</cloverDatabase> <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>
+            </configuration> <executions> <execution> <phase>pre-site</phase> <goals> <goal>instrument</goal> </goals> </execution> </executions>
             </plugin> -->
 
          <plugin>
@@ -240,11 +258,6 @@
       </plugins>
 
       <extensions>
-         <extension>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-webdav</artifactId>
-            <version>1.0-beta-2</version>
-         </extension>
          <extension>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-webdav-jackrabbit</artifactId>
@@ -341,7 +354,8 @@
    </mailingLists>
 
    <scm>
-      <connection>scm:git:https://github.com/castor-data-binding/castor.git/tags/castor-1.4.0/castor.git</connection>
+      <connection
+        >scm:git:https://github.com/castor-data-binding/castor.git/tags/castor-1.4.0/castor.git</connection>
    </scm>
 
 
@@ -358,7 +372,7 @@
          <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
+            <version>1.3.0</version>
          </dependency>
 
          <dependency>
@@ -368,9 +382,51 @@
          </dependency>
 
          <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>2.0.1</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
          </dependency>
 
          <dependency>
@@ -393,28 +449,47 @@
             <scope>test</scope>
          </dependency>
 
-         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>compile</scope>
-         </dependency>
+
 
          <dependency>
             <groupId>org.xmlunit</groupId>
             <artifactId>xmlunit-legacy</artifactId>
-            <version>2.2.1</version>
+            <version>2.9.1</version>
          </dependency>
 
          <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.23.1</version>
             <scope>test</scope>
          </dependency>
 
+         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.23.1</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <version>2.23.1</version>
+            <scope>test</scope>
+         </dependency>
+
+
+
+
          <!-- temp. removed as src/tests is not on the test compilation path -->
-         <!-- <dependency> <groupId>org.mockejb</groupId> <artifactId>mockejb</artifactId> <version>0.5</version> <optional>true</optional> 
+         <!-- <dependency> <groupId>org.mockejb</groupId> <artifactId>mockejb</artifactId> <version>0.5</version> <optional>true</optional>
             </dependency> -->
 
          <dependency>
@@ -427,7 +502,21 @@
          <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>3.4</version>
+            <version>5.4.0</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.11.0</version>
             <scope>test</scope>
          </dependency>
 
@@ -453,6 +542,12 @@
 
          <dependency>
             <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
          </dependency>
@@ -465,12 +560,12 @@
          <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>3.14.0</version>
          </dependency>
          <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.1</version>
+            <version>4.4</version>
          </dependency>
 
          <dependency>
@@ -481,15 +576,25 @@
 
          <!-- Maven project dependencies -->
          <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.9</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-classworlds</artifactId>
+            <version>2.9.0</version>
+         </dependency>
+         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.3.9</version>
+            <version>3.9.10</version>
             <scope>provided</scope>
          </dependency>
          <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.3.9</version>
+            <version>3.9.10</version>
             <scope>provided</scope>
          </dependency>
          <dependency>
@@ -498,9 +603,30 @@
             <version>3.4</version>
             <scope>provided</scope>
          </dependency>
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>3.3.9</version>
+            <scope>provided</scope>
+         </dependency>
+         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.0.22</version>
+         </dependency>
+         <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-component-annotations</artifactId>
+            <version>1.6</version>
+         </dependency>
 
 
-         <!-- module dependencies -->
+          <!-- module dependencies -->
          <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml</artifactId>
@@ -561,15 +687,19 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.19.1</version>
+            <version>3.6.0</version>
             <configuration>
                <excludes>
-                  <exclude>org/castor/tools/log4j/TestCastorAppender.java</exclude>
-                  <exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
+                  <exclude
+                        >org/castor/tools/log4j/TestCastorAppender.java</exclude>
+                  <exclude
+                        >org/castor/cache/simple/TestTimeLimited.java</exclude>
                   <exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
                   <exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
-                  <exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
-                  <exclude>org/castor/cache/TestCacheFactoryRegistry.java</exclude>
+                  <exclude
+                        >org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
+                  <exclude
+                        >org/castor/cache/TestCacheFactoryRegistry.java</exclude>
                   <exclude>**/TestAll.java</exclude>
                   <exclude>xml/**/*.java</exclude>
                   <exclude>harness/**</exclude>
@@ -597,18 +727,18 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-report-plugin</artifactId>
-            <version>2.19.1</version>
+            <version>3.6.0</version>
          </plugin>
 
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>2.15</version>
+            <version>3.4.0</version>
          </plugin>
 
-         <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> <version>3.4</version> 
-            <configuration> <targetJdk>1.5</targetJdk> <rulesets> <ruleset>/rulesets/basic.xml</ruleset> <ruleset>/rulesets/controversial.xml</ruleset> 
-            </rulesets> <format>xml</format> <linkXref>true</linkXref> <sourceEncoding>utf-8</sourceEncoding> <minimumTokens>100</minimumTokens> 
+         <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> <version>3.4</version>
+            <configuration> <targetJdk>1.5</targetJdk> <rulesets> <ruleset>/rulesets/basic.xml</ruleset> <ruleset>/rulesets/controversial.xml</ruleset>
+            </rulesets> <format>xml</format> <linkXref>true</linkXref> <sourceEncoding>utf-8</sourceEncoding> <minimumTokens>100</minimumTokens>
             </configuration> </plugin> -->
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
@@ -622,7 +752,8 @@
             <version>2.6.3</version>
             <configuration>
                <cloverDatabase>target/clover-db</cloverDatabase>
-               <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>
+               <licenseLocation
+                    >${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>
             </configuration>
          </plugin>
 
@@ -660,7 +791,7 @@
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>2.10.4</version>
+                  <version>3.8.0</version>
                   <configuration>
                      <additionalparam>-Xdoclint:none</additionalparam>
                   </configuration>
@@ -674,8 +805,8 @@
                   </executions>
                </plugin>
 
-               <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changes-plugin</artifactId> <version>2.11</version> 
-                  <reportSets> <reportSet> <reports> <report>github-report</report> </reports> </reportSet> </reportSets> <configuration> <githubAPIScheme>https</githubAPIScheme> 
+               <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changes-plugin</artifactId> <version>2.11</version>
+                  <reportSets> <reportSet> <reports> <report>github-report</report> </reports> </reportSet> </reportSets> <configuration> <githubAPIScheme>https</githubAPIScheme>
                   <githubAPIPort>443</githubAPIPort> </configuration> </plugin> -->
 
             </plugins>
@@ -710,6 +841,18 @@
          </build>
       </profile>
 
+      <profile>
+         <id>java21</id>
+         <activation>
+            <jdk>21</jdk>
+         </activation>
+         <properties>
+            <maven.compiler.source>21</maven.compiler.source>
+            <maven.compiler.target>21</maven.compiler.target>
+            <maven.compiler.release>21</maven.compiler.release>
+         </properties>
+      </profile>
+
    </profiles>
 
    <ciManagement>
@@ -729,13 +872,13 @@
    </pluginRepositories>
 
    <properties>
-      <spring.version>4.3.0.RELEASE</spring.version>
+      <spring.version>6.1.15</spring.version>
       <surefire.print.summary>false</surefire.print.summary>
       <VERSION>${project.version}</VERSION>
       <RELEASE />
    </properties>
 
    <prerequisites>
-      <maven>3.0.3</maven>
+      <maven>3.9.0</maven>
    </prerequisites>
-</project>
+ </project>

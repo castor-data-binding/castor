@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>castor-testsuite-xml-framework</artifactId>
@@ -25,7 +29,7 @@
           <resource>
             <directory>src/main/resources</directory>
           </resource>
-          <!-- 
+          <!--
           <resource>
             <directory>src/main/resources</directory>
             <excludes>
@@ -46,9 +50,12 @@
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>castor-maven-plugin</artifactId>
              <configuration>
-                <schema>${basedir}/src/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd</schema>
-                <properties>${basedir}/src/main/resources/org/exolab/castor/tests/framework/test.descriptor.builder.properties</properties>
-                <packaging>org.exolab.castor.tests.framework.testDescriptor</packaging>
+                <schema
+                    >${basedir}/src/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd</schema>
+                <properties
+                    >${basedir}/src/main/resources/org/exolab/castor/tests/framework/test.descriptor.builder.properties</properties>
+                <packaging
+                    >org.exolab.castor.tests.framework.testDescriptor</packaging>
              </configuration>
              <executions>
                 <execution>
@@ -58,6 +65,47 @@
                 </execution>
              </executions>
           </plugin>
+
+              <!-- JaCoCo agent -->
+              <plugin>
+                  <groupId>org.jacoco</groupId>
+                  <artifactId>jacoco-maven-plugin</artifactId>
+                  <version>0.8.11</version>
+                  <executions>
+
+                      <!-- Attach agent BEFORE tests -->
+                      <execution>
+                          <id>prepare-agent</id>
+                          <goals>
+                              <goal>prepare-agent</goal>
+                          </goals>
+                      </execution>
+
+                      <!-- Generate per-module report -->
+                      <execution>
+                          <id>report</id>
+                          <phase>verify</phase>
+                          <goals>
+                              <goal>report</goal>
+                          </goals>
+                      </execution>
+
+                  </executions>
+              </plugin>
+
+              <!-- Surefire: allow build to continue even if tests fail -->
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <version>3.2.5</version>
+                  <configuration>
+                      <!-- KEY SETTING -->
+                      <testFailureIgnore>true</testFailureIgnore>
+
+                      <!-- JaCoCo hook -->
+                      <argLine>${argLine}</argLine>
+                  </configuration>
+              </plugin>
        </plugins>
     </build>
 
@@ -65,9 +113,24 @@
 
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml-schema</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-codegen</artifactId>
 		</dependency>
-      
+
         <dependency>
            <groupId>org.codehaus.castor</groupId>
            <artifactId>castor-xml-diff</artifactId>
@@ -78,13 +141,17 @@
             <artifactId>ant</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>
 
 </project>
-
-

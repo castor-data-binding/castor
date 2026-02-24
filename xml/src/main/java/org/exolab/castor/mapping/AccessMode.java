@@ -205,7 +205,7 @@ public class AccessMode implements Cloneable, Comparable<AccessMode>, Serializab
    * @return The existing instance of the enum. <br>
    *         So you can use '==' like 'equals' even if you use a deserialized Enum.
    */
-  protected AccessMode readResolve() {
+  protected Object readResolve() {
     return NAMES.get(_name);
   }
 

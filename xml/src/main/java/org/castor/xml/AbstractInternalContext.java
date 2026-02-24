@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.logging.Log;
@@ -56,7 +56,7 @@ import org.xml.sax.XMLReader;
  * {@link XMLContext}. It is NOT meant to be directly instantiated by user implementations! For all
  * other objects it provides access to Castor state information (e.g. known descriptors) and
  * configuration values.
- * 
+ *
  * @author <a href="mailto:jgrueneis At gmail DOT com">Joachim Grueneis</a>
  * @since 1.1.2
  */
@@ -328,7 +328,7 @@ public abstract class AbstractInternalContext implements InternalContext {
 
   /**
    * Returns the currently configured XMLSerializerFactory instance.
-   * 
+   *
    * @param serializerFactoryName the class name of the serializer factory
    * @return XMLSerializerFactory to use by Castor
    */
@@ -429,7 +429,7 @@ public abstract class AbstractInternalContext implements InternalContext {
   /**
    * This XMLNaming setter is meant to be used when working in property style instead of setting an
    * XMLNaming implementation.
-   * 
+   *
    * @param xmlNamingProperty to set the XMLNaming property as read from configuration
    */
   public void setXMLNaming(final String xmlNamingProperty) {

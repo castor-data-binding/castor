@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://example.com" attr1="value1" attr2="value2">
+    <child id="1" name="test">
+        <text>Hello World</text>
+    </child>
+</root>

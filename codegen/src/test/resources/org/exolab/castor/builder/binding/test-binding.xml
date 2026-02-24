@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding xmlns="http://castor.exolab.org/binding"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://castor.exolab.org/binding http://exolab.castor.org/binding.xsd">
+  <default-binding type="element"/>
+</binding>

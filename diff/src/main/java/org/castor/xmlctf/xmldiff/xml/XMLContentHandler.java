@@ -76,7 +76,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Signals the end of the document.
-   * 
+   *
    * @throws org.xml.sax.SAXException never
    */
   public void endDocument() throws org.xml.sax.SAXException {
@@ -85,7 +85,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Signals the end of an Element.
-   * 
+   *
    * @param uri The namespace URI
    * @param name the local name of the element.
    * @param qName the qualified naem of the element
@@ -120,7 +120,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Signals the end of prefix mapping.
-   * 
+   *
    * @param prefix The namespace prefix mapping that is ending
    * @throws org.xml.sax.SAXException never
    */
@@ -130,7 +130,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Returns the Root node.
-   * 
+   *
    * @return the root node.
    */
   public Root getRoot() {
@@ -174,7 +174,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Gives notification about a skipped Entity during XML parsing.
-   * 
+   *
    * @param name the name of the skipped entity.
    */
   public void skippedEntity(final String name) {
@@ -183,7 +183,7 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Signals the beginning of the document.
-   * 
+   *
    * @throws org.xml.sax.SAXException never
    */
   public void startDocument() throws SAXException {
@@ -262,10 +262,9 @@ public class XMLContentHandler implements ContentHandler {
 
   /**
    * Begins the scope of a prefix-URI Namespace mapping.
-   * 
+   *
    * @param prefix The namespace prefix mapping that is ending
    * @param uri The namespace URI
-   * @throws org.xml.sax.SAXException never
    */
   public void startPrefixMapping(final String prefix, final String uri) {
     _prefixes.put(prefix, uri);

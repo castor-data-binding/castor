@@ -708,15 +708,18 @@ public class BuilderConfiguration {
     // --Full path
     String javaPackage = _locpackages.get(schemaLocation);
     if (javaPackage == null) {
-      String cleanedSchemaLocation = schemaLocation;
-      // --maybe a relative schemaLocation was given
-      while (schemaLocation.startsWith(".")) {
-        if (schemaLocation.startsWith(SELF_DIRECTORY)) {
-          cleanedSchemaLocation = schemaLocation.substring(SELF_DIRECTORY_LENGTH);
-        } else if (schemaLocation.startsWith(PARENT_DIRECTORY)) {
-          cleanedSchemaLocation = schemaLocation.substring(PARENT_DIRECTORY_LENGTH);
+        String cleanedSchemaLocation = schemaLocation;
+        // --maybe a relative schemaLocation was given
+        while (cleanedSchemaLocation.startsWith(".")) {
+            if (cleanedSchemaLocation.startsWith(SELF_DIRECTORY)) {
+                cleanedSchemaLocation = cleanedSchemaLocation.substring(SELF_DIRECTORY_LENGTH);
+            } else if (cleanedSchemaLocation.startsWith(PARENT_DIRECTORY)) {
+                cleanedSchemaLocation = cleanedSchemaLocation.substring(PARENT_DIRECTORY_LENGTH);
+            } else {
+                // Break out to prevent infinite loop if the file name just starts with a dot
+                break;
+            }
         }
-      }
       Enumeration<String> keys = _locpackages.keys();
       boolean found = false;
       while (keys.hasMoreElements() && !found) {

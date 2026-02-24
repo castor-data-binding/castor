@@ -1,8 +1,8 @@
 package org.exolab.castor.xml.dtd;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.exolab.castor.xml.schema.SchemaException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 public class ConverterTest {

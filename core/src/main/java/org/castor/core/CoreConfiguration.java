@@ -17,12 +17,13 @@ package org.castor.core;
 
 /**
  * Castor configuration of core modul.
- * 
+ *
  * @version $Id: Configuration.java,v 1.8 2006/03/08 17:25:52 jens Exp $
  * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @since 1.1.3
  * @deprecated Use CoreProperties instead.
  */
+@Deprecated
 public final class CoreConfiguration extends CoreProperties {
   // --------------------------------------------------------------------------
 

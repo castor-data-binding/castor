@@ -1,7 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>castor-maven-plugins</artifactId>
-   
+
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor-parent</artifactId>
@@ -11,12 +15,21 @@
 
    <packaging>maven-plugin</packaging>
    <name>Castor XML - Maven Mojos for executing XMLCTF tests</name>
-   
+
+   <properties>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
+      <maven.compiler.release>17</maven.compiler.release>
+   </properties>
+
    <build>
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
+            <configuration>
+               <goalPrefix>castor</goalPrefix>
+            </configuration>
          </plugin>
       </plugins>
       <pluginManagement>
@@ -24,7 +37,7 @@
          </plugins>
       </pluginManagement>
    </build>
-   
+
    <dependencies>
       <dependency>
          <groupId>org.apache.maven</groupId>
@@ -35,7 +48,7 @@
          <artifactId>maven-plugin-annotations</artifactId>
          <scope>provided</scope>
       </dependency>
-       
+
       <dependency>
          <groupId>org.apache.maven</groupId>
          <artifactId>maven-core</artifactId>
@@ -52,6 +65,13 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
+         <version>4.13.2</version>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-core</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>oro</groupId>
@@ -59,10 +79,11 @@
       </dependency>
       <dependency>
          <groupId>org.apache.velocity</groupId>
-         <artifactId>velocity</artifactId>
+         <artifactId>velocity-engine-core</artifactId>
+         <version>2.4.1</version>
       </dependency>
    </dependencies>
-   
+
    <profiles>
       <profile>
          <id>default-tools.jar</id>
@@ -83,5 +104,5 @@
          </dependencies>
       </profile>
    </profiles>
-    
+
 </project>

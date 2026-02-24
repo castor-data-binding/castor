@@ -1,16 +1,14 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
-                           "http://castor.org/mapping.dtd">
+   "http://castor.org/mapping.dtd">
 <mapping>
-
-  <class name="org.castor.test.entity.Entity">
-    <map-to xml="entity" />
-    <field name="id" type="integer" >
-      <bind-xml name="id" />
+  <class name="org.castor.test.entity.Entity" auto-complete="true">
+    <map-to xml="entity"/>
+    <field name="id">
+      <bind-xml name="id" node="attribute"/>
     </field>
-    <field name="name" type="string">
-      <bind-xml name="name" />
+    <field name="name">
+      <bind-xml name="name" node="element"/>
     </field>
   </class>
-
 </mapping>

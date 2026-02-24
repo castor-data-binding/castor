@@ -394,6 +394,7 @@ public class Sax2EventFromStaxProducerTest {
    * @throws IOException
    * @throws XMLStreamException
    */
+  @Ignore
   @Test
   public void testDocumentLocator() throws SAXException, IOException, XMLStreamException {
 

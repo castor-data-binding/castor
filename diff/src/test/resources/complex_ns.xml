@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://ns1.com" xmlns:ex="http://ns2.com" xmlns:other="http://ns3.com">
+    <element>Content</element>
+    <ex:element>External content</ex:element>
+    <other:element attr="value">Other content</other:element>
+</root>

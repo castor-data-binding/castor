@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>castor-testsuite-xml</artifactId>
@@ -6,7 +10,7 @@
     <parent>
         <groupId>org.codehaus.castor</groupId>
         <artifactId>castor-parent</artifactId>
-        <version>1.4.2-SNAPSHOT</version>
+        <version>1.4.1</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -18,8 +22,30 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <argLine>
+                        --add-exports java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.codehaus.castor</groupId>
                 <artifactId>castor-maven-plugins</artifactId>
+                <version>1.4.2-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
@@ -32,7 +58,7 @@
                     <testRoot>${basedir}/tests/MasterTestSuite/</testRoot>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -40,7 +66,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            
+
         </plugins>
     </build>
 
@@ -56,5 +82,3 @@
     </dependencies>
 
 </project>
-
-
